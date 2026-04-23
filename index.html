@@ -63,13 +63,6 @@
 <!-- API KEY BAR -->
 <div class="bg-white border-b sticky top-0 z-50 shadow-sm">
     <div class="max-w-5xl mx-auto px-4 py-2">
-        <div class="text-xs font-medium text-zinc-400 mb-1">Grok API Key</div>
-        <div class="flex items-center gap-2">
-            <input id="api-key-input" type="password" class="flex-1 bg-zinc-100 border border-zinc-300 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:border-blue-500 min-w-0" placeholder="xai-... buraya yapıştır">
-            <button onclick="saveApiKey()" style="min-width:64px" class="bg-blue-600 text-white px-4 py-2 rounded-2xl text-sm font-medium flex-shrink-0">Kaydet</button>
-            <span id="api-status" class="text-xs text-green-600 hidden">✓</span>
-        </div>
-    </div>
 </div>
 
 <!-- LOADING -->
@@ -392,12 +385,10 @@ function saveApiKey(){
     setTimeout(()=>s.classList.add('hidden'),2500);
 }
 async function callGrokAPI(prompt){
-    const key=apiKey||localStorage.getItem('grokApiKey')||'';
-    if(!key)throw new Error("API Key girilmedi");
-    const res=await fetch("https://api.x.ai/v1/chat/completions",{
-        method:"POST",
-        headers:{"Content-Type":"application/json","Authorization":`Bearer ${key}`},
-        body:JSON.stringify({model:"grok-3-fast",messages:[{role:"system",content:"Her hediye için searchQuery Türkçe, searchQueryEn İngilizce arama kelimesi olsun (Unsplash görsel araması için). searchQuery mümkün olduğunca genel ve kısa olsun (max 3 kelime, ürün kategorisi bazlı). Aynı hediye kategorisini tekrar etme. Çeşitli ve birbirinden farklı hediyeler öner. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma."},{role:"user",content:prompt}],temperature:0.9,max_tokens:3000})
+    const res=await fetch('/api/gifts',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({prompt})
     });
     if(!res.ok){
         let errMsg = 'API hatası: ' + res.status;
@@ -405,7 +396,7 @@ async function callGrokAPI(prompt){
         throw new Error(errMsg);
     }
     const data=await res.json();
-    return data.choices[0].message.content;
+    return data.result;
 }
 
 // Görsel - Unsplash + fallback
