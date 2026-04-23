@@ -47,7 +47,7 @@
         .gift-card { transition:all 0.4s cubic-bezier(0.4,0,0.2,1); }
         .gift-card:hover { transform:translateY(-8px); box-shadow:0 30px 60px -15px rgba(0,0,0,0.2); }
         .gift-card.star { border:2px solid #f59e0b; position:relative; }
-        .gift-card.star::before { content:"🎯 Nokta Atışı"; position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:#f59e0b; color:white; font-size:12px; font-weight:700; padding:3px 12px; border-radius:9999px; z-index:10; white-space:nowrap; }
+        .star-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); background:#f59e0b; color:white; font-size:12px; font-weight:700; padding:3px 12px; border-radius:9999px; z-index:10; white-space:nowrap; pointer-events:none; }
         .gift-img { height:200px; object-fit:cover; border-radius:20px 20px 0 0; width:100%; }
         .platform-links { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
         .plt-link { font-size:12px; font-weight:600; padding:5px 10px; border-radius:10px; text-decoration:none; transition:opacity 0.2s; }
@@ -62,7 +62,15 @@
 
 <!-- API KEY BAR -->
 <div class="bg-white border-b sticky top-0 z-50 shadow-sm">
-    <div class="max-w-5xl mx-auto px-4 py-2">
+    <div class="max-w-5xl mx-auto px-4 py-2" id="api-key-wrapper">
+        <div id="local-api-key" style="display:none">
+            <div class="text-xs font-medium text-zinc-400 mb-1">Grok API Key (Yerelde Test)</div>
+            <div class="flex items-center gap-2">
+                <input id="api-key-input" type="password" class="flex-1 bg-zinc-100 border border-zinc-300 rounded-2xl px-3 py-2 text-sm focus:outline-none focus:border-blue-500 min-w-0" placeholder="xai-... buraya yapıştır">
+                <button onclick="saveApiKey()" style="min-width:64px" class="bg-blue-600 text-white px-4 py-2 rounded-2xl text-sm font-medium flex-shrink-0">Kaydet</button>
+                <span id="api-status" class="text-xs text-green-600 hidden">✓</span>
+            </div>
+        </div>
 </div>
 
 <!-- LOADING -->
@@ -195,15 +203,22 @@ const BURCLAR = [{"isim": "Koç", "sembol": "♈", "tarih": "21 Mar - 19 Nis"}, 
 
 // Burç hesapla
 function hesaplaBurc(gun, ay) {
-    const limler = [[21,3],[20,4],[21,5],[21,6],[23,7],[23,8],[23,9],[23,10],[22,11],[22,12],[20,1],[19,2]];
-    const isimler = ["Koç","Boğa","İkizler","Yengeç","Aslan","Başak","Terazi","Akrep","Yay","Oğlak","Kova","Balık"];
-    const semboller = ["♈","♉","♊","♋","♌","♍","♎","♏","♐","♑","♒","♓"];
-    for (let i=0;i<12;i++) {
-        if (ay===limler[i][1] && gun>=limler[i][0]) return {isim:isimler[i],sembol:semboller[i]};
-        const p=(i+11)%12;
-        if (ay===limler[p][1] && gun<limler[p][0]) return {isim:isimler[i],sembol:semboller[i]};
+    // [ay, gun_baslangic, isim, sembol]
+    const burclar = [
+        [3,21,"Koç","♈"],[4,20,"Boğa","♉"],[5,21,"İkizler","♊"],
+        [6,22,"Yengeç","♋"],[7,23,"Aslan","♌"],[8,23,"Başak","♍"],
+        [9,23,"Terazi","♎"],[10,23,"Akrep","♏"],[11,22,"Yay","♐"],
+        [12,22,"Oğlak","♑"],[1,20,"Kova","♒"],[2,19,"Balık","♓"]
+    ];
+    for (let i=0; i<burclar.length; i++) {
+        const [bAy, bGun, isim, sembol] = burclar[i];
+        const [sAy, sGun] = burclar[(i+1)%12];
+        // Aynı ay, gün >= başlangıç
+        if (ay === bAy && gun >= bGun) return {isim, sembol};
+        // Sonraki ayın başına kadar (gün < sonraki başlangıç)
+        if (ay === sAy && gun < sGun) return {isim, sembol};
     }
-    return {isim:isimler[0],sembol:semboller[0]};
+    return {isim:"Oğlak", sembol:"♑"};
 }
 const AYLAR=["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
 const GUNLER=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
@@ -385,6 +400,20 @@ function saveApiKey(){
     setTimeout(()=>s.classList.add('hidden'),2500);
 }
 async function callGrokAPI(prompt){
+    // Yerelde doğrudan Grok'a, canlıda backend üzerinden
+    const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost';
+    if(isLocal){
+        const key=apiKey||localStorage.getItem('grokApiKey')||'';
+        if(!key) throw new Error('Yerelde test için API Key girin');
+        const res=await fetch('https://api.x.ai/v1/chat/completions',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},
+            body:JSON.stringify({model:'grok-3-fast',messages:[{role:'system',content:'Her hediye için searchQuery Türkçe, searchQueryEn İngilizce arama kelimesi olsun. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma.'},{role:'user',content:prompt}],temperature:0.9,max_tokens:3000})
+        });
+        if(!res.ok){ const e=await res.json(); throw new Error('API hatası: '+res.status+' — '+(e.error?.message||JSON.stringify(e))); }
+        const data=await res.json();
+        return data.choices[0].message.content;
+    }
     const res=await fetch('/api/gifts',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -964,7 +993,7 @@ async function showGifts(){
             // Pet, bebek, çocuk akışı: tüm cevaplar sabitText'te, grup sistemi yok
             prompt=`Kullanıcı profili:\n${sabitText}${burcEk}\n\nGörev: Profile tam uygun ${toplamHediye} hediye öner. İlk 2 tanesi "nokta atışı" (star:true), diğerleri normal (star:false). Türkiye'de bulunabilir, bütçeye uygun ürünler. Her hediye için: name (Türkçe ürün adı), emoji, description (2 cümle), reason (neden bu profile özel 1 cümle), price (TL), star (bool), searchQuery (Türkçe arama kelimesi). Sadece JSON array döndür.`;
         } else {
-            prompt=`Kullanıcı profili:\n${sabitText}\n\nGrup A kriterleri:\n${grupA}\n\nGrup B kriterleri:\n${grupB}${burcEk}\n\nGörev: Grup A ve B'yi çapraz sorgulayarak HER İKİ GRUBU tam karşılayan 2 nokta atışı hediye bul (star:true). Ayrıca genel profile uygun ${toplamHediye-2} normal hediye öner (star:false). Nokta atışları ilk 2 sırada. Türkiye'de bulunabilir, bütçeye uygun ürünler. Her hediye için: name (Türkçe ürün adı), emoji, description (2 cümle), reason (neden bu kişiye özel 1 cümle, kişiselleştirilmiş), price (TL), star (bool), searchQuery (Türkçe arama kelimesi). Sadece JSON array döndür.`;
+            prompt=`Kullanıcı profili:\n${sabitText}\n\nGrup A kriterleri:\n${grupA}\n\nGrup B kriterleri:\n${grupB}${burcEk}\n\nGörev: Grup A ve B'yi çapraz sorgulayarak HER İKİ GRUBU tam karşılayan 2 nokta atışı hediye bul (star:true). Ayrıca genel profile uygun ${toplamHediye-2} normal hediye öner (star:false). Nokta atışları ilk 2 sırada. Türkiye'de bulunabilir, bütçeye uygun ürünler. Her hediye için: name (Türkçe ürün adı), emoji, description (2 cümle), reason (neden bu kişiye özel 1 cümle, kişiselleştirilmiş), price (TL - MUTLAKA belirtilen bütçe aralığı içinde gerçekçi bir fiyat yaz, uydurma), star (bool), searchQuery (Türkçe arama kelimesi). Sadece JSON array döndür.`;
         }
 
         const result=await callGrokAPI(prompt);
@@ -977,8 +1006,12 @@ async function showGifts(){
         withImgs.forEach(g=>{
             const card=document.createElement('div');
             card.className=`gift-card bg-white rounded-3xl overflow-hidden shadow-xl ${g.star?'star':''}`;
+            const badgeHtml = g.star ? `<div class="star-badge">🎯 Nokta Atışı</div>` : '';
             card.innerHTML=`
-                <img src="${g.imgUrl}" class="gift-img" onerror="this.src='https://picsum.photos/id/96/600/400'">
+                <div style="position:relative">
+                    ${badgeHtml}
+                    <img src="${g.imgUrl}" class="gift-img" onerror="this.src='https://picsum.photos/id/96/600/400'">
+                </div>
                 <div class="p-5">
                     <div class="text-4xl mb-2">${g.emoji||'🎁'}</div>
                     <h3 class="text-xl font-semibold mb-1">${g.name}</h3>
@@ -1017,9 +1050,16 @@ function startApp(){
     document.getElementById('loading').style.display='none';
     document.getElementById('hero-section').classList.remove('hidden');
     const saved=localStorage.getItem('grokApiKey');
-    if(saved){apiKey=saved;document.getElementById('api-key-input').value=saved;}
+    if(saved){apiKey=saved;const inp=document.getElementById('api-key-input');if(inp)inp.value=saved;}
 }
-window.onload=()=>setTimeout(startApp,500);
+window.onload=()=>{
+    // Yerelde API key alanını göster
+    if(window.location.protocol==='file:'||window.location.hostname==='localhost'){
+        const el=document.getElementById('local-api-key');
+        if(el) el.style.display='block';
+    }
+    setTimeout(startApp,500);
+};
 window.selectGender=selectGender;window.startQuiz=startQuiz;window.goBack=goBack;
 window.goToHome=goToHome;window.selectOption=selectOption;window.toggleHobiler=toggleHobiler;
 window.nextQuestion=nextQuestion;window.showGifts=showGifts;window.goBackToSummary=goBackToSummary;
