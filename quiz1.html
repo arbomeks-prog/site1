@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hediye Kime Alınıyor? | BudurBuldum Hediye Rehberi</title>
-    <meta name="description" content="Sevgili, anne, baba, arkadaş veya iş arkadaşı için en doğru hediyeyi bulmak için ilk adım: hediyenin kime alındığını belirlemek. BudurBuldum ile kişiye özel hediye önerileri.">
+    <title>Hediye Kime Alınıyor? | BudurBuldum</title>
+    <meta name="description" content="Sevgili, anne, baba, arkadaş veya iş arkadaşı için en doğru hediyeyi bulmak için ilk adım.">
     <link rel="canonical" href="https://budurbuldum.com/quiz1.html">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -49,7 +49,7 @@
 
             <!-- Makale kartı -->
             <article style="background:white; border-radius:16px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
-                <img src="https://images.pexels.com/photos/1303081/pexels-photo-1303081.jpeg?auto=compress&w=400" alt="Sevgiliye hediye önerisi - kırmızı kurdele" style="width:100%; height:130px; object-fit:cover; display:block;">
+                <img src="https://images.pexels.com/photos/1303081/pexels-photo-1303081.jpeg?auto=compress&w=400" alt="Sevgiliye hediye önerisi" style="width:100%; height:130px; object-fit:cover; display:block;">
                 <div style="padding:12px;">
                     <!-- Özel scrollbar wrapper -->
                     <!-- Özel scrollbar wrapper -->
@@ -62,7 +62,7 @@
                             <h3 style="color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;">💑 Sevgiliye Hediye</h3>
                             <p style="color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;">Romantik ve kişisel dokunuşlar içeren hediyeler ilişkinizi güçlendirir. Takı, kişiselleştirilmiş ürünler veya birlikte yapılacak deneyimler en çok tercih edilen seçenekler arasındadır.</p>
                             <h3 style="color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;">👨‍👩‍👧 Aile İçin Hediye</h3>
-                            <p style="color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;">Anne ve babaya alınan hediyeler genellikle pratik ve kaliteli olmalıdır. Onların yaşam tarzını yansıtan, günlük hayatlarını kolaylaştıran ürünler her zaman değer görür.</p>
+                            <p style="color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;">Anne ve babaya alınan hediyeler genellikle pratik ve kaliteli olmalıdır. Onların yaşam tarzını yansıtan ürünler her zaman değer görür.</p>
                             <h3 style="color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;">🤝 Arkadaşa Hediye</h3>
                             <p style="color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;">Arkadaşlık hediyelerinde ortak anılara ve paylaşılan ilgi alanlarına odaklanın. Eğlenceli, kişisel ve yaratıcı hediyeler dostluğunuzu pekiştirir.</p>
                             <h3 style="color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;">💼 İş Arkadaşına Hediye</h3>
@@ -172,7 +172,7 @@
         document.getElementById('continue-btn').classList.remove('hidden');
         // İleri butonunu aktive et
         const ileri = document.getElementById('ileri-btn');
-        const hedef = 'quiz2.html?kime=' + encodeURIComponent(btn.textContent.trim());
+        const hedef = 'quiz2.html';
         ileri.href = hedef;
         ileri.onclick = null;
         ileri.style.color = '#2563eb';
@@ -182,7 +182,7 @@
     document.getElementById('continue-btn').addEventListener('click', function() {
         const secilen = document.querySelector('.option-btn.selected');
         if (!secilen) return;
-        window.location.href = 'quiz2.html?kime=' + encodeURIComponent(secilen.dataset.value || secilen.textContent.trim());
+        window.location.href = 'quiz2.html';
     });
 </script>
 </body>
