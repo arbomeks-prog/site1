@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudurBuldum – Doğru Hediyeyi Bulmak İçin</title>
+    <meta name="description" content="Doğru hediyeyi bulmak için BudurBuldum. Yapay zeka destekli kişiye özel hediye önerileri.">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { background-color: #0f172a; overflow-x: hidden; margin: 0; }
+        .hero-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+        .gender-btn { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .gender-btn.selected { border-color:#fff; background-color:rgba(255,255,255,0.25); transform:scale(1.08); }
+    </style>
+</head>
+<body>
+
+<!-- ÜST ŞERİT -->
+<div style="background:rgba(15,23,42,0.98);border-bottom:1px solid rgba(255,255,255,0.08);padding:14px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+    <a href="#" style="display:flex;align-items:center;gap:9px;text-decoration:none;">
+        <div style="width:34px;height:34px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;">🎁</div>
+        <span style="font-family:Georgia,serif;font-size:18px;font-weight:900;color:#fff;">budur<span style="color:#e8a838;">buldum</span></span>
+    </a>
+    <div style="display:flex;flex-direction:row;gap:10px;">
+        <a href="mailto:info@budurbuldum.com" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Mail</a>
+        <a href="#" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Adres</a>
+        <a href="tel:+902121234567" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Telefon</a>
+        <a href="#" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Biz Kimiz?</a>
+    </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-bg text-white py-4">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+        <h1 class="text-3xl md:text-5xl font-bold mb-1 leading-tight">Doğru hediye için <span class="text-amber-300">BudurBuldum</span></h1>
+        <p class="text-xs mb-3 text-white/70">Sevgiline, annene, arkadaşına... kişiye özel hediye önerileri</p>
+        <div class="mb-3">
+            <p class="text-amber-200 text-xl mb-3 font-bold">Sizi tanıyalım</p>
+            <div class="flex gap-3 max-w-4xl mx-auto">
+                <button onclick="selectGender(this,'Kadın')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👠</span>Kadın</button>
+                <button onclick="selectGender(this,'Erkek')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👔</span>Erkek</button>
+                <button onclick="selectGender(this,'Çiftiz')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👫</span>Çiftiz</button>
+            </div>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+            <button onclick="startQuiz()" class="bg-[#1e40af] hover:bg-[#2a5bc8] text-white font-semibold text-base py-2 rounded-3xl shadow-2xl flex items-center justify-between gap-3 transition-all w-full max-w-sm px-6">
+                <i class="fas fa-gift text-lg"></i> <span>Hediye Rehberini Başlat ✨</span> <span></span>
+            </button>
+            <button onclick="alert('Çok yakında! 🚀')" class="bg-[#1e40af] hover:bg-[#2a5bc8] text-white font-semibold text-base py-2 rounded-3xl shadow-2xl flex items-center justify-between gap-3 transition-all w-full max-w-sm px-6">
+                <i class="fas fa-shopping-cart text-lg"></i> <span>Alışveriş Asistanını Başlat 🛒</span> <span></span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- SORULAR -->
+<div style="background:#0f172a;padding:32px 24px 32px;">
+    <div id="kartlar-bolumu" style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 40px 1fr;gap:0;row-gap:28px;">
+
+    <!-- ORTADA SABİT SCROLL BAR -->
+    <style>
+        .sol-kart { grid-column: 1; }
+        .sag-kart { grid-column: 3; }
+        .orta-bar { grid-column: 2; grid-row: 1 / span 100; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:20px; position:relative; align-self: stretch; }
+        .orta-bar-inner { position:sticky; bottom:20px; display:flex; flex-direction:column; align-items:center; gap:10px; transition:opacity 0.3s; }
+    </style>
+
+    <div class="orta-bar">
+        <div class="orta-bar-inner">
+            <button id="btn-up" onclick="smoothScroll(-300)" style="width:36px;height:36px;background:#e53935;border:none;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(229,57,53,0.6);">↑</button>
+            <div id="scroll-track" style="width:12px;height:160px;background:rgba(255,255,255,0.1);border-radius:10px;position:relative;cursor:pointer;" onclick="trackClick(event)">
+                <div id="scroll-thumb" style="width:12px;background:#e53935;border-radius:10px;position:absolute;top:0;left:0;transition:top 0.1s;box-shadow:0 0 10px rgba(229,57,53,0.8);"></div>
+            </div>
+            <button id="btn-down" onclick="smoothScroll(300)" style="width:36px;height:36px;background:#e53935;border:none;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(229,57,53,0.6);">↓</button>
+        </div>
+    </div>
+
+        <!-- KART 1 -->
+        <div class="sol-kart">
+            <h3 style="color:#e8a838;font-size:14px;font-weight:700;margin-bottom:8px;">Hediye kime alınıyor?</h3>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;height:280px;overflow-y:scroll;scrollbar-width:thin;scrollbar-color:#1a73e8 #1e293b;padding:16px;">
+                <img src="https://images.pexels.com/photos/1303081/pexels-photo-1303081.jpeg?auto=compress&w=400" alt="Sevgiliye hediye önerisi - kırmızı kurdele" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+                <h2 style="color:#f1f5f9;font-size:15px;font-weight:700;margin-bottom:6px;">🎁 Kime Hediye Alıyorsunuz?</h2>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:10px;">Doğru hediyeyi seçmenin ilk adımı, hediyenin kime alındığını bilmektir. Sevgili, anne, baba, arkadaş veya iş arkadaşı — her ilişki farklı bir hediye dili konuşur.</p>
+                <h3 style="color:#e8a838;font-size:13px;font-weight:700;margin-bottom:5px;">💑 Sevgiliye Hediye</h3>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:10px;">Romantik ve kişisel dokunuşlar içeren hediyeler ilişkinizi güçlendirir. Takı, kişiselleştirilmiş ürünler veya birlikte yapılacak deneyimler en çok tercih edilen seçenekler arasındadır.</p>
+                <h3 style="color:#e8a838;font-size:13px;font-weight:700;margin-bottom:5px;">👨‍👩‍👧 Aile İçin Hediye</h3>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:14px;">Anne ve babaya alınan hediyeler genellikle pratik ve kaliteli olmalıdır. Onların yaşam tarzını yansıtan, günlük hayatlarını kolaylaştıran ürünler her zaman değer görür.</p>
+                <a href="#" style="display:inline-block;background:#1a73e8;color:#fff;text-decoration:none;font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;">Devamını Oku →</a>
+            </div>
+        </div>
+
+        <!-- KART 2 -->
+        <div class="sag-kart">
+            <h3 style="color:#e8a838;font-size:14px;font-weight:700;margin-bottom:8px;">Cinsiyeti nedir?</h3>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;height:280px;overflow-y:scroll;scrollbar-width:thin;scrollbar-color:#1a73e8 #1e293b;padding:16px;">
+                <img src="https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&w=400" alt="Kadına hediye önerisi" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+                <h2 style="color:#f1f5f9;font-size:15px;font-weight:700;margin-bottom:6px;">👠 Kadına mı Erkeğe mi Hediye?</h2>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:10px;">Hediye seçiminde cinsiyet belirleyici bir etken olsa da asıl önemli olan kişinin ilgi alanları ve kişiliğidir.</p>
+                <h3 style="color:#e8a838;font-size:13px;font-weight:700;margin-bottom:5px;">👩 Kadına Hediye Fikirleri</h3>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:10px;">Takı, parfüm, cilt bakım setleri, kişiselleştirilmiş ürünler ve deneyim hediyeleri kadınlar arasında en çok tercih edilen kategorilerdir.</p>
+                <h3 style="color:#e8a838;font-size:13px;font-weight:700;margin-bottom:5px;">👨 Erkeğe Hediye Fikirleri</h3>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:14px;">Teknoloji ürünleri, spor aksesuarları, saat, cüzdan ve kişisel bakım setleri erkeklere alınan en popüler hediye kategorileri arasında yer almaktadır.</p>
+                <a href="#" style="display:inline-block;background:#1a73e8;color:#fff;text-decoration:none;font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;">Devamını Oku →</a>
+            </div>
+        </div>
+
+        <!-- KART 3 -->
+        <div class="sol-kart">
+            <h3 style="color:#e8a838;font-size:14px;font-weight:700;margin-bottom:8px;">Doğum tarihi hakkında ne biliyorsunuz?</h3>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;height:280px;overflow-y:scroll;scrollbar-width:thin;scrollbar-color:#1a73e8 #1e293b;padding:16px;">
+                <img src="https://images.pexels.com/photos/796606/pexels-photo-796606.jpeg?auto=compress&w=400" alt="Doğum günü hediyesi" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+                <h2 style="color:#f1f5f9;font-size:15px;font-weight:700;margin-bottom:6px;">🎂 Doğum Günü Hediyesi Seçimi</h2>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:10px;">Doğum tarihini bilmek hediye seçimini kişiselleştirmenin en güçlü yollarından biridir.</p>
+                <h3 style="color:#e8a838;font-size:13px;font-weight:700;margin-bottom:5px;">♈ Burca Göre Hediye</h3>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:10px;">Her burç farklı kişilik özelliklerine sahiptir. Koç burcu için maceracı deneyimler, Boğa için kaliteli yaşam ürünleri düşünülebilir.</p>
+                <h3 style="color:#e8a838;font-size:13px;font-weight:700;margin-bottom:5px;">🎉 Sürpriz Doğum Günü Fikirleri</h3>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:14px;">Kişiselleştirilmiş hediye kutuları ve deneyim hediyeleri unutulmaz anlar yaratır.</p>
+                <a href="#" style="display:inline-block;background:#1a73e8;color:#fff;text-decoration:none;font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;">Devamını Oku →</a>
+            </div>
+        </div>
+
+        <!-- KART 4 -->
+        <div class="sag-kart">
+            <h3 style="color:#e8a838;font-size:14px;font-weight:700;margin-bottom:8px;">Yaş aralığı yaklaşık olarak nedir?</h3>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;height:280px;overflow-y:scroll;scrollbar-width:thin;scrollbar-color:#1a73e8 #1e293b;padding:16px;">
+                <img src="https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&w=400" alt="Yaşa göre hediye önerisi" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:12px;">
+                <h2 style="color:#f1f5f9;font-size:15px;font-weight:700;margin-bottom:6px;">🎂 Yaşa Göre Hediye Nasıl Seçilir?</h2>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:10px;">Hediye seçiminde yaş aralığı belirleyici en önemli faktörlerden biridir.</p>
+                <h3 style="color:#e8a838;font-size:13px;font-weight:700;margin-bottom:5px;">👶 0-12 Yaş Arası Çocuklar</h3>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:10px;">Eğitici oyuncaklar, yaratıcılığı destekleyen setler ve güvenli materyallerden yapılmış ürünler öne çıkar.</p>
+                <h3 style="color:#e8a838;font-size:13px;font-weight:700;margin-bottom:5px;">🧑 13-25 Yaş Arası Gençler</h3>
+                <p style="color:#94a3b8;font-size:13px;line-height:1.75;margin-bottom:14px;">Teknoloji ürünleri, müzik aletleri, moda aksesuarları ve deneyim hediyeleri bu yaş grubunda büyük ilgi görür.</p>
+                <a href="#" style="display:inline-block;background:#1a73e8;color:#fff;text-decoration:none;font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;">Devamını Oku →</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#060d15;border-top:1px solid rgba(255,255,255,0.06);padding:24px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;">
+    <div style="font-size:13px;color:rgba(255,255,255,0.28);">© 2025 BudurBuldum. Tüm hakları saklıdır.</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="#" style="color:rgba(255,255,255,0.28);text-decoration:none;font-size:13px;">Gizlilik Politikası</a>
+        <a href="#" style="color:rgba(255,255,255,0.28);text-decoration:none;font-size:13px;">KVKK</a>
+        <a href="#" style="color:rgba(255,255,255,0.28);text-decoration:none;font-size:13px;">İletişim</a>
+    </div>
+    <div style="display:flex;gap:10px;">
+        <a href="#" style="width:32px;height:32px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.35);text-decoration:none;font-size:13px;"><i class="fab fa-instagram"></i></a>
+        <a href="#" style="width:32px;height:32px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.35);text-decoration:none;font-size:13px;"><i class="fab fa-twitter"></i></a>
+        <a href="#" style="width:32px;height:32px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.35);text-decoration:none;font-size:13px;"><i class="fab fa-tiktok"></i></a>
+    </div>
+</footer>
+
+<script>
+    let selectedGender = null;
+
+    function selectGender(btn, gender) {
+        document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedGender = gender;
+    }
+
+    function startQuiz() {
+        if (!selectedGender) return alert('Lütfen cinsiyet seçin.');
+        // Önceki quiz verilerini temizle
+        localStorage.removeItem('budurBuldumCevaplar');
+        localStorage.removeItem('budurBuldumAktifSet');
+        localStorage.removeItem('budurBuldumSecilenKime');
+        localStorage.removeItem('budurBuldumSecilenBurc');
+        localStorage.removeItem('budurBuldumSelectedCriteria');
+        // Cinsiyet bilgisini kaydet
+        localStorage.setItem('budurBuldumGender', selectedGender);
+        // Quiz'e başla
+        window.location.href = 'quiz-kime.html';
+    }
+</script>
+
+<script>
+    function updateThumb() {
+        const track = document.getElementById('scroll-track');
+        const thumb = document.getElementById('scroll-thumb');
+        if (!track) return;
+        const trackH = track.offsetHeight;
+        const scrollRatio = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        const thumbH = Math.max(30, trackH * (window.innerHeight / document.body.scrollHeight));
+        thumb.style.height = thumbH + 'px';
+        thumb.style.top = (scrollRatio * (trackH - thumbH)) + 'px';
+        const kartlar = document.getElementById('kartlar-bolumu');
+        if (kartlar) {
+            const rect = kartlar.getBoundingClientRect();
+            const orta = document.querySelector('.orta-bar-inner');
+            if (orta) {
+                orta.style.opacity = (rect.top < window.innerHeight && rect.bottom > 0) ? '1' : '0';
+            }
+        }
+    }
+    function trackClick(e) {
+        const track = document.getElementById('scroll-track');
+        const rect = track.getBoundingClientRect();
+        const ratio = (e.clientY - rect.top) / rect.height;
+        window.scrollTo({ top: ratio * (document.body.scrollHeight - window.innerHeight), behavior: 'smooth' });
+    }
+    let scrollInterval = null;
+    function startScroll(amount) {
+        smoothScroll(amount);
+        scrollInterval = setInterval(() => window.scrollBy({ top: amount, behavior: 'auto' }), 80);
+    }
+    function stopScroll() {
+        clearInterval(scrollInterval);
+        scrollInterval = null;
+    }
+    function smoothScroll(amount) {
+        window.scrollBy({ top: amount, behavior: 'smooth' });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnUp = document.getElementById('btn-up');
+        const btnDown = document.getElementById('btn-down');
+        ['mousedown','touchstart'].forEach(ev => {
+            btnUp.addEventListener(ev, (e) => { e.preventDefault(); startScroll(-60); }, { passive: false });
+            btnDown.addEventListener(ev, (e) => { e.preventDefault(); startScroll(60); }, { passive: false });
+        });
+        ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev => {
+            btnUp.addEventListener(ev, stopScroll);
+            btnDown.addEventListener(ev, stopScroll);
+        });
+    });
+    window.addEventListener('scroll', updateThumb);
+    window.addEventListener('resize', updateThumb);
+    updateThumb();
+</script>
+</body>
+</html>
