@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Özeti | BudurBuldum</title>
+    <meta name="description" content="Hediye profilinizin özeti - BudurBuldum">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="config.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; }
+        .profil-bar { background:#1e293b; color:white; border-radius:16px; padding:10px 14px; font-size:12px; line-height:1.9; word-break:break-word; }
+        .profil-bar .lbl { color:#94a3b8; }
+        .profil-bar .val { color:#f1f5f9; font-weight:600; }
+        .selection-item { display:flex; align-items:center; padding:12px 16px; border-bottom:1px solid #f1f5f9; cursor:pointer; transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1); background:white; }
+        .selection-item:last-child { border-bottom:none; }
+        .s-num { font-size:14px; color:#cbd5e1; width:24px; flex-shrink:0; font-weight:500; }
+        .s-text { flex:1; font-size:14px; color:#64748b; white-space:normal; word-break:break-word; }
+        .s-text strong { color:#1e293b; font-weight:700; }
+        .s-star { font-size:28px; color:#ef4444; opacity:0; transition:opacity 0.2s; margin-left:8px; flex-shrink:0; }
+        .selection-item.selected { transform:translateY(-2px) scale(1.01); background:#fffbeb; box-shadow:0 6px 20px -4px rgba(0,0,0,0.15); border-bottom-color:transparent; border-radius:12px; margin:2px 0; }
+        .selection-item.selected .s-num { color:#ef4444; font-weight:700; }
+        .selection-item.selected .s-text { color:#92400e; }
+        .selection-item.selected .s-text strong { color:#92400e; }
+        .selection-item.selected .s-star { opacity:1; }
+        .burc-btn { transition:all 0.2s; cursor:pointer; padding:8px 6px; border-radius:12px; border:2px solid #e2e8f0; text-align:center; background:white; outline:none; }
+        .burc-btn.selected { border-color:#6366f1; background:#eef2ff; font-weight:700; }
+        .burc-btn .burc-sembol { font-size:20px; display:block; }
+        .burc-btn .burc-isim { font-size:10px; color:#475569; }
+    </style>
+</head>
+<body>
+
+<div id="summary-container" class="min-h-screen bg-[#F9F9F9] py-6 px-4">
+    <div class="max-w-xl mx-auto">
+        <div class="flex justify-between items-center mb-4">
+            <a id="geri-btn" href="#" class="text-gray-500 text-sm" style="text-decoration:none;">← Geri</a>
+            <a href="index.html" style="display:flex;align-items:center;gap:7px;text-decoration:none;">
+                <div style="width:28px;height:28px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;">🎁</div>
+                <span style="font-family:Georgia,serif;font-size:16px;font-weight:900;color:#1e293b;">budur<span style="color:#e8a838;">buldum</span></span>
+            </a>
+            <a href="index.html" class="text-gray-500 text-sm" style="text-decoration:none;">Ana Sayfa</a>
+        </div>
+        <div id="profil-bar" class="profil-bar mb-2"></div>
+        <!-- Bütçe değiştirme -->
+        <div class="flex items-center gap-2 mb-4 px-1">
+            <span class="text-xs text-zinc-500 font-medium">Bütçe:</span>
+            <div class="flex gap-1 flex-wrap" id="butce-butonlar"></div>
+        </div>
+        <div class="flex items-center justify-between px-1 mb-2">
+            <div class="text-sm font-semibold text-zinc-600" id="kriter-baslik">🎯 En önemli 6 kriteri seç</div>
+            <span id="sel-count" class="text-xs font-bold px-2 py-1 bg-gray-100 text-gray-600 rounded-full">0/6</span>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-4">
+            <div id="selections-list"></div>
+        </div>
+        <!-- Burç paneli -->
+        <div class="bg-white rounded-2xl shadow-sm p-4 mb-32">
+            <div class="flex items-center justify-between mb-2">
+                <div class="text-sm font-semibold text-zinc-700">⭐ Burcuna uygun hediye ekleyelim mi?</div>
+                <span id="burc-badge" class="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full font-bold hidden">+1</span>
+            </div>
+            <div id="burc-panel"></div>
+        </div>
+        <!-- SABİT BUTON -->
+        <div class="fixed bottom-6 left-0 right-0 px-4">
+            <div class="max-w-xl mx-auto">
+                <button onclick="showGifts()" id="show-gifts-btn" disabled
+                    class="w-full bg-[#1e40af] text-white font-semibold text-xl px-10 py-5 rounded-3xl shadow-2xl flex items-center justify-center gap-3 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed">
+                    <i class="fas fa-gift"></i>
+                    <span id="show-gifts-label">6 kriter seç → Hediyeleri Gör ✨</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedCriteria = [];
+    let secilenBurc = null;
+
+    window.onload = function() {
+        const cevaplar = QuizHelper.getCevaplar();
+        const aktifSet = QuizHelper.getAktifSet();
+        const sorular = QuizHelper.getAktifSorular();
+        const isOzel = aktifSet !== 'normal';
+
+        // Geri butonu — son geçerli soruya dön
+        let lastSoru = sorular[sorular.length - 1];
+        for (let i = sorular.length - 1; i >= 0; i--) {
+            if (QuizHelper.soruGecerliMi(sorular[i].id)) {
+                lastSoru = sorular[i];
+                break;
+            }
+        }
+        document.getElementById('geri-btn').href = lastSoru.sayfa;
+
+        // Profil barı
+        renderProfilBar(cevaplar, sorular, isOzel);
+
+        // Bütçe butonları
+        renderButceButonlar(cevaplar, sorular, isOzel);
+
+        // Kriter listesi
+        renderKriterListesi(cevaplar, sorular, isOzel);
+
+        // Burç paneli
+        renderBurcPanel(cevaplar);
+
+        // Durumu kontrol et
+        afterSummaryReady();
+    };
+
+    function renderProfilBar(cevaplar, sorular, isOzel) {
+        let profil = '';
+        if (isOzel) {
+            profil = sorular
+                .map(s => cevaplar[s.id] ? '<span class="lbl">' + s.soru.split('?')[0] + ': </span><span class="val">' + cevaplar[s.id] + '</span>' : '')
+                .filter(Boolean).join(' &nbsp;·&nbsp; ');
+        } else {
+            profil = QUIZ_CONFIG.profilSabitler
+                .filter(p => cevaplar[p.id])
+                .map(p => '<span class="lbl">' + p.etiket + ': </span><span class="val">' + cevaplar[p.id] + '</span>')
+                .join(' &nbsp;·&nbsp; ');
+        }
+        document.getElementById('profil-bar').innerHTML = profil;
+    }
+
+    function renderButceButonlar(cevaplar, sorular, isOzel) {
+        const butceSoru = sorular.find(s => s.id.includes('butce'));
+        if (!butceSoru) return;
+        const butceler = butceSoru.secenekler;
+        const butceDiv = document.getElementById('butce-butonlar');
+        butceDiv.innerHTML = '';
+        butceler.forEach(b => {
+            const isActive = cevaplar[butceSoru.id] === b;
+            const bb = document.createElement('button');
+            bb.className = 'text-xs px-3 py-1 rounded-full border-2 font-semibold transition-all ' +
+                (isActive ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-zinc-600 border-zinc-300 hover:border-blue-400');
+            bb.textContent = b;
+            bb.onclick = function() {
+                QuizHelper.setCevap(butceSoru.id, b);
+                // Güncelle
+                const c2 = QuizHelper.getCevaplar();
+                renderProfilBar(c2, sorular, isOzel);
+                butceDiv.querySelectorAll('button').forEach(x => {
+                    const active = x.textContent === b;
+                    x.className = 'text-xs px-3 py-1 rounded-full border-2 font-semibold transition-all ' +
+                        (active ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-zinc-600 border-zinc-300 hover:border-blue-400');
+                });
+            };
+            butceDiv.appendChild(bb);
+        });
+    }
+
+    function renderKriterListesi(cevaplar, sorular, isOzel) {
+        const list = document.getElementById('selections-list');
+        list.innerHTML = '';
+        let sira = 1;
+        const sabitIdler = QUIZ_CONFIG.profilSabitler.map(p => p.id);
+        const negatifler = QUIZ_CONFIG.negatifler;
+
+        for (let i = 0; i < sorular.length; i++) {
+            const s = sorular[i];
+            if (!cevaplar[s.id]) continue;
+            // Normal sette sabit olanları atla (profil barında zaten var)
+            if (!isOzel && sabitIdler.includes(s.id)) continue;
+            // Negatif cevapları atla
+            if (negatifler.some(n => cevaplar[s.id].includes(n))) continue;
+
+            const div = document.createElement('div');
+            div.className = 'selection-item';
+            div.dataset.soruId = s.id;
+            div.innerHTML = '<span class="s-num">' + sira + '.</span>' +
+                '<span class="s-text">' + s.soru + ' <strong>' + cevaplar[s.id] + '</strong></span>' +
+                '<span class="s-star">★</span>';
+            div.onclick = function() { toggleSelection(div, s.id); };
+            list.appendChild(div);
+            sira++;
+        }
+    }
+
+    function renderBurcPanel(cevaplar) {
+        const panel = document.getElementById('burc-panel');
+        panel.innerHTML = '';
+        secilenBurc = null;
+
+        // Mevcut burç var mı?
+        let mevcutBurc = null;
+        const dc = cevaplar.dogum || '';
+        if (dc) {
+            const m = dc.match(/([♈♉♊♋♌♍♎♏♐♑♒♓]) (\S+)/);
+            if (m) mevcutBurc = m[0];
+        }
+
+        const toggleBtn = document.createElement('div');
+        toggleBtn.className = 'text-sm font-semibold text-indigo-700 mb-3';
+        if (mevcutBurc) {
+            secilenBurc = mevcutBurc;
+            toggleBtn.textContent = '⭐ Burç seçimi — ' + mevcutBurc + ' seçili';
+            document.getElementById('burc-badge').classList.remove('hidden');
+        } else {
+            toggleBtn.textContent = '⭐ Burcu biliyorsan seç (opsiyonel)';
+        }
+
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-4 gap-2 mt-2';
+        QUIZ_CONFIG.burclar.forEach(b => {
+            const bb = document.createElement('button');
+            bb.className = 'burc-btn';
+            bb.innerHTML = '<span class="burc-sembol">' + b.sembol + '</span><span class="burc-isim">' + b.isim + '</span>';
+            if (mevcutBurc && mevcutBurc.includes(b.isim)) bb.classList.add('selected');
+            bb.onclick = function() {
+                const zaten = bb.classList.contains('selected');
+                grid.querySelectorAll('.burc-btn').forEach(x => { x.classList.remove('selected'); });
+                if (!zaten) {
+                    bb.classList.add('selected');
+                    secilenBurc = b.sembol + ' ' + b.isim;
+                    toggleBtn.textContent = '⭐ Burç seçimi — ' + secilenBurc + ' seçili';
+                    document.getElementById('burc-badge').classList.remove('hidden');
+                } else {
+                    secilenBurc = null;
+                    toggleBtn.textContent = '⭐ Burcu biliyorsan seç (opsiyonel)';
+                    document.getElementById('burc-badge').classList.add('hidden');
+                }
+            };
+            grid.appendChild(bb);
+        });
+        panel.appendChild(toggleBtn);
+        panel.appendChild(grid);
+    }
+
+    function afterSummaryReady() {
+        const secilenItems = document.querySelectorAll('#selections-list .selection-item');
+        const adet = secilenItems.length;
+        const btn = document.getElementById('show-gifts-btn');
+        const lbl = document.getElementById('show-gifts-label');
+        const baslik = document.getElementById('kriter-baslik');
+
+        if (adet === 0) {
+            if (baslik) baslik.textContent = '🎯 Profil tamamlandı';
+            document.getElementById('selections-list').innerHTML =
+                '<div onclick="showGifts()" style="cursor:pointer;display:flex;align-items:center;gap:16px;padding:20px;background:linear-gradient(135deg,#eff6ff,#eef2ff);border-radius:16px;border:2px solid #bfdbfe;">' +
+                '<span style="font-size:40px;">🎁</span>' +
+                '<div style="flex:1;"><div style="font-weight:700;color:#1d4ed8;font-size:17px;">Hediyeleri görelim mi?</div>' +
+                '<div style="font-size:13px;color:#6366f1;margin-top:6px;">Profil bilgilerinle en uygun hediyeleri buluyoruz</div></div>' +
+                '<span style="color:#3b82f6;font-size:28px;font-weight:bold;">→</span></div>';
+            document.getElementById('sel-count').textContent = '';
+            btn.disabled = false;
+            lbl.textContent = 'Hediyeleri Gör ✨';
+        } else {
+            const limit = Math.min(6, adet);
+            if (baslik) baslik.textContent = '🎯 En önemli ' + limit + ' kriteri seç';
+            document.getElementById('sel-count').textContent = '0/' + limit;
+            btn.disabled = true;
+            lbl.textContent = limit + ' kriter seç → Hediyeleri Gör ✨';
+        }
+    }
+
+    function toggleSelection(el, soruId) {
+        if (el.classList.contains('selected')) {
+            selectedCriteria = selectedCriteria.filter(c => c.id !== soruId);
+            el.classList.remove('selected');
+        } else {
+            const maxSel = Math.min(6, document.querySelectorAll('.selection-item').length);
+            if (maxSel > 0 && selectedCriteria.length >= maxSel) return;
+            const grup = selectedCriteria.length < 3 ? 'A' : 'B';
+            selectedCriteria.push({ id: soruId, grup: grup });
+            el.classList.add('selected');
+        }
+        updateSelCount();
+    }
+
+    function updateSelCount() {
+        const t = selectedCriteria.length;
+        const available = document.querySelectorAll('#selections-list .selection-item').length;
+        const limit = Math.min(6, available);
+        document.getElementById('sel-count').textContent = t + '/' + limit;
+        const btn = document.getElementById('show-gifts-btn');
+        const lbl = document.getElementById('show-gifts-label');
+        if (available === 0 || t >= limit) {
+            btn.disabled = false;
+            lbl.textContent = 'Hediyeleri Gör ✨';
+        } else {
+            btn.disabled = true;
+            lbl.textContent = (limit - t) + ' tane daha seç ✨';
+        }
+    }
+
+    function showGifts() {
+        // Seçilen kriterleri ve burcu localStorage'a kaydet
+        localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(selectedCriteria));
+        localStorage.setItem('budurBuldumSecilenBurc', secilenBurc || '');
+        // Hediye sayfasına git
+        window.location.href = 'hediyeler.html';
+    }
+</script>
+</body>
+</html>
