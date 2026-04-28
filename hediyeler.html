@@ -47,8 +47,10 @@
     const PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
 
     async function getGiftImage(query) {
+        // Sorguyu temizle ve ürün odaklı hale getir
+        const cleanQuery = improveImageQuery(query);
         try {
-            const res = await fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(query) + '&per_page=3&orientation=landscape', {
+            const res = await fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(cleanQuery) + '&per_page=3&orientation=landscape', {
                 headers: { 'Authorization': PEXELS_KEY }
             });
             if (res.ok) {
@@ -57,10 +59,40 @@
             }
         } catch(e) {}
         try {
-            const res = await fetch('https://source.unsplash.com/600x400/?' + encodeURIComponent(query));
+            const res = await fetch('https://source.unsplash.com/600x400/?' + encodeURIComponent(cleanQuery));
             if (res.ok && res.url && res.url.length > 60) return res.url;
         } catch(e) {}
-        return 'https://picsum.photos/seed/' + encodeURIComponent(query) + '/600/400';
+        return 'https://picsum.photos/seed/' + encodeURIComponent(cleanQuery) + '/600/400';
+    }
+
+    // Resim arama sorgusunu iyileştir: ürün odaklı yap, ölü hayvan/canlı olmayan resimlerden kaçın
+    function improveImageQuery(query) {
+        if (!query) return 'gift product';
+        let q = query.toLowerCase().trim();
+
+        // Yem, mama, food kategorileri için "package" / "bag" ekle (ölü hayvan resmi gelmesin)
+        const foodPatterns = ['yem', 'mama', 'food', 'kibble', 'feed', 'treats', 'ödül maması'];
+        const isFood = foodPatterns.some(p => q.includes(p));
+        if (isFood) {
+            // "fish food" → "fish food package", "cat food" → "cat food bag"
+            if (!q.includes('package') && !q.includes('bag') && !q.includes('container') && !q.includes('paket')) {
+                q = q + ' package product';
+            }
+        }
+
+        // Tropikal balık, akvaryum gibi sorgularda "aquarium" ekle (ölü balık değil)
+        if (q.includes('tropical fish') || q.includes('aquarium fish') || q.includes('akvaryum')) {
+            if (!q.includes('aquarium') && !q.includes('tank')) {
+                q = q + ' aquarium tank';
+            }
+        }
+
+        // Genel: kısa sorgulara "product" ekle (markalama/ambalaj resmi için)
+        if (q.split(' ').length <= 2 && !q.includes('product') && !q.includes('gift')) {
+            q = q + ' product';
+        }
+
+        return q;
     }
 
     function buildLinks(name) {
@@ -204,7 +236,7 @@
                     return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : '';
                 }).filter(Boolean).join('\n');
 
-            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\nGörev: Profile tam uygun ' + toplamHediye + ' hediye öner. İlk 2 tanesi "nokta atışı" (star:true), diğerleri normal (star:false). Türkiye\'de bulunabilir, bütçeye uygun ürünler. Her hediye için: name (Türkçe ürün adı), emoji, description (2 cümle), reason (neden bu profile özel 1 cümle), price (TL), star (bool), searchQuery (Türkçe arama kelimesi). Sadece JSON array döndür.';
+            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\nGörev: Profile tam uygun ' + toplamHediye + ' hediye öner. İlk 2 tanesi "nokta atışı" (star:true), diğerleri normal (star:false). Türkiye\'de bulunabilir, bütçeye uygun ürünler. Her hediye için: name (Türkçe ürün adı), emoji, description (2 cümle), reason (neden bu profile özel 1 cümle), price (TL), star (bool), searchQuery (Türkçe arama kelimesi - Trendyol/Hepsiburada\'da bulunabilir 2-3 kelime), searchQueryEn (İngilizce 2-3 kelimelik ÜRÜN GÖRSELİ arama sorgusu - mutlaka "package", "product", "container" gibi kelimeler ekle, ASLA "raw", "dead", "fresh" gibi kelimeler kullanma; pet maması için "fish food package" "cat food bag", oyuncak için "stuffed animal toy", elektronik için "electronic gadget product" gibi). Sadece JSON array döndür.';
         }
 
         // Normal akış
@@ -230,7 +262,7 @@
                 return soru ? soru.soru + ' → ' + cevaplar[c.id] : '';
             }).filter(Boolean).join('\n');
 
-        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A kriterleri:\n' + grupA + '\n\nGrup B kriterleri:\n' + grupB + burcEk + '\n\nGörev: Grup A ve B\'yi çapraz sorgulayarak HER İKİ GRUBU tam karşılayan 2 nokta atışı hediye bul (star:true). Ayrıca genel profile uygun ' + (toplamHediye - 2) + ' normal hediye öner (star:false). Nokta atışları ilk 2 sırada. Türkiye\'de bulunabilir, bütçeye uygun ürünler. Her hediye için: name (Türkçe ürün adı), emoji, description (2 cümle), reason (neden bu kişiye özel 1 cümle, kişiselleştirilmiş), price (TL - MUTLAKA belirtilen bütçe aralığı içinde gerçekçi bir fiyat yaz, uydurma), star (bool), searchQuery (Türkçe arama kelimesi). Sadece JSON array döndür.';
+        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A kriterleri:\n' + grupA + '\n\nGrup B kriterleri:\n' + grupB + burcEk + '\n\nGörev: Grup A ve B\'yi çapraz sorgulayarak HER İKİ GRUBU tam karşılayan 2 nokta atışı hediye bul (star:true). Ayrıca genel profile uygun ' + (toplamHediye - 2) + ' normal hediye öner (star:false). Nokta atışları ilk 2 sırada. Türkiye\'de bulunabilir, bütçeye uygun ürünler. Her hediye için: name (Türkçe ürün adı), emoji, description (2 cümle), reason (neden bu kişiye özel 1 cümle, kişiselleştirilmiş), price (TL - MUTLAKA belirtilen bütçe aralığı içinde gerçekçi bir fiyat yaz, uydurma), star (bool), searchQuery (Türkçe arama kelimesi - Trendyol/Hepsiburada\'da bulunabilir 2-3 kelime), searchQueryEn (İngilizce 2-3 kelimelik ÜRÜN GÖRSELİ arama sorgusu - mutlaka "package", "product", "container", "gift", "set" gibi kelimeler ekle; ASLA "raw", "dead", "fresh", "alive" gibi kelimeler kullanma; örnek: pet maması için "fish food package" "cat food bag", oyuncak için "stuffed animal toy", elektronik için "wireless headphone product"). Sadece JSON array döndür.';
     }
     function buildBeklemeMesajlari(cevaplar, sorular, isOzel, selectedCriteria) {
         const mesajlar = [];
@@ -246,10 +278,42 @@
             'Kendime':      { baslik:'Kendine güzel bir hediye hakkediyorsun... 🌟', alt:'Biraz da kendin için harca!' },
             'İş arkadaşı':  { baslik:'İş arkadaşına şık hediyeler araştırılıyor... 💼', alt:'Profesyonel ve zarif seçenekler' },
             'Bebek ❤️':     { baslik:'Minik bebek için hediyeler hazırlanıyor... 👶', alt:'En tatlı hediyeler geliyor' },
-            'Pet ❤️':       { baslik:'Patili dostuna hediyeler araştırılıyor... 🐾', alt:'Kuyruk salladıracak sürprizler' },
             'Çocuk 🧒':    { baslik:'Çocuğa özel hediyeler bulunuyor... 🧒', alt:'Gözleri parlayacak hediyeler geliyor' },
         };
         if (kimeMap[kime]) mesajlar.push(kimeMap[kime]);
+
+        // Pet türüne göre özel mesaj
+        if (kime === 'Pet ❤️' && cevaplar.pet_tur) {
+            const petMap = {
+                'Kedi 🐱':       { baslik:'Minik patili kediniz için hediyeler araştırılıyor... 🐱', alt:'Tüylü dostunuza özel seçenekler' },
+                'Köpek 🐶':      { baslik:'Sevimli köpeğiniz için hediyeler hazırlanıyor... 🐶', alt:'Kuyruk sallatacak sürprizler' },
+                'Kuş 🐦':        { baslik:'Kuş dostunuz için hediyeler bulunuyor... 🐦', alt:'Cıvıltılı bir hayatın incelikleri' },
+                'Tavşan 🐰':     { baslik:'Pamuk gibi tavşanınız için hediyeler seçiliyor... 🐰', alt:'Yumuşacık ve tatlı seçenekler' },
+                'Hamster':       { baslik:'Minik hamsterınız için hediyeler hazırlanıyor... 🐹', alt:'Ufacık ama keyifli sürprizler' },
+                'Balık 🐟':      { baslik:'Akvaryum dostunuz için ürünler araştırılıyor... 🐠', alt:'Akvaryumda renkli bir dünya' },
+                'Egzotik / Diğer': { baslik:'Eşsiz dostunuz için özel ürünler bulunuyor... 🦎', alt:'Sıradışı pet için sıradışı hediyeler' },
+            };
+            if (petMap[cevaplar.pet_tur]) mesajlar.push(petMap[cevaplar.pet_tur]);
+            else mesajlar.push({ baslik:'Evcil dostunuz için hediyeler araştırılıyor... 🐾', alt:'Hayvan dostlarına özel seçenekler' });
+        }
+
+        // Bebek cinsiyetine göre özel mesaj
+        if (kime === 'Bebek ❤️' && cevaplar.bebek_cinsiyet) {
+            const bebekMap = {
+                'Kız Bebek':      { baslik:'Minik prenses için hediyeler hazırlanıyor... 👶🎀', alt:'Pembe tonlarda tatlı seçenekler' },
+                'Erkek Bebek':    { baslik:'Minik prens için hediyeler hazırlanıyor... 👶💙', alt:'Mavi tonlarda eğlenceli seçenekler' },
+            };
+            if (bebekMap[cevaplar.bebek_cinsiyet]) mesajlar.push(bebekMap[cevaplar.bebek_cinsiyet]);
+        }
+
+        // Çocuk cinsiyetine göre özel mesaj
+        if ((kime === 'Çocuk 🧒' || kime === 'Kardeş') && cevaplar.cocuk_cinsiyet) {
+            const cocukMap = {
+                'Kız':      { baslik:'Kız çocuğu için hediyeler araştırılıyor... 👧', alt:'Yaratıcılığı destekleyecek seçenekler' },
+                'Erkek':    { baslik:'Erkek çocuğu için hediyeler araştırılıyor... 👦', alt:'Macera dolu hediye fikirleri' },
+            };
+            if (cocukMap[cevaplar.cocuk_cinsiyet]) mesajlar.push(cocukMap[cevaplar.cocuk_cinsiyet]);
+        }
 
         // Bütçeye göre
         const butceId = isOzel ? Object.keys(cevaplar).find(function(k){ return k.includes('butce'); }) : 'butce';
