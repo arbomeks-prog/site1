@@ -66,13 +66,56 @@ const QUIZ_CONFIG = {
         { id:"cocuk_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"quiz-cocuk-butce.html" },
     ],
 
+    // Pet türü seçimi - ilk soru hep bu, sonra türe göre farklı set
     soruPetler: [
-        { id:"pet_tur",        soru:"Hangi hayvan?",                      secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster","Balık 🐟","Egzotik / Diğer"], sayfa:"quiz-pet-tur.html" },
-        { id:"pet_yas",        soru:"Kaç yaşında?",                       secenekler:["Yavru (0-1 yaş)","Genç (1-3 yaş)","Yetişkin (3-7 yaş)","Yaşlı (7+ yaş)"], sayfa:"quiz-pet-yas.html" },
-        { id:"pet_karakter",   soru:"Karakteri nasıl?",                   secenekler:["Çok aktif / Enerjik","Orta düzeyde","Sakin / Uysal"], sayfa:"quiz-pet-karakter.html" },
-        { id:"pet_ortam",      soru:"Nerede yaşıyor?",                    secenekler:["Sadece iç mekan","Hem iç hem dış mekan","Sadece dış mekan"], sayfa:"quiz-pet-ortam.html" },
-        { id:"pet_hediye_tur", soru:"Ne tür hediye düşünüyorsun?",        secenekler:["Oyuncak / Eğlence","Mama / Ödül Maması","Aksesuar / Giysi","Yatak / Yuva / Kedi evi","Sağlık / Bakım","Tasma / Kablo / Tasarım"], sayfa:"quiz-pet-hediye.html" },
-        { id:"pet_butce",      soru:"Bütçe aralığın nedir?",              secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"quiz-pet-butce.html" },
+        { id:"pet_tur", soru:"Hangi hayvan?", secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
+    ],
+
+    // Kedi soruları
+    soruKedi: [
+        { id:"pet_tur",       soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
+        { id:"kedi_yas",      soru:"Kedi kaç yaşında?",           secenekler:["Yavru (0-1 yaş)","Genç (1-3 yaş)","Yetişkin (3-8 yaş)","Yaşlı (8+ yaş)"], sayfa:"quiz-kedi-yas.html" },
+        { id:"kedi_karakter", soru:"Karakteri nasıl?",             secenekler:["Çok aktif ve oyuncu 🎯","Orta enerjili","Sakin ve uysal 😴","Biraz vahşi / yabani 🐯"], sayfa:"quiz-kedi-karakter.html" },
+        { id:"kedi_ortam",    soru:"Nerede yaşıyor?",              secenekler:["Sadece iç mekanda","Hem ev hem dışarı","Dış mekan / bahçe"], sayfa:"quiz-kedi-ortam.html" },
+        { id:"kedi_tur",      soru:"Ne tür hediye düşünüyorsun?", secenekler:["Oyuncak / Eğlence 🎾","Kedi maması / ödül mama 🍖","Yatak / Kedi evi / Çizme","Aksesuar / Tasarım tasma","Sağlık / Bakım ürünleri","Kedi tırmalama aparatı"], sayfa:"quiz-kedi-tur.html" },
+        { id:"kedi_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"quiz-kedi-butce.html" },
+    ],
+
+    // Köpek soruları
+    soruKopek: [
+        { id:"pet_tur",        soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
+        { id:"kopek_yas",      soru:"Köpek kaç yaşında?",          secenekler:["Yavru (0-1 yaş)","Genç (1-3 yaş)","Yetişkin (3-8 yaş)","Yaşlı (8+ yaş)"], sayfa:"quiz-kopek-yas.html" },
+        { id:"kopek_irk",      soru:"Irk büyüklüğü nasıl?",        secenekler:["Küçük ırk (Chihuahua, Pomeranian vb.)","Orta ırk (Beagle, Cocker vb.)","Büyük ırk (Labrador, Golden vb.)","Çok büyük ırk (Kangal, Rottweiler vb.)"], sayfa:"quiz-kopek-irk.html" },
+        { id:"kopek_karakter", soru:"Karakteri nasıl?",             secenekler:["Çok enerjik / Oyuncu 🎾","Orta enerjili","Sakin / Uysal 😌","Koruyucu / Bekçi 🛡️"], sayfa:"quiz-kopek-karakter.html" },
+        { id:"kopek_tur",      soru:"Ne tür hediye düşünüyorsun?", secenekler:["Oyuncak / Çiğneme oyuncağı 🦴","Köpek maması / ödül mama 🍖","Yatak / Köşk / Yatacak yer","Tasma / Gezdirme seti / GPS","Giysi / Köpek kıyafeti 👕","Sağlık / Bakım / Bakım seti"], sayfa:"quiz-kopek-tur.html" },
+        { id:"kopek_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"quiz-kopek-butce.html" },
+    ],
+
+    // Kuş soruları
+    soruKus: [
+        { id:"pet_tur",      soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
+        { id:"kus_tur",      soru:"Kuş türü nedir?",             secenekler:["Muhabbet kuşu 💚","Kanarya 🟡","Papağan (büyük) 🦜","Cennet papağanı / Sultan papağanı","Hint bülbülü / Sığırcık","Diğer / Bilmiyorum"], sayfa:"quiz-kus-tur.html" },
+        { id:"kus_kafes",    soru:"Kafes durumu nasıl?",          secenekler:["Küçük kafes var","Orta kafes var","Büyük uçuş kafesi var","Kafes yok / Yeni alındı"], sayfa:"quiz-kus-kafes.html" },
+        { id:"kus_hediye",   soru:"Ne tür hediye düşünüyorsun?", secenekler:["Kuş yemi / Vitamin takviyesi 🌾","Kafes oyuncağı / Tünek","Kafes aksesuarı / Suluk-Yemlik","Yeni veya büyük kafes","Sağlık / Bakım / Tüy bakımı"], sayfa:"quiz-kus-hediye.html" },
+        { id:"kus_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"quiz-kus-butce.html" },
+    ],
+
+    // Balık soruları
+    soruBalik: [
+        { id:"pet_tur",       soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
+        { id:"balik_tip",     soru:"Akvaryum türü nedir?",        secenekler:["Tropikal / Sıcak su 🌊","Soğuk su (Japon balığı vb.) ❄️","Deniz akvaryumu 🐠","Yeni başlıyorum / Henüz yok"], sayfa:"quiz-balik-tip.html" },
+        { id:"balik_boyut",   soru:"Akvaryum boyutu?",            secenekler:["Mini (30 litre altı) 🫙","Orta (30-100 litre) 🐟","Büyük (100-300 litre) 🌊","Çok büyük (300+ litre) 🦈"], sayfa:"quiz-balik-boyut.html" },
+        { id:"balik_hediye",  soru:"Ne tür hediye düşünüyorsun?", secenekler:["Balık yemi / Özel besin 🌾","Akvaryum dekoru / Bitki / Taş","Filtre / Pompa / Teknik ekipman","Aydınlatma / LED ışık sistemi","İlaç / Sağlık / Su düzenleyici","Yeni akvaryum seti"], sayfa:"quiz-balik-hediye.html" },
+        { id:"balik_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"quiz-balik-butce.html" },
+    ],
+
+    // Tavşan / Hamster / Egzotik soruları
+    soruKucukPet: [
+        { id:"pet_tur",          soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
+        { id:"kucukpet_yas",     soru:"Yaşı ne kadar?",              secenekler:["Yavru (0-6 ay)","Genç (6 ay - 2 yaş)","Yetişkin (2+ yaş)"], sayfa:"quiz-kucukpet-yas.html" },
+        { id:"kucukpet_yuva",    soru:"Kafes / yuva durumu?",        secenekler:["Küçük kafes var","Büyük kafes var","Serbest dolaşıyor (tavşan vb.)","Kafes yok / Yeni alındı"], sayfa:"quiz-kucukpet-yuva.html" },
+        { id:"kucukpet_hediye",  soru:"Ne tür hediye düşünüyorsun?", secenekler:["Yem / Özel besin 🥕","Oyuncak / Aktivite 🎠","Kafes / Yuva aksesuarı","Sağlık / Bakım ürünü","Yeni kafes / Büyük yaşam alanı"], sayfa:"quiz-kucukpet-hediye.html" },
+        { id:"kucukpet_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"quiz-kucukpet-butce.html" },
     ],
 
     // ==========================================
@@ -102,7 +145,7 @@ const QUIZ_CONFIG = {
     // ==========================================
     // ZORUNLU SORULAR: "Emin değilim" seçeneği gösterilmez
     // ==========================================
-    zorunluSorular: ["kime","cinsiyet","dogum","amac","butce","oncelik","cocuk_cinsiyet","cocuk_amac","cocuk_butce","bebek_cinsiyet","bebek_amac","bebek_butce","pet_tur","pet_butce"],
+    zorunluSorular: ["kime","cinsiyet","dogum","amac","butce","oncelik","cocuk_cinsiyet","cocuk_amac","cocuk_butce","bebek_cinsiyet","bebek_amac","bebek_butce","pet_tur","pet_butce","kedi_butce","kedi_tur","kopek_butce","kopek_tur","kus_butce","kus_hediye","balik_butce","balik_hediye","kucukpet_butce","kucukpet_hediye"],
 
     // ==========================================
     // DALLANMA KURALLARI
@@ -246,6 +289,11 @@ const QuizHelper = {
     _autoFixSet: function(soruId) {
         if (QUIZ_CONFIG.soruBebekler.find(s => s.id === soruId)) this.setAktifSet('bebekler');
         else if (QUIZ_CONFIG.soruCocuklar.find(s => s.id === soruId)) this.setAktifSet('cocuklar');
+        else if (QUIZ_CONFIG.soruKedi.find(s => s.id === soruId)) this.setAktifSet('kedi');
+        else if (QUIZ_CONFIG.soruKopek.find(s => s.id === soruId)) this.setAktifSet('kopek');
+        else if (QUIZ_CONFIG.soruKus.find(s => s.id === soruId)) this.setAktifSet('kus');
+        else if (QUIZ_CONFIG.soruBalik.find(s => s.id === soruId)) this.setAktifSet('balik');
+        else if (QUIZ_CONFIG.soruKucukPet.find(s => s.id === soruId)) this.setAktifSet('kucukpet');
         else if (QUIZ_CONFIG.soruPetler.find(s => s.id === soruId)) this.setAktifSet('petler');
         else this.setAktifSet('normal');
     },
@@ -254,10 +302,15 @@ const QuizHelper = {
     getAktifSorular: function() {
         const set = this.getAktifSet();
         switch(set) {
-            case 'bebekler': return QUIZ_CONFIG.soruBebekler;
-            case 'cocuklar': return QUIZ_CONFIG.soruCocuklar;
-            case 'petler':   return QUIZ_CONFIG.soruPetler;
-            default:         return QUIZ_CONFIG.sorular;
+            case 'bebekler':  return QUIZ_CONFIG.soruBebekler;
+            case 'cocuklar':  return QUIZ_CONFIG.soruCocuklar;
+            case 'kedi':      return QUIZ_CONFIG.soruKedi;
+            case 'kopek':     return QUIZ_CONFIG.soruKopek;
+            case 'kus':       return QUIZ_CONFIG.soruKus;
+            case 'balik':     return QUIZ_CONFIG.soruBalik;
+            case 'kucukpet':  return QUIZ_CONFIG.soruKucukPet;
+            case 'petler':    return QUIZ_CONFIG.soruPetler;
+            default:          return QUIZ_CONFIG.sorular;
         }
     },
 
@@ -305,6 +358,25 @@ const QuizHelper = {
                     const ozelSorular = this.getAktifSorular();
                     return ozelSorular[0].sayfa;
                 }
+            }
+        }
+
+        // Pet türü seçildi → türe özgü sete geç
+        if (mevcutSoruId === 'pet_tur') {
+            const petTur = cevaplar.pet_tur || '';
+            let petSet = 'petler';
+            if (petTur.includes('Kedi')) petSet = 'kedi';
+            else if (petTur.includes('Köpek')) petSet = 'kopek';
+            else if (petTur.includes('Kuş')) petSet = 'kus';
+            else if (petTur.includes('Balık')) petSet = 'balik';
+            else if (petTur.includes('Tavşan') || petTur.includes('Hamster') || petTur.includes('Egzotik')) petSet = 'kucukpet';
+            this.setAktifSet(petSet);
+            const petSorular = this.getAktifSorular();
+            // İlk soru pet_tur, 2. soruya git
+            return petSorular[1] ? petSorular[1].sayfa : 'ozet.html';
+        }
+
+        // DUMMY — bir sonraki if yoksa syntax hatası olmasın
             }
         }
 
