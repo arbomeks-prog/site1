@@ -26,6 +26,12 @@
     <style>
         * { box-sizing: border-box; }
         body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; }
+        
+        /* Masaüstü ortalama */
+        @media (min-width: 1024px) {
+            body { display: flex; justify-content: center; }
+            #summary-container { max-width: 1200px; }
+        }
 
         .profil-bar { background:#1e293b; color:white; border-radius:16px; padding:10px 14px; font-size:12px; line-height:1.9; word-break:break-word; }
         .profil-bar .lbl { color:#94a3b8; }
@@ -115,7 +121,10 @@
 
         <!-- Kriter başlığı -->
         <div class="flex items-center justify-between px-1 mb-2">
-            <div class="text-sm font-semibold text-zinc-600" id="kriter-baslik">🎯 En önemli 6 kriteri seç</div>
+            <div class="text-sm font-semibold text-zinc-600" id="kriter-baslik">
+                <span>🎯 En önemli 6 kriteri seç</span>
+                <span class="text-xs text-amber-600 ml-2">⭐ Burç Seçmeyi Unutmayın</span>
+            </div>
             <span id="sel-count" class="text-xs font-bold px-2 py-1 bg-gray-100 text-gray-600 rounded-full">0/6</span>
         </div>
 

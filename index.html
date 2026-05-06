@@ -10,6 +10,13 @@
     <style>
         * { box-sizing: border-box; }
         body { background-color: #0f172a; overflow-x: hidden; margin: 0; }
+        
+        /* Masaüstü için maksimum genişlik ve ortalama */
+        @media (min-width: 1024px) {
+            body { display: flex; flex-direction: column; align-items: center; }
+            body > * { max-width: 1400px; width: 100%; }
+        }
+        
         .hero-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
         .gender-btn { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
         .gender-btn.selected { border-color:#fff; background-color:rgba(255,255,255,0.25); transform:scale(1.08); }
@@ -44,13 +51,29 @@
                 <button onclick="selectGender(this,'Çiftiz')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👫</span>Çiftiz</button>
             </div>
         </div>
-        <div class="flex flex-col items-center gap-2">
-            <button onclick="startQuiz()" class="bg-[#1e40af] hover:bg-[#2a5bc8] text-white font-semibold text-base py-2 rounded-3xl shadow-2xl flex items-center justify-between gap-3 transition-all w-full max-w-sm px-6">
-                <i class="fas fa-gift text-lg"></i> <span>Hediye Rehberini Başlat ✨</span> <span></span>
+        <!-- Ana Butonlar - Yan Yana -->
+        <div class="flex flex-col md:flex-row items-center justify-center gap-3 mb-4 max-w-4xl mx-auto">
+            <button onclick="startQuiz()" class="bg-gradient-to-r from-[#1e40af] to-[#3b82f6] hover:from-[#2a5bc8] hover:to-[#4f9cf9] text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-2xl flex items-center justify-center gap-3 transition-all w-full md:flex-1 transform hover:scale-105">
+                <i class="fas fa-gift text-2xl"></i> 
+                <span>Hediye Rehberini Başlat</span>
+                <span class="text-2xl">✨</span>
             </button>
-            <button onclick="alert('Çok yakında! 🚀')" class="bg-[#1e40af] hover:bg-[#2a5bc8] text-white font-semibold text-base py-2 rounded-3xl shadow-2xl flex items-center justify-between gap-3 transition-all w-full max-w-sm px-6">
-                <i class="fas fa-shopping-cart text-lg"></i> <span>Alışveriş Asistanını Başlat 🛒</span> <span></span>
+            <button onclick="alert('Çok yakında! 🚀')" class="bg-gradient-to-r from-[#7c3aed] to-[#a855f7] hover:from-[#8b5cf6] hover:to-[#c084fc] text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-2xl flex items-center justify-center gap-3 transition-all w-full md:flex-1 transform hover:scale-105">
+                <i class="fas fa-shopping-cart text-2xl"></i> 
+                <span>Alışveriş Asistanını Başlat</span>
+                <span class="text-2xl">🛒</span>
             </button>
+        </div>
+
+        <!-- 4 Site Tek Sayfada -->
+        <div class="flex flex-col items-center gap-3 mt-6">
+            <h3 class="text-amber-300 text-xl font-bold tracking-wide">4 SİTE TEK SAYFADA</h3>
+            <div class="flex flex-wrap items-center justify-center gap-3 max-w-2xl">
+                <div class="bg-[#f27a1a] text-white font-bold text-sm py-3 px-6 rounded-xl shadow-lg">Trendyol</div>
+                <div class="bg-[#ff6000] text-white font-bold text-sm py-3 px-6 rounded-xl shadow-lg">Hepsiburada</div>
+                <div class="bg-[#7c3aed] text-white font-bold text-sm py-3 px-6 rounded-xl shadow-lg">Çiçeksepeti</div>
+                <div class="bg-[#1c75bc] text-white font-bold text-sm py-3 px-6 rounded-xl shadow-lg">N11</div>
+            </div>
         </div>
     </div>
 </section>

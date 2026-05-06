@@ -11,6 +11,13 @@
     <style>
         * { box-sizing: border-box; }
         body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; }
+        
+        /* Masaüstü ortalama */
+        @media (min-width: 1024px) {
+            body { display: flex; justify-content: center; }
+            #gifts-container { max-width: 1400px; }
+        }
+        
         .gift-card { transition:all 0.4s cubic-bezier(0.4,0,0.2,1); }
         .gift-card:hover { transform:translateY(-8px); box-shadow:0 30px 60px -15px rgba(0,0,0,0.2); }
         .gift-card.star { border:2px solid #f59e0b; position:relative; }
@@ -37,7 +44,8 @@
             </a>
             <a href="index.html" style="text-decoration:none;" class="text-gray-600 font-medium">Ana Sayfa</a>
         </div>
-        <h2 class="text-4xl font-bold text-center mb-4">Kişiye Özel Hediye Önerileri ✨</h2>
+        <h2 class="text-4xl font-bold text-center mb-2">Kişiye Özel Hediye Önerileri ✨</h2>
+        <p class="text-center text-sm text-amber-600 font-medium mb-2">💡 DEĞİŞTİREBİLİRSİNİZ: Bütçe veya kriterleri değiştirmek için özet sayfasına dönün</p>
         <p id="gifts-subtitle" class="text-center text-zinc-600 mb-4"></p>
         <div id="gifts-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </div>

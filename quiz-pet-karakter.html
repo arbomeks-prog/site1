@@ -12,6 +12,12 @@
     <style>
         * { box-sizing: border-box; }
         body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; }
+        
+        /* Masaüstü ortalama */
+        @media (min-width: 1024px) {
+            body { display: flex; justify-content: center; }
+            body > div { max-width: 1200px; }
+        }
         .option-btn { transition: all 0.3s ease; }
         .option-btn.selected { border-color:#2563eb; background-color:#dbeafe; color:#1e40af; font-weight:600; }
         .option-btn.previous-answer { border-color:#ef4444; background-color:#fef2f2; color:#b91c1c; font-weight:600; }
