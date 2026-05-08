@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://budurbuldum.com/sitemap.xml
+
+# BudurBuldum - Kişiye özel hediye önerileri
+# https://budurbuldum.com

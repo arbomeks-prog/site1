@@ -462,6 +462,15 @@ const QuizHelper = {
         return sorular.length + offset;
     },
 
+    // Kalan soru sayısı (mevcut soru dahil)
+    getKalanSoru: function(soruId) {
+        const sorular = this.getAktifSorular();
+        const idx = sorular.findIndex(s => s.id === soruId);
+        const aktifSet = this.getAktifSet();
+        const offset = aktifSet !== 'normal' ? 1 : 0;
+        return (sorular.length + offset) - (idx + offset);
+    },
+
     // Filtrelenmiş seçenekleri al
     getFiltrelenmisSecenekler: function(soruId) {
         const cevaplar = this.getCevaplar();
@@ -544,7 +553,7 @@ if (typeof document !== 'undefined') {
 
         var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(m) {
-                if (m.attributeName === 'class' && !btn.classList.contains('hidden')) {
+                if (m.attributeName === 'class' && !btn.classList.contains('hidden') && !btn.classList.contains('disabled-state')) {
                     setTimeout(function() {
                         var rect = btn.getBoundingClientRect();
                         if (rect.bottom > window.innerHeight - 20) {
@@ -558,3 +567,96 @@ if (typeof document !== 'undefined') {
         observer.observe(btn, { attributes: true });
     });
 }
+
+// ============================================================
+// SES SİSTEMİ — Tüm quiz sayfalarında ortak
+// Web Audio API ile hafif ses efektleri
+// ============================================================
+var BudurSes = (function() {
+    var ctx = null;
+    var enabled = true;
+
+    function getCtx() {
+        if (!ctx) {
+            try { ctx = new (window.AudioContext || window.webkitAudioContext)(); }
+            catch(e) { enabled = false; }
+        }
+        return ctx;
+    }
+
+    // Kısa tık/seçim sesi
+    function tikSes() {
+        if (!enabled) return;
+        var c = getCtx(); if (!c) return;
+        var osc = c.createOscillator();
+        var gain = c.createGain();
+        osc.connect(gain);
+        gain.connect(c.destination);
+        osc.frequency.value = 600;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.12, c.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.08);
+        osc.start(c.currentTime);
+        osc.stop(c.currentTime + 0.08);
+    }
+
+    // Başarı / devam sesi
+    function basariSes() {
+        if (!enabled) return;
+        var c = getCtx(); if (!c) return;
+        var osc = c.createOscillator();
+        var gain = c.createGain();
+        osc.connect(gain);
+        gain.connect(c.destination);
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.1, c.currentTime);
+        osc.frequency.setValueAtTime(523, c.currentTime);
+        osc.frequency.setValueAtTime(659, c.currentTime + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.25);
+        osc.start(c.currentTime);
+        osc.stop(c.currentTime + 0.25);
+    }
+
+    // Geri sesi
+    function geriSes() {
+        if (!enabled) return;
+        var c = getCtx(); if (!c) return;
+        var osc = c.createOscillator();
+        var gain = c.createGain();
+        osc.connect(gain);
+        gain.connect(c.destination);
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.08, c.currentTime);
+        osc.frequency.setValueAtTime(440, c.currentTime);
+        osc.frequency.setValueAtTime(330, c.currentTime + 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.15);
+        osc.start(c.currentTime);
+        osc.stop(c.currentTime + 0.15);
+    }
+
+    // Tamamlama / final sesi (quiz bitti)
+    function tamamSes() {
+        if (!enabled) return;
+        var c = getCtx(); if (!c) return;
+        [523, 659, 784].forEach(function(freq, i) {
+            var osc = c.createOscillator();
+            var gain = c.createGain();
+            osc.connect(gain);
+            gain.connect(c.destination);
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.1, c.currentTime + i * 0.12);
+            gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + i * 0.12 + 0.2);
+            osc.start(c.currentTime + i * 0.12);
+            osc.stop(c.currentTime + i * 0.12 + 0.2);
+        });
+    }
+
+    return {
+        tik: tikSes,
+        basari: basariSes,
+        geri: geriSes,
+        tamam: tamamSes,
+        enabled: function() { return enabled; }
+    };
+})();

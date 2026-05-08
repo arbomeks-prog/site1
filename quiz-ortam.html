@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kişi evde mi dışarıda mı zaman geçiriyor? | BudurBuldum</title>
     <meta name="description" content="Kişi evde mi dışarıda mı zaman geçiriyor? - BudurBuldum hediye rehberi">
-    <link rel="canonical" href="https://budurbuldum.com/quiz-ortam.html">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="config.js"></script>
@@ -24,7 +23,26 @@
         .burc-btn.selected { border-color:#6366f1; background:#eef2ff; font-weight:700; }
         .burc-btn .burc-sembol { font-size:20px; display:block; }
         .burc-btn .burc-isim { font-size:10px; color:#475569; }
+        #continue-btn { transition: all 0.3s ease; }
+        #continue-btn.disabled-state { background-color: #d1d5db; color: #9ca3af; cursor: not-allowed; pointer-events: none; }
+        #continue-btn.active-state { background-color: #2563eb; color: white; cursor: pointer; pointer-events: auto; }
+        #continue-btn.active-state:hover { background-color: #1d4ed8; }
     </style>
+    <link rel="canonical" href="https://budurbuldum.com/quiz-ortam.html">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://budurbuldum.com/quiz-ortam.html">
+    <meta property="og:title" content="Kişi evde mi dışarıda mı zaman geçiriyor? | BudurBuldum">
+    <meta property="og:description" content="Kişi evde mi dışarıda mı zaman geçiriyor? - BudurBuldum hediye rehberi">
+    <meta property="og:image" content="https://budurbuldum.com/og-image.jpg">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:site_name" content="BudurBuldum">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kişi evde mi dışarıda mı zaman geçiriyor? | BudurBuldum">
+    <meta name="twitter:description" content="Kişi evde mi dışarıda mı zaman geçiriyor? - BudurBuldum hediye rehberi">
+    <meta name="twitter:image" content="https://budurbuldum.com/og-image.jpg">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#e8a838">
 </head>
 <body>
 
@@ -43,11 +61,6 @@
             </a>
             <a id="ileri-btn" href="#" onclick="return false;" style="text-decoration:none; color:#cbd5e1; font-weight:500; font-size:14px; pointer-events:none;">İleri →</a>
         </div>
-        <div class="w-full bg-gray-200 rounded-full h-2 mb-6">
-            <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width:0%"></div>
-        </div>
-        <h2 id="soru-baslik" class="text-2xl font-bold text-zinc-800 mb-1"></h2>
-        <p id="espri-notu" class="text-sm text-amber-500 font-medium mb-2 italic"></p>
     </div>
 
     <!-- ORTA: Sol sütun (makale + butonlar) | Sağ sütun (hediye kutuları) -->
@@ -58,7 +71,6 @@
 
             <!-- Makale kartı -->
             <article style="background:white; border-radius:16px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
-                <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&w=400" alt="Ev ve dış mekan hediye önerisi" style="width:100%; height:130px; object-fit:cover; display:block;">
                 <div style="padding:12px;">
                     <div style="position:relative; display:flex; gap:0; margin-bottom:8px; height:110px;">
                         <div id="makale-scroll" style="flex:1; overflow-y:scroll; font-size:12px; color:#64748b; line-height:1.6; padding-right:4px; scrollbar-width:none; -ms-overflow-style:none;">
@@ -75,18 +87,28 @@
                         </div>
                     </div>
                 </div>
+                            <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&w=400" alt="Ev ve dış mekan hediye önerisi" style="width:100%; height:130px; object-fit:cover; display:block;">
             </article>
 
-            <!-- SEÇİNİZ yazısı -->
-            <div style="text-align:center; margin:2px 0 6px;">
-                <span style="font-size:13px; font-weight:800; color:#2563eb; letter-spacing:0.1em; border-bottom:2px solid #ef4444; padding-bottom:3px;">SEÇİNİZ</span><span style="font-size:13px;"> 👇</span>
-                
+            <!-- PROGRESS BAR + SORU BAŞLIĞI -->
+            <div id="quiz-section" style="margin-top:4px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <span id="progress-soru" style="font-size:12px; font-weight:600; color:#1e293b;"></span>
+                    <span id="progress-yuzde" style="font-size:12px; font-weight:700; color:#2563eb;"></span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div>
+                <h2 id="soru-baslik" class="text-xl font-bold text-zinc-800 mb-0" style="margin-top:4px;"></h2>
+                <p id="espri-notu" class="text-sm text-amber-500 font-medium mb-1 italic"></p>
             </div>
 
             <!-- Cevap butonları -->
             <div style="display:flex; flex-direction:column; gap:0;">
                 <div id="options-container" class="grid grid-cols-2 gap-2"></div>
-                <button id="continue-btn" class="hidden mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-3xl text-lg font-semibold">Devam Et →</button>
+                <button id="continue-btn" class="mt-2 w-full py-4 rounded-3xl text-lg font-semibold disabled-state">Devam Et →</button>
             </div>
 
         </div>
@@ -124,9 +146,13 @@
 
         // Geri butonu
         document.getElementById('geri-btn').href = QuizHelper.getOncekiSayfa(SORU_ID);
+        document.getElementById('geri-btn').addEventListener('click', function() { if(typeof BudurSes!=='undefined') BudurSes.geri(); });
 
         // Progress bar
-        document.getElementById('progress-bar').style.width = QuizHelper.getProgress(SORU_ID) + '%';
+        var progressYuzde = QuizHelper.getProgress(SORU_ID);
+        document.getElementById('progress-bar').style.width = progressYuzde + '%';
+        document.getElementById('progress-soru').textContent = QuizHelper.getKalanSoru(SORU_ID) + ' soru kaldı';
+        document.getElementById('progress-yuzde').textContent = '%' + progressYuzde;
 
         // Soru başlığı
         const soruNo = QuizHelper.getSoruNo(SORU_ID);
@@ -145,6 +171,12 @@
 
         // Makale scrollbar
         initMakaleScroll();
+
+        // Sayfa açılışında quiz bölgesine smooth scroll
+        setTimeout(function() {
+            var qs = document.getElementById('quiz-section');
+            if (qs) qs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 600);
     };
 
     function updateGiftBoxes() {
@@ -199,12 +231,26 @@
         }
 
         // Eski cevap varsa devam butonunu göster
-        if (eskiCevap) document.getElementById('continue-btn').classList.remove('hidden');
+        if (eskiCevap) activateContinueBtn();
+    }
+
+
+    // Devam butonunu aktif/deaktif yap
+    function activateContinueBtn() {
+        var btn = document.getElementById('continue-btn');
+        btn.classList.remove('disabled-state');
+        btn.classList.add('active-state');
+    }
+    function deactivateContinueBtn() {
+        var btn = document.getElementById('continue-btn');
+        btn.classList.remove('active-state');
+        btn.classList.add('disabled-state');
     }
 
     function secimYap(deger, btn) {
         document.querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('selected','previous-answer'); });
         btn.classList.add('selected');
+        if(typeof BudurSes!=='undefined') BudurSes.tik();
         QuizHelper.setCevap(SORU_ID, deger);
 
         // Otomatik cevapları işle (Anne/Baba → cinsiyet)
@@ -213,7 +259,7 @@
         }
 
         // Devam butonu ve ileri butonu
-        document.getElementById('continue-btn').classList.remove('hidden');
+        activateContinueBtn();
         const ileri = document.getElementById('ileri-btn');
         const hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
         ileri.href = hedef;
@@ -229,17 +275,18 @@
             multiSecimler = multiSecimler.filter(function(x){ return x !== deger; });
         } else if (multiSecimler.length < MAX_SECIM) {
             btn.classList.add('selected');
+        if(typeof BudurSes!=='undefined') BudurSes.tik();
             multiSecimler.push(deger);
         }
         if (multiSecimler.length > 0) {
             QuizHelper.setCevap(SORU_ID, multiSecimler.join(', '));
-            document.getElementById('continue-btn').classList.remove('hidden');
+            activateContinueBtn();
             const ileri = document.getElementById('ileri-btn');
             ileri.href = QuizHelper.getSonrakiSayfa(SORU_ID);
             ileri.style.color = '#2563eb';
             ileri.style.pointerEvents = 'auto';
         } else {
-            document.getElementById('continue-btn').classList.add('hidden');
+            deactivateContinueBtn();
         }
     }
 
@@ -247,6 +294,8 @@
 
     // Devam butonu
     document.getElementById('continue-btn').addEventListener('click', function() {
+        if(this.classList.contains('disabled-state')) return;
+        if(typeof BudurSes!=='undefined') BudurSes.basari();
         var hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
         window.location.href = hedef;
     });
