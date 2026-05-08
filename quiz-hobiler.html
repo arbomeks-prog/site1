@@ -12,12 +12,6 @@
     <style>
         * { box-sizing: border-box; }
         body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; }
-        
-        /* Masaüstü ortalama */
-        @media (min-width: 1024px) {
-            body { display: flex; justify-content: center; }
-            body > div { max-width: 1200px; }
-        }
         .option-btn { transition: all 0.3s ease; }
         .option-btn.selected { border-color:#2563eb; background-color:#dbeafe; color:#1e40af; font-weight:600; }
         .option-btn.previous-answer { border-color:#ef4444; background-color:#fef2f2; color:#b91c1c; font-weight:600; }
@@ -26,7 +20,6 @@
         .gift-box-item.active { opacity:1; transform:scale(1.08); box-shadow:0 8px 24px rgba(0,0,0,0.2); }
         .gift-box-item.done { opacity:1; }
         .gift-box-item.done::after { content:"✓"; position:absolute; bottom:4px; right:4px; background:rgba(34,197,94,0.92); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:900; color:white; border-radius:50%; width:24px; height:24px; }
-        .gift-box-ready { font-family: 'Playfair Display', Georgia, serif; font-size: 10px; color: #059669; font-weight: 700; letter-spacing: 1px; text-align: center; margin-top: 2px; font-style: italic; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         .burc-btn { transition:all 0.2s; cursor:pointer; padding:8px 6px; border-radius:12px; border:2px solid #e2e8f0; text-align:center; background:white; outline:none; }
         .burc-btn.selected { border-color:#6366f1; background:#eef2ff; font-weight:700; }
         .burc-btn .burc-sembol { font-size:20px; display:block; }
@@ -84,15 +77,6 @@
                 </div>
             </article>
 
-            <!-- Seçimleriniz -->
-            <div id="secimleriniz-panel" class="hidden" style="background:linear-gradient(135deg,#fef3c7,#fde68a); border-radius:12px; padding:12px; margin-bottom:10px; border:2px solid #fbbf24;">
-                <div style="font-size:13px; font-weight:700; color:#92400e; margin-bottom:6px; display:flex; align-items:center; gap:6px;">
-                    <span>📋</span>
-                    <span>Seçimleriniz</span>
-                </div>
-                <div id="secimleriniz-liste" style="font-size:11px; color:#78350f; line-height:1.6;"></div>
-            </div>
-
             <!-- SEÇİNİZ yazısı -->
             <div style="text-align:center; margin:2px 0 6px;">
                 <span style="font-size:13px; font-weight:800; color:#2563eb; letter-spacing:0.1em; border-bottom:2px solid #ef4444; padding-bottom:3px;">SEÇİNİZ</span><span style="font-size:13px;"> 👇</span>
@@ -109,30 +93,12 @@
 
         <!-- SAĞ SÜTUN: Hediye kutuları -->
         <div style="display:flex; flex-direction:column; justify-content:space-between; flex-shrink:0;">
-            <div style="display:flex; flex-direction:column; align-items:center;">
-                <div id="gb-0" class="gift-box-item active"><img src="" alt=""></div>
-                <div id="ready-0" class="gift-box-ready hidden">Hazır</div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-                <div id="gb-1" class="gift-box-item"><img src="" alt=""></div>
-                <div id="ready-1" class="gift-box-ready hidden">Hazır</div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-                <div id="gb-2" class="gift-box-item"><img src="" alt=""></div>
-                <div id="ready-2" class="gift-box-ready hidden">Hazır</div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-                <div id="gb-3" class="gift-box-item"><img src="" alt=""></div>
-                <div id="ready-3" class="gift-box-ready hidden">Hazır</div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-                <div id="gb-4" class="gift-box-item"><img src="" alt=""></div>
-                <div id="ready-4" class="gift-box-ready hidden">Hazır</div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-                <div id="gb-5" class="gift-box-item"><img src="" alt=""></div>
-                <div id="ready-5" class="gift-box-ready hidden">Hazır</div>
-            </div>
+            <div id="gb-0" class="gift-box-item active"><img src="" alt=""></div>
+            <div id="gb-1" class="gift-box-item"><img src="" alt=""></div>
+            <div id="gb-2" class="gift-box-item"><img src="" alt=""></div>
+            <div id="gb-3" class="gift-box-item"><img src="" alt=""></div>
+            <div id="gb-4" class="gift-box-item"><img src="" alt=""></div>
+            <div id="gb-5" class="gift-box-item"><img src="" alt=""></div>
         </div>
 
     </div>
@@ -234,9 +200,6 @@
 
         // Eski cevap varsa devam butonunu göster
         if (eskiCevap) document.getElementById('continue-btn').classList.remove('hidden');
-        
-        // Sayfa yüklendiğinde hediye kutularını güncelle
-        updateGiftBoxReady();
     }
 
     function secimYap(deger, btn) {
@@ -249,69 +212,13 @@
             QuizHelper.handleOtomatikCevaplar();
         }
 
-    
-    
-    // Hediye kutularının "Hazır" yazısını güncelle
-    function updateGiftBoxReady() {
-        var cevaplar = QuizHelper.getCevaplar();
-        var cevapSayisi = Object.keys(cevaplar).length;
-        
-        // Her 5 cevap için bir kutu işaretle
-        for (var i = 0; i < 6; i++) {
-            var box = document.getElementById('gb-' + i);
-            var ready = document.getElementById('ready-' + i);
-            
-            if (box && ready) {
-                if (cevapSayisi > i * 5) {
-                    box.classList.add('done');
-                    ready.classList.remove('hidden');
-                } else {
-                    ready.classList.add('hidden');
-                }
-            }
-        }
-        
-        // Seçimleriniz panelini güncelle
-        updateSeçimleriniz();
-    }
-    
-    // Seçimleriniz panelini güncelle
-    function updateSeçimleriniz() {
-        var cevaplar = QuizHelper.getCevaplar();
-        var panel = document.getElementById('secimleriniz-panel');
-        var liste = document.getElementById('secimleriniz-liste');
-        
-        if (!panel || !liste) return;
-        
-        var html = '';
-        var sayac = 0;
-        
-        for (var key in cevaplar) {
-            if (cevaplar.hasOwnProperty(key) && key !== SORU_ID) {
-                sayac++;
-                var soru = QuizHelper.getSoruBaslik(key);
-                var cevap = cevaplar[key];
-                html += '<div style="margin-bottom:4px;"><strong>' + soru + ':</strong> ' + cevap + '</div>';
-            }
-        }
-        
-        if (sayac > 0) {
-            liste.innerHTML = html;
-            panel.classList.remove('hidden');
-        } else {
-            panel.classList.add('hidden');
-        }
-    }
-    // Devam butonu ve ileri butonu
+        // Devam butonu ve ileri butonu
         document.getElementById('continue-btn').classList.remove('hidden');
         const ileri = document.getElementById('ileri-btn');
         const hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
         ileri.href = hedef;
         ileri.style.color = '#2563eb';
         ileri.style.pointerEvents = 'auto';
-        
-        // "Hazır" yazısını göster
-        updateGiftBoxReady();
     }
 
     // Çoklu seçim (hobiler)
@@ -331,9 +238,6 @@
             ileri.href = QuizHelper.getSonrakiSayfa(SORU_ID);
             ileri.style.color = '#2563eb';
             ileri.style.pointerEvents = 'auto';
-        
-        // "Hazır" yazısını göster
-        updateGiftBoxReady();
         } else {
             document.getElementById('continue-btn').classList.add('hidden');
         }
@@ -341,59 +245,6 @@
 
     
 
-
-    
-    // Hediye kutularının "Hazır" yazısını güncelle
-    function updateGiftBoxReady() {
-        var cevaplar = QuizHelper.getCevaplar();
-        var cevapSayisi = Object.keys(cevaplar).length;
-        
-        // Her 5 cevap için bir kutu işaretle
-        for (var i = 0; i < 6; i++) {
-            var box = document.getElementById('gb-' + i);
-            var ready = document.getElementById('ready-' + i);
-            
-            if (box && ready) {
-                if (cevapSayisi > i * 5) {
-                    box.classList.add('done');
-                    ready.classList.remove('hidden');
-                } else {
-                    ready.classList.add('hidden');
-                }
-            }
-        }
-        
-        // Seçimleriniz panelini güncelle
-        updateSeçimleriniz();
-    }
-    
-    // Seçimleriniz panelini güncelle
-    function updateSeçimleriniz() {
-        var cevaplar = QuizHelper.getCevaplar();
-        var panel = document.getElementById('secimleriniz-panel');
-        var liste = document.getElementById('secimleriniz-liste');
-        
-        if (!panel || !liste) return;
-        
-        var html = '';
-        var sayac = 0;
-        
-        for (var key in cevaplar) {
-            if (cevaplar.hasOwnProperty(key) && key !== SORU_ID) {
-                sayac++;
-                var soru = QuizHelper.getSoruBaslik(key);
-                var cevap = cevaplar[key];
-                html += '<div style="margin-bottom:4px;"><strong>' + soru + ':</strong> ' + cevap + '</div>';
-            }
-        }
-        
-        if (sayac > 0) {
-            liste.innerHTML = html;
-            panel.classList.remove('hidden');
-        } else {
-            panel.classList.add('hidden');
-        }
-    }
     // Devam butonu
     document.getElementById('continue-btn').addEventListener('click', function() {
         var hedef = QuizHelper.getSonrakiSayfa(SORU_ID);

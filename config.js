@@ -526,24 +526,6 @@ const QuizHelper = {
     isZorunlu: function(soruId) {
         return QUIZ_CONFIG.zorunluSorular.includes(soruId);
     },
-    
-    // Soru başlığını al
-    getSoruBaslik: function(soruId) {
-        // Tüm soru setlerini kontrol et
-        var tumSorular = []
-            .concat(QUIZ_CONFIG.sorular)
-            .concat(QUIZ_CONFIG.soruBebekler)
-            .concat(QUIZ_CONFIG.soruCocuklar)
-            .concat(QUIZ_CONFIG.soruPetler)
-            .concat(QUIZ_CONFIG.soruKedi)
-            .concat(QUIZ_CONFIG.soruKopek)
-            .concat(QUIZ_CONFIG.soruKus)
-            .concat(QUIZ_CONFIG.soruBalik)
-            .concat(QUIZ_CONFIG.soruKucukPet);
-        
-        var soru = tumSorular.find(function(s) { return s.id === soruId; });
-        return soru ? soru.soru : soruId;
-    },
 };
 
 // Node.js ortamı için export (test amaçlı)
