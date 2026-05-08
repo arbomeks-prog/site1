@@ -24,6 +24,21 @@
         .plt-ciceksepeti { background:#7c3aed; color:white; }
         .plt-n11 { background:#1c75bc; color:white; }
     </style>
+    <link rel="canonical" href="https://budurbuldum.com/hediyeler.html">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://budurbuldum.com/hediyeler.html">
+    <meta property="og:title" content="Kişiye Özel Hediye Önerileri | BudurBuldum">
+    <meta property="og:description" content="Yapay zeka destekli kişiye özel hediye önerileri - BudurBuldum">
+    <meta property="og:image" content="https://budurbuldum.com/og-image.jpg">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:site_name" content="BudurBuldum">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kişiye Özel Hediye Önerileri | BudurBuldum">
+    <meta name="twitter:description" content="Yapay zeka destekli kişiye özel hediye önerileri - BudurBuldum">
+    <meta name="twitter:image" content="https://budurbuldum.com/og-image.jpg">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta name="theme-color" content="#e8a838">
 </head>
 <body>
 
@@ -165,31 +180,78 @@
         // Dinamik bekleme mesajları oluştur (kullanıcının cevaplarından)
         const beklemeMesajlari = buildBeklemeMesajlari(cevaplar, sorular, isOzel, selectedCriteria);
 
-        // Loading animasyonu
+        // Loading animasyonu — hediye kutuları dans ediyor
         subtitle.textContent = '';
-        list.innerHTML = '<div class="col-span-3 py-12 text-center">' +
-            '<div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>' +
-            '<p id="loading-msg" class="text-xl font-semibold text-zinc-700 mb-2"></p>' +
-            '<p id="loading-sub" class="text-sm text-zinc-400"></p>' +
-            '</div>';
+        list.innerHTML = '<div class="col-span-3 py-8 text-center">' +
+            '<div id="gift-dance" style="display:flex;justify-content:center;gap:16px;margin-bottom:24px;flex-wrap:wrap;">' +
+                '<div class="dance-box" style="animation-delay:0s">🎁</div>' +
+                '<div class="dance-box" style="animation-delay:0.15s">🎀</div>' +
+                '<div class="dance-box" style="animation-delay:0.3s">🎄</div>' +
+                '<div class="dance-box" style="animation-delay:0.45s">🧸</div>' +
+                '<div class="dance-box" style="animation-delay:0.6s">💝</div>' +
+                '<div class="dance-box" style="animation-delay:0.75s">💎</div>' +
+            '</div>' +
+            '<p id="loading-msg" class="text-xl font-semibold text-zinc-700 mb-2" style="transition:opacity 0.3s"></p>' +
+            '<p id="loading-sub" class="text-sm text-zinc-400" style="transition:opacity 0.3s"></p>' +
+            '<div id="progress-dots" style="display:flex;justify-content:center;gap:6px;margin-top:16px;"></div>' +
+            '</div>' +
+            '<style>' +
+            '.dance-box{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;' +
+            'background:white;box-shadow:0 4px 16px rgba(0,0,0,0.1);animation:boxDance 2s ease-in-out infinite;}' +
+            '@keyframes boxDance{' +
+            '0%{transform:translateY(0) rotate(0deg) scale(1);}' +
+            '25%{transform:translateY(-18px) rotate(-8deg) scale(1.1);}' +
+            '50%{transform:translateY(0) rotate(0deg) scale(1);}' +
+            '75%{transform:translateY(-10px) rotate(8deg) scale(1.05);}' +
+            '100%{transform:translateY(0) rotate(0deg) scale(1);}' +
+            '}' +
+            '.prog-dot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;transition:background 0.4s;}' +
+            '.prog-dot.active{background:#2563eb;}' +
+            '</style>';
 
-        // Mesajları döndür
+        // Mesajları döndür + progress dots
         let msgIdx = 0;
         const msgEl = document.getElementById('loading-msg');
         const subEl = document.getElementById('loading-sub');
+        const dotsContainer = document.getElementById('progress-dots');
+        const totalSteps = beklemeMesajlari.length;
+
+        // Progress dots oluştur
+        if (dotsContainer) {
+            for (let i = 0; i < totalSteps; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'prog-dot' + (i === 0 ? ' active' : '');
+                dot.id = 'pdot-' + i;
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        // Hediye kutuları shuffle efekti
+        const danceEmojis = ['🎁','🎀','🎄','🧸','💝','💎','🎂','🎈','🌟','🎯','🎪','🎨','💐','🧴','📱','⌚','👜','👟','📚','🎮'];
+        function shuffleBoxes() {
+            var boxes = document.querySelectorAll('.dance-box');
+            boxes.forEach(function(box) {
+                box.textContent = danceEmojis[Math.floor(Math.random() * danceEmojis.length)];
+            });
+        }
+        const shuffleInterval = setInterval(shuffleBoxes, 2000);
+
         function showNextMsg() {
             if (!msgEl) return;
             const m = beklemeMesajlari[msgIdx % beklemeMesajlari.length];
             msgEl.style.opacity = '0';
             subEl.style.opacity = '0';
-            msgEl.style.transition = 'opacity 0.3s';
-            subEl.style.transition = 'opacity 0.3s';
             setTimeout(function() {
                 msgEl.textContent = m.baslik;
                 subEl.textContent = m.alt;
                 msgEl.style.opacity = '1';
                 subEl.style.opacity = '1';
             }, 300);
+            // Progress dots güncelle
+            for (let i = 0; i < totalSteps; i++) {
+                var dot = document.getElementById('pdot-' + i);
+                if (dot) dot.className = 'prog-dot' + (i <= msgIdx % totalSteps ? ' active' : '');
+            }
             msgIdx++;
         }
         showNextMsg();
@@ -221,7 +283,7 @@
             if (!Array.isArray(sugg)) sugg = [sugg];
 
             // Görselleri al
-            clearInterval(msgInterval);
+            clearInterval(msgInterval); clearInterval(shuffleInterval);
             list.innerHTML = '';
             const withImgs = await Promise.all(sugg.map(async function(g) {
                 return Object.assign({}, g, { imgUrl: await getGiftImage(g.searchQueryEn || g.searchQuery || g.name) });
@@ -251,7 +313,7 @@
             subtitle.textContent = withImgs.filter(function(g){ return g.star; }).length + ' nokta atışı + ' + withImgs.filter(function(g){ return !g.star; }).length + ' öneri hazır!';
 
         } catch(err) {
-            clearInterval(msgInterval);
+            clearInterval(msgInterval); clearInterval(shuffleInterval);
             list.innerHTML = '<div class="text-center py-12 text-red-500 col-span-3">❌ Bir hata oluştu.<br><small class="text-zinc-400">' + err.message + '</small></div>';
         }
     };
