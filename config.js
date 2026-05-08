@@ -532,3 +532,29 @@ const QuizHelper = {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { QUIZ_CONFIG, QuizHelper };
 }
+
+// ============================================================
+// QUIZ UI — Devam butonu otomatik scroll
+// Tüm quiz sayfaları config.js yüklediği için buraya eklendi
+// ============================================================
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', function() {
+        var btn = document.getElementById('continue-btn');
+        if (!btn) return;
+
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(m) {
+                if (m.attributeName === 'class' && !btn.classList.contains('hidden')) {
+                    setTimeout(function() {
+                        var rect = btn.getBoundingClientRect();
+                        if (rect.bottom > window.innerHeight - 20) {
+                            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    }, 80);
+                }
+            });
+        });
+
+        observer.observe(btn, { attributes: true });
+    });
+}

@@ -152,12 +152,14 @@
         const idx = sorular.findIndex(s => s.id === SORU_ID);
         const SORULAR_PER_BOX = Math.ceil(sorular.length / 6);
         const done = Math.floor(idx / SORULAR_PER_BOX);
-        const active = Math.min(done, 5);
+        // Bu sayfa açıldığında 6. kutu da done gösterilsin (son grup)
+        const doneCount = (done >= 5) ? 6 : done;
+        const active = (done >= 5) ? -1 : Math.min(done, 5);
         for(let i=0;i<6;i++){
             const el=document.getElementById('gb-'+i);
             if(!el) continue;
             el.classList.remove('done','active');
-            if(i<done) el.classList.add('done');
+            if(i<doneCount) el.classList.add('done');
             else if(i===active) el.classList.add('active');
         }
     }
