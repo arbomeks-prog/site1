@@ -220,17 +220,20 @@
         try {
             const sessionId = localStorage.getItem('budurBuldumSessionId');
             if (sessionId) {
+                const ziyaretciCinsiyet = localStorage.getItem('budurBuldumGender') || '';
+                const hobiler = Array.isArray(cevaplar.hobiler) ? cevaplar.hobiler.join(',') : (cevaplar.hobiler || '');
                 fetch('/api/log-quiz', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         session_id: sessionId,
-                        cinsiyet: cevaplar.cinsiyet || localStorage.getItem('budurBuldumGender') || '',
+                        cinsiyet: cevaplar.cinsiyet || '',
                         yas: cevaplar.yas || '',
                         iliski_durumu: cevaplar.kime || '',
                         butce: cevaplar.butce || '',
-                        ilgi_alanlari: cevaplar.hobiler || '',
+                        ilgi_alanlari: hobiler,
                         ozel_not: JSON.stringify({
+                            ziyaretci_cinsiyet: ziyaretciCinsiyet,
                             tum_cevaplar: cevaplar,
                             secilen_kriterler: selectedCriteria,
                             burc: secilenBurc || ''
