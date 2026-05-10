@@ -307,6 +307,32 @@
         // Seçilen kriterleri ve burcu localStorage'a kaydet
         localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(selectedCriteria));
         localStorage.setItem('budurBuldumSecilenBurc', secilenBurc || '');
+
+        // Quiz cevaplarını veritabanına kaydet
+        try {
+            const sessionId = localStorage.getItem('budurBuldumSessionId');
+            if (sessionId) {
+                const cevaplar = QuizHelper.getCevaplar();
+                fetch('/api/log-quiz', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        cinsiyet: cevaplar.cinsiyet || localStorage.getItem('budurBuldumGender') || '',
+                        yas: cevaplar.yas || '',
+                        iliski_durumu: cevaplar.kime || '',
+                        butce: cevaplar.butce || '',
+                        ilgi_alanlari: cevaplar.hobiler || '',
+                        ozel_not: JSON.stringify({
+                            tum_cevaplar: cevaplar,
+                            secilen_kriterler: selectedCriteria,
+                            burc: secilenBurc || ''
+                        })
+                    })
+                }).catch(function(e) { console.warn('Log hatası (ignored):', e); });
+            }
+        } catch(e) { console.warn('Log hatası (ignored):', e); }
+
         // Hediye sayfasına git
         window.location.href = 'hediyeler.html';
     }
