@@ -216,6 +216,31 @@
         const selectedCriteria = JSON.parse(localStorage.getItem('budurBuldumSelectedCriteria') || '[]');
         const secilenBurc = localStorage.getItem('budurBuldumSecilenBurc') || '';
 
+        // Quiz cevaplarını veritabanına kaydet
+        try {
+            const sessionId = localStorage.getItem('budurBuldumSessionId');
+            if (sessionId) {
+                fetch('/api/log-quiz', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        cinsiyet: cevaplar.cinsiyet || localStorage.getItem('budurBuldumGender') || '',
+                        yas: cevaplar.yas || '',
+                        iliski_durumu: cevaplar.kime || '',
+                        butce: cevaplar.butce || '',
+                        ilgi_alanlari: cevaplar.hobiler || '',
+                        ozel_not: JSON.stringify({
+                            tum_cevaplar: cevaplar,
+                            secilen_kriterler: selectedCriteria,
+                            burc: secilenBurc || ''
+                        })
+                    })
+                }).then(function(r) { console.log('DB log:', r.status); })
+                  .catch(function(e) { console.warn('Log hatası:', e); });
+            }
+        } catch(e) { console.warn('Log hatası:', e); }
+
         // Dinamik bekleme mesajları oluştur (kullanıcının cevaplarından)
         const beklemeMesajlari = buildBeklemeMesajlari(cevaplar, sorular, isOzel, selectedCriteria);
 
