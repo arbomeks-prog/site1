@@ -177,7 +177,7 @@
         // Seçenekleri oluştur
         renderSecenekler();
 
-        // Makale scrollbar
+    // Makale scrollbar
         initMakaleScroll();
 
         // Sayfa açılışında quiz bölgesine smooth scroll
@@ -211,11 +211,11 @@
         const cevaplar = QuizHelper.getCevaplar();
         const eskiCevap = cevaplar[SORU_ID] || '';
 
-        
-        // DOĞUM TARİHİ ÖZEL SAYFA
-        renderDogumSoru(cont, eskiCevap);
-        return;
-        
+        // Doğum tarihi özel sayfa
+        if (IS_DOGUM && typeof renderDogumSoru === 'function') {
+            renderDogumSoru(cont, eskiCevap);
+            return;
+        }
 
         secenekler.forEach(function(s) {
             const btn = document.createElement('button');
@@ -303,7 +303,16 @@
     }
 
     
-    // Doğum tarihi özel render
+
+    // Devam butonu
+    document.getElementById('continue-btn').addEventListener('click', function() {
+        if(this.classList.contains('disabled-state')) return;
+        if(typeof BudurSes!=='undefined') BudurSes.basari();
+        var hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
+        window.location.href = hedef;
+    });
+
+        // Doğum tarihi özel render
     function renderDogumSoru(cont, eskiCevap) {
         var AYLAR = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
         var GUNLER = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
@@ -398,15 +407,7 @@
             hesapla();
         }
     }
-    
 
-    // Devam butonu
-    document.getElementById('continue-btn').addEventListener('click', function() {
-        if(this.classList.contains('disabled-state')) return;
-        if(typeof BudurSes!=='undefined') BudurSes.basari();
-        var hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
-        window.location.href = hedef;
-    });
 
     // Makale scrollbar
     function initMakaleScroll() {
