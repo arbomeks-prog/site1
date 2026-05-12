@@ -16,6 +16,12 @@
         .gender-btn.selected { border-color:#fff; background-color:rgba(255,255,255,0.25); transform:scale(1.08); }
         .age-btn { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); cursor:pointer; }
         .age-btn.selected { border-color:#fff; background-color:rgba(255,255,255,0.25); transform:scale(1.08); }
+        .option-btn { transition:all 0.15s ease; background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%); border:2px solid #ced4da; border-bottom:4px solid #adb5bd; border-right:3px solid #adb5bd; box-shadow:2px 3px 6px rgba(0,0,0,0.15); border-radius:12px; color:#1e293b; font-weight:500; cursor:pointer; position:relative; display:flex; align-items:center; gap:10px; }
+        .option-btn:hover { background:linear-gradient(180deg,#ffffff 0%,#f1f3f5 100%); box-shadow:2px 3px 12px rgba(99,102,241,0.25),0 0 0 2px rgba(99,102,241,0.15); border-color:#6366f1; border-bottom-color:#4f46e5; transform:translateY(-1px); }
+        .option-btn.selected { background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%); border:2px solid #10b981; border-bottom:2px solid #059669; box-shadow:inset 0 2px 4px rgba(0,0,0,0.1); color:#065f46; font-weight:700; transform:translateY(2px); }
+        .option-btn.selected .opt-check { background:#10b981; border-color:#10b981; color:white; }
+        .option-btn.selected .opt-check::after { content:"✔"; }
+        .opt-check { width:20px; height:20px; border:2px solid #ced4da; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
         .cta-btn { display:flex; align-items:center; gap:12px; padding:14px 18px; border-radius:16px; cursor:pointer; text-align:left; transition:transform 0.22s ease, box-shadow 0.22s ease; width:100%; background:#1e40af; color:#fff; border:2.5px solid rgba(255,255,255,0.75) !important; }
         .cta-btn:hover { transform:translateY(-2px) scale(1.01); box-shadow:0 0 0 3px rgba(255,255,255,0.25); }
         .cta-btn:active { transform:scale(0.97); }
@@ -135,6 +141,36 @@
         </div>
     </div>
 </section>
+
+<!-- POPUP: Cinsiyet/Yaş seçilmeden quiz tıklanınca -->
+<div id="secim-popup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:20px; padding:28px 24px; max-width:320px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+        <div style="font-size:40px; margin-bottom:12px;">👆</div>
+        <h3 id="popup-mesaj" style="font-size:17px; font-weight:700; color:#1e293b; margin-bottom:8px;"></h3>
+        <p style="font-size:14px; color:#64748b; margin-bottom:20px;">Yukarı kaydırıp seçimini yap, sonra quiz'e devam et.</p>
+        <button onclick="document.getElementById('secim-popup').style.display='none'; window.scrollTo({top:0,behavior:'smooth'});" style="background:#2563eb; color:white; border:none; border-radius:12px; padding:12px 28px; font-size:15px; font-weight:700; cursor:pointer;">Tamam, seçeyim 👍</button>
+    </div>
+</div>
+
+<!-- KİME SORUSU - Hero altı -->
+<div id="kime-bolumu" style="background:#F9F9F9; padding:24px 16px;">
+    <div style="max-width:480px; margin:0 auto;">
+        <h2 style="font-size:18px; font-weight:700; color:#1e293b; margin-bottom:4px;">Hediye kime alınıyor?</h2>
+        <p style="font-size:14px; color:#1e293b; margin:0 0 12px; font-weight:500;">👇 Seçmek için tıkla 👇</p>
+        <div class="grid grid-cols-2 gap-2" id="kime-options">
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Sevgili')"><span class="opt-check"></span>Sevgili</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Arkadaş')"><span class="opt-check"></span>Arkadaş</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Anne')"><span class="opt-check"></span>Anne</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Baba')"><span class="opt-check"></span>Baba</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Kardeş')"><span class="opt-check"></span>Kardeş</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Çocuk')"><span class="opt-check"></span>Çocuk 🧒</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Kendime')"><span class="opt-check"></span>Kendime</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'İş arkadaşı')"><span class="opt-check"></span>İş arkadaşı</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Bebek')"><span class="opt-check"></span>Bebek ❤️</button>
+            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Pet')"><span class="opt-check"></span>Pet ❤️</button>
+        </div>
+    </div>
+</div>
 
 <!-- SORULAR -->
 <div style="background:#0f172a;padding:40px 24px;">
@@ -1027,9 +1063,27 @@
         maybeStartQuiz();
     }
 
+    function kimesec(btn, kime) {
+        if (!selectedGender || !selectedAge) {
+            const popup = document.getElementById('secim-popup');
+            const msg = document.getElementById('popup-mesaj');
+            if (!selectedGender && !selectedAge) msg.textContent = 'Önce cinsiyet ve yaş seçmelisin!';
+            else if (!selectedGender) msg.textContent = 'Önce cinsiyetini seçmelisin!';
+            else msg.textContent = 'Önce yaş aralığını seçmelisin!';
+            popup.style.display = 'flex';
+            return;
+        }
+        document.querySelectorAll('#kime-options .option-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        localStorage.setItem('budurBuldumSecilenKime', kime);
+        setTimeout(() => startQuiz(), 400);
+    }
+
     function maybeStartQuiz() {
         if (selectedGender && selectedAge) {
-            setTimeout(() => startQuiz(), 400);
+            setTimeout(() => {
+                document.getElementById('kime-bolumu').scrollIntoView({behavior:'smooth', block:'start'});
+            }, 300);
         }
     }
 
