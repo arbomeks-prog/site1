@@ -14,6 +14,8 @@
         .hero-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
         .gender-btn { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
         .gender-btn.selected { border-color:#fff; background-color:rgba(255,255,255,0.25); transform:scale(1.08); }
+        .age-btn { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); cursor:pointer; }
+        .age-btn.selected { border-color:#fff; background-color:rgba(255,255,255,0.25); transform:scale(1.08); }
         .cta-btn { display:flex; align-items:center; gap:12px; padding:14px 18px; border-radius:16px; cursor:pointer; text-align:left; transition:transform 0.22s ease, box-shadow 0.22s ease; width:100%; background:#1e40af; color:#fff; border:2.5px solid rgba(255,255,255,0.75) !important; }
         .cta-btn:hover { transform:translateY(-2px) scale(1.01); box-shadow:0 0 0 3px rgba(255,255,255,0.25); }
         .cta-btn:active { transform:scale(0.97); }
@@ -107,32 +109,25 @@
 <!-- HERO -->
 <section class="hero-bg text-white py-4">
     <div class="max-w-5xl mx-auto px-4 text-center">
-        <h1 class="text-3xl md:text-5xl font-bold mb-1 leading-tight">Doğru hediye için <span class="text-amber-300">BudurBuldum</span></h1>
+        <h1 class="text-3xl md:text-5xl font-bold mb-1 leading-tight">Kişiye özel hediye bulmak, hediye seçmek ve satın almak için soru cevap (QUIZ) temelli web sitesi</h1>
         <p class="text-xs mb-3 text-white/70">Sevgiline, annene, arkadaşına... kişiye özel hediye önerileri</p>
         <div class="mb-3">
-            <p class="text-amber-200 text-sm mb-3 font-medium">Sizi tanıyalım</p>
+            <p class="text-amber-200 mb-3 font-medium" style="font-size:16px;">Sizi tanıyalım &nbsp;👇 Tıkla, seç</p>
             <div class="flex gap-3 max-w-4xl mx-auto">
                 <button onclick="selectGender(this,'Kadın')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👠</span>Kadın</button>
                 <button onclick="selectGender(this,'Erkek')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👔</span>Erkek</button>
                 <button onclick="selectGender(this,'Çiftiz')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👫</span>Çiftiz</button>
             </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:12px;max-width:380px;margin:0 auto;">
-            <button id="btn-rehber" onclick="startQuiz()" class="cta-btn">
-                <span class="cta-icon">🎁</span>
-                <span class="cta-text">
-                    <span class="cta-title">Hediye Rehberini Başlat ✨</span>
-                    <span class="cta-sub">Trendyol · Hepsiburada · Çiçeksepeti · N11</span>
-                </span>
-                <span class="cta-arrow">→</span>
-            </button>
-            <button onclick="alert('Çok yakında! 🚀')" class="cta-btn">
-                <span class="cta-icon">🛒</span>
-                <span class="cta-text">
-                    <span class="cta-title">Alışveriş Asistanını Başlat 🛍️</span>
-                </span>
-                <span class="cta-arrow">→</span>
-            </button>
+        <div class="mb-4">
+            <p class="text-amber-200 mb-3 font-medium" style="font-size:16px;">Yaşınızı belirtin</p>
+            <div class="flex gap-2 justify-center flex-wrap max-w-2xl mx-auto">
+                <button onclick="selectAge(this,'20')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">🌱 20'li</button>
+                <button onclick="selectAge(this,'30')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">🌿 30'lu</button>
+                <button onclick="selectAge(this,'40')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">🌳 40'lı</button>
+                <button onclick="selectAge(this,'50')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">🍂 50'li</button>
+                <button onclick="selectAge(this,'60')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">🏔️ 60+</button>
+            </div>
         </div>
     </div>
 </section>
@@ -1012,17 +1007,31 @@
 
 <script>
     let selectedGender = null;
+    let selectedAge = null;
 
     function selectGender(btn, gender) {
         document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         selectedGender = gender;
-        const rehber = document.getElementById('btn-rehber');
-        if (rehber) { rehber.classList.add('pulse'); setTimeout(() => rehber.classList.remove('pulse'), 4000); }
+        maybeStartQuiz();
+    }
+
+    function selectAge(btn, age) {
+        document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedAge = age;
+        maybeStartQuiz();
+    }
+
+    function maybeStartQuiz() {
+        if (selectedGender && selectedAge) {
+            setTimeout(() => startQuiz(), 400);
+        }
     }
 
     function startQuiz() {
         if (!selectedGender) return alert('Lütfen cinsiyet seçin.');
+        if (!selectedAge) return alert('Lütfen yaşınızı belirtin.');
         // Önceki quiz verilerini temizle
         localStorage.removeItem('budurBuldumCevaplar');
         localStorage.removeItem('budurBuldumAktifSet');
@@ -1036,6 +1045,7 @@
             : 'sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
         localStorage.setItem('budurBuldumSessionId', sessionId);
         localStorage.setItem('budurBuldumGender', selectedGender);
+        localStorage.setItem('budurBuldumAge', selectedAge);
         window.location.href = 'quiz-kime.html';
     }
 </script>
