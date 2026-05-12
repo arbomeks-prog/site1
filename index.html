@@ -113,7 +113,7 @@
 </div>
 
 <!-- HERO -->
-<section class="hero-bg text-white py-4">
+<section class="hero-bg text-white" style="padding:8px 0 16px;">
     <div class="max-w-5xl mx-auto px-4 text-center">
         <h1 class="mb-2 text-center" style="font-size:15px; font-weight:500; line-height:2; letter-spacing:0.01em; color:rgba(255,255,255,0.92);">
             Kişiye özel<br>
@@ -153,21 +153,53 @@
 </div>
 
 <!-- KİME SORUSU - Hero altı -->
-<div id="kime-bolumu" style="background:#F9F9F9; padding:24px 16px;">
-    <div style="max-width:480px; margin:0 auto;">
-        <h2 style="font-size:18px; font-weight:700; color:#1e293b; margin-bottom:4px;">Hediye kime alınıyor?</h2>
-        <p style="font-size:14px; color:#1e293b; margin:0 0 12px; font-weight:500;">👇 Seçmek için tıkla 👇</p>
-        <div class="grid grid-cols-2 gap-2" id="kime-options">
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Sevgili')"><span class="opt-check"></span>Sevgili</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Arkadaş')"><span class="opt-check"></span>Arkadaş</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Anne')"><span class="opt-check"></span>Anne</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Baba')"><span class="opt-check"></span>Baba</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Kardeş')"><span class="opt-check"></span>Kardeş</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Çocuk')"><span class="opt-check"></span>Çocuk 🧒</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Kendime')"><span class="opt-check"></span>Kendime</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'İş arkadaşı')"><span class="opt-check"></span>İş arkadaşı</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Bebek')"><span class="opt-check"></span>Bebek ❤️</button>
-            <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Pet')"><span class="opt-check"></span>Pet ❤️</button>
+<div id="kime-bolumu" style="background:#F9F9F9; padding:16px;">
+    <div style="max-width:600px; margin:0 auto;">
+        <!-- Başlık - ortada ve yukarıda -->
+        <div style="text-align:center; margin-bottom:10px;">
+            <h2 style="font-size:19px; font-weight:800; color:#1e293b; margin:0 0 2px;">🎁 Hediye kime alınıyor?</h2>
+            <p style="font-size:13px; color:#64748b; margin:0 0 10px; font-weight:500;">👇 Seçmek için tıkla</p>
+        </div>
+        <!-- Soru + Hediye kutuları yan yana -->
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+            <!-- SOL: Seçenekler -->
+            <div style="flex:1; min-width:0;">
+                <div class="grid grid-cols-2 gap-2" id="kime-options">
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Sevgili')"><span class="opt-check"></span>Sevgili</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Arkadaş')"><span class="opt-check"></span>Arkadaş</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Anne')"><span class="opt-check"></span>Anne</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Baba')"><span class="opt-check"></span>Baba</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Kardeş')"><span class="opt-check"></span>Kardeş</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Çocuk')"><span class="opt-check"></span>Çocuk 🧒</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Kendime')"><span class="opt-check"></span>Kendime</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'İş arkadaşı')"><span class="opt-check"></span>İş arkadaşı</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Bebek')"><span class="opt-check"></span>Bebek ❤️</button>
+                    <button class="w-full text-left p-3 text-sm option-btn" onclick="kimesec(this,'Pet')"><span class="opt-check"></span>Pet ❤️</button>
+                </div>
+            </div>
+            <!-- SAĞ: Hediye kutuları -->
+            <div style="display:flex; flex-direction:column; gap:8px; width:80px; flex-shrink:0;">
+                <div style="background:white; border-radius:12px; padding:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="font-size:28px;">🎁</div>
+                    <div style="font-size:9px; color:#64748b; margin-top:2px;">Klasik</div>
+                </div>
+                <div style="background:white; border-radius:12px; padding:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="font-size:28px;">🎀</div>
+                    <div style="font-size:9px; color:#64748b; margin-top:2px;">Özel</div>
+                </div>
+                <div style="background:white; border-radius:12px; padding:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="font-size:28px;">💝</div>
+                    <div style="font-size:9px; color:#64748b; margin-top:2px;">Sevgi</div>
+                </div>
+                <div style="background:white; border-radius:12px; padding:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="font-size:28px;">🛍️</div>
+                    <div style="font-size:9px; color:#64748b; margin-top:2px;">Alışveriş</div>
+                </div>
+                <div style="background:white; border-radius:12px; padding:8px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="font-size:28px;">✨</div>
+                    <div style="font-size:9px; color:#64748b; margin-top:2px;">Sürpriz</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
