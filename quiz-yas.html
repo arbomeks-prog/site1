@@ -106,13 +106,22 @@
                 </div>
             </div>
             <div>
-                <h2 id="soru-baslik" class="text-xl font-bold text-zinc-800 mb-0" style="margin-top:4px;"></h2>
-                <p id="espri-notu" class="text-sm text-amber-500 font-medium mb-1 italic"></p>
+                <h2 id="soru-baslik" class="text-xl font-bold text-zinc-800 mb-0" style="margin-top:4px;">Yaş aralığı yaklaşık olarak nedir?</h2>
+                <p id="espri-notu" class="text-sm text-amber-500 font-medium mb-1 italic">Sormak ayıp ama sormadan da olmaz 😅</p>
             </div>
 
-            <!-- Cevap butonları -->
+            <!-- Cevap butonları - statik HTML (SEO için) + JS ile interaktif -->
             <div style="display:flex; flex-direction:column; gap:0;">
-                <div id="options-container" class="grid grid-cols-2 gap-2"></div>
+                <div id="options-container" class="grid grid-cols-2 gap-2"><button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">0-2 (Bebek)</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">3-6 (Küçük Çocuk)</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">7-12 (Çocuk)</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">13-17 (Genç)</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">18-25</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">26-35</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">36-45</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">46-60</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">61-75</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">76+</button></div>
                 <button id="continue-btn" class="mt-2 w-full py-4 rounded-3xl text-lg font-semibold disabled-state">Devam Et →</button>
             </div>
 

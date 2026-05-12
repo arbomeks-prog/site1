@@ -102,13 +102,18 @@
                 </div>
             </div>
             <div>
-                <h2 id="soru-baslik" class="text-xl font-bold text-zinc-800 mb-0" style="margin-top:4px;"></h2>
+                <h2 id="soru-baslik" class="text-xl font-bold text-zinc-800 mb-0" style="margin-top:4px;">Kaç aylık / yaşında?</h2>
                 <p id="espri-notu" class="text-sm text-amber-500 font-medium mb-1 italic"></p>
             </div>
 
-            <!-- Cevap butonları -->
+            <!-- Cevap butonları - statik HTML (SEO için) + JS ile interaktif -->
             <div style="display:flex; flex-direction:column; gap:0;">
-                <div id="options-container" class="grid grid-cols-2 gap-2"></div>
+                <div id="options-container" class="grid grid-cols-2 gap-2"><button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">0-3 ay</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">3-6 ay</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">6-12 ay</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">1 yaş</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">2 yaş</button>
+                    <button class="w-full text-left p-3 border-2 border-gray-200 rounded-2xl text-sm option-btn" onclick="return false;">3 yaş</button></div>
                 <button id="continue-btn" class="mt-2 w-full py-4 rounded-3xl text-lg font-semibold disabled-state">Devam Et →</button>
             </div>
 
