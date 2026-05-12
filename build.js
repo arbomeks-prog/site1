@@ -38,7 +38,7 @@ const espriNotlari = QUIZ_CONFIG.espriNotlari || {};
 function buildSeceneklerHtml(soruId, secenekler) {
     if (!secenekler || secenekler.length === 0) return '';
     return secenekler.map(s =>
-        `<button class="w-full text-left p-3 text-sm option-btn" onclick="return false;">${s}</button>`
+        `<button class="w-full text-left p-3 text-sm option-btn" onclick="return false;"><span class="opt-check"></span>${s}</button>`
     ).join('\n                    ');
 }
 
