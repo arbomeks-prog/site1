@@ -202,7 +202,7 @@
             </div>
         </div>
         <!-- DEVAM ET butonu -->
-        <button id="kime-devam-btn" onclick="startQuiz()" style="display:none; margin-top:14px; width:100%; padding:16px; background:#2563eb; color:white; border:none; border-radius:16px; font-size:17px; font-weight:700; cursor:pointer; transition:all 0.2s; box-shadow:0 4px 12px rgba(37,99,235,0.4);">
+        <button id="kime-devam-btn" onclick="startQuiz()" disabled style="margin-top:14px; width:100%; padding:16px; background:#d1d5db; color:#9ca3af; border:none; border-radius:16px; font-size:17px; font-weight:700; cursor:not-allowed; transition:all 0.3s; box-shadow:none;">
             Devam Et →
         </button>
     </div>
@@ -1114,10 +1114,13 @@
         btn.classList.add('selected');
         selectedKime = kime;
         const devamBtn = document.getElementById('kime-devam-btn');
-        devamBtn.style.display = 'block';
-        devamBtn.style.background = '#16a34a';
-        devamBtn.style.boxShadow = '0 4px 12px rgba(22,163,74,0.5)';
-        devamBtn.textContent = '✅ ' + kime + ' için hediye bul →';
+        devamBtn.disabled = false;
+        devamBtn.style.background = '#2563eb';
+        devamBtn.style.color = 'white';
+        devamBtn.style.cursor = 'pointer';
+        devamBtn.style.boxShadow = '0 4px 12px rgba(37,99,235,0.4)';
+        devamBtn.textContent = kime + ' için hediye bul →';
+        devamBtn.scrollIntoView({behavior:'smooth', block:'nearest'});
     }
 
     function maybeStartQuiz() {
