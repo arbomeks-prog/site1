@@ -59,11 +59,10 @@
         }
         /* Countdown animasyonu */
         @keyframes pulse-sel {
-            0%   { transform: scale(1); }
-            40%  { transform: scale(1.08); background: #fffbeb; }
-            100% { transform: scale(1); }
+            0%   { opacity: 0.6; }
+            100% { opacity: 1; }
         }
-        .selection-item.just-selected { animation: pulse-sel 0.35s ease; }
+        .selection-item.just-selected { animation: pulse-sel 0.2s ease; }
         /* Burç başlık */
         #burc-baslik {
             font-size: 18px;
@@ -75,17 +74,16 @@
         .profil-bar { background:#1e293b; color:white; border-radius:16px; padding:10px 14px; font-size:12px; line-height:1.9; word-break:break-word; }
         .profil-bar .lbl { color:#94a3b8; }
         .profil-bar .val { color:#f1f5f9; font-weight:600; }
-        .selection-item { display:flex; align-items:center; padding:12px 16px; border-bottom:1px solid #f1f5f9; cursor:pointer; transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1); background:white; }
+        .selection-item { display:flex; align-items:center; padding:6px 16px; border-bottom:1px solid #f1f5f9; cursor:pointer; transition:all 0.2s ease; background:white; }
         .selection-item:last-child { border-bottom:none; }
-        .s-num { font-size:15px; color:#1e293b; width:28px; flex-shrink:0; font-weight:800; }
-        .s-text { flex:1; font-size:14px; color:#64748b; white-space:normal; word-break:break-word; }
-        .s-text strong { color:#1e293b; font-weight:700; }
-        .s-star { font-size:28px; color:#ef4444; opacity:0; transition:opacity 0.2s; margin-left:8px; flex-shrink:0; }
-        .selection-item.selected { transform:translateY(-2px) scale(1.01); background:#fffbeb; box-shadow:0 6px 20px -4px rgba(0,0,0,0.15); border-bottom-color:transparent; border-radius:12px; margin:2px 0; }
-        .selection-item.selected .s-num { color:#ef4444; font-weight:700; }
-        .selection-item.selected .s-text { color:#92400e; }
-        .selection-item.selected .s-text strong { color:#92400e; }
-        .selection-item.selected .s-star { opacity:1; }
+        .s-num { font-size:14px; color:#1e293b; width:26px; flex-shrink:0; font-weight:700; }
+        .s-text { flex:1; font-size:13px; color:#94a3b8; }
+        .s-text strong { color:#64748b; font-weight:600; }
+        .s-star { display:none; }
+        .selection-item.selected { background:white; }
+        .selection-item.selected .s-num { color:#16a34a; font-weight:900; font-size:15px; }
+        .selection-item.selected .s-text { font-size:15px; font-weight:800; color:#1e293b; }
+        .selection-item.selected .s-text strong { color:#1e293b; font-weight:900; }
         .burc-btn { transition:all 0.2s; cursor:pointer; padding:8px 6px; border-radius:12px; border:2px solid #e2e8f0; text-align:center; background:white; outline:none; }
         .burc-btn.selected { border-color:#6366f1; background:#eef2ff; font-weight:700; }
         .burc-btn .burc-sembol { font-size:20px; display:block; }
@@ -139,7 +137,7 @@
             <div id="kriter-baslik" style="font-size:22px;font-weight:900;color:#1e293b;letter-spacing:0.01em;line-height:1.2;white-space:nowrap;">🎯 En önemli 6 kriteri seç</div>
             <span id="sel-count" class="text-sm font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex-shrink-0">0/6</span>
         </div>
-        <div class="bg-white rounded-2xl shadow-sm overflow-hidden mb-1">
+        <div class="bg-white rounded-xl overflow-hidden mb-1" style="border:1px solid #f1f5f9;">
             <div id="selections-list"></div>
         </div>
         <!-- Hediyeleri Gör butonu - listenin hemen altında, başlangıçta gizli -->
