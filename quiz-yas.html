@@ -53,6 +53,44 @@
       gtag('js', new Date());
       gtag('config', 'G-HWPN7VD4VX');
     </script>
+
+    <script>
+    // Dedektif return interceptor
+    (function(){
+      var params = new URLSearchParams(window.location.search);
+      if(params.get('from') !== 'dedektif') return;
+      // Flag'i kaydet
+      localStorage.setItem('dedektif_return', '1');
+      // continue-btn'i override et
+      window.addEventListener('DOMContentLoaded', function(){
+        // Biraz bekle — quiz-kime kendi listener'ını ekliyor
+        setTimeout(function(){
+          var btn = document.getElementById('continue-btn');
+          var ileri = document.getElementById('ileri-btn');
+          if(btn){
+            btn.addEventListener('click', function(e){
+              if(btn.classList.contains('disabled-state')) return;
+              e.stopImmediatePropagation();
+              // Cevap kaydedildi, dedektife dön
+              localStorage.removeItem('dedektif_return');
+              var returnUrl = params.get('return') || '../hediye-dedektifi.html';
+              window.location.href = returnUrl;
+            }, true); // capture phase — önce çalışır
+          }
+          if(ileri){
+            ileri.addEventListener('click', function(e){
+              e.preventDefault();
+              localStorage.removeItem('dedektif_return');
+              var returnUrl = params.get('return') || '../hediye-dedektifi.html';
+              window.location.href = returnUrl;
+            }, true);
+          }
+          // Buton metnini de değiştir
+          if(btn) btn.innerHTML = btn.innerHTML.replace('Devam Et →', 'Kaydet ve Geri Dön ✔');
+        }, 500);
+      });
+    })();
+    </script>
 </head>
 <body>
 
