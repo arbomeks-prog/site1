@@ -8,13 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f0e0d;
-  --surface: #1a1916;
-  --border: #2e2c28;
-  --accent: #e8c84a;
-  --accent2: #c96a2e;
-  --text: #f0ece4;
-  --muted: #8a8478;
+  --bg: #f5f2ed;
+  --surface: #faf8f4;
+  --border: #e0d9cf;
+  --accent: #c96a2e;
+  --accent2: #8b4513;
+  --text: #1a1714;
+  --muted: #7a7060;
   --card-radius: 16px;
 }
 
@@ -132,7 +132,7 @@ body {
   aspect-ratio: 16/9;
   object-fit: cover;
   display: block;
-  opacity: .85;
+  opacity: .92;
   transition: opacity .2s;
 }
 .card:hover .card-img { opacity: 1; }
@@ -159,9 +159,9 @@ body {
   display: none;
   font-size: .68rem;
   font-weight: 700;
-  background: rgba(232,200,74,.12);
+  background: rgba(201,106,46,.1);
   color: var(--accent);
-  border: 1px solid rgba(232,200,74,.25);
+  border: 1px solid rgba(201,106,46,.25);
   border-radius: 8px;
   padding: 3px 8px;
   width: fit-content;
@@ -186,7 +186,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: .65rem;
-  color: #0f0e0d;
+  color: #fff;
   font-weight: 900;
 }
 .card.answered .card-check { display: flex; }
@@ -206,7 +206,7 @@ body {
 #popup-overlay.open { display: flex; }
 
 #popup-box {
-  background: #1e1c19;
+  background: #faf8f4;
   border: 1px solid var(--border);
   border-radius: 22px 22px 0 0;
   padding: 20px 18px 28px;
@@ -272,7 +272,7 @@ body {
   border-radius: 99px;
   padding: 9px 18px;
   font-family: 'DM Sans', sans-serif;
-  font-size: .82rem;
+  font-size: .88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all .15s;
@@ -313,12 +313,12 @@ body {
 }
 #save-btn.active {
   background: var(--accent);
-  color: #0f0e0d;
+  color: #fff;
   cursor: pointer;
 }
 #save-btn.active:active {
   transform: scale(.98);
-  background: #d4b63e;
+  background: var(--accent2);
 }
 
 /* Scrollbar */
