@@ -376,7 +376,20 @@ const QuizHelper = {
     },
 
     // Aktif soru seti dizisini döndür
-    getAktifSorular: function() {
+    // soruId verilirse: o soruyu içeren seti otomatik belirle ve localStorage'a yaz
+    getAktifSorular: function(soruId) {
+        if (soruId) {
+            // Soruyu hangi set içeriyor? Bul ve kaydet.
+            if (QUIZ_CONFIG.soruBebekler.find(s => s.id === soruId))       { this.setAktifSet('bebekler');  return QUIZ_CONFIG.soruBebekler; }
+            if (QUIZ_CONFIG.soruCocuklar.find(s => s.id === soruId))       { this.setAktifSet('cocuklar');  return QUIZ_CONFIG.soruCocuklar; }
+            if (QUIZ_CONFIG.soruKedi.find(s => s.id === soruId))           { this.setAktifSet('kedi');      return QUIZ_CONFIG.soruKedi; }
+            if (QUIZ_CONFIG.soruKopek.find(s => s.id === soruId))          { this.setAktifSet('kopek');     return QUIZ_CONFIG.soruKopek; }
+            if (QUIZ_CONFIG.soruKus.find(s => s.id === soruId))            { this.setAktifSet('kus');       return QUIZ_CONFIG.soruKus; }
+            if (QUIZ_CONFIG.soruBalik.find(s => s.id === soruId))          { this.setAktifSet('balik');     return QUIZ_CONFIG.soruBalik; }
+            if (QUIZ_CONFIG.soruKucukPet.find(s => s.id === soruId))       { this.setAktifSet('kucukpet'); return QUIZ_CONFIG.soruKucukPet; }
+            if (QUIZ_CONFIG.soruPetler.find(s => s.id === soruId))         { this.setAktifSet('petler');    return QUIZ_CONFIG.soruPetler; }
+            if (QUIZ_CONFIG.sorular.find(s => s.id === soruId))            { this.setAktifSet('normal');    return QUIZ_CONFIG.sorular; }
+        }
         const set = this.getAktifSet();
         switch(set) {
             case 'bebekler':  return QUIZ_CONFIG.soruBebekler;
@@ -393,7 +406,7 @@ const QuizHelper = {
 
     // Mevcut sorunun sırasını (index) bul
     getCurrentIndex: function(soruId) {
-        const sorular = this.getAktifSorular();
+        const sorular = this.getAktifSorular(soruId);
         return sorular.findIndex(s => s.id === soruId);
     },
 
@@ -415,7 +428,7 @@ const QuizHelper = {
 
     // Sonraki geçerli soruyu bul
     getSonrakiSayfa: function(mevcutSoruId) {
-        const sorular = this.getAktifSorular();
+        const sorular = this.getAktifSorular(mevcutSoruId);
         const cevaplar = this.getCevaplar();
         const mevcutIdx = sorular.findIndex(s => s.id === mevcutSoruId);
 
@@ -482,7 +495,7 @@ const QuizHelper = {
 
     // Önceki geçerli soruyu bul
     getOncekiSayfa: function(mevcutSoruId) {
-        const sorular = this.getAktifSorular();
+        const sorular = this.getAktifSorular(mevcutSoruId);
         const mevcutIdx = sorular.findIndex(s => s.id === mevcutSoruId);
 
         // Özel setteki ilk sorudaysak, kime sorusuna geri dön
@@ -502,13 +515,8 @@ const QuizHelper = {
 
     // Progress yüzdesini hesapla
     getProgress: function(soruId) {
-        let sorular = this.getAktifSorular();
-        let idx = sorular.findIndex(s => s.id === soruId);
-        if (idx === -1) {
-            this._autoFixSet(soruId);
-            sorular = this.getAktifSorular();
-            idx = sorular.findIndex(s => s.id === soruId);
-        }
+        const sorular = this.getAktifSorular(soruId);
+        const idx = sorular.findIndex(s => s.id === soruId);
         const aktifSet = this.getAktifSet();
         const offset = aktifSet !== 'normal' ? 1 : 0;
         const toplam = sorular.length + offset;
@@ -518,14 +526,8 @@ const QuizHelper = {
 
     // Soru numarasını hesapla (görünen)
     getSoruNo: function(soruId) {
-        let sorular = this.getAktifSorular();
-        let idx = sorular.findIndex(s => s.id === soruId);
-        // Fallback: soru bulunamazsa seti otomatik düzelt
-        if (idx === -1) {
-            this._autoFixSet(soruId);
-            sorular = this.getAktifSorular();
-            idx = sorular.findIndex(s => s.id === soruId);
-        }
+        const sorular = this.getAktifSorular(soruId);
+        const idx = sorular.findIndex(s => s.id === soruId);
         const aktifSet = this.getAktifSet();
         const offset = aktifSet !== 'normal' ? 1 : 0;
         return idx + 1 + offset;
@@ -541,7 +543,7 @@ const QuizHelper = {
 
     // Kalan soru sayısı (mevcut soru dahil)
     getKalanSoru: function(soruId) {
-        const sorular = this.getAktifSorular();
+        const sorular = this.getAktifSorular(soruId);
         const idx = sorular.findIndex(s => s.id === soruId);
         const aktifSet = this.getAktifSet();
         const offset = aktifSet !== 'normal' ? 1 : 0;
@@ -551,19 +553,8 @@ const QuizHelper = {
     // Filtrelenmiş seçenekleri al
     getFiltrelenmisSecenekler: function(soruId) {
         const cevaplar = this.getCevaplar();
-        let soru = this.getAktifSorular().find(s => s.id === soruId);
-        // Fallback: aktif sette bulunamazsa tüm setlerde ara
-        if (!soru) {
-            const tumSetler = [].concat(QUIZ_CONFIG.sorular, QUIZ_CONFIG.soruBebekler, QUIZ_CONFIG.soruCocuklar, QUIZ_CONFIG.soruPetler);
-            soru = tumSetler.find(s => s.id === soruId);
-            // Aktif seti düzelt
-            if (soru) {
-                if (QUIZ_CONFIG.soruBebekler.find(s => s.id === soruId)) this.setAktifSet('bebekler');
-                else if (QUIZ_CONFIG.soruCocuklar.find(s => s.id === soruId)) this.setAktifSet('cocuklar');
-                else if (QUIZ_CONFIG.soruPetler.find(s => s.id === soruId)) this.setAktifSet('petler');
-                else this.setAktifSet('normal');
-            }
-        }
+        const sorular = this.getAktifSorular(soruId);
+        let soru = sorular.find(s => s.id === soruId);
         if (!soru) return [];
 
         // Cinsiyet filtresi

@@ -175,7 +175,7 @@
 
         // Soru başlığı
         const soruNo = QuizHelper.getSoruNo(SORU_ID);
-        const soru = QuizHelper.getAktifSorular().find(s => s.id === SORU_ID);
+        const soru = QuizHelper.getAktifSorular(SORU_ID).find(s => s.id === SORU_ID);
         document.getElementById('soru-baslik').textContent = soruNo + '. ' + (soru ? soru.soru : '');
 
         // Espri notu
@@ -199,7 +199,7 @@
     };
 
     function updateGiftBoxes() {
-        const sorular = QuizHelper.getAktifSorular();
+        const sorular = QuizHelper.getAktifSorular(SORU_ID);
         const idx = sorular.findIndex(s => s.id === SORU_ID);
         const SORULAR_PER_BOX = Math.ceil(sorular.length / 6);
         const done = Math.floor(idx / SORULAR_PER_BOX);
