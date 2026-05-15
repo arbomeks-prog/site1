@@ -362,6 +362,42 @@ const QuizHelper = {
         localStorage.setItem('budurBuldumAktifSet', set);
     },
 
+    // Sayfa guard: Bu soruya bu akıştan gelinmeli mi kontrol et.
+    // kime cevabına göre set belirle, yanlış sayfadaysa doğru sete yönlendir.
+    sayfaGuard: function(soruId) {
+        const cevaplar = this.getCevaplar();
+        const kime = cevaplar.kime || '';
+
+        // kime'ye göre beklenen set
+        let beklenenSet = 'normal';
+        if (kime === 'Bebek ❤️') beklenenSet = 'bebekler';
+        else if (kime === 'Pet ❤️') beklenenSet = 'petler';
+        else if (kime === 'Çocuk 🧒') beklenenSet = 'cocuklar';
+
+        // Şu an hangi sette olduğumuzu soruId'den belirle
+        let suankiSet = 'normal';
+        if (QUIZ_CONFIG.soruBebekler.find(s => s.id === soruId)) suankiSet = 'bebekler';
+        else if (QUIZ_CONFIG.soruCocuklar.find(s => s.id === soruId)) suankiSet = 'cocuklar';
+        else if (QUIZ_CONFIG.soruKedi.find(s => s.id === soruId)) suankiSet = 'kedi';
+        else if (QUIZ_CONFIG.soruKopek.find(s => s.id === soruId)) suankiSet = 'kopek';
+        else if (QUIZ_CONFIG.soruKus.find(s => s.id === soruId)) suankiSet = 'kus';
+        else if (QUIZ_CONFIG.soruBalik.find(s => s.id === soruId)) suankiSet = 'balik';
+        else if (QUIZ_CONFIG.soruKucukPet.find(s => s.id === soruId)) suankiSet = 'kucukpet';
+        else if (QUIZ_CONFIG.soruPetler.find(s => s.id === soruId)) suankiSet = 'petler';
+
+        // Yanlış sette olduğumuzu anladık: normal sayfada ama cocuklar/bebekler/petler gerekiyor
+        if (suankiSet === 'normal' && beklenenSet !== 'normal' && kime !== '') {
+            this.setAktifSet(beklenenSet);
+            let hedefSorular = this.getAktifSorular();
+            window.location.href = hedefSorular[0].sayfa;
+            return true; // yönlendirme yapıldı
+        }
+
+        // Doğru set'i localStorage'a yaz
+        this.setAktifSet(suankiSet);
+        return false;
+    },
+
     // Aktif seti otomatik düzelt (soru id'sine göre)
     _autoFixSet: function(soruId) {
         if (QUIZ_CONFIG.soruBebekler.find(s => s.id === soruId)) this.setAktifSet('bebekler');

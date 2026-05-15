@@ -155,6 +155,8 @@
 
     // Sayfa yüklendiğinde
     window.onload = function() {
+        // Guard: Yanlış akıştaysa doğru sete yönlendir
+        if (QuizHelper.sayfaGuard(SORU_ID)) return;
         // Gift box'ları yükle
         for(let i=0;i<6;i++){
             const el=document.getElementById('gb-'+i);
