@@ -428,11 +428,9 @@ const QuizHelper = {
 
     // Sonraki geçerli soruyu bul
     getSonrakiSayfa: function(mevcutSoruId) {
-        const sorular = this.getAktifSorular(mevcutSoruId);
         const cevaplar = this.getCevaplar();
-        const mevcutIdx = sorular.findIndex(s => s.id === mevcutSoruId);
 
-        // Dallanma kontrolü: özel sete geçiş var mı?
+        // Dallanma kontrolü: özel sete geçiş var mı? (getAktifSorular'dan ÖNCE kontrol et)
         if (mevcutSoruId === 'kime') {
             const kime = cevaplar.kime || '';
             const kural = QUIZ_CONFIG.dallanma.kime && QUIZ_CONFIG.dallanma.kime[kime];
@@ -482,7 +480,10 @@ const QuizHelper = {
             }
         }
 
-        // Normal akış: sonraki geçerli soruyu bul
+        // Normal akış: set artık doğru yazılmış, şimdi sorular dizisini al
+        const sorular = this.getAktifSorular(mevcutSoruId);
+        const mevcutIdx = sorular.findIndex(s => s.id === mevcutSoruId);
+
         for (let i = mevcutIdx + 1; i < sorular.length; i++) {
             if (this.soruGecerliMi(sorular[i].id)) {
                 return sorular[i].sayfa;
