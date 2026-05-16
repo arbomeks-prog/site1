@@ -346,7 +346,7 @@
             var csePrc = aralik ? ('&minPrice=' + aralik.min + '&maxPrice=' + (aralik.max || 999999)) : '';
             return '<div class="platform-links">' +
                 '<a href="https://www.trendyol.com/sr?q=' + q + prc + '" target="_blank" class="plt-link plt-trendyol">Trendyol</a>' +
-                '<a href="https://www.hepsiburada.com/ara?q=' + q + (aralik ? '&minPrice=' + aralik.min + '&maxPrice=' + (aralik.max || 999999) : '') + '" target="_blank" class="plt-link plt-hepsiburada">Hepsiburada</a>' +
+                '<a href="https://www.hepsiburada.com/ara?q=' + q + (aralik ? '&filtreler=fiyat:' + aralik.min + '-' + (aralik.max || 999999) : '') + '" target="_blank" class="plt-link plt-hepsiburada">Hepsiburada</a>' +
                 '<a href="https://www.amazon.com.tr/s?k=' + q + amzMin + '" target="_blank" class="plt-link plt-amazon">Amazon</a>' +
                 '<a href="https://www.ciceksepeti.com/arama?query=' + q + csePrc + '" target="_blank" class="plt-link plt-ciceksepeti">Çiçeksepeti</a>' +
                 '<a href="https://www.n11.com/arama?q=' + q + (aralik ? "&minp=" + aralik.min + "&maxp=" + (aralik.max || 999999) : "") + '" target="_blank" class="plt-link plt-n11">N11</a>' +
