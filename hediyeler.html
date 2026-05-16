@@ -34,6 +34,7 @@
         .gift-reason-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
         .gift-reason { font-size: 13px; color: #3b82f6; font-style: italic; margin-bottom: 10px; line-height: 1.5; }
         .gift-desc-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+        .gift-desc-label.konsept { font-size: 11px; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; font-style: italic; }
         .gift-desc { font-size: 13px; color: #64748b; margin-bottom: 14px; line-height: 1.6; }
 
         .platform-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
@@ -471,7 +472,11 @@
                 if (priceEl) { priceEl.textContent = g.price; priceEl.classList.add('loaded'); }
                 // reason ve desc — API'den geleni yaz, statik yazıların üzerine geç
                 if (reasonEl && g.reason) reasonEl.textContent = '"' + g.reason + '"';
-                if (descEl && g.description) descEl.textContent = g.description;
+                if (descEl && g.description) {
+                    descEl.textContent = g.description;
+                    const descLabel = card.querySelector('.gift-desc-label');
+                    if (descLabel) { descLabel.textContent = 'Hediye Konsepti'; descLabel.classList.add('konsept'); }
+                }
 
                 // Platform linkleri güncelle
                 const platformDiv = card.querySelector('.platform-links');
