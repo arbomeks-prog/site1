@@ -365,21 +365,8 @@
         const butceStr = butce ? butce + ' bütçe aralığında ' : '';
         const kriterSayisi = selectedCriteria.length;
 
-        const yuklemeMesajlari = [
-            '🔍 ' + yasStr + kimeStr + ' için hediyeler aranıyor...',
-            '🧠 Yapay zeka quiz cevaplarınızı analiz ediyor...',
-            kriterSayisi > 0 ? '⚖️ ' + kriterSayisi + ' kriter göz önünde bulunduruluyor...' : '⚖️ Kişilik profili oluşturuluyor...',
-            '🎯 ' + butceStr + 'nokta atışı hediyeler belirleniyor...',
-            '✨ ' + kimeStr + ' için en uygun seçimler hazırlanıyor...',
-            '🎁 Son kontroller yapılıyor, neredeyse hazır...'
-        ];
-
         let mesajIndex = 0;
-        subtitle.textContent = yuklemeMesajlari[0];
-        const mesajInterval = setInterval(function() {
-            mesajIndex = (mesajIndex + 1) % yuklemeMesajlari.length;
-            subtitle.textContent = yuklemeMesajlari[mesajIndex];
-        }, 2200);
+        const mesajInterval = setInterval(function() {}, 9999); // placeholder, clearInterval için
 
         // API isteği
         try {
