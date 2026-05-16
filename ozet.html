@@ -437,16 +437,47 @@
     function showGifts() {
         localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(selectedCriteria));
         localStorage.setItem('budurBuldumSecilenBurc', secilenBurc || '');
+        // Popup aç
+        document.getElementById('butce-popup').style.display = 'flex';
+    }
+
+    function butceSecimYapVeGit(esnek) {
+        localStorage.setItem('budurBuldumButceEsnek', esnek ? '1' : '0');
         try {
             const sessionId = localStorage.getItem('budurBuldumSessionId');
             if (sessionId) {
                 const cevaplar = QuizHelper.getCevaplar();
-                const logData = JSON.stringify({ session_id: sessionId, cinsiyet: cevaplar.cinsiyet || '', yas: cevaplar.yas || '', iliski_durumu: cevaplar.kime || '', butce: cevaplar.butce || '', ilgi_alanlari: cevaplar.hobiler || '', ozel_not: JSON.stringify({ tum_cevaplar: cevaplar, secilen_kriterler: selectedCriteria, burc: secilenBurc || '' }) });
+                const logData = JSON.stringify({ session_id: sessionId, cinsiyet: cevaplar.cinsiyet || '', yas: cevaplar.yas || '', iliski_durumu: cevaplar.kime || '', butce: cevaplar.butce || '', ilgi_alanlari: cevaplar.hobiler || '', ozel_not: JSON.stringify({ tum_cevaplar: cevaplar, secilen_kriterler: selectedCriteria, burc: secilenBurc || '', butce_esnek: esnek }) });
                 navigator.sendBeacon('/api/log-quiz', new Blob([logData], { type:'application/json' }));
             }
         } catch(e) {}
         window.location.href = 'hediyeler.html';
     }
 </script>
+
+<!-- Bütçe Popup -->
+<div id="butce-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:white;border-radius:24px;padding:28px 24px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+        <div style="text-align:center;font-size:32px;margin-bottom:12px;">💰</div>
+        <h2 style="font-size:20px;font-weight:900;color:#1e293b;text-align:center;margin-bottom:8px;">Bütçe tercihiniz?</h2>
+        <p style="font-size:13px;color:#64748b;text-align:center;margin-bottom:24px;">Yapay zeka hediye önerilerini bu tercihe göre şekillendirecek.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+            <button onclick="butceSecimYapVeGit(false)" style="background:#1e40af;color:white;border:none;border-radius:16px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;">
+                <span style="font-size:24px;">🔒</span>
+                <div>
+                    <div>Bütçe Sabit</div>
+                    <div style="font-size:12px;font-weight:400;opacity:0.85;margin-top:2px;">Öneriler kesinlikle bütçem dahilinde olsun</div>
+                </div>
+            </button>
+            <button onclick="butceSecimYapVeGit(true)" style="background:#f1f5f9;color:#1e293b;border:2px solid #e2e8f0;border-radius:16px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;">
+                <span style="font-size:24px;">🔓</span>
+                <div>
+                    <div>Bütçe Esnek</div>
+                    <div style="font-size:12px;font-weight:400;color:#64748b;margin-top:2px;">Biraz üstünde olsa da mükemmel hediyeyi görmek isterim</div>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

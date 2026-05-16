@@ -343,6 +343,7 @@
         const isOzel = aktifSet !== 'normal';
         const selectedCriteria = JSON.parse(localStorage.getItem('budurBuldumSelectedCriteria') || '[]');
         const secilenBurc = localStorage.getItem('budurBuldumSecilenBurc') || '';
+        const butceEsnek = localStorage.getItem('budurBuldumButceEsnek') === '1';
 
         // DB log
         try {
@@ -355,7 +356,7 @@
 
         // API isteği
         try {
-            const prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc);
+            const prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
             const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
             const res = await fetch('/api/gifts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: prompt, session_id: sessionId }) });
             if (!res.ok) throw new Error('API hatası: ' + res.status);
@@ -409,7 +410,10 @@
         }
     };
 
-    function buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc) {
+    function buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek) {
+        const butceKural = butceEsnek
+            ? 'Bütçe esnektir — kullanıcı biraz üstünde olsa da mükemmel hediyeyi görmek istiyor. Bütçenin %30 üstüne kadar çıkabilirsin.'
+            : 'Bütçe KESİNLİKLE sabit. Önerilen tüm hediyeler belirtilen bütçe aralığının içinde olmalı, tek bir istisna bile olmasın.';
         const kime = cevaplar.kime || '';
         let burcIsim = '';
         if (secilenBurc) { const parts = secilenBurc.split(' '); burcIsim = parts.length > 1 ? parts.slice(1).join(' ') : parts[0]; }
@@ -428,14 +432,14 @@
             else if (isBebek) ek = 'searchQuery\'de MUTLAKA "bebek" kelimesi olmalı.';
             else if (isCocuk) ek = 'searchQuery\'de MUTLAKA "çocuk" + yaş aralığı olmalı.';
             const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : ''; }).filter(Boolean).join('\n');
-            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (TL), star, searchQuery (Türkçe 3-5 kelime), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
+            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 3-5 kelime), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
         }
 
         const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
         const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
         const grupA = selectedCriteria.filter(function(c) { return c.grup === 'A'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
         const grupB = selectedCriteria.filter(function(c) { return c.grup === 'B'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
-        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A:\n' + grupA + '\n\nGrup B:\n' + grupB + burcEk + '\n\nGörev: Grup A+B çapraz analiz → 2 nokta atışı (star:true), ' + (toplamHediye-2) + ' normal (star:false). Nokta atışları ilk 2 sırada.\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (TL bütçe içinde), star, searchQuery (Türkçe 3-5 kelime jenerik, marka YASAK), searchQueryEn (İngilizce görsel araması, raw/dead/canned YASAK)\nSadece JSON array döndür.';
+        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A:\n' + grupA + '\n\nGrup B:\n' + grupB + burcEk + '\n\n' + butceKural + '\n\nGörev: Grup A+B çapraz analiz → 2 nokta atışı (star:true), ' + (toplamHediye-2) + ' normal (star:false). Nokta atışları ilk 2 sırada.\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 3-5 kelime jenerik, marka YASAK), searchQueryEn (İngilizce görsel araması, raw/dead/canned YASAK)\nSadece JSON array döndür.';
     }
 </script>
 </body>
