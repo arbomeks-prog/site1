@@ -409,7 +409,25 @@
             const grup = selectedCriteria.length < 3 ? 'A' : 'B';
             selectedCriteria.push({ id: soruId, grup: grup });
             el.classList.add('selected');
+
+            // Smooth: mevcut pozisyonu al, alta taşı, animasyonla oraya kaydır
+            const fromRect = el.getBoundingClientRect();
             list.appendChild(el);
+            const toRect = el.getBoundingClientRect();
+            const dy = fromRect.top - toRect.top;
+            el.style.transition = 'none';
+            el.style.transform = 'translateY(' + dy + 'px)';
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    el.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
+                    el.style.transform = 'translateY(0)';
+                    el.addEventListener('transitionend', function done() {
+                        el.style.transition = '';
+                        el.style.transform = '';
+                        el.removeEventListener('transitionend', done);
+                    });
+                });
+            });
         }
         updateSelCount();
     }
