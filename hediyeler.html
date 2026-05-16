@@ -336,7 +336,8 @@
 
     function buildLinks(name) {
         const q = encodeURIComponent(name);
-        const butce = cevaplar.butce || '';
+        const _cv = (typeof cevaplar !== 'undefined') ? cevaplar : (QuizHelper ? QuizHelper.getCevaplar() : {});
+        const butce = (_cv && _cv.butce) ? _cv.butce : '';
         const aralik = butceyeFiyatAraligi(butce);
         const prc = aralik ? ('&prc=' + aralik.min + '-' + (aralik.max || '')) : '';
         const mn = aralik ? ('&minPrice=' + aralik.min + (aralik.max ? '&maxPrice=' + aralik.max : '')) : '';
