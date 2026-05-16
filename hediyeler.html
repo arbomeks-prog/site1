@@ -507,9 +507,22 @@
     };
 
     function buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek) {
+        const _butceEslesme = {
+            '0-500 TL':       { min: 0,     max: 500 },
+            '500-1500 TL':    { min: 500,   max: 1500 },
+            '1500-3000 TL':   { min: 1500,  max: 3000 },
+            '3000-5000 TL':   { min: 3000,  max: 5000 },
+            '5000-10000 TL':  { min: 5000,  max: 10000 },
+            '10000-30000 TL': { min: 10000, max: 30000 },
+            '30.000 TL+':     { min: 30000, max: null }
+        };
+        const _aralik = _butceEslesme[cevaplar.butce] || null;
+        const _bMin = _aralik ? _aralik.min : null;
+        const _bMax = _aralik ? _aralik.max : null;
+        const _bStr = _aralik ? (_bMax ? _bMin + ' TL - ' + _bMax + ' TL' : _bMin + ' TL ve üzeri') : (cevaplar.butce || '');
         const butceKural = butceEsnek
-            ? 'Bütçe esnektir — kullanıcı biraz üstünde olsa da mükemmel hediyeyi görmek istiyor. Bütçenin %30 üstüne kadar çıkabilirsin.'
-            : 'Bütçe KESİNLİKLE sabit. Önerilen tüm hediyeler belirtilen bütçe aralığının içinde olmalı, tek bir istisna bile olmasın.';
+            ? ('Bütçe esnektir. Seçilen aralık: ' + _bStr + '. Fiyatlar bu aralığın en fazla %30 üstünde olabilir' + (_bMax ? ', yani maksimum ' + Math.round(_bMax * 1.3) + ' TL' : '') + '. Aralığın %70 altına (' + (_bMin ? Math.round(_bMin * 0.7) + ' TL' : 'çok düşük') + ') düşme.')
+            : ('Bütçe KESİNLİKLE sabit: ' + _bStr + '. Tüm hediyeler bu fiyat aralığında olmalı. ' + (_bMin && _bMin > 0 ? _bMin + " TL'nin altında fiyat YASAK. " : '') + (_bMax ? _bMax + " TL'nin üstünde fiyat YASAK." : '') + ' Tek istisna kabul edilmez.');
         const kime = cevaplar.kime || '';
         let burcIsim = '';
         if (secilenBurc) { const parts = secilenBurc.split(' '); burcIsim = parts.length > 1 ? parts.slice(1).join(' ') : parts[0]; }
