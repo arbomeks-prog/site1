@@ -51,7 +51,7 @@
         .share-cp { background: #64748b; color: white; }
     </style>
     <link rel="canonical" href="https://budurbuldum.com/hediyeler.html">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="noindex, follow">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://budurbuldum.com/hediyeler.html">
     <meta property="og:title" content="Kişiye Özel Hediye Önerileri | BudurBuldum">
@@ -227,10 +227,32 @@
             <p class="text-center text-zinc-400 text-xs mb-8">Arkadaşlarına da denesin! 🎁</p>
         </div>
 
+        <!-- Footer -->
+        <footer style="text-align:center;padding:28px 0 16px;border-top:1px solid #e2e8f0;margin-top:16px;">
+            <a href="index.html" style="text-decoration:none;">
+                <span style="font-family:Georgia,serif;font-size:15px;font-weight:900;color:#1e293b;">budur<span style="color:#e8a838;">buldum</span></span>
+            </a>
+            <p style="font-size:12px;color:#94a3b8;margin:8px 0 6px;">Yapay zeka destekli kişiye özel hediye önerileri</p>
+            <div style="font-size:11px;color:#94a3b8;">
+                <a href="biz-kimiz.html" style="color:#94a3b8;text-decoration:none;margin:0 8px;">Hakkımızda</a>·
+                <a href="iletisim.html" style="color:#94a3b8;text-decoration:none;margin:0 8px;">İletişim</a>·
+                <a href="index.html" style="color:#94a3b8;text-decoration:none;margin:0 8px;">Quiz'e Başla</a>
+            </div>
+            <div style="font-size:11px;color:#cbd5e1;margin-top:6px;">© 2026 BudurBuldum · Trendyol, Hepsiburada, Çiçeksepeti, N11</div>
+        </footer>
+
     </div>
 </div>
 
 <script>
+    // Direkt ziyaretçi index'e yönlendir
+    (function() {
+        const cevaplar = localStorage.getItem('budurBuldumCevaplar');
+        if (!cevaplar || Object.keys(JSON.parse(cevaplar || '{}')).length === 0) {
+            window.location.href = 'index.html';
+        }
+    })();
+
     const PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
 
     function shareWA() {
