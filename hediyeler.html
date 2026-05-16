@@ -402,9 +402,9 @@
             '🖼️ Görsel yükleniyor...'
         ];
         tumLoadingMsgs.forEach(function(msg, idx) {
-            let mi = idx % kartMesajlariGlobal.length; // Her kart farklı mesajdan başlar
+            let mi = idx % kartMesajlariGlobal.length;
             msg.textContent = kartMesajlariGlobal[mi];
-            setInterval(function() {
+            const iv = setInterval(function() {
                 msg.style.opacity = '0';
                 setTimeout(function() {
                     mi = (mi + 1) % kartMesajlariGlobal.length;
@@ -412,6 +412,7 @@
                     msg.style.opacity = '1';
                 }, 300);
             }, 2000);
+            msg._interval = iv; // karta bağla
         });
 
         // API isteği
@@ -454,12 +455,18 @@
                 if (img) {
                     img.onload = function() {
                         img.classList.add('loaded');
-                        if (loadingMsg) loadingMsg.style.opacity = '0';
+                        if (loadingMsg) {
+                            clearInterval(loadingMsg._interval);
+                            loadingMsg.style.display = 'none';
+                        }
                     };
                     img.onerror = function() {
                         img.src = 'https://picsum.photos/id/96/600/400';
                         img.classList.add('loaded');
-                        if (loadingMsg) loadingMsg.style.opacity = '0';
+                        if (loadingMsg) {
+                            clearInterval(loadingMsg._interval);
+                            loadingMsg.style.display = 'none';
+                        }
                     };
                     getGiftImage(g.searchQueryEn || g.searchQuery || g.name).then(function(url) {
                         img.src = url;
