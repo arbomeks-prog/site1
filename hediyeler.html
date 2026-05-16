@@ -41,8 +41,9 @@
         .plt-link:hover { opacity: 0.8; }
         .plt-trendyol { background: #f27a1a; color: white; }
         .plt-hepsiburada { background: #ff6000; color: white; }
-        .plt-ciceksepeti { background: #7c3aed; color: white; }
-        .plt-n11 { background: #1c75bc; color: white; }
+        .plt-amazon { background: #ff9900; color: #111; }
+        .plt-ciceksepeti { background: #e91e8c; color: white; }
+        .plt-n11 { background: #6f2da8; color: white; }
 
         .share-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 24px 0 8px; }
         .share-btn { display: flex; align-items: center; gap: 7px; padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: opacity 0.2s; }
@@ -112,6 +113,7 @@
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
                         <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-amazon">Amazon</a>
                         <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
                         <a class="plt-link plt-n11">N11</a>
                     </div>
@@ -134,6 +136,7 @@
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
                         <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-amazon">Amazon</a>
                         <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
                         <a class="plt-link plt-n11">N11</a>
                     </div>
@@ -153,6 +156,7 @@
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
                         <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-amazon">Amazon</a>
                         <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
                         <a class="plt-link plt-n11">N11</a>
                     </div>
@@ -172,6 +176,7 @@
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
                         <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-amazon">Amazon</a>
                         <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
                         <a class="plt-link plt-n11">N11</a>
                     </div>
@@ -191,6 +196,7 @@
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
                         <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-amazon">Amazon</a>
                         <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
                         <a class="plt-link plt-n11">N11</a>
                     </div>
@@ -210,6 +216,7 @@
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
                         <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-amazon">Amazon</a>
                         <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
                         <a class="plt-link plt-n11">N11</a>
                     </div>
@@ -319,6 +326,7 @@
         return '<div class="platform-links">' +
             '<a href="https://www.trendyol.com/sr?q=' + q + '" target="_blank" class="plt-link plt-trendyol">Trendyol</a>' +
             '<a href="https://www.hepsiburada.com/ara?q=' + q + '" target="_blank" class="plt-link plt-hepsiburada">Hepsiburada</a>' +
+            '<a href="https://www.amazon.com.tr/s?k=' + q + '" target="_blank" class="plt-link plt-amazon">Amazon</a>' +
             '<a href="https://www.ciceksepeti.com/arama?query=' + q + '" target="_blank" class="plt-link plt-ciceksepeti">Çiçeksepeti</a>' +
             '<a href="https://www.n11.com/arama?q=' + q + '" target="_blank" class="plt-link plt-n11">N11</a>' +
             '</div>';
@@ -495,14 +503,14 @@
             else if (isBebek) ek = 'searchQuery\'de MUTLAKA "bebek" kelimesi olmalı.';
             else if (isCocuk) ek = 'searchQuery\'de MUTLAKA "çocuk" + yaş aralığı olmalı.';
             const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : ''; }).filter(Boolean).join('\n');
-            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 3-5 kelime), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
+            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 3-5 kelime, Trendyol/Hepsiburada/Amazon.com.tr araması için), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
         }
 
         const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
         const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
         const grupA = selectedCriteria.filter(function(c) { return c.grup === 'A'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
         const grupB = selectedCriteria.filter(function(c) { return c.grup === 'B'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
-        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A:\n' + grupA + '\n\nGrup B:\n' + grupB + burcEk + '\n\n' + butceKural + '\n\nGörev: Grup A+B çapraz analiz → 2 nokta atışı (star:true), ' + (toplamHediye-2) + ' normal (star:false). Nokta atışları ilk 2 sırada.\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 3-5 kelime jenerik, marka YASAK), searchQueryEn (İngilizce görsel araması, raw/dead/canned YASAK)\nSadece JSON array döndür.';
+        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A:\n' + grupA + '\n\nGrup B:\n' + grupB + burcEk + '\n\n' + butceKural + '\n\nGörev: Grup A+B çapraz analiz → 2 nokta atışı (star:true), ' + (toplamHediye-2) + ' normal (star:false). Nokta atışları ilk 2 sırada.\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 3-5 kelime jenerik, marka YASAK — Trendyol/Hepsiburada/Amazon.com.tr araması için), searchQueryEn (İngilizce görsel araması, raw/dead/canned YASAK)\nSadece JSON array döndür.';
     }
 </script>
 </body>
