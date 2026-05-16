@@ -366,7 +366,24 @@
         const kriterSayisi = selectedCriteria.length;
 
         let mesajIndex = 0;
-        const mesajInterval = setInterval(function() {}, 9999); // placeholder, clearInterval için
+        const mesajInterval = setInterval(function() {}, 9999); // placeholder
+
+        // Kart loading mesajlarını HEMEN başlat (API bekleme)
+        const tumLoadingMsgs = document.querySelectorAll('.loading-msg');
+        const kartMesajlariGlobal = [
+            yasStr + kimeStr + ' için aranıyor...',
+            'Kriterler değerlendiriliyor...',
+            butceStr ? butceStr + 'seçenekler taranıyor...' : 'Fiyat-kalite analizi yapılıyor...',
+            'Görsel hazırlanıyor...'
+        ];
+        tumLoadingMsgs.forEach(function(msg) {
+            let mi = 0;
+            msg.textContent = kartMesajlariGlobal[0];
+            setInterval(function() {
+                mi = (mi + 1) % kartMesajlariGlobal.length;
+                msg.textContent = kartMesajlariGlobal[mi];
+            }, 1800);
+        });
 
         // API isteği
         try {
@@ -405,36 +422,19 @@
                 const img = card.querySelector('.img-wrap img');
                 const loadingMsg = card.querySelector('.loading-msg');
 
-                // Kişiselleştirilmiş kart mesajı
-                if (loadingMsg) {
-                    const kartMesajlari = [
-                        yasStr + kimeStr + ' için aranıyor...',
-                        'Kriterler değerlendiriliyor...',
-                        butceStr ? butceStr + 'seçenekler taranıyor...' : 'Fiyat-kalite analizi yapılıyor...',
-                        'Görsel hazırlanıyor...'
-                    ];
-                    let mi = 0;
-                    loadingMsg.textContent = kartMesajlari[0];
-                    const kartInterval = setInterval(function() {
-                        mi = (mi + 1) % kartMesajlari.length;
-                        loadingMsg.textContent = kartMesajlari[mi];
-                    }, 1800);
-                    if (img) {
-                        img.onload = function() {
-                            clearInterval(kartInterval);
-                            img.classList.add('loaded');
-                            if (loadingMsg) loadingMsg.style.opacity = '0';
-                        };
-                        img.onerror = function() {
-                            clearInterval(kartInterval);
-                            img.src = 'https://picsum.photos/id/96/600/400';
-                            img.classList.add('loaded');
-                            if (loadingMsg) loadingMsg.style.opacity = '0';
-                        };
-                        getGiftImage(g.searchQueryEn || g.searchQuery || g.name).then(function(url) {
-                            img.src = url;
-                        });
-                    }
+                if (img) {
+                    img.onload = function() {
+                        img.classList.add('loaded');
+                        if (loadingMsg) loadingMsg.style.opacity = '0';
+                    };
+                    img.onerror = function() {
+                        img.src = 'https://picsum.photos/id/96/600/400';
+                        img.classList.add('loaded');
+                        if (loadingMsg) loadingMsg.style.opacity = '0';
+                    };
+                    getGiftImage(g.searchQueryEn || g.searchQuery || g.name).then(function(url) {
+                        img.src = url;
+                    });
                 }
 
                 // Tıklama log
