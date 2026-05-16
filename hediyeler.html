@@ -4,42 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kişiye Özel Hediye Önerileri | BudurBuldum</title>
-    <meta name="description" content="Yapay zeka destekli kişiye özel hediye önerileri - BudurBuldum">
+    <meta name="description" content="Yapay zeka destekli kişiye özel hediye önerileri. Quiz cevaplarınıza göre seçilen en uygun hediyeler burada listeleniyor.">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="config.js"></script>
     <style>
         * { box-sizing: border-box; }
-        body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; }
-        .gift-card { transition:all 0.4s cubic-bezier(0.4,0,0.2,1); }
-        .gift-card:hover { transform:translateY(-8px); box-shadow:0 30px 60px -15px rgba(0,0,0,0.2); }
-        .gift-card.star { border:2px solid #f59e0b; position:relative; }
-        .star-badge { position:absolute; top:12px; left:50%; transform:translateX(-50%); background:#f59e0b; color:white; font-size:12px; font-weight:700; padding:3px 12px; border-radius:9999px; z-index:10; white-space:nowrap; pointer-events:none; }
-        .gift-img { height:200px; object-fit:cover; border-radius:20px 20px 0 0; width:100%; }
-        .platform-links { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
-        .plt-link { font-size:12px; font-weight:600; padding:5px 10px; border-radius:10px; text-decoration:none; transition:opacity 0.2s; }
-        .plt-link:hover { opacity:0.8; }
-        .plt-trendyol { background:#f27a1a; color:white; }
-        .plt-hepsiburada { background:#ff6000; color:white; }
-        .plt-ciceksepeti { background:#7c3aed; color:white; }
-        .plt-n11 { background:#1c75bc; color:white; }
+        body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; font-family: -apple-system, sans-serif; }
+
+        .gift-card { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .gift-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px -15px rgba(0,0,0,0.2); }
+        .gift-card.star { border: 2px solid #f59e0b; position: relative; }
+        .star-badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #f59e0b; color: white; font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 9999px; z-index: 10; white-space: nowrap; }
+
+        .img-wrap { height: 200px; width: 100%; border-radius: 20px 20px 0 0; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .img-wrap img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 20px 20px 0 0; opacity: 0; transition: opacity 0.5s; }
+        .img-wrap img.loaded { opacity: 1; }
+        .spinner { width: 36px; height: 36px; border: 4px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* JS gelince dolar — başlık ve fiyat */
+        .gift-name { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 8px; min-height: 22px; background: #f1f5f9; border-radius: 6px; }
+        .gift-name.loaded { background: transparent; }
+        .gift-price { font-size: 22px; font-weight: 800; color: #d97706; margin-bottom: 10px; display: block; min-height: 22px; background: #f1f5f9; border-radius: 6px; width: 40%; }
+        .gift-price.loaded { background: transparent; width: auto; }
+
+        /* Sabit — hem Google okur hem kullanıcı görür */
+        .gift-reason-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+        .gift-reason { font-size: 13px; color: #3b82f6; font-style: italic; margin-bottom: 10px; line-height: 1.5; }
+        .gift-desc-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+        .gift-desc { font-size: 13px; color: #64748b; margin-bottom: 14px; line-height: 1.6; }
+
+        .platform-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        .plt-link { font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 10px; text-decoration: none; transition: opacity 0.2s; }
+        .plt-link:hover { opacity: 0.8; }
+        .plt-trendyol { background: #f27a1a; color: white; }
+        .plt-hepsiburada { background: #ff6000; color: white; }
+        .plt-ciceksepeti { background: #7c3aed; color: white; }
+        .plt-n11 { background: #1c75bc; color: white; }
+
+        .share-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 24px 0 8px; }
+        .share-btn { display: flex; align-items: center; gap: 7px; padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: opacity 0.2s; }
+        .share-btn:hover { opacity: 0.85; }
+        .share-wa { background: #25d366; color: white; }
+        .share-tw { background: #1d9bf0; color: white; }
+        .share-cp { background: #64748b; color: white; }
     </style>
     <link rel="canonical" href="https://budurbuldum.com/hediyeler.html">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://budurbuldum.com/hediyeler.html">
     <meta property="og:title" content="Kişiye Özel Hediye Önerileri | BudurBuldum">
-    <meta property="og:description" content="Yapay zeka destekli kişiye özel hediye önerileri - BudurBuldum">
+    <meta property="og:description" content="Yapay zeka destekli kişiye özel hediye önerileri. Quiz cevaplarınıza göre seçilen en uygun hediyeler.">
     <meta property="og:image" content="https://budurbuldum.com/og-image.jpg">
     <meta property="og:locale" content="tr_TR">
     <meta property="og:site_name" content="BudurBuldum">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Kişiye Özel Hediye Önerileri | BudurBuldum">
-    <meta name="twitter:description" content="Yapay zeka destekli kişiye özel hediye önerileri - BudurBuldum">
+    <meta name="twitter:description" content="Yapay zeka destekli kişiye özel hediye önerileri.">
     <meta name="twitter:image" content="https://budurbuldum.com/og-image.jpg">
     <link rel="icon" type="image/png" href="/favicon.png">
     <meta name="theme-color" content="#e8a838">
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HWPN7VD4VX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -50,8 +75,9 @@
 </head>
 <body>
 
-<div id="gifts-container" class="min-h-screen bg-[#F9F9F9] py-12 px-4">
+<div class="min-h-screen bg-[#F9F9F9] py-12 px-4">
     <div class="max-w-6xl mx-auto">
+
         <div class="flex justify-between items-center mb-8">
             <a href="ozet.html" style="text-decoration:none;" class="text-gray-600 font-medium">← Özet'e Dön</a>
             <a href="index.html" style="display:flex;align-items:center;gap:7px;text-decoration:none;">
@@ -60,26 +86,174 @@
             </a>
             <a href="index.html" style="text-decoration:none;" class="text-gray-600 font-medium">Ana Sayfa</a>
         </div>
-        <h2 class="text-4xl font-bold text-center mb-4">Kişiye Özel Hediye Önerileri ✨</h2>
-        <p id="gifts-subtitle" class="text-center text-zinc-600 mb-4"></p>
-        <div id="gifts-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+
+        <!-- Başlık — her zaman sabit -->
+        <h1 class="text-4xl font-bold text-center mb-3">Kişiye Özel Hediye Önerileri ✨</h1>
+        <p class="text-center text-zinc-500 mb-2 text-sm">Yapay zeka destekli hediye öneri sistemi — quiz cevaplarınıza göre özel seçimler</p>
+        <p id="gifts-subtitle" class="text-center text-zinc-600 mb-10 font-medium"></p>
+
+        <!-- Kartlar -->
+        <div id="gifts-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="gift-card star">
+                <div style="position:relative">
+                    <div class="star-badge">🎯 Nokta Atışı</div>
+                    <div class="img-wrap"><div class="spinner"></div><img src="" alt="Kişiye özel hediye önerisi"></div>
+                </div>
+                <div style="padding:20px">
+                    <div style="font-size:32px;margin-bottom:8px">🎁</div>
+                    <div class="gift-name">&nbsp;</div>
+                    <div class="gift-reason-label">Neden bu hediye?</div>
+                    <div class="gift-reason">"Quiz cevaplarınız analiz edildi — bu hediye kişinin tarzı ve bütçesiyle birebir örtüşüyor."</div>
+                    <div class="gift-desc-label">Nereden bulursunuz?</div>
+                    <div class="gift-desc">Trendyol, Hepsiburada, Çiçeksepeti ve N11'de kolayca bulabilirsiniz. Aşağıdaki butonlarla doğrudan arama yapabilirsiniz.</div>
+                    <span class="gift-price">&nbsp;</span>
+                    <div class="platform-links">
+                        <a class="plt-link plt-trendyol">Trendyol</a>
+                        <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
+                        <a class="plt-link plt-n11">N11</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gift-card star">
+                <div style="position:relative">
+                    <div class="star-badge">🎯 Nokta Atışı</div>
+                    <div class="img-wrap"><div class="spinner"></div><img src="" alt="Kişiye özel hediye önerisi"></div>
+                </div>
+                <div style="padding:20px">
+                    <div style="font-size:32px;margin-bottom:8px">🎁</div>
+                    <div class="gift-name">&nbsp;</div>
+                    <div class="gift-reason-label">Neden bu hediye?</div>
+                    <div class="gift-reason">"Hobisi, yaşam tarzı ve bütçesi göz önünde bulundurularak özenle seçildi."</div>
+                    <div class="gift-desc-label">Nereden bulursunuz?</div>
+                    <div class="gift-desc">Bu ürünü Türkiye'nin önde gelen alışveriş platformlarında bulabilirsiniz. Aşağıdaki butonlara tıklayarak hemen aramaya başlayın.</div>
+                    <span class="gift-price">&nbsp;</span>
+                    <div class="platform-links">
+                        <a class="plt-link plt-trendyol">Trendyol</a>
+                        <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
+                        <a class="plt-link plt-n11">N11</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gift-card">
+                <div class="img-wrap"><div class="spinner"></div><img src="" alt="Hediye önerisi"></div>
+                <div style="padding:20px">
+                    <div style="font-size:32px;margin-bottom:8px">🎁</div>
+                    <div class="gift-name">&nbsp;</div>
+                    <div class="gift-reason-label">Neden bu hediye?</div>
+                    <div class="gift-reason">"Kişinin ilgi alanları ve günlük yaşam alışkanlıkları bu seçimi özel kılıyor."</div>
+                    <div class="gift-desc-label">Nereden bulursunuz?</div>
+                    <div class="gift-desc">BudurBuldum'un önerdiği ürünler Türkiye'de kolayca bulunabilir. Platform butonlarına tıklayarak fiyat karşılaştırması yapabilirsiniz.</div>
+                    <span class="gift-price">&nbsp;</span>
+                    <div class="platform-links">
+                        <a class="plt-link plt-trendyol">Trendyol</a>
+                        <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
+                        <a class="plt-link plt-n11">N11</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gift-card">
+                <div class="img-wrap"><div class="spinner"></div><img src="" alt="Hediye önerisi"></div>
+                <div style="padding:20px">
+                    <div style="font-size:32px;margin-bottom:8px">🎁</div>
+                    <div class="gift-name">&nbsp;</div>
+                    <div class="gift-reason-label">Neden bu hediye?</div>
+                    <div class="gift-reason">"Tarz tercihi ve bütçe aralığı birlikte değerlendirilerek bu ürün öne çıktı."</div>
+                    <div class="gift-desc-label">Nereden bulursunuz?</div>
+                    <div class="gift-desc">Her öneri Türkiye pazarına uygun seçilir. Trendyol veya Hepsiburada'da aratarak en uygun fiyatı bulabilirsiniz.</div>
+                    <span class="gift-price">&nbsp;</span>
+                    <div class="platform-links">
+                        <a class="plt-link plt-trendyol">Trendyol</a>
+                        <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
+                        <a class="plt-link plt-n11">N11</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gift-card">
+                <div class="img-wrap"><div class="spinner"></div><img src="" alt="Hediye önerisi"></div>
+                <div style="padding:20px">
+                    <div style="font-size:32px;margin-bottom:8px">🎁</div>
+                    <div class="gift-name">&nbsp;</div>
+                    <div class="gift-reason-label">Neden bu hediye?</div>
+                    <div class="gift-reason">"Doğum günü, yıl dönümü ya da sürpriz — bu hediye her özel an için düşünüldü."</div>
+                    <div class="gift-desc-label">Nereden bulursunuz?</div>
+                    <div class="gift-desc">Kişinin yaşı, cinsiyeti ve ilgi alanları bu seçimin arkasındaki temel kriterler. Aşağıdaki platformlarda kolayca bulabilirsiniz.</div>
+                    <span class="gift-price">&nbsp;</span>
+                    <div class="platform-links">
+                        <a class="plt-link plt-trendyol">Trendyol</a>
+                        <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
+                        <a class="plt-link plt-n11">N11</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gift-card">
+                <div class="img-wrap"><div class="spinner"></div><img src="" alt="Hediye önerisi"></div>
+                <div style="padding:20px">
+                    <div style="font-size:32px;margin-bottom:8px">🎁</div>
+                    <div class="gift-name">&nbsp;</div>
+                    <div class="gift-reason-label">Neden bu hediye?</div>
+                    <div class="gift-reason">"Sadece fiyata değil, anlama da baktık. Bu hediye bir düşünce ürünü."</div>
+                    <div class="gift-desc-label">Nereden bulursunuz?</div>
+                    <div class="gift-desc">BudurBuldum'da her öneri emek ister. Yapay zeka sistemimiz hediyenin doğru kişiye ulaşması için quiz cevaplarınızı titizlikle analiz eder.</div>
+                    <span class="gift-price">&nbsp;</span>
+                    <div class="platform-links">
+                        <a class="plt-link plt-trendyol">Trendyol</a>
+                        <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+                        <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
+                        <a class="plt-link plt-n11">N11</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Paylaş — hediyeler yüklenince görünür -->
+        <div id="share-section" style="display:none;">
+            <div class="share-bar">
+                <button class="share-btn share-wa" onclick="shareWA()"><i class="fab fa-whatsapp"></i> WhatsApp'ta Paylaş</button>
+                <button class="share-btn share-tw" onclick="shareTW()"><i class="fab fa-x-twitter"></i> X'te Paylaş</button>
+                <button class="share-btn share-cp" onclick="copyLink()"><i class="fas fa-link"></i> Linki Kopyala</button>
+            </div>
+            <p class="text-center text-zinc-400 text-xs mb-8">Arkadaşlarına da denesin! 🎁</p>
+        </div>
+
     </div>
 </div>
 
 <script>
     const PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
 
+    function shareWA() {
+        const text = 'BudurBuldum yapay zeka ile bana özel hediye önerileri sundu 🎁 Sen de dene: https://budurbuldum.com';
+        window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+    }
+    function shareTW() {
+        const text = 'BudurBuldum yapay zeka ile kişiye özel hediye öneriyor 🎁 Sen de dene:';
+        window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent('https://budurbuldum.com'), '_blank');
+    }
+    function copyLink() {
+        navigator.clipboard.writeText('https://budurbuldum.com').then(function() {
+            var btn = document.querySelector('.share-cp');
+            btn.innerHTML = '<i class="fas fa-check"></i> Kopyalandı!';
+            setTimeout(function(){ btn.innerHTML = '<i class="fas fa-link"></i> Linki Kopyala'; }, 2000);
+        });
+    }
+
     async function getGiftImage(query) {
-        // Sorguyu temizle ve ürün odaklı hale getir
         const cleanQuery = improveImageQuery(query);
         try {
-            const res = await fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(cleanQuery) + '&per_page=3&orientation=landscape', {
-                headers: { 'Authorization': PEXELS_KEY }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                if (data.photos && data.photos.length > 0) return data.photos[0].src.large;
-            }
+            const res = await fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(cleanQuery) + '&per_page=3&orientation=landscape', { headers: { 'Authorization': PEXELS_KEY } });
+            if (res.ok) { const data = await res.json(); if (data.photos && data.photos.length > 0) return data.photos[0].src.large; }
         } catch(e) {}
         try {
             const res = await fetch('https://source.unsplash.com/600x400/?' + encodeURIComponent(cleanQuery));
@@ -88,80 +262,32 @@
         return 'https://picsum.photos/seed/' + encodeURIComponent(cleanQuery) + '/600/400';
     }
 
-    // Resim arama sorgusunu iyileştir: HEDIYE/ÜRÜN'ün kendisinin görseli olmalı
     function improveImageQuery(query) {
         if (!query) return 'gift product';
         let q = query.toLowerCase().trim();
-
-        // YEM / MAMA için: hayvan resmi DEĞİL, mama paketi/kabı resmi olmalı
         const foodPatterns = ['yem', 'mama', 'food', 'kibble', 'feed', 'treats', 'pellet', 'flake', 'ödül'];
-        const isFood = foodPatterns.some(p => q.includes(p));
-        if (isFood) {
-            // Pet maması paketi - ölü hayvan/konserve değil, mağaza ürünü
-            if (q.includes('fish') || q.includes('balik') || q.includes('balık') || q.includes('akvaryum') || q.includes('aquarium')) {
-                q = 'fish food container pet store shelf';
-            } else if (q.includes('cat') || q.includes('kedi')) {
-                q = 'cat food bag pet store package';
-            } else if (q.includes('dog') || q.includes('kopek') || q.includes('köpek')) {
-                q = 'dog food bag pet store package';
-            } else if (q.includes('bird') || q.includes('kus') || q.includes('kuş') || q.includes('parrot')) {
-                q = 'bird food seeds package pet store';
-            } else if (q.includes('rabbit') || q.includes('tavsan') || q.includes('tavşan')) {
-                q = 'rabbit food pellets package pet';
-            } else if (q.includes('hamster')) {
-                q = 'hamster food pellets package pet';
-            } else {
-                q = 'pet food package store shelf';
-            }
-            return q;
+        if (foodPatterns.some(p => q.includes(p))) {
+            if (q.includes('fish')||q.includes('balik')||q.includes('balık')||q.includes('akvaryum')) return 'fish food container pet store shelf';
+            if (q.includes('cat')||q.includes('kedi')) return 'cat food bag pet store package';
+            if (q.includes('dog')||q.includes('kopek')||q.includes('köpek')) return 'dog food bag pet store package';
+            if (q.includes('bird')||q.includes('kus')||q.includes('kuş')) return 'bird food seeds package pet store';
+            if (q.includes('rabbit')||q.includes('tavsan')||q.includes('tavşan')) return 'rabbit food pellets package pet';
+            if (q.includes('hamster')) return 'hamster food pellets package pet';
+            return 'pet food package store shelf';
         }
-
-        // AKVARYUM / TANK ürünleri (yem değilse) → akvaryum ekipmanı
-        if (q.includes('akvaryum') || q.includes('aquarium tank') || q.includes('fish tank')) {
-            q = 'aquarium fish tank product setup';
-            return q;
+        if (q.includes('akvaryum')||q.includes('fish tank')) return 'aquarium fish tank product setup';
+        if (q.includes('tasma')||q.includes('collar')) return 'pet collar leash product store';
+        if (q.includes('kafes')||q.includes('cage')) return 'pet cage product store';
+        if (q.includes('yatak')||q.includes('pet bed')) return 'cozy pet bed cushion product store';
+        if (q.includes('oyuncak')||q.includes('toy')) {
+            if (q.includes('kedi')) return 'cat toy mouse colorful product';
+            if (q.includes('kopek')||q.includes('köpek')) return 'dog toy ball rope product';
+            if (q.includes('bebek')) return 'baby toy plush colorful soft';
+            if (q.includes('cocuk')||q.includes('child')) return 'kids toy colorful playful product';
+            return q + ' colorful product';
         }
-
-        // Pet tasması / aksesuar → ürün
-        if (q.includes('tasma') || q.includes('collar') || q.includes('leash')) {
-            q = 'pet collar leash product store';
-            return q;
-        }
-
-        // Kafes (kuş/hamster) → kafes ürünü
-        if (q.includes('kafes') || q.includes('cage')) {
-            q = 'pet cage product store';
-            return q;
-        }
-
-        // Pet yatağı → konfor ürünü
-        if (q.includes('yatak') || q.includes('bed cushion') || q.includes('pet bed')) {
-            q = 'cozy pet bed cushion product store';
-            return q;
-        }
-
-        // Oyuncak → renkli oyuncak ürünü
-        if (q.includes('oyuncak') || q.includes('toy')) {
-            if (q.includes('cat') || q.includes('kedi')) q = 'cat toy mouse colorful product';
-            else if (q.includes('dog') || q.includes('kopek') || q.includes('köpek')) q = 'dog toy ball rope product';
-            else if (q.includes('bebek') || q.includes('baby')) q = 'baby toy plush colorful soft';
-            else if (q.includes('cocuk') || q.includes('child') || q.includes('kid')) q = 'kids toy colorful playful product';
-            else q = q + ' colorful product';
-            return q;
-        }
-
-        // Bebek ürünleri için → ürün görseli
-        const bebekKelimeler = ['baby', 'bebek', 'infant', 'newborn'];
-        const isBebek = bebekKelimeler.some(p => q.includes(p));
-        if (isBebek && !q.includes('cute') && !q.includes('product')) {
-            q = q + ' product cute';
-        }
-
-        // Genel hediye - kısa sorgulara "product" ekle
-        if (q.split(' ').length <= 2 && !q.includes('product') && !q.includes('gift')) {
-            q = q + ' product gift';
-        }
-
+        if (['baby','bebek','infant','newborn'].some(p => q.includes(p)) && !q.includes('product')) return q + ' product cute';
+        if (q.split(' ').length <= 2 && !q.includes('product') && !q.includes('gift')) return q + ' product gift';
         return q;
     }
 
@@ -175,40 +301,20 @@
             '</div>';
     }
 
-    // YENİ: Hediye tıklamalarını veritabanına kaydet
     function logHediyeTiklama(hediye, platform) {
         const sessionId = localStorage.getItem('budurBuldumSessionId');
         if (!sessionId) return;
-
-        // Mevcut tıklamaları al, yeni tıklamayı ekle
         let tiklananlar = [];
-        try {
-            tiklananlar = JSON.parse(localStorage.getItem('budurBuldumTiklananHediyeler') || '[]');
-        } catch(e) { tiklananlar = []; }
-
-        tiklananlar.push({
-            ad: hediye.name,
-            searchQuery: hediye.searchQuery || '',
-            platform: platform || '',
-            zaman: new Date().toISOString()
-        });
-
+        try { tiklananlar = JSON.parse(localStorage.getItem('budurBuldumTiklananHediyeler') || '[]'); } catch(e) {}
+        tiklananlar.push({ ad: hediye.name, searchQuery: hediye.searchQuery || '', platform: platform || '', zaman: new Date().toISOString() });
         localStorage.setItem('budurBuldumTiklananHediyeler', JSON.stringify(tiklananlar));
-
-        // Veritabanına gönder (sessizce, hata olsa bile kullanıcıyı engellemesin)
-        fetch('/api/log-quiz', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                session_id: sessionId,
-                tiklanan_hediyeler: tiklananlar
-            })
-        }).catch(function(e) { console.warn('Tıklama log hatası (ignored):', e); });
+        fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, tiklanan_hediyeler: tiklananlar }) }).catch(function(e) {});
     }
 
     window.onload = async function() {
         const list = document.getElementById('gifts-list');
         const subtitle = document.getElementById('gifts-subtitle');
+        const shareSection = document.getElementById('share-section');
         const cevaplar = QuizHelper.getCevaplar();
         const aktifSet = QuizHelper.getAktifSet();
         const sorular = QuizHelper.getAktifSorular();
@@ -216,346 +322,98 @@
         const selectedCriteria = JSON.parse(localStorage.getItem('budurBuldumSelectedCriteria') || '[]');
         const secilenBurc = localStorage.getItem('budurBuldumSecilenBurc') || '';
 
-        // Quiz cevaplarını veritabanına kaydet
+        // DB log
         try {
             const sessionId = localStorage.getItem('budurBuldumSessionId');
             if (sessionId) {
-                const ziyaretciCinsiyet = localStorage.getItem('budurBuldumGender') || '';
                 const hobiler = Array.isArray(cevaplar.hobiler) ? cevaplar.hobiler.join(',') : (cevaplar.hobiler || '');
-                fetch('/api/log-quiz', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        session_id: sessionId,
-                        cinsiyet: cevaplar.cinsiyet || '',
-                        yas: cevaplar.yas || '',
-                        iliski_durumu: cevaplar.kime || '',
-                        butce: cevaplar.butce || '',
-                        ilgi_alanlari: hobiler,
-                        ozel_not: JSON.stringify({
-                            ziyaretci_cinsiyet: ziyaretciCinsiyet,
-                            tum_cevaplar: cevaplar,
-                            secilen_kriterler: selectedCriteria,
-                            burc: secilenBurc || ''
-                        })
-                    })
-                }).then(function(r) { console.log('DB log:', r.status); })
-                  .catch(function(e) { console.warn('Log hatası:', e); });
+                fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, cinsiyet: cevaplar.cinsiyet || '', yas: cevaplar.yas || '', iliski_durumu: cevaplar.kime || '', butce: cevaplar.butce || '', ilgi_alanlari: hobiler, ozel_not: JSON.stringify({ ziyaretci_cinsiyet: localStorage.getItem('budurBuldumGender') || '', tum_cevaplar: cevaplar, secilen_kriterler: selectedCriteria, burc: secilenBurc }) }) }).catch(function(e) {});
             }
-        } catch(e) { console.warn('Log hatası:', e); }
+        } catch(e) {}
 
-        // Dinamik bekleme mesajları oluştur (kullanıcının cevaplarından)
-        const beklemeMesajlari = buildBeklemeMesajlari(cevaplar, sorular, isOzel, selectedCriteria);
-
-        // Loading animasyonu
-        subtitle.textContent = '';
-        list.innerHTML = '<div class="col-span-3 py-12 text-center">' +
-            '<div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>' +
-            '<p id="loading-msg" class="text-xl font-semibold text-zinc-700 mb-2"></p>' +
-            '<p id="loading-sub" class="text-sm text-zinc-400"></p>' +
-            '</div>';
-
-        // Mesajları döndür
-        let msgIdx = 0;
-        const msgEl = document.getElementById('loading-msg');
-        const subEl = document.getElementById('loading-sub');
-        function showNextMsg() {
-            if (!msgEl) return;
-            const m = beklemeMesajlari[msgIdx % beklemeMesajlari.length];
-            msgEl.style.opacity = '0';
-            subEl.style.opacity = '0';
-            msgEl.style.transition = 'opacity 0.3s';
-            subEl.style.transition = 'opacity 0.3s';
-            setTimeout(function() {
-                msgEl.textContent = m.baslik;
-                subEl.textContent = m.alt;
-                msgEl.style.opacity = '1';
-                subEl.style.opacity = '1';
-            }, 300);
-            msgIdx++;
-        }
-        showNextMsg();
-        const msgInterval = setInterval(showNextMsg, 2800);
-
+        // API isteği
         try {
-            // Prompt oluştur
             const prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc);
-
-            // API çağrısı
             const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
-            const res = await fetch('/api/gifts', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt, session_id: sessionId })
-            });
-
-            if (!res.ok) {
-                let errMsg = 'API hatası: ' + res.status;
-                try { const errData = await res.json(); errMsg += ' — ' + (errData.error?.message || JSON.stringify(errData)); } catch(e) {}
-                throw new Error(errMsg);
-            }
-
+            const res = await fetch('/api/gifts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: prompt, session_id: sessionId }) });
+            if (!res.ok) throw new Error('API hatası: ' + res.status);
             const data = await res.json();
             let sugg = [];
-            try { sugg = JSON.parse(data.result); } catch(e) {
-                const m = data.result.match(/\[[\s\S]*\]/);
-                if (m) sugg = JSON.parse(m[0]);
-            }
+            try { sugg = JSON.parse(data.result); } catch(e) { const m = data.result.match(/\[[\s\S]*\]/); if (m) sugg = JSON.parse(m[0]); }
             if (!Array.isArray(sugg)) sugg = [sugg];
 
-            // Görselleri al
-            clearInterval(msgInterval);
-            list.innerHTML = '';
-            const withImgs = await Promise.all(sugg.map(async function(g) {
-                return Object.assign({}, g, { imgUrl: await getGiftImage(g.searchQueryEn || g.searchQuery || g.name) });
-            }));
+            // Görselleri al — her kart için ayrı ayrı, gelince yerleştir
+            const cards = list.querySelectorAll('.gift-card');
+            sugg.forEach(function(g, i) {
+                const card = cards[i];
+                if (!card) return;
 
-            // Kartları oluştur
-            withImgs.forEach(function(g) {
-                const card = document.createElement('div');
-                card.className = 'gift-card bg-white rounded-3xl overflow-hidden shadow-xl ' + (g.star ? 'star' : '');
-                const badgeHtml = g.star ? '<div class="star-badge">🎯 Nokta Atışı</div>' : '';
-                card.innerHTML =
-                    '<div style="position:relative">' +
-                    badgeHtml +
-                    '<img src="' + g.imgUrl + '" class="gift-img" onerror="this.src=\'https://picsum.photos/id/96/600/400\'">' +
-                    '</div>' +
-                    '<div class="p-5">' +
-                    '<div class="text-4xl mb-2">' + (g.emoji || '🎁') + '</div>' +
-                    '<h3 class="text-xl font-semibold mb-1">' + g.name + '</h3>' +
-                    '<p class="text-blue-600 text-sm font-medium mb-2 italic">"' + (g.reason || '') + '"</p>' +
-                    '<p class="text-zinc-600 mb-3 text-sm">' + g.description + '</p>' +
-                    '<span class="text-2xl font-bold text-amber-600">' + g.price + '</span>' +
-                    buildLinks(g.searchQuery || g.name) +
-                    '</div>';
-                list.appendChild(card);
+                // Başlık ve fiyat doldur
+                const nameEl = card.querySelector('.gift-name');
+                const priceEl = card.querySelector('.gift-price');
+                const reasonEl = card.querySelector('.gift-reason');
+                const descEl = card.querySelector('.gift-desc');
+                if (nameEl) { nameEl.textContent = g.name; nameEl.classList.add('loaded'); }
+                if (priceEl) { priceEl.textContent = g.price; priceEl.classList.add('loaded'); }
+                // reason ve desc — API'den geleni yaz, statik yazıların üzerine geç
+                if (reasonEl && g.reason) reasonEl.textContent = '"' + g.reason + '"';
+                if (descEl && g.description) descEl.textContent = g.description;
 
-                // YENİ: Trendyol/Hepsiburada vb. linklerine tıklamayı logla
-                const platformLinks = card.querySelectorAll('.plt-link');
-                platformLinks.forEach(function(link) {
-                    link.addEventListener('click', function() {
-                        try { logHediyeTiklama(g, link.textContent.trim()); } catch(e) {}
+                // Platform linkleri güncelle
+                const platformDiv = card.querySelector('.platform-links');
+                if (platformDiv) platformDiv.outerHTML = buildLinks(g.searchQuery || g.name);
+
+                // Resim — spinner devam eder, resim gelince kaplar
+                const imgWrap = card.querySelector('.img-wrap');
+                const img = card.querySelector('.img-wrap img');
+                if (img) {
+                    getGiftImage(g.searchQueryEn || g.searchQuery || g.name).then(function(url) {
+                        img.src = url;
+                        img.onload = function() { img.classList.add('loaded'); };
+                        img.onerror = function() { img.src = 'https://picsum.photos/id/96/600/400'; img.classList.add('loaded'); };
                     });
-                });
+                }
+
+                // Tıklama log
+                const links = card.querySelectorAll('.plt-link');
+                links.forEach(function(link) { link.addEventListener('click', function() { try { logHediyeTiklama(g, link.textContent.trim()); } catch(e) {} }); });
             });
 
-            subtitle.textContent = withImgs.filter(function(g){ return g.star; }).length + ' nokta atışı + ' + withImgs.filter(function(g){ return !g.star; }).length + ' öneri hazır!';
+            subtitle.textContent = sugg.filter(function(g){ return g.star; }).length + ' nokta atışı + ' + sugg.filter(function(g){ return !g.star; }).length + ' öneri hazır!';
+            shareSection.style.display = 'block';
 
         } catch(err) {
-            clearInterval(msgInterval);
-            list.innerHTML = '<div class="text-center py-12 text-red-500 col-span-3">❌ Bir hata oluştu.<br><small class="text-zinc-400">' + err.message + '</small></div>';
+            subtitle.textContent = '❌ Bir hata oluştu: ' + err.message;
         }
     };
 
     function buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc) {
         const kime = cevaplar.kime || '';
-
-        // Burç bilgisi
         let burcIsim = '';
-        if (secilenBurc) {
-            const parts = secilenBurc.split(' ');
-            burcIsim = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
-        }
-        // Doğum tarihinden de burç alınabilir
-        if (!burcIsim && cevaplar.dogum) {
-            const m = cevaplar.dogum.match(/([♈♉♊♋♌♍♎♏♐♑♒♓]) (\S+)/);
-            if (m) burcIsim = m[2];
-        }
+        if (secilenBurc) { const parts = secilenBurc.split(' '); burcIsim = parts.length > 1 ? parts.slice(1).join(' ') : parts[0]; }
+        if (!burcIsim && cevaplar.dogum) { const m = cevaplar.dogum.match(/([♈♉♊♋♌♍♎♏♐♑♒♓]) (\S+)/); if (m) burcIsim = m[2]; }
         const burcOzellik = burcIsim && QUIZ_CONFIG.burcOzellik[burcIsim] ? QUIZ_CONFIG.burcOzellik[burcIsim] : '';
-        const burcEk = burcIsim
-            ? ' Kişinin burcu: ' + secilenBurc + '. Burc ozellikleri: ' + burcOzellik + '. Burca uygun 1 ozgun hediye ekle (takim veya kolye olmayan, burcun ruhuna uygun yaratici bir hediye, star:false).'
-            : '';
+        const burcEk = burcIsim ? ' Kişinin burcu: ' + secilenBurc + '. Burc ozellikleri: ' + burcOzellik + '. Burca uygun 1 ozgun hediye ekle (star:false).' : '';
         const toplamHediye = burcIsim ? 7 : 6;
 
         if (isOzel) {
-            // Akış türünü tespit et
             const aktifSetAdi = QuizHelper.getAktifSet();
             const isPet = ['petler','kedi','kopek','kus','balik','kucukpet'].includes(aktifSetAdi);
             const isBebek = aktifSetAdi === 'bebekler';
             const isCocuk = aktifSetAdi === 'cocuklar';
-
-            // Kategori bazlı searchQuery örnekleri
-            let kategoriOrnekleri = '';
-            if (isPet) {
-                kategoriOrnekleri = '*** PET ÜRÜNLERİ İÇİN searchQuery ZORUNLU NETLEŞTİRİCİ ***\n' +
-                'searchQuery\'de MUTLAKA hayvan türü + ürün tipi + netleştirici kelime olmalı!\n' +
-                '❌ "tavşan oyuncağı" → çocuk için tavşan figürü çıkar!\n' +
-                '✅ "evcil tavşan kemirme oyuncağı"\n' +
-                '❌ "balık yemi" → insan yemeği çıkabilir\n' +
-                '✅ "akvaryum balık yemi pul" veya "akvaryum tropikal balık yemi"\n' +
-                '❌ "kuş kafesi" → dekoratif kafes çıkar\n' +
-                '✅ "evcil muhabbet kuşu kafesi"\n' +
-                '❌ "kedi yatağı" → bebek/insan yatağı\n' +
-                '✅ "kedi yatağı evcil hayvan ortopedik"\n' +
-                '❌ "köpek tasması" → çocuk aksesuarı\n' +
-                '✅ "köpek tasması evcil hayvan deri"\n' +
-                'Her searchQuery\'de "evcil", "akvaryum", "pet" gibi netleştirici kelime KULLAN.';
-            } else if (isBebek) {
-                kategoriOrnekleri = '*** BEBEK ÜRÜNLERİ İÇİN searchQuery ZORUNLU NETLEŞTİRİCİ ***\n' +
-                'searchQuery\'de MUTLAKA "bebek" kelimesi olmalı!\n' +
-                '✅ "bebek battaniyesi organik pamuk"\n' +
-                '✅ "bebek oyuncak peluş eğitici"\n' +
-                '✅ "bebek beşik aksesuar dönence"\n' +
-                'Çocuk veya yetişkin ürünüyle karışmasın diye "bebek" net olmalı.';
-            } else if (isCocuk) {
-                kategoriOrnekleri = '*** ÇOCUK ÜRÜNLERİ İÇİN searchQuery ZORUNLU NETLEŞTİRİCİ ***\n' +
-                'searchQuery\'de MUTLAKA "çocuk" kelimesi ve YAŞ aralığı olmalı!\n' +
-                '✅ "çocuk yapboz 6 yaş eğitici"\n' +
-                '✅ "çocuk bisiklet 8 yaş"\n' +
-                '✅ "çocuk kitap masal seti 5 yaş"\n' +
-                'Bebek veya yetişkin ürünüyle karışmasın diye netleştirici kelime KULLAN.';
-            }
-
-            // Bebek, pet, çocuk akışları
-            const sabitText = 'Hediye kime: ' + kime + '\n' +
-                sorular.map(function(s) {
-                    return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : '';
-                }).filter(Boolean).join('\n');
-
-            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\nGörev: Profile tam uygun ' + toplamHediye + ' hediye öner. İlk 2 tanesi "nokta atışı" (star:true), diğerleri normal (star:false). Türkiye\'de bulunabilir, bütçeye uygun ürünler.\n\nHer hediye için JSON\'da şu alanlar olmalı:\n- name (Türkçe ürün adı)\n- emoji\n- description (2 cümle)\n- reason (neden bu profile özel 1 cümle)\n- price (TL - bütçe aralığında gerçekçi)\n- star (bool)\n- searchQuery (Türkçe arama kelimesi)\n- searchQueryEn (İngilizce görsel araması)\n\n*** searchQuery KURALLARI (4 PLATFORM UYUMLU) ***\nsearchQuery Trendyol, Hepsiburada, Çiçeksepeti, N11 — DÖRT platformda da alakalı sonuç vermeli!\n\n1) 3-5 kelime olmalı\n2) Marka/model adı YASAK, jenerik kategori kelimesi kullan\n3) Kafa karıştırıcı tek kelimeden KAÇIN, mutlaka netleştirici kelime ekle\n4) Doğal Türkçe, herkesin anlayacağı dil\n\n' + kategoriOrnekleri + '\n\n*** searchQueryEn KURALLARI (GÖRSEL İÇİN) ***\nsearchQueryEn HEDİYE ÜRÜNÜNÜN GÖRSEL ARAMASI içindir!\n- Balık yemi: "fish food container package"\n- Kedi maması: "cat food bag package"\n- Köpek tasması: "dog collar product"\n- Kuş kafesi: "bird cage product"\n- Bebek battaniyesi: "baby blanket soft"\n- Oyuncak araba: "toy car product"\n\nÜRÜNÜN KENDİSİ aranmalı. ASLA "raw", "dead", "cooked", "canned", "fillet" kullanma.\n\nSadece JSON array döndür.';
+            let ek = '';
+            if (isPet) ek = 'searchQuery\'de MUTLAKA "evcil", "akvaryum", "pet" gibi netleştirici kelime kullan.';
+            else if (isBebek) ek = 'searchQuery\'de MUTLAKA "bebek" kelimesi olmalı.';
+            else if (isCocuk) ek = 'searchQuery\'de MUTLAKA "çocuk" + yaş aralığı olmalı.';
+            const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : ''; }).filter(Boolean).join('\n');
+            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (TL), star, searchQuery (Türkçe 3-5 kelime), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
         }
 
-        // Normal akış
         const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
-        const sabitText = profilIds
-            .filter(function(id) { return cevaplar[id]; })
-            .map(function(id) {
-                const soru = sorular.find(function(s) { return s.id === id; });
-                return soru ? soru.soru + ' → ' + cevaplar[id] : '';
-            }).filter(Boolean).join('\n');
-
-        const grupA = selectedCriteria
-            .filter(function(c) { return c.grup === 'A'; })
-            .map(function(c) {
-                const soru = sorular.find(function(s) { return s.id === c.id; });
-                return soru ? soru.soru + ' → ' + cevaplar[c.id] : '';
-            }).filter(Boolean).join('\n');
-
-        const grupB = selectedCriteria
-            .filter(function(c) { return c.grup === 'B'; })
-            .map(function(c) {
-                const soru = sorular.find(function(s) { return s.id === c.id; });
-                return soru ? soru.soru + ' → ' + cevaplar[c.id] : '';
-            }).filter(Boolean).join('\n');
-
-        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A kriterleri:\n' + grupA + '\n\nGrup B kriterleri:\n' + grupB + burcEk + '\n\nGörev: Grup A ve B\'yi çapraz sorgulayarak HER İKİ GRUBU tam karşılayan 2 nokta atışı hediye bul (star:true). Ayrıca genel profile uygun ' + (toplamHediye - 2) + ' normal hediye öner (star:false). Nokta atışları ilk 2 sırada. Türkiye\'de bulunabilir, bütçeye uygun ürünler.\n\nHer hediye için JSON\'da şu alanlar olmalı:\n- name (Türkçe ürün adı)\n- emoji\n- description (2 cümle)\n- reason (neden bu kişiye özel 1 cümle, kişiselleştirilmiş)\n- price (TL - MUTLAKA belirtilen bütçe aralığı içinde gerçekçi bir fiyat yaz)\n- star (bool)\n- searchQuery (Türkçe arama kelimesi)\n- searchQueryEn (İngilizce arama sorgusu - GÖRSEL ARAMASI için)\n\n*** searchQuery KURALLARI (4 PLATFORM UYUMLU) ***\nsearchQuery Trendyol, Hepsiburada, Çiçeksepeti, N11 — DÖRT platformda da alakalı sonuç vermeli!\n\n1) 3-5 kelime olmalı, ne çok kısa ne çok uzun\n2) JENERIK kategori kelimesi kullan, ASLA marka/model adı yazma\n   ❌ "Philips Espresso 5400 LatteGo" \n   ✅ "espresso kahve makinesi otomatik"\n3) Belirsiz/kafa karıştırıcı tek kelimeden KAÇIN\n   ❌ "tavşan oyuncağı" → çocuk için tavşan figürü çıkar!\n   ✅ "evcil tavşan kemirme oyuncağı"\n   ❌ "balık yemi" → insan yemeği çıkabilir\n   ✅ "akvaryum balık yemi pul"\n   ❌ "kuş kafesi" → dekoratif kafes çıkabilir\n   ✅ "evcil kuş kafesi muhabbet"\n4) Doğal Türkçe kelimeler kullan, herkesin anlayacağı dil\n5) Marka jargon değil, kategori-ürün-özellik formatı tercih et\n\n*** searchQueryEn KURALLARI (GÖRSEL İÇİN) ***\nsearchQueryEn HEDİYE ÜRÜNÜNÜN görselini bulmak içindir!\n- Kahve makinesi: "coffee machine espresso product"\n- Kitap: "book novel cover product"\n- Spor saati: "smartwatch fitness product"\n- Hayvan ürünü: ÜRÜNÜN kendisi (yem ise paket, oyuncak ise oyuncak)\n- ASLA "raw", "dead", "cooked", "canned", "fillet", "sardine" gibi kelimeler kullanma\n\nHer zaman HEDİYENİN KENDİSİ aranmalı.\n\nSadece JSON array döndür.';
-    }
-    function buildBeklemeMesajlari(cevaplar, sorular, isOzel, selectedCriteria) {
-        const mesajlar = [];
-        const kime = cevaplar.kime || 'sevdiğin kişi';
-
-        // Kime'ye göre kişisel mesaj
-        const kimeMap = {
-            'Sevgili':      { baslik:'Sevgiline özel sürprizler hazırlanıyor... 💝', alt:'En romantik hediyeler seçiliyor' },
-            'Anne':         { baslik:'Annene layık hediyeler araştırılıyor... 👩‍👦', alt:'Annenin gözlerini parlatacak seçenekler' },
-            'Baba':         { baslik:'Babana özel hediyeler bulunuyor... 👨‍👧', alt:'Babanı mutlu edecek sürprizler geliyor' },
-            'Arkadaş':      { baslik:'Arkadaşına özel hediyeler hazırlanıyor... 🤝', alt:'Dostluğunuzu taçlandıracak fikirler' },
-            'Kardeş':       { baslik:'Kardeşine özel seçenekler araştırılıyor... 👫', alt:'Kardeş sevgisini gösterecek hediyeler' },
-            'Kendime':      { baslik:'Kendine güzel bir hediye hakkediyorsun... 🌟', alt:'Biraz da kendin için harca!' },
-            'İş arkadaşı':  { baslik:'İş arkadaşına şık hediyeler araştırılıyor... 💼', alt:'Profesyonel ve zarif seçenekler' },
-            'Bebek ❤️':     { baslik:'Minik bebek için hediyeler hazırlanıyor... 👶', alt:'En tatlı hediyeler geliyor' },
-            'Çocuk 🧒':    { baslik:'Çocuğa özel hediyeler bulunuyor... 🧒', alt:'Gözleri parlayacak hediyeler geliyor' },
-        };
-        if (kimeMap[kime]) mesajlar.push(kimeMap[kime]);
-
-        // Pet türüne göre özel mesaj
-        if (kime === 'Pet ❤️' && cevaplar.pet_tur) {
-            const petMap = {
-                'Kedi 🐱':       { baslik:'Minik patili kediniz için hediyeler araştırılıyor... 🐱', alt:'Tüylü dostunuza özel seçenekler' },
-                'Köpek 🐶':      { baslik:'Sevimli köpeğiniz için hediyeler hazırlanıyor... 🐶', alt:'Kuyruk sallatacak sürprizler' },
-                'Kuş 🐦':        { baslik:'Kuş dostunuz için hediyeler bulunuyor... 🐦', alt:'Cıvıltılı bir hayatın incelikleri' },
-                'Tavşan 🐰':     { baslik:'Pamuk gibi tavşanınız için hediyeler seçiliyor... 🐰', alt:'Yumuşacık ve tatlı seçenekler' },
-                'Hamster':       { baslik:'Minik hamsterınız için hediyeler hazırlanıyor... 🐹', alt:'Ufacık ama keyifli sürprizler' },
-                'Balık 🐟':      { baslik:'Akvaryum dostunuz için ürünler araştırılıyor... 🐠', alt:'Akvaryumda renkli bir dünya' },
-                'Egzotik / Diğer': { baslik:'Eşsiz dostunuz için özel ürünler bulunuyor... 🦎', alt:'Sıradışı pet için sıradışı hediyeler' },
-            };
-            if (petMap[cevaplar.pet_tur]) mesajlar.push(petMap[cevaplar.pet_tur]);
-            else mesajlar.push({ baslik:'Evcil dostunuz için hediyeler araştırılıyor... 🐾', alt:'Hayvan dostlarına özel seçenekler' });
-        }
-
-        // Bebek cinsiyetine göre özel mesaj
-        if (kime === 'Bebek ❤️' && cevaplar.bebek_cinsiyet) {
-            const bebekMap = {
-                'Kız Bebek':      { baslik:'Minik prenses için hediyeler hazırlanıyor... 👶🎀', alt:'Pembe tonlarda tatlı seçenekler' },
-                'Erkek Bebek':    { baslik:'Minik prens için hediyeler hazırlanıyor... 👶💙', alt:'Mavi tonlarda eğlenceli seçenekler' },
-            };
-            if (bebekMap[cevaplar.bebek_cinsiyet]) mesajlar.push(bebekMap[cevaplar.bebek_cinsiyet]);
-        }
-
-        // Çocuk cinsiyetine göre özel mesaj
-        if ((kime === 'Çocuk 🧒' || kime === 'Kardeş') && cevaplar.cocuk_cinsiyet) {
-            const cocukMap = {
-                'Kız':      { baslik:'Kız çocuğu için hediyeler araştırılıyor... 👧', alt:'Yaratıcılığı destekleyecek seçenekler' },
-                'Erkek':    { baslik:'Erkek çocuğu için hediyeler araştırılıyor... 👦', alt:'Macera dolu hediye fikirleri' },
-            };
-            if (cocukMap[cevaplar.cocuk_cinsiyet]) mesajlar.push(cocukMap[cevaplar.cocuk_cinsiyet]);
-        }
-
-        // Bütçeye göre
-        const butceId = isOzel ? Object.keys(cevaplar).find(function(k){ return k.includes('butce'); }) : 'butce';
-        if (butceId && cevaplar[butceId]) {
-            mesajlar.push({ baslik: cevaplar[butceId] + ' bütçeye uygun seçenekler filtreleniyor... 💰', alt: 'En iyi fiyat-performans oranı aranıyor' });
-        }
-
-        // Tarz
-        if (cevaplar.tarz) {
-            const tarzEmoji = { 'Minimalist':'🤍', 'Renkli ve Eğlenceli':'🌈', 'Klasik / Şık':'👔', 'Modern / Şık':'✨', 'Spor / Casual':'🏃' };
-            mesajlar.push({ baslik: cevaplar.tarz + ' tarza uygun hediyeler seçiliyor... ' + (tarzEmoji[cevaplar.tarz]||'🎨'), alt: 'Tarzına yakışacak öneriler hazırlanıyor' });
-        }
-
-        // Hobiler
-        if (cevaplar.hobiler) {
-            mesajlar.push({ baslik: cevaplar.hobiler + ' ile ilgili hediye fikirleri araştırılıyor... 🎯', alt: 'Hobisine uygun yaratıcı hediyeler' });
-        }
-
-        // Seçilen kriterlerden mesaj üret
-        if (selectedCriteria && selectedCriteria.length > 0) {
-            selectedCriteria.forEach(function(c) {
-                const soru = sorular.find(function(s){ return s.id === c.id; });
-                if (soru && cevaplar[c.id]) {
-                    const cevap = cevaplar[c.id];
-                    const mesajMap = {
-                        'spor':      { baslik:'Spor: "' + cevap + '" — buna uygun hediyeler araştırılıyor... 🏋️', alt:'Aktif yaşam tarzına uygun seçenekler' },
-                        'muzik':     { baslik: cevap + ' müzik severler için hediyeler seçiliyor... 🎵', alt:'Kulağa hoş gelecek sürprizler' },
-                        'kahve':     { baslik: cevap + ' tutkunu için özel hediyeler hazırlanıyor... ☕', alt:'Lezzet dolu seçenekler geliyor' },
-                        'teknoloji': { baslik:'Teknoloji ilgisi: "' + cevap + '" — buna göre hediyeler araştırılıyor... 📱', alt:'Akıllı ve yenilikçi hediye fikirleri' },
-                        'kitap':     { baslik:'Kitap okuma: "' + cevap + '" — buna uygun hediyeler araştırılıyor... 📚', alt:'Sayfa sayfa mutluluk' },
-                        'seyahat':   { baslik:'Seyahat tutkusu: "' + cevap + '" — hediyeler araştırılıyor... ✈️', alt:'Macera dolu hediye fikirleri' },
-                        'film':      { baslik: cevap + ' film türü severler için hediyeler seçiliyor... 🎬', alt:'Sinema tadında sürprizler' },
-                        'oyun':      { baslik:'Oyun alışkanlığı: "' + cevap + '" — hediyeler araştırılıyor... 🎮', alt:'Eğlence dolu hediye seçenekleri' },
-                        'makyaj':    { baslik:'Bakım ilgisi: "' + cevap + '" — hediyeler araştırılıyor... 💄', alt:'Güzellik ve bakım önerileri' },
-                        'hayvan':    { baslik:'Hayvan sevgisi: "' + cevap + '" — hediyeler araştırılıyor... 🐾', alt:'Patili dost temalı hediyeler' },
-                        'doga':      { baslik:'Doğa yürüyüşü: "' + cevap + '" — hediyeler araştırılıyor... 🥾', alt:'Açık hava tutkunlarına özel' },
-                        'sanat':     { baslik:'Sanat ilgisi: "' + cevap + '" — hediyeler araştırılıyor... 🎨', alt:'Estetik ve yaratıcı öneriler' },
-                        'aksesuar':  { baslik:'Aksesuar tercihi: "' + cevap + '" — hediyeler araştırılıyor... ⌚', alt:'Tarzını tamamlayacak parçalar' },
-                        'mutfak':    { baslik: cevap + ' mutfağı severler için hediyeler seçiliyor... 🍽️', alt:'Damak tadına uygun hediyeler' },
-                        'tatli':     { baslik: cevap + ' severler için tatlı hediyeler araştırılıyor... 🍫', alt:'Tatlı bir sürpriz geliyor' },
-                        'bitki':     { baslik:'Bitki bakımı: "' + cevap + '" — hediyeler araştırılıyor... 🌿', alt:'Yeşil parmaklar için hediye fikirleri' },
-                        'foto':      { baslik:'Fotoğraf merakı: "' + cevap + '" — hediyeler araştırılıyor... 📸', alt:'Anıları ölümsüzleştiren hediyeler' },
-                    };
-                    if (mesajMap[c.id]) mesajlar.push(mesajMap[c.id]);
-                }
-            });
-        }
-
-        // Burç
-        const secilenBurc = localStorage.getItem('budurBuldumSecilenBurc') || '';
-        if (secilenBurc) {
-            mesajlar.push({ baslik: secilenBurc + ' burcuna uygun hediyeler ekleniyor... ⭐', alt: 'Yıldızlar ne diyor bakalım' });
-        }
-
-        // Mevsim
-        if (cevaplar.mevsim) {
-            const mevsimEmoji = { 'İlkbahar':'🌸', 'Yaz':'☀️', 'Sonbahar':'🍂', 'Kış':'❄️' };
-            mesajlar.push({ baslik: cevaplar.mevsim + ' mevsimi sevenler için hediyeler seçiliyor... ' + (mevsimEmoji[cevaplar.mevsim]||'🌈'), alt:'Mevsime uygun öneriler hazırlanıyor' });
-        }
-
-        // Genel mesajlar (her zaman eklenir)
-        mesajlar.push({ baslik:'En uygun hediyeler karşılaştırılıyor... 🔍', alt:'Binlerce seçenek arasından en iyileri' });
-        mesajlar.push({ baslik:'Neredeyse hazır! Son dokunuşlar... ✨', alt:'Sürprizler birazdan karşında' });
-        mesajlar.push({ baslik:'Hediye önerileri şekilleniyor... 🎁', alt:'Kişiye özel seçimler yapılıyor' });
-
-        return mesajlar;
+        const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
+        const grupA = selectedCriteria.filter(function(c) { return c.grup === 'A'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
+        const grupB = selectedCriteria.filter(function(c) { return c.grup === 'B'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
+        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A:\n' + grupA + '\n\nGrup B:\n' + grupB + burcEk + '\n\nGörev: Grup A+B çapraz analiz → 2 nokta atışı (star:true), ' + (toplamHediye-2) + ' normal (star:false). Nokta atışları ilk 2 sırada.\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (TL bütçe içinde), star, searchQuery (Türkçe 3-5 kelime jenerik, marka YASAK), searchQueryEn (İngilizce görsel araması, raw/dead/canned YASAK)\nSadece JSON array döndür.';
     }
 </script>
 </body>
