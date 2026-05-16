@@ -336,7 +336,7 @@
 
     function buildLinks(name) {
         const q = encodeURIComponent(name);
-        const _cv = (typeof cevaplar !== 'undefined') ? cevaplar : (QuizHelper ? QuizHelper.getCevaplar() : {});
+        const _cv = (function() { try { if (typeof cevaplar !== 'undefined' && cevaplar) return cevaplar; if (typeof QuizHelper !== 'undefined' && QuizHelper) return QuizHelper.getCevaplar(); var raw = localStorage.getItem('budurBuldumCevaplar'); return raw ? JSON.parse(raw) : {}; } catch(e) { return {}; } })();
         const butce = (_cv && _cv.butce) ? _cv.butce : '';
         const aralik = butceyeFiyatAraligi(butce);
         const prc = aralik ? ('&prc=' + aralik.min + '-' + (aralik.max || 999999)) : '';
