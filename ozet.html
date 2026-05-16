@@ -419,7 +419,7 @@
             el.style.transform = 'translateY(' + dy + 'px)';
             requestAnimationFrame(function() {
                 requestAnimationFrame(function() {
-                    el.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
+                    el.style.transition = 'transform 2.4s cubic-bezier(0.25,0.1,0.25,1)';
                     el.style.transform = 'translateY(0)';
                     el.addEventListener('transitionend', function done() {
                         el.style.transition = '';
