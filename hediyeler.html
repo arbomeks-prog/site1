@@ -329,7 +329,7 @@
             '3000-5000 TL':   { min: 3000,  max: 5000 },
             '5000-10000 TL':  { min: 5000,  max: 10000 },
             '10000-30000 TL': { min: 10000, max: 30000 },
-            '30.000 TL+':     { min: 30000, max: 999999 }
+            '30.000 TL+':     { min: 30000, max: null }
         };
         return eslesme[butce] || null;
     }
@@ -338,9 +338,9 @@
         const q = encodeURIComponent(name);
         const butce = cevaplar.butce || '';
         const aralik = butceyeFiyatAraligi(butce);
-        const prc = aralik ? '&prc=' + aralik.min + '-' + aralik.max : '';
-        const mn = aralik ? '&minPrice=' + aralik.min + '&maxPrice=' + aralik.max : '';
-        const amzMin = aralik ? '&rh=p_36%3A' + (aralik.min * 100) + '-' + (aralik.max * 100) : '';
+        const prc = aralik ? ('&prc=' + aralik.min + '-' + (aralik.max || '')) : '';
+        const mn = aralik ? ('&minPrice=' + aralik.min + (aralik.max ? '&maxPrice=' + aralik.max : '')) : '';
+        const amzMin = aralik ? ('&rh=p_36%3A' + (aralik.min * 100) + '-' + (aralik.max ? aralik.max * 100 : '')) : '';
         return '<div class="platform-links">' +
             '<a href="https://www.trendyol.com/sr?q=' + q + prc + '" target="_blank" class="plt-link plt-trendyol">Trendyol</a>' +
             '<a href="https://www.hepsiburada.com/ara?q=' + q + mn + '" target="_blank" class="plt-link plt-hepsiburada">Hepsiburada</a>' +
