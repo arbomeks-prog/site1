@@ -343,7 +343,7 @@
         const mn = aralik ? ('&minPrice=' + aralik.min + (aralik.max ? '&maxPrice=' + aralik.max : '')) : '';
         const amzMin = aralik ? ('&rh=p_36%3A' + (aralik.min * 100) + '-' + (aralik.max ? aralik.max * 100 : '')) : '';
         return '<div class="platform-links">' +
-            '<a href="https://www.trendyol.com/sr?q=' + q + prc + '" target="_blank" class="plt-link plt-trendyol">Trendyol</a>' +
+            '<a href="https://www.trendyol.com/sr?q=' + q + prc + (aralik && aralik.min > 0 ? '&qt=1&st=1' : '') + '" target="_blank" class="plt-link plt-trendyol">Trendyol</a>' +
             '<a href="https://www.hepsiburada.com/ara?q=' + q + mn + '" target="_blank" class="plt-link plt-hepsiburada">Hepsiburada</a>' +
             '<a href="https://www.amazon.com.tr/s?k=' + q + amzMin + '" target="_blank" class="plt-link plt-amazon">Amazon</a>' +
             '<a href="https://www.ciceksepeti.com/arama?query=' + q + '" target="_blank" class="plt-link plt-ciceksepeti">Çiçeksepeti</a>' +
@@ -542,14 +542,14 @@
             else if (isBebek) ek = 'searchQuery\'de MUTLAKA "bebek" kelimesi olmalı.';
             else if (isCocuk) ek = 'searchQuery\'de MUTLAKA "çocuk" + yaş aralığı olmalı.';
             const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : ''; }).filter(Boolean).join('\n');
-            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 3-5 kelime, Trendyol/Hepsiburada/Amazon.com.tr araması için), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
+            return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime JENERIK kategori adı, lüks/italyan/özel gibi sıfat YASAK, sadece ürün kategorisi — örn: 'deri seyahat çantası' değil 'seyahat çantası', 'akıllı saat' değil 'akıllı saat erkek' — Trendyol/Hepsiburada araması için, fiyat filtrelemesi ayrıca yapılacak), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
         }
 
         const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
         const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
         const grupA = selectedCriteria.filter(function(c) { return c.grup === 'A'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
         const grupB = selectedCriteria.filter(function(c) { return c.grup === 'B'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
-        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A:\n' + grupA + '\n\nGrup B:\n' + grupB + burcEk + '\n\n' + butceKural + '\n\nGörev: Grup A+B çapraz analiz → 2 nokta atışı (star:true), ' + (toplamHediye-2) + ' normal (star:false). Nokta atışları ilk 2 sırada.\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 3-5 kelime jenerik, marka YASAK — Trendyol/Hepsiburada/Amazon.com.tr araması için), searchQueryEn (İngilizce görsel araması, raw/dead/canned YASAK)\nSadece JSON array döndür.';
+        return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A:\n' + grupA + '\n\nGrup B:\n' + grupB + burcEk + '\n\n' + butceKural + '\n\nGörev: Grup A+B çapraz analiz → 2 nokta atışı (star:true), ' + (toplamHediye-2) + ' normal (star:false). Nokta atışları ilk 2 sırada.\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime JENERIK kategori adı, lüks/özel/italyan gibi sıfat YASAK, marka YASAK, sadece ürün kategorisi — Trendyol/Hepsiburada araması için, fiyat filtrelemesi ayrıca yapılacak), searchQueryEn (İngilizce görsel araması, raw/dead/canned YASAK)\nSadece JSON array döndür.';
     }
 </script>
 </body>
