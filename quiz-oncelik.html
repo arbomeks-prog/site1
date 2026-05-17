@@ -263,10 +263,7 @@
         btn.classList.remove('disabled-state');
         btn.classList.add('active-state');
         setTimeout(function() {
-            var rect = btn.getBoundingClientRect();
-            if (rect.bottom > window.innerHeight - 20) {
-                window.scrollBy({ top: 100, behavior: 'smooth' });
-            }
+            btn.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }, 50);
     }
     function deactivateContinueBtn() {
