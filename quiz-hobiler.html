@@ -57,7 +57,7 @@
 <body>
 
 <div style="min-height:100dvh; background:#F9F9F9; display:flex; justify-content:center;">
-<div style="width:100%; max-width:480px; display:flex; flex-direction:column; background:#F9F9F9; padding:16px; padding-bottom:120px;">
+<div style="width:100%; max-width:480px; display:flex; flex-direction:column; background:#F9F9F9; padding:16px; padding-bottom:80px;">
 
     <!-- ÜST: Geri / Logo / İleri + Progress + Başlık -->
     <div>
@@ -266,9 +266,6 @@
         var btn = document.getElementById('continue-btn');
         btn.classList.remove('disabled-state');
         btn.classList.add('active-state');
-        setTimeout(function() {
-            btn.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        }, 50);
     }
     function deactivateContinueBtn() {
         var btn = document.getElementById('continue-btn');
