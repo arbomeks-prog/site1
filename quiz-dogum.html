@@ -28,7 +28,7 @@
         .burc-btn.selected { border-color:#6366f1; background:#eef2ff; font-weight:700; }
         .burc-btn .burc-sembol { font-size:20px; display:block; }
         .burc-btn .burc-isim { font-size:10px; color:#475569; }
-        #continue-btn { transition: all 0.3s ease; }
+        #continue-btn { transition: all 0.3s ease; position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 448px; z-index: 100; }
         #continue-btn.disabled-state { background-color: #d1d5db; color: #9ca3af; cursor: not-allowed; pointer-events: none; }
         #continue-btn.active-state { background-color: #2563eb; color: white; cursor: pointer; pointer-events: auto; }
         #continue-btn.active-state:hover { background-color: #1d4ed8; }
