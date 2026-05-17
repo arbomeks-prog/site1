@@ -125,7 +125,6 @@
                     <button class="w-full text-left p-3 text-sm option-btn" onclick="return false;"><span class="opt-check"></span>Şekerleme</button>
                     <button class="w-full text-left p-3 text-sm option-btn" onclick="return false;"><span class="opt-check"></span>Hiçbiri</button></div>
                 <button id="continue-btn" class="mt-2 w-full py-4 rounded-3xl text-lg font-semibold disabled-state" >Devam Et →</button>
-                <div style="height:50vh; display:flex; align-items:flex-start; padding-top:24px; justify-content:center;"><div style="width:100%; height:1px; background:#e5e7eb; border-radius:1px;"></div></div>
             </div>
 
         </div>
@@ -264,6 +263,12 @@
         var btn = document.getElementById('continue-btn');
         btn.classList.remove('disabled-state');
         btn.classList.add('active-state');
+        setTimeout(function() {
+            var rect = btn.getBoundingClientRect();
+            if (rect.bottom > window.innerHeight - 20) {
+                window.scrollBy({ top: 100, behavior: 'smooth' });
+            }
+        }, 50);
     }
     function deactivateContinueBtn() {
         var btn = document.getElementById('continue-btn');
