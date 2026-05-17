@@ -189,11 +189,13 @@
     // Makale scrollbar
         initMakaleScroll();
 
-        // Sayfa açılışında quiz bölgesine smooth scroll
-        setTimeout(function() {
-            var qs = document.getElementById('quiz-section');
-            if (qs) qs.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 600);
+        // Sayfa açılışında quiz bölümünü parmak erişim yüksekliğinde konumlandır
+        var qs = document.getElementById('quiz-section');
+        if (qs) {
+            var rect = qs.getBoundingClientRect();
+            var hedef = qs.offsetTop - (window.innerHeight * 0.25);
+            window.scrollTo({ top: hedef < 0 ? 0 : hedef });
+        }
     };
 
     function updateGiftBoxes() {
