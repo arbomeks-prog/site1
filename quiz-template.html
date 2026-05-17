@@ -262,10 +262,9 @@
     }
 
     function secimYap(deger, btn) {
-        var scrollPos = window.scrollY;
+        btn.blur();
         document.querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('selected','previous-answer'); });
         btn.classList.add('selected');
-        requestAnimationFrame(function() { window.scrollTo(0, scrollPos); });
         if(typeof BudurSes!=='undefined') BudurSes.tik();
         QuizHelper.setCevap(SORU_ID, deger);
 
@@ -286,6 +285,7 @@
     // Çoklu seçim (hobiler)
     let multiSecimler = [];
     function toggleMulti(deger, btn) {
+        btn.blur();
         if (btn.classList.contains('selected')) {
             btn.classList.remove('selected');
             multiSecimler = multiSecimler.filter(function(x){ return x !== deger; });
