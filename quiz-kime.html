@@ -310,10 +310,6 @@
         var btn = document.getElementById('continue-btn');
         btn.classList.remove('disabled-state');
         btn.classList.add('active-state');
-        // Devam Et butonunu görünür alana getir
-        setTimeout(function() {
-            btn.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }, 100);
     }
     function deactivateContinueBtn() {
         var btn = document.getElementById('continue-btn');
