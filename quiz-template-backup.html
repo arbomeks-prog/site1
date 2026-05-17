@@ -253,8 +253,10 @@
     }
 
     function secimYap(deger, btn) {
+        var scrollPos = window.scrollY;
         document.querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('selected','previous-answer'); });
         btn.classList.add('selected');
+        requestAnimationFrame(function() { window.scrollTo(0, scrollPos); });
         QuizHelper.setCevap(SORU_ID, deger);
 
         // Otomatik cevapları işle (Anne/Baba → cinsiyet)
