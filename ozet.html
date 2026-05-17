@@ -144,7 +144,7 @@
         </div>
 
         <div class="text-center py-2 mb-3">
-            <span style="font-size:13px;color:#94a3b8;font-weight:600;">↓ aşağıya kaydır ↓</span>
+            <span style="font-size:20px;color:#ef4444;font-weight:700;">↓ aşağıya kaydır ↓</span>
         </div>
 
         <!-- Burç paneli -->
@@ -368,7 +368,7 @@
             el.style.transform = 'translateY(' + dy + 'px)';
             requestAnimationFrame(function() {
                 requestAnimationFrame(function() {
-                    el.style.transition = 'transform 2.4s cubic-bezier(0.25,0.1,0.25,1)';
+                    el.style.transition = 'transform 0.7s cubic-bezier(0.25,0.1,0.25,1)';
                     el.style.transform = 'translateY(0)';
                     el.addEventListener('transitionend', function done() {
                         el.style.transition = '';

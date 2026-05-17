@@ -108,7 +108,7 @@
                     <div class="gift-reason-label">Neden bu hediye?</div>
                     <div class="gift-reason">"Quiz cevaplarınız analiz edildi — bu hediye kişinin tarzı ve bütçesiyle birebir örtüşüyor."</div>
                     <div class="gift-desc-label">Nereden bulursunuz?</div>
-                    <div class="gift-desc">Trendyol, Hepsiburada, Çiçeksepeti ve N11'de kolayca bulabilirsiniz. Aşağıdaki butonlarla doğrudan arama yapabilirsiniz.</div>
+                    <div class="gift-desc">Trendyol, Hepsiburada, Amazon, Çiçeksepeti ve N11'de kolayca bulabilirsiniz. Aşağıdaki butonlarla doğrudan arama yapabilirsiniz.</div>
                     <span class="gift-price">&nbsp;</span>
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
@@ -131,7 +131,7 @@
                     <div class="gift-reason-label">Neden bu hediye?</div>
                     <div class="gift-reason">"Hobisi, yaşam tarzı ve bütçesi göz önünde bulundurularak özenle seçildi."</div>
                     <div class="gift-desc-label">Nereden bulursunuz?</div>
-                    <div class="gift-desc">Bu ürünü Türkiye'nin önde gelen alışveriş platformlarında bulabilirsiniz. Aşağıdaki butonlara tıklayarak hemen aramaya başlayın.</div>
+                    <div class="gift-desc">Bu ürünü Türkiye'nin önde gelen alışveriş platformlarında bulabilirsiniz: Trendyol, Hepsiburada, Amazon, Çiçeksepeti ve N11. Aşağıdaki butonlara tıklayarak hemen aramaya başlayın.</div>
                     <span class="gift-price">&nbsp;</span>
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
@@ -151,7 +151,7 @@
                     <div class="gift-reason-label">Neden bu hediye?</div>
                     <div class="gift-reason">"Kişinin ilgi alanları ve günlük yaşam alışkanlıkları bu seçimi özel kılıyor."</div>
                     <div class="gift-desc-label">Nereden bulursunuz?</div>
-                    <div class="gift-desc">BudurBuldum'un önerdiği ürünler Türkiye'de kolayca bulunabilir. Platform butonlarına tıklayarak fiyat karşılaştırması yapabilirsiniz.</div>
+                    <div class="gift-desc">Önerilen ürünler Trendyol, Hepsiburada, Amazon, Çiçeksepeti ve N11'de kolayca bulunabilir. Platform butonlarına tıklayarak fiyat karşılaştırması yapabilirsiniz.</div>
                     <span class="gift-price">&nbsp;</span>
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
@@ -171,7 +171,7 @@
                     <div class="gift-reason-label">Neden bu hediye?</div>
                     <div class="gift-reason">"Tarz tercihi ve bütçe aralığı birlikte değerlendirilerek bu ürün öne çıktı."</div>
                     <div class="gift-desc-label">Nereden bulursunuz?</div>
-                    <div class="gift-desc">Her öneri Türkiye pazarına uygun seçilir. Trendyol veya Hepsiburada'da aratarak en uygun fiyatı bulabilirsiniz.</div>
+                    <div class="gift-desc">Her öneri Türkiye pazarına uygun seçilir. Trendyol, Hepsiburada, Amazon veya Çiçeksepeti'nde aratarak en uygun fiyatı bulabilirsiniz.</div>
                     <span class="gift-price">&nbsp;</span>
                     <div class="platform-links">
                         <a class="plt-link plt-trendyol">Trendyol</a>
@@ -468,7 +468,34 @@
                 const reasonEl = card.querySelector('.gift-reason');
                 const descEl = card.querySelector('.gift-desc');
                 if (nameEl) { nameEl.textContent = g.name; nameEl.classList.add('loaded'); }
-                if (priceEl) { priceEl.textContent = g.price; priceEl.classList.add('loaded'); }
+                // Burç hediyesi badge
+                if (g.isBurc) {
+                    var _burcSembol = secilenBurc ? secilenBurc.split(' ')[0] : '⭐';
+                    var _burcIsimKisa = secilenBurc ? secilenBurc.split(' ').slice(1).join(' ') : 'Burç';
+                    var existingBadge = card.querySelector('.star-badge');
+                    if (existingBadge) { existingBadge.textContent = _burcSembol + ' ' + _burcIsimKisa + ' Burcu Hediyesi'; existingBadge.style.background = '#6366f1'; }
+                    else {
+                        var imgWrapEl = card.querySelector('.img-wrap');
+                        if (imgWrapEl && imgWrapEl.parentElement) {
+                            var nb = document.createElement('div');
+                            nb.className = 'star-badge';
+                            nb.style.background = '#6366f1';
+                            nb.textContent = _burcSembol + ' ' + _burcIsimKisa + ' Burcu Hediyesi';
+                            imgWrapEl.parentElement.style.position = 'relative';
+                            imgWrapEl.parentElement.insertBefore(nb, imgWrapEl);
+                        }
+                    }
+                }
+                if (priceEl) {
+                    var _butceAralik = (function() {
+                        var _cv2 = (function() { try { var r = localStorage.getItem('budurBuldumCevaplar'); return r ? JSON.parse(r) : {}; } catch(e) { return {}; } })();
+                        var _map = { '0-500 TL': '0 - 500 TL', '500-1500 TL': '500 - 1.500 TL', '1500-3000 TL': '1.500 - 3.000 TL', '3000-5000 TL': '3.000 - 5.000 TL', '5000-10000 TL': '5.000 - 10.000 TL', '10000-30000 TL': '10.000 - 30.000 TL', '30.000 TL+': '30.000 TL+' };
+                        var _b = _cv2.butce || _cv2.bebek_butce || _cv2.cocuk_butce || _cv2.kedi_butce || _cv2.kopek_butce || _cv2.kus_butce || '';
+                        return _map[_b] || '';
+                    })();
+                    priceEl.innerHTML = '<span style="font-size:11px;color:#94a3b8;font-weight:600;display:block;margin-bottom:2px;">ortalama fiyat</span>' + g.price + (_butceAralik ? '<span style="font-size:11px;color:#64748b;font-weight:500;display:block;margin-top:3px;">Bütçe aralığı: ' + _butceAralik + '</span>' : '');
+                    priceEl.classList.add('loaded');
+                }
                 // reason ve desc — API'den geleni yaz, statik yazıların üzerine geç
                 if (reasonEl && g.reason) reasonEl.textContent = '"' + g.reason + '"';
                 if (descEl && g.description) {
@@ -544,7 +571,7 @@
         if (secilenBurc) { const parts = secilenBurc.split(' '); burcIsim = parts.length > 1 ? parts.slice(1).join(' ') : parts[0]; }
         if (!burcIsim && cevaplar.dogum) { const m = cevaplar.dogum.match(/([♈♉♊♋♌♍♎♏♐♑♒♓]) (\S+)/); if (m) burcIsim = m[2]; }
         const burcOzellik = burcIsim && QUIZ_CONFIG.burcOzellik[burcIsim] ? QUIZ_CONFIG.burcOzellik[burcIsim] : '';
-        const burcEk = burcIsim ? ' Kişinin burcu: ' + secilenBurc + '. Burc ozellikleri: ' + burcOzellik + '. Burca uygun 1 ozgun hediye ekle (star:false).' : '';
+        const burcEk = burcIsim ? ' Kişinin burcu: ' + secilenBurc + '. Burc ozellikleri: ' + burcOzellik + '. Burca uygun 1 ozgun hediye ekle (star:false, isBurc:true). Bu hediyenin name alanına basinda "' + (secilenBurc.split(' ')[0] || '⭐') + ' " sembolunu ekle.' : '';
         const toplamHediye = burcIsim ? 7 : 6;
 
         if (isOzel) {
