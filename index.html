@@ -114,7 +114,7 @@
 </div>
 
 <!-- HERO -->
-<section class="hero-bg text-white" style="padding:8px 0 16px;">
+<section id="hero-section" class="hero-bg text-white" style="padding:8px 0 16px;">
     <div class="max-w-5xl mx-auto px-4 text-center">
         <h1 class="mb-2 text-center" style="font-size:15px; font-weight:500; line-height:2; letter-spacing:0.01em; color:rgba(255,255,255,0.92);">
             Kişiye özel<br>
@@ -1178,7 +1178,8 @@
     function maybeStartQuiz() {
         if (selectedGender && selectedAge) {
             setTimeout(() => {
-                document.getElementById('kime-bolumu').scrollIntoView({behavior:'smooth', block:'start'});
+                document.getElementById('hero-section').style.display = 'none';
+                window.scrollTo({top: 0, behavior:'smooth'});
             }, 300);
         }
     }
