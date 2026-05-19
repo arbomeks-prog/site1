@@ -167,6 +167,7 @@
 
         // Geri butonu
         document.getElementById('geri-btn').href = QuizHelper.getOncekiSayfa(SORU_ID);
+        document.getElementById('geri-btn').addEventListener('click', function() { if(typeof BudurSes!=='undefined') BudurSes.geri(); });
 
         // Progress bar
         var progressYuzde = QuizHelper.getProgress(SORU_ID);
@@ -277,6 +278,7 @@
         btn.blur();
         document.querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('selected','previous-answer'); });
         btn.classList.add('selected');
+        if(typeof BudurSes!=='undefined') BudurSes.tik();
         QuizHelper.setCevap(SORU_ID, deger);
 
         // Otomatik cevapları işle (Anne/Baba → cinsiyet)
@@ -302,6 +304,7 @@
             multiSecimler = multiSecimler.filter(function(x){ return x !== deger; });
         } else if (multiSecimler.length < MAX_SECIM) {
             btn.classList.add('selected');
+        if(typeof BudurSes!=='undefined') BudurSes.tik();
             multiSecimler.push(deger);
         }
         if (multiSecimler.length > 0) {
@@ -321,6 +324,7 @@
     // Devam butonu
     document.getElementById('continue-btn').addEventListener('click', function() {
         if(this.classList.contains('disabled-state')) return;
+        if(typeof BudurSes!=='undefined') BudurSes.basari();
         var hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
         window.location.href = hedef;
     });

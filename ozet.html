@@ -193,6 +193,7 @@
             const target = document.getElementById('butce-baslik-wrapper');
             if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
         }, 600);
+        if(typeof BudurSes!=='undefined') BudurSes.tamam();
 
         const cevaplar = QuizHelper.getCevaplar();
         const aktifSet = QuizHelper.getAktifSet();
