@@ -48,7 +48,6 @@
     function handleDogumSecim(tip, btn, cont) {
         cont.querySelectorAll('.option-btn').forEach(function(b){ b.classList.remove('selected','previous-answer'); });
         btn.classList.add('selected');
-        if(typeof BudurSes!=='undefined') BudurSes.tik();
         cont.querySelectorAll('.extra-box').forEach(function(e){ e.remove(); });
 
         if (tip === 'tarih') {
