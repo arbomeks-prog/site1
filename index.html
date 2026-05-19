@@ -21,7 +21,7 @@
         .option-btn.selected { background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%); border:2px solid #10b981; border-bottom:2px solid #059669; box-shadow:inset 0 2px 4px rgba(0,0,0,0.1); color:#065f46; font-weight:700; transform:translateY(2px); }
         .option-btn.selected .opt-check { background:#10b981; border-color:#10b981; color:white; }
         .option-btn.selected .opt-check::after { content:"✔"; }
-        .opt-check { width:20px; height:20px; border:2px solid #ced4da; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
+        .opt-check { width:20px; height:20px; border:2px solid #ced4da; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; background:white; }
         .cta-btn { display:flex; align-items:center; gap:12px; padding:14px 18px; border-radius:16px; cursor:pointer; text-align:left; transition:transform 0.22s ease, box-shadow 0.22s ease; width:100%; background:#1e40af; color:#fff; border:2.5px solid rgba(255,255,255,0.75) !important; }
         .cta-btn:hover { transform:translateY(-2px) scale(1.01); box-shadow:0 0 0 3px rgba(255,255,255,0.25); }
         .cta-btn:active { transform:scale(0.97); }
@@ -154,6 +154,16 @@
 </div>
 
 <!-- KİME SORUSU - Hero altı -->
+<div style="position:relative;">
+<!-- QUIZ POPUP OVERLAY -->
+<div id="quiz-overlay" style="position:absolute;inset:0;background:rgba(255,255,255,0.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:10;display:flex;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:20px;padding:28px 24px;max-width:300px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.18);">
+    <div style="font-size:44px;margin-bottom:10px;">🎁</div>
+    <h3 style="font-size:18px;font-weight:800;color:#1e293b;margin:0 0 8px;">Hayalindeki hediyeyi bulalım!</h3>
+    <p style="font-size:14px;color:#64748b;margin:0 0 20px;">Birkaç soruyla sana özel öneriler hazırlayacağız.</p>
+    <button onclick="document.getElementById('quiz-overlay').style.display='none'" style="width:100%;padding:14px;background:linear-gradient(135deg,#f97316,#ea580c);color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(249,115,22,0.4);">✨ Başla, hediyemi bul!</button>
+  </div>
+</div>
 <div id="kime-bolumu" style="background:#F9F9F9; padding:16px 16px 0;">
     <div style="max-width:600px; margin:0 auto;">
         <!-- Başlık -->
@@ -193,6 +203,7 @@
         </div>
     </div>
 </div>
+</div><!-- /quiz-wrapper -->
 
 <!-- SORULAR -->
 <div style="background:#0f172a;padding:40px 24px;">
