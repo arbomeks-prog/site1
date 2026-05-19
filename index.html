@@ -205,6 +205,13 @@
                 <div class="gift-box-item" id="igb-5"><img src="" alt=""></div>
             </div>
             </div>        </div>
+        <!-- ALT: Hediye kutuları yatay sıra -->
+        <div style="display:flex; justify-content:center; gap:8px; margin-top:12px; border:3px solid hotpink;">
+            <div class="gift-box-item" id="igb-b0"><img src="" alt=""></div>
+            <div class="gift-box-item" id="igb-b1"><img src="" alt=""></div>
+            <div class="gift-box-item" id="igb-b2"><img src="" alt=""></div>
+            <div class="gift-box-item" id="igb-b3"><img src="" alt=""></div>
+        </div>
     </div>
 </div>
 </div><!-- /quiz-wrapper -->
@@ -215,6 +222,10 @@ document.addEventListener("DOMContentLoaded",function(){
     for(var i=0;i<6;i++){
         var el=document.getElementById('igb-'+i);
         if(el)el.querySelector('img').src=GIFT_IMGS[i]||'';
+    }
+    for(var j=0;j<4;j++){
+        var el2=document.getElementById('igb-b'+j);
+        if(el2)el2.querySelector('img').src=GIFT_IMGS[j]||'';
     }
 });
 </script>
