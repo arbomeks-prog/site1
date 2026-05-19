@@ -1203,7 +1203,6 @@ document.addEventListener("DOMContentLoaded",function(){
     function maybeStartQuiz() {
         if (selectedGender && selectedAge) {
             setTimeout(() => {
-                document.getElementById('hero-section').style.display = 'none';
                 document.getElementById('kime-bolumu').scrollIntoView({behavior:'smooth', block:'start'});
             }, 300);
         }
