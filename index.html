@@ -1202,7 +1202,9 @@ document.addEventListener("DOMContentLoaded",function(){
         if (selectedGender && selectedAge) {
             setTimeout(() => {
                 document.getElementById('hero-section').style.display = 'none';
-                window.scrollTo({top: 0, behavior:'smooth'});
+                var navbar = document.querySelector('.page-wrapper > div');
+                var navH = navbar ? navbar.offsetHeight : 0;
+                window.scrollTo({top: navH, behavior:'smooth'});
             }, 300);
         }
     }
