@@ -114,6 +114,50 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
   .related-grid{grid-template-columns:1fr;}
   .cta-steps{gap:12px;}
 }
+
+/* ── QUIZ OVERLAY ── */
+.bb-overlay-wrap{position:relative;margin-bottom:0;}
+.bb-article-blur{transition:filter 0.4s ease;}
+.bb-article-blur.blurred{filter:blur(4px);pointer-events:none;user-select:none;}
+.bb-quiz-block{
+  background:#fff;
+  border:2px solid #e8a838;
+  border-radius:20px;
+  padding:24px 20px;
+  margin:20px 0 24px;
+  box-shadow:0 4px 24px rgba(232,168,56,0.15);
+}
+.bb-quiz-block .bb-q-label{
+  font-size:11px;font-weight:700;color:#e8a838;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.bb-quiz-block .bb-q-text{
+  font-size:17px;font-weight:800;color:#0f172a;margin-bottom:16px;line-height:1.4;
+}
+.bb-quiz-opts{display:flex;flex-direction:column;gap:10px;}
+.bb-opt{
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(180deg,#f8f9fa,#e9ecef);
+  border:2px solid #ced4da;border-bottom:4px solid #adb5bd;
+  border-radius:12px;padding:13px 16px;
+  font-size:14px;font-weight:600;color:#1e293b;
+  cursor:pointer;transition:all 0.15s;text-align:left;width:100%;
+}
+.bb-opt:hover{border-color:#6366f1;background:linear-gradient(180deg,#fff,#f1f3f5);transform:translateY(-1px);}
+.bb-opt.selected{background:linear-gradient(180deg,#d1fae5,#a7f3d0);border-color:#10b981;border-bottom-color:#059669;color:#065f46;}
+.bb-opt-check{width:20px;height:20px;min-width:20px;border-radius:5px;border:2px solid #ced4da;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;transition:all 0.15s;}
+.bb-opt.selected .bb-opt-check{background:#10b981;border-color:#10b981;color:#fff;}
+.bb-devam-btn{
+  display:none;width:100%;margin-top:14px;
+  background:linear-gradient(135deg,#e8a838,#f5c96a);
+  color:#0f172a;font-size:16px;font-weight:800;
+  padding:14px;border-radius:50px;border:none;cursor:pointer;
+  box-shadow:0 6px 20px rgba(232,168,56,0.35);
+  transition:transform 0.15s;
+}
+.bb-devam-btn:hover{transform:translateY(-2px);}
+.bb-skip{display:block;text-align:center;margin-top:12px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none;}
+.bb-skip:hover{color:#64748b;}
 </style>
 </head>
 <body>
@@ -144,18 +188,67 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       <span><i class="fas fa-star" style="color:#e8a838;"></i> BudurBuldum</span>
     </div>
   </div>
-  <article class="article-body">
-    <p>Takı ve aksesuar, kişisel tarzın en görünür yansımasıdır. Doğru seçimde inanılmaz değerli, yanlış seçimde çoğu zaman rafta kalan hediye kategorisidir.</p>
-<h2>⌚ Saat Severler İçin</h2>
-<ul><li>Klasik mekanik veya otomatik saat</li><li>Akıllı saat — teknoloji ilgisine göre</li><li>Saat kayışı seti</li></ul>
-<h2>💍 Takı Severler İçin</h2>
-<ul><li>Kişiselleştirilmiş kolye (isim veya harf)</li><li>Doğum taşı içeren aksesuar</li><li>Minimal ve modern tasarım takılar</li><li>Takı kutusu veya organizatörü</li></ul>
-<h2>👜 Çanta ve Aksesuar İçin</h2>
-<ul><li>Kaliteli deri cüzdan</li><li>Anahtarlık veya çanta kolye</li><li>Eşarp veya ipek fular</li></ul>
-<h2>🕶️ Gözlük Aksesuarları</h2>
-<ul><li>Kaliteli güneş gözlüğü</li><li>Gözlük kılıfı ve temizleme seti</li></ul>
-<div class="highlight-box"><p>💡 Takı hediye ederken metal tercihini mutlaka öğrenin: altın, gümüş veya rose gold — bu fark kombinasyon yapmayı belirler.</p></div>
-  </article>
+
+  <div class="bb-overlay-wrap">
+
+    <!-- İLK PARAGRAF — her zaman görünür -->
+    <p style="font-size:15px;line-height:1.9;color:#475569;margin-bottom:0;">Takı ve aksesuar, kişisel tarzın en görünür yansımasıdır. Doğru seçimde inanılmaz değerli, yanlış seçimde çoğu zaman rafta kalan hediye kategorisidir.</p>
+
+    <!-- QUIZ BLOĞU — statik HTML, Google indexler -->
+    <div class="bb-quiz-block" id="bbQuizBlock">
+      <div class="bb-q-label">🎁 Hızlı Soru</div>
+      <p class="bb-q-text">Aksesuar sever mi? Devamını okumadan önce söyle, sana özel hediye önerisi hazırlayalım.</p>
+      <div class="bb-quiz-opts">
+        <button class="bb-opt" onclick="bbSec(this, 'evet')">
+          <span class="bb-opt-check"></span>
+          Evet, saat ve takı çok sever ⌚
+        </button>
+        <button class="bb-opt" onclick="bbSec(this, 'bazen')">
+          <span class="bb-opt-check"></span>
+          Bazen takar, abartmaz
+        </button>
+        <button class="bb-opt" onclick="bbSec(this, 'hayir')">
+          <span class="bb-opt-check"></span>
+          Hiç takmaz, başka şey ara 🚫
+        </button>
+      </div>
+      <button class="bb-devam-btn" id="bbDevamBtn" onclick="window.location.href='quiz-kime.html'">
+        🎯 Hediye Testine Devam Et →
+      </button>
+      <a class="bb-skip" onclick="bbKapat()">Soruyu geç, devamını oku ↓</a>
+    </div>
+
+    <!-- MAKALENİN GERI KALANI — başlangıçta blur'lu -->
+    <article class="article-body bb-article-blur blurred" id="bbArticle">
+      <h2>⌚ Saat Severler İçin</h2>
+      <ul>
+        <li>Klasik mekanik veya otomatik saat</li>
+        <li>Akıllı saat — teknoloji ilgisine göre</li>
+        <li>Saat kayışı seti</li>
+      </ul>
+      <h2>💍 Takı Severler İçin</h2>
+      <ul>
+        <li>Kişiselleştirilmiş kolye (isim veya harf)</li>
+        <li>Doğum taşı içeren aksesuar</li>
+        <li>Minimal ve modern tasarım takılar</li>
+        <li>Takı kutusu veya organizatörü</li>
+      </ul>
+      <h2>👜 Çanta ve Aksesuar İçin</h2>
+      <ul>
+        <li>Kaliteli deri cüzdan</li>
+        <li>Anahtarlık veya çanta kolye</li>
+        <li>Eşarp veya ipek fular</li>
+      </ul>
+      <h2>🕶️ Gözlük Aksesuarları</h2>
+      <ul>
+        <li>Kaliteli güneş gözlüğü</li>
+        <li>Gözlük kılıfı ve temizleme seti</li>
+      </ul>
+      <div class="highlight-box"><p>💡 Takı hediye ederken metal tercihini mutlaka öğrenin: altın, gümüş veya rose gold — bu fark kombinasyon yapmayı belirler.</p></div>
+    </article>
+
+  </div><!-- /bb-overlay-wrap -->
+
   <div class="cta-box">
     <div class="cta-tag">✨ Ücretsiz · 1 Dakika</div>
     <h3>Aksesuar Tutkununa Hediye Bul</h3>
@@ -165,17 +258,16 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       <div class="step"><span class="num">2</span> AI öneriler sunar</div>
       <div class="step"><span class="num">3</span> Hediyeyi seç</div>
     </div>
-    <a href="quiz-aksesuar.html" class="cta-btn">🎯 Hediye Testi / Quize Başla →</a>
+    <a href="quiz-kime.html" class="cta-btn">🎯 Hediye Testi / Quize Başla →</a>
     <p class="cta-sub">Trendyol, Hepsiburada ve daha fazlasında karşılaştır</p>
   </div>
   <div class="related-section">
     <h2>📚 İlgili Hediye Rehberleri</h2>
     <div class="related-grid">
       <a href="makale-makyaj-hediye.html" class="related-card"><div class="rc-icon">💄</div><div class="rc-title">Makyaj Hediyeleri</div><div class="rc-desc">Güzellik kategorisi</div></a>
-<a href="makale-tarza-gore-hediye.html" class="related-card"><div class="rc-icon">🎨</div><div class="rc-title">Tarza Göre Hediye</div><div class="rc-desc">Kişilik odaklı</div></a>
-<a href="makale-butceye-gore-hediye.html" class="related-card"><div class="rc-icon">💰</div><div class="rc-title">Bütçeye Göre Hediye</div><div class="rc-desc">Her bütçeye uygun</div></a>
-<a href="makale-kime-gore-hediye.html" class="related-card"><div class="rc-icon">🎁</div><div class="rc-title">Kime Göre Hediye</div><div class="rc-desc">İlişkiye özel</div></a>
-
+      <a href="makale-tarza-gore-hediye.html" class="related-card"><div class="rc-icon">🎨</div><div class="rc-title">Tarza Göre Hediye</div><div class="rc-desc">Kişilik odaklı</div></a>
+      <a href="makale-butceye-gore-hediye.html" class="related-card"><div class="rc-icon">💰</div><div class="rc-title">Bütçeye Göre Hediye</div><div class="rc-desc">Her bütçeye uygun</div></a>
+      <a href="makale-kime-gore-hediye.html" class="related-card"><div class="rc-icon">🎁</div><div class="rc-title">Kime Göre Hediye</div><div class="rc-desc">İlişkiye özel</div></a>
     </div>
   </div>
 </div>
@@ -202,5 +294,24 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     </div>
   </div>
 </footer>
+<script>
+function bbSec(btn, val) {
+  // Seçimi işaretle
+  document.querySelectorAll('.bb-opt').forEach(function(b) {
+    b.classList.remove('selected');
+    b.querySelector('.bb-opt-check').textContent = '';
+  });
+  btn.classList.add('selected');
+  btn.querySelector('.bb-opt-check').textContent = '✔';
+  // Devam butonunu göster
+  document.getElementById('bbDevamBtn').style.display = 'block';
+}
+
+function bbKapat() {
+  // Quiz bloğunu gizle, blur kaldır
+  document.getElementById('bbQuizBlock').style.display = 'none';
+  document.getElementById('bbArticle').classList.remove('blurred');
+}
+</script>
 </body>
 </html>
