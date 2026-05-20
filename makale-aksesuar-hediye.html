@@ -35,14 +35,6 @@
     "name": "BudurBuldum",
     "url": "https://budurbuldum.com",
     "logo": {"@type":"ImageObject","url":"https://budurbuldum.com/favicon.png"}
-  },
-  "breadcrumb": {
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type":"ListItem","position":1,"name":"Ana Sayfa","item":"https://budurbuldum.com/"},
-      {"@type":"ListItem","position":2,"name":"Hediye Rehberleri","item":"https://budurbuldum.com/"},
-      {"@type":"ListItem","position":3,"name":"Saat ve Aksesuar Hediye Fikirleri","item":"https://budurbuldum.com/makale-aksesuar-hediye.html"}
-    ]
   }
 }
 </script>
@@ -69,7 +61,6 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 .article-meta{font-size:12px;color:#94a3b8;display:flex;gap:16px;flex-wrap:wrap;}
 .article-meta span{display:flex;align-items:center;gap:5px;}
 .article-body h2{font-size:19px;font-weight:800;color:#0f172a;margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid #fef3c7;}
-.article-body h3{font-size:16px;font-weight:700;color:#d97706;margin:20px 0 8px;}
 .article-body p{font-size:15px;line-height:1.9;color:#475569;margin-bottom:16px;}
 .article-body ul{margin:0 0 18px 0;padding-left:0;list-style:none;}
 .article-body ul li{font-size:15px;line-height:1.8;color:#475569;padding:6px 0 6px 28px;position:relative;border-bottom:1px solid #f1f5f9;}
@@ -115,24 +106,23 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
   .cta-steps{gap:12px;}
 }
 
-/* ── QUIZ OVERLAY ── */
-.bb-overlay-wrap{position:relative;margin-bottom:0;}
-.bb-article-blur{transition:filter 0.4s ease;}
-.bb-article-blur.blurred{filter:blur(4px);pointer-events:none;user-select:none;}
+/* ── QUIZ BLOĞU ── */
 .bb-quiz-block{
   background:#fff;
   border:2px solid #e8a838;
   border-radius:20px;
   padding:24px 20px;
-  margin:20px 0 24px;
+  margin:20px 0 28px;
   box-shadow:0 4px 24px rgba(232,168,56,0.15);
 }
-.bb-quiz-block .bb-q-label{
-  font-size:11px;font-weight:700;color:#e8a838;letter-spacing:1px;
-  text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;
+.bb-q-label{
+  font-size:11px;font-weight:700;color:#e8a838;
+  letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:10px;
 }
-.bb-quiz-block .bb-q-text{
-  font-size:17px;font-weight:800;color:#0f172a;margin-bottom:16px;line-height:1.4;
+.bb-q-text{
+  font-size:17px;font-weight:800;color:#0f172a;
+  margin-bottom:16px;line-height:1.4;
 }
 .bb-quiz-opts{display:flex;flex-direction:column;gap:10px;}
 .bb-opt{
@@ -156,8 +146,6 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
   transition:transform 0.15s;
 }
 .bb-devam-btn:hover{transform:translateY(-2px);}
-.bb-skip{display:block;text-align:center;margin-top:12px;font-size:13px;color:#94a3b8;cursor:pointer;text-decoration:none;}
-.bb-skip:hover{color:#64748b;}
 </style>
 </head>
 <body>
@@ -168,15 +156,12 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       <span class="logo-text">budur<span>buldum</span></span>
     </a>
     <nav class="header-nav">
-      <a href="index.html">Ana Sayfa</a>
-      <a href="biz-kimiz.html">Hakkımızda</a>
       <a href="quiz-kime.html">Hediye Bul</a>
     </nav>
   </div>
 </header>
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <a href="index.html">Ana Sayfa</a><span>›</span>
-  <a href="index.html">Hediye Rehberleri</a><span>›</span>
   Saat ve Aksesuar Hediye Fikirleri
 </nav>
 <div class="container">
@@ -189,25 +174,24 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     </div>
   </div>
 
-  <div class="bb-overlay-wrap">
+  <article class="article-body">
 
-    <!-- İLK PARAGRAF — her zaman görünür -->
-    <p style="font-size:15px;line-height:1.9;color:#475569;margin-bottom:0;">Takı ve aksesuar, kişisel tarzın en görünür yansımasıdır. Doğru seçimde inanılmaz değerli, yanlış seçimde çoğu zaman rafta kalan hediye kategorisidir.</p>
+    <p>Takı ve aksesuar, kişisel tarzın en görünür yansımasıdır. Doğru seçimde inanılmaz değerli, yanlış seçimde çoğu zaman rafta kalan hediye kategorisidir.</p>
 
-    <!-- QUIZ BLOĞU — statik HTML, Google indexler -->
-    <div class="bb-quiz-block" id="bbQuizBlock">
+    <!-- QUIZ BLOĞU — statik HTML, Google indexler, blur yok -->
+    <div class="bb-quiz-block">
       <div class="bb-q-label">🎁 Hızlı Soru</div>
-      <p class="bb-q-text">Aksesuar sever mi? Devamını okumadan önce söyle, sana özel hediye önerisi hazırlayalım.</p>
+      <p class="bb-q-text">Aksesuar sever mi? Söyle, sana özel hediye önerisi çıkaralım.</p>
       <div class="bb-quiz-opts">
-        <button class="bb-opt" onclick="bbSec(this, 'evet')">
+        <button class="bb-opt" onclick="bbSec(this)">
           <span class="bb-opt-check"></span>
           Evet, saat ve takı çok sever ⌚
         </button>
-        <button class="bb-opt" onclick="bbSec(this, 'bazen')">
+        <button class="bb-opt" onclick="bbSec(this)">
           <span class="bb-opt-check"></span>
           Bazen takar, abartmaz
         </button>
-        <button class="bb-opt" onclick="bbSec(this, 'hayir')">
+        <button class="bb-opt" onclick="bbSec(this)">
           <span class="bb-opt-check"></span>
           Hiç takmaz, başka şey ara 🚫
         </button>
@@ -215,39 +199,35 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       <button class="bb-devam-btn" id="bbDevamBtn" onclick="window.location.href='quiz-kime.html'">
         🎯 Hediye Testine Devam Et →
       </button>
-      <a class="bb-skip" onclick="bbKapat()">Soruyu geç, devamını oku ↓</a>
     </div>
 
-    <!-- MAKALENİN GERI KALANI — başlangıçta blur'lu -->
-    <article class="article-body bb-article-blur blurred" id="bbArticle">
-      <h2>⌚ Saat Severler İçin</h2>
-      <ul>
-        <li>Klasik mekanik veya otomatik saat</li>
-        <li>Akıllı saat — teknoloji ilgisine göre</li>
-        <li>Saat kayışı seti</li>
-      </ul>
-      <h2>💍 Takı Severler İçin</h2>
-      <ul>
-        <li>Kişiselleştirilmiş kolye (isim veya harf)</li>
-        <li>Doğum taşı içeren aksesuar</li>
-        <li>Minimal ve modern tasarım takılar</li>
-        <li>Takı kutusu veya organizatörü</li>
-      </ul>
-      <h2>👜 Çanta ve Aksesuar İçin</h2>
-      <ul>
-        <li>Kaliteli deri cüzdan</li>
-        <li>Anahtarlık veya çanta kolye</li>
-        <li>Eşarp veya ipek fular</li>
-      </ul>
-      <h2>🕶️ Gözlük Aksesuarları</h2>
-      <ul>
-        <li>Kaliteli güneş gözlüğü</li>
-        <li>Gözlük kılıfı ve temizleme seti</li>
-      </ul>
-      <div class="highlight-box"><p>💡 Takı hediye ederken metal tercihini mutlaka öğrenin: altın, gümüş veya rose gold — bu fark kombinasyon yapmayı belirler.</p></div>
-    </article>
+    <h2>⌚ Saat Severler İçin</h2>
+    <ul>
+      <li>Klasik mekanik veya otomatik saat</li>
+      <li>Akıllı saat — teknoloji ilgisine göre</li>
+      <li>Saat kayışı seti</li>
+    </ul>
+    <h2>💍 Takı Severler İçin</h2>
+    <ul>
+      <li>Kişiselleştirilmiş kolye (isim veya harf)</li>
+      <li>Doğum taşı içeren aksesuar</li>
+      <li>Minimal ve modern tasarım takılar</li>
+      <li>Takı kutusu veya organizatörü</li>
+    </ul>
+    <h2>👜 Çanta ve Aksesuar İçin</h2>
+    <ul>
+      <li>Kaliteli deri cüzdan</li>
+      <li>Anahtarlık veya çanta kolye</li>
+      <li>Eşarp veya ipek fular</li>
+    </ul>
+    <h2>🕶️ Gözlük Aksesuarları</h2>
+    <ul>
+      <li>Kaliteli güneş gözlüğü</li>
+      <li>Gözlük kılıfı ve temizleme seti</li>
+    </ul>
+    <div class="highlight-box"><p>💡 Takı hediye ederken metal tercihini mutlaka öğrenin: altın, gümüş veya rose gold — bu fark kombinasyon yapmayı belirler.</p></div>
 
-  </div><!-- /bb-overlay-wrap -->
+  </article>
 
   <div class="cta-box">
     <div class="cta-tag">✨ Ücretsiz · 1 Dakika</div>
@@ -261,6 +241,7 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     <a href="quiz-kime.html" class="cta-btn">🎯 Hediye Testi / Quize Başla →</a>
     <p class="cta-sub">Trendyol, Hepsiburada ve daha fazlasında karşılaştır</p>
   </div>
+
   <div class="related-section">
     <h2>📚 İlgili Hediye Rehberleri</h2>
     <div class="related-grid">
@@ -271,18 +252,17 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     </div>
   </div>
 </div>
+
 <footer class="site-footer">
   <div class="footer-inner">
     <a href="index.html" class="footer-logo">
       <div class="footer-logo-icon">🎁</div>
       <span class="footer-logo-text">budur<span>buldum</span></span>
     </a>
-    <p class="footer-desc">BudurBuldum, yapay zeka destekli hediye öneri platformudur. Kişiye özel sorularla doğru hediyeyi bulmanıza yardımcı olur. Trendyol, Hepsiburada ve daha fazlasında karşılaştırın.</p>
+    <p class="footer-desc">BudurBuldum, yapay zeka destekli hediye öneri platformudur. Kişiye özel sorularla doğru hediyeyi bulmanıza yardımcı olur.</p>
     <div class="footer-links">
       <a href="index.html">Ana Sayfa</a>
-      <a href="biz-kimiz.html">Hakkımızda</a>
       <a href="quiz-kime.html">Hediye Bul</a>
-      <a href="makale-kime-gore-hediye.html">Hediye Rehberleri</a>
     </div>
     <div class="footer-bottom">
       <span class="footer-copy">© 2025 BudurBuldum. Tüm hakları saklıdır.</span>
@@ -294,23 +274,16 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     </div>
   </div>
 </footer>
+
 <script>
-function bbSec(btn, val) {
-  // Seçimi işaretle
+function bbSec(btn) {
   document.querySelectorAll('.bb-opt').forEach(function(b) {
     b.classList.remove('selected');
     b.querySelector('.bb-opt-check').textContent = '';
   });
   btn.classList.add('selected');
   btn.querySelector('.bb-opt-check').textContent = '✔';
-  // Devam butonunu göster
   document.getElementById('bbDevamBtn').style.display = 'block';
-}
-
-function bbKapat() {
-  // Quiz bloğunu gizle, blur kaldır
-  document.getElementById('bbQuizBlock').style.display = 'none';
-  document.getElementById('bbArticle').classList.remove('blurred');
 }
 </script>
 </body>
