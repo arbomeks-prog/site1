@@ -21,6 +21,7 @@
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="theme-color" content="#e8a838">
+<script src="config.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HWPN7VD4VX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HWPN7VD4VX');</script>
 <script type="application/ld+json">
@@ -64,16 +65,23 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 .article-body p{font-size:15px;line-height:1.9;color:#475569;margin-bottom:16px;}
 .article-body .highlight-box{background:#fffbeb;border-left:4px solid #e8a838;border-radius:0 10px 10px 0;padding:16px 20px;margin:20px 0;}
 .article-body .highlight-box p{margin:0;color:#92400e;font-weight:500;}
+/* CTA KUTUSU */
 .cta-box{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border-radius:20px;padding:32px 24px;text-align:center;margin:36px 0;position:relative;overflow:hidden;}
 .cta-box::before{content:"🎁";position:absolute;font-size:80px;opacity:0.06;top:-10px;right:-10px;}
 .cta-tag{display:inline-block;background:rgba(232,168,56,0.15);color:#e8a838;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1px;margin-bottom:14px;text-transform:uppercase;}
 .cta-box h3{font-size:22px;font-weight:900;color:#fff;margin-bottom:10px;}
-.cta-box p{font-size:14px;color:#94a3b8;margin-bottom:22px;line-height:1.7;}
-.cta-steps{display:flex;justify-content:center;gap:24px;margin-bottom:24px;flex-wrap:wrap;}
-.cta-steps .step{font-size:12px;color:#64748b;display:flex;align-items:center;gap:6px;}
-.cta-steps .step .num{width:22px;height:22px;background:#e8a838;color:#0f172a;border-radius:50%;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,#e8a838,#f5c96a);color:#0f172a;font-size:17px;font-weight:800;padding:16px 40px;border-radius:50px;text-decoration:none;box-shadow:0 8px 24px rgba(232,168,56,0.35);}
-.cta-sub{font-size:12px;color:#475569;margin-top:14px;}
+.cta-box .cta-desc{font-size:14px;color:#94a3b8;margin-bottom:24px;line-height:1.7;}
+/* CTA İÇİ QUIZ */
+.cta-quiz-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;text-align:left;}
+.cta-opt{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.12);border-radius:12px;padding:13px 16px;font-size:14px;font-weight:600;color:#e2e8f0;cursor:pointer;transition:all 0.15s;text-align:left;width:100%;}
+.cta-opt:hover{background:rgba(232,168,56,0.12);border-color:rgba(232,168,56,0.4);transform:translateY(-1px);}
+.cta-opt.selected{background:rgba(16,185,129,0.15);border-color:#10b981;color:#6ee7b7;}
+.cta-opt-check{width:20px;height:20px;min-width:20px;border-radius:5px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
+.cta-opt.selected .cta-opt-check{background:#10b981;border-color:#10b981;color:#fff;}
+.cta-devam-btn{display:none;width:100%;background:linear-gradient(135deg,#e8a838,#f5c96a);color:#0f172a;font-size:16px;font-weight:800;padding:14px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(232,168,56,0.35);transition:transform 0.15s;margin-bottom:12px;}
+.cta-devam-btn:hover{transform:translateY(-2px);}
+.cta-sub{font-size:12px;color:#475569;margin-top:8px;}
+/* İLGİLİ MAKALELER */
 .related-section{margin:40px 0 20px;}
 .related-section h2{font-size:18px;font-weight:800;color:#0f172a;margin-bottom:16px;}
 .related-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -82,6 +90,7 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 .related-card .rc-icon{font-size:22px;margin-bottom:6px;}
 .related-card .rc-title{font-size:13px;font-weight:700;color:#0f172a;line-height:1.3;}
 .related-card .rc-desc{font-size:11px;color:#94a3b8;margin-top:3px;}
+/* FOOTER */
 .site-footer{background:#060d15;border-top:1px solid rgba(255,255,255,0.06);padding:28px 16px;margin-top:40px;}
 .footer-inner{max-width:780px;margin:0 auto;}
 .footer-logo{display:flex;align-items:center;gap:8px;text-decoration:none;margin-bottom:16px;}
@@ -100,9 +109,8 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 @media(max-width:480px){
   .article-header h1{font-size:22px;}
   .related-grid{grid-template-columns:1fr;}
-  .cta-steps{gap:12px;}
 }
-/* ── QUIZ BLOĞU ── */
+/* ── ÜST QUIZ BLOĞU ── */
 .bb-quiz-block{background:#fff;border:2px solid #e8a838;border-radius:20px;padding:24px 20px;margin:20px 0 28px;box-shadow:0 4px 24px rgba(232,168,56,0.15);}
 .bb-q-label{font-size:11px;font-weight:700;color:#e8a838;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
 .bb-q-text{font-size:17px;font-weight:800;color:#0f172a;margin-bottom:16px;line-height:1.4;}
@@ -110,10 +118,12 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 .bb-opt{display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#f8f9fa,#e9ecef);border:2px solid #ced4da;border-bottom:4px solid #adb5bd;border-radius:12px;padding:13px 16px;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;transition:all 0.15s;text-align:left;width:100%;}
 .bb-opt:hover{border-color:#6366f1;background:linear-gradient(180deg,#fff,#f1f3f5);transform:translateY(-1px);}
 .bb-opt.selected{background:linear-gradient(180deg,#d1fae5,#a7f3d0);border-color:#10b981;border-bottom-color:#059669;color:#065f46;}
-.bb-opt-check{width:20px;height:20px;min-width:20px;border-radius:5px;border:2px solid #ced4da;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;transition:all 0.15s;}
+.bb-opt-check{width:20px;height:20px;min-width:20px;border-radius:5px;border:2px solid #ced4da;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
 .bb-opt.selected .bb-opt-check{background:#10b981;border-color:#10b981;color:#fff;}
 .bb-devam-btn{display:none;width:100%;margin-top:14px;background:linear-gradient(135deg,#e8a838,#f5c96a);color:#0f172a;font-size:16px;font-weight:800;padding:14px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(232,168,56,0.35);transition:transform 0.15s;}
 .bb-devam-btn:hover{transform:translateY(-2px);}
+/* HAKKIMIZDA PARAGRAF */
+.bb-hakkinda{background:#fff;border-radius:16px;padding:20px;margin:28px 0;border-left:4px solid #e8a838;font-size:14px;line-height:1.8;color:#475569;}
 </style>
 </head>
 <body>
@@ -146,27 +156,16 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 
     <p>Aksesuar hediyesi almak istiyorum diyorsun ama mağazaya girince kafan karışıyor — saat mi, kolye mi, bileklik mi? Altın mı gümüş mü? Akıllı saat mi klasik saat mi? Bu soruları sormak gayet normal çünkü aksesuar, hediye kategorisinin en kişisel alanı. Yanlış seçimde rafta kalıyor, doğru seçimde her gün üzerinde taşınıyor.</p>
 
-    <!-- QUIZ BLOĞU — statik HTML, Google indexler -->
+    <!-- ÜST QUIZ — konuya özel, Google indexler -->
     <div class="bb-quiz-block">
       <div class="bb-q-label">🎁 Hızlı Soru</div>
       <p class="bb-q-text">Aksesuar sever mi? Söyle, sana özel hediye önerisi çıkaralım.</p>
       <div class="bb-quiz-opts">
-        <button class="bb-opt" onclick="bbSec(this)">
-          <span class="bb-opt-check"></span>
-          Evet, saat ve takı çok sever ⌚
-        </button>
-        <button class="bb-opt" onclick="bbSec(this)">
-          <span class="bb-opt-check"></span>
-          Bazen takar, abartmaz
-        </button>
-        <button class="bb-opt" onclick="bbSec(this)">
-          <span class="bb-opt-check"></span>
-          Hiç takmaz, başka şey ara 🚫
-        </button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Evet, saat ve takı çok sever ⌚</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Bazen takar, abartmaz</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Hiç takmaz, başka şey ara 🚫</button>
       </div>
-      <button class="bb-devam-btn" id="bbDevamBtn" onclick="window.location.href='quiz-kime.html'">
-        🎯 Hediye Testine Devam Et →
-      </button>
+      <button class="bb-devam-btn" id="bbDevamBtn" onclick="window.location.href='quiz-kime.html'">🎯 Hediye Testine Devam Et →</button>
     </div>
 
     <h2>Akıllı Saat mi Klasik Saat mi — Hangisi Daha İyi Hediye?</h2>
@@ -188,20 +187,30 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     <h2>Bütçen Kısıtlıysa Ne Yapmalısın?</h2>
     <p>Aksesuar hediyesinde bütçe kısıtlıyken yapılan en büyük hata, ucuz ama kötü gözüken bir ürün almak. Bunun yerine daha küçük ama kaliteli bir şey düşün — güzel bir bileklik, zarif bir küpe ya da sade bir kolye. Küçük ama iyi yapılmış bir hediye, pahalı ama kötü kaliteli bir hediyeden çok daha iyi karşılanır. Aksesuar hediyesinde görsel sunum da çok önemli: güzel bir kutu içinde gelen sade bir takı, çıplak gelen pahalı bir üründen daha değerli hissettiriyor.</p>
 
-    <div class="highlight-box"><p>🎯 Kısa yol: Aksesuar sever mi, hangi rengi tercih eder, bütçen ne — bu üç soruyu biliyorsan doğru hediyeyi bulmak çok kolaylaşıyor. Aşağıdaki quiz tam bunun için.</p></div>
+    <!-- HAKKIMIZDA PARAGRAFI -->
+    <div class="bb-hakkinda">
+      BudurBuldum, akıllı bir hediye bulma, seçme ve satın alma platformudur. Hazır hediye satışı yapmıyoruz — bunun yerine bütçenize uygun, sevdiğiniz kişinin zevkleri ve özellikleriyle örtüşen, kaliteli ve özgün seçimler yapıyoruz. Hediye seçimlerimizin kalitesinden ödün vermemek için 30 soruluk bir test hazırladık. Bu testi tamamladığınızda; 2 adet nokta atışı, 4 adet çapraz sorgu ile belirlenmiş ve isterseniz kişinin burcuna özel seçilmiş 7 hediye sunuyoruz. Önerdiğimiz hediyelerin 5 büyük alışveriş platformundaki sayfalarını doğrudan bağlantılarıyla hediye kutucuklarında belirtiyoruz. BudurBuldum, kişiye özel hediye bulmanız, seçmeniz ve satın almanız için tasarlanmış Türkiye'nin en kapsamlı ilk ve tek platformudur. Hemen başlayın.
+    </div>
 
   </article>
 
+  <!-- CTA KUTUSU — içinde kime sorusu -->
   <div class="cta-box">
     <div class="cta-tag">✨ Ücretsiz · 1 Dakika</div>
     <h3>Kişiye Özel Aksesuar Hediyesi Bul</h3>
-    <p>Tarzı, tercihi ve bütçen ne? Quiz ile tam ona göre öneriler çıkar.</p>
-    <div class="cta-steps">
-      <div class="step"><span class="num">1</span> Soruları cevapla</div>
-      <div class="step"><span class="num">2</span> AI öneriler sunar</div>
-      <div class="step"><span class="num">3</span> Hediyeyi seç</div>
+    <p class="cta-desc">Hediye kime alınıyor? Seç, seni doğru soruya götürelim.</p>
+
+    <div class="cta-quiz-opts">
+      <button class="cta-opt" onclick="ctaSec(this,'Sevgili')"><span class="cta-opt-check"></span>💑 Sevgili</button>
+      <button class="cta-opt" onclick="ctaSec(this,'Anne')"><span class="cta-opt-check"></span>👩 Anne</button>
+      <button class="cta-opt" onclick="ctaSec(this,'Baba')"><span class="cta-opt-check"></span>👨 Baba</button>
+      <button class="cta-opt" onclick="ctaSec(this,'Arkadaş')"><span class="cta-opt-check"></span>🤝 Arkadaş</button>
+      <button class="cta-opt" onclick="ctaSec(this,'Kardeş')"><span class="cta-opt-check"></span>👫 Kardeş</button>
+      <button class="cta-opt" onclick="ctaSec(this,'Çocuk 🧒')"><span class="cta-opt-check"></span>🧒 Çocuk</button>
+      <button class="cta-opt" onclick="ctaSec(this,'Kendime')"><span class="cta-opt-check"></span>🙋 Kendime</button>
+      <button class="cta-opt" onclick="ctaSec(this,'İş arkadaşı')"><span class="cta-opt-check"></span>💼 İş arkadaşı</button>
     </div>
-    <a href="quiz-kime.html" class="cta-btn">🎯 Hediye Testine Başla →</a>
+    <button class="cta-devam-btn" id="ctaDevamBtn">🎯 Devam Et →</button>
     <p class="cta-sub">Trendyol, Hepsiburada ve daha fazlasında karşılaştır</p>
   </div>
 
@@ -239,6 +248,7 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 </footer>
 
 <script>
+// Üst quiz — konuya özel
 function bbSec(btn) {
   document.querySelectorAll('.bb-opt').forEach(function(b) {
     b.classList.remove('selected');
@@ -247,6 +257,34 @@ function bbSec(btn) {
   btn.classList.add('selected');
   btn.querySelector('.bb-opt-check').textContent = '✔';
   document.getElementById('bbDevamBtn').style.display = 'block';
+}
+
+// Alt CTA kutusu — kime sorusu, localStorage'a kaydeder, 2. soruya gider
+function ctaSec(btn, val) {
+  document.querySelectorAll('.cta-opt').forEach(function(b) {
+    b.classList.remove('selected');
+    b.querySelector('.cta-opt-check').textContent = '';
+  });
+  btn.classList.add('selected');
+  btn.querySelector('.cta-opt-check').textContent = '✔';
+
+  try {
+    var c = localStorage.getItem('budurBuldumCevaplar');
+    var cevaplar = c ? JSON.parse(c) : {};
+    cevaplar['kime'] = val;
+    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cevaplar));
+    if (typeof QuizHelper !== 'undefined' && QuizHelper.handleOtomatikCevaplar) {
+      QuizHelper.handleOtomatikCevaplar();
+    }
+    var hedef = (typeof QuizHelper !== 'undefined' && QuizHelper.getSonrakiSayfa)
+      ? QuizHelper.getSonrakiSayfa('kime')
+      : 'quiz-kime.html';
+    document.getElementById('ctaDevamBtn').onclick = function() { window.location.href = hedef; };
+  } catch(e) {
+    document.getElementById('ctaDevamBtn').onclick = function() { window.location.href = 'quiz-kime.html'; };
+  }
+
+  document.getElementById('ctaDevamBtn').style.display = 'block';
 }
 </script>
 </body>
