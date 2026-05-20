@@ -21,6 +21,7 @@
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta name="theme-color" content="#e8a838">
+<script src="config.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HWPN7VD4VX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HWPN7VD4VX');</script>
 <script type="application/ld+json">
@@ -114,6 +115,19 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
   .related-grid{grid-template-columns:1fr;}
   .cta-steps{gap:12px;}
 }
+
+/* ── QUIZ BLOĞU ── */
+.bb-quiz-block{background:#fff;border:2px solid #e8a838;border-radius:20px;padding:24px 20px;margin:20px 0 28px;box-shadow:0 4px 24px rgba(232,168,56,0.15);}
+.bb-q-label{font-size:11px;font-weight:700;color:#e8a838;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.bb-q-text{font-size:17px;font-weight:800;color:#0f172a;margin-bottom:16px;line-height:1.4;}
+.bb-quiz-opts{display:flex;flex-direction:column;gap:10px;}
+.bb-opt{display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#f8f9fa,#e9ecef);border:2px solid #ced4da;border-bottom:4px solid #adb5bd;border-radius:12px;padding:13px 16px;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;transition:all 0.15s;text-align:left;width:100%;}
+.bb-opt:hover{border-color:#6366f1;background:linear-gradient(180deg,#fff,#f1f3f5);transform:translateY(-1px);}
+.bb-opt.selected{background:linear-gradient(180deg,#d1fae5,#a7f3d0);border-color:#10b981;border-bottom-color:#059669;color:#065f46;}
+.bb-opt-check{width:20px;height:20px;min-width:20px;border-radius:5px;border:2px solid #ced4da;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;transition:all 0.15s;}
+.bb-opt.selected .bb-opt-check{background:#10b981;border-color:#10b981;color:#fff;}
+.bb-devam-btn{display:none;width:100%;margin-top:14px;background:linear-gradient(135deg,#e8a838,#f5c96a);color:#0f172a;font-size:16px;font-weight:800;padding:14px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(232,168,56,0.35);transition:transform 0.15s;}
+.bb-devam-btn:hover{transform:translateY(-2px);}
 </style>
 </head>
 <body>
@@ -146,6 +160,23 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
   </div>
   <article class="article-body">
     <p>Hediye seçiminde en kritik soru şudur: <strong>"Bu hediyeyi kime alıyorum?"</strong> Aynı kişiye bile farklı dönemlerde farklı hediyeler uygundur.</p>
+    <!-- QUIZ BLOĞU — config.js ile bağlı, 1. soruyu kaydeder, 2. soruya gider -->
+    <div class="bb-quiz-block" id="bbQuizBlock">
+      <div class="bb-q-label">🎁 Hızlı Soru — Hediye kime alınıyor?</div>
+      <p class="bb-q-text">Seç, cevabını kaydedelim ve seni direkt 2. soruya götürelim.</p>
+      <div class="bb-quiz-opts">
+        <button class="bb-opt" onclick="bbSec(this,'Sevgili')"><span class="bb-opt-check"></span>💑 Sevgili</button>
+        <button class="bb-opt" onclick="bbSec(this,'Anne')"><span class="bb-opt-check"></span>👩 Anne</button>
+        <button class="bb-opt" onclick="bbSec(this,'Baba')"><span class="bb-opt-check"></span>👨 Baba</button>
+        <button class="bb-opt" onclick="bbSec(this,'Arkadaş')"><span class="bb-opt-check"></span>🤝 Arkadaş</button>
+        <button class="bb-opt" onclick="bbSec(this,'Kardeş')"><span class="bb-opt-check"></span>👫 Kardeş</button>
+        <button class="bb-opt" onclick="bbSec(this,'Çocuk 🧒')"><span class="bb-opt-check"></span>🧒 Çocuk</button>
+        <button class="bb-opt" onclick="bbSec(this,'Kendime')"><span class="bb-opt-check"></span>🙋 Kendime</button>
+        <button class="bb-opt" onclick="bbSec(this,'İş arkadaşı')"><span class="bb-opt-check"></span>💼 İş arkadaşı</button>
+      </div>
+      <button class="bb-devam-btn" id="bbDevamBtn">🎯 Devam Et →</button>
+    </div>
+
 <h2>💑 Sevgiliye Hediye</h2>
 <p>Romantik ve kişisel dokunuşlar içeren hediyeler ilişkinizi güçlendirir. Onun ilgi alanlarını ve ilişkinizin dinamiğini yansıtmalı.</p>
 <ul><li>Kişiselleştirilmiş takı veya aksesuar</li><li>Ortak anınızı yansıtan özel tasarım ürünler</li><li>Birlikte yaşayacağınız deneyim hediyeleri</li><li>Sevdiği hobiye yönelik kaliteli bir ürün</li></ul>
@@ -209,5 +240,44 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     </div>
   </div>
 </footer>
+
+<script>
+function bbSec(btn, val) {
+  document.querySelectorAll('.bb-opt').forEach(function(b) {
+    b.classList.remove('selected');
+    b.querySelector('.bb-opt-check').textContent = '';
+  });
+  btn.classList.add('selected');
+  btn.querySelector('.bb-opt-check').textContent = '✔';
+
+  // localStorage'a kaydet (QuizHelper ile aynı format)
+  try {
+    var c = localStorage.getItem('budurBuldumCevaplar');
+    var cevaplar = c ? JSON.parse(c) : {};
+    cevaplar['kime'] = val;
+    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cevaplar));
+
+    // handleOtomatikCevaplar (Anne/Baba → cinsiyet otomatik set)
+    if (typeof QuizHelper !== 'undefined' && QuizHelper.handleOtomatikCevaplar) {
+      QuizHelper.handleOtomatikCevaplar();
+    }
+
+    // Sonraki sayfayı QuizHelper ile bul
+    var hedef = 'quiz-kime.html';
+    if (typeof QuizHelper !== 'undefined' && QuizHelper.getSonrakiSayfa) {
+      hedef = QuizHelper.getSonrakiSayfa('kime');
+    }
+    document.getElementById('bbDevamBtn').onclick = function() {
+      window.location.href = hedef;
+    };
+  } catch(e) {
+    document.getElementById('bbDevamBtn').onclick = function() {
+      window.location.href = 'quiz-kime.html';
+    };
+  }
+
+  document.getElementById('bbDevamBtn').style.display = 'block';
+}
+</script>
 </body>
 </html>
