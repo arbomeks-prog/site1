@@ -230,6 +230,20 @@
   .answered .answer-tag {
     display:block;
   }
+
+  /* Kilitli kart */
+  .card.locked {
+    opacity:0.35;
+    pointer-events:none;
+    position:relative;
+  }
+  .card.locked::after {
+    content:none !important;
+  }
+  .card.locked .emoji::after {
+    content:" 🔒";
+    font-size:16px;
+  }
 </style>
 </head>
 <body>
@@ -847,14 +861,21 @@ function getAktifKartSayisi() {
   return n;
 }
 
-// Dallanmaya göre kartları göster/gizle
+// Dallanmaya göre kartları kilitle/aç
 function updateDallanma() {
   document.querySelectorAll('.card[data-id]').forEach(c => {
     const id = c.dataset.id;
     if (DALLANMA[id]) {
-      const goster = DALLANMA[id](answers);
-      c.style.display = goster ? '' : 'none';
-      if (!goster) delete answers[id];
+      const aktif = DALLANMA[id](answers);
+      if (!aktif) {
+        c.classList.add('locked');
+        c.classList.remove('answered');
+        delete answers[id];
+        const tag = c.querySelector('.answer-tag');
+        if (tag) tag.style.display = 'none';
+      } else {
+        c.classList.remove('locked');
+      }
     }
   });
 }
