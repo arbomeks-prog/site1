@@ -193,7 +193,7 @@ const SIZES = ['sz-md','sz-lg','sz-sm','sz-xl','sz-xs','sz-md','sz-lg','sz-sm','
 
 // Kart emoji haritası
 const KART_EMOJI = {
-  kime:'🎁', cinsiyet:'🧑', dogum:'🎂', yas:'🎈', amac:'🎊',
+  kime:'🎁', cinsiyet:'🧑', dogum:'⭐', yas:'🎈', amac:'🎊',
   tarz:'👗', hobiler:'🎯', renk:'🌈', ortam:'🏠', teknoloji:'💻',
   butce:'💰', mevsim:'🍂', tatli:'🍰', spor:'🏃', muzik:'🎵',
   hayvan:'🐾', seyahat:'✈️', kitap:'📚', kahve:'☕', film:'🎬',
@@ -284,7 +284,19 @@ function kartlariBuildEt() {
 }
 
 // Soru verisini bul (tüm setlerde ara)
+// Dogum sorusunu burc sorusuna dönüştür
+function getDogumSoru() {
+  return {
+    id: 'dogum',
+    soru: 'Burcu nedir?',
+    espriNotu: 'Yıldızlar konuşsun biraz ✨',
+    secenekler: BURCLAR.map(b => b.l),
+    atlanabilir: true
+  };
+}
+
 function getSoru(id) {
+  if (id === 'dogum') return getDogumSoru();
   const setler = ['sorular','soruBebekler','soruCocuklar','soruPetler','soruKedi','soruKopek','soruKus','soruBalik','soruKucukPet'];
   for (const s of setler) {
     const found = (QUIZ_CONFIG[s] || []).find(q => q.id === id);
@@ -301,21 +313,57 @@ function isKilitli(id) {
   return false;
 }
 
-// Cevap tag HTML
-function getCevapTag(id, cevap) {
-  const soru = getSoru(id);
-  if (!soru) return cevap;
-  const secenekler = getFiltreli(id);
-  // secenekler string array
-  const idx = secenekler.indexOf(cevap);
-  return cevap;
+// Cevap renk stili
+function getRenkStyle(id, cevap) {
+  if (!cevap) return '';
+  if (id === 'dogum') {
+    const burc = BURCLAR.find(b => b.l === cevap);
+    if (burc) return \`background:\${burc.bg};color:\${burc.tx};border:1.5px solid \${burc.br}\`;
+  }
+  const idx = getFiltreli(id).indexOf(cevap);
+  const renk = OPT_RENKLER[Math.max(0,idx) % OPT_RENKLER.length];
+  return \`background:\${renk.bg};color:\${renk.tx};border:1.5px solid \${renk.br}\`;
 }
+
+// Seçenek renk paleti (id bazlı sabit renkler)
+const OPT_RENKLER = [
+  {bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d',e:''},
+  {bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a',e:''},
+  {bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46',e:''},
+  {bg:'#fef3c7',br:'#fcd34d',tx:'#92400e',e:''},
+  {bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95',e:''},
+  {bg:'#ffedd5',br:'#fdba74',tx:'#7c2d12',e:''},
+  {bg:'#fdf4ff',br:'#e879f9',tx:'#701a75',e:''},
+  {bg:'#f0fdf4',br:'#86efac',tx:'#14532d',e:''},
+  {bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d',e:''},
+  {bg:'#eff6ff',br:'#60a5fa',tx:'#1d4ed8',e:''},
+  {bg:'#fef9c3',br:'#fde047',tx:'#713f12',e:''},
+  {bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155',e:''},
+];
+
+// Burç seçenekleri
+const BURCLAR = [
+  {l:'Koç',      e:'♈', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+  {l:'Boğa',     e:'♉', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+  {l:'İkizler',  e:'♊', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+  {l:'Yengeç',   e:'♋', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+  {l:'Aslan',    e:'♌', bg:'#fef3c7',br:'#fcd34d',tx:'#92400e'},
+  {l:'Başak',    e:'♍', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+  {l:'Terazi',   e:'♎', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+  {l:'Akrep',    e:'♏', bg:'#1f2937',br:'#374151',tx:'white'},
+  {l:'Yay',      e:'♐', bg:'#ffedd5',br:'#fdba74',tx:'#7c2d12'},
+  {l:'Oğlak',    e:'♑', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  {l:'Kova',     e:'♒', bg:'#eff6ff',br:'#60a5fa',tx:'#1d4ed8'},
+  {l:'Balık',    e:'♓', bg:'#fdf4ff',br:'#e879f9',tx:'#701a75'},
+  {l:'Bilmiyorum',e:'🤷',bg:'#f1f5f9',br:'#cbd5e1',tx:'#6b7280'},
+];
 
 // Filtrelenmiş seçenekler
 function getFiltreli(id) {
   const soru = getSoru(id);
   if (!soru) return [];
   let secs = soru.secenekler;
+  if (id === 'dogum') return BURCLAR.map(b => b.l);
   if (id === 'cinsiyet') {
     const kime = answers.kime || '';
     const filtre = QUIZ_CONFIG.cinsiyetFiltreleri && QUIZ_CONFIG.cinsiyetFiltreleri[kime];
@@ -352,9 +400,16 @@ function openPopup(id) {
   secenekler.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'opt-btn ' + SIZES[i % SIZES.length];
-    btn.style.cssText = 'background:#eff6ff;border-color:#bfdbfe;color:#1e40af';
+    // Renk bul
+    let renkBul = null;
+    if (id === 'dogum') {
+      renkBul = BURCLAR.find(b => b.l === opt);
+    }
+    const renk = renkBul || OPT_RENKLER[i % OPT_RENKLER.length];
+    btn.style.cssText = \`background:\${renk.bg};border-color:\${renk.br};color:\${renk.tx}\`;
     btn.dataset.label = opt;
-    btn.innerHTML = opt + '<span class="opt-check">✔</span>';
+    const emoji = renk.e || '';
+    btn.innerHTML = (emoji ? emoji + ' ' : '') + opt + '<span class="opt-check">✔</span>';
     if (pickedNow === opt) btn.classList.add('picked');
     btn.onclick = () => pick(btn, opt);
     wrap.appendChild(btn);
@@ -386,6 +441,14 @@ function updateSave() {
 function saveAnswer() {
   if (!pickedNow) return;
   answers[currentId] = pickedNow;
+  // Cevap rengini kaydet
+  if (currentId === 'dogum') {
+    const burc = BURCLAR.find(b => b.l === pickedNow);
+    if (burc) answers['_renk_' + currentId] = burc;
+  } else {
+    const idx = getFiltreli(currentId).indexOf(pickedNow);
+    answers['_renk_' + currentId] = OPT_RENKLER[idx % OPT_RENKLER.length];
+  }
 
   // Anne/Baba → cinsiyet otomatik ata
   if (currentId === 'kime') {
@@ -435,8 +498,19 @@ function updateProgress() {
   });
 
   const lbl = document.getElementById('devam-label');
-  if (count >= total) {
-    lbl.textContent = 'Hediyelere Bak! 🎁';
+  // Atlanabilir sorular (dogum) hariç zorunlu sayı
+  const zorunluTotal = aktifSorular.filter(id => {
+    const s = getSoru(id); return !s || !s.atlanabilir;
+  }).length;
+  const zorunluCount = aktifSorular.filter(id => {
+    const s = getSoru(id); return !s || !s.atlanabilir;
+  }).filter(id => answers[id]).length;
+
+  if (zorunluCount >= zorunluTotal) {
+    const atladiMi = aktifSorular.some(id => {
+      const s = getSoru(id); return s && s.atlanabilir && !answers[id];
+    });
+    lbl.textContent = atladiMi ? 'Devam Et (burç sorusu atlandı) →' : 'Hediyelere Bak! 🎁';
     btn.classList.add('ready');
   } else {
     lbl.textContent = count + ' / ' + total + ' soru cevaplandı';
@@ -445,9 +519,13 @@ function updateProgress() {
 }
 
 function devamEt() {
-  const total = aktifSorular.length;
-  const count = Object.keys(answers).length;
-  if (count < total) return;
+  const zorunluTotal = aktifSorular.filter(id => {
+    const s = getSoru(id); return !s || !s.atlanabilir;
+  }).length;
+  const zorunluCount = aktifSorular.filter(id => {
+    const s = getSoru(id); return !s || !s.atlanabilir;
+  }).filter(id => answers[id]).length;
+  if (zorunluCount < zorunluTotal) return;
   localStorage.setItem('budurBuldumCevaplar', JSON.stringify(answers));
   window.location.href = 'ozet.html';
 }
