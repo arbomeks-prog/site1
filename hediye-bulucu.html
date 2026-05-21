@@ -59,6 +59,24 @@ body{background:#121212;font-family:'Segoe UI',system-ui,sans-serif;color:#F2F2F
 .sec-chk{width:20px;height:20px;min-width:20px;border-radius:5px;border:1px solid #3A3A3A;background:transparent;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
 .sec-btn.secildi .sec-chk{background:#3D9B2E;border-color:#3D9B2E;color:white;}
 
+/* ATLANAN SORU BANNER */
+.atlanan-banner{
+  position:fixed;bottom:68px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:#232323;border:1.5px solid #D89A3D;border-radius:14px;
+  padding:12px 18px;z-index:49;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.6);
+  opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.32,1.1,.42,1);
+  width:calc(100% - 28px);max-width:460px;
+}
+.atlanan-banner.goster{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.atlanan-banner-ic{flex:1;}
+.atlanan-banner-yazi{font-size:13px;font-weight:700;color:#F2F2F2;margin-bottom:2px;}
+.atlanan-banner-alt{font-size:11px;color:#8A8A8A;}
+.atlanan-banner-btn{background:#D89A3D;color:#121212;border:none;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.atlanan-banner-kapat{background:none;border:none;color:#8A8A8A;font-size:16px;cursor:pointer;padding:4px;flex-shrink:0;}
+
 /* SABİT ALT BUTON */
 .alt-bar{position:fixed;bottom:0;left:0;right:0;background:#121212;border-top:1px solid #3A3A3A;padding:10px 14px 14px;z-index:50;}
 .devam-btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;background:#232323;color:#8A8A8A;border:1px solid #3A3A3A;}
@@ -85,6 +103,15 @@ body{background:#121212;font-family:'Segoe UI',system-ui,sans-serif;color:#F2F2F
 </div>
 
 <div class="liste" id="liste"></div>
+
+<div class="atlanan-banner" id="atlanan-banner">
+  <div class="atlanan-banner-ic">
+    <div class="atlanan-banner-yazi" id="atlanan-banner-yazi">⬆️ Yukarıda cevapsız soru var</div>
+    <div class="atlanan-banner-alt" id="atlanan-banner-alt">Kaçırmadan tamamlayalım</div>
+  </div>
+  <button class="atlanan-banner-btn" id="atlanan-banner-btn" onclick="atlananaSit()">Götür →</button>
+  <button class="atlanan-banner-kapat" onclick="bannerKapat()">✕</button>
+</div>
 
 <div class="alt-bar">
   <button class="devam-btn" id="devam-btn" onclick="devamEt()">Soruları cevaplayın</button>
@@ -586,8 +613,19 @@ function render() {
       render();
       if (acikId === id) {
         setTimeout(() => {
-          wrap.scrollIntoView({behavior:'smooth', block:'nearest'});
-        }, 50);
+          const rect = wrap.getBoundingClientRect();
+          const altBar = document.getElementById('alt-bar-height') || 70;
+          const viewportH = window.innerHeight;
+          const kartH = rect.height;
+          // Seçenekler de dahil toplam yükseklik görünüme sığmıyorsa
+          // kartın üst kısmı sticky header altında görünsün
+          const stickyH = 110; // header + progress
+          if (rect.top < stickyH) {
+            window.scrollBy({top: rect.top - stickyH - 8, behavior:'smooth'});
+          } else if (rect.bottom > viewportH - 70) {
+            window.scrollBy({top: rect.bottom - viewportH + 80, behavior:'smooth'});
+          }
+        }, 80);
       }
     };
 
@@ -651,10 +689,12 @@ function render() {
       wrap.appendChild(secDiv);
     }
 
+    wrap.dataset.soruId = id;
     liste.appendChild(wrap);
   });
 
   updateProgress();
+  bannerGuncelle();
 }
 
 // ============================================================
@@ -699,6 +739,71 @@ function updateProgress() {
     btn.className = 'devam-btn';
     btn.textContent = cevaplandi === 0 ? 'Soruları cevaplayın' : cevaplandi + ' soru cevaplandı, devam edin...';
   }
+}
+
+// ============================================================
+// ATLANAN SORU BANNER
+// ============================================================
+let bannerGizliSayac = 0; // kullanıcı kapattı, kaç kez gösterdik
+let ilkAtlananId = null;
+
+function bannerGuncelle() {
+  const aktifIds = hesaplaAktifSorular();
+  const tumIds = aktifIds.includes('kime') ? aktifIds : ['kime', ...aktifIds];
+
+  // Şu an görünen en son cevaplanan sorunun index'ini bul
+  // En son açık veya cevaplanan sorudan ÖNCE atlanan var mı?
+  let sonEtkilesimIdx = -1;
+  tumIds.forEach((id, i) => {
+    if (cevaplar[id] || acikId === id) sonEtkilesimIdx = i;
+  });
+
+  if (sonEtkilesimIdx < 2) {
+    bannerKapat();
+    return;
+  }
+
+  // Etkileşim noktasından önce cevaplanmamış zorunlu soru var mı?
+  const atlanmislar = [];
+  for (let i = 0; i < sonEtkilesimIdx; i++) {
+    const id = tumIds[i];
+    if (!cevaplar[id] && !isKilitli(id) && id !== acikId) {
+      atlanmislar.push(id);
+    }
+  }
+
+  const banner = document.getElementById('atlanan-banner');
+  if (atlanmislar.length === 0) {
+    banner.classList.remove('goster');
+    ilkAtlananId = null;
+    return;
+  }
+
+  ilkAtlananId = atlanmislar[0];
+  const sayi = atlanmislar.length;
+  document.getElementById('atlanan-banner-yazi').textContent =
+    sayi === 1 ? '⬆️ Yukarıda 1 soru atlandı' : '⬆️ Yukarıda ' + sayi + ' soru atlandı';
+  document.getElementById('atlanan-banner-alt').textContent =
+    sayi === 1 ? 'Kaçırmadan tamamlayalım ✨' : 'Hepsini tamamlarsan daha iyi hediyeler çıkar 🎁';
+
+  banner.classList.add('goster');
+}
+
+function atlananaSit() {
+  if (!ilkAtlananId) return;
+  acikId = ilkAtlananId;
+  render();
+  setTimeout(() => {
+    const el = document.querySelector('[data-soru-id="' + ilkAtlananId + '"]');
+    if (el) {
+      el.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }, 100);
+  document.getElementById('atlanan-banner').classList.remove('goster');
+}
+
+function bannerKapat() {
+  document.getElementById('atlanan-banner').classList.remove('goster');
 }
 
 function devamEt() {
