@@ -766,49 +766,7 @@ const answers = {};
 let currentId = null;
 let pickedNow = null;
 
-// Quiz URL mapping — bu 3 kart gerçek quiz sayfasına gider
-const QUIZ_REDIRECT = {
-  'kime': 'https://budurbuldum.com/quiz-kime.html?from=dedektif&return=' + encodeURIComponent(window.location.href),
-  'yas':  'https://budurbuldum.com/quiz-yas.html?from=dedektif&return='  + encodeURIComponent(window.location.href),
-  'tarz': 'https://budurbuldum.com/quiz-tarz.html?from=dedektif&return=' + encodeURIComponent(window.location.href),
-};
-
-// Sayfa yüklenince localStorage'dan dönüş cevaplarını al
-window.addEventListener('pageshow', function() {
-  const cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
-  Object.keys(QUIZ_REDIRECT).forEach(function(id) {
-    if(cevaplar[id] && !answers[id]) {
-      answers[id] = cevaplar[id];
-      const card = document.querySelector('[data-id="' + id + '"]');
-      if(!card) return;
-      card.classList.add('answered');
-      const tag = card.querySelector('.answer-tag');
-      if(tag) {
-        const s = SORULAR[id];
-        // cevap değeri localStorage'da seçenek label'ı veya ham değer
-        const val = cevaplar[id];
-        const opt = s.secenekler.find(o => o.l === val);
-        if(opt) {
-          tag.textContent = opt.e + ' ' + opt.l;
-          tag.style.background = opt.bg;
-          tag.style.color = opt.tx;
-          tag.style.border = '1.5px solid ' + opt.br;
-        } else {
-          tag.textContent = '✔ ' + val;
-        }
-        tag.style.display = 'block';
-      }
-      updateProgress();
-    }
-  });
-});
-
 function openPopup(id) {
-  // Bu 3 kart için gerçek quiz sayfasına git
-  if(QUIZ_REDIRECT[id]) {
-    window.location.href = QUIZ_REDIRECT[id];
-    return;
-  }
   currentId = id;
   pickedNow = answers[id] || null;
   const s = SORULAR[id];
