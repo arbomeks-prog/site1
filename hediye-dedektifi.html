@@ -861,10 +861,63 @@ function getAktifKartSayisi() {
   return n;
 }
 
-// Dallanmaya göre kartları kilitle/aç
+// Otomatik cevap ata
+const OTOMATIK = {
+  cinsiyet: function(ans) {
+    const kime = ans.kime || '';
+    if (kime === 'Anne') return 'Kadın';
+    if (kime === 'Baba') return 'Erkek';
+    if (kime === 'Bebek ❤️') return null; // kilitle ama cevap atama
+    return false; // normal, serbest
+  }
+};
+
+// Dallanmaya göre kartları otomatik cevapla veya kilitle
 function updateDallanma() {
   document.querySelectorAll('.card[data-id]').forEach(c => {
     const id = c.dataset.id;
+
+    // Otomatik cevap kontrolü
+    if (OTOMATIK[id]) {
+      const otoCevap = OTOMATIK[id](answers);
+      if (otoCevap === false) {
+        // Serbest — kilidi aç, otomatik cevabı temizle
+        if (c.dataset.oto) {
+          delete answers[id];
+          delete c.dataset.oto;
+          c.classList.remove('locked', 'answered');
+          const tag = c.querySelector('.answer-tag');
+          if (tag) { tag.style.display = 'none'; tag.textContent = ''; }
+        }
+        return;
+      }
+      if (otoCevap === null) {
+        // Kilitle, cevap atama
+        c.classList.add('locked');
+        c.classList.remove('answered');
+        delete answers[id];
+        const tag = c.querySelector('.answer-tag');
+        if (tag) tag.style.display = 'none';
+        return;
+      }
+      // Otomatik cevap ver
+      answers[id] = otoCevap;
+      c.dataset.oto = '1';
+      c.classList.add('locked', 'answered');
+      const s = SORULAR[id];
+      const opt = s.secenekler.find(o => o.l === otoCevap);
+      const tag = c.querySelector('.answer-tag');
+      if (tag && opt) {
+        tag.textContent = opt.e + '  ' + opt.l;
+        tag.style.background = opt.bg;
+        tag.style.color = opt.tx;
+        tag.style.border = '1.5px solid ' + opt.br;
+        tag.style.display = 'block';
+      }
+      return;
+    }
+
+    // Normal dallanma (göster/gizle değil kilitle)
     if (DALLANMA[id]) {
       const aktif = DALLANMA[id](answers);
       if (!aktif) {
