@@ -210,6 +210,7 @@
     letter-spacing:.3px;
   }
   #devam-btn.ready #devam-label { color:white; text-shadow:0 1px 3px rgba(0,0,0,0.3); }
+  #devam-label { color:#1e3a8a !important; }
 
   /* Cevap etiketi */
   .answer-tag {
@@ -954,8 +955,8 @@ function updateProgress() {
       const id = cevapSiralari[i];
       const s = SORULAR[id];
       const opt = s ? s.secenekler.find(o => o.l === answers[id]) : null;
-      d.style.background = opt ? opt.bg : '#d1fae5';
-      d.style.borderRight = i < cevapSiralari.length - 1 ? '1px solid rgba(255,255,255,0.4)' : 'none';
+      d.style.background = '#2563eb';
+      d.style.borderRight = i < cevapSiralari.length - 1 ? '1px solid rgba(255,255,255,0.5)' : 'none';
     } else {
       d.style.background = '#e5e7eb';
       d.style.borderRight = 'none';
