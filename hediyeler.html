@@ -441,19 +441,16 @@ msg.style.opacity = '1';
 msg._interval = iv;
 });
 
-// Yükleme animasyonu başlasın — API cevabı beklenirken
+// Yükleme animasyonu — sayılar fetch öncesinde belli, iki mesaj arasında dön
 (function() {
   const animWrap = document.getElementById('animasyon-yazi');
   const animIc = document.getElementById('animasyon-ic');
   if (!animWrap || !animIc) return;
   animWrap.style.display = 'block';
+  const hasBurc = !!secilenBurc;
   const yuklemeMesajlari = [
-    '🔎 Profiliniz analiz ediliyor...',
-    '⚖️ Kriterler değerlendiriliyor...',
-    '💡 Akıllı algoritma çalışıyor...',
-    '🎯 Nokta atışı hediyeler aranıyor...',
-    '💰 Bütçeye göre filtreleniyor...',
-    '✨ Son dokunuşlar yapılıyor...'
+    '🎯 2 nokta atışı + 4 kişisel hediye hazırlanıyor...' + (hasBurc ? ' + 1 burç hediyesi' : ''),
+    '⏳ Lütfen bekleyin...',
   ];
   let mi = 0;
   function gosterYukleme() {
