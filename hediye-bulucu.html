@@ -8,17 +8,17 @@
 <script src="config.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#141720;font-family:'Segoe UI',system-ui,sans-serif;color:#e8eaf0;padding-bottom:90px;}
+body{background:#1a1d27;font-family:'Segoe UI',system-ui,sans-serif;color:#e8eaf0;padding-bottom:90px;}
 
 /* HEADER */
-.header{background:#141720;border-bottom:1px solid rgba(255,255,255,0.07);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.header{background:#1a1d27;border-bottom:1px solid rgba(255,255,255,0.07);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
 .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
 .logo-txt{font-family:Georgia,serif;font-size:16px;font-weight:900;color:#e8eaf0;}
 .logo-txt span{color:#e8a838;}
 
 /* PROGRESS */
-.prog-wrap{background:#141720;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 16px 10px;position:sticky;top:53px;z-index:40;}
+.prog-wrap{background:#1a1d27;border-bottom:1px solid rgba(255,255,255,0.05);padding:8px 16px 10px;position:sticky;top:53px;z-index:40;}
 .prog-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;margin-bottom:6px;}
 .prog-fill{height:100%;background:linear-gradient(90deg,#e8a838,#f5c96a);border-radius:99px;transition:width .4s ease;}
 .prog-meta{display:flex;justify-content:space-between;font-size:11px;font-weight:600;}
@@ -29,16 +29,16 @@ body{background:#141720;font-family:'Segoe UI',system-ui,sans-serif;color:#e8eaf
 .liste{padding:10px 12px;}
 
 /* TEK SORU KARTI — kapalı */
-.soru-wrap{margin-bottom:8px;border-radius:14px;overflow:hidden;border:1.5px solid rgba(255,255,255,0.10);background:#1e2432;transition:border-color .15s;}
+.soru-wrap{margin-bottom:8px;border-radius:14px;overflow:hidden;border:1.5px solid rgba(255,255,255,0.10);background:#22273a;transition:border-color .15s;}
 .soru-wrap.acik{border-color:#e8a838;}
 .soru-wrap.tamam{border-color:rgba(16,185,129,0.6);}
 .soru-wrap.kilitli{opacity:.25;pointer-events:none;}
 
 .soru-baslik{display:flex;align-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.soru-gorsel{width:80px;min-width:80px;height:68px;display:flex;align-items:center;justify-content:center;font-size:24px;background:#252c3b;flex-shrink:0;}
+.soru-gorsel{width:80px;min-width:80px;height:68px;display:flex;align-items:center;justify-content:center;font-size:24px;background:#2a3045;flex-shrink:0;}
 .soru-govde{padding:12px;flex:1;min-width:0;}
 .soru-etiket{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;color:#4f5b73;}
-.soru-wrap.acik .soru-etiket{color:#ba7517;}
+.soru-wrap.acik .soru-etiket{color:#e8a838;}
 .soru-wrap.tamam .soru-etiket{color:#10b981;}
 .soru-metin{font-size:14px;font-weight:500;color:#e8eaf0;line-height:1.3;}
 .soru-cevap-tag{display:none;margin-top:5px;font-size:11px;font-weight:500;padding:2px 8px;border-radius:6px;width:fit-content;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -51,7 +51,7 @@ body{background:#141720;font-family:'Segoe UI',system-ui,sans-serif;color:#e8eaf
 .soru-wrap.acik .secenekler-wrap{display:block;}
 .espri-not{font-size:11px;color:#4f5b73;font-style:italic;padding:8px 2px 4px;}
 .secenekler{display:flex;flex-direction:column;gap:7px;}
-.sec-btn{display:flex;align-items:center;gap:12px;background:#252c3b;border:0.5px solid rgba(255,255,255,0.10);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:400;color:#e8eaf0;cursor:pointer;transition:all .12s;text-align:left;width:100%;-webkit-tap-highlight-color:transparent;}
+.sec-btn{display:flex;align-items:center;gap:12px;background:#2a3045;border:0.5px solid rgba(255,255,255,0.10);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:400;color:#e8eaf0;cursor:pointer;transition:all .12s;text-align:left;width:100%;-webkit-tap-highlight-color:transparent;}
 .sec-btn:active{transform:scale(.97);}
 .sec-btn.secildi{background:rgba(16,185,129,0.15);border:0.5px solid rgba(16,185,129,0.5);color:#10b981;}
 .sec-emoji{font-size:16px;min-width:22px;text-align:center;flex-shrink:0;}
@@ -60,9 +60,9 @@ body{background:#141720;font-family:'Segoe UI',system-ui,sans-serif;color:#e8eaf
 .sec-btn.secildi .sec-chk{background:#10b981;border-color:#10b981;color:white;}
 
 /* SABİT ALT BUTON */
-.alt-bar{position:fixed;bottom:0;left:0;right:0;background:#141720;border-top:1px solid rgba(255,255,255,0.07);padding:10px 14px 14px;z-index:50;}
-.devam-btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;background:#1e2432;color:#4f5b73;}
-.devam-btn.hazir{background:linear-gradient(135deg,#e8a838,#d97706);color:#141720;cursor:pointer;}
+.alt-bar{position:fixed;bottom:0;left:0;right:0;background:#1a1d27;border-top:1px solid rgba(255,255,255,0.07);padding:10px 14px 14px;z-index:50;}
+.devam-btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;background:#22273a;color:#4f5b73;}
+.devam-btn.hazir{background:linear-gradient(135deg,#e8a838,#d97706);color:#1a1d27;cursor:pointer;}
 .devam-btn.hazir:active{transform:scale(.98);}
 </style>
 </head>
