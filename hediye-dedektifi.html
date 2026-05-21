@@ -3,56 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hediye Dedektifi</title>
+<title>Hediye Dedektifi | BudurBuldum</title>
+<meta name="description" content="Kişiye özel hediye bulmak için 30 soruluk dedektif testi. Eğlenceli, hızlı ve kişisel.">
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="config.js"></script>
 <style>
   body { font-family: system-ui, sans-serif; background:#eef2ff; }
 
   .card { transition:.2s; cursor:pointer; position:relative; }
   .card:active { transform:scale(.96); }
 
-  /* Check işareti — her kart farklı renk */
-  .answered::after {
-    content:'✔';
-    position:absolute;
-    top:8px; right:10px;
-    font-size:18px;
-    font-weight:900;
-  }
-  .card:nth-child(1).answered::after  { color:#2563eb; }
-  .card:nth-child(2).answered::after  { color:#16a34a; }
-  .card:nth-child(3).answered::after  { color:#d97706; }
-  .card:nth-child(4).answered::after  { color:#9333ea; }
-  .card:nth-child(5).answered::after  { color:#db2777; }
-  .card:nth-child(6).answered::after  { color:#ea580c; }
-  .card:nth-child(7).answered::after  { color:#0891b2; }
-  .card:nth-child(8).answered::after  { color:#65a30d; }
-  .card:nth-child(9).answered::after  { color:#b45309; }
-  .card:nth-child(10).answered::after { color:#7c3aed; }
-  .card:nth-child(11).answered::after { color:#be123c; }
-  .card:nth-child(12).answered::after { color:#15803d; }
-  .card:nth-child(13).answered::after { color:#1d4ed8; }
-  .card:nth-child(14).answered::after { color:#c2410c; }
-  .card:nth-child(15).answered::after { color:#7e22ce; }
-  .card:nth-child(16).answered::after { color:#0f766e; }
-  .card:nth-child(17).answered::after { color:#b91c1c; }
-  .card:nth-child(18).answered::after { color:#4d7c0f; }
-  .card:nth-child(19).answered::after { color:#6d28d9; }
-  .card:nth-child(20).answered::after { color:#b45309; }
-  .card:nth-child(21).answered::after { color:#0369a1; }
-  .card:nth-child(22).answered::after { color:#166534; }
-  .card:nth-child(23).answered::after { color:#9f1239; }
-  .card:nth-child(24).answered::after { color:#1e40af; }
-  .card:nth-child(25).answered::after { color:#a16207; }
-  .card:nth-child(26).answered::after { color:#86198f; }
-  .card:nth-child(27).answered::after { color:#b45309; }
-  .card:nth-child(28).answered::after { color:#0f766e; }
-  .card:nth-child(29).answered::after { color:#7c3aed; }
-  .card:nth-child(30).answered::after { color:#15803d; }
-
-  .emoji { transition:.2s; }
-
-  /* Boş checkbox köşede */
   .card::before {
     content:'☐';
     position:absolute;
@@ -62,8 +22,22 @@
     line-height:1;
   }
   .answered::before { content:''; }
+  .answered::after {
+    content:'✔';
+    position:absolute;
+    top:8px; right:10px;
+    font-size:18px;
+    font-weight:900;
+    color:#2563eb;
+  }
 
-  /* POPUP — ekran ortasında */
+  .emoji { transition:.2s; }
+
+  .card.locked {
+    pointer-events:none;
+  }
+
+  /* POPUP */
   #popup-overlay {
     display:none;
     position:fixed; inset:0;
@@ -74,7 +48,6 @@
     padding:16px;
   }
   #popup-overlay.open { display:flex; }
-
   #popup-box {
     background:white;
     border-radius:24px;
@@ -88,36 +61,11 @@
     transition:transform .28s cubic-bezier(.32,1.1,.42,1), opacity .2s ease;
     position:relative;
   }
-  #popup-overlay.open #popup-box {
-    transform:translateY(0);
-    opacity:1;
-  }
-
-  #popup-handle {
-    width:36px; height:4px;
-    background:#e5e7eb;
-    border-radius:99px;
-    margin:0 auto 14px;
-  }
-
-  #popup-title {
-    font-size:1rem;
-    font-weight:900;
-    margin-bottom:3px;
-    padding-right:20px;
-  }
-  #popup-sub {
-    font-size:.76rem;
-    color:#6b7280;
-    margin-bottom:14px;
-  }
-
-  #popup-options {
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    align-items:flex-start;
-  }
+  #popup-overlay.open #popup-box { transform:translateY(0); opacity:1; }
+  #popup-handle { width:36px; height:4px; background:#e5e7eb; border-radius:99px; margin:0 auto 14px; }
+  #popup-title { font-size:1rem; font-weight:900; margin-bottom:3px; padding-right:20px; }
+  #popup-sub { font-size:.76rem; color:#6b7280; margin-bottom:14px; }
+  #popup-options { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start; }
 
   .opt-btn {
     border:2px solid;
@@ -136,106 +84,58 @@
   .opt-btn.picked .opt-check { display:inline; }
   .opt-check { display:none; font-size:.8em; }
 
-  /* Dağınık boyutlar — yatayda geniş */
   .sz-xs { font-size:.76rem;  padding:7px  16px; }
   .sz-sm { font-size:.82rem;  padding:9px  20px; }
   .sz-md { font-size:.9rem;   padding:10px 24px; }
   .sz-lg { font-size:.97rem;  padding:12px 28px; border-radius:22px; }
   .sz-xl { font-size:1.02rem; padding:13px 32px; border-radius:24px; }
 
-  /* Kaydet — her zaman görünür, pasif gri / seçince yeşil */
   #save-btn {
-    display:block;
-    margin-top:16px;
-    width:100%;
-    background:#e5e7eb;
-    color:#9ca3af;
-    font-weight:900;
-    font-size:1rem;
-    padding:14px;
-    border-radius:16px;
-    border:none;
-    cursor:not-allowed;
-    transition:.2s;
-    letter-spacing:.01em;
+    display:block; margin-top:16px; width:100%;
+    background:#e5e7eb; color:#9ca3af;
+    font-weight:900; font-size:1rem; padding:14px;
+    border-radius:16px; border:none; cursor:not-allowed; transition:.2s;
   }
-  #save-btn.active {
-    background:#16a34a;
-    color:white;
-    cursor:pointer;
-  }
+  #save-btn.active { background:#16a34a; color:white; cursor:pointer; }
   #save-btn.active:active { transform:scale(.97); background:#15803d; }
 
-  /* Kart grid altına boşluk — sabit buton için */
   #card-grid { padding-bottom:80px; }
+
+  .answer-tag {
+    display:none;
+    margin-top:8px;
+    font-size:.75rem; font-weight:800;
+    border-radius:10px; padding:4px 9px;
+    width:fit-content; max-width:100%;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .answered .answer-tag { display:block; }
 
   /* Sabit alt buton */
   #devam-wrap {
-    position:fixed;
-    bottom:0; left:50%;
+    position:fixed; bottom:0; left:50%;
     transform:translateX(-50%);
-    width:100%;
-    max-width:448px;
+    width:100%; max-width:448px;
     padding:10px 12px 14px;
     background:white;
     box-shadow:0 -2px 12px rgba(0,0,0,0.08);
     z-index:50;
   }
   #devam-btn {
-    width:100%;
-    height:52px;
-    border-radius:99px;
-    border:none;
-    cursor:pointer;
-    overflow:hidden;
-    display:flex;
-    position:relative;
+    width:100%; height:52px;
+    border-radius:99px; border:none;
+    cursor:pointer; overflow:hidden;
+    display:flex; position:relative;
   }
-  .dilim {
-    flex:1;
-    height:100%;
-    background:#e5e7eb;
-    transition:background .3s ease;
-  }
+  .dilim { flex:1; height:100%; background:#e5e7eb; transition:background .3s ease; }
   #devam-label {
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:15px;
-    font-weight:800;
-    color:#6b7280;
-    pointer-events:none;
-    letter-spacing:.3px;
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:800;
+    color:#1e3a8a !important;
+    pointer-events:none; letter-spacing:.3px;
   }
-  #devam-btn.ready #devam-label { color:white; text-shadow:0 1px 3px rgba(0,0,0,0.3); }
-  #devam-label { color:#1e3a8a !important; }
-
-  /* Cevap etiketi */
-  .answer-tag {
-    display:none;
-    margin-top:8px;
-    font-size:.75rem;
-    font-weight:800;
-    color:#2563eb;
-    background:#eff6ff;
-    border-radius:10px;
-    padding:4px 9px;
-    width:fit-content;
-    max-width:100%;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
-  .answered .answer-tag {
-    display:block;
-  }
-
-  /* Kilitli kart — normal görünür, sadece tıklanamaz */
-  .card.locked {
-    pointer-events:none;
-  }
+  #devam-btn.ready #devam-label { color:white !important; text-shadow:0 1px 3px rgba(0,0,0,0.3); }
 </style>
 </head>
 <body>
@@ -247,225 +147,15 @@
     <p class="mt-2 text-blue-100 text-sm">Doğru hediyeye giden yolda birkaç soru 😎</p>
   </div>
 
-  <div id="devam-wrap">
-    <button id="devam-btn" onclick="devamEt()">
-      <div id="devam-label">0 / 30 soru cevaplandı</div>
-    </button>
-  </div>
+  <div class="p-3 grid grid-cols-12 gap-3" id="card-grid"></div>
 
-  <div class="p-3 grid grid-cols-12 gap-3" id="card-grid">
+</div>
 
-    <button class="card col-span-6 bg-white border-2 border-gray-200 rounded-3xl p-4 text-left" data-id="kime">
-      <div class="emoji text-3xl mb-2">🎁</div>
-      <h3 class="font-black text-lg leading-tight">Hediye kime alınıyor?</h3>
-      <p class="text-gray-500 text-sm mt-2">Bakalım kim bu şanslı kişi 😏</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-blue-50 border-2 border-blue-100 rounded-3xl p-4 text-left" data-id="cinsiyet">
-      <div class="emoji text-3xl mb-2">🧑</div>
-      <h3 class="font-black text-lg">Cinsiyeti nedir?</h3>
-      <p class="text-gray-500 text-sm mt-2">Erkek mi kadın mı sürpriz mi 😄</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-12 bg-yellow-50 border-2 border-yellow-100 rounded-3xl p-4 text-left" data-id="dogum">
-      <div class="emoji text-3xl mb-2">🎂</div>
-      <h3 class="font-black text-lg">Doğum tarihi hakkında ne biliyorsunuz?</h3>
-      <p class="text-gray-500 text-sm mt-2">Burç tahmini yapacağız ✨</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-emerald-50 border-2 border-emerald-100 rounded-3xl p-4 text-left" data-id="yas">
-      <div class="emoji text-3xl mb-2">🎈</div>
-      <h3 class="font-black text-base">Yaş aralığı nedir?</h3>
-      <p class="text-gray-500 text-xs mt-2">Genç ruh mu deneyimli boss mu 😄</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-purple-50 border-2 border-purple-100 rounded-3xl p-4 text-left" data-id="amac">
-      <div class="emoji text-3xl mb-2">🎉</div>
-      <h3 class="font-black text-base">Hediye ne için?</h3>
-      <p class="text-gray-500 text-xs mt-2">Doğum günü mü sürpriz mi 🎂</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-5 bg-green-50 border-2 border-green-100 rounded-3xl p-4 text-left" data-id="tarz">
-      <div class="emoji text-3xl mb-2">😎</div>
-      <h3 class="font-black text-base">Tarzı nasıl?</h3>
-      <p class="text-gray-500 text-xs mt-2">Cool mu klasik mi 😎</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-7 bg-pink-50 border-2 border-pink-100 rounded-3xl p-4 text-left" data-id="hobiler">
-      <div class="emoji text-3xl mb-2">🎨</div>
-      <h3 class="font-black text-base">Hobileri neler?</h3>
-      <p class="text-gray-500 text-xs mt-2">Boş vakitte neyle uğraşıyor 🎯</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-rose-50 border-2 border-rose-100 rounded-3xl p-4 text-left" data-id="renk">
-      <div class="emoji text-3xl mb-2">🌈</div>
-      <h3 class="font-black text-base">En sevdiği renk tonu?</h3>
-      <p class="text-gray-500 text-xs mt-2">Pastel mi zıpır mı koyu mu 🎨</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-teal-50 border-2 border-teal-100 rounded-3xl p-4 text-left" data-id="ortam">
-      <div class="emoji text-3xl mb-2">🏠</div>
-      <h3 class="font-black text-base">Evde mi dışarıda mı?</h3>
-      <p class="text-gray-500 text-xs mt-2">Netflix köşesi mi sokak gezgini mi 🛋️</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-5 bg-blue-50 border-2 border-blue-100 rounded-3xl p-4 text-left" data-id="teknoloji">
-      <div class="emoji text-3xl mb-2">💻</div>
-      <h3 class="font-black text-sm">Teknolojiye ilgisi?</h3>
-      <p class="text-gray-500 text-xs mt-2">Gadget manyağı mı 🤓</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-7 bg-gray-100 border-2 border-gray-200 rounded-3xl p-4 text-left" data-id="kisilik">
-      <div class="emoji text-3xl mb-2">🧠</div>
-      <h3 class="font-black text-base">Kişilik tipi nasıl?</h3>
-      <p class="text-gray-500 text-xs mt-2">Sessiz ninja mı sosyal kelebek mi 😄</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-12 bg-green-50 border-2 border-green-100 rounded-3xl p-4 text-left" data-id="butce">
-      <div class="emoji text-3xl mb-2">💸</div>
-      <h3 class="font-black text-lg">Bütçe aralığın nedir?</h3>
-      <p class="text-gray-500 text-sm mt-2">Cüzdan ne kadar açık, dedektif buna göre ayarlar 😅</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-orange-50 border-2 border-orange-100 rounded-3xl p-4 text-left" data-id="mevsim">
-      <div class="emoji text-3xl mb-2">🍂</div>
-      <h3 class="font-black text-base">Favori mevsimi?</h3>
-      <p class="text-gray-500 text-xs mt-2">Yaz mı kış mı sonbahar mı ☀️</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-pink-50 border-2 border-pink-100 rounded-3xl p-4 text-left" data-id="tatli">
-      <div class="emoji text-3xl mb-2">🍫</div>
-      <h3 class="font-black text-base">En sevdiği tatlı?</h3>
-      <p class="text-gray-500 text-xs mt-2">Çikolata mı dondurma mı pasta mı 🍰</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-5 bg-yellow-50 border-2 border-yellow-100 rounded-3xl p-4 text-left" data-id="spor">
-      <div class="emoji text-3xl mb-2">🏃</div>
-      <h3 class="font-black text-sm">Spor yapıyor mu?</h3>
-      <p class="text-gray-500 text-xs mt-2">Koşu mu koltuk mu 😂</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-7 bg-violet-50 border-2 border-violet-100 rounded-3xl p-4 text-left" data-id="muzik">
-      <div class="emoji text-3xl mb-2">🎵</div>
-      <h3 class="font-black text-base">Favori müzik türü?</h3>
-      <p class="text-gray-500 text-xs mt-2">Pop rap klasik türk sanat 🎧</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-amber-50 border-2 border-amber-100 rounded-3xl p-4 text-left" data-id="hayvan">
-      <div class="emoji text-3xl mb-2">🐾</div>
-      <h3 class="font-black text-base">Hayvan sever mi?</h3>
-      <p class="text-gray-500 text-xs mt-2">Kedi mi köpek mi orman mı 🐱</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-sky-50 border-2 border-sky-100 rounded-3xl p-4 text-left" data-id="seyahat">
-      <div class="emoji text-3xl mb-2">✈️</div>
-      <h3 class="font-black text-base">Seyahat sever mi?</h3>
-      <p class="text-gray-500 text-xs mt-2">Valiz hazır bekliyor olabilir 🧳</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-7 bg-violet-50 border-2 border-violet-100 rounded-3xl p-4 text-left" data-id="kitap">
-      <div class="emoji text-3xl mb-2">📚</div>
-      <h3 class="font-black text-base">Kitap okumayı sever mi?</h3>
-      <p class="text-gray-500 text-xs mt-2">Kitap kurdu mu reels savaşçısı mı 😅</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-5 bg-amber-50 border-2 border-amber-100 rounded-3xl p-4 text-left" data-id="kahve">
-      <div class="emoji text-3xl mb-2">☕</div>
-      <h3 class="font-black text-base">Kahve mi çay mı?</h3>
-      <p class="text-gray-500 text-xs mt-2">Sabah modu ortaya çıkıyor 👀</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-5 bg-red-50 border-2 border-red-100 rounded-3xl p-4 text-left" data-id="film">
-      <div class="emoji text-3xl mb-2">🎬</div>
-      <h3 class="font-black text-sm">Favori film türü?</h3>
-      <p class="text-gray-500 text-xs mt-2">Korku mu romantik mi 🍿</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-7 bg-orange-50 border-2 border-orange-100 rounded-3xl p-4 text-left" data-id="mutfak">
-      <div class="emoji text-3xl mb-2">🍕</div>
-      <h3 class="font-black text-base">En sevdiği mutfak türü?</h3>
-      <p class="text-gray-500 text-xs mt-2">Pizza mı sushi mi kebap mı 😋</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-green-50 border-2 border-green-100 rounded-3xl p-4 text-left" data-id="bitki">
-      <div class="emoji text-3xl mb-2">🪴</div>
-      <h3 class="font-black text-base">Bitki bakıyor mu?</h3>
-      <p class="text-gray-500 text-xs mt-2">Ev jungle olmuş olabilir 🌿</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-indigo-50 border-2 border-indigo-100 rounded-3xl p-4 text-left" data-id="oyun">
-      <div class="emoji text-3xl mb-2">🎮</div>
-      <h3 class="font-black text-base">Oyun oynuyor mu?</h3>
-      <p class="text-gray-500 text-xs mt-2">Rank kasıyor olabilir 😎</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-7 bg-pink-50 border-2 border-pink-100 rounded-3xl p-4 text-left" data-id="makyaj">
-      <div class="emoji text-3xl mb-2">💄</div>
-      <h3 class="font-black text-base">Bakım ürünlerine ilgisi?</h3>
-      <p class="text-gray-500 text-xs mt-2">Sephora radarı açıldı 🚨</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-5 bg-stone-50 border-2 border-stone-100 rounded-3xl p-4 text-left" data-id="aksesuar">
-      <div class="emoji text-3xl mb-2">⌚</div>
-      <h3 class="font-black text-sm">Saat sever mi?</h3>
-      <p class="text-gray-500 text-xs mt-2">Bilek şıklığı önemli 😌</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-lime-50 border-2 border-lime-100 rounded-3xl p-4 text-left" data-id="doga">
-      <div class="emoji text-3xl mb-2">🥾</div>
-      <h3 class="font-black text-base">Doğa yürüyüşü yapar mı?</h3>
-      <p class="text-gray-500 text-xs mt-2">Şehirden kaçış modu 🌲</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-6 bg-cyan-50 border-2 border-cyan-100 rounded-3xl p-4 text-left" data-id="sanat">
-      <div class="emoji text-3xl mb-2">🖼️</div>
-      <h3 class="font-black text-base">Sanata ilgisi var mı?</h3>
-      <p class="text-gray-500 text-xs mt-2">Van Gogh vibes olabilir 🎨</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-12 bg-sky-50 border-2 border-sky-100 rounded-3xl p-4 text-left" data-id="foto">
-      <div class="emoji text-3xl mb-2">📸</div>
-      <h3 class="font-black text-lg">Fotoğraf çekmeyi sever mi?</h3>
-      <p class="text-gray-500 text-sm mt-2">Galeride 18 bin foto olabilir 😅</p>
-      <div class="answer-tag"></div>
-    </button>
-
-    <button class="card col-span-12 bg-fuchsia-50 border-2 border-fuchsia-100 rounded-3xl p-4 text-left" data-id="oncelik">
-      <div class="emoji text-3xl mb-2">🎁</div>
-      <h3 class="font-black text-lg">Hediye alırken en çok neye dikkat edersin?</h3>
-      <p class="text-gray-500 text-sm mt-2">Anlam mı kalite mi "aaa çok tatlı" etkisi mi 😄</p>
-      <div class="answer-tag"></div>
-    </button>
-
-  </div>
+<!-- Devam butonu -->
+<div id="devam-wrap">
+  <button id="devam-btn" onclick="devamEt()">
+    <div id="devam-label">0 soru cevaplandı</div>
+  </button>
 </div>
 
 <!-- POPUP -->
@@ -480,333 +170,199 @@
   </div>
 </div>
 
-
-
 <script>
-const SORULAR = {
-  kime: {
-    baslik:"Hediye kime alınıyor?", sub:"Kim bu şanslı kişi 😏",
-    secenekler:[
-      {e:"💑",l:"Sevgili",       bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"👩",l:"Anne",          bg:"#fef3c7",br:"#fcd34d",tx:"#92400e"},
-      {e:"👨",l:"Baba",          bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🤝",l:"Arkadaş",       bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"👦",l:"Kardeş",        bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-      {e:"🧒",l:"Çocuk",         bg:"#ffedd5",br:"#fdba74",tx:"#7c2d12"},
-      {e:"🪞",l:"Kendime",       bg:"#f0fdf4",br:"#86efac",tx:"#14532d"},
-      {e:"💼",l:"İş arkadaşı",   bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-      {e:"👶",l:"Bebek ❤️",      bg:"#fdf2f8",br:"#f0abfc",tx:"#701a75"},
-      {e:"🐾",l:"Pet ❤️",        bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-    ]
-  },
-  cinsiyet: {
-    baslik:"Cinsiyeti nedir?", sub:"Erkek mi kadın mı sürpriz mi 😄",
-    secenekler:[
-      {e:"👩",l:"Kadın",         bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"👨",l:"Erkek",         bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"👧",l:"Kız Çocuğu",   bg:"#fdf4ff",br:"#e879f9",tx:"#701a75"},
-      {e:"👦",l:"Erkek Çocuğu", bg:"#eff6ff",br:"#60a5fa",tx:"#1d4ed8"},
-    ]
-  },
-  dogum: {
-    baslik:"Doğum tarihi hakkında ne biliyorsunuz?", sub:"Burç tahmini yapacağız ✨",
-    secenekler:[
-      {e:"📅",l:"Tarihini biliyorum", bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"❓",l:"Bilmiyorum",         bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-      {e:"⭐",l:"Burcunu biliyorum",  bg:"#fef3c7",br:"#fcd34d",tx:"#78350f"},
-    ]
-  },
-  yas: {
-    baslik:"Yaş aralığı yaklaşık olarak nedir?", sub:"Genç ruh mu deneyimli boss mu 😄",
-    secenekler:[
-      {e:"👶",l:"0-2 (Bebek)",        bg:"#fdf4ff",br:"#e879f9",tx:"#701a75"},
-      {e:"🧒",l:"3-6 (Küçük Çocuk)", bg:"#fff7ed",br:"#fdba74",tx:"#7c2d12"},
-      {e:"🧒",l:"7-12 (Çocuk)",      bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🧑",l:"13-17 (Genç)",      bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🙋",l:"18-25",          bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"👤",l:"26-35",          bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-      {e:"👤",l:"36-45",          bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"🧓",l:"46-60",          bg:"#f0fdf4",br:"#86efac",tx:"#14532d"},
-      {e:"👴",l:"61-75",          bg:"#fef3c7",br:"#fcd34d",tx:"#92400e"},
-      {e:"🌟",l:"76+",            bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  amac: {
-    baslik:"Hediyeyi ne için alıyorsun?", sub:"Özel günü söyle dedektif ayarlar 🎂",
-    secenekler:[
-      {e:"🎂",l:"Doğum Günü",      bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"💍",l:"Yıl Dönümü",      bg:"#fef3c7",br:"#fcd34d",tx:"#92400e"},
-      {e:"❤️",l:"Sevgililer Günü", bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-      {e:"🏆",l:"Özel Bir Başarı",    bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🎁",l:"Sadece sürpriz",  bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🎄",l:"Noel / Yılbaşı",  bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-    ]
-  },
-  tarz: {
-    baslik:"Tarzı nasıl?", sub:"Cool mu klasik mi 😎",
-    secenekler:[
-      {e:"🤍",l:"Minimalist",          bg:"#f8fafc",br:"#e2e8f0",tx:"#334155"},
-      {e:"🌈",l:"Renkli ve Eğlenceli", bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"👔",l:"Klasik / Şık",        bg:"#1e3a8a",br:"#1e40af",tx:"white"},
-      {e:"✨",l:"Modern / Şık",         bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-      {e:"👟",l:"Spor / Casual",        bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-    ]
-  },
-  hobiler: {
-    baslik:"Hobileri nelerdir?", sub:"Birden fazla seçebilirsin 🎯",
-    secenekler:[
-      {e:"📚",l:"Okumak",            bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-      {e:"🏃",l:"Spor yapmak",       bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🎵",l:"Müzik / Enstrüman", bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"✈️",l:"Seyahat",           bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🍳",l:"Yemek yapmak",      bg:"#fff7ed",br:"#fdba74",tx:"#7c2d12"},
-      {e:"💻",l:"Teknoloji",         bg:"#f0f9ff",br:"#7dd3fc",tx:"#0c4a6e"},
-      {e:"🎨",l:"Sanat ve el işi",   bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🪴",l:"Bahçe / Bitki",     bg:"#f0fdf4",br:"#86efac",tx:"#14532d"},
-    ]
-  },
-  renk: {
-    baslik:"En çok sevdiği renk tonu hangisi?", sub:"Pastel mi zıpır mı koyu mu 🌈",
-    secenekler:[
-      {e:"🌸",l:"Pastel Tonlar",          bg:"#fdf2f8",br:"#f0abfc",tx:"#701a75"},
-      {e:"🖤",l:"Koyu ve Şık Tonlar",      bg:"#1f2937",br:"#374151",tx:"white"},
-      {e:"🌟",l:"Canlı ve Parlak",        bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🌿",l:"Doğal Tonlar",           bg:"#f0fdf4",br:"#86efac",tx:"#14532d"},
-    ]
-  },
-  ortam: {
-    baslik:"Kişi evde mi dışarıda mı vakit geçiriyor?", sub:"Netflix köşesi mi sokak gezgini mi 🛋️",
-    secenekler:[
-      {e:"🛋️",l:"Daha çok evde",   bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-      {e:"🌍",l:"Daha çok dışarıda",bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"⚖️",l:"İkisi de dengeli", bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-    ]
-  },
-  teknoloji: {
-    baslik:"Teknolojiye ilgisi var mı?", sub:"Gadget manyağı mı yoksa analog mı 🤓",
-    secenekler:[
-      {e:"🤖",l:"Çok ilgili",       bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"📱",l:"Orta seviyede",     bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"📖",l:"Pek ilgilenmiyor", bg:"#fef3c7",br:"#fcd34d",tx:"#78350f"},
-    ]
-  },
-  kisilik: {
-    baslik:"Kişilik tipi nasıl?", sub:"Sessiz ninja mı sosyal kelebek mi 😄",
-    secenekler:[
-      {e:"🌙",l:"İçedönük", bg:"#1e3a8a",br:"#1d4ed8",tx:"white"},
-      {e:"☀️",l:"Dışadönük",bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"⚖️",l:"Dengeli",  bg:"#f0fdf4",br:"#86efac",tx:"#14532d"},
-    ]
-  },
-  butce: {
-    baslik:"Bütçe aralığın nedir?", sub:"Cüzdan ne kadar açık 💸",
-    secenekler:[
-      {e:"💵",l:"0-500 TL",       bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-      {e:"💰",l:"500-1500 TL",    bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"💎",l:"1500-3000 TL",   bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🏆",l:"3000-5000 TL",   bg:"#fef3c7",br:"#fcd34d",tx:"#78350f"},
-      {e:"👑",l:"5000-10000 TL",  bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"🌟",l:"10000-30000 TL", bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-      {e:"🚀",l:"30.000 TL+",      bg:"#1f2937",br:"#374151",tx:"white"},
-    ]
-  },
-  mevsim: {
-    baslik:"Favori mevsimi hangisi?", sub:"Yaz mı kış mı bahar mı ☀️",
-    secenekler:[
-      {e:"🌸",l:"İlkbahar",bg:"#fdf4ff",br:"#e879f9",tx:"#701a75"},
-      {e:"☀️",l:"Yaz",     bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🍂",l:"Sonbahar",bg:"#fff7ed",br:"#fdba74",tx:"#7c2d12"},
-      {e:"❄️",l:"Kış",     bg:"#eff6ff",br:"#60a5fa",tx:"#1d4ed8"},
-    ]
-  },
-  tatli: {
-    baslik:"En sevdiği tatlı türü nedir?", sub:"Çikolata mı dondurma mı pasta mı 🍰",
-    secenekler:[
-      {e:"🍫",l:"Çikolata",  bg:"#292524",br:"#44403c",tx:"white"},
-      {e:"🎂",l:"Pasta",     bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"🍦",l:"Dondurma",  bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🍬",l:"Şekerleme", bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🚫",l:"Hiçbiri",   bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  spor: {
-    baslik:"Spor yapıyor mu?", sub:"Koşu mu koltuk mu 😂",
-    secenekler:[
-      {e:"🏋️",l:"Evet düzenli", bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🚶",l:"Ara sıra",     bg:"#fef3c7",br:"#fcd34d",tx:"#78350f"},
-      {e:"🛋️",l:"Hiç yapmıyor",bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-    ]
-  },
-  muzik: {
-    baslik:"Favori müzik türü?", sub:"Hangi ritim onu anlatıyor 🎧",
-    secenekler:[
-      {e:"🎤",l:"Pop",               bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"🎸",l:"Rock",              bg:"#1f2937",br:"#374151",tx:"white"},
-      {e:"🎻",l:"Klasik",            bg:"#fef3c7",br:"#fcd34d",tx:"#78350f"},
-      {e:"🎧",l:"Rap / Hip-Hop",     bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-      {e:"🎼",l:"Türk Sanat Müziği", bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🎶",l:"Diğer",             bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  hayvan: {
-    baslik:"Hayvan sever mi?", sub:"Kedi mi köpek mi orman mı 🐱",
-    secenekler:[
-      {e:"🐾",l:"Evet çok sever",bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"😐",l:"Orta",         bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🙅",l:"Pek sevmez",   bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-    ]
-  },
-  seyahat: {
-    baslik:"Seyahat etmeyi sever mi?", sub:"Valiz hazır bekliyor olabilir 🧳",
-    secenekler:[
-      {e:"✈️",l:"Çok sever",  bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🚂",l:"Ara sıra",   bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🏠",l:"Pek sevmez", bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  kitap: {
-    baslik:"Kitap okumayı sever mi?", sub:"Kitap kurdu mu reels savaşçısı mı 😅",
-    secenekler:[
-      {e:"📚",l:"Evet çok",   bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-      {e:"📖",l:"Ara sıra",   bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"📵",l:"Hiç okumaz", bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-    ]
-  },
-  kahve: {
-    baslik:"Kahve mi çay mı?", sub:"Sabah modu ortaya çıkıyor 👀",
-    secenekler:[
-      {e:"☕",l:"Kahve",    bg:"#292524",br:"#44403c",tx:"white"},
-      {e:"🍵",l:"Çay",     bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🥤",l:"İkisi de",bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"💧",l:"Hiçbiri", bg:"#eff6ff",br:"#60a5fa",tx:"#1d4ed8"},
-    ]
-  },
-  film: {
-    baslik:"En sevdiği film türü?", sub:"Korku mu romantik mi 🍿",
-    secenekler:[
-      {e:"💕",l:"Romantik",   bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"😂",l:"Komedi",     bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🚀",l:"Bilim Kurgu",bg:"#1e3a8a",br:"#1d4ed8",tx:"white"},
-      {e:"🎭",l:"Dram",       bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-      {e:"💥",l:"Aksiyon",    bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-    ]
-  },
-  mutfak: {
-    baslik:"En sevdiği mutfak türü?", sub:"Pizza mı sushi mi kebap mı 😋",
-    secenekler:[
-      {e:"🍢",l:"Türk",     bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-      {e:"🍕",l:"İtalyan",  bg:"#fff7ed",br:"#fdba74",tx:"#7c2d12"},
-      {e:"🍜",l:"Asya",     bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🍔",l:"Fast Food",bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🥗",l:"Sağlıklı", bg:"#f0fdf4",br:"#86efac",tx:"#14532d"},
-    ]
-  },
-  bitki: {
-    baslik:"Evde bitki bakımı yapıyor mu?", sub:"Ev jungle olmuş olabilir 🌿",
-    secenekler:[
-      {e:"🌵",l:"Evet",    bg:"#f0fdf4",br:"#86efac",tx:"#14532d"},
-      {e:"🚫",l:"Hayır",   bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-      {e:"🌱",l:"Deniyor", bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-    ]
-  },
-  oyun: {
-    baslik:"Oyun oynar mı?", sub:"Rank kasıyor olabilir 😎",
-    secenekler:[
-      {e:"🎮",l:"Evet sık sık", bg:"#ede9fe",br:"#c4b5fd",tx:"#4c1d95"},
-      {e:"📱",l:"Ara sıra",     bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🚫",l:"Hiç oynamaz",  bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  makyaj: {
-    baslik:"Makyaj / bakım ürünlerine ilgisi var mı?", sub:"Sephora radarı açıldı 🚨",
-    secenekler:[
-      {e:"💄",l:"Çok var",bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"🧴",l:"Orta",   bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🚿",l:"Yok",    bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  aksesuar: {
-    baslik:"Saat / aksesuar takmayı sever mi?", sub:"Bilek şıklığı önemli 😌",
-    secenekler:[
-      {e:"⌚",l:"Evet",      bg:"#1f2937",br:"#374151",tx:"white"},
-      {e:"💫",l:"Ara sıra",  bg:"#fef3c7",br:"#fcd34d",tx:"#78350f"},
-      {e:"🚫",l:"Hiç sevmez",bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  doga: {
-    baslik:"Doğa yürüyüşü yapar mı?", sub:"Şehirden kaçış modu 🌲",
-    secenekler:[
-      {e:"🥾",l:"Evet sever", bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-      {e:"🚶",l:"Ara sıra",   bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"🛋️",l:"Hiç yapmaz",bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-    ]
-  },
-  sanat: {
-    baslik:"Sanat eserlerine ilgisi var mı?", sub:"Van Gogh vibes olabilir 🖼️",
-    secenekler:[
-      {e:"🎨",l:"Çok var",bg:"#fef9c3",br:"#fde047",tx:"#713f12"},
-      {e:"👁️",l:"Orta",   bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🤷",l:"Yok",    bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  foto: {
-    baslik:"Fotoğraf çekmeyi sever mi?", sub:"Galeride 18 bin foto olabilir 😅",
-    secenekler:[
-      {e:"📸",l:"Evet",    bg:"#1e3a8a",br:"#1d4ed8",tx:"white"},
-      {e:"🤳",l:"Ara sıra",bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"🚫",l:"Hiç",     bg:"#f1f5f9",br:"#cbd5e1",tx:"#334155"},
-    ]
-  },
-  oncelik: {
-    baslik:"Hediye alırken en çok neye dikkat edersin?", sub:'Anlam mı kalite mi "aaa çok tatlı" etkisi mi 😄',
-    secenekler:[
-      {e:"🔧",l:"Kullanışlı olsun",     bg:"#dbeafe",br:"#93c5fd",tx:"#1e3a8a"},
-      {e:"✨",l:"Güzel görünsün",        bg:"#fce7f3",br:"#f9a8d4",tx:"#9d174d"},
-      {e:"❤️",l:"Özel ve anlamlı olsun",bg:"#fee2e2",br:"#fca5a5",tx:"#7f1d1d"},
-      {e:"💸",l:"Uygun fiyatlı olsun",  bg:"#d1fae5",br:"#6ee7b7",tx:"#065f46"},
-    ]
-  },
-};
+// Kart renk paleti
+const KART_RENKLER = [
+  {bg:'bg-white',  border:'border-gray-200'},
+  {bg:'bg-blue-50',border:'border-blue-100'},
+  {bg:'bg-yellow-50',border:'border-yellow-100'},
+  {bg:'bg-green-50',border:'border-green-100'},
+  {bg:'bg-purple-50',border:'border-purple-100'},
+  {bg:'bg-pink-50', border:'border-pink-100'},
+  {bg:'bg-orange-50',border:'border-orange-100'},
+  {bg:'bg-teal-50',border:'border-teal-100'},
+  {bg:'bg-red-50',  border:'border-red-100'},
+  {bg:'bg-indigo-50',border:'border-indigo-100'},
+  {bg:'bg-lime-50', border:'border-lime-100'},
+  {bg:'bg-cyan-50', border:'border-cyan-100'},
+];
 
-// Dağınık boyutlar — sırayla döner, her butona farklı boyut verir
+// Kart boyut dizisi (dağınık görünüm)
+const KART_SPAN = [6,6,12,7,5,6,6,5,7,12,6,6,7,5,12,6,6,5,7,6,6,12,6,6,7,5,6,6,12,6];
 const SIZES = ['sz-md','sz-lg','sz-sm','sz-xl','sz-xs','sz-md','sz-lg','sz-sm','sz-xs','sz-xl'];
+
+// Kart emoji haritası
+const KART_EMOJI = {
+  kime:'🎁', cinsiyet:'🧑', dogum:'🎂', yas:'🎈', amac:'🎊',
+  tarz:'👗', hobiler:'🎯', renk:'🌈', ortam:'🏠', teknoloji:'💻',
+  butce:'💰', mevsim:'🍂', tatli:'🍰', spor:'🏃', muzik:'🎵',
+  hayvan:'🐾', seyahat:'✈️', kitap:'📚', kahve:'☕', film:'🎬',
+  bitki:'🪴', oyun:'🎮', makyaj:'💄', aksesuar:'⌚', mutfak:'🍕',
+  doga:'🥾', sanat:'🖼️', foto:'📸', kisilik:'🧠', oncelik:'⭐',
+  bebek_cinsiyet:'👶', bebek_yas:'📏', bebek_amac:'🎀', bebek_tarz:'🧸',
+  bebek_tur:'🍼', bebek_butce:'💵',
+  cocuk_cinsiyet:'🧒', cocuk_yas:'📏', cocuk_amac:'🎪', cocuk_aktivite:'⚽',
+  cocuk_tema:'🦸', cocuk_ortam:'🏡', cocuk_tur:'🧩', cocuk_butce:'💵',
+  pet_tur:'🐾', kedi_yas:'🐱', kedi_karakter:'😸', kedi_ortam:'🏠',
+  kedi_tur:'🐈', kedi_butce:'💵', kopek_yas:'🐶', kopek_irk:'🦮',
+  kopek_karakter:'😄', kopek_tur:'🎾', kopek_butce:'💵',
+  kus_tur:'🦜', kus_kafes:'🏠', kus_hediye:'🎁', kus_butce:'💵',
+  balik_tip:'🐠', balik_boyut:'📏', balik_hediye:'🎁', balik_butce:'💵',
+  kucukpet_yas:'🐹', kucukpet_yuva:'🏡', kucukpet_hediye:'🎁', kucukpet_butce:'💵',
+};
 
 const answers = {};
 let currentId = null;
 let pickedNow = null;
+let aktifSorular = []; // mevcut aktif soru id listesi
 
+// Kime'ye göre soru seti belirle
+function getSoruSeti(kime) {
+  const map = {
+    'Bebek ❤️': 'soruBebekler',
+    'Çocuk 🧒': 'soruCocuklar',
+    'Pet ❤️':   'soruPetler',
+  };
+  return map[kime] || 'sorular';
+}
+
+// Aktif sorular listesini hesapla
+function hesaplaAktifSorular() {
+  const kime = answers.kime || '';
+  const setAdi = getSoruSeti(kime);
+  let sorular = (QUIZ_CONFIG[setAdi] || QUIZ_CONFIG.sorular).map(s => s.id);
+
+  // Anne/Baba → cinsiyet atla
+  if (['Anne','Baba'].includes(kime)) {
+    sorular = sorular.filter(id => id !== 'cinsiyet');
+  }
+  // Kardeş → dogum atla
+  if (kime === 'Kardeş') {
+    sorular = sorular.filter(id => id !== 'dogum');
+  }
+
+  return sorular;
+}
+
+// Tüm kartları yeniden çiz
+function kartlariBuildEt() {
+  aktifSorular = hesaplaAktifSorular();
+  const grid = document.getElementById('card-grid');
+  grid.innerHTML = '';
+
+  // kime sorusu her zaman ilk kart
+  const tumIds = aktifSorular.includes('kime') ? aktifSorular : ['kime', ...aktifSorular];
+
+  tumIds.forEach((id, idx) => {
+    const soru = getSoru(id);
+    if (!soru) return;
+
+    const span = KART_SPAN[idx % KART_SPAN.length];
+    const renk = KART_RENKLER[idx % KART_RENKLER.length];
+    const emoji = KART_EMOJI[id] || '❓';
+    const cevap = answers[id];
+    const isLocked = isKilitli(id);
+
+    const btn = document.createElement('button');
+    btn.className = `card col-span-${span} ${renk.bg} border-2 ${renk.border} rounded-3xl p-4 text-left${cevap ? ' answered' : ''}${isLocked ? ' locked' : ''}`;
+    btn.dataset.id = id;
+
+    const fontSize = span >= 12 ? 'text-lg' : span >= 7 ? 'text-base' : 'text-sm';
+    const emojiSize = span >= 7 ? 'text-3xl' : 'text-2xl';
+
+    btn.innerHTML = `
+      <div class="emoji ${emojiSize} mb-2">${emoji}</div>
+      <h3 class="font-black ${fontSize} leading-tight">${soru.soru}</h3>
+      <p class="text-gray-500 text-xs mt-2">${soru.espriNotu || ''}</p>
+      <div class="answer-tag" style="display:${cevap?'block':'none'}">${cevap ? getCevapTag(id, cevap) : ''}</div>
+    `;
+    btn.onclick = () => openPopup(id);
+    grid.appendChild(btn);
+  });
+
+  updateProgress();
+}
+
+// Soru verisini bul (tüm setlerde ara)
+function getSoru(id) {
+  const setler = ['sorular','soruBebekler','soruCocuklar','soruPetler','soruKedi','soruKopek','soruKus','soruBalik','soruKucukPet'];
+  for (const s of setler) {
+    const found = (QUIZ_CONFIG[s] || []).find(q => q.id === id);
+    if (found) return found;
+  }
+  return null;
+}
+
+// Kart kilitli mi?
+function isKilitli(id) {
+  const kime = answers.kime || '';
+  if (id === 'cinsiyet' && ['Anne','Baba','Bebek ❤️','Pet ❤️'].includes(kime)) return true;
+  if (id === 'dogum' && ['Bebek ❤️','Çocuk 🧒','Pet ❤️','Kardeş'].includes(kime)) return true;
+  return false;
+}
+
+// Cevap tag HTML
+function getCevapTag(id, cevap) {
+  const soru = getSoru(id);
+  if (!soru) return cevap;
+  const secenekler = getFiltreli(id);
+  // secenekler string array
+  const idx = secenekler.indexOf(cevap);
+  return cevap;
+}
+
+// Filtrelenmiş seçenekler
+function getFiltreli(id) {
+  const soru = getSoru(id);
+  if (!soru) return [];
+  let secs = soru.secenekler;
+  if (id === 'cinsiyet') {
+    const kime = answers.kime || '';
+    const filtre = QUIZ_CONFIG.cinsiyetFiltreleri && QUIZ_CONFIG.cinsiyetFiltreleri[kime];
+    if (Array.isArray(filtre)) secs = secs.filter(s => filtre.includes(s));
+  }
+  if (id === 'yas') {
+    const kime = answers.kime || '';
+    const cinsiyet = answers.cinsiyet || '';
+    let yasFiltre = null;
+    if (kime === 'Kardeş' && (cinsiyet === 'Kız Çocuğu' || cinsiyet === 'Erkek Çocuğu')) {
+      yasFiltre = QUIZ_CONFIG.yasFiltreleri && QUIZ_CONFIG.yasFiltreleri['Kardeş_cocuk'];
+    } else {
+      yasFiltre = QUIZ_CONFIG.yasFiltreleri && QUIZ_CONFIG.yasFiltreleri[kime];
+    }
+    if (Array.isArray(yasFiltre)) secs = secs.filter(s => yasFiltre.includes(s));
+  }
+  return secs;
+}
+
+// Popup aç
 function openPopup(id) {
   currentId = id;
   pickedNow = answers[id] || null;
-  const s = SORULAR[id];
+  const soru = getSoru(id);
+  if (!soru) return;
 
-  document.getElementById('popup-title').textContent = s.baslik;
-  document.getElementById('popup-sub').textContent = s.sub;
+  document.getElementById('popup-title').textContent = soru.soru;
+  document.getElementById('popup-sub').textContent = soru.espriNotu || '';
 
   const wrap = document.getElementById('popup-options');
   wrap.innerHTML = '';
 
-  // Cinsiyet sorusunda kime'ye göre filtrele
-  let secenekler = s.secenekler;
-  if (id === 'cinsiyet') {
-    const kime = answers.kime || '';
-    const filtre = CINSIYET_FILTRE[kime];
-    if (Array.isArray(filtre)) {
-      secenekler = s.secenekler.filter(o => filtre.includes(o.l));
-    }
-  }
-
+  const secenekler = getFiltreli(id);
   secenekler.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'opt-btn ' + SIZES[i % SIZES.length];
-    btn.style.cssText = `background:${opt.bg};border-color:${opt.br};color:${opt.tx}`;
-    btn.dataset.label = opt.l;
-    btn.innerHTML = opt.e + ' ' + opt.l + '<span class="opt-check">✔</span>';
-
-    if (pickedNow === opt.l) {
-      btn.classList.add('picked');
+    // Seçeneğin rengi — SORULAR objesinden al
+    const dedSoru = SORULAR && SORULAR[id] ? SORULAR[id] : null;
+    const dedOpt = dedSoru ? dedSoru.secenekler.find(o => o.l === opt) : null;
+    if (dedOpt) {
+      btn.style.cssText = `background:${dedOpt.bg};border-color:${dedOpt.br};color:${dedOpt.tx}`;
+    } else {
+      btn.style.cssText = 'background:#eff6ff;border-color:#bfdbfe;color:#1e40af';
     }
-
+    btn.dataset.label = opt;
+    btn.innerHTML = (dedOpt ? dedOpt.e + ' ' : '') + opt + '<span class="opt-check">✔</span>';
+    if (pickedNow === opt) btn.classList.add('picked');
     btn.onclick = () => pick(btn, opt);
     wrap.appendChild(btn);
   });
@@ -819,7 +375,7 @@ function openPopup(id) {
 function pick(btn, opt) {
   document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('picked'));
   btn.classList.add('picked');
-  pickedNow = opt.l;
+  pickedNow = opt;
   updateSave();
 }
 
@@ -834,132 +390,39 @@ function updateSave() {
   }
 }
 
-const TOTAL = 30;
+function saveAnswer() {
+  if (!pickedNow) return;
+  answers[currentId] = pickedNow;
 
-// Dallanma: kime'ye göre hangi sorular aktif
-const DALLANMA = {
-  // Cinsiyet sorusu — anne/baba için gösterme
-  cinsiyet: function(ans) {
-    const kime = ans.kime || '';
-    if (['Anne','Baba','Bebek ❤️'].includes(kime)) return false;
-    return true;
-  },
-  // Doğum sorusu — bebek/çocuk için gösterme
-  dogum: function(ans) {
-    const kime = ans.kime || '';
-    if (['Bebek ❤️','Çocuk 🧒'].includes(kime)) return false;
-    return true;
+  // Anne/Baba → cinsiyet otomatik ata
+  if (currentId === 'kime') {
+    if (answers.kime === 'Anne') answers.cinsiyet = 'Kadın';
+    else if (answers.kime === 'Baba') answers.cinsiyet = 'Erkek';
+    else { delete answers.cinsiyet; }
+    // Soru seti değişiyor, tüm cevapları sıfırla (kime hariç)
+    const eskiKime = answers.kime;
+    Object.keys(answers).forEach(k => { if(k !== 'kime' && k !== 'cinsiyet') delete answers[k]; });
   }
-};
 
-// Aktif kart sayısı (dallanmaya göre)
-function getAktifKartSayisi() {
-  let n = 0;
-  document.querySelectorAll('.card[data-id]').forEach(c => {
-    const id = c.dataset.id;
-    if (DALLANMA[id] && !DALLANMA[id](answers)) return;
-    n++;
-  });
-  return n;
+  closePopup();
+  kartlariBuildEt(); // kime değişince kartlar yeniden çizilir
 }
 
-// Kime'ye göre cinsiyet seçenekleri
-const CINSIYET_FILTRE = {
-  'Sevgili':      ['Kadın','Erkek'],
-  'Arkadaş':      ['Kadın','Erkek'],
-  'İş arkadaşı':  ['Kadın','Erkek'],
-  'Kendime':      ['Kadın','Erkek'],
-  'Kardeş':       ['Kadın','Erkek','Kız Çocuğu','Erkek Çocuğu'],
-  'Çocuk 🧒':     ['Kız Çocuğu','Erkek Çocuğu'],
-  'Anne':         null, // otomatik Kadın
-  'Baba':         null, // otomatik Erkek
-  'Bebek ❤️':     null, // kilitle
-  'Pet ❤️':       null, // kilitle
-};
-
-// Otomatik cevap ata
-const OTOMATIK = {
-  cinsiyet: function(ans) {
-    const kime = ans.kime || '';
-    if (kime === 'Anne') return 'Kadın';
-    if (kime === 'Baba') return 'Erkek';
-    if (['Bebek ❤️','Pet ❤️'].includes(kime)) return null;
-    return false; // normal, serbest
-  }
-};
-
-// Dallanmaya göre kartları otomatik cevapla veya kilitle
-function updateDallanma() {
-  document.querySelectorAll('.card[data-id]').forEach(c => {
-    const id = c.dataset.id;
-
-    // Otomatik cevap kontrolü
-    if (OTOMATIK[id]) {
-      const otoCevap = OTOMATIK[id](answers);
-      if (otoCevap === false) {
-        // Serbest — kilidi aç, otomatik cevabı temizle
-        if (c.dataset.oto) {
-          delete answers[id];
-          delete c.dataset.oto;
-          c.classList.remove('locked', 'answered');
-          const tag = c.querySelector('.answer-tag');
-          if (tag) { tag.style.display = 'none'; tag.textContent = ''; }
-        }
-        return;
-      }
-      if (otoCevap === null) {
-        // Kilitle, cevap atama
-        c.classList.add('locked');
-        c.classList.remove('answered');
-        delete answers[id];
-        const tag = c.querySelector('.answer-tag');
-        if (tag) tag.style.display = 'none';
-        return;
-      }
-      // Otomatik cevap ver
-      answers[id] = otoCevap;
-      c.dataset.oto = '1';
-      c.classList.add('locked', 'answered');
-      const s = SORULAR[id];
-      const opt = s.secenekler.find(o => o.l === otoCevap);
-      const tag = c.querySelector('.answer-tag');
-      if (tag && opt) {
-        tag.textContent = opt.e + '  ' + opt.l;
-        tag.style.background = opt.bg;
-        tag.style.color = opt.tx;
-        tag.style.border = '1.5px solid ' + opt.br;
-        tag.style.display = 'block';
-      }
-      return;
-    }
-
-    // Normal dallanma (göster/gizle değil kilitle)
-    if (DALLANMA[id]) {
-      const aktif = DALLANMA[id](answers);
-      if (!aktif) {
-        c.classList.add('locked');
-        c.classList.remove('answered');
-        delete answers[id];
-        const tag = c.querySelector('.answer-tag');
-        if (tag) tag.style.display = 'none';
-      } else {
-        c.classList.remove('locked');
-      }
-    }
-  });
+function closePopup() {
+  document.getElementById('popup-overlay').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-// 30 dilimli progress buton
+// Progress buton
 function updateProgress() {
-  updateDallanma();
-  const total = getAktifKartSayisi();
+  const total = aktifSorular.length;
   const count = Object.keys(answers).length;
   const btn = document.getElementById('devam-btn');
-  const label = document.getElementById('devam-label');
 
-  // Dilimler yoksa oluştur
-  if (btn.querySelectorAll('.dilim').length !== total) {
-    label.remove();
+  // Dilimler
+  const mevcutDilimler = btn.querySelectorAll('.dilim').length;
+  if (mevcutDilimler !== total) {
+    const label = document.getElementById('devam-label');
     btn.innerHTML = '';
     for (let i = 0; i < total; i++) {
       const d = document.createElement('div');
@@ -971,20 +434,11 @@ function updateProgress() {
     btn.appendChild(lbl);
   }
 
-  // Dilim renklerini güncelle
   const dilimler = btn.querySelectorAll('.dilim');
   const cevapSiralari = Object.keys(answers);
   dilimler.forEach((d, i) => {
-    if (i < cevapSiralari.length) {
-      const id = cevapSiralari[i];
-      const s = SORULAR[id];
-      const opt = s ? s.secenekler.find(o => o.l === answers[id]) : null;
-      d.style.background = '#2563eb';
-      d.style.borderRight = i < cevapSiralari.length - 1 ? '1px solid rgba(255,255,255,0.5)' : 'none';
-    } else {
-      d.style.background = '#e5e7eb';
-      d.style.borderRight = 'none';
-    }
+    d.style.background = i < cevapSiralari.length ? '#2563eb' : '#e5e7eb';
+    d.style.borderRight = i < cevapSiralari.length - 1 ? '1px solid rgba(255,255,255,0.5)' : 'none';
   });
 
   const lbl = document.getElementById('devam-label');
@@ -998,49 +452,20 @@ function updateProgress() {
 }
 
 function devamEt() {
-  const total = getAktifKartSayisi();
+  const total = aktifSorular.length;
   const count = Object.keys(answers).length;
   if (count < total) return;
-  // Cevapları localStorage'a kaydet
   localStorage.setItem('budurBuldumCevaplar', JSON.stringify(answers));
   window.location.href = 'ozet.html';
 }
 
-function saveAnswer() {
-  if (!pickedNow) return;
-  answers[currentId] = pickedNow;
-  const card = document.querySelector('[data-id="' + currentId + '"]');
-  card.classList.add('answered');
-  // Cevabı karta yaz
-  const tag = card.querySelector('.answer-tag');
-  if (tag) {
-    // Seçilen şıktan emoji + label
-    const s = SORULAR[currentId];
-    const opt = s.secenekler.find(o => o.l === pickedNow);
-    tag.textContent = opt ? opt.e + ' ' + opt.l : pickedNow;
-    tag.style.background = opt ? opt.bg : '#eff6ff';
-    tag.style.color = opt ? opt.tx : '#2563eb';
-    tag.style.borderColor = opt ? opt.br : 'transparent';
-    tag.style.border = '1.5px solid ' + (opt ? opt.br : '#bfdbfe');
-  }
-  updateProgress();
-  closePopup();
-}
-
-function closePopup() {
-  document.getElementById('popup-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// Kart tıklamaları
-document.querySelectorAll('.card[data-id]').forEach(c => {
-  c.onclick = () => openPopup(c.dataset.id);
-});
-
-// Overlay arka planına tıklayınca kapat
+// Overlay kapat
 document.getElementById('popup-overlay').addEventListener('click', function(e) {
   if (e.target === this) closePopup();
 });
+
+// Başlat
+kartlariBuildEt();
 </script>
 </body>
 </html>
