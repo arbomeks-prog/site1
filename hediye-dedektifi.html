@@ -318,11 +318,11 @@ function getRenkStyle(id, cevap) {
   if (!cevap) return '';
   if (id === 'dogum') {
     const burc = BURCLAR.find(b => b.l === cevap);
-    if (burc) return \`background:\${burc.bg};color:\${burc.tx};border:1.5px solid \${burc.br}\`;
+    if (burc) return `background:${burc.bg};color:${burc.tx};border:1.5px solid ${burc.br}`;
   }
   const idx = getFiltreli(id).indexOf(cevap);
   const renk = OPT_RENKLER[Math.max(0,idx) % OPT_RENKLER.length];
-  return \`background:\${renk.bg};color:\${renk.tx};border:1.5px solid \${renk.br}\`;
+  return `background:${renk.bg};color:${renk.tx};border:1.5px solid ${renk.br}`;
 }
 
 // Seçenek renk paleti (id bazlı sabit renkler)
@@ -406,7 +406,7 @@ function openPopup(id) {
       renkBul = BURCLAR.find(b => b.l === opt);
     }
     const renk = renkBul || OPT_RENKLER[i % OPT_RENKLER.length];
-    btn.style.cssText = \`background:\${renk.bg};border-color:\${renk.br};color:\${renk.tx}\`;
+    btn.style.cssText = `background:${renk.bg};border-color:${renk.br};color:${renk.tx}`;
     btn.dataset.label = opt;
     const emoji = renk.e || '';
     btn.innerHTML = (emoji ? emoji + ' ' : '') + opt + '<span class="opt-check">✔</span>';
