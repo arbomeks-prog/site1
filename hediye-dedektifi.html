@@ -299,6 +299,13 @@ function getDogumSoru() {
 
 function getSoru(id) {
   if (id === 'dogum') return getDogumSoru();
+  // Makyaj sorusunu cinsiyete göre özelleştir
+  if (id === 'makyaj') {
+    const cins = answers.cinsiyet || '';
+    if (cins === 'Erkek') {
+      return {id:'makyaj', soru:'Bakım / cilt ürünlerine ilgisi var mı?', espriNotu:'Krem bile sürmez mi gerçekten 🧴', secenekler:['Çok var','Orta','Yok']};
+    }
+  }
   const setler = ['sorular','soruBebekler','soruCocuklar','soruPetler','soruKedi','soruKopek','soruKus','soruBalik','soruKucukPet'];
   for (const s of setler) {
     const found = (QUIZ_CONFIG[s] || []).find(q => q.id === id);
@@ -322,6 +329,12 @@ function getRenkStyle(id, cevap) {
     const burc = BURCLAR.find(b => b.l === cevap);
     if (burc) return 'background:' + burc.bg + ';color:' + burc.tx + ';border:1.5px solid ' + burc.br;
   }
+  const secKey = (id === 'makyaj' && answers.cinsiyet === 'Erkek') ? 'makyaj_erkek' : id;
+  const secList = ESPRI_SECENEKLER[secKey] || ESPRI_SECENEKLER[id];
+  if (secList) {
+    const opt = secList.find(o => o.l === cevap);
+    if (opt) return 'background:' + opt.bg + ';color:' + opt.tx + ';border:1.5px solid ' + opt.br;
+  }
   const idx = getFiltreli(id).indexOf(cevap);
   const renk = OPT_RENKLER[Math.max(0,idx) % OPT_RENKLER.length];
   return 'background:' + renk.bg + ';color:' + renk.tx + ';border:1.5px solid ' + renk.br;
@@ -342,6 +355,202 @@ const OPT_RENKLER = [
   {bg:'#fef9c3',br:'#fde047',tx:'#713f12',e:''},
   {bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155',e:''},
 ];
+
+// Esprili seçenek haritası (id → seçenekler listesi)
+const ESPRI_SECENEKLER = {
+  kime: [
+    {l:'Sevgili',      e:'💑', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Arkadaş',      e:'🤝', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Anne',         e:'👩', bg:'#fef3c7',br:'#fcd34d',tx:'#92400e'},
+    {l:'Baba',         e:'👨', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Kardeş',       e:'👦', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+    {l:'Çocuk 🧒',     e:'🧒', bg:'#ffedd5',br:'#fdba74',tx:'#7c2d12'},
+    {l:'Kendime',      e:'🪞', bg:'#f0fdf4',br:'#86efac',tx:'#14532d'},
+    {l:'İş arkadaşı',  e:'💼', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+    {l:'Bebek ❤️',     e:'👶', bg:'#fdf2f8',br:'#f0abfc',tx:'#701a75'},
+    {l:'Pet ❤️',       e:'🐾', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+  ],
+  cinsiyet: [
+    {l:'Kadın',        e:'👩', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Erkek',        e:'👨', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Kız Çocuğu',   e:'👧', bg:'#fdf4ff',br:'#e879f9',tx:'#701a75'},
+    {l:'Erkek Çocuğu', e:'👦', bg:'#eff6ff',br:'#60a5fa',tx:'#1d4ed8'},
+  ],
+  yas: [
+    {l:'0-2 (Bebek)',      e:'👶', bg:'#fdf4ff',br:'#e879f9',tx:'#701a75'},
+    {l:'3-6 (Küçük Çocuk)',e:'🧒', bg:'#fff7ed',br:'#fdba74',tx:'#7c2d12'},
+    {l:'7-12 (Çocuk)',     e:'🧒', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'13-17 (Genç)',     e:'🧑', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'18-25',            e:'🙋', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'26-35',            e:'👤', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+    {l:'36-45',            e:'👤', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'46-60',            e:'🧓', bg:'#f0fdf4',br:'#86efac',tx:'#14532d'},
+    {l:'61-75',            e:'👴', bg:'#fef3c7',br:'#fcd34d',tx:'#92400e'},
+    {l:'76+',              e:'🌟', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  tarz: [
+    {l:'Minimalist',         e:'🤍', bg:'#f8fafc',br:'#e2e8f0',tx:'#334155'},
+    {l:'Renkli ve Eğlenceli',e:'🌈', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Klasik / Şık',       e:'👔', bg:'#1e3a8a',br:'#1e40af',tx:'white'},
+    {l:'Modern / Şık',       e:'✨', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+    {l:'Spor / Casual',      e:'👟', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+  ],
+  hobiler: [
+    {l:'Okumak',              e:'📚', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+    {l:'Spor yapmak',         e:'🏃', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Müzik / Enstrüman',   e:'🎵', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Seyahat',             e:'✈️', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Yemek yapmak',        e:'🍳', bg:'#fff7ed',br:'#fdba74',tx:'#7c2d12'},
+    {l:'Teknoloji',           e:'💻', bg:'#f0f9ff',br:'#7dd3fc',tx:'#0c4a6e'},
+    {l:'Sanat ve el işi',     e:'🎨', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Bahçe / Bitki bakımı',e:'🪴', bg:'#f0fdf4',br:'#86efac',tx:'#14532d'},
+  ],
+  renk: [
+    {l:'Pastel Tonlar',         e:'🌸', bg:'#fdf2f8',br:'#f0abfc',tx:'#701a75'},
+    {l:'Koyu ve Şık Tonlar',    e:'🖤', bg:'#1f2937',br:'#374151',tx:'white'},
+    {l:'Canlı ve Parlak Renkler',e:'🌟',bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Doğal Tonlar',          e:'🌿', bg:'#f0fdf4',br:'#86efac',tx:'#14532d'},
+  ],
+  amac: [
+    {l:'Doğum Günü',      e:'🎂', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Yıl Dönümü',      e:'💍', bg:'#fef3c7',br:'#fcd34d',tx:'#92400e'},
+    {l:'Sevgililer Günü', e:'❤️', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+    {l:'Özel Bir Başarı', e:'🏆', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Sadece sürpriz',  e:'🎁', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Noel / Yılbaşı',  e:'🎄', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+  ],
+  ortam: [
+    {l:'Daha çok evde',    e:'🛋️', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+    {l:'Daha çok dışarıda',e:'🌍', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'İkisi de dengeli', e:'⚖️', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+  ],
+  teknoloji: [
+    {l:'Çok ilgili',       e:'🤖', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Orta seviyede',    e:'📱', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Pek ilgilenmiyor', e:'📖', bg:'#fef3c7',br:'#fcd34d',tx:'#78350f'},
+  ],
+  butce: [
+    {l:'0-500 TL',      e:'💵', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+    {l:'500-1500 TL',   e:'💰', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'1500-3000 TL',  e:'💎', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'3000-5000 TL',  e:'🏆', bg:'#fef3c7',br:'#fcd34d',tx:'#78350f'},
+    {l:'5000-10000 TL', e:'👑', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'10000-30000 TL',e:'🌟', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+    {l:'30.000 TL+',    e:'🚀', bg:'#1f2937',br:'#374151',tx:'white'},
+  ],
+  mevsim: [
+    {l:'İlkbahar',e:'🌸', bg:'#fdf4ff',br:'#e879f9',tx:'#701a75'},
+    {l:'Yaz',     e:'☀️', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Sonbahar',e:'🍂', bg:'#fff7ed',br:'#fdba74',tx:'#7c2d12'},
+    {l:'Kış',     e:'❄️', bg:'#eff6ff',br:'#60a5fa',tx:'#1d4ed8'},
+  ],
+  tatli: [
+    {l:'Çikolata',  e:'🍫', bg:'#292524',br:'#44403c',tx:'white'},
+    {l:'Pasta',     e:'🎂', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Dondurma',  e:'🍦', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Şekerleme', e:'🍬', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Hiçbiri',   e:'🚫', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  spor: [
+    {l:'Evet düzenli', e:'🏋️', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Ara sıra',     e:'🚶', bg:'#fef3c7',br:'#fcd34d',tx:'#78350f'},
+    {l:'Hiç yapmıyor', e:'🛋️', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+  ],
+  muzik: [
+    {l:'Pop',               e:'🎤', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Rock',              e:'🎸', bg:'#1f2937',br:'#374151',tx:'white'},
+    {l:'Klasik',            e:'🎻', bg:'#fef3c7',br:'#fcd34d',tx:'#78350f'},
+    {l:'Rap / Hip-Hop',     e:'🎧', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+    {l:'Türk Sanat Müziği', e:'🎼', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Diğer',             e:'🎶', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  hayvan: [
+    {l:'Evet çok sever',e:'🐾', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Orta',          e:'😐', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Pek sevmez',    e:'🙅', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+  ],
+  seyahat: [
+    {l:'Çok sever',  e:'✈️', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Ara sıra',   e:'🚂', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Pek sevmez', e:'🏠', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  kitap: [
+    {l:'Evet çok',   e:'📚', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+    {l:'Ara sıra',   e:'📖', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Hiç okumaz', e:'📵', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+  ],
+  kahve: [
+    {l:'Kahve',    e:'☕', bg:'#292524',br:'#44403c',tx:'white'},
+    {l:'Çay',      e:'🍵', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'İkisi de', e:'🥤', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Hiçbiri',  e:'💧', bg:'#eff6ff',br:'#60a5fa',tx:'#1d4ed8'},
+  ],
+  film: [
+    {l:'Romantik',    e:'💕', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Komedi',      e:'😂', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Bilim Kurgu', e:'🚀', bg:'#1e3a8a',br:'#1d4ed8',tx:'white'},
+    {l:'Dram',        e:'🎭', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+    {l:'Aksiyon',     e:'💥', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+  ],
+  bitki: [
+    {l:'Evet',    e:'🌵', bg:'#f0fdf4',br:'#86efac',tx:'#14532d'},
+    {l:'Hayır',   e:'🚫', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+    {l:'Deniyor', e:'🌱', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+  ],
+  oyun: [
+    {l:'Evet sık sık', e:'🎮', bg:'#ede9fe',br:'#c4b5fd',tx:'#4c1d95'},
+    {l:'Ara sıra',     e:'📱', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Hiç oynamaz',  e:'🚫', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  makyaj: [
+    {l:'Çok var',e:'💄', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Orta',   e:'🧴', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Yok',    e:'🚿', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  makyaj_erkek: [
+    {l:'Çok var',e:'🧴', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Orta',   e:'🫧', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Yok',    e:'🚿', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  aksesuar: [
+    {l:'Evet',       e:'⌚', bg:'#1f2937',br:'#374151',tx:'white'},
+    {l:'Ara sıra',   e:'💫', bg:'#fef3c7',br:'#fcd34d',tx:'#78350f'},
+    {l:'Hiç sevmez', e:'🚫', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  mutfak: [
+    {l:'Türk',     e:'🍢', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+    {l:'İtalyan',  e:'🍕', bg:'#fff7ed',br:'#fdba74',tx:'#7c2d12'},
+    {l:'Asya',     e:'🍜', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Fast Food',e:'🍔', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Sağlıklı', e:'🥗', bg:'#f0fdf4',br:'#86efac',tx:'#14532d'},
+  ],
+  doga: [
+    {l:'Evet sever', e:'🥾', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+    {l:'Ara sıra',   e:'🚶', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Hiç yapmaz', e:'🛋️', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+  ],
+  sanat: [
+    {l:'Çok var',e:'🎨', bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Orta',   e:'👁️', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Yok',    e:'🤷', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  foto: [
+    {l:'Evet',    e:'📸', bg:'#1e3a8a',br:'#1d4ed8',tx:'white'},
+    {l:'Ara sıra',e:'🤳', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Hiç',     e:'🚫', bg:'#f1f5f9',br:'#cbd5e1',tx:'#334155'},
+  ],
+  kisilik: [
+    {l:'İçedönük',e:'🌙', bg:'#1e3a8a',br:'#1d4ed8',tx:'white'},
+    {l:'Dışadönük',e:'☀️',bg:'#fef9c3',br:'#fde047',tx:'#713f12'},
+    {l:'Dengeli', e:'⚖️', bg:'#f0fdf4',br:'#86efac',tx:'#14532d'},
+  ],
+  oncelik: [
+    {l:'Kullanışlı olsun',      e:'🔧', bg:'#dbeafe',br:'#93c5fd',tx:'#1e3a8a'},
+    {l:'Güzel görünsün',        e:'✨', bg:'#fce7f3',br:'#f9a8d4',tx:'#9d174d'},
+    {l:'Özel ve anlamlı olsun', e:'❤️', bg:'#fee2e2',br:'#fca5a5',tx:'#7f1d1d'},
+    {l:'Uygun fiyatlı olsun',   e:'💸', bg:'#d1fae5',br:'#6ee7b7',tx:'#065f46'},
+  ],
+};
 
 // Burç seçenekleri
 const BURCLAR = [
@@ -402,10 +611,14 @@ function openPopup(id) {
   secenekler.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'opt-btn ' + SIZES[i % SIZES.length];
-    // Renk bul
+    // Renk ve emoji bul
     let renkBul = null;
     if (id === 'dogum') {
       renkBul = BURCLAR.find(b => b.l === opt);
+    } else {
+      const secKey = (id === 'makyaj' && answers.cinsiyet === 'Erkek') ? 'makyaj_erkek' : id;
+      const secList = ESPRI_SECENEKLER[secKey] || ESPRI_SECENEKLER[id];
+      if (secList) renkBul = secList.find(o => o.l === opt);
     }
     const renk = renkBul || OPT_RENKLER[i % OPT_RENKLER.length];
     btn.style.cssText = 'background:' + renk.bg + ';border-color:' + renk.br + ';color:' + renk.tx;
