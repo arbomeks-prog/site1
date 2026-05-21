@@ -352,16 +352,9 @@ function openPopup(id) {
   secenekler.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'opt-btn ' + SIZES[i % SIZES.length];
-    // Seçeneğin rengi — SORULAR objesinden al
-    const dedSoru = SORULAR && SORULAR[id] ? SORULAR[id] : null;
-    const dedOpt = dedSoru ? dedSoru.secenekler.find(o => o.l === opt) : null;
-    if (dedOpt) {
-      btn.style.cssText = `background:${dedOpt.bg};border-color:${dedOpt.br};color:${dedOpt.tx}`;
-    } else {
-      btn.style.cssText = 'background:#eff6ff;border-color:#bfdbfe;color:#1e40af';
-    }
+    btn.style.cssText = 'background:#eff6ff;border-color:#bfdbfe;color:#1e40af';
     btn.dataset.label = opt;
-    btn.innerHTML = (dedOpt ? dedOpt.e + ' ' : '') + opt + '<span class="opt-check">✔</span>';
+    btn.innerHTML = opt + '<span class="opt-check">✔</span>';
     if (pickedNow === opt) btn.classList.add('picked');
     btn.onclick = () => pick(btn, opt);
     wrap.appendChild(btn);
