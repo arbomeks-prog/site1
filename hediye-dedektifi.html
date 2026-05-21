@@ -264,18 +264,20 @@ function kartlariBuildEt() {
     const isLocked = isKilitli(id);
 
     const btn = document.createElement('button');
-    btn.className = `card col-span-${span} ${renk.bg} border-2 ${renk.border} rounded-3xl p-4 text-left${cevap ? ' answered' : ''}${isLocked ? ' locked' : ''}`;
+    btn.className = 'card col-span-' + span + ' ' + renk.bg + ' border-2 ' + renk.border + ' rounded-3xl p-4 text-left' + (cevap ? ' answered' : '') + (isLocked ? ' locked' : '');
     btn.dataset.id = id;
 
     const fontSize = span >= 12 ? 'text-lg' : span >= 7 ? 'text-base' : 'text-sm';
     const emojiSize = span >= 7 ? 'text-3xl' : 'text-2xl';
 
-    btn.innerHTML = `
-      <div class="emoji ${emojiSize} mb-2">${emoji}</div>
-      <h3 class="font-black ${fontSize} leading-tight">${soru.soru}</h3>
-      <p class="text-gray-500 text-xs mt-2">${soru.espriNotu || ''}</p>
-      <div class="answer-tag" style="display:${cevap?'block':'none'}">${cevap ? getCevapTag(id, cevap) : ''}</div>
-    `;
+        const espri = soru.espriNotu || '';
+    const tagDisplay = cevap ? 'block' : 'none';
+    const tagStyle = getRenkStyle(id, cevap);
+    const tagText = cevap || '';
+    btn.innerHTML = '<div class="emoji ' + emojiSize + ' mb-2">' + emoji + '</div>' +
+      '<h3 class="font-black ' + fontSize + ' leading-tight">' + soru.soru + '</h3>' +
+      '<p class="text-gray-500 text-xs mt-2">' + espri + '</p>' +
+      '<div class="answer-tag" style="display:' + tagDisplay + ';' + tagStyle + '">' + tagText + '</div>';
     btn.onclick = () => openPopup(id);
     grid.appendChild(btn);
   });
@@ -318,11 +320,11 @@ function getRenkStyle(id, cevap) {
   if (!cevap) return '';
   if (id === 'dogum') {
     const burc = BURCLAR.find(b => b.l === cevap);
-    if (burc) return `background:${burc.bg};color:${burc.tx};border:1.5px solid ${burc.br}`;
+    if (burc) return 'background:' + burc.bg + ';color:' + burc.tx + ';border:1.5px solid ' + burc.br;
   }
   const idx = getFiltreli(id).indexOf(cevap);
   const renk = OPT_RENKLER[Math.max(0,idx) % OPT_RENKLER.length];
-  return `background:${renk.bg};color:${renk.tx};border:1.5px solid ${renk.br}`;
+  return 'background:' + renk.bg + ';color:' + renk.tx + ';border:1.5px solid ' + renk.br;
 }
 
 // Seçenek renk paleti (id bazlı sabit renkler)
@@ -406,7 +408,7 @@ function openPopup(id) {
       renkBul = BURCLAR.find(b => b.l === opt);
     }
     const renk = renkBul || OPT_RENKLER[i % OPT_RENKLER.length];
-    btn.style.cssText = `background:${renk.bg};border-color:${renk.br};color:${renk.tx}`;
+    btn.style.cssText = 'background:' + renk.bg + ';border-color:' + renk.br + ';color:' + renk.tx;
     btn.dataset.label = opt;
     const emoji = renk.e || '';
     btn.innerHTML = (emoji ? emoji + ' ' : '') + opt + '<span class="opt-check">✔</span>';
