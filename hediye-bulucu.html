@@ -612,15 +612,11 @@ function render() {
       acikId = (acikId === id) ? null : id;
       render();
       if (acikId === id) {
+        const _openId = id;
         setTimeout(() => {
-          const rect = wrap.getBoundingClientRect();
-          const stickyH = 110;
-          // Her zaman kartın üst kısmını sticky header altına getir
-          // Kullanıcı aşağı kaydırarak geri kalan seçenekleri görür
-          if (rect.top < stickyH || rect.top > window.innerHeight * 0.4) {
-            window.scrollBy({top: rect.top - stickyH - 8, behavior:'smooth'});
-          }
-        }, 80);
+          const el = document.querySelector('[data-soru-id="' + _openId + '"]');
+          if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        }, 100);
       }
     };
 
@@ -677,17 +673,11 @@ function render() {
           acikId = null;
           render();
           updateProgress();
-          // Cevap verilen kartın üstüne scroll — bir sonraki soruya hazır
+          // Cevap verilen kartın üstüne scroll
           setTimeout(() => {
             const el = document.querySelector('[data-soru-id="' + _scrollId + '"]');
-            if (el) {
-              const r = el.getBoundingClientRect();
-              if (r.top < 110 || r.top > window.innerHeight - 150) {
-                el.scrollIntoView({behavior:'smooth', block:'start'});
-                window.scrollBy({top: -118, behavior:'smooth'});
-              }
-            }
-          }, 60);
+            if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+          }, 100);
         };
         secListDiv.appendChild(btn);
       });
