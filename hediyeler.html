@@ -25,9 +25,11 @@ body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; font-family: -a
 .gift-name.loaded { background: transparent; }
 .gift-price { display: block; margin-bottom: 10px; min-height: 22px; background: #f1f5f9; border-radius: 6px; width: 40%; }
 .gift-price.loaded { background: transparent; width: auto; }
+        @keyframes yazı-kaydir { 0%{opacity:0;transform:translateY(12px)} 20%{opacity:1;transform:translateY(0)} 80%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-12px)} }
+        .yazı-animasyon { animation: yazı-kaydir 2.8s ease forwards; }
         .gift-price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
         .gift-price-num { font-size: 26px; font-weight: 800; color: #d97706; line-height: 1; }
-        .gift-price-label { font-size: 12px; color: #94a3b8; font-weight: 600; }
+        .gift-price-label { font-size: 14px; color: #94a3b8; font-weight: 700; }
         .gift-price-aralik { font-size: 14px; color: #475569; font-weight: 600; }
 .gift-reason-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
 .gift-reason { font-size: 13px; color: #3b82f6; font-style: italic; margin-bottom: 10px; line-height: 1.5; }
@@ -84,7 +86,12 @@ gtag('config', 'G-HWPN7VD4VX');
 <a href="index.html" style="text-decoration:none;" class="text-gray-600 font-medium">Ana Sayfa</a>
 </div>
 <h1 class="text-4xl font-bold text-center mb-3">Kişiye Özel Hediye Önerileri ✨</h1>
-<p id="gifts-subtitle" class="text-center text-zinc-600 mb-10 font-medium"></p>
+<div id="gifts-subtitle-wrap" class="text-center mb-10">
+  <p id="gifts-subtitle" class="font-medium" style="font-size:15px;color:#64748b;margin-bottom:6px;"></p>
+  <div id="animasyon-yazi" style="display:none;font-size:15px;font-weight:700;color:#1e40af;height:24px;overflow:hidden;">
+    <span id="animasyon-ic"></span>
+  </div>
+</div>
 <div id="gifts-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 <div class="gift-card star">
 <div style="position:relative">
@@ -514,7 +521,34 @@ links.forEach(function(link) { link.addEventListener('click', function() { try {
 });
 
 clearInterval(mesajInterval);
-subtitle.textContent = sugg.filter(function(g){ return g.star; }).length + ' nokta atışı + ' + sugg.filter(function(g){ return !g.star; }).length + ' öneri hazır!';
+const starCount = sugg.filter(function(g){ return g.star && !g.isBurc; }).length;
+const normalCount = sugg.filter(function(g){ return !g.star && !g.isBurc; }).length;
+const burcCount = sugg.filter(function(g){ return g.isBurc; }).length;
+subtitle.textContent = starCount + ' nokta atışı + ' + normalCount + ' öneri' + (burcCount ? ' + 1 burç hediyesi' : '') + ' hazırlandı!';
+// Animasyonlu alt yazı
+const animWrap = document.getElementById('animasyon-yazi');
+const animIc = document.getElementById('animasyon-ic');
+if (animWrap && animIc) {
+  const mesajlar = [
+    '🎯 ' + starCount + ' nokta atışı hediye seçildi',
+    '🎁 ' + (starCount + normalCount + burcCount) + ' kişiye özel öneri hazır',
+    '✨ Yapay zeka profilinizi analiz etti',
+    '💡 Her hediye bütçenize göre seçildi'
+  ];
+  animWrap.style.display = 'block';
+  let mi = 0;
+  function gosterMesaj() {
+    animIc.textContent = mesajlar[mi];
+    animIc.className = 'yazı-animasyon';
+    animIc.addEventListener('animationend', function handler() {
+      animIc.removeEventListener('animationend', handler);
+      animIc.className = '';
+      mi = (mi + 1) % mesajlar.length;
+      setTimeout(gosterMesaj, 400);
+    });
+  }
+  gosterMesaj();
+}
 shareSection.style.display = 'block';
 } catch(err) {
 clearInterval(mesajInterval);
