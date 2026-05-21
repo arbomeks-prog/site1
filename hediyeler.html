@@ -513,7 +513,7 @@ if (priceEl) {
 var _butceAralik = (function() {
 var _cv2 = (function() { try { var r = localStorage.getItem('budurBuldumCevaplar'); return r ? JSON.parse(r) : {}; } catch(e) { return {}; } })();
 var _map = { '0-500 TL': '0 - 500 TL', '500-1500 TL': '500 - 1.500 TL', '1500-3000 TL': '1.500 - 3.000 TL', '3000-5000 TL': '3.000 - 5.000 TL', '5000-10000 TL': '5.000 - 10.000 TL', '10000-30000 TL': '10.000 - 30.000 TL', '30.000 TL+': '30.000 TL+' };
-var _b = _cv2.butce || _cv2.bebek_butce || _cv2.cocuk_butce || _cv2.kedi_butce || _cv2.kopek_butce || _cv2.kus_butce || '';
+var _b = _cv2.butce || _cv2.bebek_butce || _cv2.cocuk_butce || _cv2.kedi_butce || _cv2.kopek_butce || _cv2.kus_butce || _cv2.pet_butce || _cv2.balik_butce || _cv2.kucukpet_butce || '';
 return _map[_b] || '';
 })();
 priceEl.innerHTML = '<div class="gift-price-row"><span class="gift-price-num">' + g.price + '</span><span class="gift-price-label">ort. fiyat</span>' + (_butceAralik ? '<span class="gift-price-aralik">· ' + _butceAralik + '</span>' : '') + '</div>';
