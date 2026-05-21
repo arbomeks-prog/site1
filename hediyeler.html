@@ -202,6 +202,25 @@ gtag('config', 'G-HWPN7VD4VX');
 </div>
 </div>
 </div>
+<div class="gift-card" id="burc-card" style="display:none;">
+<div class="img-wrap"><div class="spinner"></div><div class="loading-msg">Burç hediyeniz aranıyor...</div><img src="" alt="Burç hediye önerisi"></div>
+<div style="padding:20px">
+<div style="font-size:32px;margin-bottom:8px">⭐</div>
+<div class="gift-name">&nbsp;</div>
+<div class="gift-reason-label">Neden bu hediye?</div>
+<div class="gift-reason">"Burcuna göre özel olarak seçildi."</div>
+<div class="gift-desc-label">Nereden bulursunuz?</div>
+<div class="gift-desc">Trendyol, Hepsiburada, Amazon, Çiçeksepeti ve N11'de kolayca bulabilirsiniz.</div>
+<span class="gift-price">&nbsp;</span>
+<div class="platform-links">
+<a class="plt-link plt-trendyol">Trendyol</a>
+<a class="plt-link plt-hepsiburada">Hepsiburada</a>
+<a class="plt-link plt-amazon">Amazon</a>
+<a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
+<a class="plt-link plt-n11">N11</a>
+</div>
+</div>
+</div>
 </div>
 
 <div id="share-section" style="display:none;">
@@ -421,9 +440,15 @@ let sugg = [];
 try { sugg = JSON.parse(data.result); } catch(e) { const m = data.result.match(/\[[\s\S]*\]/); if (m) sugg = JSON.parse(m[0]); }
 if (!Array.isArray(sugg)) sugg = [sugg];
 
-const cards = list.querySelectorAll('.gift-card');
+const cards = list.querySelectorAll('.gift-card:not(#burc-card)');
 sugg.forEach(function(g, i) {
-const card = cards[i];
+var card;
+if (g.isBurc) {
+card = document.getElementById('burc-card');
+if (card) card.style.display = '';
+} else {
+card = cards[i - (sugg.slice(0,i).filter(function(x){return x.isBurc;}).length)];
+}
 if (!card) return;
 const nameEl = card.querySelector('.gift-name');
 const priceEl = card.querySelector('.gift-price');
