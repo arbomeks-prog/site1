@@ -255,7 +255,7 @@ function kartlariBuildEt() {
 
   tumIds.forEach((id, idx) => {
     const soru = getSoru(id);
-    if (!soru) return;
+    if (!soru) { console.warn('Soru bulunamadı:', id); return; }
 
     const span = KART_SPAN[idx % KART_SPAN.length];
     const renk = KART_RENKLER[idx % KART_RENKLER.length];
@@ -441,27 +441,19 @@ function updateSave() {
 function saveAnswer() {
   if (!pickedNow) return;
   answers[currentId] = pickedNow;
-  // Cevap rengini kaydet
-  if (currentId === 'dogum') {
-    const burc = BURCLAR.find(b => b.l === pickedNow);
-    if (burc) answers['_renk_' + currentId] = burc;
-  } else {
-    const idx = getFiltreli(currentId).indexOf(pickedNow);
-    answers['_renk_' + currentId] = OPT_RENKLER[idx % OPT_RENKLER.length];
-  }
 
-  // Anne/Baba → cinsiyet otomatik ata
+  // Anne/Baba → cinsiyet otomatik ata; kime değişince diğer cevapları sıfırla
   if (currentId === 'kime') {
-    if (answers.kime === 'Anne') answers.cinsiyet = 'Kadın';
-    else if (answers.kime === 'Baba') answers.cinsiyet = 'Erkek';
-    else { delete answers.cinsiyet; }
-    // Soru seti değişiyor, tüm cevapları sıfırla (kime hariç)
-    const eskiKime = answers.kime;
-    Object.keys(answers).forEach(k => { if(k !== 'kime' && k !== 'cinsiyet') delete answers[k]; });
+    const yeniKime = pickedNow;
+    // Tüm cevapları temizle
+    Object.keys(answers).forEach(k => delete answers[k]);
+    answers.kime = yeniKime;
+    if (yeniKime === 'Anne') answers.cinsiyet = 'Kadın';
+    else if (yeniKime === 'Baba') answers.cinsiyet = 'Erkek';
   }
 
   closePopup();
-  kartlariBuildEt(); // kime değişince kartlar yeniden çizilir
+  kartlariBuildEt();
 }
 
 function closePopup() {
