@@ -441,6 +441,35 @@ msg.style.opacity = '1';
 msg._interval = iv;
 });
 
+// Yükleme animasyonu başlasın — API cevabı beklenirken
+(function() {
+  const animWrap = document.getElementById('animasyon-yazi');
+  const animIc = document.getElementById('animasyon-ic');
+  if (!animWrap || !animIc) return;
+  animWrap.style.display = 'block';
+  const yuklemeMesajlari = [
+    '🔎 Profiliniz analiz ediliyor...',
+    '⚖️ Kriterler değerlendiriliyor...',
+    '💡 Akıllı algoritma çalışıyor...',
+    '🎯 Nokta atışı hediyeler aranıyor...',
+    '💰 Bütçeye göre filtreleniyor...',
+    '✨ Son dokunuşlar yapılıyor...'
+  ];
+  let mi = 0;
+  function gosterYukleme() {
+    animIc.textContent = yuklemeMesajlari[mi];
+    animIc.className = 'yazı-animasyon';
+    animIc.addEventListener('animationend', function handler() {
+      animIc.removeEventListener('animationend', handler);
+      animIc.className = '';
+      mi = (mi + 1) % yuklemeMesajlari.length;
+      setTimeout(gosterYukleme, 400);
+    });
+  }
+  gosterYukleme();
+  animWrap._stopYukleme = function() { animIc.className = ''; };
+})();
+
 try {
 const prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
 const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
@@ -529,10 +558,13 @@ subtitle.textContent = starCount + ' nokta atışı + ' + normalCount + ' öneri
 const animWrap = document.getElementById('animasyon-yazi');
 const animIc = document.getElementById('animasyon-ic');
 if (animWrap && animIc) {
+  // Yükleme animasyonunu durdur
+  if (animWrap._stopYukleme) animWrap._stopYukleme();
+  animIc.className = '';
   const mesajlar = [
     '🎯 ' + starCount + ' nokta atışı hediye seçildi',
     '🎁 ' + (starCount + normalCount + burcCount) + ' kişiye özel öneri hazır',
-    '✨ Yapay zeka profilinizi analiz etti',
+    '✨ Akıllı algoritma profilinizi analiz etti',
     '💡 Her hediye bütçenize göre seçildi'
   ];
   animWrap.style.display = 'block';
