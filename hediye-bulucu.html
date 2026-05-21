@@ -812,8 +812,8 @@ function devamEt() {
   window.location.href = 'ozet.html';
 }
 
-// Önceden kaydedilmiş cevapları temizle (temiz başlangıç)
-if (typeof QuizHelper !== 'undefined') QuizHelper.resetCevaplar();
+// Not: hediye-bulucu.html kendi local state'ini kullanır (cevaplar = {}),
+// ana quiz localStorage'ına dokunmaz.
 
 render();
 updateProgress();
