@@ -30,6 +30,31 @@
         #continue-btn.active-state { background-color: #2563eb; color: white; cursor: pointer; pointer-events: auto; }
         #continue-btn.active-state:hover { background-color: #1d4ed8; }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "{{TITLE}}",
+      "description": "{{DESCRIPTION}}. Kişiye özel hediye testi için BudurBuldum.",
+      "url": "https://budurbuldum.com/{{DOSYA}}",
+      "inLanguage": "tr",
+      "publisher": {
+        "@type": "Organization",
+        "name": "BudurBuldum",
+        "url": "https://budurbuldum.com"
+      },
+      "mainEntity": {
+        "@type": "Quiz",
+        "name": "{{TITLE}}",
+        "description": "{{DESCRIPTION}}",
+        "educationalUse": "Hediye önerisi",
+        "about": {
+          "@type": "Thing",
+          "name": "Hediye seçimi"
+        }
+      }
+    }
+    </script>
     <link rel="canonical" href="https://budurbuldum.com/{{DOSYA}}">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
