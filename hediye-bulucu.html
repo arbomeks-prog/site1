@@ -614,16 +614,22 @@ function render() {
       if (acikId === id) {
         setTimeout(() => {
           const rect = wrap.getBoundingClientRect();
-          const altBar = document.getElementById('alt-bar-height') || 70;
           const viewportH = window.innerHeight;
-          const kartH = rect.height;
-          // Seçenekler de dahil toplam yükseklik görünüme sığmıyorsa
-          // kartın üst kısmı sticky header altında görünsün
-          const stickyH = 110; // header + progress
-          if (rect.top < stickyH) {
+          const stickyH = 110;
+          const altH = 70;
+          const kullanilabilir = viewportH - stickyH - altH;
+          // Kart tüm seçenekleriyle görünüme sığıyorsa ortaya al
+          // sığmıyorsa üst kısmını sticky header altına getir
+          if (rect.height <= kullanilabilir) {
+            // Tamamı sığıyor — sığacak şekilde scroll
+            if (rect.top < stickyH) {
+              window.scrollBy({top: rect.top - stickyH - 8, behavior:'smooth'});
+            } else if (rect.bottom > viewportH - altH) {
+              window.scrollBy({top: rect.bottom - viewportH + altH + 8, behavior:'smooth'});
+            }
+          } else {
+            // Tamamı sığmıyor — üstü görünsün
             window.scrollBy({top: rect.top - stickyH - 8, behavior:'smooth'});
-          } else if (rect.bottom > viewportH - 70) {
-            window.scrollBy({top: rect.bottom - viewportH + 80, behavior:'smooth'});
           }
         }, 80);
       }
@@ -664,6 +670,7 @@ function render() {
           <span class="sec-chk">${secildi ? '✔' : ''}</span>
         `;
         btn.onclick = () => {
+          const _scrollId = id; // cevap verilen soruyu hatırla
           // Kime değişince sıfırla
           if (id === 'kime') {
             Object.keys(cevaplar).forEach(k => { if(k !== 'kime') delete cevaplar[k]; });
@@ -681,6 +688,17 @@ function render() {
           acikId = null;
           render();
           updateProgress();
+          // Cevap verilen kartın üstüne scroll — bir sonraki soruya hazır
+          setTimeout(() => {
+            const el = document.querySelector('[data-soru-id="' + _scrollId + '"]');
+            if (el) {
+              const r = el.getBoundingClientRect();
+              if (r.top < 110 || r.top > window.innerHeight - 150) {
+                el.scrollIntoView({behavior:'smooth', block:'start'});
+                window.scrollBy({top: -118, behavior:'smooth'});
+              }
+            }
+          }, 60);
         };
         secListDiv.appendChild(btn);
       });
