@@ -209,6 +209,7 @@ const KART_EMOJI = {
   kus_tur:'🦜', kus_kafes:'🏠', kus_hediye:'🎁', kus_butce:'💵',
   balik_tip:'🐠', balik_boyut:'📏', balik_hediye:'🎁', balik_butce:'💵',
   kucukpet_yas:'🐹', kucukpet_yuva:'🏡', kucukpet_hediye:'🎁', kucukpet_butce:'💵',
+  kopek_yas:'🐶', kopek_irk:'🦮', kopek_karakter:'😄', kopek_tur:'🎾', kopek_butce:'💵',
 };
 
 const answers = {};
@@ -226,10 +227,27 @@ function getSoruSeti(kime) {
   return map[kime] || 'sorular';
 }
 
+// pet_tur cevabına göre set belirle
+function getPetSeti(petTur) {
+  if (!petTur) return 'soruPetler';
+  if (petTur.includes('Kedi'))    return 'soruKedi';
+  if (petTur.includes('Köpek'))   return 'soruKopek';
+  if (petTur.includes('Kuş'))     return 'soruKus';
+  if (petTur.includes('Balık'))   return 'soruBalik';
+  if (['Tavşan 🐰','Hamster 🐹','Egzotik / Diğer 🦎'].some(p => petTur.includes(p.split(' ')[0]))) return 'soruKucukPet';
+  return 'soruPetler';
+}
+
 // Aktif sorular listesini hesapla
 function hesaplaAktifSorular() {
   const kime = answers.kime || '';
-  const setAdi = getSoruSeti(kime);
+  let setAdi = getSoruSeti(kime);
+
+  // Pet seçilmişse pet_tur cevabına göre seti güncelle
+  if (kime === 'Pet ❤️' && answers.pet_tur) {
+    setAdi = getPetSeti(answers.pet_tur);
+  }
+
   let sorular = (QUIZ_CONFIG[setAdi] || QUIZ_CONFIG.sorular).map(s => s.id);
 
   // Anne/Baba → cinsiyet atla
@@ -656,6 +674,13 @@ function updateSave() {
 function saveAnswer() {
   if (!pickedNow) return;
   answers[currentId] = pickedNow;
+
+  // pet_tur değişince soru seti değişir — sonraki cevapları sıfırla
+  if (currentId === 'pet_tur') {
+    const petTur = pickedNow;
+    Object.keys(answers).forEach(k => { if(k !== 'kime' && k !== 'pet_tur') delete answers[k]; });
+    answers.pet_tur = petTur;
+  }
 
   // Anne/Baba → cinsiyet otomatik ata; kime değişince diğer cevapları sıfırla
   if (currentId === 'kime') {
