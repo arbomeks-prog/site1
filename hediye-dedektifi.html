@@ -786,7 +786,17 @@ function openPopup(id) {
   const wrap = document.getElementById('popup-options');
   wrap.innerHTML = '';
 
-  s.secenekler.forEach((opt, i) => {
+  // Cinsiyet sorusunda kime'ye göre filtrele
+  let secenekler = s.secenekler;
+  if (id === 'cinsiyet') {
+    const kime = answers.kime || '';
+    const filtre = CINSIYET_FILTRE[kime];
+    if (Array.isArray(filtre)) {
+      secenekler = s.secenekler.filter(o => filtre.includes(o.l));
+    }
+  }
+
+  secenekler.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'opt-btn ' + SIZES[i % SIZES.length];
     btn.style.cssText = `background:${opt.bg};border-color:${opt.br};color:${opt.tx}`;
@@ -853,13 +863,27 @@ function getAktifKartSayisi() {
   return n;
 }
 
+// Kime'ye göre cinsiyet seçenekleri
+const CINSIYET_FILTRE = {
+  'Sevgili':      ['Kadın','Erkek'],
+  'Arkadaş':      ['Kadın','Erkek'],
+  'İş arkadaşı':  ['Kadın','Erkek'],
+  'Kendime':      ['Kadın','Erkek'],
+  'Kardeş':       ['Kadın','Erkek','Kız Çocuğu','Erkek Çocuğu'],
+  'Çocuk 🧒':     ['Kız Çocuğu','Erkek Çocuğu'],
+  'Anne':         null, // otomatik Kadın
+  'Baba':         null, // otomatik Erkek
+  'Bebek ❤️':     null, // kilitle
+  'Pet ❤️':       null, // kilitle
+};
+
 // Otomatik cevap ata
 const OTOMATIK = {
   cinsiyet: function(ans) {
     const kime = ans.kime || '';
     if (kime === 'Anne') return 'Kadın';
     if (kime === 'Baba') return 'Erkek';
-    if (kime === 'Bebek ❤️') return null; // kilitle ama cevap atama
+    if (['Bebek ❤️','Pet ❤️'].includes(kime)) return null;
     return false; // normal, serbest
   }
 };
