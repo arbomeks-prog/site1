@@ -32,6 +32,20 @@
         .selection-item.selected .s-text .soru { font-size:15px; }
         .selection-item.selected .s-text .cevap { font-size:15px; }
         .selection-item.selected .s-star { opacity:1; transform:scale(1.3); }
+
+        /* Chip grid — yeni kriter seçim arayüzü */
+        .chip-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:4px; }
+        .chip { background:white; border:2px solid #e2e8f0; border-radius:12px; padding:6px 10px; cursor:pointer; transition:all 0.18s ease; display:flex; flex-direction:column; gap:1px; position:relative; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+        .chip:active { transform:scale(0.97); }
+        .chip .c-label { font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.06em; }
+        .chip .c-value { font-size:13px; font-weight:800; color:#1e293b; line-height:1.3; }
+        .chip .c-check { position:absolute; top:6px; right:8px; font-size:14px; opacity:0; transition:all 0.18s; transform:scale(0.5); color:#16a34a; }
+        .chip.selected { border-color:#16a34a; background:linear-gradient(135deg,#f0fdf4,#dcfce7); box-shadow:0 0 0 1px #16a34a, 0 4px 12px rgba(22,163,74,0.15); }
+        .chip.selected .c-label { color:#15803d; }
+        .chip.selected .c-value { color:#14532d; }
+        .chip.selected .c-check { opacity:1; transform:scale(1); }
+        .chip-grid.limit-reached .chip:not(.selected) { opacity:0.4; pointer-events:none; }
+
         .burc-btn { transition:all 0.2s; cursor:pointer; padding:8px 6px; border-radius:12px; border:2px solid #e2e8f0; text-align:center; background:white; outline:none; }
         .burc-btn.selected { border-color:#6366f1; background:#eef2ff; font-weight:700; }
         .burc-btn .burc-sembol { font-size:20px; display:block; }
@@ -117,22 +131,8 @@
             <span id="sel-count" class="text-sm font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex-shrink-0">0/6</span>
         </div>
 
-        <!-- Kriter listesi — JS gelince dolar -->
-        <div class="bg-white rounded-xl overflow-hidden mb-1" style="border:1px solid #f1f5f9;">
-            <div id="selections-list">
-                <div class="selection-item"><span class="s-num">1.</span><span class="s-text"><span class="soru">Hediye kime alınıyor?</span> <span class="cevap">Anne</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">2.</span><span class="s-text"><span class="soru">Yaş aralığı yaklaşık olarak nedir?</span> <span class="cevap">46-60</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">3.</span><span class="s-text"><span class="soru">Hediyeyi ne için alıyorsun?</span> <span class="cevap">Doğum Günü</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">4.</span><span class="s-text"><span class="soru">Tarzı nasıldır?</span> <span class="cevap">Klasik / Şık</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">5.</span><span class="s-text"><span class="soru">Hobileri nelerdir?</span> <span class="cevap">Bahçe / Bitki bakımı</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">6.</span><span class="s-text"><span class="soru">Bütçe aralığın nedir?</span> <span class="cevap">500-1500 TL</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">7.</span><span class="s-text"><span class="soru">Teknolojiye ilgisi var mı?</span> <span class="cevap">Orta seviyede</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">8.</span><span class="s-text"><span class="soru">Kişilik tipi nasıl?</span> <span class="cevap">Dışadönük</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">9.</span><span class="s-text"><span class="soru">Favori mevsimi hangisi?</span> <span class="cevap">İlkbahar</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">10.</span><span class="s-text"><span class="soru">Seyahat etmeyi sever mi?</span> <span class="cevap">Çok sever</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">11.</span><span class="s-text"><span class="soru">Kitap okumayı sever mi?</span> <span class="cevap">Ara sıra</span></span><span class="s-star">★</span></div>
-                <div class="selection-item"><span class="s-num">12.</span><span class="s-text"><span class="soru">Hediye alırken en çok neye dikkat edersin?</span> <span class="cevap">Özel ve anlamlı olsun</span></span><span class="s-star">★</span></div>
-            </div>
+        <!-- Kriter listesi — JS gelince dolar (chip grid) -->
+        <div class="chip-grid" id="selections-list">
         </div>
 
         <div class="px-1 mb-4" id="hediye-btn-wrapper">
@@ -247,21 +247,32 @@
     function renderKriterListesi(cevaplar, sorular, isOzel) {
         const list = document.getElementById('selections-list');
         list.innerHTML = '';
-        let sira = 1;
         const sabitIdler = QUIZ_CONFIG.profilSabitler.map(p => p.id);
         const negatifler = QUIZ_CONFIG.negatifler;
+        // Kısa etiket map — soru id'sinden okunabilir kısa isim
+        const labelMap = {
+            kime:'Kime', yas:'Yaş', cinsiyet:'Cinsiyet', amac:'Amaç', tarz:'Tarz',
+            renk:'Renk', ortam:'Ortam', butce:'Bütçe', mevsim:'Mevsim', kisilik:'Kişilik',
+            oncelik:'Öncelik', hobiler:'Hobi', teknoloji:'Teknoloji', muzik:'Müzik',
+            film:'Film', foto:'Fotoğraf', kitap:'Kitap', tatli:'Tatlı', spor:'Spor',
+            seyahat:'Seyahat', doga:'Doğa', sanat:'Sanat', oyun:'Oyun', kahve:'Kahve',
+            bitki:'Bitki', aksesuar:'Aksesuar', dogum:'Doğum', hayvan:'Hayvan',
+            bebek_tur:'Tür', bebek_yas:'Yaş', bebek_cinsiyet:'Cinsiyet',
+            cocuk_yas:'Yaş', cocuk_cinsiyet:'Cinsiyet', cocuk_tema:'Tema',
+            pet_tur:'Tür', pet_karakter:'Karakter', pet_ortam:'Ortam'
+        };
         for (let i = 0; i < sorular.length; i++) {
             const s = sorular[i];
             if (!cevaplar[s.id]) continue;
             if (!isOzel && sabitIdler.includes(s.id)) continue;
             if (negatifler.some(n => cevaplar[s.id].includes(n))) continue;
-            const div = document.createElement('div');
-            div.className = 'selection-item';
-            div.dataset.soruId = s.id;
-            div.innerHTML = '<span class="s-num">'+sira+'.</span><span class="s-text"><span class="soru">'+s.soru+'</span> <span class="cevap">'+cevaplar[s.id]+'</span></span><span class="s-star">★</span>';
-            div.onclick = function() { toggleSelection(div, s.id); };
-            list.appendChild(div);
-            sira++;
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            chip.dataset.soruId = s.id;
+            const label = labelMap[s.id] || s.soru.split(' ').slice(0,2).join(' ');
+            chip.innerHTML = '<span class="c-label">'+label+'</span><span class="c-value">'+cevaplar[s.id]+'</span><span class="c-check">✓</span>';
+            chip.onclick = function() { toggleSelection(chip, s.id); };
+            list.appendChild(chip);
         }
     }
 
@@ -318,7 +329,7 @@
     }
 
     function afterSummaryReady() {
-        const secilenItems = document.querySelectorAll('#selections-list .selection-item');
+        const secilenItems = document.querySelectorAll('#selections-list .chip');
         const adet = secilenItems.length;
         const btn = document.getElementById('show-gifts-btn');
         const lbl = document.getElementById('show-gifts-label');
@@ -348,42 +359,30 @@
     }
 
     function toggleSelection(el, soruId) {
-        const list = document.getElementById('selections-list');
+        const allChips = document.querySelectorAll('#selections-list .chip');
+        const maxSel = Math.min(6, allChips.length);
         if (el.classList.contains('selected')) {
             selectedCriteria = selectedCriteria.filter(c => c.id !== soruId);
             el.classList.remove('selected');
         } else {
-            const maxSel = Math.min(6, document.querySelectorAll('.selection-item').length);
             if (maxSel > 0 && selectedCriteria.length >= maxSel) return;
             const grup = selectedCriteria.length < 3 ? 'A' : 'B';
             selectedCriteria.push({ id: soruId, grup: grup });
             el.classList.add('selected');
-
-            // Smooth: mevcut pozisyonu al, alta taşı, animasyonla oraya kaydır
-            const fromRect = el.getBoundingClientRect();
-            list.appendChild(el);
-            const toRect = el.getBoundingClientRect();
-            const dy = fromRect.top - toRect.top;
-            el.style.transition = 'none';
-            el.style.transform = 'translateY(' + dy + 'px)';
-            requestAnimationFrame(function() {
-                requestAnimationFrame(function() {
-                    el.style.transition = 'transform 0.7s cubic-bezier(0.25,0.1,0.25,1)';
-                    el.style.transform = 'translateY(0)';
-                    el.addEventListener('transitionend', function done() {
-                        el.style.transition = '';
-                        el.style.transform = '';
-                        el.removeEventListener('transitionend', done);
-                    });
-                });
-            });
+        }
+        // limit-reached class — seçilmeyenleri solar
+        const grid = document.getElementById('selections-list');
+        if (selectedCriteria.length >= maxSel) {
+            grid.classList.add('limit-reached');
+        } else {
+            grid.classList.remove('limit-reached');
         }
         updateSelCount();
     }
 
     function updateSelCount() {
         const t = selectedCriteria.length;
-        const available = document.querySelectorAll('#selections-list .selection-item').length;
+        const available = document.querySelectorAll('#selections-list .chip').length;
         const limit = Math.min(6, available);
         document.getElementById('sel-count').textContent = t + '/' + limit;
         const btn = document.getElementById('show-gifts-btn');
