@@ -141,6 +141,19 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       ]
     }
     </script>
+<style>
+.bb-quiz-block{background:#fff;border:2px solid #e8a838;border-radius:20px;padding:24px 20px;margin:20px 0 28px;box-shadow:0 4px 24px rgba(232,168,56,0.15);}
+.bb-q-label{font-size:11px;font-weight:700;color:#e8a838;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.bb-q-text{font-size:17px;font-weight:800;color:#0f172a;margin-bottom:16px;line-height:1.4;}
+.bb-quiz-opts{display:flex;flex-direction:column;gap:10px;}
+.bb-opt{display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#f8f9fa,#e9ecef);border:2px solid #ced4da;border-bottom:4px solid #adb5bd;border-radius:12px;padding:13px 16px;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;transition:all 0.15s;text-align:left;width:100%;}
+.bb-opt:hover{border-color:#6366f1;background:linear-gradient(180deg,#fff,#f1f3f5);transform:translateY(-1px);}
+.bb-opt.selected{background:linear-gradient(180deg,#d1fae5,#a7f3d0);border-color:#10b981;border-bottom-color:#059669;color:#065f46;}
+.bb-opt-check{width:20px;height:20px;min-width:20px;border-radius:5px;border:2px solid #ced4da;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
+.bb-opt.selected .bb-opt-check{background:#10b981;border-color:#10b981;color:#fff;}
+.bb-devam-btn{display:none;width:100%;margin-top:14px;background:linear-gradient(135deg,#e8a838,#f5c96a);color:#0f172a;font-size:16px;font-weight:800;padding:14px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(232,168,56,0.35);transition:transform 0.15s;}
+.bb-devam-btn:hover{transform:translateY(-2px);}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -170,11 +183,18 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
   <article class="article-body">
 
     <p>Bekarlar günü — 11 Kasım — aslında başlangıçta "kendine hediye al" günü olarak doğdu ama zamanla arkadaşlara, sevdiklerine ve bekar dostlarına hediye verme fırsatına dönüştü. Bu günde hediye vermek eğlenceli, hafif ve keyifli olmalı — çok ciddiye almaya gerek yok.</p>
-
-    <div style="background:linear-gradient(135deg,#1e40af,#1e3a8a);border-radius:16px;padding:18px 20px;margin:20px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-      <div>
-        <div style="color:#fbbf24;font-size:12px;font-weight:700;margin-bottom:4px;">✨ Ücretsiz · 1 Dakika</div>
-        <div style="color:#fff;font-size:16px;font-weight:800;margin-bottom:4px;">Kendine veya Sevdiklerine Hediye Bul</div>
+    <!-- ÜST QUIZ — konuya özel, Google indexler -->
+    <div class="bb-quiz-block">
+      <div class="bb-q-label">🎁 Hızlı Soru</div>
+      <p class="bb-q-text">Bekarlar günü için hediye alacağın kişi kimdir?</p>
+      <div class="bb-quiz-opts">
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Kendim için almak istiyorum 🎁</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Bekar arkadaşıma 😄</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Bir grup arkadaşa birlikte 🥳</button>
+      </div>
+      <button class="bb-devam-btn" id="bbDevamBtn" onclick="window.location.href='hediye-kime-alinacak-testi.html'">🎯 Hediye Testine Devam Et →</button>
+    </div>
+<div style="color:#fff;font-size:16px;font-weight:800;margin-bottom:4px;">Kendine veya Sevdiklerine Hediye Bul</div>
         <div style="color:rgba(255,255,255,0.75);font-size:13px;">11.11 kampanyasında kişiye özel hediyeyi bütçene göre 4 platformda bul.</div>
       </div>
       <a href="hediye-kime-alinacak-testi.html" style="background:#f97316;color:#fff;text-decoration:none;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:800;white-space:nowrap;flex-shrink:0;">🎯 Hediyeyi Bul →</a>
@@ -195,9 +215,19 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     <div class="bb-hakkinda">BudurBuldum, akıllı bir hediye bulma, seçme ve satın alma platformudur. Hazır hediye satışı yapmıyoruz — bunun yerine bütçenize uygun, sevdiğiniz kişinin zevkleri ve özellikleriyle örtüşen, kaliteli ve özgün seçimler yapıyoruz. Hediye seçimlerimizin kalitesinden ödün vermemek için 30 soruluk bir test hazırladık. Bu testi tamamladığınızda; 2 adet nokta atışı, 4 adet çapraz sorgu ile belirlenmiş ve isterseniz kişinin burcuna özel seçilmiş 7 hediye sunuyoruz. Önerdiğimiz hediyelerin 5 büyük alışveriş platformundaki sayfalarını doğrudan bağlantılarıyla hediye kutucuklarında belirtiyoruz. BudurBuldum, kişiye özel hediye bulmanız, seçmeniz ve satın almanız için tasarlanmış Türkiye'nin en kapsamlı ilk ve tek platformudur. Hemen başlayın.</div>
   </article>
 
-  <div class="cta-box">
-    <div class="cta-tag">✨ Ücretsiz · 1 Dakika</div>
-    <h3>Bekarlar Günü İçin Hediye Bul</h3>
+    <!-- ÜST QUIZ — konuya özel, Google indexler -->
+    <div class="bb-quiz-block">
+      <div class="bb-q-label">🎁 Hızlı Soru</div>
+      <p class="bb-q-text">Nasıl bir hediye arıyorsun?</p>
+      <div class="bb-quiz-opts">
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Eğlenceli, komik, espirili 😂</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Şık ve özel bir şey ✨</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Kullanışlı, günlük hayata katkılı 👌</button>
+      </div>
+      <button class="bb-devam-btn" id="bbDevamBtn" onclick="window.location.href='hediye-kime-alinacak-testi.html'">🎯 Hediye Testine Devam Et →</button>
+    </div>
+
+<h3>Bekarlar Günü İçin Hediye Bul</h3>
     <p class="cta-desc">Kişiye özel hediye önerileri için hediye testini başlat.</p>
     <a href="hediye-kime-alinacak-testi.html" class="cta-btn">🎯 Hediye Testini Başlat →</a>
     <p class="cta-sub">Trendyol, Hepsiburada ve daha fazlasında karşılaştır</p>
@@ -234,6 +264,19 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       </div>
     </div>
   </div>
+<script>
+// Üst quiz — konuya özel
+function bbSec(btn) {
+  var blok = btn.closest(".bb-quiz-block");
+  blok.querySelectorAll(".bb-opt").forEach(function(b) {
+    b.classList.remove("selected");
+    b.querySelector(".bb-opt-check").textContent = "";
+  });
+  btn.classList.add("selected");
+  btn.querySelector(".bb-opt-check").textContent = "✔";
+  blok.querySelector(".bb-devam-btn").style.display = "block";
+}
+</script>
 </footer>
 <div class="makale-seo-footer">Bekarlar günü için gruba hediye almak istiyorum ne olur göster. 11 11 kampanyasında kendime ne alayım bul.</div>
 </body>
