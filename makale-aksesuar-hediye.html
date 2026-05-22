@@ -138,7 +138,7 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       <span class="logo-text">budur<span>buldum</span></span>
     </a>
     <nav class="header-nav">
-      <a href="quiz-kime.html">Hediye Bul</a>
+      <a href="hediye-kime-alinacak-testi.html">Hediye Bul</a>
     </nav>
   </div>
 </header>
@@ -169,7 +169,7 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Bazen takar, abartmaz</button>
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Hiç takmaz, başka şey ara 🚫</button>
       </div>
-      <button class="bb-devam-btn" id="bbDevamBtn" onclick="window.location.href='quiz-kime.html'">🎯 Hediye Testine Devam Et →</button>
+      <button class="bb-devam-btn" id="bbDevamBtn" onclick="window.location.href='hediye-kime-alinacak-testi.html'">🎯 Hediye Testine Devam Et →</button>
     </div>
 
     <h2>Akıllı Saat mi Klasik Saat mi — Hangisi Daha İyi Hediye?</h2>
@@ -244,7 +244,7 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     <p class="footer-desc">BudurBuldum, yapay zeka destekli hediye öneri platformudur. Kişiye özel sorularla doğru hediyeyi bulmanıza yardımcı olur. Trendyol, Hepsiburada ve daha fazlasında karşılaştırın.</p>
     <div class="footer-links">
       <a href="index.html">Ana Sayfa</a>
-      <a href="quiz-kime.html">Hediye Bul</a>
+      <a href="hediye-kime-alinacak-testi.html">Hediye Bul</a>
     </div>
     <div class="footer-bottom">
       <span class="footer-copy">© 2025 BudurBuldum. Tüm hakları saklıdır.</span>
@@ -288,10 +288,10 @@ function ctaSec(btn, val) {
     }
     var hedef = (typeof QuizHelper !== 'undefined' && QuizHelper.getSonrakiSayfa)
       ? QuizHelper.getSonrakiSayfa('kime')
-      : 'quiz-kime.html';
+      : 'hediye-kime-alinacak-testi.html';
     document.getElementById('ctaDevamBtn').onclick = function() { window.location.href = hedef; };
   } catch(e) {
-    document.getElementById('ctaDevamBtn').onclick = function() { window.location.href = 'quiz-kime.html'; };
+    document.getElementById('ctaDevamBtn').onclick = function() { window.location.href = 'hediye-kime-alinacak-testi.html'; };
   }
 
   document.getElementById('ctaDevamBtn').style.display = 'block';

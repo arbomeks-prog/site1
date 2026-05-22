@@ -1,6 +1,6 @@
 {
   "aksesuar": {
-    "dosya": "quiz-aksesuar.html",
+    "dosya": "aksesuar-saat-sevene-hediye-testi.html",
     "title": "Saat / aksesuar takmayı sever mi? | BudurBuldum",
     "desc": "Saat / aksesuar takmayı sever mi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">⌚ Saat ve Aksesuar Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Aksesuar takmayı seven birine hediye, onun tarzını tamamlayan bir parça sunmaktır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">⌚ Saat Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Klasik kol saati, akıllı saat veya vintage saat modelleri her zaman değerli hediyelerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💍 Takı ve Aksesuar</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kolye, bileklik, kol düğmesi veya güneş gözlüğü şık ve anlamlı hediyelerdir.</p>",
@@ -8,7 +8,7 @@
     "resimAlt": "Saat aksesuar hediye önerisi"
   },
   "amac": {
-    "dosya": "quiz-amac.html",
+    "dosya": "ne-icin-hediye-alinacak-testi.html",
     "title": "Hediyeyi ne için alıyorsun? | BudurBuldum",
     "desc": "Hediyeyi ne için alıyorsun? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Hediye Amacı: Neden Alıyorsunuz?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hediyenin amacı, seçimi doğrudan etkiler. Doğum günü, yıl dönümü veya sürpriz — her bir durum farklı bir yaklaşım gerektirir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎂 Doğum Günü Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kişiselleştirilmiş ve kişinin ilgi alanlarına yönelik hediyeler en çok tercih edilenlerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💕 Yıl Dönümü ve Sevgililer Günü</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Romantik ve anlamlı hediyeler bu özel günlerde fark yaratır. El yapımı, kişisel dokunuşlu ürünler özellikle değerlidir.</p>",
@@ -16,7 +16,7 @@
     "resimAlt": "Hediye amaç ve özel gün"
   },
   "balik_boyut": {
-    "dosya": "quiz-balik-boyut.html",
+    "dosya": "balik-boyutuna-gore-hediye-testi.html",
     "title": "📐 Akvaryum Boyutu? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">📐 Akvaryum Boyutu?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Akvaryum boyutu, uygun aksesuar ve ekipman seçimini belirler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🫙 Mini ve Orta</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük dekor setleri, nano filtreler ve küçük LED aydınlatmalar mini tanklar için uygundur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🌊 Büyük Tank</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Güçlü filtreler, CO2 sistemleri ve büyük dekor parçaları büyük tanklar için idealdir.</p>",
@@ -24,7 +24,7 @@
     "resimAlt": "Akvaryum boyutu litre"
   },
   "balik_butce": {
-    "dosya": "quiz-balik-butce.html",
+    "dosya": "butceye-gore-balik-hediyesi-testi.html",
     "title": "💰 Bütçeniz Nedir? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Bütçeniz Nedir?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun akvaryum hediyeleri mevcuttur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Fiyatlı</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Dekor taşlar, yem seti ve küçük aksesuarlar bütçe dostudur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💎 Premium</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">LED ışık sistemi, otomatik yem verici veya güçlü filtre seti üst segment hediyelerdir.</p>",
@@ -32,7 +32,7 @@
     "resimAlt": "Akvaryum hediye bütçe"
   },
   "balik_hediye": {
-    "dosya": "quiz-balik-hediye.html",
+    "dosya": "baliga-ne-tur-hediye-alinacak-testi.html",
     "title": "🎁 Ne Tür Balık Hediyesi? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Ne Tür Balık Hediyesi?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Akvaryum sahibine en anlamlı hediyeyi seçin.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🌾 Yem / Besin</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Pul yem, granül yem, canlı-dondurulmuş besin, renk artırıcı özel yem çeşitleri.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🪨 Dekor / Ekipman</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Canlı veya yapay su bitkileri, dekor kayalar, LED aydınlatma ve filtre sistemleri.</p>",
@@ -40,7 +40,7 @@
     "resimAlt": "Akvaryum ekipman dekor"
   },
   "balik_tip": {
-    "dosya": "quiz-balik-tip.html",
+    "dosya": "balik-tipine-gore-hediye-testi.html",
     "title": "🌊 Akvaryum Türü Nedir? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🌊 Akvaryum Türü Nedir?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Akvaryum türü, doğru hediyeyi seçmek için en önemli bilgidir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🌊 Tropikal / Sıcak Su</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Canlı bitkiler, dekor kayalar ve tropikal yem çeşitleri bu akvaryumlar için idealdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">❄️ Soğuk Su (Japon Balığı)</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Geniş tanklar, özel Japon balığı yemi ve filtre sistemleri bu tür için uygundur.</p>",
@@ -48,7 +48,7 @@
     "resimAlt": "Tropikal akvaryum balık tankı"
   },
   "bebek_amac": {
-    "dosya": "quiz-bebek-amac.html",
+    "dosya": "bebek-hediyesi-ne-icin-alinacak-testi.html",
     "title": "Hediyeyi ne için alıyorsun? | BudurBuldum",
     "desc": "Hediyeyi ne için alıyorsun? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎀 Bebek Hediyesi Ne İçin?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hediyenin amacı seçimi yönlendirir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎀 Yeni Doğan Hediyesi</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hoş geldin setleri, bebek giysisi paketleri ve anne-bebek ürünleri en çok tercih edilenlerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🎂 Bebek Doğum Günü</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yaşa uygun oyuncaklar, kişiselleştirilmiş ürünler ve eğlenceli deneyimler idealdir.</p>",
@@ -56,7 +56,7 @@
     "resimAlt": "Yeni doğan bebek hoş geldin hediye"
   },
   "bebek_butce": {
-    "dosya": "quiz-bebek-butce.html",
+    "dosya": "butceye-gore-bebek-hediyesi-testi.html",
     "title": "Bütçe aralığın nedir? | BudurBuldum",
     "desc": "Bütçe aralığın nedir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Bebek Hediyesi Bütçesi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun bebek hediyeleri mevcuttur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Fiyatlı</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük oyuncaklar, bebek çorapları ve diş kaşıyıcılar bütçe dostu seçeneklerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">💎 Premium</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Marka bebek arabası aksesuarları, kişiselleştirilmiş gümüş setler lüks hediyelerdir.</p>",
@@ -64,7 +64,7 @@
     "resimAlt": "Bebek hediye bütçe alışveriş"
   },
   "bebek_cinsiyet": {
-    "dosya": "quiz-bebek-cinsiyet.html",
+    "dosya": "bebek-kiz-mi-erkek-mi-hediye-testi.html",
     "title": "Bebek kız mı erkek mi? | BudurBuldum",
     "desc": "Bebek kız mı erkek mi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">👶 Bebeğe Hediye Rehberi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yeni doğan veya küçük bebekler için hediye seçerken güvenlik ve gelişim ön plandadır.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">👧 Kız Bebek İçin</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Pembe tonlarında giysiler, yumuşak oyuncaklar ve bebek bakım setleri ideal hediyelerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">👦 Erkek Bebek İçin</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Mavi tonlarında giysiler, eğitici oyuncaklar ve bebek aksesuar setleri popüler seçeneklerdir.</p>",
@@ -72,7 +72,7 @@
     "resimAlt": "Kız erkek bebek hediye"
   },
   "bebek_tarz": {
-    "dosya": "quiz-bebek-tarz.html",
+    "dosya": "anne-baba-tarzina-gore-bebek-hediyesi-testi.html",
     "title": "Anne-baba tarzı nasıl? | BudurBuldum",
     "desc": "Anne-baba tarzı nasıl? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎨 Anne-Baba Tarzı</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Ailenin tarzı, bebeğe alınacak hediyeyi etkiler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🤍 Minimalist Aileler</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Sade tasarımlı, organik kumaştan ürünler ve fonksiyonel hediyeler tercih edilir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🌈 Renkli Aileler</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Canlı renkli oyuncaklar, eğlenceli kıyafetler ve yaratıcı setler uygundur.</p>",
@@ -80,7 +80,7 @@
     "resimAlt": "Bebek odası dekorasyon stili"
   },
   "bebek_tur": {
-    "dosya": "quiz-bebek-tur.html",
+    "dosya": "bebege-ne-tur-hediye-alinacak-testi.html",
     "title": "Ne tür hediye tercih edersin? | BudurBuldum",
     "desc": "Ne tür hediye tercih edersin? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🧸 Ne Tür Hediye?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hediye türü tercihi bebeğin ihtiyaçlarına göre şekillenir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🧸 Oyuncak</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yaşa uygun, güvenli ve eğitici oyuncaklar her zaman harika hediyelerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">👕 Giyim</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kaliteli kumaştan, mevsime uygun ve şık bebek kıyafetleri aileler tarafından çok sevilir.</p>",
@@ -88,7 +88,7 @@
     "resimAlt": "Bebek oyuncak peluş hediye"
   },
   "bebek_yas": {
-    "dosya": "quiz-bebek-yas.html",
+    "dosya": "bebek-yasina-gore-hediye-testi.html",
     "title": "Kaç aylık / yaşında? | BudurBuldum",
     "desc": "Kaç aylık / yaşında? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">📅 Bebeğin Yaşına Göre Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Bebeğin aylık veya yaş durumu hediye seçimini doğrudan etkiler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">👶 0-6 Ay</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yumuşak battaniyeler, diş kaşıyıcılar ve uyku setleri bu dönem için idealdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🧒 6 Ay - 3 Yaş</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Eğitici oyuncaklar, ilk adım ayakkabıları ve interaktif kitaplar harika hediyelerdir.</p>",
@@ -96,7 +96,7 @@
     "resimAlt": "Bebek yaş aylık gelişim hediye"
   },
   "bitki": {
-    "dosya": "quiz-bitki.html",
+    "dosya": "bitki-sevene-hediye-testi.html",
     "title": "Evde bitki bakımı yapıyor mu? | BudurBuldum",
     "desc": "Evde bitki bakımı yapıyor mu? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🌿 Bitki Severler İçin Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Bitki bakımı yapan veya yapmak isteyen birine hediye, yeşil bir mutluluk demektir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🪴 Bitki Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Sukulent seti, teraryum, nadir bitki türleri veya şık saksılar bitki severleri mutlu eder.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🧰 Bakım Aksesuarları</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kaliteli bahçe aletleri, otomatik sulama sistemi veya bitki bakım kitabı pratik hediyelerdir.</p>",
@@ -104,7 +104,7 @@
     "resimAlt": "Bitki bakım hediye önerisi"
   },
   "butce": {
-    "dosya": "quiz-butce.html",
+    "dosya": "butceye-gore-hediye-bulma-testi.html",
     "title": "Bütçe aralığın nedir? | BudurBuldum",
     "desc": "Bütçe aralığın nedir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Bütçeye Göre Hediye Rehberi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun mükemmel hediyeler bulmak mümkündür. Önemli olan fiyat değil, düşüncelilik ve kişiselleştirmedir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Bütçe Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">El yapımı hediyeler, kişiselleştirilmiş kartlar, küçük ama anlamlı aksesuarlar bütçe dostu seçeneklerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💎 Premium Hediyeler</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yüksek bütçeli hediyeler kalite ve prestij sunar. Marka ürünler, lüks deneyimler ve özel tasarım hediyeler bu kategoride yer alır.</p>",
@@ -112,7 +112,7 @@
     "resimAlt": "Bütçeye göre hediye önerisi"
   },
   "cinsiyet": {
-    "dosya": "quiz-cinsiyet.html",
+    "dosya": "kadin-erkek-hediye-secimi-testi.html",
     "title": "Cinsiyeti nedir? | BudurBuldum",
     "desc": "Cinsiyeti nedir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">👠 Kadına mı Erkeğe mi Hediye?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hediye seçiminde cinsiyet belirleyici bir etken olsa da asıl önemli olan kişinin ilgi alanları ve kişiliğidir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">👩 Kadına Hediye Fikirleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Takı, parfüm, cilt bakım setleri, kişiselleştirilmiş ürünler ve deneyim hediyeleri kadınlar arasında en çok tercih edilen kategorilerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">👨 Erkeğe Hediye Fikirleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Teknoloji ürünleri, spor aksesuarları, saat, cüzdan ve kişisel bakım setleri erkeklere alınan en popüler hediye kategorileri arasında yer almaktadır.</p>",
@@ -120,7 +120,7 @@
     "resimAlt": "Kadına hediye önerisi - çanta ve aksesuar"
   },
   "cocuk_aktivite": {
-    "dosya": "quiz-cocuk-aktivite.html",
+    "dosya": "cocugun-aktivitesine-gore-hediye-testi.html",
     "title": "En sevdiği aktivite nedir? | BudurBuldum",
     "desc": "En sevdiği aktivite nedir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">⚽ Favori Aktiviteye Göre Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Çocuğun en sevdiği aktivite, hediye seçiminin anahtarıdır.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎮 Oyun Severler</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Video oyunları, oyun aksesuarları veya masa oyunları harika seçeneklerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">⚽ Spor Severler</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Spor malzemeleri, forma veya antrenman ekipmanları aktif çocuklar için idealdir.</p>",
@@ -128,7 +128,7 @@
     "resimAlt": "Çocuk oyun aktivite eğlence"
   },
   "cocuk_amac": {
-    "dosya": "quiz-cocuk-amac.html",
+    "dosya": "cocuga-ne-icin-hediye-alinacak-testi.html",
     "title": "Hediyeyi ne için alıyorsun? | BudurBuldum",
     "desc": "Hediyeyi ne için alıyorsun? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Çocuk Hediyesi Ne İçin?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hediyenin amacı çocuk için de önemlidir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎂 Doğum Günü</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Çocuğun en çok istediği oyuncak veya deneyim hediyesi mükemmeldir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🏆 Başarı Ödülü</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Eğitici ve motivasyon artırıcı hediyeler başarıyı ödüllendirmenin en iyi yoludur.</p>",
@@ -136,7 +136,7 @@
     "resimAlt": "Çocuk doğum günü kutlama hediye"
   },
   "cocuk_butce": {
-    "dosya": "quiz-cocuk-butce.html",
+    "dosya": "butceye-gore-cocuk-hediyesi-testi.html",
     "title": "Bütçe aralığın nedir? | BudurBuldum",
     "desc": "Bütçe aralığın nedir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Çocuk Hediyesi Bütçesi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun çocuk hediyeleri mevcuttur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Fiyatlı</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Boyama kitapları, küçük oyuncaklar ve çıkartma setleri bütçe dostudur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">💎 Premium</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Drone, tablet veya elektronik müzik aletleri yüksek bütçeli seçeneklerdir.</p>",
@@ -144,7 +144,7 @@
     "resimAlt": "Çocuk hediye bütçe alışveriş"
   },
   "cocuk_cinsiyet": {
-    "dosya": "quiz-cocuk-cinsiyet.html",
+    "dosya": "cocuk-kiz-mi-erkek-mi-hediye-testi.html",
     "title": "Kız mı erkek mi? | BudurBuldum",
     "desc": "Kız mı erkek mi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🧒 Çocuğa Hediye Rehberi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Çocuklara hediye seçerken yaş, ilgi alanı ve cinsiyet önemli kriterlerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">👧 Kız Çocuğu İçin</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yaratıcı setler, sanat malzemeleri ve interaktif oyuncaklar kız çocuklarını mutlu eder.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">👦 Erkek Çocuğu İçin</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yapı setleri, spor malzemeleri ve macera temalı oyuncaklar erkek çocuklarının favorisidir.</p>",
@@ -152,7 +152,7 @@
     "resimAlt": "Kız ve erkek çocuk hediye"
   },
   "cocuk_ortam": {
-    "dosya": "quiz-cocuk-ortam.html",
+    "dosya": "cocugun-yasam-alanina-gore-hediye-testi.html",
     "title": "Daha çok nerede vakit geçiriyor? | BudurBuldum",
     "desc": "Daha çok nerede vakit geçiriyor? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🏠 Nerede Vakit Geçiriyor?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Çocuğun zamanını geçirdiği ortam hediye seçimini etkiler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏠 Evde Vakit Geçirenler</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Masa oyunları, sanat setleri ve yapbozlar ev içi eğlence sağlar.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🌳 Dışarıda Aktif Olanlar</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Bisiklet, paten, top veya outdoor oyun setleri aktif çocuklar için uygundur.</p>",
@@ -160,7 +160,7 @@
     "resimAlt": "Çocuk evde dışarıda oyun ortamı"
   },
   "cocuk_tema": {
-    "dosya": "quiz-cocuk-tema.html",
+    "dosya": "cocugun-sevdigi-temaya-gore-hediye-testi.html",
     "title": "Favori tema / karakter kategorisi? | BudurBuldum",
     "desc": "Favori tema / karakter kategorisi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🦸 Favori Tema ve Karakter</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Çocuğun sevdiği karakter veya tema, hediye seçimini kişiselleştirir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🦸 Süper Kahraman Teması</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Marvel veya DC temalı oyuncaklar, kostümler ve aksesuarlar çocukları heyecanlandırır.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🎮 Oyun Teması</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Minecraft, Roblox veya favori oyun temalı ürünler çok sevilir.</p>",
@@ -168,7 +168,7 @@
     "resimAlt": "Süper kahraman çocuk karakter"
   },
   "cocuk_tur": {
-    "dosya": "quiz-cocuk-tur.html",
+    "dosya": "cocuga-ne-tur-hediye-alinacak-testi.html",
     "title": "Ne tür hediye tercih edersin? | BudurBuldum",
     "desc": "Ne tür hediye tercih edersin? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Ne Tür Hediye?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hediye türü çocuğun ilgi alanlarına göre belirlenir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🧸 Oyuncak</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yaşa uygun, güvenli ve eğlenceli oyuncaklar klasik hediye seçeneğidir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">📚 Eğitici</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Bilim setleri, kodlama oyuncakları ve eğitim kitapları gelişimi destekler.</p>",
@@ -176,7 +176,7 @@
     "resimAlt": "Çocuk oyuncak eğitici hediye türü"
   },
   "cocuk_yas": {
-    "dosya": "quiz-cocuk-yas.html",
+    "dosya": "cocugun-yasina-gore-hediye-testi.html",
     "title": "Kaç yaşında? | BudurBuldum",
     "desc": "Kaç yaşında? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">📅 Yaşına Göre Çocuk Hediyesi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yaş aralığı çocuk hediyeleri için en belirleyici faktördür.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎠 4-7 Yaş</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hayal gücünü destekleyen oyuncaklar ve basit yapı setleri bu yaş grubuna uygundur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🎯 8-13 Yaş</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Strateji oyunları, bilim setleri ve teknoloji ürünleri büyüyen çocuklar için idealdir.</p>",
@@ -184,7 +184,7 @@
     "resimAlt": "Yaşa göre çocuk gelişim hediye"
   },
   "doga": {
-    "dosya": "quiz-doga.html",
+    "dosya": "doga-yuruyusu-sevene-hediye-testi.html",
     "title": "Doğa yürüyüşü yapar mı? | BudurBuldum",
     "desc": "Doğa yürüyüşü yapar mı? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🥾 Doğa Severler İçin Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Doğa yürüyüşü yapan birine hediye, açık hava tutkusunu destekleyen bir jest olacaktır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏔️ Trekking Ekipmanları</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kaliteli yürüyüş ayakkabısı, trekking çubuğu veya su matarası doğa severleri mutlu eder.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎒 Outdoor Aksesuarlar</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hafif sırt çantası, kamp lambası veya dürbün açık hava tutkunları için idealdir.</p>",
@@ -192,7 +192,7 @@
     "resimAlt": "Doğa yürüyüş hediye önerisi"
   },
   "dogum": {
-    "dosya": "quiz-dogum.html",
+    "dosya": "dogum-tarihine-gore-hediye-testi.html",
     "title": "Doğum tarihi hakkında ne biliyorsunuz? | BudurBuldum",
     "desc": "Doğum tarihi hakkında ne biliyorsunuz? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎂 Doğum Günü Hediyesi Seçimi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Doğum tarihini bilmek hediye seçimini kişiselleştirmenin en güçlü yollarından biridir. Burç uyumlu hediyelerden tutun, yaşa özel önerilere kadar pek çok seçenek sunar.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">♈ Burca Göre Hediye</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her burç farklı kişilik özelliklerine sahiptir. Koç burcu için maceracı deneyimler, Boğa için kaliteli yaşam ürünleri, İkizler için kitap veya teknoloji ürünleri düşünülebilir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎉 Sürpriz Doğum Günü Fikirleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Tarihi bilmesek bile anlamlı bir sürpriz yapmak mümkündür. Kişiselleştirilmiş hediye kutuları ve deneyim hediyeleri unutulmaz anlar yaratır.</p>",
@@ -200,7 +200,7 @@
     "resimAlt": "Doğum günü hediyesi - pasta ve balon"
   },
   "film": {
-    "dosya": "quiz-film.html",
+    "dosya": "film-sevene-hediye-bulma-testi.html",
     "title": "En sevdiği film türü? | BudurBuldum",
     "desc": "En sevdiği film türü? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎬 Film Zevkine Göre Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Film türü tercihi, kişinin kişiliği ve ilgi alanları hakkında ipuçları verir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎭 Sinema Severler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Sinema bileti, film posteri, özel DVD koleksiyonu veya ev sinema aksesuarları güzel hediyelerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">📺 Dizi ve Film Maratonu İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Streaming aboneliği, patlamış mısır seti ve rahat battaniye mükemmel bir film gecesi hediyesidir.</p>",
@@ -208,7 +208,7 @@
     "resimAlt": "Film ve sinema hediye önerisi"
   },
   "foto": {
-    "dosya": "quiz-foto.html",
+    "dosya": "fotograf-cekmeyi-sevene-hediye-testi.html",
     "title": "Fotoğraf çekmeyi sever mi? | BudurBuldum",
     "desc": "Fotoğraf çekmeyi sever mi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">📸 Fotoğraf Severler İçin Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Fotoğraf çekmeyi seven birine hediye, anıları ölümsüzleştirme tutkusunu destekler.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">📷 Fotoğraf Ekipmanları</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Lens filtresi, tripod, kamera çantası veya anında baskı kamera güzel seçeneklerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🖨️ Baskı ve Albüm</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kişiselleştirilmiş fotoğraf albümü, kanvas baskı veya fotoğraf çerçevesi anlamlı hediyelerdir.</p>",
@@ -216,7 +216,7 @@
     "resimAlt": "Fotoğraf hediye önerisi"
   },
   "hayvan": {
-    "dosya": "quiz-hayvan.html",
+    "dosya": "hayvan-sever-icin-hediye-testi.html",
     "title": "Hayvan sever mi? | BudurBuldum",
     "desc": "Hayvan sever mi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🐾 Hayvan Severler İçin Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hayvan sevenlere verilecek en iyi hediye, onların dört ayaklı dostlarını da düşünen bir seçim olabilir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐱 Kedi ve Köpek Sahipleri İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Evcil hayvan temalı kupa, tasma seti, özel mama kabı veya pet fotoğraf çerçevesi güzel seçeneklerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎨 Hayvan Temalı Hediyeler</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hayvan baskılı tişört, yastık, çanta veya sanat eserleri hayvan severleri mutlu eder.</p>",
@@ -224,7 +224,7 @@
     "resimAlt": "Hayvan sever hediyesi önerisi"
   },
   "hobiler": {
-    "dosya": "quiz-hobiler.html",
+    "dosya": "hobiye-gore-hediye-bulma-testi.html",
     "title": "Hobileri nelerdir? | BudurBuldum",
     "desc": "Hobileri nelerdir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎯 Hobilerine Göre Mükemmel Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Bir kişinin hobisine yönelik hediye, sıradan bir hediyeyi unutulmaz bir deneyime dönüştürür.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">📚 Okuma Hobisi Olanlar İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kitap severler için özenle seçilmiş bir kitap, e-kitap okuyucusu veya kişiselleştirilmiş kitap rafı aksesuarları mükemmel hediyelerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏃 Spor Yapanlar İçin Hediyeler</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Spor severler için kaliteli sporcu ekipmanları, akıllı saat, spor çantası veya enerji takviyeleri idealdir.</p>",
@@ -232,7 +232,7 @@
     "resimAlt": "Hobilerine göre hediye önerisi"
   },
   "kahve": {
-    "dosya": "quiz-kahve.html",
+    "dosya": "kahve-cay-icene-hediye-testi.html",
     "title": "Kahve mi çay mı? | BudurBuldum",
     "desc": "Kahve mi çay mı? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">☕ Kahve mi Çay mı? Hediye Rehberi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">İçecek tercihi kişiliğin bir yansımasıdır ve hediye seçiminde önemli bir ipucu sunar.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">☕ Kahve Severler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Özel çekirdek kahve seti, French press, kahve değirmeni veya barista eğitimi harika hediyelerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🍵 Çay Severler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Premium çay koleksiyonu, cam demlik, çay seti veya çay tadım deneyimi unutulmaz hediyelerdir.</p>",
@@ -240,7 +240,7 @@
     "resimAlt": "Kahve çay hediye önerisi"
   },
   "kedi_butce": {
-    "dosya": "quiz-kedi-butce.html",
+    "dosya": "butceye-gore-kedi-hediyesi-testi.html",
     "title": "💰 Bütçeniz Nedir? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Bütçeniz Nedir?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun kedi hediyeleri mevcuttur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Fiyatlı</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük oyuncaklar, ödül mamaları ve fırçalar bütçe dostudur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💎 Premium</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Otomatik kedi tuvalet, akıllı mama kabı ve büyük tırmalama apartmanı üst segment seçeneklerdir.</p>",
@@ -248,7 +248,7 @@
     "resimAlt": "Kedi hediye bütçe"
   },
   "kedi_karakter": {
-    "dosya": "quiz-kedi-karakter.html",
+    "dosya": "kedinin-karakterine-gore-hediye-testi.html",
     "title": "😸 Kedinizin Karakteri? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">😸 Kedinizin Karakteri?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kedinizin karakteri, en uygun hediye türünü belirler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Oyuncu Kedi</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">İnteraktif lazer oyuncakları, tüylü değnekler ve tırmalama tahtaları oyuncu kedileri mutlu eder.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">😴 Sakin Kedi</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Konforlu yataklar, nazik fırçalar ve stres azaltıcı ürünler sakin kediler için idealdir.</p>",
@@ -256,7 +256,7 @@
     "resimAlt": "Oyuncu veya sakin kedi"
   },
   "kedi_ortam": {
-    "dosya": "quiz-kedi-ortam.html",
+    "dosya": "kedinin-yasam-alanina-gore-hediye-testi.html",
     "title": "🏠 Kediniz Nerede Yaşıyor? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🏠 Kediniz Nerede Yaşıyor?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yaşam ortamı hediye seçimini doğrudan etkiler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏠 İç Mekan Kedi</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Pencere tüneli, kedi tırmanma ağacı ve iç mekan oyun setleri eğlendirici olacaktır.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🌳 Hem İç Hem Dış Mekan</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">GPS takipli tasma, reflektörlü koşum ve dayanıklı oyuncaklar uygun seçeneklerdir.</p>",
@@ -264,7 +264,7 @@
     "resimAlt": "İç mekan dış mekan kedi"
   },
   "kedi_tur": {
-    "dosya": "quiz-kedi-tur.html",
+    "dosya": "kediye-ne-tur-hediye-alinacak-testi.html",
     "title": "🎁 Ne Tür Kedi Hediyesi? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Ne Tür Kedi Hediyesi?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kediniz için en anlamlı hediye türünü seçin.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎾 Oyuncak</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Tüylü değnek, lazer kalem, fare oyuncak ve interaktif elektronik oyuncaklar kedi favorileri.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🍖 Mama / Bakım</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Premium kedi maması, ödül maması ve vitamin takviyeleri sağlıklı bir kedi için idealdir.</p>",
@@ -272,7 +272,7 @@
     "resimAlt": "Kedi oyuncak ve aksesuar"
   },
   "kedi_yas": {
-    "dosya": "quiz-kedi-yas.html",
+    "dosya": "kedinin-yasina-gore-hediye-testi.html",
     "title": "🐱 Kedinizin Yaşı? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🐱 Kedinizin Yaşı?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kedinin yaşı, ihtiyaçlarını ve hediye seçimini belirler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐣 Yavru Kedi</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yavru kediler için interaktif oyuncaklar, diş kaşıyıcılar ve yumuşak yataklar idealdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐈 Yetişkin ve Yaşlı Kedi</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Ortopedik yataklar, bakım setleri ve özel mamalar yaşlı kediler için uygun seçeneklerdir.</p>",
@@ -280,7 +280,7 @@
     "resimAlt": "Kedi yaşına göre hediye"
   },
   "kime": {
-    "dosya": "quiz-kime.html",
+    "dosya": "hediye-kime-alinacak-testi.html",
     "title": "Hediye kime alınıyor? | BudurBuldum",
     "desc": "Hediye kime alınıyor? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Kime Hediye Alıyorsunuz?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Doğru hediyeyi seçmenin ilk adımı, hediyenin kime alındığını bilmektir. Sevgili, anne, baba, arkadaş veya iş arkadaşı — her ilişki farklı bir hediye dili konuşur.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💑 Sevgiliye Hediye</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Romantik ve kişisel dokunuşlar içeren hediyeler ilişkinizi güçlendirir. Takı, kişiselleştirilmiş ürünler veya birlikte yapılacak deneyimler en çok tercih edilen seçenekler arasındadır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">👨‍👩‍👧 Aile İçin Hediye</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Anne ve babaya alınan hediyeler genellikle pratik ve kaliteli olmalıdır. Onların yaşam tarzını yansıtan ürünler her zaman değer görür.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🤝 Arkadaşa Hediye</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Arkadaşlık hediyelerinde ortak anılara ve paylaşılan ilgi alanlarına odaklanın. Eğlenceli, kişisel ve yaratıcı hediyeler dostluğunuzu pekiştirir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💼 İş Arkadaşına Hediye</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Profesyonel sınırlar içinde kalan, şık ve kullanışlı hediyeler her zaman makbuldür.</p>",
@@ -288,7 +288,7 @@
     "resimAlt": "Sevgiliye hediye önerisi - kırmızı kurdele"
   },
   "kisilik": {
-    "dosya": "quiz-kisilik.html",
+    "dosya": "kisilik-tipine-gore-hediye-testi.html",
     "title": "Kişilik tipi nasıl? | BudurBuldum",
     "desc": "Kişilik tipi nasıl? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🧠 Kişilik Tipine Göre Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">İçedönük veya dışadönük kişilik tipi, hediye tercihlerini doğrudan etkiler.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🤫 İçedönükler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kitap, puzzle, ev dekor ürünleri veya kişisel bakım setleri sessiz ve huzurlu anlar yaratır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎉 Dışadönükler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Deneyim hediyeleri, konser bileti, grup aktiviteleri veya sosyal etkinlikler harika seçeneklerdir.</p>",
@@ -296,7 +296,7 @@
     "resimAlt": "Kişilik tipine göre hediye önerisi"
   },
   "kitap": {
-    "dosya": "quiz-kitap.html",
+    "dosya": "kitap-okuyucuya-hediye-testi.html",
     "title": "Kitap okumayı sever mi? | BudurBuldum",
     "desc": "Kitap okumayı sever mi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">📚 Kitap Severlere Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kitap okumayı seven birine hediye seçmek, onun iç dünyasına bir kapı açmaktır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">📖 Kitap Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Çok satan kitaplar, imzalı baskılar veya kişiselleştirilmiş kitap ayracı harika seçeneklerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">📱 E-Okuyucu ve Aksesuarlar</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">E-kitap okuyucusu, okuma lambası veya kitap standı pratik ve değerli hediyelerdir.</p>",
@@ -304,7 +304,7 @@
     "resimAlt": "Kitap hediye önerisi"
   },
   "kopek_butce": {
-    "dosya": "quiz-kopek-butce.html",
+    "dosya": "butceye-gore-kopek-hediyesi-testi.html",
     "title": "💰 Bütçeniz Nedir? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Bütçeniz Nedir?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun köpek hediyeleri mevcuttur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Fiyatlı</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük oyuncaklar, ödül mamaları ve tasma setleri bütçe dostu seçeneklerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💎 Premium</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">GPS takipli tasma, akıllı mama kabı veya özel seramik mama seti üst segment hediyelerdir.</p>",
@@ -312,7 +312,7 @@
     "resimAlt": "Köpek hediye bütçe"
   },
   "kopek_irk": {
-    "dosya": "quiz-kopek-irk.html",
+    "dosya": "kopegin-irkina-gore-hediye-testi.html",
     "title": "📏 Köpeğinizin Irk Büyüklüğü? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">📏 Köpeğinizin Irk Büyüklüğü?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Irk büyüklüğü, aksesuar ve ürün boyutunu belirler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐩 Küçük Irklar</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Chihuahua, Pomeranian gibi küçük ırklar için özel boyutlu yataklar, tasma ve kıyafetler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐕 Orta ve Büyük Irklar</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Golden, Labrador gibi büyük ırklar için geniş yataklar ve dayanıklı oyuncaklar uygundur.</p>",
@@ -320,7 +320,7 @@
     "resimAlt": "Köpek ırk büyüklüğü"
   },
   "kopek_karakter": {
-    "dosya": "quiz-kopek-karakter.html",
+    "dosya": "kopegin-karakterine-gore-hediye-testi.html",
     "title": "⚡ Köpeğinizin Karakteri? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">⚡ Köpeğinizin Karakteri?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Köpeğin enerjisi ve karakteri, hediye seçimini belirler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏃 Enerjik Köpek</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Atılabilir oyuncaklar, frisbee ve interaktif aktivite setleri enerjik köpekler için idealdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">😌 Sakin Köpek</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Konforlu yataklar, ödül mamaları ve sakinleştirici oyuncaklar uysal köpekler için uygundur.</p>",
@@ -328,7 +328,7 @@
     "resimAlt": "Aktif veya sakin köpek"
   },
   "kopek_tur": {
-    "dosya": "quiz-kopek-tur.html",
+    "dosya": "kopege-ne-tur-hediye-alinacak-testi.html",
     "title": "🎁 Ne Tür Köpek Hediyesi? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Ne Tür Köpek Hediyesi?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Köpeğiniz için en uygun hediye kategorisini seçin.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🦴 Oyuncak / Çiğneme</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kauçuk oyuncak, çiğneme kemiği, rope toy — köpeklerin en sevdiği hediye türleri.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🍖 Mama / Aksesuar</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Premium mama, ödül atıştırmalıkları, tasma/koşum seti ve GPS takipçi popüler seçeneklerdir.</p>",
@@ -336,7 +336,7 @@
     "resimAlt": "Köpek oyuncak ve aksesuar"
   },
   "kopek_yas": {
-    "dosya": "quiz-kopek-yas.html",
+    "dosya": "kopegin-yasina-gore-hediye-testi.html",
     "title": "🐶 Köpeğinizin Yaşı? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🐶 Köpeğinizin Yaşı?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Köpeğin yaşı, uygun hediye türünü belirler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐾 Yavru Köpek</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yumuşak oyuncaklar, diş kaşıyıcılar ve eğitim setleri yavru köpekler için uygun.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐕 Yetişkin ve Yaşlı Köpek</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Ortopedik yatak, eklem desteği ve özel mama yaşlı köpekler için değerlidir.</p>",
@@ -344,7 +344,7 @@
     "resimAlt": "Köpek yaşına göre hediye"
   },
   "kucukpet_butce": {
-    "dosya": "quiz-kucukpet-butce.html",
+    "dosya": "butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html",
     "title": "💰 Bütçeniz Nedir? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Bütçeniz Nedir?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun hediyeler mevcuttur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Fiyatlı</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük oyuncaklar, yem paketleri ve basit aksesuarlar bütçe dostudur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💎 Premium</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Büyük modüler kafes sistemi, koşu tekerleği veya ahşap oyuncak seti üst segment hediyelerdir.</p>",
@@ -352,7 +352,7 @@
     "resimAlt": "Küçük pet hediye bütçe"
   },
   "kucukpet_hediye": {
-    "dosya": "quiz-kucukpet-hediye.html",
+    "dosya": "kucuk-evcil-hayvana-ne-tur-hediye-testi.html",
     "title": "🎁 Ne Tür Hediye? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Ne Tür Hediye?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük dostunuz için en uygun hediye kategorisini seçin.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🥕 Yem / Beslenme</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Doğal vitamin takviyeleri, taze sebze bazlı pelet, özel ot karışımı ve mineral kaynakları.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎠 Oyuncak / Aktivite</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Koşu tekerleği, tünel seti, kaya tırmanma ve tahta kemirme oyuncakları favori seçenekler.</p>",
@@ -360,7 +360,7 @@
     "resimAlt": "Tavşan hamster oyuncak yem"
   },
   "kucukpet_yas": {
-    "dosya": "quiz-kucukpet-yas.html",
+    "dosya": "kucuk-evcil-hayvanin-yasina-gore-hediye-testi.html",
     "title": "📅 Ne Kadar Yaşında? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">📅 Ne Kadar Yaşında?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük evcil hayvanınızın yaşı, uygun hediyeyi seçmemize yardımcı olur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐣 Yavru</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yumuşak oyuncaklar, küçük tünel setleri ve uygun yaşlı yem yavru hayvanlar için uygundur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐾 Yetişkin</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Koşu tekerleği, zenginleştirilmiş yem ve büyük yaşam alanı yetişkin hayvanlar için idealdir.</p>",
@@ -368,7 +368,7 @@
     "resimAlt": "Tavşan hamster yaşı"
   },
   "kucukpet_yuva": {
-    "dosya": "quiz-kucukpet-yuva.html",
+    "dosya": "kucuk-evcil-hayvanin-yuvasina-gore-hediye-testi.html",
     "title": "🏠 Kafes / Yuva Durumu? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🏠 Kafes / Yuva Durumu?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Mevcut yaşam alanı durumu hediye seçimini belirler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">✅ Kafes Var</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">İç aksesuar, oyuncak ve yem çeşitlerini eklemek yaşam kalitesini artırır.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">✨ Yeni / Büyütme</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Daha büyük kafes veya modüler tünel sistemi en anlamlı hediye olabilir.</p>",
@@ -376,7 +376,7 @@
     "resimAlt": "Tavşan hamster kafes yuva"
   },
   "kus_butce": {
-    "dosya": "quiz-kus-butce.html",
+    "dosya": "butceye-gore-kus-hediyesi-testi.html",
     "title": "💰 Bütçeniz Nedir? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Bütçeniz Nedir?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun kuş hediyeleri mevcuttur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Fiyatlı</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük oyuncaklar, mineral taşı ve özel yem karışımları bütçe dostudur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💎 Premium</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Büyük uçuş kafesi, zeka oyuncak seti veya özel kuş beslenme programı üst segment hediyelerdir.</p>",
@@ -384,7 +384,7 @@
     "resimAlt": "Kuş hediye bütçe"
   },
   "kus_hediye": {
-    "dosya": "quiz-kus-hediye.html",
+    "dosya": "kusa-ne-tur-hediye-alinacak-testi.html",
     "title": "🎁 Ne Tür Kuş Hediyesi? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Ne Tür Kuş Hediyesi?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kuşunuz için en uygun hediye kategorisini seçin.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🌾 Yem / Beslenme</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Özel tohum karışımı, meyve-sebze bazlı pellet yem, vitamin takviyesi ve mineral taşı.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎪 Oyuncak / Aktivite</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Tahta tırmanma, zeka oyuncağı, salıncak ve çan gibi kuş eğlence ürünleri.</p>",
@@ -392,7 +392,7 @@
     "resimAlt": "Kuş yem ve aksesuar hediye"
   },
   "kus_kafes": {
-    "dosya": "quiz-kus-kafes.html",
+    "dosya": "kus-kafesine-gore-hediye-testi.html",
     "title": "🏠 Kafes Durumu Nasıl? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🏠 Kafes Durumu Nasıl?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Mevcut kafes durumu, en işe yarar hediyeyi belirlememize yardımcı olur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏠 Kafes Var</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Aksesuar, oyuncak ve yem çeşitlerini eklemek kafesi daha yaşanabilir kılar.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">✨ Yeni / Büyütme</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Daha büyük ve donanımlı yeni bir kafes, kuş için en anlamlı hediye olabilir.</p>",
@@ -400,7 +400,7 @@
     "resimAlt": "Kuş kafesi aksesuar"
   },
   "kus_tur": {
-    "dosya": "quiz-kus-tur.html",
+    "dosya": "kus-turune-gore-hediye-testi.html",
     "title": "🦜 Kuş Türü Nedir? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🦜 Kuş Türü Nedir?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kuş türü, ihtiyaçları ve hediye seçimini belirler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💚 Muhabbet Kuşu / Kanarya</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük kafes oyuncakları, tahta tünek, ayna ve özel tohum karışımları idealdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🦜 Papağan</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Büyük kafes oyuncakları, zeka oyunları, tırnak taşı ve zenginleştirilmiş yem setleri uygundur.</p>",
@@ -408,7 +408,7 @@
     "resimAlt": "Muhabbet kuşu papağan kanarya"
   },
   "makyaj": {
-    "dosya": "quiz-makyaj.html",
+    "dosya": "makyaj-bakim-sevene-hediye-testi.html",
     "title": "Makyaj / bakım ürünlerine ilgisi var mı? | BudurBuldum",
     "desc": "Makyaj / bakım ürünlerine ilgisi var mı? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💄 Makyaj ve Bakım Hediye Rehberi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Makyaj ve bakım ürünlerine ilgi duyan birine hediye, kişisel bakımına verdiğiniz değeri gösterir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💋 Makyaj Setleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Premium marka ruj seti, far paleti veya makyaj çantası popüler hediye seçenekleridir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🧴 Cilt Bakım Setleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yüz bakım rutin seti, serum, nemlendiriciler ve yüz maskeleri özenli hediyelerdir.</p>",
@@ -416,7 +416,7 @@
     "resimAlt": "Makyaj bakım hediye önerisi"
   },
   "mevsim": {
-    "dosya": "quiz-mevsim.html",
+    "dosya": "mevsime-gore-hediye-secimi-testi.html",
     "title": "Favori mevsimi hangisi? | BudurBuldum",
     "desc": "Favori mevsimi hangisi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🌸 Favori Mevsime Göre Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kişinin sevdiği mevsim, yaşam tarzı ve tercihlerine dair önemli ipuçları verir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">☀️ Yaz Severler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Plaj aksesuarları, güneş koruma setleri, hafif parfümler ve şık güneş gözlükleri ideal hediyelerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🍂 Sonbahar ve Kış Severler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Sıcak hırka, aromaterapi mumu, sıcak içecek seti veya spa deneyimi mükemmel bir hediye olacaktır.</p>",
@@ -424,7 +424,7 @@
     "resimAlt": "Mevsime göre hediye önerisi"
   },
   "mutfak": {
-    "dosya": "quiz-mutfak.html",
+    "dosya": "yemek-icin-hediye-bulma-testi.html",
     "title": "En sevdiği mutfak türü? | BudurBuldum",
     "desc": "En sevdiği mutfak türü? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🍽️ Mutfak Zevkine Göre Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yemek kültürü tercihi, kişinin damak tadı ve yaşam tarzı hakkında ipuçları sunar.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🍝 Yemek Severler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Gurme yemek seti, özel baharat koleksiyonu veya yemek kursu harika hediyelerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">👨‍🍳 Mutfak Aksesuarları</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kaliteli bıçak seti, döküm tencere veya şef önlüğü mutfak severler için ideal hediyelerdir.</p>",
@@ -432,7 +432,7 @@
     "resimAlt": "Mutfak yemek hediye önerisi"
   },
   "muzik": {
-    "dosya": "quiz-muzik.html",
+    "dosya": "muzik-zevkine-gore-hediye-testi.html",
     "title": "Favori müzik türü? | BudurBuldum",
     "desc": "Favori müzik türü? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎵 Müzik Zevkine Göre Hediye Seçimi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Müzik, ruhun dilidir. Sevdiği müzik türüne uygun bir hediye seçmek, o kişiye ne kadar dikkat ettiğinizi gösterir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎸 Rock ve Pop Sevenler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Konser bileti, özel baskı vinil plak veya müzik temalı aksesuarlar unutulmaz hediyeler olacaktır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎹 Klasik Müzik Sevenler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Opera veya senfoni bileti, kaliteli kulaklık veya müzik kitabı klasik müzik tutkunlarını mutlu edecektir.</p>",
@@ -440,7 +440,7 @@
     "resimAlt": "Müzik hediyesi önerisi"
   },
   "oncelik": {
-    "dosya": "quiz-oncelik.html",
+    "dosya": "hediye-onceliklerine-gore-secim-testi.html",
     "title": "Hediye alırken en çok neye dikkat edersin? | BudurBuldum",
     "desc": "Hediye alırken en çok neye dikkat edersin? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎯 Hediye Alırken Neye Dikkat Edersin?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hediye alırken önceliğiniz, seçeceğiniz hediyenin karakterini belirler.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🔧 Kullanışlılık</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Günlük hayatta işe yarayacak pratik ürünler, teknoloji aksesuarları ve fonksiyonel hediyeler tercih edilir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">💝 Anlam ve Özellik</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kişiselleştirilmiş, el yapımı veya anı değeri taşıyan hediyeler kalplerde yer eder.</p>",
@@ -448,7 +448,7 @@
     "resimAlt": "Hediye öncelik kriteri"
   },
   "ortam": {
-    "dosya": "quiz-ortam.html",
+    "dosya": "yasam-tarzina-gore-hediye-testi.html",
     "title": "Kişi evde mi dışarıda mı zaman geçiriyor? | BudurBuldum",
     "desc": "Kişi evde mi dışarıda mı zaman geçiriyor? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🏠 Evde mi Dışarıda mı?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kişinin zamanını nerede geçirdiği hediye seçimini önemli ölçüde etkiler.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏠 Ev Severler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Ev dekorasyon ürünleri, rahat giysiler, aromaterapi setleri ve kaliteli mutfak gereçleri evde vakit geçirenleri mutlu eder.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🌳 Dışarıda Aktif Olanlar İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Spor ekipmanları, outdoor aksesuarları, seyahat çantaları ve deneyim hediyeleri aktif kişiler için idealdir.</p>",
@@ -456,7 +456,7 @@
     "resimAlt": "Ev ve dış mekan hediye önerisi"
   },
   "oyun": {
-    "dosya": "quiz-oyun.html",
+    "dosya": "oyun-oynayanlara-hediye-testi.html",
     "title": "Oyun oynar mı? | BudurBuldum",
     "desc": "Oyun oynar mı? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎮 Oyun Severlere Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Oyun oynamayı seven birine hediye seçmek, eğlence dünyasına bir katkı sunmaktır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎮 Video Oyun Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yeni çıkan oyunlar, oyun konsolu aksesuarları veya oyuncu koltuğu harika seçeneklerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎲 Masa Oyunları</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Strateji oyunları, bulmaca setleri veya kooperatif oyunlar birlikte eğlenmenin anahtarıdır.</p>",
@@ -464,7 +464,7 @@
     "resimAlt": "Oyun hediye önerisi"
   },
   "pet_butce": {
-    "dosya": "quiz-pet-butce.html",
+    "dosya": "butceye-gore-evcil-hayvan-hediyesi-testi.html",
     "title": "Bütçe aralığın nedir? | BudurBuldum",
     "desc": "Bütçe aralığın nedir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">💰 Pet Hediyesi Bütçesi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Her bütçeye uygun pet hediyeleri vardır.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎯 Uygun Fiyatlı</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Küçük oyuncaklar, ödül mamaları ve basit aksesuarlar bütçe dostudur.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">💎 Premium</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Akıllı mama kapları, GPS tasma ve otomatik oyuncaklar yüksek bütçeli seçeneklerdir.</p>",
@@ -472,7 +472,7 @@
     "resimAlt": "Pet hediyesi bütçe alışveriş"
   },
   "pet_hediye_tur": {
-    "dosya": "quiz-pet-hediye.html",
+    "dosya": "evcil-hayvana-ne-tur-hediye-alinacak-testi.html",
     "title": "Ne tür hediye düşünüyorsun? | BudurBuldum",
     "desc": "Ne tür hediye düşünüyorsun? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎁 Ne Tür Pet Hediyesi?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Pet hediye türü hayvanın ihtiyaçlarına göre belirlenir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🧸 Oyuncak ve Eğlence</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">İnteraktif oyuncaklar, çiğneme kemikleri ve puzzle mama kapları eğlenceli seçeneklerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🛏️ Konfor ve Bakım</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Ortopedik yatak, sıcak battaniye, bakım kiti ve aksesuarlar konfor sağlar.</p>",
@@ -480,7 +480,7 @@
     "resimAlt": "Pet oyuncak ve aksesuar hediye türleri"
   },
   "pet_karakter": {
-    "dosya": "quiz-pet-karakter.html",
+    "dosya": "evcil-hayvanin-karakterine-gore-hediye-testi.html",
     "title": "Karakteri nasıl? | BudurBuldum",
     "desc": "Karakteri nasıl? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🐾 Pet Karakterine Göre Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hayvanın karakter yapısı hediye seçiminde belirleyicidir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">⚡ Enerjik Hayvanlar</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Top, frisbee, koşu çarkı ve aktif oyuncaklar enerjik hayvanlar için idealdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">😴 Sakin Hayvanlar</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Rahat yatak, yumuşak battaniye ve sakinleştirici oyuncaklar uysal hayvanlar için uygundur.</p>",
@@ -488,7 +488,7 @@
     "resimAlt": "Aktif veya sakin pet karakteri"
   },
   "pet_ortam": {
-    "dosya": "quiz-pet-ortam.html",
+    "dosya": "evcil-hayvanin-yasam-alanina-gore-hediye-testi.html",
     "title": "Nerede yaşıyor? | BudurBuldum",
     "desc": "Nerede yaşıyor? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🏠 Pet Nerede Yaşıyor?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hayvanın yaşam ortamı hediye seçimini etkiler.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏠 İç Mekan</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Pencere tüneli, kedi tırmanma ağacı ve iç mekan oyun alanı ideal hediyelerdir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🌳 Dış Mekan</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Reflektörlü güvenlik tasması, GPS takip cihazı ve dayanıklı yatak dış mekan hayvanları için uygundur.</p>",
@@ -496,7 +496,7 @@
     "resimAlt": "İç ve dış mekan evcil hayvan ortamı"
   },
   "pet_tur": {
-    "dosya": "quiz-pet-tur.html",
+    "dosya": "evcil-hayvan-icin-hediye-testi.html",
     "title": "Hangi hayvan? | BudurBuldum",
     "desc": "Hangi hayvan? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🐾 Hangi Hayvan İçin Hediye?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Evcil hayvan türü, hediye seçimini doğrudan belirleyen en kritik faktördür. Kedi ile köpek, kuş ile balık tamamen farklı ihtiyaçlara sahiptir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🐱 Kedi & Köpek</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Memeli evcil hayvanlar için oyuncaklar, yataklar ve interaktif ürünler tercih edilir. Karakterlerine göre özel öneriler önemlidir.</p><h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;\">🐦 Kuş, Balık ve Diğerleri</h3><p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kafes/akvaryum aksesuarları, özel besin ürünleri ve yaşam alanı düzenlemeleri bu hayvanlar için önceliklidir.</p>",
@@ -504,7 +504,7 @@
     "resimAlt": "Kedi köpek kuş balık - hangi hayvan"
   },
   "renk": {
-    "dosya": "quiz-renk.html",
+    "dosya": "sevdigi-renge-hediye-testi.html",
     "title": "En çok sevdiği renk tonu hangisi? | BudurBuldum",
     "desc": "En çok sevdiği renk tonu hangisi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎨 Renk Tercihine Göre Hediye Seçimi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Bir kişinin sevdiği renk tonu, onun kişiliği hakkında çok şey söyler ve hediye seçimini kolaylaştırır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🌸 Pastel Tonlar Sevenler</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Yumuşak ve zarif ürünler, lavanta aromalı setler, soft renkli aksesuarlar ideal hediyelerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🖤 Koyu Tonlar Sevenler</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Şık deri ürünler, minimalist siyah aksesuarlar ve premium kaliteli hediyeler bu kişiler için uygundur.</p>",
@@ -512,7 +512,7 @@
     "resimAlt": "Renk tercihine göre hediye önerisi"
   },
   "sanat": {
-    "dosya": "quiz-sanat.html",
+    "dosya": "sanat-sevene-hediye-bulma-testi.html",
     "title": "Sanat eserlerine ilgisi var mı? | BudurBuldum",
     "desc": "Sanat eserlerine ilgisi var mı? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🖼️ Sanat Severlere Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Sanat eserlerine ilgi duyan birine hediye, estetik duyarlılığına saygının ifadesidir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎨 Sanat Malzemeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Profesyonel boya seti, kaliteli fırça koleksiyonu veya çizim tableti sanat severleri mutlu eder.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🖼️ Sanat Deneyimleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Sergi bileti, atölye kursu veya özel baskı sanat eseri unutulmaz hediyelerdir.</p>",
@@ -520,7 +520,7 @@
     "resimAlt": "Sanat hediye önerisi"
   },
   "seyahat": {
-    "dosya": "quiz-seyahat.html",
+    "dosya": "seyahat-sevene-hediye-bulma-testi.html",
     "title": "Seyahat etmeyi sever mi? | BudurBuldum",
     "desc": "Seyahat etmeyi sever mi? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">✈️ Seyahat Severlere Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Seyahat etmeyi seven birine hediye seçmek, onun tutkusuna ortak olmak demektir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🧳 Pratik Seyahat Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Kabin boy valiz, boyun yastığı, evrensel adaptör veya su geçirmez çanta seyahat severleri mutlu eder.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🗺️ Deneyim Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Uçak bileti, otel konaklama veya tur paketi unutulmaz bir hediye olacaktır.</p>",
@@ -528,7 +528,7 @@
     "resimAlt": "Seyahat hediye önerisi"
   },
   "spor": {
-    "dosya": "quiz-spor.html",
+    "dosya": "sporcu-icin-hediye-bulma-testi.html",
     "title": "Spor yapıyor mu? | BudurBuldum",
     "desc": "Spor yapıyor mu? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🏋️ Sporculara Özel Hediye Önerileri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Düzenli spor yapan biri için hediye seçmek aslında çok kolaydır.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🏃 Koşu ve Fitness Sevenler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Akıllı spor saati, kaliteli koşu ayakkabısı, protein takviyesi seti ideal hediyelerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🧘 Yoga ve Pilates Sevenler İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Premium yoga matı, meditasyon yastığı, aromaterapi seti sporculara ilham verecek güzel hediye seçenekleridir.</p>",
@@ -536,7 +536,7 @@
     "resimAlt": "Sporculara hediye önerisi"
   },
   "tarz": {
-    "dosya": "quiz-tarz.html",
+    "dosya": "kisilik-tarzina-gore-hediye-testi.html",
     "title": "Tarzı nasıldır? | BudurBuldum",
     "desc": "Tarzı nasıldır? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎨 Kişinin Tarzına Göre Hediye Seçimi</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Bir kişinin giyim tarzı, ev dekorasyonu ve günlük tercihlerine bakarak ona uygun hediye bulmak çok daha kolay hale gelir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🤍 Minimalist Tarz İçin Hediyeler</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Sade, işlevsel ve kaliteli ürünler minimalist kişiler için idealdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🌈 Renkli ve Eğlenceli Tarz İçin Hediyeler</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Canlı renkler, yaratıcı tasarımlar ve eğlenceli konseptler bu kişiler için biçilmiş kaftandır.</p>",
@@ -544,7 +544,7 @@
     "resimAlt": "Minimalist tarz hediye önerisi"
   },
   "tatli": {
-    "dosya": "quiz-tatli.html",
+    "dosya": "tatli-zevkine-gore-hediye-testi.html",
     "title": "En sevdiği tatlı türü nedir? | BudurBuldum",
     "desc": "En sevdiği tatlı türü nedir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🍫 Tatlı Tercihine Göre Hediye Fikirleri</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Sevdiği tatlı türü, bir kişiye gönderilen mesajın en lezzetli hali olabilir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🍫 Çikolata Severlere Özel</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">El yapımı çikolata kutuları, dünya markalarının özel koleksiyonları veya kişiselleştirilmiş çikolata setleri idealdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🎂 Pasta ve Tatlı Kutusu Hediyeleri</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Özel sipariş pastalar, makaronlar, lokum kutuları veya dondurma deneyim hediyeleri tatlı seven herkese büyük mutluluk yaşatır.</p>",
@@ -552,7 +552,7 @@
     "resimAlt": "Tatlı hediyesi önerisi"
   },
   "teknoloji": {
-    "dosya": "quiz-teknoloji.html",
+    "dosya": "teknoloji-ilgisine-gore-hediye-testi.html",
     "title": "Teknolojiye ilgisi var mı? | BudurBuldum",
     "desc": "Teknolojiye ilgisi var mı? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">📱 Teknoloji İlgisine Göre Hediye</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Teknolojiye olan ilgi düzeyi, hediye seçiminde önemli bir kriterdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🤖 Teknoloji Meraklıları İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Akıllı ev cihazları, kablosuz kulaklıklar, taşınabilir şarj cihazları ve yenilikçi gadget'lar harika seçeneklerdir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">📖 Teknolojiye Uzak Olanlar İçin</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Geleneksel hediyeler, el yapımı ürünler ve kişisel deneyimler daha uygun olacaktır.</p>",
@@ -560,7 +560,7 @@
     "resimAlt": "Teknoloji hediye önerisi"
   },
   "yas": {
-    "dosya": "quiz-yas.html",
+    "dosya": "yasa-gore-hediye-bulma-testi.html",
     "title": "Yaş aralığı yaklaşık olarak nedir? | BudurBuldum",
     "desc": "Yaş aralığı yaklaşık olarak nedir? - BudurBuldum hediye rehberi",
     "makaleHtml": "<h2 style=\"color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;\">🎂 Yaşa Göre Hediye Nasıl Seçilir?</h2>\n                            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Hediye seçiminde yaş aralığı belirleyici en önemli faktörlerden biridir.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">👶 0-12 Yaş Arası Çocuklar</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Bu yaş grubunda eğitici oyuncaklar, yaratıcılığı destekleyen setler ve güvenli materyallerden yapılmış ürünler öne çıkar.</p>\n            <h3 style=\"color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;\">🧑 13-25 Yaş Arası Gençler</h3>\n            <p style=\"color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;\">Teknoloji ürünleri, müzik aletleri, moda aksesuarları ve deneyim hediyeleri bu yaş grubunda büyük ilgi görür.</p>",

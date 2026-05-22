@@ -14,7 +14,7 @@ const { QUIZ_CONFIG } = require('./config.js');
 // Dosyaları oku
 const buildData = JSON.parse(fs.readFileSync(path.join(__dirname, 'build-data.json'), 'utf8'));
 const template = fs.readFileSync(path.join(__dirname, 'quiz-template.html'), 'utf8');
-const dogumExtra = fs.readFileSync(path.join(__dirname, 'quiz-dogum-extra.html'), 'utf8');
+const dogumExtra = fs.readFileSync(path.join(__dirname, 'burcuna-gore-hediye-bulma-testi.html'), 'utf8');
 
 // Config.js'den IS_MULTI ve MAX_SECIM bilgisini al
 const MULTI_SORULAR = { hobiler: 2 };

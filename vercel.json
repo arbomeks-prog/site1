@@ -3,5 +3,367 @@
     "api/*.js": {
       "includeFiles": "package.json"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/quiz-kime.html",
+      "destination": "/hediye-kime-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cinsiyet.html",
+      "destination": "/kadin-erkek-hediye-secimi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-dogum.html",
+      "destination": "/dogum-tarihine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-yas.html",
+      "destination": "/yasa-gore-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-tarz.html",
+      "destination": "/kisilik-tarzina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-hobiler.html",
+      "destination": "/hobiye-gore-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-renk.html",
+      "destination": "/sevdigi-renge-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-amac.html",
+      "destination": "/ne-icin-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-ortam.html",
+      "destination": "/yasam-tarzina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-teknoloji.html",
+      "destination": "/teknoloji-ilgisine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-butce.html",
+      "destination": "/butceye-gore-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-mevsim.html",
+      "destination": "/mevsime-gore-hediye-secimi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-tatli.html",
+      "destination": "/tatli-zevkine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-spor.html",
+      "destination": "/sporcu-icin-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-muzik.html",
+      "destination": "/muzik-zevkine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-hayvan.html",
+      "destination": "/hayvan-sever-icin-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-seyahat.html",
+      "destination": "/seyahat-sevene-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kitap.html",
+      "destination": "/kitap-okuyucuya-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kahve.html",
+      "destination": "/kahve-cay-icene-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-film.html",
+      "destination": "/film-sevene-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-bitki.html",
+      "destination": "/bitki-sevene-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-oyun.html",
+      "destination": "/oyun-oynayanlara-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-makyaj.html",
+      "destination": "/makyaj-bakim-sevene-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-aksesuar.html",
+      "destination": "/aksesuar-saat-sevene-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-mutfak.html",
+      "destination": "/yemek-icin-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-doga.html",
+      "destination": "/doga-yuruyusu-sevene-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-sanat.html",
+      "destination": "/sanat-sevene-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-foto.html",
+      "destination": "/fotograf-cekmeyi-sevene-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kisilik.html",
+      "destination": "/kisilik-tipine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-oncelik.html",
+      "destination": "/hediye-onceliklerine-gore-secim-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-dogum-extra.html",
+      "destination": "/burcuna-gore-hediye-bulma-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-bebek-cinsiyet.html",
+      "destination": "/bebek-kiz-mi-erkek-mi-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-bebek-yas.html",
+      "destination": "/bebek-yasina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-bebek-amac.html",
+      "destination": "/bebek-hediyesi-ne-icin-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-bebek-tarz.html",
+      "destination": "/anne-baba-tarzina-gore-bebek-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-bebek-tur.html",
+      "destination": "/bebege-ne-tur-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-bebek-butce.html",
+      "destination": "/butceye-gore-bebek-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cocuk-cinsiyet.html",
+      "destination": "/cocuk-kiz-mi-erkek-mi-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cocuk-yas.html",
+      "destination": "/cocugun-yasina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cocuk-amac.html",
+      "destination": "/cocuga-ne-icin-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cocuk-aktivite.html",
+      "destination": "/cocugun-aktivitesine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cocuk-tema.html",
+      "destination": "/cocugun-sevdigi-temaya-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cocuk-ortam.html",
+      "destination": "/cocugun-yasam-alanina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cocuk-tur.html",
+      "destination": "/cocuga-ne-tur-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-cocuk-butce.html",
+      "destination": "/butceye-gore-cocuk-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-pet-tur.html",
+      "destination": "/evcil-hayvan-icin-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kedi-yas.html",
+      "destination": "/kedinin-yasina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kedi-karakter.html",
+      "destination": "/kedinin-karakterine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kedi-ortam.html",
+      "destination": "/kedinin-yasam-alanina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kedi-tur.html",
+      "destination": "/kediye-ne-tur-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kedi-butce.html",
+      "destination": "/butceye-gore-kedi-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kopek-yas.html",
+      "destination": "/kopegin-yasina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kopek-irk.html",
+      "destination": "/kopegin-irkina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kopek-karakter.html",
+      "destination": "/kopegin-karakterine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kopek-tur.html",
+      "destination": "/kopege-ne-tur-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kopek-butce.html",
+      "destination": "/butceye-gore-kopek-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kus-tur.html",
+      "destination": "/kus-turune-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kus-kafes.html",
+      "destination": "/kus-kafesine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kus-hediye.html",
+      "destination": "/kusa-ne-tur-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kus-butce.html",
+      "destination": "/butceye-gore-kus-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-balik-tip.html",
+      "destination": "/balik-tipine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-balik-boyut.html",
+      "destination": "/balik-boyutuna-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-balik-hediye.html",
+      "destination": "/baliga-ne-tur-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-balik-butce.html",
+      "destination": "/butceye-gore-balik-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kucukpet-yas.html",
+      "destination": "/kucuk-evcil-hayvanin-yasina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kucukpet-yuva.html",
+      "destination": "/kucuk-evcil-hayvanin-yuvasina-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kucukpet-hediye.html",
+      "destination": "/kucuk-evcil-hayvana-ne-tur-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-kucukpet-butce.html",
+      "destination": "/butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-pet-hediye.html",
+      "destination": "/evcil-hayvana-ne-tur-hediye-alinacak-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-pet-butce.html",
+      "destination": "/butceye-gore-evcil-hayvan-hediyesi-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-pet-karakter.html",
+      "destination": "/evcil-hayvanin-karakterine-gore-hediye-testi.html",
+      "permanent": true
+    },
+    {
+      "source": "/quiz-pet-ortam.html",
+      "destination": "/evcil-hayvanin-yasam-alanina-gore-hediye-testi.html",
+      "permanent": true
+    }
+  ]
 }

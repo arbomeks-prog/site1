@@ -11,111 +11,111 @@ const QUIZ_CONFIG = {
     // Sıralama burada belirlenir. Değiştirmek için sadece diziyi yeniden sırala.
     // ==========================================
     sorular: [
-        { id:"kime",       soru:"Hediye kime alınıyor?",                     secenekler:["Sevgili","Arkadaş","Anne","Baba","Kardeş","Çocuk 🧒","Kendime","İş arkadaşı","Bebek ❤️","Pet ❤️"], sayfa:"quiz-kime.html" },
-        { id:"cinsiyet",   soru:"Cinsiyeti nedir?",                          secenekler:["Kadın","Erkek","Kız Çocuğu","Erkek Çocuğu"], sayfa:"quiz-cinsiyet.html" },
-        { id:"dogum",      soru:"Doğum tarihi hakkında ne biliyorsunuz?",    secenekler:["Tarihini biliyorum","Bilmiyorum","Burcunu biliyorum"], sayfa:"quiz-dogum.html", ozelTip:"dogum" },
-        { id:"yas",        soru:"Yaş aralığı yaklaşık olarak nedir?",        secenekler:["0-2 (Bebek)","3-6 (Küçük Çocuk)","7-12 (Çocuk)","13-17 (Genç)","18-25","26-35","36-45","46-60","61-75","76+"], sayfa:"quiz-yas.html" },
-        { id:"tarz",       soru:"Tarzı nasıldır?",                           secenekler:["Minimalist","Renkli ve Eğlenceli","Klasik / Şık","Modern / Şık","Spor / Casual"], sayfa:"quiz-tarz.html" },
-        { id:"hobiler",    soru:"Hobileri nelerdir?",                        secenekler:["Okumak","Spor yapmak","Müzik / Enstrüman","Seyahat","Yemek yapmak","Teknoloji","Sanat ve el işi","Bahçe / Bitki bakımı"], sayfa:"quiz-hobiler.html", maxSecim:2 },
-        { id:"renk",       soru:"En çok sevdiği renk tonu hangisi?",         secenekler:["Pastel Tonlar","Koyu ve Şık Tonlar","Canlı ve Parlak Renkler","Doğal Tonlar"], sayfa:"quiz-renk.html" },
-        { id:"amac",       soru:"Hediyeyi ne için alıyorsun?",               secenekler:["Doğum Günü","Yıl Dönümü","Sevgililer Günü","Özel Bir Başarı","Sadece sürpriz","Noel / Yılbaşı"], sayfa:"quiz-amac.html" },
-        { id:"ortam",      soru:"Kişi evde mi dışarıda mı zaman geçiriyor?", secenekler:["Daha çok evde","Daha çok dışarıda","İkisi de dengeli"], sayfa:"quiz-ortam.html" },
-        { id:"teknoloji",  soru:"Teknolojiye ilgisi var mı?",                secenekler:["Çok ilgili","Orta seviyede","Pek ilgilenmiyor"], sayfa:"quiz-teknoloji.html" },
-        { id:"butce",      soru:"Bütçe aralığın nedir?",                     secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000-10000 TL","10000-30000 TL","30.000 TL+"], sayfa:"quiz-butce.html" },
-        { id:"mevsim",     soru:"Favori mevsimi hangisi?",                   secenekler:["İlkbahar","Yaz","Sonbahar","Kış"], sayfa:"quiz-mevsim.html" },
-        { id:"tatli",      soru:"En sevdiği tatlı türü nedir?",              secenekler:["Çikolata","Pasta","Dondurma","Şekerleme","Hiçbiri"], sayfa:"quiz-tatli.html" },
-        { id:"spor",       soru:"Spor yapıyor mu?",                          secenekler:["Evet düzenli","Ara sıra","Hiç yapmıyor"], sayfa:"quiz-spor.html" },
-        { id:"muzik",      soru:"Favori müzik türü?",                        secenekler:["Pop","Rock","Klasik","Rap / Hip-Hop","Türk Sanat Müziği","Diğer"], sayfa:"quiz-muzik.html" },
-        { id:"hayvan",     soru:"Hayvan sever mi?",                          secenekler:["Evet çok sever","Orta","Pek sevmez"], sayfa:"quiz-hayvan.html" },
-        { id:"seyahat",    soru:"Seyahat etmeyi sever mi?",                  secenekler:["Çok sever","Ara sıra","Pek sevmez"], sayfa:"quiz-seyahat.html" },
-        { id:"kitap",      soru:"Kitap okumayı sever mi?",                   secenekler:["Evet çok","Ara sıra","Hiç okumaz"], sayfa:"quiz-kitap.html" },
-        { id:"kahve",      soru:"Kahve mi çay mı?",                          secenekler:["Kahve","Çay","İkisi de","Hiçbiri"], sayfa:"quiz-kahve.html" },
-        { id:"film",       soru:"En sevdiği film türü?",                     secenekler:["Romantik","Komedi","Bilim Kurgu","Dram","Aksiyon"], sayfa:"quiz-film.html" },
-        { id:"bitki",      soru:"Evde bitki bakımı yapıyor mu?",             secenekler:["Evet","Hayır","Deniyor"], sayfa:"quiz-bitki.html" },
-        { id:"oyun",       soru:"Oyun oynar mı?",                            secenekler:["Evet sık sık","Ara sıra","Hiç oynamaz"], sayfa:"quiz-oyun.html" },
-        { id:"makyaj",     soru:"Makyaj / bakım ürünlerine ilgisi var mı?",  secenekler:["Çok var","Orta","Yok"], sayfa:"quiz-makyaj.html" },
-        { id:"aksesuar",   soru:"Saat / aksesuar takmayı sever mi?",         secenekler:["Evet","Ara sıra","Hiç sevmez"], sayfa:"quiz-aksesuar.html" },
-        { id:"mutfak",     soru:"En sevdiği mutfak türü?",                   secenekler:["Türk","İtalyan","Asya","Fast Food","Sağlıklı"], sayfa:"quiz-mutfak.html" },
-        { id:"doga",       soru:"Doğa yürüyüşü yapar mı?",                  secenekler:["Evet sever","Ara sıra","Hiç yapmaz"], sayfa:"quiz-doga.html" },
-        { id:"sanat",      soru:"Sanat eserlerine ilgisi var mı?",           secenekler:["Çok var","Orta","Yok"], sayfa:"quiz-sanat.html" },
-        { id:"foto",       soru:"Fotoğraf çekmeyi sever mi?",               secenekler:["Evet","Ara sıra","Hiç"], sayfa:"quiz-foto.html" },
-        { id:"kisilik",    soru:"Kişilik tipi nasıl?",                       secenekler:["İçedönük","Dışadönük","Dengeli"], sayfa:"quiz-kisilik.html" },
-        { id:"oncelik",    soru:"Hediye alırken en çok neye dikkat edersin?", secenekler:["Kullanışlı olsun","Güzel görünsün","Özel ve anlamlı olsun","Uygun fiyatlı olsun"], sayfa:"quiz-oncelik.html" },
+        { id:"kime",       soru:"Hediye kime alınıyor?",                     secenekler:["Sevgili","Arkadaş","Anne","Baba","Kardeş","Çocuk 🧒","Kendime","İş arkadaşı","Bebek ❤️","Pet ❤️"], sayfa:"hediye-kime-alinacak-testi.html" },
+        { id:"cinsiyet",   soru:"Cinsiyeti nedir?",                          secenekler:["Kadın","Erkek","Kız Çocuğu","Erkek Çocuğu"], sayfa:"kadin-erkek-hediye-secimi-testi.html" },
+        { id:"dogum",      soru:"Doğum tarihi hakkında ne biliyorsunuz?",    secenekler:["Tarihini biliyorum","Bilmiyorum","Burcunu biliyorum"], sayfa:"dogum-tarihine-gore-hediye-testi.html", ozelTip:"dogum" },
+        { id:"yas",        soru:"Yaş aralığı yaklaşık olarak nedir?",        secenekler:["0-2 (Bebek)","3-6 (Küçük Çocuk)","7-12 (Çocuk)","13-17 (Genç)","18-25","26-35","36-45","46-60","61-75","76+"], sayfa:"yasa-gore-hediye-bulma-testi.html" },
+        { id:"tarz",       soru:"Tarzı nasıldır?",                           secenekler:["Minimalist","Renkli ve Eğlenceli","Klasik / Şık","Modern / Şık","Spor / Casual"], sayfa:"kisilik-tarzina-gore-hediye-testi.html" },
+        { id:"hobiler",    soru:"Hobileri nelerdir?",                        secenekler:["Okumak","Spor yapmak","Müzik / Enstrüman","Seyahat","Yemek yapmak","Teknoloji","Sanat ve el işi","Bahçe / Bitki bakımı"], sayfa:"hobiye-gore-hediye-bulma-testi.html", maxSecim:2 },
+        { id:"renk",       soru:"En çok sevdiği renk tonu hangisi?",         secenekler:["Pastel Tonlar","Koyu ve Şık Tonlar","Canlı ve Parlak Renkler","Doğal Tonlar"], sayfa:"sevdigi-renge-hediye-testi.html" },
+        { id:"amac",       soru:"Hediyeyi ne için alıyorsun?",               secenekler:["Doğum Günü","Yıl Dönümü","Sevgililer Günü","Özel Bir Başarı","Sadece sürpriz","Noel / Yılbaşı"], sayfa:"ne-icin-hediye-alinacak-testi.html" },
+        { id:"ortam",      soru:"Kişi evde mi dışarıda mı zaman geçiriyor?", secenekler:["Daha çok evde","Daha çok dışarıda","İkisi de dengeli"], sayfa:"yasam-tarzina-gore-hediye-testi.html" },
+        { id:"teknoloji",  soru:"Teknolojiye ilgisi var mı?",                secenekler:["Çok ilgili","Orta seviyede","Pek ilgilenmiyor"], sayfa:"teknoloji-ilgisine-gore-hediye-testi.html" },
+        { id:"butce",      soru:"Bütçe aralığın nedir?",                     secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000-10000 TL","10000-30000 TL","30.000 TL+"], sayfa:"butceye-gore-hediye-bulma-testi.html" },
+        { id:"mevsim",     soru:"Favori mevsimi hangisi?",                   secenekler:["İlkbahar","Yaz","Sonbahar","Kış"], sayfa:"mevsime-gore-hediye-secimi-testi.html" },
+        { id:"tatli",      soru:"En sevdiği tatlı türü nedir?",              secenekler:["Çikolata","Pasta","Dondurma","Şekerleme","Hiçbiri"], sayfa:"tatli-zevkine-gore-hediye-testi.html" },
+        { id:"spor",       soru:"Spor yapıyor mu?",                          secenekler:["Evet düzenli","Ara sıra","Hiç yapmıyor"], sayfa:"sporcu-icin-hediye-bulma-testi.html" },
+        { id:"muzik",      soru:"Favori müzik türü?",                        secenekler:["Pop","Rock","Klasik","Rap / Hip-Hop","Türk Sanat Müziği","Diğer"], sayfa:"muzik-zevkine-gore-hediye-testi.html" },
+        { id:"hayvan",     soru:"Hayvan sever mi?",                          secenekler:["Evet çok sever","Orta","Pek sevmez"], sayfa:"hayvan-sever-icin-hediye-testi.html" },
+        { id:"seyahat",    soru:"Seyahat etmeyi sever mi?",                  secenekler:["Çok sever","Ara sıra","Pek sevmez"], sayfa:"seyahat-sevene-hediye-bulma-testi.html" },
+        { id:"kitap",      soru:"Kitap okumayı sever mi?",                   secenekler:["Evet çok","Ara sıra","Hiç okumaz"], sayfa:"kitap-okuyucuya-hediye-testi.html" },
+        { id:"kahve",      soru:"Kahve mi çay mı?",                          secenekler:["Kahve","Çay","İkisi de","Hiçbiri"], sayfa:"kahve-cay-icene-hediye-testi.html" },
+        { id:"film",       soru:"En sevdiği film türü?",                     secenekler:["Romantik","Komedi","Bilim Kurgu","Dram","Aksiyon"], sayfa:"film-sevene-hediye-bulma-testi.html" },
+        { id:"bitki",      soru:"Evde bitki bakımı yapıyor mu?",             secenekler:["Evet","Hayır","Deniyor"], sayfa:"bitki-sevene-hediye-testi.html" },
+        { id:"oyun",       soru:"Oyun oynar mı?",                            secenekler:["Evet sık sık","Ara sıra","Hiç oynamaz"], sayfa:"oyun-oynayanlara-hediye-testi.html" },
+        { id:"makyaj",     soru:"Makyaj / bakım ürünlerine ilgisi var mı?",  secenekler:["Çok var","Orta","Yok"], sayfa:"makyaj-bakim-sevene-hediye-testi.html" },
+        { id:"aksesuar",   soru:"Saat / aksesuar takmayı sever mi?",         secenekler:["Evet","Ara sıra","Hiç sevmez"], sayfa:"aksesuar-saat-sevene-hediye-testi.html" },
+        { id:"mutfak",     soru:"En sevdiği mutfak türü?",                   secenekler:["Türk","İtalyan","Asya","Fast Food","Sağlıklı"], sayfa:"yemek-icin-hediye-bulma-testi.html" },
+        { id:"doga",       soru:"Doğa yürüyüşü yapar mı?",                  secenekler:["Evet sever","Ara sıra","Hiç yapmaz"], sayfa:"doga-yuruyusu-sevene-hediye-testi.html" },
+        { id:"sanat",      soru:"Sanat eserlerine ilgisi var mı?",           secenekler:["Çok var","Orta","Yok"], sayfa:"sanat-sevene-hediye-bulma-testi.html" },
+        { id:"foto",       soru:"Fotoğraf çekmeyi sever mi?",               secenekler:["Evet","Ara sıra","Hiç"], sayfa:"fotograf-cekmeyi-sevene-hediye-testi.html" },
+        { id:"kisilik",    soru:"Kişilik tipi nasıl?",                       secenekler:["İçedönük","Dışadönük","Dengeli"], sayfa:"kisilik-tipine-gore-hediye-testi.html" },
+        { id:"oncelik",    soru:"Hediye alırken en çok neye dikkat edersin?", secenekler:["Kullanışlı olsun","Güzel görünsün","Özel ve anlamlı olsun","Uygun fiyatlı olsun"], sayfa:"hediye-onceliklerine-gore-secim-testi.html" },
     ],
 
     // ==========================================
     // ÖZEL SORU SETLERİ
     // ==========================================
     soruBebekler: [
-        { id:"bebek_cinsiyet", soru:"Bebek kız mı erkek mi?",             secenekler:["Kız Bebek","Erkek Bebek","Henüz bilinmiyor"], sayfa:"quiz-bebek-cinsiyet.html" },
-        { id:"bebek_yas",      soru:"Kaç aylık / yaşında?",               secenekler:["0-3 ay","3-6 ay","6-12 ay","1 yaş","2 yaş","3 yaş"], sayfa:"quiz-bebek-yas.html" },
-        { id:"bebek_amac",     soru:"Hediyeyi ne için alıyorsun?",        secenekler:["Yeni doğdu 🎀","Doğum günü 🎂","Baby shower 🛁","Sünnet 🌙","Sadece sürpriz 🎁"], sayfa:"quiz-bebek-amac.html" },
-        { id:"bebek_tarz",     soru:"Anne-baba tarzı nasıl?",             secenekler:["Minimalist / Sade","Renkli ve Neşeli","Organik / Doğal","Modern / Şık"], sayfa:"quiz-bebek-tarz.html" },
-        { id:"bebek_tur",      soru:"Ne tür hediye tercih edersin?",      secenekler:["Eğitici / Gelişim","Oyuncak / Eğlence","Giyim / Aksesuar","Pratik / Kullanışlı","Anı / Özel"], sayfa:"quiz-bebek-tur.html" },
-        { id:"bebek_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"quiz-bebek-butce.html" },
+        { id:"bebek_cinsiyet", soru:"Bebek kız mı erkek mi?",             secenekler:["Kız Bebek","Erkek Bebek","Henüz bilinmiyor"], sayfa:"bebek-kiz-mi-erkek-mi-hediye-testi.html" },
+        { id:"bebek_yas",      soru:"Kaç aylık / yaşında?",               secenekler:["0-3 ay","3-6 ay","6-12 ay","1 yaş","2 yaş","3 yaş"], sayfa:"bebek-yasina-gore-hediye-testi.html" },
+        { id:"bebek_amac",     soru:"Hediyeyi ne için alıyorsun?",        secenekler:["Yeni doğdu 🎀","Doğum günü 🎂","Baby shower 🛁","Sünnet 🌙","Sadece sürpriz 🎁"], sayfa:"bebek-hediyesi-ne-icin-alinacak-testi.html" },
+        { id:"bebek_tarz",     soru:"Anne-baba tarzı nasıl?",             secenekler:["Minimalist / Sade","Renkli ve Neşeli","Organik / Doğal","Modern / Şık"], sayfa:"anne-baba-tarzina-gore-bebek-hediyesi-testi.html" },
+        { id:"bebek_tur",      soru:"Ne tür hediye tercih edersin?",      secenekler:["Eğitici / Gelişim","Oyuncak / Eğlence","Giyim / Aksesuar","Pratik / Kullanışlı","Anı / Özel"], sayfa:"bebege-ne-tur-hediye-alinacak-testi.html" },
+        { id:"bebek_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"butceye-gore-bebek-hediyesi-testi.html" },
     ],
 
     soruCocuklar: [
-        { id:"cocuk_cinsiyet", soru:"Kız mı erkek mi?",                   secenekler:["Kız","Erkek"], sayfa:"quiz-cocuk-cinsiyet.html" },
-        { id:"cocuk_yas",      soru:"Kaç yaşında?",                       secenekler:["4-5 yaş","6-7 yaş","8-9 yaş","10-11 yaş","12-13 yaş","14-15 yaş","16-17 yaş"], sayfa:"quiz-cocuk-yas.html" },
-        { id:"cocuk_amac",     soru:"Hediyeyi ne için alıyorsun?",        secenekler:["Doğum Günü","Yılbaşı / Bayram","Başarı Ödülü","Sürpriz"], sayfa:"quiz-cocuk-amac.html" },
-        { id:"cocuk_aktivite", soru:"En sevdiği aktivite nedir?",          secenekler:["Oyun / Video oyunları","Spor / Hareket","Sanat / El işi","Okuma / Öğrenme","Müzik","Teknoloji"], sayfa:"quiz-cocuk-aktivite.html" },
-        { id:"cocuk_tema",     soru:"Favori tema / karakter kategorisi?",  secenekler:["Oyun / Minecraft / Roblox","Disney / Pixar / Prenses","Süper Kahraman / Marvel / DC","Anime / Manga","Spor / Futbol Takımı","Hayvanlar / Doğa","Müzik / Pop Yıldızı","Tema yok / Bilmiyorum"], sayfa:"quiz-cocuk-tema.html" },
-        { id:"cocuk_ortam",    soru:"Daha çok nerede vakit geçiriyor?",   secenekler:["Evde / İç mekan","Dışarıda / Aktif","İkisi de"], sayfa:"quiz-cocuk-ortam.html" },
-        { id:"cocuk_tur",      soru:"Ne tür hediye tercih edersin?",      secenekler:["Oyuncak / Oyun","Eğitici / Kitap","Spor / Aktivite","Teknoloji / Gadget","Giyim / Aksesuar","Deneyim / Etkinlik"], sayfa:"quiz-cocuk-tur.html" },
-        { id:"cocuk_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"quiz-cocuk-butce.html" },
+        { id:"cocuk_cinsiyet", soru:"Kız mı erkek mi?",                   secenekler:["Kız","Erkek"], sayfa:"cocuk-kiz-mi-erkek-mi-hediye-testi.html" },
+        { id:"cocuk_yas",      soru:"Kaç yaşında?",                       secenekler:["4-5 yaş","6-7 yaş","8-9 yaş","10-11 yaş","12-13 yaş","14-15 yaş","16-17 yaş"], sayfa:"cocugun-yasina-gore-hediye-testi.html" },
+        { id:"cocuk_amac",     soru:"Hediyeyi ne için alıyorsun?",        secenekler:["Doğum Günü","Yılbaşı / Bayram","Başarı Ödülü","Sürpriz"], sayfa:"cocuga-ne-icin-hediye-alinacak-testi.html" },
+        { id:"cocuk_aktivite", soru:"En sevdiği aktivite nedir?",          secenekler:["Oyun / Video oyunları","Spor / Hareket","Sanat / El işi","Okuma / Öğrenme","Müzik","Teknoloji"], sayfa:"cocugun-aktivitesine-gore-hediye-testi.html" },
+        { id:"cocuk_tema",     soru:"Favori tema / karakter kategorisi?",  secenekler:["Oyun / Minecraft / Roblox","Disney / Pixar / Prenses","Süper Kahraman / Marvel / DC","Anime / Manga","Spor / Futbol Takımı","Hayvanlar / Doğa","Müzik / Pop Yıldızı","Tema yok / Bilmiyorum"], sayfa:"cocugun-sevdigi-temaya-gore-hediye-testi.html" },
+        { id:"cocuk_ortam",    soru:"Daha çok nerede vakit geçiriyor?",   secenekler:["Evde / İç mekan","Dışarıda / Aktif","İkisi de"], sayfa:"cocugun-yasam-alanina-gore-hediye-testi.html" },
+        { id:"cocuk_tur",      soru:"Ne tür hediye tercih edersin?",      secenekler:["Oyuncak / Oyun","Eğitici / Kitap","Spor / Aktivite","Teknoloji / Gadget","Giyim / Aksesuar","Deneyim / Etkinlik"], sayfa:"cocuga-ne-tur-hediye-alinacak-testi.html" },
+        { id:"cocuk_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"butceye-gore-cocuk-hediyesi-testi.html" },
     ],
 
     // Pet türü seçimi - ilk soru hep bu, sonra türe göre farklı set
     soruPetler: [
-        { id:"pet_tur", soru:"Hangi hayvan?", secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
+        { id:"pet_tur", soru:"Hangi hayvan?", secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"evcil-hayvan-icin-hediye-testi.html" },
     ],
 
     // Kedi soruları
     soruKedi: [
-        { id:"pet_tur",       soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
-        { id:"kedi_yas",      soru:"Kedi kaç yaşında?",           secenekler:["Yavru (0-1 yaş)","Genç (1-3 yaş)","Yetişkin (3-8 yaş)","Yaşlı (8+ yaş)"], sayfa:"quiz-kedi-yas.html" },
-        { id:"kedi_karakter", soru:"Karakteri nasıl?",             secenekler:["Çok aktif ve oyuncu 🎯","Orta enerjili","Sakin ve uysal 😴","Biraz vahşi / yabani 🐯"], sayfa:"quiz-kedi-karakter.html" },
-        { id:"kedi_ortam",    soru:"Nerede yaşıyor?",              secenekler:["Sadece iç mekanda","Hem ev hem dışarı","Dış mekan / bahçe"], sayfa:"quiz-kedi-ortam.html" },
-        { id:"kedi_tur",      soru:"Ne tür hediye düşünüyorsun?", secenekler:["Oyuncak / Eğlence 🎾","Kedi maması / ödül mama 🍖","Yatak / Kedi evi / Çizme","Aksesuar / Tasarım tasma","Sağlık / Bakım ürünleri","Kedi tırmalama aparatı"], sayfa:"quiz-kedi-tur.html" },
-        { id:"kedi_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"quiz-kedi-butce.html" },
+        { id:"pet_tur",       soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"evcil-hayvan-icin-hediye-testi.html" },
+        { id:"kedi_yas",      soru:"Kedi kaç yaşında?",           secenekler:["Yavru (0-1 yaş)","Genç (1-3 yaş)","Yetişkin (3-8 yaş)","Yaşlı (8+ yaş)"], sayfa:"kedinin-yasina-gore-hediye-testi.html" },
+        { id:"kedi_karakter", soru:"Karakteri nasıl?",             secenekler:["Çok aktif ve oyuncu 🎯","Orta enerjili","Sakin ve uysal 😴","Biraz vahşi / yabani 🐯"], sayfa:"kedinin-karakterine-gore-hediye-testi.html" },
+        { id:"kedi_ortam",    soru:"Nerede yaşıyor?",              secenekler:["Sadece iç mekanda","Hem ev hem dışarı","Dış mekan / bahçe"], sayfa:"kedinin-yasam-alanina-gore-hediye-testi.html" },
+        { id:"kedi_tur",      soru:"Ne tür hediye düşünüyorsun?", secenekler:["Oyuncak / Eğlence 🎾","Kedi maması / ödül mama 🍖","Yatak / Kedi evi / Çizme","Aksesuar / Tasarım tasma","Sağlık / Bakım ürünleri","Kedi tırmalama aparatı"], sayfa:"kediye-ne-tur-hediye-alinacak-testi.html" },
+        { id:"kedi_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"butceye-gore-kedi-hediyesi-testi.html" },
     ],
 
     // Köpek soruları
     soruKopek: [
-        { id:"pet_tur",        soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
-        { id:"kopek_yas",      soru:"Köpek kaç yaşında?",          secenekler:["Yavru (0-1 yaş)","Genç (1-3 yaş)","Yetişkin (3-8 yaş)","Yaşlı (8+ yaş)"], sayfa:"quiz-kopek-yas.html" },
-        { id:"kopek_irk",      soru:"Irk büyüklüğü nasıl?",        secenekler:["Küçük ırk (Chihuahua, Pomeranian vb.)","Orta ırk (Beagle, Cocker vb.)","Büyük ırk (Labrador, Golden vb.)","Çok büyük ırk (Kangal, Rottweiler vb.)"], sayfa:"quiz-kopek-irk.html" },
-        { id:"kopek_karakter", soru:"Karakteri nasıl?",             secenekler:["Çok enerjik / Oyuncu 🎾","Orta enerjili","Sakin / Uysal 😌","Koruyucu / Bekçi 🛡️"], sayfa:"quiz-kopek-karakter.html" },
-        { id:"kopek_tur",      soru:"Ne tür hediye düşünüyorsun?", secenekler:["Oyuncak / Çiğneme oyuncağı 🦴","Köpek maması / ödül mama 🍖","Yatak / Köşk / Yatacak yer","Tasma / Gezdirme seti / GPS","Giysi / Köpek kıyafeti 👕","Sağlık / Bakım / Bakım seti"], sayfa:"quiz-kopek-tur.html" },
-        { id:"kopek_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"quiz-kopek-butce.html" },
+        { id:"pet_tur",        soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"evcil-hayvan-icin-hediye-testi.html" },
+        { id:"kopek_yas",      soru:"Köpek kaç yaşında?",          secenekler:["Yavru (0-1 yaş)","Genç (1-3 yaş)","Yetişkin (3-8 yaş)","Yaşlı (8+ yaş)"], sayfa:"kopegin-yasina-gore-hediye-testi.html" },
+        { id:"kopek_irk",      soru:"Irk büyüklüğü nasıl?",        secenekler:["Küçük ırk (Chihuahua, Pomeranian vb.)","Orta ırk (Beagle, Cocker vb.)","Büyük ırk (Labrador, Golden vb.)","Çok büyük ırk (Kangal, Rottweiler vb.)"], sayfa:"kopegin-irkina-gore-hediye-testi.html" },
+        { id:"kopek_karakter", soru:"Karakteri nasıl?",             secenekler:["Çok enerjik / Oyuncu 🎾","Orta enerjili","Sakin / Uysal 😌","Koruyucu / Bekçi 🛡️"], sayfa:"kopegin-karakterine-gore-hediye-testi.html" },
+        { id:"kopek_tur",      soru:"Ne tür hediye düşünüyorsun?", secenekler:["Oyuncak / Çiğneme oyuncağı 🦴","Köpek maması / ödül mama 🍖","Yatak / Köşk / Yatacak yer","Tasma / Gezdirme seti / GPS","Giysi / Köpek kıyafeti 👕","Sağlık / Bakım / Bakım seti"], sayfa:"kopege-ne-tur-hediye-alinacak-testi.html" },
+        { id:"kopek_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"butceye-gore-kopek-hediyesi-testi.html" },
     ],
 
     // Kuş soruları
     soruKus: [
-        { id:"pet_tur",      soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
-        { id:"kus_tur",      soru:"Kuş türü nedir?",             secenekler:["Muhabbet kuşu 💚","Kanarya 🟡","Papağan (büyük) 🦜","Cennet papağanı / Sultan papağanı","Hint bülbülü / Sığırcık","Diğer / Bilmiyorum"], sayfa:"quiz-kus-tur.html" },
-        { id:"kus_kafes",    soru:"Kafes durumu nasıl?",          secenekler:["Küçük kafes var","Orta kafes var","Büyük uçuş kafesi var","Kafes yok / Yeni alındı"], sayfa:"quiz-kus-kafes.html" },
-        { id:"kus_hediye",   soru:"Ne tür hediye düşünüyorsun?", secenekler:["Kuş yemi / Vitamin takviyesi 🌾","Kafes oyuncağı / Tünek","Kafes aksesuarı / Suluk-Yemlik","Yeni veya büyük kafes","Sağlık / Bakım / Tüy bakımı"], sayfa:"quiz-kus-hediye.html" },
-        { id:"kus_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"quiz-kus-butce.html" },
+        { id:"pet_tur",      soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"evcil-hayvan-icin-hediye-testi.html" },
+        { id:"kus_tur",      soru:"Kuş türü nedir?",             secenekler:["Muhabbet kuşu 💚","Kanarya 🟡","Papağan (büyük) 🦜","Cennet papağanı / Sultan papağanı","Hint bülbülü / Sığırcık","Diğer / Bilmiyorum"], sayfa:"kus-turune-gore-hediye-testi.html" },
+        { id:"kus_kafes",    soru:"Kafes durumu nasıl?",          secenekler:["Küçük kafes var","Orta kafes var","Büyük uçuş kafesi var","Kafes yok / Yeni alındı"], sayfa:"kus-kafesine-gore-hediye-testi.html" },
+        { id:"kus_hediye",   soru:"Ne tür hediye düşünüyorsun?", secenekler:["Kuş yemi / Vitamin takviyesi 🌾","Kafes oyuncağı / Tünek","Kafes aksesuarı / Suluk-Yemlik","Yeni veya büyük kafes","Sağlık / Bakım / Tüy bakımı"], sayfa:"kusa-ne-tur-hediye-alinacak-testi.html" },
+        { id:"kus_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"butceye-gore-kus-hediyesi-testi.html" },
     ],
 
     // Balık soruları
     soruBalik: [
-        { id:"pet_tur",       soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
-        { id:"balik_tip",     soru:"Akvaryum türü nedir?",        secenekler:["Tropikal / Sıcak su 🌊","Soğuk su (Japon balığı vb.) ❄️","Deniz akvaryumu 🐠","Yeni başlıyorum / Henüz yok"], sayfa:"quiz-balik-tip.html" },
-        { id:"balik_boyut",   soru:"Akvaryum boyutu?",            secenekler:["Mini (30 litre altı) 🫙","Orta (30-100 litre) 🐟","Büyük (100-300 litre) 🌊","Çok büyük (300+ litre) 🦈"], sayfa:"quiz-balik-boyut.html" },
-        { id:"balik_hediye",  soru:"Ne tür hediye düşünüyorsun?", secenekler:["Balık yemi / Özel besin 🌾","Akvaryum dekoru / Bitki / Taş","Filtre / Pompa / Teknik ekipman","Aydınlatma / LED ışık sistemi","İlaç / Sağlık / Su düzenleyici","Yeni akvaryum seti"], sayfa:"quiz-balik-hediye.html" },
-        { id:"balik_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"quiz-balik-butce.html" },
+        { id:"pet_tur",       soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"evcil-hayvan-icin-hediye-testi.html" },
+        { id:"balik_tip",     soru:"Akvaryum türü nedir?",        secenekler:["Tropikal / Sıcak su 🌊","Soğuk su (Japon balığı vb.) ❄️","Deniz akvaryumu 🐠","Yeni başlıyorum / Henüz yok"], sayfa:"balik-tipine-gore-hediye-testi.html" },
+        { id:"balik_boyut",   soru:"Akvaryum boyutu?",            secenekler:["Mini (30 litre altı) 🫙","Orta (30-100 litre) 🐟","Büyük (100-300 litre) 🌊","Çok büyük (300+ litre) 🦈"], sayfa:"balik-boyutuna-gore-hediye-testi.html" },
+        { id:"balik_hediye",  soru:"Ne tür hediye düşünüyorsun?", secenekler:["Balık yemi / Özel besin 🌾","Akvaryum dekoru / Bitki / Taş","Filtre / Pompa / Teknik ekipman","Aydınlatma / LED ışık sistemi","İlaç / Sağlık / Su düzenleyici","Yeni akvaryum seti"], sayfa:"baliga-ne-tur-hediye-alinacak-testi.html" },
+        { id:"balik_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"butceye-gore-balik-hediyesi-testi.html" },
     ],
 
     // Tavşan / Hamster / Egzotik soruları
     soruKucukPet: [
-        { id:"pet_tur",          soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"quiz-pet-tur.html" },
-        { id:"kucukpet_yas",     soru:"Yaşı ne kadar?",              secenekler:["Yavru (0-6 ay)","Genç (6 ay - 2 yaş)","Yetişkin (2+ yaş)"], sayfa:"quiz-kucukpet-yas.html" },
-        { id:"kucukpet_yuva",    soru:"Kafes / yuva durumu?",        secenekler:["Küçük kafes var","Büyük kafes var","Serbest dolaşıyor (tavşan vb.)","Kafes yok / Yeni alındı"], sayfa:"quiz-kucukpet-yuva.html" },
-        { id:"kucukpet_hediye",  soru:"Ne tür hediye düşünüyorsun?", secenekler:["Yem / Özel besin 🥕","Oyuncak / Aktivite 🎠","Kafes / Yuva aksesuarı","Sağlık / Bakım ürünü","Yeni kafes / Büyük yaşam alanı"], sayfa:"quiz-kucukpet-hediye.html" },
-        { id:"kucukpet_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"quiz-kucukpet-butce.html" },
+        { id:"pet_tur",          soru:"Hangi hayvan?",               secenekler:["Kedi 🐱","Köpek 🐶","Kuş 🐦","Tavşan 🐰","Hamster 🐹","Balık 🐟","Egzotik / Diğer 🦎"], sayfa:"evcil-hayvan-icin-hediye-testi.html" },
+        { id:"kucukpet_yas",     soru:"Yaşı ne kadar?",              secenekler:["Yavru (0-6 ay)","Genç (6 ay - 2 yaş)","Yetişkin (2+ yaş)"], sayfa:"kucuk-evcil-hayvanin-yasina-gore-hediye-testi.html" },
+        { id:"kucukpet_yuva",    soru:"Kafes / yuva durumu?",        secenekler:["Küçük kafes var","Büyük kafes var","Serbest dolaşıyor (tavşan vb.)","Kafes yok / Yeni alındı"], sayfa:"kucuk-evcil-hayvanin-yuvasina-gore-hediye-testi.html" },
+        { id:"kucukpet_hediye",  soru:"Ne tür hediye düşünüyorsun?", secenekler:["Yem / Özel besin 🥕","Oyuncak / Aktivite 🎠","Kafes / Yuva aksesuarı","Sağlık / Bakım ürünü","Yeni kafes / Büyük yaşam alanı"], sayfa:"kucuk-evcil-hayvana-ne-tur-hediye-testi.html" },
+        { id:"kucukpet_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html" },
     ],
 
     // ==========================================
@@ -541,7 +541,7 @@ const QuizHelper = {
         // Özel setteki ilk sorudaysak, kime sorusuna geri dön
         if (mevcutIdx === 0 && this.getAktifSet() !== 'normal') {
             this.setAktifSet('normal');
-            return 'quiz-kime.html';
+            return 'hediye-kime-alinacak-testi.html';
         }
 
         for (let i = mevcutIdx - 1; i >= 0; i--) {
