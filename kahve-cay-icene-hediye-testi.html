@@ -330,12 +330,6 @@
         var btn = document.getElementById('continue-btn');
         btn.classList.remove('disabled-state');
         btn.classList.add('active-state');
-        setTimeout(function() {
-            var rect = btn.getBoundingClientRect();
-            if (rect.bottom > window.innerHeight) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }, 80);
     }
     function deactivateContinueBtn() {
         var btn = document.getElementById('continue-btn');
