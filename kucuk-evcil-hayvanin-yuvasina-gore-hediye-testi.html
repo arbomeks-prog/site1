@@ -326,6 +326,9 @@
         var btn = document.getElementById('continue-btn');
         btn.classList.remove('disabled-state');
         btn.classList.add('active-state');
+        setTimeout(function() {
+            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 80);
     }
     function deactivateContinueBtn() {
         var btn = document.getElementById('continue-btn');
