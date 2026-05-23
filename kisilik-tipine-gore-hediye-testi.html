@@ -413,7 +413,7 @@
         document.addEventListener('mousemove', function(e){ if(!dragging) return; var dy=e.clientY-startY; el.scrollTop=startTop+dy*(el.scrollHeight/el.clientHeight); });
         document.addEventListener('mouseup', function(){ dragging=false; });
         thumb.addEventListener('touchstart', function(e){ dragging=true; startY=e.touches[0].clientY; startTop=el.scrollTop; });
-        thumb.addEventListener('touchmove', function(e){ if(!dragging) return; var dy=e.touches[0].clientY-startY; el.scrollTop=startTop+dy*(el.scrollHeight/el.clientHeight); });
+        document.addEventListener('touchmove', function(e){ if(!dragging) return; var dy=e.touches[0].clientY-startY; el.scrollTop=startTop+dy*(el.scrollHeight/el.clientHeight); });
         document.addEventListener('touchend', function(){ dragging=false; });
         setTimeout(updateThumb, 100);
     }
