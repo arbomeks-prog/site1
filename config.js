@@ -673,12 +673,7 @@ if (typeof document !== 'undefined') {
         var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(m) {
                 if (m.attributeName === 'class' && !btn.classList.contains('hidden') && !btn.classList.contains('disabled-state')) {
-                    setTimeout(function() {
-                        var rect = btn.getBoundingClientRect();
-                        if (rect.bottom > window.innerHeight - 20) {
-                            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        }
-                    }, 80);
+                    // Otomatik scroll kaldırıldı - kullanıcı isterse kendisi kaydırır
                 }
             });
         });
