@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BudurBuldum — Vizyon Haritası</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0f172a;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#e2e8f0;padding:24px 16px 60px;}
+.baslik{text-align:center;margin-bottom:40px;}
+.baslik h1{font-size:28px;font-weight:900;color:#e8a838;margin-bottom:8px;}
+.baslik p{font-size:14px;color:#64748b;}
+.bolum{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:24px;margin-bottom:24px;}
+.bolum h2{font-size:16px;font-weight:700;color:#e8a838;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #334155;}
+.bolum h3{font-size:14px;font-weight:700;color:#94a3b8;margin:16px 0 8px;}
+.bolum p{font-size:13px;line-height:1.8;color:#94a3b8;margin-bottom:10px;}
+.kart-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px;}
+.kart{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:14px;}
+.kart .etiket{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.kart h4{font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:4px;}
+.kart p{font-size:11px;color:#64748b;margin:0;}
+.tamam{border-color:#059669;}.tamam .etiket{color:#059669;}
+.devam{border-color:#e8a838;}.devam .etiket{color:#e8a838;}
+.fikir{border-color:#7c3aed;}.fikir .etiket{color:#a78bfa;}
+.buyuk{border-color:#0ea5e9;}.buyuk .etiket{color:#38bdf8;}
+.akis{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0;}
+.akis-kutu{background:#0f172a;border:1px solid #475569;border-radius:8px;padding:8px 12px;font-size:12px;color:#cbd5e1;white-space:nowrap;}
+.akis-ok{color:#475569;font-size:16px;}
+.vurgu{background:#1a1040;border:1px solid #7c3aed;border-radius:10px;padding:16px;margin:12px 0;}
+.vurgu p{color:#c4b5fd;font-size:13px;margin:0;}
+.evre{display:flex;gap:8px;margin-bottom:8px;}
+.evre-no{background:#e8a838;color:#0f172a;font-size:11px;font-weight:900;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.evre-icerik h4{font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:3px;}
+.evre-icerik p{font-size:12px;color:#64748b;margin:0;}
+.son-guncelleme{text-align:center;font-size:11px;color:#334155;margin-top:32px;}
+</style>
+</head>
+<body>
+
+<div class="baslik">
+  <h1>🎁 BudurBuldum — Vizyon Haritası</h1>
+  <p>Bu dosya kaybolmamamız için. Geliştikçe güncellenir.</p>
+</div>
+
+<!-- MEVCUT DURUM -->
+<div class="bolum">
+  <h2>📍 Şu An Neredeyiz</h2>
+  <div class="kart-grid">
+    <div class="kart tamam"><div class="etiket">✓ Tamamlandı</div><h4>130+ sayfa</h4><p>72 quiz, 42 makale, özel araçlar</p></div>
+    <div class="kart tamam"><div class="etiket">✓ Tamamlandı</div><h4>Claude API</h4><p>Kişiselleştirilmiş hediye önerileri</p></div>
+    <div class="kart tamam"><div class="etiket">✓ Tamamlandı</div><h4>5 Platform</h4><p>Trendyol, Hepsiburada, Amazon, Çiçeksepeti, N11</p></div>
+    <div class="kart tamam"><div class="etiket">✓ Tamamlandı</div><h4>Neon DB</h4><p>Quiz logları kaydediliyor</p></div>
+    <div class="kart tamam"><div class="etiket">✓ Tamamlandı</div><h4>JSON-LD Schema</h4><p>72 sayfada tamamlandı</p></div>
+    <div class="kart tamam"><div class="etiket">✓ Tamamlandı</div><h4>Gizlilik Politikası</h4><p>AdSense başvurusu için hazır</p></div>
+    <div class="kart tamam"><div class="etiket">✓ Tamamlandı</div><h4>Site Haritası</h4><p>Google indexleme için</p></div>
+    <div class="kart devam"><div class="etiket">⏳ Beklemede</div><h4>10 Sayfa İndeksli</h4><p>Search Console aktif, trafik bekleniyor</p></div>
+    <div class="kart devam"><div class="etiket">⏳ Beklemede</div><h4>AdSense</h4><p>Trafik gelince başvurulacak</p></div>
+    <div class="kart devam"><div class="etiket">⏳ Beklemede</div><h4>Affiliate</h4><p>Trafik gelince Trendyol'a başvurulacak</p></div>
+  </div>
+</div>
+
+<!-- MEVCUT AKIŞ -->
+<div class="bolum">
+  <h2>🔄 Mevcut Kullanıcı Akışı</h2>
+  <div class="akis">
+    <div class="akis-kutu">index.html</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">hediye-kime-alinacak</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">30 Quiz Sorusu</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">ozet.html</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">hediyeler.html</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">5 Platform</div>
+  </div>
+  <p>Makale sayfaları da quiz'e yönlendiriyor. Hediye dedektifi ve hediye bulucu alternatif giriş noktaları.</p>
+</div>
+
+<!-- SIRADAKI ADIMLAR -->
+<div class="bolum">
+  <h2>🚀 Sıradaki Adımlar</h2>
+  <div class="evre"><div class="evre-no">1</div><div class="evre-icerik"><h4>Trafik Bekle — Veri Topla</h4><p>Mevcut sayfaların performansını ölç. Müdahale etme, izle.</p></div></div>
+  <div class="evre"><div class="evre-no">2</div><div class="evre-icerik"><h4>Microsoft Clarity</h4><p>Kullanıcı davranışını kaydet. Nerede çıkıyorlar, neye tıklıyorlar.</p></div></div>
+  <div class="evre"><div class="evre-no">3</div><div class="evre-icerik"><h4>Dev Branch Aç</h4><p>Ana siteyi bozmadan yeni özellikleri test et.</p></div></div>
+  <div class="evre"><div class="evre-no">4</div><div class="evre-icerik"><h4>Nickname Sistemi</h4><p>Instagram adı = benzersiz kullanıcı kimliği. KVKK sorunu yok.</p></div></div>
+  <div class="evre"><div class="evre-no">5</div><div class="evre-icerik"><h4>Kişi Rehberi</h4><p>Birden fazla kişi için quiz kaydı. Annem, babam, sevgilim ayrı ayrı.</p></div></div>
+</div>
+
+<!-- BÜYÜK VİZYON: KİŞİSEL PROFIL SİSTEMİ -->
+<div class="bolum">
+  <h2>✨ Büyük Vizyon — Kişisel Profil Motoru</h2>
+
+  <div class="vurgu">
+    <p>💡 Asıl fikir: Kullanıcı ne kadar çok bilgi girerse, o kadar kişisel ve doyurucu bilgi alıyor. Bu döngü onu siteye bağımlı kılıyor.</p>
+  </div>
+
+  <h3>Veri Katmanları — Az'dan Çok'a</h3>
+  <div class="kart-grid">
+    <div class="kart fikir"><div class="etiket">Katman 1 — Zorunlu</div><h4>Doğum Tarihi</h4><p>Güneş burcu hesaplanır. Uğurlu renk, uğurlu taş çıkar.</p></div>
+    <div class="kart fikir"><div class="etiket">Katman 2 — İsteğe Bağlı</div><h4>Doğum Saati</h4><p>Yükselen burç hesaplanır. Profil derinleşir.</p></div>
+    <div class="kart fikir"><div class="etiket">Katman 3 — İsteğe Bağlı</div><h4>İsim</h4><p>Ebced sayısı hesaplanır. Numeroloji profili çıkar.</p></div>
+    <div class="kart fikir"><div class="etiket">Katman 4 — Birleşim</div><h4>Tam Profil</h4><p>Burç + yükselen + ebced + numeroloji = enerji analizi.</p></div>
+  </div>
+
+  <h3>Profil Sayfasında Gösterilecekler</h3>
+  <div class="kart-grid">
+    <div class="kart fikir"><div class="etiket">Astroloji</div><h4>Güneş + Yükselen Burç</h4><p>Karakter analizi, güçlü yanlar</p></div>
+    <div class="kart fikir"><div class="etiket">Mistik</div><h4>Uğurlu Renk & Taş</h4><p>Burcuna özel enerji taşları</p></div>
+    <div class="kart fikir"><div class="etiket">Numeroloji</div><h4>Doğum Günü Sayısı</h4><p>Yaşam yolu sayısı analizi</p></div>
+    <div class="kart fikir"><div class="etiket">Ebced</div><h4>İsim Sayısı</h4><p>Harflerin sayısal değeri toplamı</p></div>
+    <div class="kart fikir"><div class="etiket">Sonuç</div><h4>Enerji Profili</h4><p>Hepsi birleşince tam kişilik haritası</p></div>
+    <div class="kart fikir"><div class="etiket">Hediye</div><h4>Profile Özel Öneriler</h4><p>Taş, renk, sayıya göre hediyeler</p></div>
+  </div>
+
+  <h3>Yeni Kullanıcı Akışı</h3>
+  <div class="akis">
+    <div class="akis-kutu">Giriş (nickname)</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">Profil Kurulum</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">Doğum Tarihi</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">Burç + Taş + Renk</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">İsim (opsiyonel)</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">Ebced</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">Enerji Profili</div><div class="akis-ok">→</div>
+    <div class="akis-kutu">Kişiye Özel Hediyeler</div>
+  </div>
+</div>
+
+<!-- REKLAM POTANSİYELİ -->
+<div class="bolum">
+  <h2>💰 Reklam ve Gelir Potansiyeli</h2>
+  <div class="kart-grid">
+    <div class="kart buyuk"><div class="etiket">Uğurlu Taş</div><h4>Kristal & Mücevher</h4><p>Taş, bileklik, kolye markaları doğrudan reklam verebilir</p></div>
+    <div class="kart buyuk"><div class="etiket">Uğurlu Renk</div><h4>Kıyafet & Dekorasyon</h4><p>Renk bazlı ürün yönlendirmesi, affiliate</p></div>
+    <div class="kart buyuk"><div class="etiket">Ebced & Numeroloji</div><h4>Spiritüel Ürünler</h4><p>Kitaplar, online kurslar, danışmanlık</p></div>
+    <div class="kart buyuk"><div class="etiket">Yükselen Burç</div><h4>Astroloji Uygulamaları</h4><p>Burç takı markaları, astroloji platformları</p></div>
+    <div class="kart buyuk"><div class="etiket">Enerji Analizi</div><h4>Spa & Wellness</h4><p>Aromaterapi, meditasyon uygulamaları</p></div>
+    <div class="kart buyuk"><div class="etiket">Büyük Kategoriler</div><h4>Araba, Ev, Yatırım</h4><p>Profil derinleştikçe büyük ticket ürünler</p></div>
+  </div>
+</div>
+
+<!-- BÜYÜK RESİM -->
+<div class="bolum">
+  <h2>🌍 Büyük Resim — BudurBuldum Nereye Gidiyor</h2>
+
+  <div class="vurgu">
+    <p>💡 BudurBuldum bir hediye sitesi değil — kişiselleştirilmiş alışveriş asistanı. Seni tanıyan, sana özel öneren, her kategoride rehberlik eden bir platform.</p>
+  </div>
+
+  <div class="kart-grid">
+    <div class="kart buyuk"><div class="etiket">Şu An</div><h4>Hediye Platformu</h4><p>Quiz ile kişisel hediye önerileri</p></div>
+    <div class="kart buyuk"><div class="etiket">Yakın</div><h4>Kişisel Profil Motoru</h4><p>Burç, ebced, numeroloji + hediye</p></div>
+    <div class="kart buyuk"><div class="etiket">Orta Vadeli</div><h4>Özel Günler Ekosistemi</h4><p>Düğün, nişan, kına, sünnet, mezuniyet</p></div>
+    <div class="kart buyuk"><div class="etiket">Uzun Vadeli</div><h4>Kişisel Alışveriş Asistanı</h4><p>Araba, ev, yatırım — büyük kararlar</p></div>
+  </div>
+
+  <h3>Marka Yapısı</h3>
+  <div class="akis">
+    <div class="akis-kutu" style="border-color:#e8a838;color:#e8a838;">BudurBuldum.com (Üst Çatı)</div>
+    <div class="akis-ok">→</div>
+    <div class="akis-kutu">Hediye Dedektifi</div>
+    <div class="akis-ok">+</div>
+    <div class="akis-kutu">Hediye Bulucu</div>
+    <div class="akis-ok">+</div>
+    <div class="akis-kutu">Profil Motoru</div>
+    <div class="akis-ok">+</div>
+    <div class="akis-kutu">Düğün/Kına/Nişan</div>
+  </div>
+</div>
+
+<!-- RAKIP ANALİZİ -->
+<div class="bolum">
+  <h2>🔍 Rakip Analizi — Neden Fark Yaratıyoruz</h2>
+  <h3>Mevcut "Burcuna Göre Hediye" Siteleri</h3>
+  <p>Arçelik blog, Uplifers, Hürriyet Mahmure, Hipicon, Arcadium AVM, Muhiku, Yin Ceramic, Myros — hepsi statik liste. "Koç burcuna şunu al" diyorlar, o kadar. İnteraktif değil, kişiselleştirilmiş değil, platform entegrasyonu yok.</p>
+  <div class="vurgu">
+    <p>💡 Biz ne yapıyoruz: Kullanıcı doğum tarihini giriyor → burcu otomatik hesaplanıyor → quiz ile birleşiyor → Trendyol ve Hepsiburada'da satın alınabilir öneriler çıkıyor. Bunu kimse yapmamış.</p>
+  </div>
+</div>
+
+<div class="son-guncelleme">Son güncelleme: Mayıs 2026 — Geliştikçe yenilenir.</div>
+
+</body>
+</html>
