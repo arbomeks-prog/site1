@@ -623,9 +623,30 @@ return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n
 }
 const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
 const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
-const grupA = selectedCriteria.filter(function(c) { return c.grup === 'A'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
-const grupB = selectedCriteria.filter(function(c) { return c.grup === 'B'; }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean).join('\n');
-return 'Kullanıcı profili:\n' + sabitText + '\n\nGrup A:\n' + grupA + '\n\nGrup B:\n' + grupB + burcEk + '\n\n' + butceKural + '\n\nGörev: Grup A+B çapraz analiz → 2 nokta atışı (star:true), ' + (toplamHediye-2) + ' normal (star:false). Nokta atışları ilk 2 sırada.\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması, raw/dead/canned YASAK)\nSadece JSON array döndür.';
+// Seçilen 6 kriter → metne çevir
+const secilenMetinler = selectedCriteria.map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean);
+// Seçilmeyen kriterler → metne çevir
+const profilIdSet = new Set(profilIds);
+const secilenIdSet = new Set(selectedCriteria.map(function(c){ return c.id; }));
+const secilenDisiMetinler = sorular.filter(function(s){ return !profilIdSet.has(s.id) && !secilenIdSet.has(s.id) && cevaplar[s.id]; }).map(function(s){ return s.soru + ' → ' + cevaplar[s.id]; });
+// Seçilmeyen kriter grupları (3'erli)
+const sdGrup1 = secilenDisiMetinler.slice(0,3).join('\n') || '-';
+const sdGrup2 = secilenDisiMetinler.slice(3,6).join('\n') || '-';
+const sdGrup3 = secilenDisiMetinler.slice(6,9).join('\n') || '-';
+const sdGrup4 = secilenDisiMetinler.slice(9).join('\n') || '-';
+// Seçilen 6 kriter — ilk 3 ve son 3
+const sec1 = secilenMetinler.slice(0,3).join('\n') || '-';
+const sec2 = secilenMetinler.slice(3,6).join('\n') || '-';
+return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sabitText + '\n\n' + butceKural + '\n\n' +
+'GÖREV: Aşağıdaki algoritmaya göre tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı.\n\n' +
+'HEDİYE 1 — NOKTA ATIŞI 1 (star:true):\nSeçilen 6 kriterin ilk 3\'ü:\n' + sec1 + '\nBu 3 kriteri birbiriyle en uyumlu şekilde birleştir. Seçilmemiş kriterlerle çelişmeyen, sabit değerlerle uyumlu TEK hediye öner.\n\n' +
+'HEDİYE 2 — NOKTA ATIŞI 2 (star:true):\nSeçilen 6 kriterin son 3\'ü:\n' + sec2 + '\nBu 3 kriteri birbiriyle en uyumlu şekilde birleştir. Seçilmemiş kriterlerle çelişmeyen, sabit değerlerle uyumlu TEK hediye öner. Hediye 1\'den FARKLI kategori.\n\n' +
+'HEDİYE 3 (star:false):\nSeçilmemiş kriterler grup 1:\n' + sdGrup1 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
+'HEDİYE 4 (star:false):\nSeçilmemiş kriterler grup 2:\n' + sdGrup2 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
+'HEDİYE 5 (star:false):\nSeçilmemiş kriterler grup 3:\n' + sdGrup3 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
+'HEDİYE 6 (star:false):\nKalan seçilmemiş kriterler:\n' + sdGrup4 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
+(burcIsim ? 'HEDİYE 7 — BURÇ HEDİYESİ (star:false, isBurc:true):\n' + burcEk + '\nTüm kriterler ve burç özelliklerini birleştir. Öncekilerden FARKLI.\n\n' : '') +
+'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\nSadece JSON array döndür. Başka hiçbir şey yazma.';
 }
 </script>
 </body>
