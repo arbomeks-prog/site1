@@ -408,7 +408,7 @@ if (nickname) {
   try { _cvObj = typeof cevaplar === 'string' ? JSON.parse(cevaplar) : cevaplar; } catch(e) {}
   _cvObj._selectedCriteria = selectedCriteria;
   _cvObj._aktifSet = localStorage.getItem('budurBuldumAktifSet') || 'normal';
-  const kisiAdi = _cvObj.kime || '';
+  const kisiAdi = localStorage.getItem('budurBuldumKisiAdi') || _cvObj.kime || '';
   fetch('/api/save-profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, nickname: nickname, kisi_adi: kisiAdi, tum_cevaplar: _cvObj }) }).catch(function(e) {});
 }
 }
