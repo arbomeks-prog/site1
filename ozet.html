@@ -126,6 +126,16 @@
             <div class="flex gap-1 flex-wrap" id="butce-butonlar"></div>
         </div>
 
+        <div id="amac-wrapper" style="display:none;margin-bottom:8px;">
+            <p style="font-size:13px;font-weight:800;color:#1e40af;letter-spacing:0.05em;border-bottom:2px solid #1e40af;padding-bottom:2px;display:inline-block;margin-bottom:8px;">🎯 AMACI DEĞİŞTİREBİLİRSİNİZ</p>
+            <div class="flex gap-1 flex-wrap" id="amac-butonlar"></div>
+        </div>
+
+        <div id="oncelik-wrapper" style="display:none;margin-bottom:16px;">
+            <p style="font-size:13px;font-weight:800;color:#1e40af;letter-spacing:0.05em;border-bottom:2px solid #1e40af;padding-bottom:2px;display:inline-block;margin-bottom:8px;">⭐ ÖNCELİĞİ DEĞİŞTİREBİLİRSİNİZ</p>
+            <div class="flex gap-1 flex-wrap" id="oncelik-butonlar"></div>
+        </div>
+
         <div class="px-1 mb-3 flex items-center gap-2">
             <div id="kriter-baslik" style="font-size:22px;font-weight:900;color:#1e293b;letter-spacing:0.01em;line-height:1.2;white-space:nowrap;">🎯 En önemli 6 kriteri seç</div>
             <span id="sel-count" class="text-sm font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex-shrink-0">0/6</span>
@@ -208,6 +218,8 @@
 
         renderProfilBar(cevaplar, sorular, isOzel);
         renderButceButonlar(cevaplar, sorular, isOzel);
+        renderDegistirilebilirSoru('amac', 'amac-wrapper', 'amac-butonlar', cevaplar, sorular, isOzel);
+        renderDegistirilebilirSoru('oncelik', 'oncelik-wrapper', 'oncelik-butonlar', cevaplar, sorular, isOzel);
         renderKriterListesi(cevaplar, sorular, isOzel);
         renderBurcPanel(cevaplar);
         afterSummaryReady();
@@ -241,6 +253,28 @@
                 });
             };
             butceDiv.appendChild(bb);
+        });
+    }
+
+    function renderDegistirilebilirSoru(id, wrapperId, butonlarId, cevaplar, sorular, isOzel) {
+        const soru = sorular.find(s => s.id === id);
+        if (!soru || !cevaplar[soru.id]) return;
+        document.getElementById(wrapperId).style.display = 'block';
+        const div = document.getElementById(butonlarId);
+        div.innerHTML = '';
+        soru.secenekler.forEach(function(b) {
+            const isActive = cevaplar[soru.id] === b;
+            const btn = document.createElement('button');
+            btn.className = 'text-xs px-3 py-1 rounded-full border-2 font-semibold transition-all ' + (isActive ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-zinc-600 border-zinc-300 hover:border-blue-400');
+            btn.textContent = b;
+            btn.onclick = function() {
+                QuizHelper.setCevap(soru.id, b);
+                renderProfilBar(QuizHelper.getCevaplar(), sorular, isOzel);
+                div.querySelectorAll('button').forEach(function(x) {
+                    x.className = 'text-xs px-3 py-1 rounded-full border-2 font-semibold transition-all ' + (x.textContent === b ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-zinc-600 border-zinc-300 hover:border-blue-400');
+                });
+            };
+            div.appendChild(btn);
         });
     }
 
