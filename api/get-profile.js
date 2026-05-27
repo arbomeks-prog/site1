@@ -26,6 +26,7 @@ export default async function handler(req, res) {
                 butce,
                 ilgi_alanlari,
                 tum_cevaplar,
+                tiklanan_hediyeler,
                 created_at,
                 updated_at
             FROM quiz_logs
