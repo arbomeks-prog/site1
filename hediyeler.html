@@ -243,6 +243,23 @@ gtag('config', 'G-HWPN7VD4VX');
 <p class="text-center text-zinc-400 text-xs mb-8">Arkadaşlarına da denesin! 🎁</p>
 </div>
 
+<!-- KAYDET BANNER -->
+<div id="kaydet-banner" style="display:none;background:#1e293b;border-radius:16px;padding:20px;margin:16px 0;border:1px solid rgba(232,168,56,0.3);">
+  <div id="kaydet-bekliyor">
+    <p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 4px;">Bu aramayı kaydetmek ister misin? 💾</p>
+    <p style="font-size:12px;color:#94a3b8;margin:0 0 14px;">Bir dahaki gelişinde tek tıkla aynı profil için hediye bulursun.</p>
+    <div style="display:flex;gap:8px;">
+      <input id="kaydet-nick-input" type="text" placeholder="Takma ismin..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px 12px;color:#fff;font-size:14px;outline:none;" />
+      <button onclick="kaydetAramayi()" style="background:#e8a838;border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;white-space:nowrap;">Kaydedelim</button>
+    </div>
+    <p style="font-size:11px;color:#64748b;margin:8px 0 0;text-align:center;">Şifre yok · Form yok · Sadece takma isim</p>
+  </div>
+  <div id="kaydet-tamam" style="display:none;text-align:center;">
+    <p style="font-size:15px;font-weight:700;color:#4ade80;margin:0 0 4px;">✅ Kaydedildi!</p>
+    <p style="font-size:12px;color:#94a3b8;margin:0;">Bir dahaki gelişinde takma isminle gir, her şey hazır olsun.</p>
+  </div>
+</div>
+
 <footer style="text-align:center;padding:28px 0 16px;border-top:1px solid #e2e8f0;margin-top:16px;">
 <a href="index.html" style="text-decoration:none;">
 <span style="font-family:Georgia,serif;font-size:15px;font-weight:900;color:#1e293b;">budur<span style="color:#e8a838;">buldum</span></span>
@@ -579,13 +596,38 @@ if (animWrap && animIc) {
   });
 }
 shareSection.style.display = 'block';
+// Kaydet banner'ını göster (zaten kaydedilmemişse)
+if (!localStorage.getItem('budurBuldumNickname')) {
+  document.getElementById('kaydet-banner').style.display = 'block';
+}
 } catch(err) {
 clearInterval(mesajInterval);
 subtitle.textContent = '❌ Bir hata oluştu: ' + err.message;
 }
 };
 
-function buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek) {
+async function kaydetAramayi() {
+  const input = document.getElementById('kaydet-nick-input');
+  const nickname = input ? input.value.trim() : '';
+  if (!nickname) { input && input.focus(); return; }
+  const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
+  let cevaplar = {};
+  try { cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+  const kisiAdi = cevaplar.kisi_adi || cevaplar.kime || '';
+  try {
+    await fetch('/api/save-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, nickname: nickname, kisi_adi: kisiAdi, tum_cevaplar: cevaplar })
+    });
+    localStorage.setItem('budurBuldumNickname', nickname);
+    document.getElementById('kaydet-bekliyor').style.display = 'none';
+    document.getElementById('kaydet-tamam').style.display = 'block';
+  } catch(e) {
+    alert('Kaydedilemedi, tekrar dene.');
+  }
+}
+
 const _butceEslesme = {
 '0-500 TL': { min: 0, max: 500 },
 '500-1500 TL': { min: 500, max: 1500 },
