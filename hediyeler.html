@@ -401,6 +401,67 @@ localStorage.setItem('budurBuldumTiklananHediyeler', JSON.stringify(tiklananlar)
 fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, tiklanan_hediyeler: tiklananlar }) }).catch(function(e) {});
 }
 
+function buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek) {
+const _butceEslesme = {
+'0-500 TL': { min: 0, max: 500 },
+'500-1500 TL': { min: 500, max: 1500 },
+'1500-3000 TL': { min: 1500, max: 3000 },
+'3000-5000 TL': { min: 3000, max: 5000 },
+'5000-10000 TL': { min: 5000, max: 10000 },
+'10000-30000 TL': { min: 10000, max: 30000 },
+'30.000 TL+': { min: 30000, max: null }
+};
+const butceHam = cevaplar.butce || cevaplar.bebek_butce || cevaplar.cocuk_butce || cevaplar.kedi_butce || cevaplar.kopek_butce || cevaplar.kus_butce || cevaplar.pet_butce || cevaplar.balik_butce || cevaplar.kucukpet_butce || '';
+const _aralik = _butceEslesme[butceHam] || null;
+const _bMin = _aralik ? _aralik.min : null;
+const _bMax = _aralik ? _aralik.max : null;
+const _bStr = _aralik ? (_bMax ? _bMin + ' TL - ' + _bMax + ' TL' : _bMin + ' TL ve üzeri') : (butceHam || '');
+const butceKural = butceEsnek
+? ('Bütçe esnektir. Seçilen aralık: ' + _bStr + '. Fiyatlar bu aralığın en fazla %30 üstünde olabilir' + (_bMax ? ', yani maksimum ' + Math.round(_bMax * 1.3) + ' TL' : '') + '. Aralığın %70 altına (' + (_bMin ? Math.round(_bMin * 0.7) + ' TL' : 'çok düşük') + ') düşme.')
+: ('Bütçe KESİNLİKLE sabit: ' + _bStr + '. Tüm hediyeler bu fiyat aralığında olmalı. ' + (_bMin && _bMin > 0 ? _bMin + " TL'nin altında fiyat YASAK. " : '') + (_bMax ? _bMax + " TL'nin üstünde fiyat YASAK." : '') + ' Tek istisna kabul edilmez.');
+const kime = cevaplar.kime || '';
+let burcIsim = '';
+if (secilenBurc) { const parts = secilenBurc.split(' '); burcIsim = parts.length > 1 ? parts.slice(1).join(' ') : parts[0]; }
+if (!burcIsim && cevaplar.dogum) { const m = cevaplar.dogum.match(/([♈♉♊♋♌♍♎♏♐♑♒♓]) (\S+)/); if (m) burcIsim = m[2]; }
+const burcOzellik = burcIsim && QUIZ_CONFIG.burcOzellik && QUIZ_CONFIG.burcOzellik[burcIsim] ? QUIZ_CONFIG.burcOzellik[burcIsim] : '';
+const burcEk = burcIsim ? ' Kişinin burcu: ' + secilenBurc + '. Burc ozellikleri: ' + burcOzellik + '. Burca uygun 1 ozgun hediye ekle (star:false, isBurc:true). Bu hediyenin name alanına basinda "' + (secilenBurc.split(' ')[0] || '⭐') + ' " sembolunu ekle.' : '';
+const toplamHediye = burcIsim ? 7 : 6;
+if (isOzel) {
+const aktifSetAdi = QuizHelper.getAktifSet();
+const isPet = ['petler','kedi','kopek','kus','balik','kucukpet'].includes(aktifSetAdi);
+const isBebek = aktifSetAdi === 'bebekler';
+const isCocuk = aktifSetAdi === 'cocuklar';
+let ek = '';
+if (isPet) ek = "searchQuery'de MUTLAKA \"evcil\", \"akvaryum\", \"pet\" gibi netleştirici kelime kullan.";
+else if (isBebek) ek = "searchQuery'de MUTLAKA \"bebek\" kelimesi olmalı.";
+else if (isCocuk) ek = "searchQuery'de MUTLAKA \"çocuk\" + yaş aralığı olmalı.";
+const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : ''; }).filter(Boolean).join('\n');
+return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
+}
+const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
+const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
+const secilenMetinler = selectedCriteria.map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean);
+const profilIdSet = new Set(profilIds);
+const secilenIdSet = new Set(selectedCriteria.map(function(c){ return c.id; }));
+const secilenDisiMetinler = sorular.filter(function(s){ return !profilIdSet.has(s.id) && !secilenIdSet.has(s.id) && cevaplar[s.id]; }).map(function(s){ return s.soru + ' → ' + cevaplar[s.id]; });
+const sdGrup1 = secilenDisiMetinler.slice(0,3).join('\n') || '-';
+const sdGrup2 = secilenDisiMetinler.slice(3,6).join('\n') || '-';
+const sdGrup3 = secilenDisiMetinler.slice(6,9).join('\n') || '-';
+const sdGrup4 = secilenDisiMetinler.slice(9).join('\n') || '-';
+const sec1 = secilenMetinler.slice(0,3).join('\n') || '-';
+const sec2 = secilenMetinler.slice(3,6).join('\n') || '-';
+return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sabitText + '\n\n' + butceKural + '\n\n' +
+'GÖREV: Aşağıdaki algoritmaya göre tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı.\n\n' +
+'HEDİYE 1 — NOKTA ATIŞI 1 (star:true):\nSeçilen 6 kriterin ilk 3\'ü:\n' + sec1 + '\nBu 3 kriteri birbiriyle en uyumlu şekilde birleştir. Sabit değerlerle uyumlu TEK hediye öner.\n\n' +
+'HEDİYE 2 — NOKTA ATIŞI 2 (star:true):\nSeçilen 6 kriterin son 3\'ü:\n' + sec2 + '\nBu 3 kriteri birbiriyle en uyumlu şekilde birleştir. Hediye 1\'den FARKLI kategori.\n\n' +
+'HEDİYE 3 (star:false):\nSeçilmemiş kriterler grup 1:\n' + sdGrup1 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
+'HEDİYE 4 (star:false):\nSeçilmemiş kriterler grup 2:\n' + sdGrup2 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
+'HEDİYE 5 (star:false):\nSeçilmemiş kriterler grup 3:\n' + sdGrup3 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
+'HEDİYE 6 (star:false):\nKalan seçilmemiş kriterler:\n' + sdGrup4 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
+(burcIsim ? 'HEDİYE 7 — BURÇ HEDİYESİ (star:false, isBurc:true):\n' + burcEk + '\nTüm kriterler ve burç özelliklerini birleştir. Öncekilerden FARKLI.\n\n' : '') +
+'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\nSadece JSON array döndür. Başka hiçbir şey yazma.';
+}
+
 window.onload = async function() {
 const list = document.getElementById('gifts-list');
 const subtitle = document.getElementById('gifts-subtitle');
