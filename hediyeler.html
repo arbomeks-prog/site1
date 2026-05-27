@@ -423,7 +423,7 @@ fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application
 
 const kime = cevaplar.kime || '';
 const yas = cevaplar.yas || '';
-const butce = cevaplar.butce || '';
+const butce = cevaplar.butce || cevaplar.bebek_butce || cevaplar.cocuk_butce || cevaplar.kedi_butce || cevaplar.kopek_butce || cevaplar.kus_butce || cevaplar.pet_butce || cevaplar.balik_butce || cevaplar.kucukpet_butce || '';
 const cinsiyet = cevaplar.cinsiyet || cevaplar.cocuk_cinsiyet || cevaplar.bebek_cinsiyet || '';
 const tarz = cevaplar.tarz || cevaplar.bebek_tarz || '';
 const amac = cevaplar.amac || cevaplar.cocuk_amac || cevaplar.bebek_amac || '';
@@ -656,10 +656,11 @@ const _butceEslesme = {
 '10000-30000 TL': { min: 10000, max: 30000 },
 '30.000 TL+': { min: 30000, max: null }
 };
-const _aralik = _butceEslesme[cevaplar.butce] || null;
+const _gercekButce = cevaplar.butce || cevaplar.bebek_butce || cevaplar.cocuk_butce || cevaplar.kedi_butce || cevaplar.kopek_butce || cevaplar.kus_butce || cevaplar.pet_butce || cevaplar.balik_butce || cevaplar.kucukpet_butce || '';
+const _aralik = _butceEslesme[_gercekButce] || null;
 const _bMin = _aralik ? _aralik.min : null;
 const _bMax = _aralik ? _aralik.max : null;
-const _bStr = _aralik ? (_bMax ? _bMin + ' TL - ' + _bMax + ' TL' : _bMin + ' TL ve üzeri') : (cevaplar.butce || '');
+const _bStr = _aralik ? (_bMax ? _bMin + ' TL - ' + _bMax + ' TL' : _bMin + ' TL ve üzeri') : (_gercekButce || '');
 const butceKural = butceEsnek
 ? ('Bütçe esnektir. Seçilen aralık: ' + _bStr + '. Fiyatlar bu aralığın en fazla %30 üstünde olabilir' + (_bMax ? ', yani maksimum ' + Math.round(_bMax * 1.3) + ' TL' : '') + '. Aralığın %70 altına (' + (_bMin ? Math.round(_bMin * 0.7) + ' TL' : 'çok düşük') + ') düşme.')
 : ('Bütçe KESİNLİKLE sabit: ' + _bStr + '. Tüm hediyeler bu fiyat aralığında olmalı. ' + (_bMin && _bMin > 0 ? _bMin + " TL'nin altında fiyat YASAK. " : '') + (_bMax ? _bMax + " TL'nin üstünde fiyat YASAK." : '') + ' Tek istisna kabul edilmez.');
@@ -677,7 +678,7 @@ const isBebek = aktifSetAdi === 'bebekler';
 const isCocuk = aktifSetAdi === 'cocuklar';
 let ek = '';
 if (isPet) ek = 'searchQuery\'de MUTLAKA "evcil", "akvaryum", "pet" gibi netleştirici kelime kullan.';
-else if (isBebek) ek = 'searchQuery\'de MUTLAKA "bebek" kelimesi olmalı.';
+else if (isBebek) ek = 'searchQuery'de MUTLAKA "bebek" kelimesi olmali. searchQueryEn'de "baby" kelimesini kullan, ASLA "doll", "puppet", "figure" yazma — bunun yerine "baby toy", "baby clothing", "baby gift", "baby mobile" gibi guvenli ifadeler kullan.';
 else if (isCocuk) ek = 'searchQuery\'de MUTLAKA "çocuk" + yaş aralığı olmalı.';
 const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : ''; }).filter(Boolean).join('\n');
 return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
