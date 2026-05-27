@@ -141,6 +141,7 @@ function profilYukle() {
         var isim = k.kisi_adi || k.iliski_durumu || 'Kişi';
         var renk = AVATAR_RENKLER[idx % AVATAR_RENKLER.length];
         var cv = k.tum_cevaplar || {};
+        if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
         // Bütçe: DB'deki butce alanı veya tum_cevaplar'dan
         var butce = k.butce || cv.butce || cv.bebek_butce || cv.cocuk_butce || cv.evcil_butce || '—';
         var amac = cv.amac || cv.cocuk_amac || cv.bebek_amac || '—';
@@ -183,7 +184,9 @@ function profilYukle() {
 
 function profilStateYukle(k) {
   if (!k) return;
+  // tum_cevaplar bazen string olarak gelebilir, parse et
   var cv = k.tum_cevaplar || {};
+  if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
   localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
 
   // cinsiyet ve yaş
