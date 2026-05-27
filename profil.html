@@ -171,19 +171,44 @@ function profilYukle() {
     });
 }
 
+function profilStateYukle(k) {
+  if (!k) return;
+  var cv = k.tum_cevaplar || {};
+  localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
+
+  // cinsiyet ve yaş
+  if (k.cinsiyet) localStorage.setItem('budurBuldumGender', k.cinsiyet);
+  if (k.yas) localStorage.setItem('budurBuldumAge', k.yas);
+
+  // aktifSet — kaydedilmişse onu kullan, yoksa kime'den türet
+  var aktifSet = cv._aktifSet || 'normal';
+  if (aktifSet === 'normal') {
+    var kime = cv.kime || k.iliski_durumu || '';
+    if (kime === 'Bebek') aktifSet = 'bebekler';
+    else if (kime === 'Çocuk') aktifSet = 'cocuklar';
+    else if (kime === 'Pet') aktifSet = 'petler';
+  }
+  localStorage.setItem('budurBuldumAktifSet', aktifSet);
+
+  // selectedCriteria — kaydedilmişse kullan, yoksa boş bırak (ozet'te yeniden seçilir)
+  var criteria = cv._selectedCriteria || [];
+  localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(criteria));
+
+  // Diğer state'ler
+  localStorage.removeItem('budurBuldumSecilenBurc');
+  localStorage.removeItem('budurBuldumButceEsnek');
+  localStorage.removeItem('budurBuldumTiklananHediyeler');
+}
+
 function yeniHediye(idx) {
   var k = window._kisiler[idx];
-  if (k && k.tum_cevaplar) {
-    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(k.tum_cevaplar));
-  }
+  profilStateYukle(k);
   window.location.href = 'hediyeler.html';
 }
 
 function guncelle(idx) {
   var k = window._kisiler[idx];
-  if (k && k.tum_cevaplar) {
-    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(k.tum_cevaplar));
-  }
+  profilStateYukle(k);
   window.location.href = 'ozet.html';
 }
 

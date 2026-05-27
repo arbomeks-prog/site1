@@ -603,6 +603,9 @@ if (_nick) {
       var _sid = localStorage.getItem('budurBuldumSessionId') || '';
       var _cv = {};
       try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+      // selectedCriteria ve aktifSet'i de cevaplar içine göm (profil'den geri yüklenebilsin)
+      try { _cv._selectedCriteria = JSON.parse(localStorage.getItem('budurBuldumSelectedCriteria') || '[]'); } catch(e) {}
+      try { _cv._aktifSet = localStorage.getItem('budurBuldumAktifSet') || 'normal'; } catch(e) {}
       var _kisiAdi = _cv.kisi_adi || _cv.kime || '';
       await fetch('/api/save-profile', {
         method: 'POST',
@@ -627,6 +630,8 @@ async function kaydetAramayi() {
   const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
   let cevaplar = {};
   try { cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+  try { cevaplar._selectedCriteria = JSON.parse(localStorage.getItem('budurBuldumSelectedCriteria') || '[]'); } catch(e) {}
+  try { cevaplar._aktifSet = localStorage.getItem('budurBuldumAktifSet') || 'normal'; } catch(e) {}
   const kisiAdi = cevaplar.kisi_adi || cevaplar.kime || '';
   try {
     await fetch('/api/save-profile', {
