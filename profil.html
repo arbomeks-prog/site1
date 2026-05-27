@@ -75,6 +75,7 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
       <p class="kartlar-baslik" id="kart-sayisi"></p>
       <div id="kartlar"></div>
       <a href="index.html" style="display:block;text-align:center;margin-top:20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;font-size:14px;color:#94a3b8;text-decoration:none;">+ Yeni kişi için quiz başlat</a>
+      <button onclick="hesapSil()" style="width:100%;margin-top:10px;background:transparent;border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:12px;font-size:13px;color:#ef4444;cursor:pointer;">🗑️ Hesabımı sil</button>
     </div>
     <div id="bos-alani" class="bos" style="display:none;">
       <p>Henüz kayıtlı kişin yok.</p>
@@ -222,6 +223,22 @@ function profilYukle() {
     });
 }
 
+function hesapSil() {
+  if (!confirm('Tüm kayıtların silinecek ve hesabın kapanacak. Emin misin?')) return;
+  var nick = localStorage.getItem('budurBuldumNickname');
+  fetch('/api/delete-account', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ nickname: nick }) })
+    .then(function() {
+      localStorage.removeItem('budurBuldumNickname');
+      localStorage.removeItem('budurBuldumCevaplar');
+      localStorage.removeItem('budurBuldumSessionId');
+      localStorage.removeItem('budurBuldumGender');
+      localStorage.removeItem('budurBuldumAge');
+      localStorage.removeItem('budurBuldumAktifSet');
+      localStorage.removeItem('budurBuldumSelectedCriteria');
+      localStorage.removeItem('budurBuldumKisiAdi');
+      window.location.href = 'index.html';
+    }).catch(function() { alert('Silinemedi, tekrar dene.'); });
+}
 function kartSil(idx) {
   if (!confirm('Bu kişiyi silmek istediğinden emin misin?')) return;
   var k = window._kisiler[idx];
