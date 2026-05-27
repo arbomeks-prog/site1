@@ -21,7 +21,8 @@ export default async function handler(req, res) {
             UPDATE quiz_logs
             SET nickname = ${nickname},
                 kisi_adi = ${kisi_adi || null},
-                tum_cevaplar = ${tum_cevaplar ? JSON.stringify(tum_cevaplar) : null}
+                tum_cevaplar = ${tum_cevaplar ? JSON.stringify(tum_cevaplar) : null},
+                quiz_tamamlandi = true
             WHERE session_id = ${session_id}
             RETURNING id
         `;
