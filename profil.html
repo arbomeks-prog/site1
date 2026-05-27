@@ -197,6 +197,7 @@ function profilYukle() {
             '<button class="btn-hediye" onclick="yeniHediye(' + idx + ')">Yeni hediye bul</button>' +
             '<button class="btn-guncelle" onclick="acDP(' + idx + ')">✏️ Düzenle</button>' +
           '</div>' +
+          '<button onclick="kartSil(' + idx + ')" style="width:100%;margin-top:8px;background:transparent;border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:8px;font-size:12px;color:#ef4444;cursor:pointer;">🗑️ Bu kişiyi sil</button>' +
           '<p style="font-size:11px;color:#64748b;margin-top:10px;">🕐 ' + altBilgi + '</p>';
 
         // Seçim fonksiyonlarını dinamik oluştur
@@ -222,6 +223,18 @@ function profilYukle() {
     });
 }
 
+function kartSil(idx) {
+  if (!confirm('Bu kişiyi silmek istediğinden emin misin?')) return;
+  var k = window._kisiler[idx];
+  var nick = localStorage.getItem('budurBuldumNickname');
+  fetch('/api/delete-profile', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ session_id: k.session_id, nickname: nick }) })
+    .then(function() {
+      document.getElementById('kart-' + idx).remove();
+      window._kisiler.splice(idx, 1);
+      var sayac = document.getElementById('kart-sayisi');
+      if (sayac) sayac.textContent = window._kisiler.length + ' kayıtlı kişi';
+    }).catch(function() { alert('Silinemedi, tekrar dene.'); });
+}
 function acDP(idx) {
   document.getElementById('dp-'+idx).style.display='block';
   document.getElementById('kb-'+idx).style.display='none';
