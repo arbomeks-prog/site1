@@ -63,15 +63,9 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
   <h1>Profilim 👤</h1>
   <p class="sub">Kayıtlı kişilerin ve geçmiş aramaların</p>
 
-  <div class="nick-block" id="nick-block">
-    <p class="nick-label">Takma isminle gir:</p>
-    <div class="nick-row">
-      <input id="nick-input" class="nick-input" type="text" placeholder="Takma ismin..." />
-      <button class="btn-ara" onclick="profilYukle()">Ara →</button>
-    </div>
-  </div>
+  <input id="nick-input" type="hidden" />
 
-  <div id="profil-alani" style="display:none;">
+  <div id="profil-alani">
     <div id="nick-goster" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
       <span style="font-size:15px;font-weight:700;color:#fff;">👋 Merhaba, <span id="nick-adi" style="color:#e8a838;"></span></span>
       <span class="nick-degistir" onclick="nikDegistir()">Değiştir</span>
@@ -221,10 +215,9 @@ function nikDegistir() {
 // Sayfa açılırken kayıtlı nick varsa otomatik yükle
 window.onload = function() {
   var saved = localStorage.getItem('budurBuldumNickname');
-  if (saved) {
-    document.getElementById('nick-input').value = saved;
-    profilYukle();
-  }
+  if (!saved) { window.location.href = 'index.html'; return; }
+  document.getElementById('nick-input').value = saved;
+  profilYukle();
 
   // URL'de ?session=xxx varsa index.html'den kart tıklamasıyla gelindi
   var urlParams = new URLSearchParams(window.location.search);
