@@ -596,8 +596,22 @@ if (animWrap && animIc) {
   });
 }
 shareSection.style.display = 'block';
-// Kaydet banner'ını göster (zaten kaydedilmemişse)
-if (!localStorage.getItem('budurBuldumNickname')) {
+const _nick = localStorage.getItem('budurBuldumNickname');
+if (_nick) {
+  (async function() {
+    try {
+      var _sid = localStorage.getItem('budurBuldumSessionId') || '';
+      var _cv = {};
+      try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+      var _kisiAdi = _cv.kisi_adi || _cv.kime || '';
+      await fetch('/api/save-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: _sid, nickname: _nick, kisi_adi: _kisiAdi, tum_cevaplar: _cv })
+      });
+    } catch(e) {}
+  })();
+} else {
   document.getElementById('kaydet-banner').style.display = 'block';
 }
 } catch(err) {
