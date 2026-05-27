@@ -200,10 +200,23 @@
             '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">' + (k.butce || '') + '</p>' +
             '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>';
           kart.onclick = function() {
-            // Bu kişinin cevaplarını localStorage'a yükle ve quize gönder
-            if (k.tum_cevaplar) {
-              localStorage.setItem('budurBuldumCevaplar', JSON.stringify(k.tum_cevaplar));
+            // Tüm state'i yükle (profil.html ile aynı mantık)
+            var cv = k.tum_cevaplar || {};
+            localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
+            if (k.cinsiyet) localStorage.setItem('budurBuldumGender', k.cinsiyet);
+            if (k.yas) localStorage.setItem('budurBuldumAge', k.yas);
+            var aktifSet = cv._aktifSet || 'normal';
+            if (aktifSet === 'normal') {
+              var kime = cv.kime || k.iliski_durumu || '';
+              if (kime === 'Bebek') aktifSet = 'bebekler';
+              else if (kime === 'Çocuk') aktifSet = 'cocuklar';
+              else if (kime === 'Pet') aktifSet = 'petler';
             }
+            localStorage.setItem('budurBuldumAktifSet', aktifSet);
+            localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(cv._selectedCriteria || []));
+            localStorage.removeItem('budurBuldumSecilenBurc');
+            localStorage.removeItem('budurBuldumButceEsnek');
+            localStorage.removeItem('budurBuldumTiklananHediyeler');
             window.location.href = 'hediyeler.html';
           };
           kartlar.appendChild(kart);
@@ -217,7 +230,23 @@ function nickDevamEt() {
   var nick = document.getElementById('nick-devam-input').value.trim();
   if (!nick) return;
   localStorage.setItem('budurBuldumNickname', nick);
-  location.reload();
+  // Neon'dan son profili çek, localStorage'a sync et (telefon değişse bile veriler gelir)
+  fetch('/api/get-profile?nickname=' + encodeURIComponent(nick))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.kisiler && data.kisiler.length > 0) {
+        var k = data.kisiler[0]; // en son kayıt
+        var cv = k.tum_cevaplar || {};
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
+        if (k.cinsiyet) localStorage.setItem('budurBuldumGender', k.cinsiyet);
+        if (k.yas) localStorage.setItem('budurBuldumAge', k.yas);
+        var aktifSet = cv._aktifSet || 'normal';
+        localStorage.setItem('budurBuldumAktifSet', aktifSet);
+        localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(cv._selectedCriteria || []));
+      }
+    })
+    .catch(function() {})
+    .finally(function() { location.reload(); });
 }
 
 function nickKaydet() {
