@@ -1218,10 +1218,14 @@ document.addEventListener("DOMContentLoaded",function(){
         localStorage.removeItem('budurBuldumSecilenBurc');
         localStorage.removeItem('budurBuldumSelectedCriteria');
         localStorage.removeItem('budurBuldumTiklananHediyeler');
-        // YENİ: Her quiz için yeni bir session_id üret (DB takibi için)
-        const sessionId = (crypto && crypto.randomUUID)
-            ? crypto.randomUUID()
-            : 'sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        // Cihaza özgü kalıcı session_id — sadece sıfırlamada silinir
+        let sessionId = localStorage.getItem('budurBuldumDeviceId');
+        if (!sessionId) {
+            sessionId = (crypto && crypto.randomUUID)
+                ? crypto.randomUUID()
+                : 'sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('budurBuldumDeviceId', sessionId);
+        }
         localStorage.setItem('budurBuldumSessionId', sessionId);
         localStorage.setItem('budurBuldumGender', selectedGender);
         localStorage.setItem('budurBuldumAge', selectedAge);
