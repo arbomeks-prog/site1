@@ -121,7 +121,7 @@
 
   <!-- Daha önce kaydolduysa: profil kartları -->
   <div id="auth-profil" style="display:none;">
-    <p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 4px;">Tekrar hoş geldin! 👋</p>
+    <p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 4px;">Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;"></span>! 👋</p>
     <p style="font-size:12px;color:#94a3b8;margin:0 0 14px;">Kayıtlı kişilerin için hemen hediye aramaya başla.</p>
     <div id="profil-kartlar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;"></div>
     <button onclick="document.getElementById('auth-section').style.display='none'" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;color:#94a3b8;font-size:13px;cursor:pointer;">Farklı bir kişi için quiz başlat ↓</button>
@@ -182,6 +182,7 @@
     // Nickname var, profili çek
     document.getElementById('auth-yeni').style.display = 'none';
     document.getElementById('auth-profil').style.display = 'block';
+    document.getElementById('nick-goster').textContent = savedNick;
     fetch('/api/get-profile?nickname=' + encodeURIComponent(savedNick))
       .then(function(r) { return r.json(); })
       .then(function(data) {
