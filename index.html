@@ -116,6 +116,119 @@
     </div>
 </div>
 
+<!-- TAKMAİSİM BÖLÜMÜ -->
+<div id="auth-section" style="background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:20px;">
+
+  <!-- Daha önce kaydolduysa: profil kartları -->
+  <div id="auth-profil" style="display:none;">
+    <p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 4px;">Tekrar hoş geldin! 👋</p>
+    <p style="font-size:12px;color:#94a3b8;margin:0 0 14px;">Kayıtlı kişilerin için hemen hediye aramaya başla.</p>
+    <div id="profil-kartlar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;"></div>
+    <button onclick="document.getElementById('auth-section').style.display='none'" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;color:#94a3b8;font-size:13px;cursor:pointer;">Farklı bir kişi için quiz başlat ↓</button>
+  </div>
+
+  <!-- İlk kez geliyorsa veya profil yoksa -->
+  <div id="auth-yeni">
+    <p style="font-size:19px;font-weight:700;color:#fff;text-align:center;margin:0 0 6px;">Seni nasıl hatırlayalım? 👋</p>
+    <p style="font-size:13px;color:rgba(255,255,255,0.65);text-align:center;margin:0 0 16px;line-height:1.7;">Şifre yok, form yok, e-mail yok.<br><strong style="color:#e8a838;">Sadece bir takma isim yeter.</strong></p>
+
+    <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 16px;margin-bottom:16px;">
+      <p style="font-size:12px;color:rgba(255,255,255,0.4);margin:0 0 10px;">Kaydolursan ne kazanırsın?</p>
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
+        <span style="font-size:16px;flex-shrink:0;">👤</span>
+        <span style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5;"><strong style="color:#e8a838;">Kişilerin hatırlanır</strong> — Annen, sevgilin, arkadaşın — hepsi kayıtlı</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
+        <span style="font-size:16px;flex-shrink:0;">⚡</span>
+        <span style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5;"><strong style="color:#e8a838;">Tek tıkla devam</strong> — Her seferinde testi baştan çözmezsin</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span style="font-size:16px;flex-shrink:0;">🎯</span>
+        <span style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5;"><strong style="color:#e8a838;">Daha iyi öneriler</strong> — Seni tanıdıkça hediyeler daha isabetli olur</span>
+      </div>
+    </div>
+
+    <!-- Daha önce geldiniz mi? -->
+    <div style="margin-bottom:12px;">
+      <p style="font-size:13px;color:rgba(255,255,255,0.7);margin:0 0 8px;font-weight:500;">⚡ Daha önce geldin mi? Takma ismini yaz:</p>
+      <div style="display:flex;gap:8px;">
+        <input id="nick-devam-input" type="text" placeholder="Takma ismin..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:14px;outline:none;" />
+        <button onclick="nickDevamEt()" style="background:#e8a838;border:none;border-radius:12px;padding:12px 18px;color:#412402;font-size:14px;font-weight:700;cursor:pointer;">Devam →</button>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;margin:0 0 12px;">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
+      <span style="font-size:12px;color:rgba(255,255,255,0.3);">ya da ilk kez mi geliyorsun?</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
+    </div>
+
+    <div style="margin-bottom:12px;">
+      <p style="font-size:13px;color:rgba(255,255,255,0.7);margin:0 0 8px;font-weight:500;">🎉 Bir takma isim ver, kaydedelim:</p>
+      <div style="display:flex;gap:8px;">
+        <input id="nick-kaydet-input" type="text" placeholder="Bir takma isim yaz..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:14px;outline:none;" />
+        <button onclick="nickKaydet()" style="background:#fff;border:none;border-radius:12px;padding:12px 18px;color:#0f172a;font-size:14px;font-weight:700;cursor:pointer;">Kaydedelim</button>
+      </div>
+    </div>
+
+    <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.3);margin:0;">Hiçbir kişisel bilgin saklanmaz — <strong style="color:rgba(232,168,56,0.6);">sadece takma ismin ve aramaların.</strong></p>
+  </div>
+</div>
+
+<script>
+(function() {
+  var savedNick = localStorage.getItem('budurBuldumNickname');
+  if (savedNick) {
+    // Nickname var, profili çek
+    document.getElementById('auth-yeni').style.display = 'none';
+    document.getElementById('auth-profil').style.display = 'block';
+    fetch('/api/get-profile?nickname=' + encodeURIComponent(savedNick))
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var kartlar = document.getElementById('profil-kartlar');
+        if (!data.kisiler || data.kisiler.length === 0) {
+          kartlar.innerHTML = '<p style="font-size:13px;color:#94a3b8;">Henüz kayıtlı kişin yok. Quiz bitince kaydet!</p>';
+          return;
+        }
+        data.kisiler.forEach(function(k) {
+          var isim = k.kisi_adi || k.iliski_durumu || 'Kişi';
+          var initials = isim.substring(0, 2).toUpperCase();
+          var kart = document.createElement('div');
+          kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px;cursor:pointer;';
+          kart.innerHTML = '<div style="width:32px;height:32px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#993556;margin-bottom:8px;">' + initials + '</div>' +
+            '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">' + isim + '</p>' +
+            '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">' + (k.butce || '') + '</p>' +
+            '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>';
+          kart.onclick = function() {
+            // Bu kişinin cevaplarını localStorage'a yükle ve quize gönder
+            if (k.tum_cevaplar) {
+              localStorage.setItem('budurBuldumCevaplar', JSON.stringify(k.tum_cevaplar));
+            }
+            window.location.href = 'hediyeler.html';
+          };
+          kartlar.appendChild(kart);
+        });
+      })
+      .catch(function() {});
+  }
+})();
+
+function nickDevamEt() {
+  var nick = document.getElementById('nick-devam-input').value.trim();
+  if (!nick) return;
+  localStorage.setItem('budurBuldumNickname', nick);
+  location.reload();
+}
+
+function nickKaydet() {
+  var nick = document.getElementById('nick-kaydet-input').value.trim();
+  if (!nick) return;
+  localStorage.setItem('budurBuldumNickname', nick);
+  // Henüz quiz yapmadı, sadece nickname kaydet — quiz bitince profil kaydedilecek
+  document.getElementById('auth-yeni').innerHTML = '<p style="font-size:15px;font-weight:700;color:#4ade80;text-align:center;margin:0 0 4px;">✅ Takma ismin kaydedildi!</p><p style="font-size:12px;color:#94a3b8;text-align:center;margin:0;">Quiz bitince aramalarını otomatik kaydedeceğiz.</p>';
+}
+</script>
+
 <!-- HERO -->
 <section id="hero-section" class="hero-bg text-white" style="padding:8px 0 16px;">
     <div class="max-w-5xl mx-auto px-4 text-center">
