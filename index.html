@@ -169,6 +169,7 @@
         <input id="nick-kaydet-input" type="text" placeholder="Bir takma isim yaz..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:14px;outline:none;" />
         <button onclick="nickKaydet()" style="background:#fff;border:none;border-radius:12px;padding:12px 18px;color:#0f172a;font-size:14px;font-weight:700;cursor:pointer;">Kaydedelim</button>
       </div>
+      <p id="nick-hata" style="font-size:12px;color:#f87171;margin-top:6px;text-align:center;"></p>
     </div>
 
     <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.3);margin:0;">Hiçbir kişisel bilgin saklanmaz — <strong style="color:rgba(232,168,56,0.6);">sadece takma ismin ve aramaların.</strong></p>
@@ -241,9 +242,26 @@ function nickDevamEt() {
 function nickKaydet() {
   var nick = document.getElementById('nick-kaydet-input').value.trim();
   if (!nick) return;
-  localStorage.setItem('budurBuldumNickname', nick);
-  // Henüz quiz yapmadı, sadece nickname kaydet — quiz bitince profil kaydedilecek
-  document.getElementById('auth-yeni').innerHTML = '<p style="font-size:15px;font-weight:700;color:#4ade80;text-align:center;margin:0 0 4px;">✅ Takma ismin kaydedildi!</p><p style="font-size:12px;color:#94a3b8;text-align:center;margin:0;">Quiz bitince aramalarını otomatik kaydedeceğiz.</p>';
+  var hataEl = document.getElementById('nick-hata');
+  if (hataEl) hataEl.textContent = '';
+  // DB'de bu nickname var mı kontrol et
+  fetch('/api/get-profile?nickname=' + encodeURIComponent(nick))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.kisiler && data.kisiler.length > 0) {
+        // Alınmış — uyar
+        if (hataEl) hataEl.textContent = '⚠️ Bu takma isim alınmış, lütfen başka bir isim seç.';
+      } else {
+        // Müsait — kaydet
+        localStorage.setItem('budurBuldumNickname', nick);
+        document.getElementById('auth-yeni').innerHTML = '<p style="font-size:15px;font-weight:700;color:#4ade80;text-align:center;margin:0 0 4px;">✅ Takma ismin kaydedildi!</p><p style="font-size:12px;color:#94a3b8;text-align:center;margin:0;">Quiz bitince aramalarını otomatik kaydedeceğiz.</p>';
+      }
+    })
+    .catch(function() {
+      // Hata olursa yine de kaydet
+      localStorage.setItem('budurBuldumNickname', nick);
+      document.getElementById('auth-yeni').innerHTML = '<p style="font-size:15px;font-weight:700;color:#4ade80;text-align:center;margin:0 0 4px;">✅ Takma ismin kaydedildi!</p><p style="font-size:12px;color:#94a3b8;text-align:center;margin:0;">Quiz bitince aramalarını otomatik kaydedeceğiz.</p>';
+    });
 }
 </script>
 
