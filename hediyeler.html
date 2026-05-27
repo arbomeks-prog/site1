@@ -680,7 +680,16 @@ if (_nick) {
 }
 } catch(err) {
 clearInterval(mesajInterval);
+// Tüm loading spinnerlarını ve mesajlarını durdur
+document.querySelectorAll('.loading-msg').forEach(function(msg) {
+  if (msg._interval) clearInterval(msg._interval);
+  msg.style.display = 'none';
+});
+document.querySelectorAll('.spinner').forEach(function(sp) { sp.style.display = 'none'; });
+var _animWrap = document.getElementById('animasyon-yazi');
+if (_animWrap) { if (_animWrap._stopYukleme) _animWrap._stopYukleme(); _animWrap.style.display = 'none'; }
 subtitle.textContent = '❌ Bir hata oluştu: ' + err.message;
+console.error('Hediye API hatası:', err);
 }
 };
 
