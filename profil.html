@@ -225,6 +225,29 @@ window.onload = function() {
     document.getElementById('nick-input').value = saved;
     profilYukle();
   }
+
+  // URL'de ?session=xxx varsa index.html'den kart tıklamasıyla gelindi
+  var urlParams = new URLSearchParams(window.location.search);
+  var hedefSession = urlParams.get('session');
+  if (hedefSession && saved) {
+    var bekle = setInterval(function() {
+      if (window._kisiler) {
+        clearInterval(bekle);
+        var idx = -1;
+        for (var i=0; i<window._kisiler.length; i++) {
+          if (window._kisiler[i].session_id === hedefSession) { idx = i; break; }
+        }
+        if (idx >= 0) {
+          var kartlar = document.querySelectorAll('.kart');
+          if (kartlar[idx]) {
+            kartlar[idx].style.border = '2px solid #e8a838';
+            kartlar[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      }
+    }, 200);
+    setTimeout(function() { clearInterval(bekle); }, 5000);
+  }
 };
 </script>
 </body>
