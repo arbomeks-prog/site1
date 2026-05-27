@@ -145,7 +145,32 @@ function profilYukle() {
         try { tikSayisi = (JSON.parse(k.tiklanan_hediyeler || '[]')).length; } catch(e) {}
         var altBilgi = tarihFarki(k.updated_at || k.created_at) + (tikSayisi > 0 ? ' · ' + tikSayisi + ' hediye tıklandı' : '');
 
+        // Amaç seçenekleri set'e göre
+        var aktifSet = cv._aktifSet || 'normal';
+        var kimeVal = cv.kime || k.iliski_durumu || '';
+        if (aktifSet === 'normal') {
+          if (kimeVal === 'Bebek') aktifSet = 'bebekler';
+          else if (kimeVal === 'Çocuk') aktifSet = 'cocuklar';
+          else if (kimeVal === 'Pet') aktifSet = 'petler';
+        }
+        var amacKey = aktifSet === 'bebekler' ? 'bebek_amac' : aktifSet === 'cocuklar' ? 'cocuk_amac' : 'amac';
+        var AMAC_OPT = {
+          normal:   ['Doğum Günü','Yıl Dönümü','Sevgililer Günü','Özel Bir Başarı','Sadece sürpriz','Noel / Yılbaşı'],
+          bebekler: ['Yeni doğdu 🎀','Doğum günü 🎂','Baby shower 🛁','Sünnet 🌙','Sadece sürpriz 🎁'],
+          cocuklar: ['Doğum Günü','Yılbaşı / Bayram','Başarı Ödülü','Sürpriz'],
+          petler:   ['Doğum Günü','Bayram','Sadece sürpriz']
+        };
+        var ONCELIK_OPT = ['Kullanışlı olsun','Güzel görünsün','Özel ve anlamlı olsun','Uygun fiyatlı olsun'];
+
+        function btnler(secenekler, secili, fnAdi) {
+          return secenekler.map(function(s) {
+            var sel = s === secili;
+            return '<button onclick="' + fnAdi + '(this)" style="background:' + (sel?'#e8a838':'rgba(255,255,255,0.07)') + ';color:' + (sel?'#412402':'#e2e8f0') + ';border:1px solid ' + (sel?'#e8a838':'rgba(255,255,255,0.15)') + ';border-radius:8px;padding:7px 11px;font-size:12px;font-weight:' + (sel?'700':'400') + ';cursor:pointer;margin:3px 3px 0 0;">' + s + '</button>';
+          }).join('');
+        }
+
         kart.className = 'kart';
+        kart.id = 'kart-' + idx;
         kart.innerHTML =
           '<div class="kart-header">' +
             '<div class="avatar" style="background:' + renk.bg + ';color:' + renk.text + ';">' + getInitials(isim) + '</div>' +
@@ -156,14 +181,37 @@ function profilYukle() {
           '</div>' +
           '<div class="kart-detaylar">' +
             '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">' + butce + '</p></div>' +
-            '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val">' + amac + '</p></div>' +
-            '<div class="detay" style="grid-column:1/-1;"><p class="detay-label">Öncelik</p><p class="detay-val">' + oncelik + '</p></div>' +
+            '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val" id="amac-val-' + idx + '">' + amac + '</p></div>' +
+            '<div class="detay" style="grid-column:1/-1;"><p class="detay-label">Öncelik</p><p class="detay-val" id="oncelik-val-' + idx + '">' + oncelik + '</p></div>' +
           '</div>' +
-          '<div class="kart-btns">' +
+          // Düzenleme paneli (gizli)
+          '<div id="dp-' + idx + '" style="display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;">' +
+            '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px;">Amaç</p>' +
+            '<div id="amac-btns-' + idx + '">' + btnler(AMAC_OPT[aktifSet]||AMAC_OPT.normal, amac, 'secA' + idx) + '</div>' +
+            '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:12px 0 6px;">Öncelik</p>' +
+            '<div id="oncelik-btns-' + idx + '">' + btnler(ONCELIK_OPT, oncelik, 'secO' + idx) + '</div>' +
+            '<button onclick="kaydetDP(' + idx + ')" style="width:100%;margin-top:14px;background:#e8a838;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kaydet ✓</button>' +
+            '<button onclick="kapDP(' + idx + ')" style="width:100%;margin-top:6px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:9px;font-size:13px;color:#64748b;cursor:pointer;">İptal</button>' +
+          '</div>' +
+          '<div class="kart-btns" id="kb-' + idx + '" style="margin-top:12px;">' +
             '<button class="btn-hediye" onclick="yeniHediye(' + idx + ')">Yeni hediye bul</button>' +
-            '<button class="btn-guncelle" onclick="guncelle(' + idx + ')">✏️ Güncelle</button>' +
+            '<button class="btn-guncelle" onclick="acDP(' + idx + ')">✏️ Düzenle</button>' +
           '</div>' +
           '<p style="font-size:11px;color:#64748b;margin-top:10px;">🕐 ' + altBilgi + '</p>';
+
+        // Seçim fonksiyonlarını dinamik oluştur
+        window['secA' + idx] = function(btn) {
+          btn.parentNode.querySelectorAll('button').forEach(function(b) { b.style.background='rgba(255,255,255,0.07)';b.style.color='#e2e8f0';b.style.fontWeight='400';b.style.borderColor='rgba(255,255,255,0.15)'; });
+          btn.style.background='#e8a838';btn.style.color='#412402';btn.style.fontWeight='700';btn.style.borderColor='#e8a838';
+          window._kisiler[idx]._ea = btn.textContent;
+          window._kisiler[idx]._eaKey = amacKey;
+        };
+        window['secO' + idx] = function(btn) {
+          btn.parentNode.querySelectorAll('button').forEach(function(b) { b.style.background='rgba(255,255,255,0.07)';b.style.color='#e2e8f0';b.style.fontWeight='400';b.style.borderColor='rgba(255,255,255,0.15)'; });
+          btn.style.background='#e8a838';btn.style.color='#412402';btn.style.fontWeight='700';btn.style.borderColor='#e8a838';
+          window._kisiler[idx]._eo = btn.textContent;
+        };
+
         kartlarDiv.appendChild(kart);
       });
       window._kisiler = kisiler;
@@ -174,6 +222,25 @@ function profilYukle() {
     });
 }
 
+function acDP(idx) {
+  document.getElementById('dp-'+idx).style.display='block';
+  document.getElementById('kb-'+idx).style.display='none';
+}
+function kapDP(idx) {
+  document.getElementById('dp-'+idx).style.display='none';
+  document.getElementById('kb-'+idx).style.display='grid';
+}
+function kaydetDP(idx) {
+  var k = window._kisiler[idx];
+  var cv = k.tum_cevaplar || {};
+  if (typeof cv === 'string') { try { cv=JSON.parse(cv); } catch(e) { cv={}; } }
+  if (k._ea) { cv[k._eaKey||'amac']=k._ea; document.getElementById('amac-val-'+idx).textContent=k._ea; }
+  if (k._eo) { cv.oncelik=k._eo; document.getElementById('oncelik-val-'+idx).textContent=k._eo; }
+  k.tum_cevaplar=cv;
+  var nick=localStorage.getItem('budurBuldumNickname');
+  fetch('/api/save-profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:k.session_id,nickname:nick,kisi_adi:k.kisi_adi||'',tum_cevaplar:cv})})
+    .then(function(){kapDP(idx);}).catch(function(){kapDP(idx);});
+}
 function profilStateYukle(k) {
   if (!k) return;
   var cv = k.tum_cevaplar || {};
