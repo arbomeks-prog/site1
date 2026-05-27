@@ -138,8 +138,8 @@ function profilYukle() {
         // tum_cevaplar parse
         var cv = k.tum_cevaplar || {};
         if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
-        var butce = k.butce || cv.butce || cv.bebek_butce || cv.cocuk_butce || cv.evcil_butce || '—';
-        var amac = cv.amac || cv.cocuk_amac || cv.bebek_amac || '—';
+        var butce = k.butce || cv.butce || cv.bebek_butce || cv.cocuk_butce || cv.evcil_butce || cv.kedi_butce || cv.kopek_butce || cv.kus_butce || cv.pet_butce || cv.balik_butce || cv.kucukpet_butce || '—';
+        var amac = cv.amac || cv.cocuk_amac || cv.bebek_amac || cv.pet_amac || cv.kedi_amac || '—';
         var oncelik = cv.oncelik || '—';
         var tikSayisi = 0;
         try { tikSayisi = (JSON.parse(k.tiklanan_hediyeler || '[]')).length; } catch(e) {}
