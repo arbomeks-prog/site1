@@ -135,26 +135,35 @@ function profilYukle() {
         var isim = k.kisi_adi || k.iliski_durumu || 'Kişi';
         var renk = AVATAR_RENKLER[idx % AVATAR_RENKLER.length];
         var kart = document.createElement('div');
+        // tum_cevaplar parse
+        var cv = k.tum_cevaplar || {};
+        if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
+        var butce = k.butce || cv.butce || cv.bebek_butce || cv.cocuk_butce || cv.evcil_butce || '—';
+        var amac = cv.amac || cv.cocuk_amac || cv.bebek_amac || '—';
+        var oncelik = cv.oncelik || '—';
+        var tikSayisi = 0;
+        try { tikSayisi = (JSON.parse(k.tiklanan_hediyeler || '[]')).length; } catch(e) {}
+        var altBilgi = tarihFarki(k.updated_at || k.created_at) + (tikSayisi > 0 ? ' · ' + tikSayisi + ' hediye tıklandı' : '');
+
         kart.className = 'kart';
         kart.innerHTML =
           '<div class="kart-header">' +
             '<div class="avatar" style="background:' + renk.bg + ';color:' + renk.text + ';">' + getInitials(isim) + '</div>' +
             '<div class="kart-meta">' +
               '<p class="kart-isim">' + isim + '</p>' +
-              '<p class="kart-alt">' + (k.cinsiyet || '') + (k.yas ? ' · ' + k.yas + ' yaş' : '') + '</p>' +
+              '<p class="kart-alt">' + (k.cinsiyet || '') + (k.yas ? ' · ' + k.yas : '') + '</p>' +
             '</div>' +
-            '<div class="kart-son">' + tarihFarki(k.updated_at || k.created_at) + '</div>' +
           '</div>' +
           '<div class="kart-detaylar">' +
-            '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">' + (k.butce || '—') + '</p></div>' +
-            '<div class="detay"><p class="detay-label">İlişki</p><p class="detay-val">' + (k.iliski_durumu || '—') + '</p></div>' +
-            (k.tum_cevaplar && k.tum_cevaplar.amac ? '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val">' + k.tum_cevaplar.amac + '</p></div>' : '') +
-            (k.tum_cevaplar && k.tum_cevaplar.oncelik ? '<div class="detay"><p class="detay-label">Öncelik</p><p class="detay-val">' + k.tum_cevaplar.oncelik + '</p></div>' : '') +
+            '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">' + butce + '</p></div>' +
+            '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val">' + amac + '</p></div>' +
+            '<div class="detay" style="grid-column:1/-1;"><p class="detay-label">Öncelik</p><p class="detay-val">' + oncelik + '</p></div>' +
           '</div>' +
           '<div class="kart-btns">' +
             '<button class="btn-hediye" onclick="yeniHediye(' + idx + ')">Yeni hediye bul</button>' +
-            '<button class="btn-guncelle" onclick="guncelle(' + idx + ')">Güncelle</button>' +
-          '</div>';
+            '<button class="btn-guncelle" onclick="guncelle(' + idx + ')">✏️ Güncelle</button>' +
+          '</div>' +
+          '<p style="font-size:11px;color:#64748b;margin-top:10px;">🕐 ' + altBilgi + '</p>';
         kartlarDiv.appendChild(kart);
       });
       window._kisiler = kisiler;
