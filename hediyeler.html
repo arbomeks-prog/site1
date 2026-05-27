@@ -678,7 +678,7 @@ const isBebek = aktifSetAdi === 'bebekler';
 const isCocuk = aktifSetAdi === 'cocuklar';
 let ek = '';
 if (isPet) ek = 'searchQuery\'de MUTLAKA "evcil", "akvaryum", "pet" gibi netleştirici kelime kullan.';
-else if (isBebek) ek = 'searchQuery'de MUTLAKA "bebek" kelimesi olmali. searchQueryEn'de "baby" kelimesini kullan, ASLA "doll", "puppet", "figure" yazma — bunun yerine "baby toy", "baby clothing", "baby gift", "baby mobile" gibi guvenli ifadeler kullan.';
+else if (isBebek) ek = 'searchQuery\u2019de MUTLAKA "bebek" kelimesi olmali. searchQueryEn\u2019de "baby" kullan, "doll", "puppet", "figure" YAZMA — "baby toy", "baby clothing", "baby gift" kullan.';
 else if (isCocuk) ek = 'searchQuery\'de MUTLAKA "çocuk" + yaş aralığı olmalı.';
 const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : ''; }).filter(Boolean).join('\n');
 return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 2 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\n' + ek + '\nSadece JSON array döndür.';
