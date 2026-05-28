@@ -29,7 +29,7 @@ export default async function handler(req, res) {
                 messages: [
                     {
                         role: 'system',
-                        content: 'Her hediye için searchQuery Türkçe, searchQueryEn İngilizce arama kelimesi olsun (Unsplash görsel araması için). searchQuery mümkün olduğunca genel ve kısa olsun (max 3 kelime, ürün kategorisi bazlı). Aynı hediye kategorisini tekrar etme. Çeşitli ve birbirinden farklı hediyeler öner. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma.'
+                        content: 'Her hediye için searchQuery Türkçe tam hediye adını kullan (örn: "porselen çay seti", "deri cüzdan" — kısaltma, tam adı yaz). searchQueryEn İngilizce arama kelimesi olsun (Unsplash görsel araması için). KLİŞELERDEN KAÇIN: aksesuar/saat kriteri için mutlaka saat önerme; fotoğraf kriteri için albüm önerme; bunların yerine daha yaratıcı ve beklenmedik hediyeler bul. Aynı hediye kategorisini kesinlikle tekrar etme. Her hediye birbirinden tamamen farklı ve özgün olsun. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma.'
                     },
                     {
                         role: 'user',
