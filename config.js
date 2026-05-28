@@ -34,7 +34,7 @@ const QUIZ_CONFIG = {
         { id:"bitki",      soru:"Evde bitki bakımı yapıyor mu?",             secenekler:["Evet","Hayır","Deniyor"], sayfa:"bitki-sevene-hediye-testi.html" },
         { id:"oyun",       soru:"Oyun oynar mı?",                            secenekler:["Evet sık sık","Ara sıra","Hiç oynamaz"], sayfa:"oyun-oynayanlara-hediye-testi.html" },
         { id:"makyaj",     soru:"Makyaj / bakım ürünlerine ilgisi var mı?",  secenekler:["Çok var","Orta","Yok"], sayfa:"makyaj-bakim-sevene-hediye-testi.html" },
-        { id:"aksesuar",   soru:"Saat / aksesuar takmayı sever mi?",         secenekler:["Evet","Ara sıra","Hiç sevmez"], sayfa:"aksesuar-saat-sevene-hediye-testi.html" },
+        { id:"aksesuar",   soru:"Takı / aksesuar takmayı sever mi?",         secenekler:["Evet","Ara sıra","Hiç sevmez"], sayfa:"aksesuar-saat-sevene-hediye-testi.html" },
         { id:"mutfak",     soru:"En sevdiği mutfak türü?",                   secenekler:["Türk","İtalyan","Asya","Fast Food","Sağlıklı"], sayfa:"yemek-icin-hediye-bulma-testi.html" },
         { id:"doga",       soru:"Doğa yürüyüşü yapar mı?",                  secenekler:["Evet sever","Ara sıra","Hiç yapmaz"], sayfa:"doga-yuruyusu-sevene-hediye-testi.html" },
         { id:"sanat",      soru:"Sanat eserlerine ilgisi var mı?",           secenekler:["Çok var","Orta","Yok"], sayfa:"sanat-sevene-hediye-bulma-testi.html" },
