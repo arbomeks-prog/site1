@@ -634,7 +634,6 @@
     <div class="final-url">budurbuldum.com</div>
   </div>
 
-  <div class="heart-burst" id="heartBurst">❤️</div>
   <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
 
   <div class="controls">
@@ -918,14 +917,6 @@ function startFilm() {
       document.getElementById(id).style.backgroundImage = imgs[i] || imgs[0];
     });
     document.getElementById('photoGrid').classList.add('show');
-    // Kalp animasyonu - grid ortasında
-    setTimeout(()=>{
-      const h = document.getElementById('heartBurst');
-      h.classList.remove('pop');
-      void h.offsetWidth; // reflow
-      h.classList.add('pop');
-    }, 600);
-
     document.getElementById('ozetZone').classList.add('show');
     // Chipler birer birer
     const chips=document.getElementById('ozetChips');
