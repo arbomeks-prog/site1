@@ -1009,7 +1009,9 @@ async function init() {
   await Promise.race([
     Promise.all([
       ...queries.map((q,i)=>fetchPhoto(q,`p${i+1}`)),
-    ...giftQueries.map((q,i)=>fetchGiftPhoto(q,`gimg${i+1}`)),
+      ...giftQueries.map((q,i)=>fetchGiftPhoto(q,`gimg${i+1}`)),
+    ]),
+    timeout
   ]);
   const loader=document.getElementById('loader');
   loader.style.opacity='0';
