@@ -521,7 +521,7 @@
     <div style="font-size:48px;margin-bottom:20px;">🎬</div>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:#f5c842;letter-spacing:3px;margin-bottom:8px;">BABALAR GÜNÜ</div>
     <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.15em;margin-bottom:32px;">budurbuldum.com</div>
-    <button onclick="startFromButton()" style="background:linear-gradient(135deg,#f5c842,#e09820);color:#1a0d00;font-weight:900;font-size:18px;padding:16px 40px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 8px 30px rgba(245,200,66,0.4);font-family:'Nunito',sans-serif;">▶ Filmi Başlat</button>
+    <button id="startBtn" style="background:linear-gradient(135deg,#f5c842,#e09820);color:#1a0d00;font-weight:900;font-size:18px;padding:16px 40px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 8px 30px rgba(245,200,66,0.4);font-family:'Nunito',sans-serif;">▶ Filmi Başlat</button>
   </div>
 
   <!-- FOTOĞRAF BÖLGE -->
@@ -1001,6 +1001,11 @@ function startFromButton() {
   loader.style.opacity = '0';
   setTimeout(() => { loader.style.display='none'; startFilm(); }, 400);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('startBtn');
+  if(btn) btn.addEventListener('click', startFromButton);
+});
 
 async function init() {
   // Max 6 saniye bekle, sonra ne olursa olsun başla
