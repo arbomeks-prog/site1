@@ -697,7 +697,7 @@ const quizFlow = [
 const ozetAnswers = ['Babam', 'Babalar Günü 👔', 'Tamir & El İşi 🔧', 'Klasik & Şık 💼', '₺1.500–3.000 💰', 'Kullanışlı 🎁'];
 
 let timers = [], progInt = null;
-let bgAudio = null, musicPlaying = false, userInteracted = false;
+let bgAudio = null, musicPlaying = false;
 
 // ===== MÜZİK =====
 function startMusic() {
@@ -707,15 +707,7 @@ function startMusic() {
   bgAudio.volume = 0.8;
   bgAudio.play().catch(()=>{});
   musicPlaying = true;
-  // 38. saniyede fade-out (video 40sn)
-  setTimeout(()=>{
-    if(!bgAudio) return;
-    const fadeInterval = setInterval(()=>{
-      if(!bgAudio) { clearInterval(fadeInterval); return; }
-      bgAudio.volume = Math.max(0, bgAudio.volume - 0.04);
-      if(bgAudio.volume <= 0) { stopMusic(); clearInterval(fadeInterval); }
-    }, 100);
-  }, 38000);
+
 }
 
 function stopMusic() {
@@ -728,16 +720,10 @@ function toggleMusic() {
   else { startMusic(); document.getElementById('musicBtn').textContent='🔇'; }
 }
 
-// İlk kullanıcı etkileşiminde müziği başlat (tarayıcı politikası)
-function onFirstInteraction() {
-  if(userInteracted) return;
-  userInteracted = true;
-  if(!musicPlaying) { startMusic(); document.getElementById('musicBtn').textContent='🔇'; }
-  document.removeEventListener('click', onFirstInteraction);
-  document.removeEventListener('touchstart', onFirstInteraction);
-}
-document.addEventListener('click', onFirstInteraction);
-document.addEventListener('touchstart', onFirstInteraction);
+// Sayfa yüklenince otomatik başlat
+document.addEventListener('DOMContentLoaded', ()=>{
+  setTimeout(()=>{ startMusic(); document.getElementById('musicBtn').textContent='🔇'; }, 500);
+});
 
 // ===== PEXELS =====
 async function fetchPhoto(query, id) {
@@ -998,4 +984,5 @@ init();
 
 </body>
 </html>
+
 
