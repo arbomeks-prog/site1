@@ -632,7 +632,6 @@
   <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
 
   <div class="controls">
-    <button class="ctrl-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
   </div>
 
 </div>
@@ -697,113 +696,10 @@ const quizFlow = [
 const ozetAnswers = ['Babam', 'Babalar Günü 👔', 'Tamir & El İşi 🔧', 'Klasik & Şık 💼', '₺1.500–3.000 💰', 'Kullanışlı 🎁'];
 
 let timers = [], progInt = null;
-let audioCtx = null, musicNodes = [], musicPlaying = false;
 
 // ===== MÜZİK =====
-function startMusic() {
-  stopMusic();
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  musicPlaying = true;
 
-  const master = audioCtx.createGain();
-  master.gain.setValueAtTime(0, audioCtx.currentTime);
-  master.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 1.5);
-  master.connect(audioCtx.destination);
-  musicNodes.push(master);
 
-  const BPM = 118, b = 60 / BPM, now = audioCtx.currentTime;
-
-  function kick(t) {
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.frequency.setValueAtTime(160, now+t);
-    o.frequency.exponentialRampToValueAtTime(40, now+t+0.1);
-    g.gain.setValueAtTime(0.6, now+t);
-    g.gain.exponentialRampToValueAtValue=undefined;
-    g.gain.exponentialRampToValueAtTime(0.001, now+t+0.18);
-    o.connect(g); g.connect(master);
-    o.start(now+t); o.stop(now+t+0.2);
-    musicNodes.push(o,g);
-  }
-
-  function hihat(t, v=0.1) {
-    const buf = audioCtx.createBuffer(1, audioCtx.sampleRate*0.04, audioCtx.sampleRate);
-    const d = buf.getChannelData(0);
-    for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
-    const s=audioCtx.createBufferSource(), g=audioCtx.createGain(), f=audioCtx.createBiquadFilter();
-    f.type='highpass'; f.frequency.value=9000;
-    s.buffer=buf; g.gain.setValueAtTime(v,now+t); g.gain.exponentialRampToValueAtTime(0.001,now+t+0.04);
-    s.connect(f); f.connect(g); g.connect(master); s.start(now+t);
-    musicNodes.push(s,g,f);
-  }
-
-  function clap(t) {
-    const buf=audioCtx.createBuffer(1,audioCtx.sampleRate*0.1,audioCtx.sampleRate);
-    const d=buf.getChannelData(0);
-    for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
-    const s=audioCtx.createBufferSource(),g=audioCtx.createGain(),f=audioCtx.createBiquadFilter();
-    f.type='bandpass'; f.frequency.value=1100; f.Q.value=0.7;
-    s.buffer=buf; g.gain.setValueAtTime(0.3,now+t);
-    s.connect(f); f.connect(g); g.connect(master); s.start(now+t);
-    musicNodes.push(s,g,f);
-  }
-
-  function pluck(freq,t,dur,vol=0.2) {
-    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-    o.type='sawtooth'; o.frequency.value=freq;
-    g.gain.setValueAtTime(vol,now+t);
-    g.gain.exponentialRampToValueAtTime(vol*0.4,now+t+0.06);
-    g.gain.exponentialRampToValueAtTime(0.001,now+t+dur);
-    o.connect(g); g.connect(master);
-    o.start(now+t); o.stop(now+t+dur+0.05);
-    musicNodes.push(o,g);
-  }
-
-  // Ritim - 45 bar
-  for(let i=0;i<45;i++){
-    kick(i*b); if(i%2===1)clap(i*b);
-    hihat(i*b+b*0.5); if(i%4<2)hihat(i*b+b*0.25,0.06);
-  }
-
-  // Melodi
-  const mel=[
-    [392,0],[440,b],[494,b*2],[523,b*3],
-    [494,b*4],[440,b*5],[392,b*6],[349,b*7],
-    [392,b*8],[523,b*9],[587,b*10],[523,b*11],
-    [494,b*12],[440,b*13],[392,b*14],[392,b*15],
-    [523,b*16],[587,b*17],[659,b*18],[698,b*19],
-    [659,b*20],[587,b*21],[523,b*22],[494,b*23],
-    [440,b*24],[494,b*25],[523,b*26],[523,b*27],
-    [494,b*28],[440,b*29],[392,b*30],[392,b*31],
-  ];
-  mel.forEach(([f,t])=>pluck(f,t,b*0.82));
-  mel.forEach(([f,t])=>pluck(f,t+b*32,b*0.82,0.12));
-
-  // Bas
-  [[98,0],[110,b*8],[123,b*16],[98,b*24],[110,b*32],[98,b*40]].forEach(([f,t])=>{
-    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-    o.type='triangle'; o.frequency.value=f;
-    g.gain.setValueAtTime(0.14,now+t);
-    g.gain.exponentialRampToValueAtTime(0.001,now+t+b*7.8);
-    o.connect(g); g.connect(master);
-    o.start(now+t); o.stop(now+t+b*8);
-    musicNodes.push(o,g);
-  });
-
-  master.gain.setValueAtTime(0.2, now+36);
-  master.gain.linearRampToValueAtTime(0, now+42);
-}
-
-function stopMusic() {
-  musicNodes.forEach(n=>{try{n.disconnect();}catch(e){}});
-  musicNodes=[];
-  if(audioCtx){audioCtx.close();audioCtx=null;}
-  musicPlaying=false;
-}
-
-function toggleMusic() {
-  if(musicPlaying){stopMusic();document.getElementById('musicBtn').textContent='🎵';}
-  else{startMusic();document.getElementById('musicBtn').textContent='🔇';}
-}
 
 // ===== PEXELS =====
 async function fetchPhoto(query, id) {
@@ -906,7 +802,6 @@ function T(fn,ms){const id=setTimeout(fn,ms);timers.push(id);}
 
 function startFilm() {
   clearAll();
-  startMusic();
   document.getElementById('musicBtn').textContent='🔇';
 
   // Reset fotoğraflar
@@ -1023,7 +918,6 @@ function startFilm() {
 function clearAll() {
   timers.forEach(clearTimeout); timers=[];
   if(progInt){clearInterval(progInt);progInt=null;}
-  stopMusic();
   document.getElementById('ozetZone').classList.remove('show');
   document.getElementById('giftsZone').classList.remove('show');
   document.getElementById('finalZone').classList.remove('show');
@@ -1054,9 +948,7 @@ async function init() {
     ...queries.map((q,i)=>fetchPhoto(q,`p${i+1}`)),
     ...giftQueries.map((q,i)=>fetchGiftPhoto(q,`gimg${i+1}`)),
   ]);
-  const loader=document.getElementById('loader');
-  loader.style.opacity='0';
-  setTimeout(()=>{ loader.style.display='none'; startFilm(); },800);
+  startFilm();  
 }
 
 init();
