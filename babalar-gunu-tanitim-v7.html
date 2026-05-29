@@ -1040,16 +1040,43 @@ async function fetchGiftPhoto(query, id) {
 }
 
 async function init() {
-  await Promise.all([
-    ...queries.map((q,i)=>fetchPhoto(q,`p${i+1}`)),
-    ...giftQueries.map((q,i)=>fetchGiftPhoto(q,`gimg${i+1}`)),
-  ]);
-  const loader=document.getElementById('loader');
-  loader.style.opacity='0';
-  setTimeout(()=>{ loader.style.display='none'; startFilm(); },800);
+  await fetchPhoto(queries[0], 'p1');
+  // İlk kareyi göster
+  fullPhoto('p1',1);
+  // YouTube tarzı oynat düğmesi  
+  const playButton = document.createElement('div');
+  playButton.id = 'playButton';
+  playButton.innerHTML = `
+    <svg viewBox="0 0 24 24" width="80" height="80">
+      <circle cx="12" cy="12" r="10" fill="#fff" opacity="0.85"></circle>
+      <path d="M10 8.64L15.36 12L10 15.36V8.64Z" fill="#000"/>
+    </svg>
+  `;
+  playButton.style.position = 'absolute';
+  playButton.style.top = '50%';
+  playButton.style.left = '50%';
+  playButton.style.transform = 'translate(-50%, -50%)';
+  playButton.style.cursor = 'pointer';
+  playButton.style.zIndex = '10';
+  playButton.onclick = function() {
+    this.style.display = 'none';
+    startMusic();
+    startFilm();
+  };
+  document.getElementById('screen').appendChild(playButton);  
 }
 
 init();
+const MP3_B64 = "/baba-masal.mp3";
+function startMusic() {
+bgAudio = new Audio(MP3_B64);
+bgAudio.volume = 0.5;
+bgAudio.loop = true;
+bgAudio.play().catch(()=>{});
+}
+function stopMusic() {
+if(bgAudio){bgAudio.pause();bgAudio=null;}
+}
 </script>
 
 </body>
