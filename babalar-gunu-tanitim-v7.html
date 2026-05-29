@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budur Buldum — Tanıtım</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@600;700;800;900&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: #080808;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .screen {
+    width: 360px;
+    height: 640px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #0f0f14;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== ÜST: FOTOĞRAF ALAN ===== */
+  .photo-zone {
+    width: 100%;
+    height: 260px;
+    position: relative;
+    overflow: visible;
+    flex-shrink: 0;
+  }
+
+  .photo-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center top;
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0;
+  }
+
+  .photo-layer.pip {
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    z-index: 4;
+  }
+
+  .photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.0) 40%, rgba(15,15,20,0.95) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Üst metin */
+  .photo-text {
+    position: absolute;
+    z-index: 6;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.6s ease;
+    max-width: 220px;
+  }
+
+  /* Pozisyon varyantları */
+  .photo-text.pos-bl { bottom: 14px; left: 14px; }
+  .photo-text.pos-br { bottom: 14px; right: 14px; text-align: right; }
+  .photo-text.pos-tl { top: 36px; left: 14px; }
+  .photo-text.pos-tr { top: 36px; right: 14px; text-align: right; }
+
+  .photo-text.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .photo-label {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,217,61,0.8);
+    margin-bottom: 4px;
+  }
+
+  .photo-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+  }
+
+  .photo-title .accent { color: #FFD93D; }
+
+  /* ===== ALT: QUIZ ALAN ===== */
+  .quiz-zone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px 12px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* İlerleme çubuğu */
+  .quiz-progress {
+    display: flex;
+    gap: 4px;
+    padding: 10px 0 8px;
+    flex-shrink: 0;
+  }
+
+  .qp-dot {
+    height: 3px;
+    flex: 1;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    transition: background 0.4s ease;
+  }
+
+  .qp-dot.done { background: #FFD93D; }
+  .qp-dot.active { background: rgba(255,217,61,0.5); }
+
+  /* Soru */
+  .quiz-question {
+    font-size: 14px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 10px;
+    line-height: 1.4;
+    flex-shrink: 0;
+    min-height: 40px;
+    transition: opacity 0.4s ease;
+  }
+
+  /* Seçenekler */
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+  }
+
+  .quiz-opt {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .quiz-opt.selected {
+    background: rgba(255,217,61,0.15);
+    border-color: #FFD93D;
+    color: #FFD93D;
+  }
+
+  .quiz-opt .opt-check {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    transition: all 0.3s ease;
+  }
+
+  .quiz-opt.selected .opt-check {
+    background: #FFD93D;
+    border-color: #FFD93D;
+    color: #1a0d00;
+  }
+
+  /* Özet sayfası */
+  .ozet-zone {
+    position: absolute;
+    inset: 0;
+    background: #0f0f14;
+    padding: 12px 16px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .ozet-zone.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .ozet-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: rgba(255,217,61,0.7);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .ozet-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .ozet-chip {
+    background: rgba(255,217,61,0.1);
+    border: 1px solid rgba(255,217,61,0.3);
+    color: rgba(255,217,61,0.9);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+  }
+
+  .ozet-chip.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hediye kartları */
+  .gifts-zone {
+    position: absolute;
+    inset: 0;
+    background: #0f0f14;
+    padding: 8px 10px;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .gifts-zone.show { opacity: 1; transform: translateY(0); }
+
+  .gifts-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: rgba(255,217,61,0.7);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  /* Gerçek kart grid - 2x3 */
+  .real-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 6px;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .real-card {
+    flex: 1;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.55s cubic-bezier(0.34,1.2,0.64,1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    border: 1.5px solid rgba(255,255,255,0.08);
+  }
+
+  .real-card.show { opacity: 1; transform: translateY(0); }
+
+  .real-card-img {
+    height: 72px;
+    background: #f1f5f9;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+  }
+
+  .real-card-badge {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f59e0b;
+    color: #fff;
+    font-size: 7px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 20px;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .real-card-body {
+    padding: 7px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+  }
+
+  .real-card-name {
+    font-size: 9px;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1.3;
+  }
+
+  .real-card-price {
+    font-size: 11px;
+    font-weight: 800;
+    color: #d97706;
+  }
+
+  .real-card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 2px;
+  }
+
+  .rplt {
+    font-size: 7px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: #fff;
+  }
+
+  .rplt-t { background: #f27a1a; }
+  .rplt-h { background: #ff6000; }
+  .rplt-a { background: #ff9900; color: #111; }
+
+  /* Final ekran */
+  .final-zone {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #1a1200 0%, #0d0d0d 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    z-index: 20;
+    text-align: center;
+    padding: 30px;
+    transition: opacity 1s ease;
+  }
+
+  .final-zone.show { opacity: 1; }
+
+  .final-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #FFD93D, #FF9500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+  }
+
+  .final-sub { font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:28px; }
+
+  .final-cta {
+    background: linear-gradient(135deg, #FFD93D, #FF9500);
+    color: #1a0d00;
+    font-weight: 900;
+    font-size: 15px;
+    padding: 14px 34px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 40px rgba(255,217,61,0.4);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 14px;
+    animation: ctaPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes ctaPulse {
+    0%,100% { box-shadow: 0 8px 40px rgba(255,217,61,0.4); }
+    50% { box-shadow: 0 8px 60px rgba(255,217,61,0.65); }
+  }
+
+  .final-url { font-size:10px; color:rgba(255,217,61,0.25); letter-spacing:0.15em; }
+
+  /* 2x2 Grid kolaj */
+  .photo-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    z-index: 3;
+  }
+
+  .photo-grid.show { opacity: 1; }
+
+  .photo-grid-cell {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Accent bar */
+  .accent-bar {
+    position: absolute;
+    top:0; left:0; right:0; height:3px; z-index:30;
+    background: linear-gradient(90deg,#FFD93D,#FF6B6B,#4ECDC4,#FFD93D);
+    background-size: 200%;
+    animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes shimmer { to { background-position: 200%; } }
+
+  /* Progress bar */
+  .progress-bar {
+    position: absolute;
+    bottom:0; left:0; right:0; height:3px;
+    background: rgba(255,255,255,0.06); z-index:30;
+  }
+
+  .progress-fill {
+    height:100%;
+    background: linear-gradient(90deg,#FFD93D,#FF6B6B,#4ECDC4,#FFD93D);
+    background-size: 200%;
+    animation: shimmer 3s linear infinite;
+    width:0%; border-radius:0 3px 3px 0;
+  }
+
+  /* Müzik & kontroller */
+  .controls {
+    position: absolute;
+    top:10px; right:10px; z-index:30;
+    display:flex; gap:6px;
+  }
+
+  .ctrl-btn {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+    width:30px; height:30px;
+    border-radius:50%; font-size:13px;
+    cursor:pointer; display:flex;
+    align-items:center; justify-content:center;
+    backdrop-filter:blur(8px);
+  }
+
+  /* Loader */
+  .loader {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    background:#0a0a0a; z-index:40;
+    transition: opacity 0.8s ease; gap:14px;
+  }
+
+  .loader-ring {
+    width:36px; height:36px;
+    border:3px solid rgba(255,217,61,0.12);
+    border-top-color:#FFD93D;
+    border-radius:50%;
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .loader-text { font-size:10px; color:rgba(255,217,61,0.4); letter-spacing:0.2em; text-transform:uppercase; }
+
+  .replay-btn {
+    margin-top:18px;
+    background:none; border:1px solid rgba(255,217,61,0.2);
+    color:rgba(255,217,61,0.45); padding:8px 26px;
+    border-radius:30px; font-size:11px; cursor:pointer;
+    font-family:'Nunito',sans-serif; letter-spacing:0.06em; transition:all 0.3s;
+  }
+  .replay-btn:hover { border-color:rgba(255,217,61,0.6); color:rgba(255,217,61,0.9); }
+</style>
+</head>
+<body>
+
+<div class="screen" id="screen">
+
+  <div class="accent-bar"></div>
+
+  <div class="loader" id="loader">
+    <div class="loader-ring"></div>
+    <div class="loader-text">Yükleniyor</div>
+  </div>
+
+  <!-- FOTOĞRAF BÖLGE -->
+  <div class="photo-zone">
+    <div class="photo-zone-clip">
+      <div class="photo-layer" id="p1"></div>
+      <div class="photo-layer" id="p2"></div>
+      <div class="photo-layer" id="p3"></div>
+      <div class="photo-layer" id="p4"></div>
+      <div class="photo-layer" id="p5"></div>
+      <div class="photo-layer" id="p6"></div>
+      <div class="photo-overlay"></div>
+      <div class="photo-grid" id="photoGrid">
+      <div class="photo-grid-cell" id="pg1"></div>
+      <div class="photo-grid-cell" id="pg2"></div>
+      <div class="photo-grid-cell" id="pg3"></div>
+      <div class="photo-grid-cell" id="pg4"></div>
+    </div>
+    </div><!-- /photo-zone-clip -->
+    <div class="photo-text pos-bl" id="photoText">
+      <div class="photo-label" id="photoLabel"></div>
+      <div class="photo-title" id="photoTitle"></div>
+    </div>
+  </div>
+
+  <!-- QUIZ BÖLGE -->
+  <div class="quiz-zone" id="quizZone">
+    <div class="quiz-progress" id="quizProgress">
+      <div class="qp-dot active" id="dot0"></div>
+      <div class="qp-dot" id="dot1"></div>
+      <div class="qp-dot" id="dot2"></div>
+      <div class="qp-dot" id="dot3"></div>
+      <div class="qp-dot" id="dot4"></div>
+      <div class="qp-dot" id="dot5"></div>
+    </div>
+
+    <div class="quiz-question" id="quizQ">Hediye kime alınıyor?</div>
+    <div class="quiz-options" id="quizOpts"></div>
+
+    <!-- Özet -->
+    <div class="ozet-zone" id="ozetZone">
+      <div class="ozet-title">✨ Seçimleriniz</div>
+      <div class="ozet-chips" id="ozetChips"></div>
+    </div>
+
+    <!-- Hediyeler -->
+    <div class="gifts-zone" id="giftsZone">
+      <div class="gifts-title">🎯 Nokta Atışı Hediyeler</div>
+      <div class="real-cards-grid" id="realCards">
+        <div class="real-card" id="gc1">
+          <div class="real-card-img" id="gimg1"><div class="real-card-badge">🎯 Nokta Atışı</div></div>
+          <div class="real-card-body">
+            <div class="real-card-name">Akıllı Saat</div>
+            <div class="real-card-price">₺2.499</div>
+            <div class="real-card-links"><span class="rplt rplt-t">Trendyol</span><span class="rplt rplt-h">Hepsiburada</span></div>
+          </div>
+        </div>
+        <div class="real-card" id="gc2">
+          <div class="real-card-img" id="gimg2"><div class="real-card-badge">🎯 Nokta Atışı</div></div>
+          <div class="real-card-body">
+            <div class="real-card-name">Kablosuz Kulaklık</div>
+            <div class="real-card-price">₺1.299</div>
+            <div class="real-card-links"><span class="rplt rplt-t">Trendyol</span><span class="rplt rplt-a">Amazon</span></div>
+          </div>
+        </div>
+        <div class="real-card" id="gc3">
+          <div class="real-card-img" id="gimg3"><div class="real-card-badge">⭐ Öne Çıkan</div></div>
+          <div class="real-card-body">
+            <div class="real-card-name">Premium Alet Seti</div>
+            <div class="real-card-price">₺899</div>
+            <div class="real-card-links"><span class="rplt rplt-t">Trendyol</span><span class="rplt rplt-h">Hepsiburada</span></div>
+          </div>
+        </div>
+        <div class="real-card" id="gc4">
+          <div class="real-card-img" id="gimg4"><div class="real-card-badge">🎯 Nokta Atışı</div></div>
+          <div class="real-card-body">
+            <div class="real-card-name">Deri Cüzdan</div>
+            <div class="real-card-price">₺649</div>
+            <div class="real-card-links"><span class="rplt rplt-t">Trendyol</span><span class="rplt rplt-a">Amazon</span></div>
+          </div>
+        </div>
+        <div class="real-card" id="gc5">
+          <div class="real-card-img" id="gimg5"><div class="real-card-badge">🎯 Nokta Atışı</div></div>
+          <div class="real-card-body">
+            <div class="real-card-name">Parfüm Seti</div>
+            <div class="real-card-price">₺1.099</div>
+            <div class="real-card-links"><span class="rplt rplt-h">Hepsiburada</span><span class="rplt rplt-a">Amazon</span></div>
+          </div>
+        </div>
+        <div class="real-card" id="gc6">
+          <div class="real-card-img" id="gimg6"><div class="real-card-badge">⭐ Öne Çıkan</div></div>
+          <div class="real-card-body">
+            <div class="real-card-name">Termos & Kamp Seti</div>
+            <div class="real-card-price">₺749</div>
+            <div class="real-card-links"><span class="rplt rplt-t">Trendyol</span><span class="rplt rplt-h">Hepsiburada</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Final -->
+  <div class="final-zone" id="finalZone">
+    <div style="font-size:32px;margin-bottom:16px;">🎁</div>
+    <div class="final-logo">BUDUR BULDUM</div>
+    <div class="final-sub">Kişiye özel hediye bulucu</div>
+    <a class="final-cta" href="https://budurbuldum.com" target="_blank">Babana Hediye Bul →</a>
+    <div class="final-url">budurbuldum.com</div>
+  </div>
+
+  <div class="heart-burst" id="heartBurst">❤️</div>
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+
+  <div class="controls">
+    <button class="ctrl-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+  </div>
+
+</div>
+
+<button class="replay-btn" onclick="replay()">↺ Tekrar İzle</button>
+
+<script>
+const PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
+
+const queries = [
+  'father child happy outdoor warm',
+  'man working tools workshop smiling',
+  'father daughter gift surprise happy',
+  'grandfather grandchild love happy',
+  'father cooking kitchen family',
+  'father son fishing nature outdoor'
+];
+
+const giftQueries = [
+  'smartwatch wrist luxury',
+  'wireless headphones music',
+  'tool set workshop professional',
+  'leather wallet men luxury',
+  'perfume bottle luxury men',
+  'thermos camping outdoor men'
+];
+
+// Quiz akışı
+const quizFlow = [
+  {
+    q: '👤 Hediye kime alınıyor?',
+    opts: ['👨 Babama', '👴 Dedem', '👫 Eşime', '🧑 Arkadaşıma'],
+    answer: 0
+  },
+  {
+    q: '🎯 Hangi amaçla alıyorsunuz?',
+    opts: ['🎂 Doğum Günü', '👔 Babalar Günü', '🎓 Mezuniyet', '🥳 Sürpriz'],
+    answer: 1
+  },
+  {
+    q: '🎸 Hobileri neler?',
+    opts: ['🔧 Tamir & El İşi', '⚽ Spor', '📚 Okuma', '🎵 Müzik'],
+    answer: 0
+  },
+  {
+    q: '👔 Tarzı nasıl?',
+    opts: ['💼 Klasik & Şık', '👕 Rahat & Sade', '🤠 Outdoor', '🎨 Yaratıcı'],
+    answer: 0
+  },
+  {
+    q: '💰 Bütçeniz ne kadar?',
+    opts: ['₺500 altı', '₺500 – ₺1.500', '₺1.500 – ₺3.000', '₺3.000+'],
+    answer: 2
+  },
+  {
+    q: '✨ Dikkat ettiğiniz şey?',
+    opts: ['🎁 Kullanışlı olsun', '💝 Anlamlı olsun', '🔥 Şık olsun', '😄 Eğlenceli olsun'],
+    answer: 0
+  }
+];
+
+const ozetAnswers = ['Babam', 'Babalar Günü 👔', 'Tamir & El İşi 🔧', 'Klasik & Şık 💼', '₺1.500–3.000 💰', 'Kullanışlı 🎁'];
+
+let timers = [], progInt = null;
+let audioCtx = null, musicNodes = [], musicPlaying = false, bgAudio = null;
+
+// ===== MÜZİK =====
+let bgAudio = null;
+const MP3_B64 = 'https://raw.githubusercontent.com/arbomeks-prog/site1/main/baba-masal.mp3';
+
+function startMusic() {
+  stopMusic();
+  musicPlaying = true;
+  bgAudio = new Audio(MP3_B64);
+  bgAudio.volume = 0;
+  bgAudio.play().catch(()=>{});
+  // Fade in
+  let vol = 0;
+  const fadeIn = setInterval(()=>{
+    vol = Math.min(vol + 0.03, 0.75);
+    bgAudio.volume = vol;
+    if(vol >= 0.75) clearInterval(fadeIn);
+  }, 80);
+  // Fade out son 4 saniyede
+  setTimeout(()=>{
+    const fadeOut = setInterval(()=>{
+      if(!bgAudio) { clearInterval(fadeOut); return; }
+      bgAudio.volume = Math.max(bgAudio.volume - 0.025, 0);
+      if(bgAudio.volume <= 0) { clearInterval(fadeOut); }
+    }, 80);
+  }, 26000);
+  musicNodes.push({ disconnect: ()=>{} });
+}
+
+function stopMusic() {
+  musicNodes.forEach(n=>{try{n.disconnect();}catch(e){}});
+  musicNodes=[];
+  if(audioCtx){audioCtx.close();audioCtx=null;}
+  if(bgAudio){bgAudio.pause();bgAudio=null;}
+  musicPlaying=false;
+}
+
+function toggleMusic() {
+  if(musicPlaying){stopMusic();document.getElementById('musicBtn').textContent='🎵';}
+  else{startMusic();document.getElementById('musicBtn').textContent='🔇';}
+}
+
+// ===== PEXELS =====
+async function fetchPhoto(query, id) {
+  try {
+    const r = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=8&orientation=landscape`,
+      { headers: { Authorization: PEXELS_KEY } }
+    );
+    const d = await r.json();
+    if(d.photos?.length>0){
+      const p=d.photos[Math.floor(Math.random()*Math.min(d.photos.length,5))];
+      document.getElementById(id).style.backgroundImage=`url(${p.src.large})`;
+    }
+  } catch(e){}
+}
+
+// ===== FOTOĞRAF GEÇİŞ =====
+const corners = [
+  {transform:'translate(6px,6px) scale(0.22)',transformOrigin:'top left'},
+  {transform:'translate(-6px,6px) scale(0.22)',transformOrigin:'top right'},
+  {transform:'translate(6px,-6px) scale(0.22)',transformOrigin:'bottom left'},
+  {transform:'translate(-6px,-6px) scale(0.22)',transformOrigin:'bottom right'},
+  {transform:'translate(6px,44px) scale(0.22)',transformOrigin:'top left'},
+  {transform:'translate(-6px,44px) scale(0.22)',transformOrigin:'top right'},
+];
+
+function fullPhoto(id, zIdx=1) {
+  const el=document.getElementById(id);
+  el.style.transformOrigin='center';
+  el.style.transform='scale(1) translate(0,0)';
+  el.style.opacity='1';
+  el.style.zIndex=zIdx;
+  el.style.borderRadius='0';
+  el.classList.remove('pip');
+}
+
+function pipPhoto(id, ci) {
+  const el=document.getElementById(id);
+  const c=corners[ci];
+  el.classList.add('pip');
+  el.style.transformOrigin=c.transformOrigin;
+  el.style.transform=c.transform;
+  el.style.opacity='0.8';
+  el.style.zIndex='4';
+  el.style.borderRadius='8px';
+}
+
+function hidePhoto(id) {
+  const el=document.getElementById(id);
+  el.style.transition='opacity 0.5s ease';
+  el.style.opacity='0';
+  el.style.zIndex='0';
+  el.classList.remove('pip');
+}
+
+// pos: 'bl'=sol alt(default), 'br'=sağ alt, 'tl'=sol üst, 'tr'=sağ üst
+function setPhotoText(label, title, show, pos='bl') {
+  document.getElementById('photoLabel').textContent=label;
+  document.getElementById('photoTitle').innerHTML=title;
+  const pt=document.getElementById('photoText');
+  // Pozisyon sınıflarını temizle
+  pt.classList.remove('pos-bl','pos-br','pos-tl','pos-tr');
+  pt.classList.add('pos-'+pos);
+  if(show){pt.classList.add('show');}else{pt.classList.remove('show');}
+}
+
+// ===== QUIZ =====
+let currentQ = 0;
+
+function renderQuestion(idx) {
+  const q=quizFlow[idx];
+  document.getElementById('quizQ').textContent=q.q;
+  const container=document.getElementById('quizOpts');
+  container.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const div=document.createElement('div');
+    div.className='quiz-opt';
+    div.innerHTML=`<div class="opt-check"></div><span>${opt}</span>`;
+    div.id=`opt_${idx}_${i}`;
+    container.appendChild(div);
+  });
+  // Dot güncelle
+  for(let i=0;i<6;i++){
+    const dot=document.getElementById(`dot${i}`);
+    if(i<idx) dot.className='qp-dot done';
+    else if(i===idx) dot.className='qp-dot active';
+    else dot.className='qp-dot';
+  }
+}
+
+function selectAnswer(qIdx, optIdx) {
+  const opt=document.getElementById(`opt_${qIdx}_${optIdx}`);
+  if(!opt) return;
+  opt.classList.add('selected');
+  opt.querySelector('.opt-check').textContent='✓';
+}
+
+// ===== TİMELINE =====
+function T(fn,ms){const id=setTimeout(fn,ms);timers.push(id);}
+
+function startFilm() {
+  clearAll();
+  startMusic();
+  document.getElementById('musicBtn').textContent='🔇';
+
+  // Reset fotoğraflar
+  ['p1','p2','p3','p4','p5','p6'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.style.opacity='0'; el.style.transform='scale(1) translate(0,0)';
+    el.style.borderRadius='0'; el.style.zIndex='0'; el.classList.remove('pip');
+    el.style.position='absolute'; el.style.inset='0';
+    el.style.left='0'; el.style.top='0'; el.style.width='100%'; el.style.height='100%';
+  });
+  document.getElementById('photoGrid').classList.remove('show');
+
+  // Her cevap 4 saniyede bir: soru → 2sn bekle → cevap seç → 0.5sn → pip + yeni soru
+  // Toplam 6 soru x 4sn = 24sn quiz bölümü
+
+  const qTiming = [
+    { qIdx:0, aIdx:0, start:300 },
+    { qIdx:1, aIdx:1, start:4500 },
+    { qIdx:2, aIdx:0, start:8700 },
+    { qIdx:3, aIdx:0, start:12900 },
+    { qIdx:4, aIdx:2, start:17100 },
+    { qIdx:5, aIdx:0, start:21300 },
+  ];
+
+  // İlk fotoğrafı göster
+  T(()=>{ fullPhoto('p1',1); setPhotoText('Babalar Günü','HER BABA<br><span class="accent">FARKLIYDI</span>',true,'bl'); }, 300);
+  T(()=>renderQuestion(0), 600);
+
+  qTiming.forEach((qt, i) => {
+    // Cevap seç
+    T(()=>selectAnswer(qt.qIdx, qt.aIdx), qt.start + 2200);
+
+    // Cevap seçilince: mevcut foto pip'e, yeni foto gelir, yeni soru
+    if(i < 5) {
+      T(()=>{
+        // i. fotoğrafı pip'e gönder
+        pipPhoto(`p${i+1}`, i);
+        // i+1. fotoğrafı tam göster
+        fullPhoto(`p${i+2}`, 1);
+        // Yazıyı güncelle
+        const titles = [
+          'DOĞRU HEDİYE <span class="accent">BURADA</span>',
+          'HİKAYESİNİ <span class="accent">BİLİYORUZ</span>',
+          'BU YIL <span class="accent">ŞAŞIRT</span> ONU',
+          'NOKTA <span class="accent">ATIŞI</span>',
+          '2 DAKİKA <span class="accent">YETER</span>',
+        ];
+        const labels = ['Kişiye Özel','Tarzını Biliriz','Nokta Atışı','Hediyeni Bulduk','Hemen Şimdi'];
+        // pip köşesinin karşısına yaz: 0=solüst→br, 1=sağüst→bl, 2=solalt→tr, 3=sağalt→tl, 4=solüst→br, 5=sağüst→bl
+        const textPos = ['br','bl','tr','tl','br','bl'];
+        setPhotoText(labels[i], titles[i], true, textPos[i]);
+        // Yeni soru
+        document.getElementById('quizQ').style.opacity='0';
+        setTimeout(()=>{ renderQuestion(qTiming[i+1].qIdx); document.getElementById('quizQ').style.opacity='1'; },350);
+      }, qt.start + 2800);
+    }
+  });
+
+  // === ÖZET (26-31sn) ===
+  T(()=>{
+    setPhotoText('','',false);
+    // Tüm pip'leri ve fotoğrafları gizle
+    ['p1','p2','p3','p4','p5','p6'].forEach(id=>hidePhoto(id));
+
+    // 2x2 grid için hücrelere fotoğrafları ata (p3-p6 daha taze)
+    const imgs = ['p3','p4','p5','p6'].map(id=>document.getElementById(id).style.backgroundImage);
+    ['pg1','pg2','pg3','pg4'].forEach((id,i)=>{
+      document.getElementById(id).style.backgroundImage = imgs[i] || imgs[0];
+    });
+    document.getElementById('photoGrid').classList.add('show');
+    // Kalp animasyonu - grid ortasında
+    setTimeout(()=>{
+      const h = document.getElementById('heartBurst');
+      h.classList.remove('pop');
+      void h.offsetWidth; // reflow
+      h.classList.add('pop');
+    }, 600);
+
+    document.getElementById('ozetZone').classList.add('show');
+    // Chipler birer birer
+    const chips=document.getElementById('ozetChips');
+    chips.innerHTML='';
+    ozetAnswers.forEach((txt,i)=>{
+      const c=document.createElement('div');
+      c.className='ozet-chip';
+      c.textContent=txt;
+      chips.appendChild(c);
+      setTimeout(()=>c.classList.add('show'), i*350+200);
+    });
+  },26000);
+
+  // === HEDİYELER (34-40sn) - üstte grid kalsın ===
+  T(()=>{
+    document.getElementById('ozetZone').classList.remove('show');
+    setPhotoText('🎁 Babalar İçin','EN İYİ <span class="accent">HEDİYELER</span>',true,'tl');
+    setTimeout(()=>{
+      document.getElementById('giftsZone').classList.add('show');
+      setTimeout(()=>document.getElementById('gc1').classList.add('show'),200);
+      setTimeout(()=>document.getElementById('gc2').classList.add('show'),400);
+      setTimeout(()=>document.getElementById('gc3').classList.add('show'),600);
+      setTimeout(()=>document.getElementById('gc4').classList.add('show'),800);
+      setTimeout(()=>document.getElementById('gc5').classList.add('show'),1000);
+      setTimeout(()=>document.getElementById('gc6').classList.add('show'),1200);
+    },400);
+  },31500);
+
+  // === FİNAL (40sn) ===
+  T(()=>document.getElementById('finalZone').classList.add('show'), 40000);
+
+  // Progress
+  let elapsed=0;
+  progInt=setInterval(()=>{
+    elapsed+=100;
+    const fill=document.getElementById('pf');
+    fill.style.transition='width 0.1s linear';
+    fill.style.width=Math.min((elapsed/40000)*100,100)+'%';
+    if(elapsed>=40000)clearInterval(progInt);
+  },100);
+}
+
+function clearAll() {
+  timers.forEach(clearTimeout); timers=[];
+  if(progInt){clearInterval(progInt);progInt=null;}
+  stopMusic();
+  document.getElementById('ozetZone').classList.remove('show');
+  document.getElementById('giftsZone').classList.remove('show');
+  document.getElementById('finalZone').classList.remove('show');
+  ['gc1','gc2','gc3','gc4','gc5','gc6'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  document.getElementById('pf').style.transition='none';
+  document.getElementById('pf').style.width='0%';
+  document.getElementById('photoText').classList.remove('show');
+}
+
+function replay() { startFilm(); }
+
+async function fetchGiftPhoto(query, id) {
+  try {
+    const r = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=8&orientation=square`,
+      { headers: { Authorization: PEXELS_KEY } }
+    );
+    const d = await r.json();
+    if(d.photos?.length>0){
+      const p=d.photos[Math.floor(Math.random()*Math.min(d.photos.length,5))];
+      document.getElementById(id).style.backgroundImage=`url(${p.src.medium})`;
+    }
+  } catch(e){}
+}
+
+async function init() {
+  // Max 6 saniye bekle, sonra ne olursa olsun başla
+  const timeout = new Promise(resolve => setTimeout(resolve, 6000));
+  await Promise.race([
+    Promise.all([
+      ...queries.map((q,i)=>fetchPhoto(q,`p${i+1}`)),
+    ...giftQueries.map((q,i)=>fetchGiftPhoto(q,`gimg${i+1}`)),
+  ]);
+  const loader=document.getElementById('loader');
+  loader.style.opacity='0';
+  setTimeout(()=>{ loader.style.display='none'; startFilm(); },800);
+}
+
+init();
+</script>
+
+</body>
+</html>
