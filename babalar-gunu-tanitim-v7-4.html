@@ -892,6 +892,13 @@ function startFilm() {
     }
   });
 
+  // 6. soruyu ozetten once temizle
+  T(()=>{
+    document.getElementById('quizQ').style.opacity='0';
+    document.getElementById('quizOpts').style.opacity='0';
+    document.getElementById('quizProgress').style.opacity='0';
+  }, 24500);
+
   // === ÖZET (26-31sn) ===
   T(()=>{
     setPhotoText('','',false);
@@ -958,6 +965,9 @@ function clearAll() {
   document.getElementById('pf').style.transition='none';
   document.getElementById('pf').style.width='0%';
   document.getElementById('photoText').classList.remove('show');
+  document.getElementById('quizQ').style.opacity='1';
+  document.getElementById('quizOpts').style.opacity='1';
+  document.getElementById('quizProgress').style.opacity='1';
 }
 
 function replay() { startFilm(); }
