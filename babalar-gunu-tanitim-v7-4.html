@@ -639,6 +639,13 @@
 
 <button class="replay-btn" onclick="replay()">↺ Tekrar İzle</button>
 
+<!-- BAŞLAT BUTONU -->
+<div id="startBtn" onclick="document.getElementById('startBtn').style.display='none'; startMusic(); document.getElementById('musicBtn').textContent='🔇'; startFilm();" style="display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:9999; pointer-events:all;">
+  <div style="width:72px; height:72px; border-radius:50%; background:rgba(255,217,61,0.92); display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 12px rgba(255,217,61,0.18), 0 0 0 24px rgba(255,217,61,0.08); cursor:pointer;">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="#0f0f14"><polygon points="5,3 19,12 5,21"/></svg>
+  </div>
+</div>
+
 <script>
 const PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
 
@@ -976,7 +983,11 @@ async function init() {
   ]);
   const loader=document.getElementById('loader');
   loader.style.opacity='0';
-  setTimeout(()=>{ loader.style.display='none'; startFilm(); },800);
+  setTimeout(()=>{
+    loader.style.display='none';
+    // Fotoğraflar yüklenince başlat butonunu göster
+    document.getElementById('startBtn').style.display='flex';
+  },800);
 }
 
 init();
