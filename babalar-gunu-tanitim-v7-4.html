@@ -1076,6 +1076,21 @@ function siirHarfler(metin, cb) {
 
 function siirYukari(cb) {
   const alan = document.getElementById('siirAlani');
+  // Son cümleyse kaybolmasın
+  if (siirIdx >= siirCumleler.length) {
+    // Altına "Baba bir masal anlat bana" yaz
+    setTimeout(() => {
+      const alt = document.createElement('div');
+      alt.style.cssText = 'font-size:11px;color:rgba(255,210,60,0.5);font-family:Georgia,serif;font-style:italic;margin-top:10px;letter-spacing:1px;';
+      alt.textContent = 'Baba bir masal anlat bana...';
+      alt.style.opacity = '0';
+      alt.style.transition = 'opacity 1.5s ease';
+      alan.appendChild(alt);
+      setTimeout(() => alt.style.opacity = '1', 100);
+    }, 500);
+    cb && cb();
+    return;
+  }
   alan.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
   alan.style.opacity = '0';
   alan.style.transform = 'translateY(-28px)';
