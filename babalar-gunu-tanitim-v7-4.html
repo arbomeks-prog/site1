@@ -1039,10 +1039,19 @@ function siirBaslat() {
 }
 
 function siirSonraki() {
-  if (siirIdx >= siirCumleler.length) { siirIdx = 0; siirSonraki(); return; }
-  const cumle = siirCumleler[siirIdx++];
+  if (siirIdx >= siirCumleler.length) return;
+  const cumle = siirCumleler[siirIdx];
+  const sonMu = siirIdx === siirCumleler.length - 1;
+  siirIdx++;
   siirHarfler(cumle, () => {
-    setTimeout(() => siirYukari(() => setTimeout(siirSonraki, 300)), 2000);
+    if (sonMu) {
+      // Son cümle: kaybolmaz, altında flu yazı belirir
+      setTimeout(() => {
+        document.getElementById('siirAltYazi').style.opacity = '1';
+      }, 800);
+    } else {
+      setTimeout(() => siirYukari(() => setTimeout(siirSonraki, 300)), 2000);
+    }
   });
 }
 
