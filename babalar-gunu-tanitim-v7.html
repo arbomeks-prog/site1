@@ -517,8 +517,6 @@
 
   <div class="accent-bar"></div>
 
-  <div id="loader" onclick="window.startFromButton()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0a0a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:pointer;transition:opacity 0.4s ease;">
-    <div style="font-size:52px;">🎬</div>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:34px;color:#f5c842;letter-spacing:3px;">BABALAR GÜNÜ</div>
     <div style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.15em;margin-bottom:16px;">budurbuldum.com</div>
     <div style="background:linear-gradient(135deg,#f5c842,#e09820);color:#1a0d00;font-weight:900;font-size:18px;padding:16px 48px;border-radius:50px;box-shadow:0 8px 30px rgba(245,200,66,0.5);">▶ Filmi Başlat</div>
@@ -846,7 +844,7 @@ function T(fn,ms){const id=setTimeout(fn,ms);timers.push(id);}
 
 function startFilm() {
   clearAll();
-  startMusic();
+  //startMusic();
   document.getElementById('musicBtn').textContent='🔇';
 
   // Reset fotoğraflar
@@ -988,27 +986,31 @@ async function fetchGiftPhoto(query, id) {
   } catch(e){}
 }
 
-window.startFromButton = function() {
-  const loader = document.getElementById('loader');
-  loader.style.pointerEvents = 'none';
-  loader.style.opacity = '0';
-  setTimeout(() => { loader.style.display='none'; startFilm(); }, 450);
-};
 
 async function init() {
-  // Max 6 saniye bekle, sonra ne olursa olsun başla
-  const timeout = new Promise(resolve => setTimeout(resolve, 6000));
-  await Promise.race([
-    Promise.all([
-      ...queries.map((q,i)=>fetchPhoto(q,`p${i+1}`)),
-      ...giftQueries.map((q,i)=>fetchGiftPhoto(q,`gimg${i+1}`)),
-    ]),
-    timeout
-  ]);
-  const loader=document.getElementById('loader');
-  loader.style.pointerEvents='none';
-  loader.style.opacity='0';
-  setTimeout(()=>{ loader.style.display='none'; startFilm(); },800);
+  await fetchPhoto(queries[0], 'p1');
+  // İlk kareyi göster
+  fullPhoto('p1',1);
+  // YouTube tarzı oynat düğmesi  
+  const playButton = document.createElement('div');
+  playButton.id = 'playButton';
+  playButton.innerHTML = `
+    <svg viewBox="0 0 24 24" width="80" height="80">
+      <circle cx="12" cy="12" r="10" fill="#fff" opacity="0.85"></circle>
+      <path d="M10 8.64L15.36 12L10 15.36V8.64Z" fill="#000"/>
+    </svg>
+  `;
+  playButton.style.position = 'absolute';
+  playButton.style.top = '50%';
+  playButton.style.left = '50%';
+  playButton.style.transform = 'translate(-50%, -50%)';
+  playButton.style.cursor = 'pointer';
+  playButton.style.zIndex = '10';
+  playButton.onclick = function() {
+    this.style.display = 'none';
+    startFilm();
+  };
+  document.getElementById('screen').appendChild(playButton);  
 }
 
 init();
