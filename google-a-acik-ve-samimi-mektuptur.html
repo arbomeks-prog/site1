@@ -17,11 +17,48 @@
     background: #f5f0e8;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    padding: 60px 20px 100px;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 100px;
     font-family: 'Lora', Georgia, serif;
     color: #1a1208;
   }
+
+  .site-header {
+    width: 100%;
+    max-width: 680px;
+    padding: 24px 0 20px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #c9b99a;
+  }
+
+  .site-header a {
+    text-decoration: none;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 15px;
+    color: #5a4a30;
+    letter-spacing: 0.03em;
+  }
+
+  .site-header a:hover { color: #1a1208; }
+
+  .site-footer-link {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid #c9b99a;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .site-footer-link a {
+    text-decoration: none;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    color: #5a4a30;
+  }
+
+  .site-footer-link a:hover { color: #1a1208; }
 
   .page {
     width: 100%;
@@ -62,6 +99,9 @@
 </style>
 </head>
 <body>
+<div class="site-header">
+  <a href="https://budurbuldum.com">← budurbuldum.com</a>
+</div>
 <div class="page">
 
   <h1 class="baslik">GOOGLE'A AÇIK VE SAMİMİ MEKTUPTUR.</h1>
