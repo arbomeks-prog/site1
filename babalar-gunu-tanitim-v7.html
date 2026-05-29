@@ -36,7 +36,7 @@
     width: 100%;
     height: 260px;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     flex-shrink: 0;
   }
 
@@ -517,29 +517,26 @@
 
   <div class="accent-bar"></div>
 
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:34px;color:#f5c842;letter-spacing:3px;">BABALAR GÜNÜ</div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.15em;margin-bottom:16px;">budurbuldum.com</div>
-    <div style="background:linear-gradient(135deg,#f5c842,#e09820);color:#1a0d00;font-weight:900;font-size:18px;padding:16px 48px;border-radius:50px;box-shadow:0 8px 30px rgba(245,200,66,0.5);">▶ Filmi Başlat</div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.25);margin-top:8px;">Sese izin ver</div>
+  <div class="loader" id="loader">
+    <div class="loader-ring"></div>
+    <div class="loader-text">Yükleniyor</div>
   </div>
 
   <!-- FOTOĞRAF BÖLGE -->
   <div class="photo-zone">
-    <div class="photo-zone-clip">
-      <div class="photo-layer" id="p1"></div>
-      <div class="photo-layer" id="p2"></div>
-      <div class="photo-layer" id="p3"></div>
-      <div class="photo-layer" id="p4"></div>
-      <div class="photo-layer" id="p5"></div>
-      <div class="photo-layer" id="p6"></div>
-      <div class="photo-overlay"></div>
-      <div class="photo-grid" id="photoGrid">
+    <div class="photo-layer" id="p1"></div>
+    <div class="photo-layer" id="p2"></div>
+    <div class="photo-layer" id="p3"></div>
+    <div class="photo-layer" id="p4"></div>
+    <div class="photo-layer" id="p5"></div>
+    <div class="photo-layer" id="p6"></div>
+    <div class="photo-overlay"></div>
+    <div class="photo-grid" id="photoGrid">
       <div class="photo-grid-cell" id="pg1"></div>
       <div class="photo-grid-cell" id="pg2"></div>
       <div class="photo-grid-cell" id="pg3"></div>
       <div class="photo-grid-cell" id="pg4"></div>
     </div>
-    </div><!-- /photo-zone-clip -->
     <div class="photo-text pos-bl" id="photoText">
       <div class="photo-label" id="photoLabel"></div>
       <div class="photo-title" id="photoTitle"></div>
@@ -635,7 +632,6 @@
   <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
 
   <div class="controls">
-    <button class="ctrl-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
   </div>
 
 </div>
@@ -700,47 +696,106 @@ const quizFlow = [
 const ozetAnswers = ['Babam', 'Babalar Günü 👔', 'Tamir & El İşi 🔧', 'Klasik & Şık 💼', '₺1.500–3.000 💰', 'Kullanışlı 🎁'];
 
 let timers = [], progInt = null;
-let audioCtx = null, musicNodes = [], musicPlaying = false, bgAudio = null;
+let audioCtx = null, musicNodes = [], musicPlaying = false;
 
 // ===== MÜZİK =====
-let bgAudio = null;
-const MP3_B64 = '/baba-masal.mp3';
-
-function startMusic() {
-  stopMusic();
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   musicPlaying = true;
-  bgAudio = new Audio(MP3_B64);
-  bgAudio.volume = 0;
-  bgAudio.play().catch(()=>{});
-  // Fade in
-  let vol = 0;
-  const fadeIn = setInterval(()=>{
-    vol = Math.min(vol + 0.03, 0.75);
-    bgAudio.volume = vol;
-    if(vol >= 0.75) clearInterval(fadeIn);
-  }, 80);
-  // Fade out son 4 saniyede
-  setTimeout(()=>{
-    const fadeOut = setInterval(()=>{
-      if(!bgAudio) { clearInterval(fadeOut); return; }
-      bgAudio.volume = Math.max(bgAudio.volume - 0.025, 0);
-      if(bgAudio.volume <= 0) { clearInterval(fadeOut); }
-    }, 80);
-  }, 26000);
-  musicNodes.push({ disconnect: ()=>{} });
+
+  const master = audioCtx.createGain();
+  master.gain.setValueAtTime(0, audioCtx.currentTime);
+  master.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 1.5);
+  master.connect(audioCtx.destination);
+  musicNodes.push(master);
+
+  const BPM = 118, b = 60 / BPM, now = audioCtx.currentTime;
+
+  function kick(t) {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.frequency.setValueAtTime(160, now+t);
+    o.frequency.exponentialRampToValueAtTime(40, now+t+0.1);
+    g.gain.setValueAtTime(0.6, now+t);
+    g.gain.exponentialRampToValueAtValue=undefined;
+    g.gain.exponentialRampToValueAtTime(0.001, now+t+0.18);
+    o.connect(g); g.connect(master);
+    o.start(now+t); o.stop(now+t+0.2);
+    musicNodes.push(o,g);
+  }
+
+  function hihat(t, v=0.1) {
+    const buf = audioCtx.createBuffer(1, audioCtx.sampleRate*0.04, audioCtx.sampleRate);
+    const d = buf.getChannelData(0);
+    for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+    const s=audioCtx.createBufferSource(), g=audioCtx.createGain(), f=audioCtx.createBiquadFilter();
+    f.type='highpass'; f.frequency.value=9000;
+    s.buffer=buf; g.gain.setValueAtTime(v,now+t); g.gain.exponentialRampToValueAtTime(0.001,now+t+0.04);
+    s.connect(f); f.connect(g); g.connect(master); s.start(now+t);
+    musicNodes.push(s,g,f);
+  }
+
+  function clap(t) {
+    const buf=audioCtx.createBuffer(1,audioCtx.sampleRate*0.1,audioCtx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
+    const s=audioCtx.createBufferSource(),g=audioCtx.createGain(),f=audioCtx.createBiquadFilter();
+    f.type='bandpass'; f.frequency.value=1100; f.Q.value=0.7;
+    s.buffer=buf; g.gain.setValueAtTime(0.3,now+t);
+    s.connect(f); f.connect(g); g.connect(master); s.start(now+t);
+    musicNodes.push(s,g,f);
+  }
+
+  function pluck(freq,t,dur,vol=0.2) {
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type='sawtooth'; o.frequency.value=freq;
+    g.gain.setValueAtTime(vol,now+t);
+    g.gain.exponentialRampToValueAtTime(vol*0.4,now+t+0.06);
+    g.gain.exponentialRampToValueAtTime(0.001,now+t+dur);
+    o.connect(g); g.connect(master);
+    o.start(now+t); o.stop(now+t+dur+0.05);
+    musicNodes.push(o,g);
+  }
+
+  // Ritim - 45 bar
+  for(let i=0;i<45;i++){
+    kick(i*b); if(i%2===1)clap(i*b);
+    hihat(i*b+b*0.5); if(i%4<2)hihat(i*b+b*0.25,0.06);
+  }
+
+  // Melodi
+  const mel=[
+    [392,0],[440,b],[494,b*2],[523,b*3],
+    [494,b*4],[440,b*5],[392,b*6],[349,b*7],
+    [392,b*8],[523,b*9],[587,b*10],[523,b*11],
+    [494,b*12],[440,b*13],[392,b*14],[392,b*15],
+    [523,b*16],[587,b*17],[659,b*18],[698,b*19],
+    [659,b*20],[587,b*21],[523,b*22],[494,b*23],
+    [440,b*24],[494,b*25],[523,b*26],[523,b*27],
+    [494,b*28],[440,b*29],[392,b*30],[392,b*31],
+  ];
+  mel.forEach(([f,t])=>pluck(f,t,b*0.82));
+  mel.forEach(([f,t])=>pluck(f,t+b*32,b*0.82,0.12));
+
+  // Bas
+  [[98,0],[110,b*8],[123,b*16],[98,b*24],[110,b*32],[98,b*40]].forEach(([f,t])=>{
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type='triangle'; o.frequency.value=f;
+    g.gain.setValueAtTime(0.14,now+t);
+    g.gain.exponentialRampToValueAtTime(0.001,now+t+b*7.8);
+    o.connect(g); g.connect(master);
+    o.start(now+t); o.stop(now+t+b*8);
+    musicNodes.push(o,g);
+  });
+
+  master.gain.setValueAtTime(0.2, now+36);
+  master.gain.linearRampToValueAtTime(0, now+42);
 }
 
-function stopMusic() {
   musicNodes.forEach(n=>{try{n.disconnect();}catch(e){}});
   musicNodes=[];
   if(audioCtx){audioCtx.close();audioCtx=null;}
-  if(bgAudio){bgAudio.pause();bgAudio=null;}
   musicPlaying=false;
 }
 
-function toggleMusic() {
-  if(musicPlaying){stopMusic();document.getElementById('musicBtn').textContent='🎵';}
-  else{startMusic();document.getElementById('musicBtn').textContent='🔇';}
 }
 
 // ===== PEXELS =====
@@ -844,8 +899,6 @@ function T(fn,ms){const id=setTimeout(fn,ms);timers.push(id);}
 
 function startFilm() {
   clearAll();
-  //startMusic();
-  document.getElementById('musicBtn').textContent='🔇';
 
   // Reset fotoğraflar
   ['p1','p2','p3','p4','p5','p6'].forEach(id=>{
@@ -915,6 +968,7 @@ function startFilm() {
       document.getElementById(id).style.backgroundImage = imgs[i] || imgs[0];
     });
     document.getElementById('photoGrid').classList.add('show');
+
     document.getElementById('ozetZone').classList.add('show');
     // Chipler birer birer
     const chips=document.getElementById('ozetChips');
@@ -960,7 +1014,6 @@ function startFilm() {
 function clearAll() {
   timers.forEach(clearTimeout); timers=[];
   if(progInt){clearInterval(progInt);progInt=null;}
-  stopMusic();
   document.getElementById('ozetZone').classList.remove('show');
   document.getElementById('giftsZone').classList.remove('show');
   document.getElementById('finalZone').classList.remove('show');
@@ -986,31 +1039,14 @@ async function fetchGiftPhoto(query, id) {
   } catch(e){}
 }
 
-
 async function init() {
-  await fetchPhoto(queries[0], 'p1');
-  // İlk kareyi göster
-  fullPhoto('p1',1);
-  // YouTube tarzı oynat düğmesi  
-  const playButton = document.createElement('div');
-  playButton.id = 'playButton';
-  playButton.innerHTML = `
-    <svg viewBox="0 0 24 24" width="80" height="80">
-      <circle cx="12" cy="12" r="10" fill="#fff" opacity="0.85"></circle>
-      <path d="M10 8.64L15.36 12L10 15.36V8.64Z" fill="#000"/>
-    </svg>
-  `;
-  playButton.style.position = 'absolute';
-  playButton.style.top = '50%';
-  playButton.style.left = '50%';
-  playButton.style.transform = 'translate(-50%, -50%)';
-  playButton.style.cursor = 'pointer';
-  playButton.style.zIndex = '10';
-  playButton.onclick = function() {
-    this.style.display = 'none';
-    startFilm();
-  };
-  document.getElementById('screen').appendChild(playButton);  
+  await Promise.all([
+    ...queries.map((q,i)=>fetchPhoto(q,`p${i+1}`)),
+    ...giftQueries.map((q,i)=>fetchGiftPhoto(q,`gimg${i+1}`)),
+  ]);
+  const loader=document.getElementById('loader');
+  loader.style.opacity='0';
+  setTimeout(()=>{ loader.style.display='none'; startFilm(); },800);
 }
 
 init();
