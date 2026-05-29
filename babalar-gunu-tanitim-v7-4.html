@@ -697,16 +697,17 @@ const quizFlow = [
 const ozetAnswers = ['Babam', 'Babalar Günü 👔', 'Tamir & El İşi 🔧', 'Klasik & Şık 💼', '₺1.500–3.000 💰', 'Kullanışlı 🎁'];
 
 let timers = [], progInt = null;
-let bgAudio = null, musicPlaying = false;
+let bgAudio = null, musicPlaying = false, userInteracted = false;
 
 // ===== MÜZİK =====
 function startMusic() {
   stopMusic();
   bgAudio = new Audio('https://raw.githubusercontent.com/arbomeks-prog/site1/main/baba-masal.mp3');
+  bgAudio.loop = true;
   bgAudio.volume = 0.8;
   bgAudio.play().catch(()=>{});
   musicPlaying = true;
-  // 30. saniyede fade-out başlat
+  // 38. saniyede fade-out (video 40sn)
   setTimeout(()=>{
     if(!bgAudio) return;
     const fadeInterval = setInterval(()=>{
@@ -714,7 +715,7 @@ function startMusic() {
       bgAudio.volume = Math.max(0, bgAudio.volume - 0.04);
       if(bgAudio.volume <= 0) { stopMusic(); clearInterval(fadeInterval); }
     }, 100);
-  }, 30000);
+  }, 38000);
 }
 
 function stopMusic() {
@@ -726,6 +727,17 @@ function toggleMusic() {
   if(musicPlaying){ stopMusic(); document.getElementById('musicBtn').textContent='🎵'; }
   else { startMusic(); document.getElementById('musicBtn').textContent='🔇'; }
 }
+
+// İlk kullanıcı etkileşiminde müziği başlat (tarayıcı politikası)
+function onFirstInteraction() {
+  if(userInteracted) return;
+  userInteracted = true;
+  if(!musicPlaying) { startMusic(); document.getElementById('musicBtn').textContent='🔇'; }
+  document.removeEventListener('click', onFirstInteraction);
+  document.removeEventListener('touchstart', onFirstInteraction);
+}
+document.addEventListener('click', onFirstInteraction);
+document.addEventListener('touchstart', onFirstInteraction);
 
 // ===== PEXELS =====
 async function fetchPhoto(query, id) {
@@ -986,3 +998,4 @@ init();
 
 </body>
 </html>
+
