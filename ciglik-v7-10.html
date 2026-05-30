@@ -343,18 +343,23 @@ function showGiftBtn(){
   const btn=document.createElement("div");
   btn.className="opt gift-reveal-btn";
   btn.textContent="Hediyeleri Gör 🎁";
-  btn.onclick=()=>{
-    card.classList.remove("show");
-    setTimeout(()=>{
-      fillGiftCards();
-      setTimeout(()=>{
-        document.getElementById("panik-overlay").classList.add("show");
-        setTimeout(()=>{showLogo();},1800);
-      },600);
-    },300);
-  };
   optsEl.appendChild(btn);
   playPress();
+  /* 1sn sonra buton kendi kendine basılıyor efekti */
+  setTimeout(()=>{
+    btn.classList.add("highlight");
+    playCorrect();
+    setTimeout(()=>{
+      card.classList.remove("show");
+      setTimeout(()=>{
+        fillGiftCards();
+        setTimeout(()=>{
+          document.getElementById("panik-overlay").classList.add("show");
+          setTimeout(()=>{showLogo();},1800);
+        },600);
+      },300);
+    },600);
+  },1000);
 }
 
 function showLogo(){
