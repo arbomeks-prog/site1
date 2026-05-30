@@ -140,15 +140,7 @@
 
     <!-- MARKA BANNER -->
     
-<div id="panik-overlay" style="position:absolute;top:0;left:0;width:100%;z-index:9999;text-align:center;margin-top:200px;opacity:0;pointer-events:none;transition:opacity .4s ease;">
-  <div id="panik-text" style="font-size:80px;font-weight:900;color:#fff;letter-spacing:6px;line-height:1.0;text-shadow:0 0 30px rgba(0,0,0,0.9),0 0 60px rgba(0,0,0,0.9);">PANİK<br>YOK</div>
-  <div style="font-size:24px;color:#F4A01C;font-weight:700;margin-top:20px;letter-spacing:3px;text-shadow:0 0 20px rgba(0,0,0,0.9);">budurbuldum.com</div>
-</div>
-<style>
-#panik-overlay.show{opacity:1;pointer-events:auto;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.1;}}
-#panik-overlay.show #panik-text{animation:blink 0.6s ease-in-out 3;}
-</style>
+
 <div id="brand-banner">
       <div class="bb-title">BUDURBULDUM.COM</div>
       <div class="bb-sub">Panik yapma — babana özel hediyeni bul 🎁</div>
@@ -359,23 +351,31 @@ function showGiftBtn(){
       setTimeout(()=>{
         fillGiftCards();
         setTimeout(()=>{
-          const ov=document.getElementById("panik-overlay");
-          ov.classList.add("show");
-          setTimeout(()=>{
-            ov.style.transition="opacity .6s ease";
-            ov.style.opacity="0";
-            setTimeout(()=>{
-              ov.classList.remove("show");
-              ov.style.opacity="";
-              ov.style.transition="";
-              ov.style.display="none";
-              showLogo();
-            },600);
-          },3000);
+          fillGiftCards();
+          setTimeout(()=>{ showPanikYok(); },800);
         },600);
       },300);
     },600);
   },1000);
+}
+
+function showPanikYok(){
+  /* fill4 ve fill7'yi PANİK YOK yazısıyla kap */
+  const cells=[4,7];
+  cells.forEach(i=>{
+    const f=document.getElementById("fill"+i);
+    f.style.display="flex";
+    f.style.flexDirection="column";
+    f.style.alignItems="center";
+    f.style.justifyContent="center";
+    f.style.background="#000";
+    f.style.zIndex="50";
+    f.classList.add("show");
+    f.innerHTML=i===4
+      ? "<div style='font-size:52px;font-weight:900;color:#fff;letter-spacing:4px;text-align:center;line-height:1.1;'>PANİK<br>YOK</div>"
+      : "<div style='font-size:20px;color:#F4A01C;font-weight:700;letter-spacing:2px;text-align:center;'>budurbuldum.com</div>";
+  });
+  setTimeout(()=>{ showLogo(); },4000);
 }
 
 function showLogo(){
