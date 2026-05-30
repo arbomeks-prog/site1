@@ -355,7 +355,7 @@ function showGiftBtn(){
       card.classList.remove("show");
       setTimeout(()=>{
         fillGiftCards();
-        setTimeout(()=>{ showPanikYok(); },800);
+        setTimeout(()=>{ showPanikYok(); },2800);
       },300);
     },600);
   },1000);
@@ -368,9 +368,11 @@ function showPanikYok(){
 }
 
 function showLogo(){
-  document.getElementById("panik-yazisi").style.display="none";
   document.getElementById("prog-fill").style.width="100%";
-  setTimeout(()=>document.getElementById("logo").classList.add("show"),500);
+  setTimeout(()=>{
+    document.getElementById("panik-yazisi").style.display="none";
+    document.getElementById("logo").classList.add("show");
+  },500);
 }
 
 function startVideo(){
