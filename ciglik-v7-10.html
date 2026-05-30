@@ -115,7 +115,7 @@
 
   .demo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;margin-top:12px;width:100%;}
   .demo-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
-  .demo-card-img{width:100%;height:60px;background:#f1f5f9;position:relative;display:flex;align-items:center;justify-content:center;font-size:28px;}
+  .demo-card-img{width:100%;height:60px;background:#f1f5f9;position:relative;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;} .demo-card-img img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}
   .demo-card-badge{position:absolute;top:4px;left:50%;transform:translateX(-50%);background:#f59e0b;color:#fff;font-size:6px;font-weight:800;padding:2px 6px;border-radius:20px;white-space:nowrap;}
   .demo-card-body{padding:5px 6px;}
   .demo-card-name{font-size:8px;font-weight:800;color:#1e293b;line-height:1.2;}
@@ -185,7 +185,7 @@
       <button id="logo-btn" onclick="window.open('https://budurbuldum.com','_blank')">HEMEN BAŞLA →</button>
       <div class="demo-grid">
         <div class="demo-card">
-          <div class="demo-card-img">
+          <div class="demo-card-img" id="dcard0">
             <div class="demo-card-badge">🎯 Nokta Atışı</div>
             ⌚
           </div>
@@ -202,7 +202,7 @@
           </div>
         </div>
         <div class="demo-card">
-          <div class="demo-card-img">
+          <div class="demo-card-img" id="dcard1">
             <div class="demo-card-badge">🎯 Nokta Atışı</div>
             🎧
           </div>
@@ -219,7 +219,7 @@
           </div>
         </div>
         <div class="demo-card">
-          <div class="demo-card-img">
+          <div class="demo-card-img" id="dcard2">
             <div class="demo-card-badge">🎯 Nokta Atışı</div>
             🔧
           </div>
@@ -236,7 +236,7 @@
           </div>
         </div>
         <div class="demo-card">
-          <div class="demo-card-img">
+          <div class="demo-card-img" id="dcard3">
             <div class="demo-card-badge">🎯 Nokta Atışı</div>
             👜
           </div>
@@ -253,7 +253,7 @@
           </div>
         </div>
         <div class="demo-card">
-          <div class="demo-card-img">
+          <div class="demo-card-img" id="dcard4">
             <div class="demo-card-badge">🎯 Nokta Atışı</div>
             ☕
           </div>
@@ -270,7 +270,7 @@
           </div>
         </div>
         <div class="demo-card">
-          <div class="demo-card-img">
+          <div class="demo-card-img" id="dcard5">
             <div class="demo-card-badge">🎯 Nokta Atışı</div>
             🕶️
           </div>
@@ -487,6 +487,24 @@ function showLogo(){
   setTimeout(()=>{
     document.getElementById("panik-yazisi").style.display="none";
     document.getElementById("logo").classList.add("show");
+    /* Pexels görselleri yükle */
+    const DCARDS=[
+      {id:"dcard0",q:"smart watch men wrist"},
+      {id:"dcard1",q:"wireless headphones"},
+      {id:"dcard2",q:"tool set workshop"},
+      {id:"dcard3",q:"brown leather wallet men"},
+      {id:"dcard4",q:"espresso coffee machine"},
+      {id:"dcard5",q:"sunglasses men style"}
+    ];
+    DCARDS.forEach(dc=>{
+      fetch("https://api.pexels.com/v1/search?query="+encodeURIComponent(dc.q)+"&per_page=1&orientation=landscape",{headers:{Authorization:"A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB"}})
+      .then(r=>r.json()).then(d=>{
+        if(d.photos&&d.photos[0]){
+          const el=document.getElementById(dc.id);
+          if(el){const img=document.createElement("img");img.src=d.photos[0].src.small;el.appendChild(img);}
+        }
+      }).catch(()=>{});
+    });
   },500);
 }
 
