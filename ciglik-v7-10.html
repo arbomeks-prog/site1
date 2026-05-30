@@ -86,7 +86,7 @@
   .flying{position:absolute;z-index:40;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#FFD93D;letter-spacing:.05em;pointer-events:none;white-space:nowrap;text-shadow:0 0 20px rgba(255,217,61,.6);}
 
   /* LOGO */
-  #logo{position:absolute;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,.92);opacity:0;pointer-events:none;transition:opacity .8s ease;padding:20px;text-align:center;}
+  #logo{position:absolute;inset:0;z-index:50;display:flex;align-items:flex-start;justify-content:flex-start;flex-direction:column;background:rgba(0,0,0,.92);opacity:0;pointer-events:none;transition:opacity .8s ease;padding:16px;text-align:center;overflow-y:auto;}
   #logo.show{opacity:1;pointer-events:all;}
   .lb{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#FFD93D;letter-spacing:.1em;animation:lp 2s ease-in-out infinite;}
   @keyframes lp{0%,100%{text-shadow:0 0 40px rgba(255,217,61,.5)}50%{text-shadow:0 0 80px rgba(255,217,61,.9)}}
@@ -182,6 +182,7 @@
       <div class="logo-line1">PANİK YAPMA — BABAN İÇİN ŞİMDİ HEDİYE BUL<br>ÖMÜR BOYU HEDİYE BUL</div>
       <div class="logo-line2">Bir takma isimle kaydolun,<br>bir ömür boyu hediye bulun.</div>
       <button id="logo-btn" onclick="window.open('https://budurbuldum.com','_blank')">HEMEN BAŞLA →</button>
+      <div id="logo-gifts" style="width:100%;margin-top:12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:300px;padding:0 2px;"></div>
     </div>
 
   </div>
