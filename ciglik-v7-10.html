@@ -311,14 +311,14 @@ function showQuestion(){
   },600);
 }
 
-function fillGiftCards(){
+async function fillGiftCards(){
   /* Cell 4 — Akıllı Saat */
   const f4=document.getElementById("fill4");
-  f4.innerHTML="";
-  f4.style.padding="0";f4.style.gap="0";f4.style.background="transparent";
+  f4.innerHTML="";f4.style.padding="0";f4.style.gap="0";f4.style.background="transparent";
+  const img4=await fetchPexelsImg("smart watch wrist men");
   f4.innerHTML=`<div class="cell-gift">
     <div class="gift-badge">🎯 Nokta Atışı</div>
-    <div class="gift-img-slot">⌚</div>
+    <div class="gift-img-slot">${img4?`<img src="${img4}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" loading="lazy">`:"⌚"}</div>
     <div class="gift-info">
       <div class="gift-name">Akıllı Saat</div>
       <div class="gift-price">₺2.499</div>
@@ -328,11 +328,11 @@ function fillGiftCards(){
   f4.classList.add("show");
   /* Cell 7 — Deri Cüzdan */
   const f7=document.getElementById("fill7");
-  f7.innerHTML="";
-  f7.style.padding="0";f7.style.gap="0";f7.style.background="transparent";
+  f7.innerHTML="";f7.style.padding="0";f7.style.gap="0";f7.style.background="transparent";
+  const img7=await fetchPexelsImg("brown leather wallet men");
   f7.innerHTML=`<div class="cell-gift">
     <div class="gift-badge">🎯 Nokta Atışı</div>
-    <div class="gift-img-slot">👛</div>
+    <div class="gift-img-slot">${img7?`<img src="${img7}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" loading="lazy">`:"👜"}</div>
     <div class="gift-info">
       <div class="gift-name">Deri Cüzdan</div>
       <div class="gift-price">₺649</div>
