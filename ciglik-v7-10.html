@@ -139,9 +139,9 @@
     </div>
 
     <!-- MARKA BANNER -->
-    <div id="panik-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:50;background:rgba(0,0,0,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease;">
-  <div style="font-size:52px;font-weight:900;color:#fff;letter-spacing:4px;text-align:center;line-height:1.1;">PANİK<br>YOK</div>
-  <div style="font-size:18px;color:#F4A01C;font-weight:700;margin-top:14px;letter-spacing:2px;">budurbuldum.com</div>
+    <div id="panik-overlay" style="position:absolute;top:50%;left:0;right:0;bottom:0;z-index:50;background:rgba(0,0,0,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s ease;">
+  <div style="font-size:72px;font-weight:900;color:#fff;letter-spacing:6px;text-align:center;line-height:1.0;">PANİK<br>YOK</div>
+  <div style="font-size:22px;color:#F4A01C;font-weight:700;margin-top:18px;letter-spacing:3px;">budurbuldum.com</div>
 </div>
 <style>#panik-overlay.show{opacity:1;pointer-events:auto;}</style>
 <div id="brand-banner">
@@ -355,7 +355,7 @@ function showGiftBtn(){
         fillGiftCards();
         setTimeout(()=>{
           document.getElementById("panik-overlay").classList.add("show");
-          setTimeout(()=>{showLogo();},1800);
+          setTimeout(()=>{showLogo();},3000);
         },600);
       },300);
     },600);
