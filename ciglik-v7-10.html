@@ -68,7 +68,7 @@
   .fill-a{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#FFD93D;letter-spacing:.04em;line-height:1.1;}
 
   /* ÜST BAR */
-  #header{position:absolute;top:0;left:0;right:0;z-index:20;padding:10px 14px 6px;background:linear-gradient(to bottom,rgba(0,0,0,.85) 0%,rgba(0,0,0,0) 100%);text-align:center;pointer-events:none;}
+  #header{position:absolute;top:0;left:0;right:0;z-index:20;padding:10px 14px 6px;background:linear-gradient(to bottom,rgba(0,0,0,.85) 0%,rgba(0,0,0,0) 100%);text-align:center;pointer-events:none;display:none;}
   #header h1{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#fff;letter-spacing:.04em;line-height:1.05;text-shadow:0 2px 12px rgba(0,0,0,.9);}
   #header h1 em{color:#FFD93D;font-style:normal;}
 
@@ -109,6 +109,7 @@
   #brand-banner.show{transform:translateY(0);}
   .bb-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#FFD93D;letter-spacing:.12em;text-shadow:0 0 30px rgba(255,217,61,.6);}
   .bb-sub{font-size:.7rem;color:rgba(255,255,255,.75);font-family:'Crimson Pro',serif;font-style:italic;margin-top:2px;}
+  #startBtn{position:absolute;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);cursor:pointer;}
   .play-circle{width:72px;height:72px;border-radius:50%;background:rgba(255,217,61,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 12px rgba(255,217,61,0.18),0 0 0 24px rgba(255,217,61,0.08);animation:playP 2s ease-in-out infinite;}
   @keyframes playP{0%,100%{box-shadow:0 0 0 12px rgba(255,217,61,0.18),0 0 0 24px rgba(255,217,61,0.08)}50%{box-shadow:0 0 0 18px rgba(255,217,61,0.25),0 0 0 36px rgba(255,217,61,0.05)}}
 </style>
@@ -348,7 +349,7 @@ function startVideo(){
     intro.style.opacity="0";
     setTimeout(()=>{
       intro.style.display="none";
-      document.getElementById("grid").classList.add("show");
+      document.getElementById("grid").classList.add("show");document.getElementById("header").style.display="block";
       setTimeout(showQuestion,400);
     },600);
   },2500);
@@ -368,7 +369,7 @@ function replay(){
   document.getElementById("snd-bg").pause();
   document.getElementById("snd-bg").currentTime=0;
   document.getElementById("brand-banner").classList.remove("show");
-  document.getElementById("startBtn").style.display="flex";
+  document.getElementById("startBtn").style.display="flex";document.getElementById("header").style.display="none";
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
