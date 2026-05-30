@@ -148,6 +148,11 @@
 
     <!-- IZGARA -->
     <div id="grid"></div>
+    <div id="panik-yazisi" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
+      <div style="font-size:88px;font-weight:900;color:#fff;letter-spacing:6px;text-align:center;line-height:0.95;text-shadow:2px 2px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000;">PANİK<br>YOK</div>
+      <div style="font-size:22px;color:#F4A01C;font-weight:700;margin-top:16px;letter-spacing:3px;text-shadow:1px 1px 0 #000,-1px -1px 0 #000;">budurbuldum.com</div>
+      <div style="font-size:88px;font-weight:900;color:#fff;letter-spacing:6px;text-align:center;line-height:0.95;margin-top:8px;text-shadow:2px 2px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000;">VAR</div>
+    </div>
 
     <!-- ÜST BAR -->
     <div id="header">
@@ -357,21 +362,8 @@ function showGiftBtn(){
 }
 
 function showPanikYok(){
-  /* fill4 ve fill7'yi PANİK YOK yazısıyla kap */
-  const cells=[4,7];
-  cells.forEach(i=>{
-    const f=document.getElementById("fill"+i);
-    f.style.display="flex";
-    f.style.flexDirection="column";
-    f.style.alignItems="center";
-    f.style.justifyContent="center";
-    f.style.background="#000";
-    f.style.zIndex="50";
-    f.classList.add("show");
-    f.innerHTML=i===4
-      ? "<div style='font-size:52px;font-weight:900;color:#fff;letter-spacing:4px;text-align:center;line-height:1.1;'>PANİK<br>YOK</div>"
-      : "<div style='font-size:20px;color:#F4A01C;font-weight:700;letter-spacing:2px;text-align:center;'>budurbuldum.com</div>";
-  });
+  const el=document.getElementById("panik-yazisi");
+  el.style.display="flex";
   setTimeout(()=>{ showLogo(); },4000);
 }
 
