@@ -225,13 +225,13 @@ function flyTo(text,fromEl,toCellIdx,cb){
   fly.style.cssText=`left:${fr.left-appRect.left+fr.width/2}px;top:${fr.top-appRect.top+fr.height/2}px;transform:translate(-50%,-50%);`;
   document.getElementById("app").appendChild(fly);
   requestAnimationFrame(()=>{
-    fly.style.transition="all .7s cubic-bezier(.4,0,.2,1)";
+    fly.style.transition="all .4s cubic-bezier(.4,0,.2,1)";
     fly.style.left=(tr.left-appRect.left+tr.width/2)+"px";
     fly.style.top=(tr.top-appRect.top+tr.height/2)+"px";
     fly.style.fontSize=".6rem";
     fly.style.opacity="0";
   });
-  setTimeout(()=>{fly.remove();if(cb)cb();},750);
+  setTimeout(()=>{fly.remove();if(cb)cb();},430);
 }
 
 function showQuestion(){
@@ -262,13 +262,37 @@ function showQuestion(){
             flyTo(q.ans,card,aCell,()=>{
               fillCell(aCell,"CEVAP",q.ans);
               qIdx++;
-              setTimeout(showQuestion,350);
+              if(qIdx===QS.length){
+                setTimeout(()=>{fillGiftCards();showLogo();},250);
+              } else {
+                setTimeout(showQuestion,250);
+              }
             });
-          },200);
+          },150);
         });
-      },400);
-    },900);
-  },1300);
+      },280);
+    },600);
+  },600);
+}
+
+function fillGiftCards(){
+  /* Hücre 4: Budur Buldum hediye kartı */
+  const f4=document.getElementById("fill4");
+  f4.innerHTML=`
+    <div style="font-size:1.6rem;margin-bottom:4px;">🎁</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:.75rem;color:#FFD93D;letter-spacing:.08em;margin-bottom:2px;">HEDİYE KARTI</div>
+    <div style="font-size:.6rem;color:rgba(255,255,255,.75);font-family:'Crimson Pro',serif;line-height:1.3;">Sıfır düşünme,<br>sonsuz mutluluk</div>
+    <div style="margin-top:5px;font-family:'Bebas Neue',sans-serif;font-size:.62rem;color:#FFD93D;letter-spacing:.05em;">budurbuldum.com</div>`;
+  f4.classList.add("show");
+  /* Hücre 7: Nokta Atışı kartı */
+  const f7=document.getElementById("fill7");
+  f7.innerHTML=`
+    <div style="font-size:1.4rem;margin-bottom:4px;">🎯</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:.7rem;color:#FFD93D;letter-spacing:.08em;margin-bottom:2px;">NOKTA ATIŞI</div>
+    <div style="font-size:.58rem;color:rgba(255,255,255,.75);font-family:'Crimson Pro',serif;line-height:1.3;">Ona özel<br>AI önerisi</div>
+    <div style="margin-top:5px;font-family:'Bebas Neue',sans-serif;font-size:.6rem;color:#FFD93D;letter-spacing:.05em;">Hemen dene →</div>`;
+  f7.classList.add("show");
+  playFill();
 }
 
 function showLogo(){
