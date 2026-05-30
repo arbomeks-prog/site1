@@ -140,9 +140,9 @@
 
     <!-- MARKA BANNER -->
     
-<div id="panik-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s ease;">
-  <div id="panik-text" style="font-size:80px;font-weight:900;color:#fff;letter-spacing:6px;text-align:center;line-height:1.0;">PANİK<br>YOK</div>
-  <div style="font-size:24px;color:#F4A01C;font-weight:700;margin-top:20px;letter-spacing:3px;">budurbuldum.com</div>
+<div id="panik-overlay" style="position:absolute;top:0;left:0;width:100%;z-index:9999;text-align:center;margin-top:200px;opacity:0;pointer-events:none;transition:opacity .4s ease;">
+  <div id="panik-text" style="font-size:80px;font-weight:900;color:#fff;letter-spacing:6px;line-height:1.0;text-shadow:0 0 30px rgba(0,0,0,0.9),0 0 60px rgba(0,0,0,0.9);">PANİK<br>YOK</div>
+  <div style="font-size:24px;color:#F4A01C;font-weight:700;margin-top:20px;letter-spacing:3px;text-shadow:0 0 20px rgba(0,0,0,0.9);">budurbuldum.com</div>
 </div>
 <style>
 #panik-overlay.show{opacity:1;pointer-events:auto;}
@@ -359,9 +359,6 @@ function showGiftBtn(){
       setTimeout(()=>{
         fillGiftCards();
         setTimeout(()=>{
-          const app=document.getElementById("app");
-          app.style.overflow="visible";
-          window.scrollTo({top:0,behavior:'instant'});
           const ov=document.getElementById("panik-overlay");
           ov.classList.add("show");
           setTimeout(()=>{
@@ -371,7 +368,6 @@ function showGiftBtn(){
               ov.classList.remove("show");
               ov.style.opacity="";
               ov.style.transition="";
-              app.style.overflow="hidden";
               showLogo();
             },600);
           },3000);
