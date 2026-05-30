@@ -350,8 +350,14 @@ function showGiftBtn(){
       setTimeout(()=>{
         fillGiftCards();
         setTimeout(()=>{
+          window.scrollTo({top:0,behavior:'instant'});
           document.getElementById("panik-overlay").classList.add("show");
-          setTimeout(()=>{showLogo();},3000);
+          setTimeout(()=>{
+            const ov=document.getElementById("panik-overlay");
+            ov.style.transition="opacity .6s ease";
+            ov.style.opacity="0";
+            setTimeout(()=>{ov.classList.remove("show");ov.style.opacity="";ov.style.transition="";showLogo();},600);
+          },3000);
         },600);
       },300);
     },600);
