@@ -113,7 +113,7 @@
   .play-circle{width:72px;height:72px;border-radius:50%;background:rgba(255,217,61,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 12px rgba(255,217,61,0.18),0 0 0 24px rgba(255,217,61,0.08);animation:playP 2s ease-in-out infinite;}
   @keyframes playP{0%,100%{box-shadow:0 0 0 12px rgba(255,217,61,0.18),0 0 0 24px rgba(255,217,61,0.08)}50%{box-shadow:0 0 0 18px rgba(255,217,61,0.25),0 0 0 36px rgba(255,217,61,0.05)}}
 
-  .lg-card{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:10px 12px;opacity:0;transform:translateY(20px);transition:opacity .4s ease,transform .4s ease;}
+  .lg-card{background:#1a1a1a;border:1px solid #333;border-radius:12px;overflow:hidden;opacity:0;transform:translateY(20px);transition:opacity .4s ease,transform .4s ease;}
   .lg-card.show{opacity:1;transform:translateY(0);}
   .lg-card-top{display:flex;align-items:center;gap:10px;}
   .lg-card-emoji{font-size:32px;}
@@ -379,15 +379,23 @@ function showPanikYok(){
 }
 
 const LOGO_GIFTS=[
-  {emoji:"⌚",name:"Akıllı Saat",price:"₺2.499"},
-  {emoji:"👜",name:"Deri Cüzdan",price:"₺649"},
-  {emoji:"🎧",name:"Kablosuz Kulaklık",price:"₺1.299"},
-  {emoji:"🔧",name:"Premium Alet Seti",price:"₺899"},
-  {emoji:"☕",name:"Kahve Makinesi",price:"₺1.799"},
-  {emoji:"🚴",name:"Bisiklet Bilgisayarı",price:"₺549"},
-  {emoji:"🧳",name:"Deri Kemer Seti",price:"₺449"}
+  {query:"smart watch wrist men",name:"Akıllı Saat",price:"₺2.499"},
+  {query:"brown leather wallet men",name:"Deri Cüzdan",price:"₺649"},
+  {query:"wireless headphones",name:"Kablosuz Kulaklık",price:"₺1.299"},
+  {query:"tool set workshop",name:"Premium Alet Seti",price:"₺899"},
+  {query:"espresso coffee machine",name:"Kahve Makinesi",price:"₺1.799"},
+  {query:"men sunglasses style",name:"Güneş Gözlüğü",price:"₺549"},
+  {query:"men perfume cologne",name:"Erkek Parfümü",price:"₺799"}
 ];
 const PLATFORMS=["Trendyol","Hepsiburada","Amazon","N11","Çiçeksepeti"];
+const PEXELS_KEY="A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB";
+async function fetchPexelsImg(query){
+  try{
+    const r=await fetch("https://api.pexels.com/v1/search?query="+encodeURIComponent(query)+"&per_page=1&orientation=landscape",{headers:{Authorization:PEXELS_KEY}});
+    const d=await r.json();
+    return d.photos&&d.photos[0]?d.photos[0].src.medium:"";
+  }catch(e){return "";}
+}
 function showLogo(){
   document.getElementById("prog-fill").style.width="100%";
   setTimeout(()=>{
@@ -395,11 +403,13 @@ function showLogo(){
     document.getElementById("logo").classList.add("show");
     const container=document.getElementById("logo-gifts");
     LOGO_GIFTS.forEach((g,i)=>{
-      setTimeout(()=>{
+      setTimeout(async()=>{
+        const imgUrl=await fetchPexelsImg(g.query);
         const card=document.createElement("div");
         card.className="lg-card";
         const btns=PLATFORMS.map(p=>`<button class="lg-card-btn" onclick="window.open('https://budurbuldum.com','_blank')">${p}</button>`).join("");
-        card.innerHTML=`<div class="lg-card-top"><div class="lg-card-emoji">${g.emoji}</div><div class="lg-card-info"><div class="lg-card-name">${g.name}</div><div class="lg-card-price">${g.price}</div></div></div><div class="lg-card-btns">${btns}</div>`;
+        const imgHtml=imgUrl?`<img src="${imgUrl}" style="width:100%;height:140px;object-fit:cover;border-radius:10px 10px 0 0;display:block;" loading="lazy">`:"";
+        card.innerHTML=`${imgHtml}<div class="lg-card-top" style="padding:10px 12px 0;"><div class="lg-card-info"><div class="lg-card-name">${g.name}</div><div class="lg-card-price">${g.price}</div></div></div><div class="lg-card-btns" style="padding:8px 12px 12px;">${btns}</div>`;
         container.appendChild(card);
         setTimeout(()=>card.classList.add("show"),50);
       },i*1000);
