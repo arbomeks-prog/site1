@@ -112,6 +112,14 @@
   #startBtn{position:absolute;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);cursor:pointer;}
   .play-circle{width:72px;height:72px;border-radius:50%;background:rgba(255,217,61,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 12px rgba(255,217,61,0.18),0 0 0 24px rgba(255,217,61,0.08);animation:playP 2s ease-in-out infinite;}
   @keyframes playP{0%,100%{box-shadow:0 0 0 12px rgba(255,217,61,0.18),0 0 0 24px rgba(255,217,61,0.08)}50%{box-shadow:0 0 0 18px rgba(255,217,61,0.25),0 0 0 36px rgba(255,217,61,0.05)}}
+
+  .demo-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.12);margin-top:14px;width:100%;}
+  .demo-card-img{width:100%;height:160px;object-fit:cover;display:block;}
+  .demo-card-badge{display:inline-block;background:#f59e0b;color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:9999px;margin:10px 0 0 12px;}
+  .demo-card-name{font-size:16px;font-weight:700;color:#1a1a1a;margin:6px 12px 2px;}
+  .demo-card-price{font-size:18px;font-weight:800;color:#f59e0b;margin:0 12px 10px;}
+  .demo-card-btns{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 14px;}
+  .demo-card-btn{background:#f59e0b;color:#fff;border:none;border-radius:9999px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -172,6 +180,19 @@
       <div class="logo-line1">PANİK YAPMA — BABAN İÇİN ŞİMDİ HEDİYE BUL<br>ÖMÜR BOYU HEDİYE BUL</div>
       <div class="logo-line2">Bir takma isimle kaydolun,<br>bir ömür boyu hediye bulun.</div>
       <button id="logo-btn" onclick="window.open('https://budurbuldum.com','_blank')">HEMEN BAŞLA →</button>
+      <div class="demo-card">
+        <img class="demo-card-img" src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=400" loading="lazy">
+        <div class="demo-card-badge">🎯 Nokta Atışı</div>
+        <div class="demo-card-name">Akıllı Saat</div>
+        <div class="demo-card-price">₺2.499</div>
+        <div class="demo-card-btns">
+          <button class="demo-card-btn" onclick="window.open('https://budurbuldum.com','_blank')">Trendyol</button>
+          <button class="demo-card-btn" onclick="window.open('https://budurbuldum.com','_blank')">Hepsiburada</button>
+          <button class="demo-card-btn" onclick="window.open('https://budurbuldum.com','_blank')">Amazon</button>
+          <button class="demo-card-btn" onclick="window.open('https://budurbuldum.com','_blank')">N11</button>
+          <button class="demo-card-btn" onclick="window.open('https://budurbuldum.com','_blank')">Çiçeksepeti</button>
+        </div>
+      </div>
     </div>
 
   </div>
