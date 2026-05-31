@@ -15,31 +15,48 @@ canvas { display: block; width: 100vw; height: 100vh; }
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 let W, H;
-
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
 resize();
 window.addEventListener('resize', resize);
 
-const ZEMIN_OAN = () => H * 0.72;
-const TABURE_L  = () => W * 0.33;
-const TABURE_R  = () => W * 0.67;
+const ZEMIN = () => H * 0.72;
+const TL = () => W * 0.33;
+const TR = () => W * 0.67;
+
+const CUMLELER = [
+  {t:"Babalar günü geliyor eyvah...", kim:0},
+  {t:"Ben babama ne alacağım şimdi?", kim:1},
+  {t:"Kaç gün kaldı babalar gününe?", kim:0},
+  {t:"Babamı en çok ne severdi benim?", kim:1},
+  {t:"Hep de aynı şeyleri alıyoruz yazık ya...", kim:0},
+  {t:"Müzik zevki neydi babamın?", kim:1},
+  {t:"En sevdiği renk tonunu düşünüyorum ama...", kim:0},
+  {t:"Hediye güzel mi gözüksün...", kim:1},
+  {t:"Hediye anlamlı mı olsun...", kim:0},
+  {t:"Geç mi kaldım, kargodan gelir mi ki?", kim:1},
+  {t:"Yine mi 100 tane internet sitesi gezeceğim?", kim:0},
+  {t:"Keşke bir yer olsa bana ne istediğimi sorsa...", kim:1},
+];
 
 let frame = 0;
-const semboller = ['?', '!', '÷', '/'];
-let sembolIdx = 0;
-let sembolTimer = 0;
-
-const oglan = { x: () => -80, _x: -80, hedef: () => TABURE_L(), oturuyor: false, oturma: 0 };
-const kiz   = { _x: 0, oturuyor: false, oturma: 0 };
-
-// init
-let ox = -80;
-let kx = 0;
+let ox = -80, kx = 0;
 let oOtur = false, kOtur = false;
 let oOturT = 0, kOturT = 0;
+let sahneHazir = false;
+
+// Balon sistemi
+let aktifBalon = null; // {kim, metin, opacity, faz} faz: 'in','dur','out'
+let balonTimer = 0;
+let cumleIdx = 0;
+let balonAcik = false;
+
+function sonrakiBalon() {
+  if (cumleIdx >= CUMLELER.length) return;
+  aktifBalon = { ...CUMLELER[cumleIdx], opacity: 0, faz: 'in' };
+  cumleIdx++;
+  balonTimer = 0;
+  balonAcik = true;
+}
 
 function drawZemin() {
   ctx.fillStyle = '#0d0d1a';
@@ -47,20 +64,14 @@ function drawZemin() {
   const grad = ctx.createRadialGradient(W/2, H*0.28, 20, W/2, H*0.28, W*0.7);
   grad.addColorStop(0, 'rgba(255,230,150,0.13)');
   grad.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = '#1e1e38';
-  ctx.fillRect(0, ZEMIN_OAN(), W, H - ZEMIN_OAN());
-  ctx.fillStyle = '#4a4a8a';
-  ctx.fillRect(0, ZEMIN_OAN(), W, 2);
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#1e1e38'; ctx.fillRect(0, ZEMIN(), W, H - ZEMIN());
+  ctx.fillStyle = '#4a4a8a'; ctx.fillRect(0, ZEMIN(), W, 2);
 }
 
 function drawTabure(x) {
-  const Z = ZEMIN_OAN();
-  const s = W * 0.07; // tabure genişliği ekrana göre
-  ctx.strokeStyle = '#c8a96e';
-  ctx.lineWidth = W * 0.007;
-  ctx.lineCap = 'round';
+  const Z = ZEMIN(), s = W * 0.07;
+  ctx.strokeStyle = '#c8a96e'; ctx.lineWidth = W * 0.007; ctx.lineCap = 'round';
   ctx.beginPath(); ctx.moveTo(x-s, Z-s*1.4); ctx.lineTo(x+s, Z-s*1.4); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x-s*0.8, Z-s*1.4); ctx.lineTo(x-s*0.9, Z); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x+s*0.8, Z-s*1.4); ctx.lineTo(x+s*0.9, Z); ctx.stroke();
@@ -68,133 +79,151 @@ function drawTabure(x) {
 }
 
 function drawTelefon(x, y, angle) {
-  const tw = W * 0.03, th = W * 0.055;
-  ctx.save();
-  ctx.translate(x, y); ctx.rotate(angle);
-  ctx.fillStyle = '#111'; ctx.strokeStyle = '#999'; ctx.lineWidth = W*0.003;
-  ctx.beginPath(); ctx.roundRect(-tw/2, -th/2, tw, th, tw*0.2); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = '#3af'; ctx.fillRect(-tw/2+tw*0.12, -th/2+th*0.1, tw*0.76, th*0.72);
-  ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(-tw/2+tw*0.12, -th/2+th*0.1, tw*0.76, th*0.18);
+  const tw = W*0.03, th = W*0.055;
+  ctx.save(); ctx.translate(x,y); ctx.rotate(angle);
+  ctx.fillStyle='#111'; ctx.strokeStyle='#999'; ctx.lineWidth=W*0.003;
+  ctx.beginPath(); ctx.roundRect(-tw/2,-th/2,tw,th,tw*0.2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#3af'; ctx.fillRect(-tw/2+tw*0.12,-th/2+th*0.1,tw*0.76,th*0.72);
+  ctx.fillStyle='rgba(255,255,255,0.25)'; ctx.fillRect(-tw/2+tw*0.12,-th/2+th*0.1,tw*0.76,th*0.18);
   ctx.restore();
 }
 
-function drawBalon(cx, cy, isKiz, opacity) {
+function drawBalon(cx, headY, isKiz, metin, opacity) {
+  if (opacity <= 0) return;
   ctx.save();
   ctx.globalAlpha = opacity;
-  const bw = W * 0.13, bh = H * 0.1;
-  const bx = cx + (isKiz ? -bw*0.2 : bw*0.2);
-  const by = cy - bh * 1.6;
 
+  // Metnin uzunluğuna göre balon boyutu
+  ctx.font = `bold ${W*0.038}px sans-serif`;
+  const textW = ctx.measureText(metin).width;
+  const bw = Math.max(textW/2 + W*0.06, W*0.12);
+  const bh = bw * 0.65;
+
+  const bx = cx;
+  const by = headY - bh - W*0.06;
+
+  const renk = isKiz ? '#f8a4c8' : '#7ec8f8';
   ctx.fillStyle = 'rgba(255,255,255,0.96)';
-  ctx.strokeStyle = isKiz ? '#f8a4c8' : '#7ec8f8';
+  ctx.strokeStyle = renk;
   ctx.lineWidth = W * 0.004;
   ctx.beginPath(); ctx.ellipse(bx, by, bw, bh, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
 
   // Köprü daireler
   for (let i = 0; i < 3; i++) {
-    const r = W * (0.012 - i*0.003);
-    const ox2 = isKiz ? -i*W*0.018-W*0.015 : i*W*0.018+W*0.015;
-    ctx.beginPath(); ctx.arc(bx+ox2, by+bh+i*W*0.022+W*0.005, r, 0, Math.PI*2);
+    const r = W*(0.012 - i*0.003);
+    ctx.beginPath(); ctx.arc(bx, by+bh+i*W*0.022+W*0.005, r, 0, Math.PI*2);
     ctx.fill(); ctx.stroke();
   }
 
-  // Sembol - büyük
+  // Metin - tek satır
   ctx.fillStyle = '#111';
-  ctx.font = `bold ${W*0.07}px sans-serif`;
+  ctx.font = `bold ${W*0.038}px sans-serif`;
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(semboller[sembolIdx], bx, by);
+  ctx.fillText(metin, bx, by);
   ctx.restore();
 }
 
 function drawAdam(cx, isKiz, oturuyor, oturmaT) {
-  const Z = ZEMIN_OAN();
-  const t = Math.min(oturmaT, 1);
-  const scale = W * 0.0012;
-  const govdeH = 80 * scale;
-  const basR = 22 * scale;
-  const telDir = isKiz ? -1 : 1;
-  const s = W * 0.065; // tabure genişlik ref
+  const Z = ZEMIN(), t = Math.min(oturmaT,1);
+  const scale = W*0.0012, govdeH=80*scale, basR=22*scale;
+  const telDir = isKiz ? -1 : 1, s=W*0.065;
 
   let bedy;
-  if (!oturuyor) {
-    bedy = Z - govdeH;
-  } else {
-    const hedefY = Z - s*1.4 - govdeH - basR*0.3;
-    bedy = (Z - govdeH) + (hedefY - (Z - govdeH)) * t;
-  }
+  if (!oturuyor) bedy = Z - govdeH;
+  else { const hY = Z-s*1.4-govdeH-basR*0.3; bedy = (Z-govdeH)+(hY-(Z-govdeH))*t; }
   const heady = bedy - basR - basR*0.5;
 
   ctx.strokeStyle = isKiz ? '#f8a4c8' : '#7ec8f8';
-  ctx.lineWidth = W * 0.008; ctx.lineCap = 'round';
+  ctx.lineWidth = W*0.008; ctx.lineCap = 'round';
 
   // Bacaklar
   if (!oturuyor || t < 0.7) {
-    const la = Math.sin(frame * 0.08) * (oturuyor ? 0 : 0.35);
-    ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH); ctx.lineTo(cx - basR + Math.sin(la)*basR*1.2, Z); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH); ctx.lineTo(cx + basR - Math.sin(la)*basR*1.2, Z); ctx.stroke();
+    const la = Math.sin(frame*0.06)*(oturuyor?0:0.35);
+    ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH); ctx.lineTo(cx-basR+Math.sin(la)*basR*1.2,Z); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH); ctx.lineTo(cx+basR-Math.sin(la)*basR*1.2,Z); ctx.stroke();
   } else {
-    const bw = basR * 1.5;
-    ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH); ctx.lineTo(cx-bw, bedy+govdeH+bw*0.8); ctx.lineTo(cx-bw+telDir*bw*2, bedy+govdeH+bw*0.8); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH); ctx.lineTo(cx+bw, bedy+govdeH+bw*0.8); ctx.lineTo(cx+bw+telDir*bw*2, bedy+govdeH+bw*0.8); ctx.stroke();
+    const bw=basR*1.5;
+    ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH); ctx.lineTo(cx-bw,bedy+govdeH+bw*0.8); ctx.lineTo(cx-bw+telDir*bw*2,bedy+govdeH+bw*0.8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH); ctx.lineTo(cx+bw,bedy+govdeH+bw*0.8); ctx.lineTo(cx+bw+telDir*bw*2,bedy+govdeH+bw*0.8); ctx.stroke();
   }
 
-  // Gövde
-  ctx.beginPath(); ctx.moveTo(cx, bedy); ctx.lineTo(cx, bedy+govdeH); ctx.stroke();
-
-  // Kollar
-  ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH*0.3); ctx.lineTo(cx+telDir*basR*2.2, bedy+govdeH*0.55); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH*0.3); ctx.lineTo(cx-telDir*basR*1.6, bedy+govdeH*0.65); ctx.stroke();
-
+  ctx.beginPath(); ctx.moveTo(cx,bedy); ctx.lineTo(cx,bedy+govdeH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH*0.3); ctx.lineTo(cx+telDir*basR*2.2,bedy+govdeH*0.55); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH*0.3); ctx.lineTo(cx-telDir*basR*1.6,bedy+govdeH*0.65); ctx.stroke();
   drawTelefon(cx+telDir*basR*3, bedy+govdeH*0.42, telDir*-0.4);
 
-  // Baş
-  ctx.beginPath(); ctx.arc(cx, heady, basR, 0, Math.PI*2);
-  ctx.fillStyle = isKiz ? '#f8a4c8' : '#7ec8f8'; ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx,heady,basR,0,Math.PI*2);
+  ctx.fillStyle = isKiz?'#f8a4c8':'#7ec8f8'; ctx.fill(); ctx.stroke();
 
   if (isKiz) {
-    ctx.strokeStyle = '#f060a0'; ctx.lineWidth = W*0.01;
-    ctx.beginPath(); ctx.moveTo(cx-basR, heady-basR*0.3); ctx.quadraticCurveTo(cx-basR*1.8, heady+basR*0.8, cx-basR*1.4, heady+basR*1.6); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx+basR, heady-basR*0.3); ctx.quadraticCurveTo(cx+basR*1.8, heady+basR*0.8, cx+basR*1.4, heady+basR*1.6); ctx.stroke();
-    ctx.lineWidth = W*0.008;
+    ctx.strokeStyle='#f060a0'; ctx.lineWidth=W*0.01;
+    ctx.beginPath(); ctx.moveTo(cx-basR,heady-basR*0.3); ctx.quadraticCurveTo(cx-basR*1.8,heady+basR*0.8,cx-basR*1.4,heady+basR*1.6); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx+basR,heady-basR*0.3); ctx.quadraticCurveTo(cx+basR*1.8,heady+basR*0.8,cx+basR*1.4,heady+basR*1.6); ctx.stroke();
+    ctx.lineWidth=W*0.008;
   }
 
-  // Gözler
-  ctx.fillStyle = '#fff';
-  ctx.beginPath(); ctx.arc(cx-basR*0.35, heady-basR*0.15, basR*0.3, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx+basR*0.35, heady-basR*0.15, basR*0.3, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#222';
-  ctx.beginPath(); ctx.arc(cx-basR*0.35, heady-basR*0.1, basR*0.15, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx+basR*0.35, heady-basR*0.1, basR*0.15, 0, Math.PI*2); ctx.fill();
-  // Mutsuz ağız - aşağı bakan yay
-  ctx.strokeStyle = '#222'; ctx.lineWidth = W*0.005;
-  ctx.beginPath();
-  ctx.arc(cx, heady + basR*0.9, basR*0.38, Math.PI*1.15, Math.PI*1.85, false);
-  ctx.stroke();
+  ctx.fillStyle='#fff';
+  ctx.beginPath(); ctx.arc(cx-basR*0.35,heady-basR*0.15,basR*0.3,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx+basR*0.35,heady-basR*0.15,basR*0.3,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#222';
+  ctx.beginPath(); ctx.arc(cx-basR*0.35,heady-basR*0.1,basR*0.15,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx+basR*0.35,heady-basR*0.1,basR*0.15,0,Math.PI*2); ctx.fill();
 
-  if (oturuyor && t > 0.4) {
-    drawBalon(cx, heady - basR, isKiz, Math.min((t-0.4)*1.7, 1));
+  // Mutsuz ağız
+  ctx.strokeStyle='#222'; ctx.lineWidth=W*0.005;
+  ctx.beginPath(); ctx.arc(cx, heady+basR*0.9, basR*0.38, Math.PI*1.15, Math.PI*1.85, false); ctx.stroke();
+
+  return heady; // balon için
+}
+
+function updateBalon() {
+  if (!aktifBalon) {
+    // İlk balonu başlat - yürürken de
+    if (frame > 80) sonrakiBalon();
+    return;
+  }
+
+  balonTimer++;
+  const fadeSpd = 0.04;
+  const durSure = 120; // ~2sn
+
+  if (aktifBalon.faz === 'in') {
+    aktifBalon.opacity = Math.min(aktifBalon.opacity + fadeSpd, 1);
+    if (aktifBalon.opacity >= 1) { aktifBalon.faz = 'dur'; balonTimer = 0; }
+  } else if (aktifBalon.faz === 'dur') {
+    if (balonTimer > durSure) { aktifBalon.faz = 'out'; balonTimer = 0; }
+  } else if (aktifBalon.faz === 'out') {
+    aktifBalon.opacity = Math.max(aktifBalon.opacity - fadeSpd, 0);
+    if (aktifBalon.opacity <= 0) {
+      aktifBalon = null;
+      setTimeout(sonrakiBalon, 300); // kısa bekle, sonraki çıksın
+    }
   }
 }
 
 function update() {
-  frame++; sembolTimer++;
-  if (sembolTimer > 60) { sembolTimer = 0; sembolIdx = (sembolIdx+1) % semboller.length; }
-
-  const TL = TABURE_L(), TR = TABURE_R();
-  if (!oOtur) { ox += 0.8; if (ox >= TL) { ox = TL; oOtur = true; } }
-  else oOturT = Math.min(oOturT + 0.018, 1);
-
+  frame++;
+  const tl = TL(), tr = TR();
   if (kx === 0) kx = W + 80;
-  if (!kOtur) { kx -= 0.8; if (kx <= TR) { kx = TR; kOtur = true; } }
-  else kOturT = Math.min(kOturT + 0.018, 1);
+  if (!oOtur) { ox += 0.5; if (ox >= tl) { ox = tl; oOtur = true; } }
+  else oOturT = Math.min(oOturT+0.018, 1);
+  if (!kOtur) { kx -= 0.5; if (kx <= tr) { kx = tr; kOtur = true; } }
+  else kOturT = Math.min(kOturT+0.018, 1);
+  updateBalon();
 }
 
 function draw() {
   drawZemin();
-  drawTabure(TABURE_L());
-  drawTabure(TABURE_R());
-  drawAdam(ox, false, oOtur, oOturT);
-  drawAdam(kx, true, kOtur, kOturT);
+  drawTabure(TL()); drawTabure(TR());
+  const oHeady = drawAdam(ox, false, oOtur, oOturT);
+  const kHeady = drawAdam(kx, true, kOtur, kOturT);
+
+  if (aktifBalon) {
+    const isKiz = aktifBalon.kim === 1;
+    const cx = isKiz ? kx : ox;
+    const hy = isKiz ? kHeady : oHeady;
+    drawBalon(cx, hy, isKiz, aktifBalon.t, aktifBalon.opacity);
+  }
 }
 
 function loop() { update(); draw(); requestAnimationFrame(loop); }
