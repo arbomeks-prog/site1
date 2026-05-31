@@ -93,14 +93,10 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   ctx.save();
   ctx.globalAlpha = opacity;
 
-  // Metnin uzunluğuna göre balon boyutu
-  ctx.font = `bold ${W*0.038}px sans-serif`;
-  const textW = ctx.measureText(metin).width;
-  const bw = Math.max(textW/2 + W*0.06, W*0.12);
-  const bh = bw * 0.65;
-
+  const bw = W * 0.16;
+  const bh = W * 0.14;
   const bx = cx;
-  const by = headY - bh - W*0.06;
+  const by = headY - bh - W*0.05;
 
   const renk = isKiz ? '#f8a4c8' : '#7ec8f8';
   ctx.fillStyle = 'rgba(255,255,255,0.96)';
@@ -110,16 +106,47 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
 
   // Köprü daireler
   for (let i = 0; i < 3; i++) {
-    const r = W*(0.012 - i*0.003);
-    ctx.beginPath(); ctx.arc(bx, by+bh+i*W*0.022+W*0.005, r, 0, Math.PI*2);
+    const r = W*(0.010 - i*0.003);
+    ctx.beginPath(); ctx.arc(bx, by+bh+i*W*0.018+W*0.004, r, 0, Math.PI*2);
     ctx.fill(); ctx.stroke();
   }
 
-  // Metin - tek satır
-  ctx.fillStyle = '#111';
-  ctx.font = `bold ${W*0.038}px sans-serif`;
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(metin, bx, by);
+  // Metni kelimelere böl, alt alta, hafif kaymış el yazısı stili
+  const kelimeler = metin.split(' ');
+  const satirlar = [];
+  let satir = '';
+  const maxKar = 10;
+  kelimeler.forEach(k => {
+    if ((satir + ' ' + k).trim().length > maxKar && satir.length > 0) {
+      satirlar.push(satir.trim());
+      satir = k;
+    } else {
+      satir = (satir + ' ' + k).trim();
+    }
+  });
+  if (satir) satirlar.push(satir.trim());
+
+  const fontSize = W * 0.028;
+  const satirH = fontSize * 1.4;
+  const topY = by - (satirlar.length - 1) * satirH / 2;
+
+  satirlar.forEach((s, i) => {
+    // Her satır hafif farklı açı ve x kayması - komik çizgi roman efekti
+    const kaymalar = [-W*0.008, W*0.01, -W*0.005, W*0.012, -W*0.007];
+    const acilar = [-0.04, 0.05, -0.03, 0.06, -0.02];
+    const kx2 = bx + (kaymalar[i % kaymalar.length] || 0);
+    const aci = acilar[i % acilar.length] || 0;
+    ctx.save();
+    ctx.translate(kx2, topY + i * satirH);
+    ctx.rotate(aci);
+    ctx.fillStyle = '#111';
+    ctx.font = `bold ${fontSize}px 'Comic Sans MS', cursive, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(s, 0, 0);
+    ctx.restore();
+  });
+
   ctx.restore();
 }
 
