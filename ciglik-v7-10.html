@@ -315,13 +315,13 @@ let qIdx=0;
 
 
 function playPress(){
-  const t=document.getElementById("snd-press"); t.currentTime=0; t.play();
+  const t=document.getElementById("snd-press"); t.volume=0.25; t.currentTime=0; t.play();
 }
 function playCorrect(){
-  const t=document.getElementById("snd-correct"); t.currentTime=0; t.play();
+  const t=document.getElementById("snd-correct"); t.volume=0.25; t.currentTime=0; t.play();
 }
 function playFill(){
-  const t=document.getElementById("snd-fill"); t.currentTime=0; t.play();
+  const t=document.getElementById("snd-fill"); t.volume=0.25; t.currentTime=0; t.play();
 }
 
 function buildGrid(){
