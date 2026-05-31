@@ -208,12 +208,23 @@ let qaIdx = 0;
 let qaFaz = 'bekle';
 let qaTimer = 0;
 let qaKartX = 0;
-let qaKartY = 0;       // Y offset — çıkışta kullanılır
+let qaKartY = 0;
 let qaKartDir = 0;
 let qaHighlight = false;
 let qaHighTimer = 0;
-let qaCikisDirX = -1;  // çıkış X yönü
-let qaCikisDirY = 0;   // çıkış Y yönü
+let qaCikisDirX = -1;
+let qaCikisDirY = 0;
+// Sol ve sağ kart ayrı çıkış offsetleri
+let qaSolX = 0, qaSolY = 0;
+let qaSagX = 0, qaSagY = 0;
+// Çıkış yön çiftleri — sol kart / sağ kart
+const CIKIS_YONLERI = [
+  {sol:{dx:-1,dy:-0.5}, sag:{dx:1, dy:0.5}},   // sol: sol-yukarı, sağ: sağ-aşağı
+  {sol:{dx:0, dy:-1},   sag:{dx:0, dy:1}},       // sol: yukarı, sağ: aşağı
+  {sol:{dx:-1,dy:0.5},  sag:{dx:1, dy:-0.5}},   // sol: sol-aşağı, sağ: sağ-yukarı
+  {sol:{dx:1, dy:-1},   sag:{dx:-1,dy:1}},       // sol: sağ-yukarı, sağ: sol-aşağı
+  {sol:{dx:0, dy:1},    sag:{dx:0, dy:-1}},      // sol: aşağı, sağ: yukarı
+];
 let solCevaplar = []; // biriken cevaplar sol
 let sagCevaplar = []; // biriken cevaplar sağ
 let qaAktif = false;
@@ -275,40 +286,35 @@ function updateQA() {
 
   if (qaFaz === 'giris') {
     qaKartX = Math.max(qaKartX - W*0.06, KX());
-    qaKartY = 0;
+    qaSolX = qaKartX - KX(); qaSolY = 0;
+    qaSagX = qaKartX - KX(); qaSagY = 0;
     if (qaKartX <= KX()) {
+      qaSolX = 0; qaSolY = 0; qaSagX = 0; qaSagY = 0;
       qaFaz = 'bekle';
       qaTimer = 0;
       const c = QA_CIFTER[qaIdx];
       oku(c.sol, false);
       setTimeout(() => oku(c.sag, true), 1200);
-      // Bir sonraki çıkış yönünü belirle — 4 yön sırayla
-      const yonler = [
-        {dx: -1, dy: 0},   // sola
-        {dx: 1,  dy: 0},   // sağa
-        {dx: 0,  dy: -1},  // yukarı
-        {dx: 0,  dy: 1},   // aşağı
-      ];
-      const yon = yonler[qaIdx % 4];
-      qaCikisDirX = yon.dx;
-      qaCikisDirY = yon.dy;
     }
   } else if (qaFaz === 'bekle') {
     if (qaTimer > 25) { qaHighlight = true; qaFaz = 'highlight'; qaTimer = 0; }
   } else if (qaFaz === 'highlight') {
     if (qaTimer > hiz) { qaFaz = 'cikis'; qaTimer = 0; }
   } else if (qaFaz === 'cikis') {
-    qaKartX += qaCikisDirX * W * 0.08;
-    qaKartY += qaCikisDirY * H * 0.08;
-    const disari = Math.abs(qaKartX - KX()) > W*0.9 || Math.abs(qaKartY) > H*0.9;
+    const yon = CIKIS_YONLERI[qaIdx % CIKIS_YONLERI.length];
+    qaSolX += yon.sol.dx * W * 0.07;
+    qaSolY += yon.sol.dy * H * 0.07;
+    qaSagX += yon.sag.dx * W * 0.07;
+    qaSagY += yon.sag.dy * H * 0.07;
+    const disari = Math.abs(qaSolX) > W || Math.abs(qaSolY) > H;
     if (disari) {
       const c = QA_CIFTER[qaIdx];
       solCevaplar.push(c.solC);
       sagCevaplar.push(c.sagC);
       qaIdx++;
-      qaKartY = 0;
+      qaSolX = 0; qaSolY = 0; qaSagX = 0; qaSagY = 0;
+      qaKartX = W;
       if (qaIdx < QA_CIFTER.length) {
-        qaKartX = W;
         qaFaz = 'giris';
         qaTimer = 0;
         qaHighlight = false;
@@ -320,9 +326,9 @@ function updateQA() {
   }
 }
 
-function drawKart(cx, cy, kw, kh, soru, cevap, opts, renk, highlight, kartX, kartY) {
+function drawKart(cx, cy, kw, kh, soru, cevap, opts, renk, highlight, offsetX, offsetY) {
   ctx.save();
-  ctx.translate(kartX - KX(), kartY || 0); // X ve Y kaydır
+  ctx.translate(offsetX || 0, offsetY || 0);
 
   // Kart arka planı
   ctx.fillStyle = 'rgba(255,255,255,0.95)';
@@ -396,11 +402,15 @@ function drawQA() {
   const c = QA_CIFTER[qaIdx];
   const kw = KW(), kh = KH(), cx = KX(), cy = KY();
 
-  // Tek kart ortada — sol soruyu solda, sağ soruyu sağda göster
-  // Sol yarı — oğlan sorusu
-  drawKart(cx - kw*0.26, cy, kw*0.48, kh, c.sol, c.solC, c.solOpts, '#7ec8f8', qaHighlight, qaKartX, qaKartY);
-  // Sağ yarı — kız sorusu
-  drawKart(cx + kw*0.26, cy, kw*0.48, kh, c.sag, c.sagC, c.sagOpts, '#f8a4c8', qaHighlight, qaKartX, qaKartY);
+  // Giriş sırasında her iki kart aynı X offset ile gelir, çıkışta ayrılır
+  const girişOffX = qaFaz === 'giris' ? (qaKartX - KX()) : 0;
+  const solOffX = qaFaz === 'cikis' ? qaSolX : girişOffX;
+  const solOffY = qaFaz === 'cikis' ? qaSolY : 0;
+  const sagOffX = qaFaz === 'cikis' ? qaSagX : girişOffX;
+  const sagOffY = qaFaz === 'cikis' ? qaSagY : 0;
+
+  drawKart(cx - kw*0.26, cy, kw*0.48, kh, c.sol, c.solC, c.solOpts, '#7ec8f8', qaHighlight, solOffX, solOffY);
+  drawKart(cx + kw*0.26, cy, kw*0.48, kh, c.sag, c.sagC, c.sagOpts, '#f8a4c8', qaHighlight, sagOffX, sagOffY);
 }
 
 const HEDIYELER = [
