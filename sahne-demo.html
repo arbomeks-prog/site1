@@ -506,7 +506,11 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
   ctx.beginPath(); ctx.arc(cx-basR*0.35,heady-basR*0.1,basR*0.15,0,Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(cx+basR*0.35,heady-basR*0.1,basR*0.15,0,Math.PI*2); ctx.fill();
   ctx.strokeStyle='#222'; ctx.lineWidth=W*0.005;
-  ctx.beginPath(); ctx.arc(cx, heady+basR*0.9, basR*0.38, Math.PI*1.15, Math.PI*1.85, false); ctx.stroke();
+  if (guluyor) {
+    ctx.beginPath(); ctx.arc(cx, heady+basR*0.55, basR*0.42, Math.PI*0.15, Math.PI*0.85, false); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.arc(cx, heady+basR*0.9, basR*0.38, Math.PI*1.15, Math.PI*1.85, false); ctx.stroke();
+  }
 }
 
 function update() {
