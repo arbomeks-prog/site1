@@ -24,37 +24,49 @@ const TL = () => W * 0.33;
 const TR = () => W * 0.67;
 
 const CUMLELER = [
-  {t:"Babalar günü geliyor eyvah...", kim:0},
-  {t:"Ben babama ne alacağım şimdi?", kim:1},
-  {t:"Kaç gün kaldı babalar gününe?", kim:0},
-  {t:"Babamı en çok ne severdi benim?", kim:1},
-  {t:"Hep de aynı şeyleri alıyoruz yazık ya...", kim:0},
-  {t:"Müzik zevki neydi babamın?", kim:1},
-  {t:"En sevdiği renk tonunu düşünüyorum ama...", kim:0},
-  {t:"Hediye güzel mi gözüksün...", kim:1},
-  {t:"Hediye anlamlı mı olsun...", kim:0},
-  {t:"Geç mi kaldım, kargodan gelir mi ki?", kim:1},
-  {t:"Yine mi 100 tane internet sitesi gezeceğim?", kim:0},
-  {t:"Keşke bir yer olsa bana ne istediğimi sorsa...", kim:1},
+  {t:"Babalar günü\ngeliyor eyvah...", kim:0},
+  {t:"Ben babama ne\nalacağım şimdi?", kim:1},
+  {t:"Kaç gün kaldı\nbabalar gününe?", kim:0},
+  {t:"Babamı en çok\nne severdi benim?", kim:1},
+  {t:"Hep aynı şeyleri\nalıyoruz yazık ya...", kim:0},
+  {t:"Müzik zevki\nneydi babamın?", kim:1},
+  {t:"En sevdiği renk\ntonunu düşünüyorum...", kim:0},
+  {t:"Hediye güzel mi\ngözüksün...", kim:1},
+  {t:"Hediye anlamlı mı\nolsun...", kim:0},
+  {t:"Geç mi kaldım,\nkargo gelir mi ki?", kim:1},
+  {t:"Yine mi 100 site\ngezeceğim?", kim:0},
+  {t:"Keşke bir yer olsa\nbana sorsaydı...", kim:1},
 ];
 
 let frame = 0;
 let ox = -80, kx = 0;
 let oOtur = false, kOtur = false;
 let oOturT = 0, kOturT = 0;
-let sahneHazir = false;
 
-// Balon sistemi - iki kanal
-let balonlar = [null, null]; // 0=oglan, 1=kiz
+// Yazı sistemi
+let aktifYazi = null; // {t, kim, opacity, faz, timer}
 let cumleIdx = 0;
-let bekleTimer = 0;
 
-function sonrakiBalon(kanal) {
-  // Sıradaki cümleyi bu kanala ata
-  while (cumleIdx < CUMLELER.length) {
-    const c = CUMLELER[cumleIdx++];
-    balonlar[c.kim] = { t: c.t, opacity: 0, faz: 'in', timer: 0 };
+function sonrakiYazi() {
+  if (cumleIdx >= CUMLELER.length) return;
+  aktifYazi = { ...CUMLELER[cumleIdx++], opacity: 0, faz: 'in', timer: 0 };
+}
+
+function updateYazi() {
+  if (!aktifYazi) {
+    if (ox > -60 || kx < W + 60) sonrakiYazi();
     return;
+  }
+  aktifYazi.timer++;
+  const fadeSpd = 0.04, durSure = 180;
+  if (aktifYazi.faz === 'in') {
+    aktifYazi.opacity = Math.min(aktifYazi.opacity + fadeSpd, 1);
+    if (aktifYazi.opacity >= 1) { aktifYazi.faz = 'dur'; aktifYazi.timer = 0; }
+  } else if (aktifYazi.faz === 'dur') {
+    if (aktifYazi.timer > durSure) { aktifYazi.faz = 'out'; aktifYazi.timer = 0; }
+  } else {
+    aktifYazi.opacity = Math.max(aktifYazi.opacity - fadeSpd, 0);
+    if (aktifYazi.opacity <= 0) { aktifYazi = null; setTimeout(sonrakiYazi, 150); }
   }
 }
 
@@ -62,7 +74,7 @@ function drawZemin() {
   ctx.fillStyle = '#0d0d1a';
   ctx.fillRect(0, 0, W, H);
   const grad = ctx.createRadialGradient(W/2, H*0.28, 20, W/2, H*0.28, W*0.7);
-  grad.addColorStop(0, 'rgba(255,230,150,0.13)');
+  grad.addColorStop(0, 'rgba(255,230,150,0.10)');
   grad.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
   ctx.fillStyle = '#1e1e38'; ctx.fillRect(0, ZEMIN(), W, H - ZEMIN());
@@ -84,64 +96,70 @@ function drawTelefon(x, y, angle) {
   ctx.fillStyle='#111'; ctx.strokeStyle='#999'; ctx.lineWidth=W*0.003;
   ctx.beginPath(); ctx.roundRect(-tw/2,-th/2,tw,th,tw*0.2); ctx.fill(); ctx.stroke();
   ctx.fillStyle='#3af'; ctx.fillRect(-tw/2+tw*0.12,-th/2+th*0.1,tw*0.76,th*0.72);
-  ctx.fillStyle='rgba(255,255,255,0.25)'; ctx.fillRect(-tw/2+tw*0.12,-th/2+th*0.1,tw*0.76,th*0.18);
   ctx.restore();
 }
 
-function drawBalon(cx, headY, isKiz, metin, opacity) {
-  if (opacity <= 0) return;
+function drawYazi(yazi) {
+  if (!yazi || yazi.opacity <= 0) return;
   ctx.save();
-  ctx.globalAlpha = opacity;
+  ctx.globalAlpha = yazi.opacity;
 
-  const bw = W * 0.30;
-  const bh = W * 0.26;
-  const bx = cx;
-  const by = headY; // headY artık direkt balon merkezi
+  const isKiz = yazi.kim === 1;
+  const charX = isKiz ? kx : ox;
+  const fontSize = W * 0.052;
+  const satirlar = yazi.t.split('\n');
+  const satirH = fontSize * 1.5;
+  const topY = H * 0.22;
 
-  const renk = isKiz ? '#f8a4c8' : '#7ec8f8';
-  ctx.fillStyle = 'rgba(255,255,255,0.06)';
-  ctx.strokeStyle = renk;
-  ctx.lineWidth = W * 0.004;
-  ctx.beginPath(); ctx.ellipse(bx, by, bw, bh, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.font = `italic bold ${fontSize}px 'Comic Sans MS', cursive, sans-serif`;
+  ctx.fillStyle = '#ffffff';
+  ctx.textAlign = isKiz ? 'right' : 'left';
 
-  // Köprü daireler kaldırıldı — balonlar havada
-
-  // Metni kelimelere böl, alt alta, hafif kaymış el yazısı stili
-  const kelimeler = metin.split(' ');
-  const satirlar = [];
-  let satir = '';
-  const maxKar = 7;
-  kelimeler.forEach(k => {
-    if ((satir + ' ' + k).trim().length > maxKar && satir.length > 0) {
-      satirlar.push(satir.trim());
-      satir = k;
-    } else {
-      satir = (satir + ' ' + k).trim();
-    }
-  });
-  if (satir) satirlar.push(satir.trim());
-
-  const fontSize = W * 0.055;
-  const satirH = fontSize * 1.4;
-  const topY = by - (satirlar.length - 1) * satirH / 2;
+  const textX = isKiz ? W * 0.88 : W * 0.12;
 
   satirlar.forEach((s, i) => {
-    // Her satır hafif farklı açı ve x kayması - komik çizgi roman efekti
-    const kaymalar = [-W*0.008, W*0.01, -W*0.005, W*0.012, -W*0.007];
-    const acilar = [-0.04, 0.05, -0.03, 0.06, -0.02];
-    const kx2 = bx + (kaymalar[i % kaymalar.length] || 0);
-    const aci = acilar[i % acilar.length] || 0;
+    const angle = (i % 2 === 0 ? -1 : 1) * 0.03;
+    const xOff = (i % 2 === 0 ? -1 : 1) * W * 0.008;
     ctx.save();
-    ctx.translate(kx2, topY + i * satirH);
-    ctx.rotate(aci);
-    ctx.fillStyle = '#ddd';
-    ctx.font = `bold ${fontSize}px 'Comic Sans MS', cursive, sans-serif`;
-    ctx.textAlign = isKiz ? 'right' : 'left';
-    ctx.textBaseline = 'middle';
-    const xOff = isKiz ? bw*0.55 : -bw*0.55;
-    ctx.fillText(s, xOff, 0);
+    ctx.translate(textX + xOff, topY + i * satirH);
+    ctx.rotate(angle);
+    ctx.fillText(s, 0, 0);
     ctx.restore();
   });
+
+  // Ok — yazıdan karaktere doğru
+  const yaziBotY = topY + satirlar.length * satirH + W*0.02;
+  const okHedefX = charX;
+  const okHedefY = ZEMIN() - H*0.15;
+
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = W * 0.004;
+  ctx.setLineDash([W*0.012, W*0.008]);
+  ctx.beginPath();
+  ctx.moveTo(textX, yaziBotY);
+  ctx.quadraticCurveTo(
+    (textX + okHedefX) / 2, yaziBotY + (okHedefY - yaziBotY) * 0.3,
+    okHedefX, okHedefY
+  );
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Ok ucu
+  const dx = okHedefX - (textX + okHedefX)/2 * 0.3;
+  const dy = okHedefY - (yaziBotY + (okHedefY-yaziBotY)*0.3) * 0.3;
+  const angle2 = Math.atan2(okHedefY - yaziBotY, okHedefX - textX);
+  ctx.save();
+  ctx.translate(okHedefX, okHedefY);
+  ctx.rotate(angle2);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(-W*0.025, -W*0.012);
+  ctx.moveTo(0, 0);
+  ctx.lineTo(-W*0.025, W*0.012);
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = W*0.004;
+  ctx.stroke();
+  ctx.restore();
 
   ctx.restore();
 }
@@ -159,7 +177,6 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
   ctx.strokeStyle = isKiz ? '#f8a4c8' : '#7ec8f8';
   ctx.lineWidth = W*0.008; ctx.lineCap = 'round';
 
-  // Bacaklar
   if (!oturuyor || t < 0.7) {
     const la = Math.sin(frame*0.06)*(oturuyor?0:0.35);
     ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH); ctx.lineTo(cx-basR+Math.sin(la)*basR*1.2,Z); ctx.stroke();
@@ -195,61 +212,6 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
   // Mutsuz ağız
   ctx.strokeStyle='#222'; ctx.lineWidth=W*0.005;
   ctx.beginPath(); ctx.arc(cx, heady+basR*0.9, basR*0.38, Math.PI*1.15, Math.PI*1.85, false); ctx.stroke();
-
-  return heady; // balon için
-}
-
-let balonFaz = 'bekle'; // bekle, in, dur, out
-let balonOpacity = 0;
-let balonTimer2 = 0;
-const durSure = 210;
-const fadeSpd = 0.05;
-
-function ciftSonraki() {
-  if (cumleIdx >= CUMLELER.length) return;
-  // Sıradaki iki cümleyi al (biri oglan biri kiz)
-  // Ama CUMLELER zaten kim=0 ve kim=1 olarak gelecek sırayla
-  let c0 = null, c1 = null;
-  for (let i = cumleIdx; i < CUMLELER.length; i++) {
-    if (!c0 && CUMLELER[i].kim === 0) c0 = CUMLELER[i];
-    if (!c1 && CUMLELER[i].kim === 1) c1 = CUMLELER[i];
-    if (c0 && c1) { cumleIdx = i + 1; break; }
-  }
-  // Basit sıralı: ikisini sırayla al
-  if (cumleIdx < CUMLELER.length - 1) {
-    balonlar[0] = { t: CUMLELER[cumleIdx].t, opacity: 0 };
-    balonlar[1] = { t: CUMLELER[cumleIdx+1] ? CUMLELER[cumleIdx+1].t : CUMLELER[cumleIdx].t, opacity: 0 };
-    cumleIdx += 2;
-  } else if (cumleIdx < CUMLELER.length) {
-    balonlar[0] = { t: CUMLELER[cumleIdx].t, opacity: 0 };
-    balonlar[1] = { t: CUMLELER[cumleIdx].t, opacity: 0 };
-    cumleIdx++;
-  }
-  balonFaz = 'in';
-  balonTimer2 = 0;
-}
-
-function updateBalon() {
-  // Sahne tamamlandıktan sonra başla
-  if (!oOtur && !kOtur) return;
-  if (balonFaz === 'bekle') { ciftSonraki(); return; }
-
-  balonTimer2++;
-  if (balonFaz === 'in') {
-    balonOpacity = Math.min(balonOpacity + fadeSpd, 1);
-    balonlar.forEach(b => { if(b) b.opacity = balonOpacity; });
-    if (balonOpacity >= 1) { balonFaz = 'dur'; balonTimer2 = 0; }
-  } else if (balonFaz === 'dur') {
-    if (balonTimer2 > durSure) { balonFaz = 'out'; balonTimer2 = 0; }
-  } else if (balonFaz === 'out') {
-    balonOpacity = Math.max(balonOpacity - fadeSpd, 0);
-    balonlar.forEach(b => { if(b) b.opacity = balonOpacity; });
-    if (balonOpacity <= 0) {
-      balonlar = [null, null];
-      balonFaz = 'bekle';
-      balonOpacity = 0;
-    }
-  }
 }
 
 function update() {
@@ -260,20 +222,15 @@ function update() {
   else oOturT = Math.min(oOturT+0.018, 1);
   if (!kOtur) { kx -= 0.2; if (kx <= tr) { kx = tr; kOtur = true; } }
   else kOturT = Math.min(kOturT+0.018, 1);
-  updateBalon();
+  updateYazi();
 }
 
 function draw() {
   drawZemin();
   drawTabure(TL()); drawTabure(TR());
-  const oHeady = drawAdam(ox, false, oOtur, oOturT);
-  const kHeady = drawAdam(kx, true, kOtur, kOturT);
-
-  // Balonlar tabure pozisyonunda sabit — karakterler gelip altına giriyor
-  const balonY0 = ZEMIN() * 0.52; // sabit yükseklik
-  const balonY1 = ZEMIN() * 0.52;
-  if (balonlar[0]) drawBalon(TL(), balonY0, false, balonlar[0].t, balonlar[0].opacity);
-  if (balonlar[1]) drawBalon(TR(), balonY1, true,  balonlar[1].t, balonlar[1].opacity);
+  drawYazi(aktifYazi);
+  drawAdam(ox, false, oOtur, oOturT);
+  drawAdam(kx, true, kOtur, kOturT);
 }
 
 function loop() { update(); draw(); requestAnimationFrame(loop); }
