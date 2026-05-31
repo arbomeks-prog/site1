@@ -38,12 +38,18 @@ let frame = 0;
 let ox = -80, kx = 0;
 
 // Özel balonlar
-let ozelFaz = 'bekle'; // bekle -> karmas -> cildirma -> ciglik -> bitti
+let ozelFaz = 'bekle'; // bekle -> karmas -> cildirma -> ciglik -> logo -> bitti
 let ozelTimer = 0;
 let ozelOpacity = 0;
 let ciglikGoster = false;
 let ciglikScale = 0;
 let ciglikAngle = 0;
+let ciglikY = 0; // ciglik resmi aşağı düşecek
+let budurY = -200; // yukarıdan iniyor
+let buldumY = -200;
+let logoFaz = 0; // 0=hazır değil, 1=iniyor, 2=durdu, 3=ciglik düşüyor, 4=bitti
+let logoTimer = 0;
+let guluyor = false;
 let oOtur = false, kOtur = false;
 let oOturT = 0, kOturT = 0;
 
@@ -104,7 +110,23 @@ function updateOzel() {
   } else if (ozelFaz === 'ciglik') {
     ciglikScale = Math.min(ciglikScale + 0.04, 1);
     ciglikAngle = Math.sin(ozelTimer * 0.25) * 0.12;
-    if (ozelTimer > 180) { ozelFaz = 'bitti'; }
+    ciglikY = 0;
+    if (ozelTimer > 180) { ozelFaz = 'logo'; ozelTimer = 0; logoFaz = 1; }
+  } else if (ozelFaz === 'logo') {
+    logoTimer++;
+    if (logoFaz === 1) {
+      // BUDUR ve BULDUM yukarıdan iner
+      budurY = Math.min(budurY + 18, 0);
+      buldumY = Math.min(buldumY + 18, 0);
+      if (budurY >= 0 && buldumY >= 0) { logoFaz = 2; logoTimer = 0; }
+    } else if (logoFaz === 2) {
+      // Kısa dur, sonra çığlık aşağı düşsün
+      if (logoTimer > 40) { logoFaz = 3; logoTimer = 0; }
+    } else if (logoFaz === 3) {
+      // Çığlık resmi hızla aşağı düşer
+      ciglikY += 60;
+      if (ciglikY > H) { ciglikGoster = false; logoFaz = 4; guluyor = true; }
+    }
   }
 }
 
@@ -145,15 +167,38 @@ function drawOzelYazi(metin1, metin2, opacity) {
   ctx.restore();
 }
 
+const ciglikImg = new Image();
+ciglikImg.src = '/assets/ciglik-bg.jpg';
+
 function drawCiglik() {
   if (!ciglikGoster || ciglikScale <= 0) return;
-  const img = new Image();
-  img.src = '/assets/ciglik-bg.jpg';
   const size = W * 0.55 * ciglikScale;
   ctx.save();
-  ctx.translate(W/2, H*0.42);
+  ctx.translate(W/2, H*0.42 + ciglikY);
   ctx.rotate(ciglikAngle);
-  ctx.drawImage(img, -size/2, -size/2, size, size);
+  ctx.drawImage(ciglikImg, -size/2, -size/2, size, size);
+  ctx.restore();
+}
+
+function drawLogo() {
+  if (logoFaz < 1) return;
+  const fs = W * 0.18;
+  ctx.font = `900 ${fs}px 'Bebas Neue', 'Arial Black', sans-serif`;
+
+  // BUDUR — oğlanın üstünde, yukarıdan iner
+  ctx.save();
+  ctx.translate(ox, ZEMIN() - W*0.0012*80*2 - W*0.0012*22*3 + budurY);
+  ctx.fillStyle = '#FFD93D';
+  ctx.textAlign = 'center';
+  ctx.fillText('BUDUR', 0, 0);
+  ctx.restore();
+
+  // BULDUM — kızın üstünde, yukarıdan iner
+  ctx.save();
+  ctx.translate(kx, ZEMIN() - W*0.0012*80*2 - W*0.0012*22*3 + buldumY);
+  ctx.fillStyle = '#FFD93D';
+  ctx.textAlign = 'center';
+  ctx.fillText('BULDUM', 0, 0);
   ctx.restore();
 }
 
@@ -326,6 +371,7 @@ function draw() {
   if (ozelFaz === 'karmas') drawOzelYazi("Ben ne yapacağım\nşimdi ??!!!##@@@", "+₺#&#\nşimdi??", ozelOpacity);
   if (ozelFaz === 'cildirma' || ozelFaz === 'ciglik') drawOzelYazi("Çıldıracağım\nşimdiiiiii.....", "!!!!!\nÇıldıracağım!!!!!", ozelOpacity);
   drawCiglik();
+  drawLogo();
   drawAdam(ox, false, oOtur, oOturT);
   drawAdam(kx, true, kOtur, kOturT);
 }
