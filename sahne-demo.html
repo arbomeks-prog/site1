@@ -318,13 +318,27 @@ function drawBirikenCevaplar() {
     ctx.fillText('✓ ' + c, W*0.01, y);
   });
 
-  // Sağ cevaplar — zeminden yukarı doğru birikir
+  // Sağ cevaplar — zeminden yukarı doğru birikir, sağa yaslı, uzun kelime 2 satır
   sagCevaplar.forEach((c, i) => {
-    const y = ZEMIN() - W*0.02 - i*satirH;
-    ctx.fillStyle = '#f8a4c8';
-    ctx.textAlign = 'right';
-    ctx.globalAlpha = 0.85;
-    ctx.fillText('✓ ' + c, W*0.99, y);
+    const maxW = W * 0.18;
+    const satirlar = [];
+    const kelimeler = ('✓ ' + c).split(' ');
+    let satir = '';
+    ctx.font = `bold ${fs}px sans-serif`;
+    kelimeler.forEach(k => {
+      const test = satir ? satir + ' ' + k : k;
+      if (ctx.measureText(test).width > maxW && satir) {
+        satirlar.push(satir); satir = k;
+      } else satir = test;
+    });
+    if (satir) satirlar.push(satir);
+    const topY = ZEMIN() - W*0.02 - i*satirH*(satirlar.length > 1 ? 1.8 : 1);
+    satirlar.forEach((s, si) => {
+      ctx.fillStyle = '#f8a4c8';
+      ctx.textAlign = 'right';
+      ctx.globalAlpha = 0.85;
+      ctx.fillText(s, W*0.985, topY + si*satirH*0.9);
+    });
   });
   ctx.globalAlpha = 1;
 }
