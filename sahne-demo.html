@@ -663,6 +663,10 @@ function update() {
 }
 
 function draw() {
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0, 0, W, H);
+  ctx.clip();
   drawZemin();
   drawTabure(TL()); drawTabure(TR());
   drawYazilar();
@@ -675,6 +679,7 @@ function draw() {
   drawLogo();
   drawAdam(ox, false, oOtur, oOturT);
   drawAdam(kx, true, kOtur, kOturT);
+  ctx.restore();
 }
 
 function loop() { update(); draw(); requestAnimationFrame(loop); }
