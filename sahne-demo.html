@@ -99,7 +99,7 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   const by = headY; // headY artık direkt balon merkezi
 
   const renk = isKiz ? '#f8a4c8' : '#7ec8f8';
-  ctx.fillStyle = 'rgba(255,255,255,0.96)';
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
   ctx.strokeStyle = renk;
   ctx.lineWidth = W * 0.004;
   ctx.beginPath(); ctx.ellipse(bx, by, bw, bh, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
