@@ -308,8 +308,8 @@ function drawBirikenCevaplar() {
   if (solCevaplar.length === 0) return;
   const fs = W * 0.022;
   const satirH = fs * 1.5;
-  const solMax = TL() - W*0.05;   // sol şerit: 0 ile TL arası
-  const sagMin = TR() + W*0.05;   // sağ şerit: TR ile W arası
+  const solMax = W * 0.3;
+  const sagMin = W * 0.7;
 
   ctx.save();
   ctx.font = `bold ${fs}px sans-serif`;
@@ -501,8 +501,8 @@ function drawZemin() {
   ctx.fillStyle = '#4a4a8a'; ctx.fillRect(0, ZEMIN(), W, 2);
 
   // DEBUG — sınır kutular
-  const solMax = TL() - W*0.05;
-  const sagMin = TR() + W*0.05;
+  const solMax = W * 0.3;
+  const sagMin = W * 0.7;
   ctx.strokeStyle = 'rgba(255,0,0,0.5)'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
   ctx.strokeRect(0, 0, solMax, ZEMIN()); // sol şerit
   ctx.strokeRect(sagMin, 0, W - sagMin, ZEMIN()); // sağ şerit
