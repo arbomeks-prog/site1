@@ -165,6 +165,11 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
   ctx.fillStyle = '#222';
   ctx.beginPath(); ctx.arc(cx-basR*0.35, heady-basR*0.1, basR*0.15, 0, Math.PI*2); ctx.fill();
   ctx.beginPath(); ctx.arc(cx+basR*0.35, heady-basR*0.1, basR*0.15, 0, Math.PI*2); ctx.fill();
+  // Mutsuz ağız - aşağı bakan yay
+  ctx.strokeStyle = '#222'; ctx.lineWidth = W*0.005;
+  ctx.beginPath();
+  ctx.arc(cx, heady + basR*0.55, basR*0.38, Math.PI*0.15, Math.PI*0.85, false);
+  ctx.stroke();
 
   if (oturuyor && t > 0.4) {
     drawBalon(cx, heady - basR, isKiz, Math.min((t-0.4)*1.7, 1));
