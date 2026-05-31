@@ -294,7 +294,59 @@ function oku(metin, isKiz) {
 // ---- SESLER SON ----
 
 
-function baslaQA() {
+// Harf yağmuru
+const SATIR1 = 'Babana hediye aldın mı?';
+const SATIR2 = 'BudurBuldum dedin mi? 🎁';
+let harfler1 = [];
+let harfler2 = [];
+let harfBasladi = false;
+let harfFrame = 0;
+
+function baslaHarfYagmuru() {
+  if (harfBasladi) return;
+  harfBasladi = true;
+  const fs1 = W * 0.052;
+  const fs2 = W * 0.045;
+  ctx.font = `bold ${fs1}px sans-serif`;
+  let x = W/2 - ctx.measureText(SATIR1).width/2;
+  for (let i = 0; i < SATIR1.length; i++) {
+    const ch = SATIR1[i];
+    harfler1.push({ char:ch, x:x, y:-H*0.15-Math.random()*H*0.2, hedefY:H*0.10, hiz:9+Math.random()*5, opacity:0, delay:i*4, fs:fs1, renk:'#FFD93D' });
+    x += ctx.measureText(ch).width;
+  }
+  ctx.font = `bold ${fs2}px sans-serif`;
+  let x2 = W/2 + ctx.measureText(SATIR2).width/2;
+  for (let i = SATIR2.length-1; i >= 0; i--) {
+    const ch = SATIR2[i];
+    x2 -= ctx.measureText(ch).width;
+    harfler2.push({ char:ch, x:x2, y:-H*0.15-Math.random()*H*0.25, hedefY:H*0.17, hiz:9+Math.random()*5, opacity:0, delay:(SATIR2.length-1-i)*4+20, fs:fs2, renk:'#ff9ecd' });
+  }
+}
+
+function updateHarfler() {
+  if (!harfBasladi) return;
+  harfFrame++;
+  [...harfler1, ...harfler2].forEach(h => {
+    if (harfFrame < h.delay) return;
+    if (h.y < h.hedefY) h.y = Math.min(h.y + h.hiz, h.hedefY);
+    h.opacity = Math.min(h.opacity + 0.1, 1);
+  });
+}
+
+function drawHarfler() {
+  [...harfler1, ...harfler2].forEach(h => {
+    if (h.opacity <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = h.opacity;
+    ctx.fillStyle = h.renk;
+    ctx.font = `bold ${h.fs}px sans-serif`;
+    ctx.textAlign = 'left';
+    ctx.fillText(h.char, h.x, h.y);
+    ctx.restore();
+  });
+}
+
+
   qaAktif = true;
   qaFaz = 'giris';
   qaTimer = 0;
@@ -732,6 +784,7 @@ function update() {
   else oOturT = Math.min(oOturT + 0.018, 1);
   if (!kOtur) { kx -= 0.2; if (kx <= TR()) { kx = TR(); kOtur = true; } }
   else kOturT = Math.min(kOturT + 0.018, 1);
+  updateHarfler();
   updateYazi();
   updateOzel();
   updateQA();
@@ -798,16 +851,7 @@ function draw() {
   ctx.clip();
   drawZemin();
   drawTabure(TL()); drawTabure(TR());
-  // Üst başlık yazısı
-  ctx.save();
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#FFD93D';
-  ctx.font = `bold ${W*0.052}px sans-serif`;
-  ctx.fillText('Babana hediye aldın mı?', W/2, H * 0.10);
-  ctx.fillStyle = '#ff9ecd';
-  ctx.font = `bold ${W*0.045}px sans-serif`;
-  ctx.fillText('BudurBuldum dedin mi? 🎁', W/2, H * 0.17);
-  ctx.restore();
+  drawHarfler();
   drawYazilar();
   // Özel sekans yazıları
   if (ozelFaz === 'karmas') drawOzelYazi("Ben ne yapacağım\nşimdi ??!!!##@@@", "+₺#&#\nşimdi??", ozelOpacity);
@@ -829,6 +873,7 @@ kx = W * 0.95;
 
 function baslatHerSey() {
   sesCoz();
+  baslaHarfYagmuru();
   loop();
 }
 ox = W * 0.05;
