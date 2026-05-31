@@ -113,9 +113,9 @@ function updateOzel() {
       ciglikScale = 0;
       const sesEl = document.getElementById('ses-ciglik');
       sesEl.currentTime = 0;
-      sesEl.onended = null; // loop yok
       sesEl.loop = false;
       sesEl.play();
+      setTimeout(() => { sesEl.pause(); sesEl.currentTime = 0; }, 2500);
     }
   } else if (ozelFaz === 'ciglik') {
     ciglikScale = Math.min(ciglikScale + 0.04, 1);
