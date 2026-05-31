@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0d0d1a; overflow: hidden; width: 100vw; height: 100vh; }
-canvas { display: block; width: 100vw; height: 100vh; }
+html { overflow: hidden; max-width: 100vw; }
+body { background: #0d0d1a; overflow: hidden; width: 100vw; height: 100vh; max-width: 100vw; }
+canvas { display: block; width: 100vw; height: 100vh; max-width: 100vw; }
 </style>
 </head>
 <body>
@@ -337,7 +338,7 @@ function drawBirikenCevaplar() {
       ctx.fillStyle = '#f8a4c8';
       ctx.textAlign = 'right';
       ctx.globalAlpha = 0.85;
-      ctx.fillText(s, W*0.985, topY + si*satirH*0.9);
+      ctx.fillText(s, W - 2, topY + si*satirH*0.9);
     });
   });
   ctx.globalAlpha = 1;
