@@ -306,23 +306,24 @@ function drawBirikenCevaplar() {
   if (solCevaplar.length === 0) return;
   const fs = W * 0.028;
   ctx.font = `bold ${fs}px sans-serif`;
-  const startY = ZEMIN() * 0.30;
   const satirH = fs * 1.6;
 
-  // Sol cevaplar — oğlanın sol yanında (ekranın sol kenarına yaslı)
+  // Sol cevaplar — zeminden yukarı doğru birikir
   solCevaplar.forEach((c, i) => {
+    const y = ZEMIN() - W*0.02 - i*satirH;
     ctx.fillStyle = '#7ec8f8';
     ctx.textAlign = 'left';
     ctx.globalAlpha = 0.85;
-    ctx.fillText('✓ ' + c, W*0.01, startY + i*satirH);
+    ctx.fillText('✓ ' + c, W*0.01, y);
   });
 
-  // Sağ cevaplar — kızın sağ yanında (ekranın sağ kenarına yaslı)
+  // Sağ cevaplar — zeminden yukarı doğru birikir
   sagCevaplar.forEach((c, i) => {
+    const y = ZEMIN() - W*0.02 - i*satirH;
     ctx.fillStyle = '#f8a4c8';
     ctx.textAlign = 'right';
     ctx.globalAlpha = 0.85;
-    ctx.fillText('✓ ' + c, W*0.99, startY + i*satirH);
+    ctx.fillText('✓ ' + c, W*0.99, y);
   });
   ctx.globalAlpha = 1;
 }
