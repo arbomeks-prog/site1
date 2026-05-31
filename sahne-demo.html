@@ -273,7 +273,7 @@ function drawKart(cx, cy, kw, kh, soru, cevap, opts, renk, highlight, kartX) {
   ctx.strokeStyle = renk;
   ctx.lineWidth = W*0.005;
   ctx.beginPath();
-  ctx.roundRect(cx - kw/2, cy, kw, kh, W*0.02);
+  ctx.rect(cx - kw/2, cy, kw, kh, W*0.02);
   ctx.fill(); ctx.stroke();
 
   // Soru
@@ -294,7 +294,7 @@ function drawKart(cx, cy, kw, kh, soru, cevap, opts, renk, highlight, kartX) {
     ctx.fillStyle = highlight && isCorrect ? '#4CAF50' : '#f0f0f0';
     ctx.strokeStyle = highlight && isCorrect ? '#388E3C' : '#ddd';
     ctx.lineWidth = W*0.003;
-    ctx.beginPath(); ctx.roundRect(ox-optW/2, oy, optW, optH, W*0.01); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.rect(ox-optW/2, oy, optW, optH, W*0.01); ctx.fill(); ctx.stroke();
     ctx.fillStyle = highlight && isCorrect ? '#fff' : '#333';
     ctx.font = `${highlight && isCorrect ? 'bold' : 'normal'} ${optFs}px sans-serif`;
     ctx.textAlign = 'center';
@@ -415,13 +415,13 @@ function drawHediyeler() {
     ctx.fillStyle = '#fff';
     ctx.strokeStyle = h.renk;
     ctx.lineWidth = W*0.007;
-    ctx.beginPath(); ctx.roundRect(x, y, kartW, kartH, W*0.012); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.rect(x, y, kartW, kartH, W*0.012); ctx.fill(); ctx.stroke();
 
     // Görsel
     const imgH = kartH * 0.55;
     if (h.img && h.img.complete) {
       ctx.save();
-      ctx.beginPath(); ctx.roundRect(x, y, kartW, imgH, [W*0.012, W*0.012, 0, 0]); ctx.clip();
+      ctx.beginPath(); ctx.rect(x, y, kartW, imgH, [W*0.012, W*0.012, 0, 0]); ctx.clip();
       ctx.drawImage(h.img, x, y, kartW, imgH);
       ctx.restore();
     } else {
@@ -450,7 +450,7 @@ function drawHediyeler() {
     platforms.forEach((p, pi) => {
       const bx = x + pad + pi*(btnW+pad);
       ctx.fillStyle = p.color;
-      ctx.beginPath(); ctx.roundRect(bx, btnY, btnW, btnH, btnH*0.3); ctx.fill();
+      ctx.beginPath(); ctx.rect(bx, btnY, btnW, btnH, btnH*0.3); ctx.fill();
       ctx.fillStyle = '#fff';
       ctx.font = `bold ${pfs}px sans-serif`;
       ctx.textAlign = 'center';
@@ -507,7 +507,7 @@ function drawTelefon(x, y, angle) {
   const tw = W*0.03, th = W*0.055;
   ctx.save(); ctx.translate(x,y); ctx.rotate(angle);
   ctx.fillStyle='#111'; ctx.strokeStyle='#999'; ctx.lineWidth=W*0.003;
-  ctx.beginPath(); ctx.roundRect(-tw/2,-th/2,tw,th,tw*0.2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.rect(-tw/2,-th/2,tw,th,tw*0.2); ctx.fill(); ctx.stroke();
   ctx.fillStyle='#3af'; ctx.fillRect(-tw/2+tw*0.12,-th/2+th*0.1,tw*0.76,th*0.72);
   ctx.restore();
 }
@@ -695,8 +695,7 @@ function drawCTA() {
   grad.addColorStop(1, '#FFD93D');
   ctx.fillStyle = grad;
   ctx.beginPath();
-  ctx.roundRect(btnX, btnY, btnW, btnH, btnH * 0.5);
-  ctx.fill();
+  ctx.fillRect(btnX, btnY, btnW, btnH);
   ctx.fillStyle = '#1a1a1a';
   ctx.font = `bold ${W * 0.038}px sans-serif`;
   ctx.textAlign = 'center';
