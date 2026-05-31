@@ -257,6 +257,7 @@ function updateQA() {
         qaHighlight = false;
       } else {
         qaAktif = false;
+        setTimeout(baslaHediyeler, 400);
       }
     }
   }
@@ -339,6 +340,104 @@ function drawQA() {
   drawKart(cx - kw*0.26, cy, kw*0.48, kh, c.sol, c.solC, c.solOpts, '#7ec8f8', qaHighlight, qaKartX);
   // Sağ yarı — kız sorusu
   drawKart(cx + kw*0.26, cy, kw*0.48, kh, c.sag, c.sagC, c.sagOpts, '#f8a4c8', qaHighlight, qaKartX);
+}
+
+const HEDIYELER = [
+  {isim:"Akıllı Saat", fiyat:"₺2.499", query:"smart watch men wrist"},
+  {isim:"Deri Cüzdan", fiyat:"₺649", query:"brown leather wallet men"},
+  {isim:"Kulaklık", fiyat:"₺1.299", query:"wireless headphones"},
+  {isim:"Kahve Mak.", fiyat:"₺1.799", query:"espresso coffee machine"},
+  {isim:"Alet Seti", fiyat:"₺899", query:"tool set workshop"},
+  {isim:"Parfüm", fiyat:"₺799", query:"men perfume cologne"},
+  {isim:"Güneş Gözlüğü", fiyat:"₺549", query:"men sunglasses style"},
+  {isim:"Spor Çanta", fiyat:"₺699", query:"men sports bag gym"},
+  {isim:"Kitap Seti", fiyat:"₺399", query:"books gift set"},
+  {isim:"Müzik Kutusu", fiyat:"₺449", query:"music box vintage"},
+  {isim:"Termal Kupa", fiyat:"₺299", query:"thermal coffee travel mug"},
+  {isim:"Kemer&Cüzdan", fiyat:"₺549", query:"men leather belt wallet set"},
+];
+const PEXELS_KEY = "A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB";
+let hediyelarBasladi = false;
+let hediyelarGoster = [];
+let hediyelarTimer = 0;
+const hImgCache = {};
+
+function baslaHediyeler() {
+  if (hediyelarBasladi) return;
+  hediyelarBasladi = true;
+  HEDIYELER.forEach((h, i) => {
+    const renk = i < 6 ? '#7ec8f8' : '#f8a4c8';
+    hediyelarGoster.push({isim:h.isim, fiyat:h.fiyat, img:null, renk, opacity:0});
+    fetch("https://api.pexels.com/v1/search?query="+encodeURIComponent(h.query)+"&per_page=1&orientation=landscape",
+      {headers:{Authorization:PEXELS_KEY}})
+    .then(r=>r.json()).then(d=>{
+      if(d.photos&&d.photos[0]){
+        const img=new Image(); img.src=d.photos[0].src.small;
+        hediyelarGoster[i].img=img;
+      }
+    }).catch(()=>{});
+  });
+}
+
+function updateHediyeler() {
+  if (!hediyelarBasladi) return;
+  hediyelarTimer++;
+  const idx = Math.min(Math.floor(hediyelarTimer / 6), HEDIYELER.length);
+  for (let i = 0; i < idx; i++) {
+    hediyelarGoster[i].opacity = Math.min(hediyelarGoster[i].opacity + 0.05, 1);
+  }
+}
+
+function drawHediyeler() {
+  if (!hediyelarBasladi || hediyelarGoster.length === 0) return;
+  const cols = 6;
+  const pad = W * 0.008;
+  const topH = ZEMIN() * 0.56;
+  const kartW = (W - pad*(cols+1)) / cols;
+  const kartH = (topH - pad*3) / 2;
+
+  hediyelarGoster.forEach((h, i) => {
+    if (h.opacity <= 0) return;
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const x = pad + col*(kartW+pad);
+    const y = pad + row*(kartH+pad);
+
+    ctx.save();
+    ctx.globalAlpha = h.opacity;
+
+    // Beyaz kart
+    ctx.fillStyle = '#fff';
+    ctx.strokeStyle = h.renk;
+    ctx.lineWidth = W*0.007;
+    ctx.beginPath(); ctx.roundRect(x, y, kartW, kartH, W*0.012); ctx.fill(); ctx.stroke();
+
+    // Görsel
+    const imgH = kartH * 0.55;
+    if (h.img && h.img.complete) {
+      ctx.save();
+      ctx.beginPath(); ctx.roundRect(x, y, kartW, imgH, [W*0.012, W*0.012, 0, 0]); ctx.clip();
+      ctx.drawImage(h.img, x, y, kartW, imgH);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = h.renk + '33';
+      ctx.fillRect(x, y, kartW, imgH);
+    }
+
+    // İsim
+    const fs = kartW * 0.18;
+    ctx.fillStyle = '#111';
+    ctx.font = `bold ${fs}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.fillText(h.isim, x+kartW/2, y+imgH+fs*1.1, kartW-pad);
+
+    // Fiyat
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = `bold ${fs*1.05}px sans-serif`;
+    ctx.fillText(h.fiyat, x+kartW/2, y+imgH+fs*2.3, kartW-pad);
+
+    ctx.restore();
+  });
 }
 
 function drawLogo() {
@@ -529,6 +628,7 @@ function update() {
   updateYazi();
   updateOzel();
   updateQA();
+  updateHediyeler();
 }
 
 function draw() {
@@ -539,6 +639,7 @@ function draw() {
   if (ozelFaz === 'karmas') drawOzelYazi("Ben ne yapacağım\nşimdi ??!!!##@@@", "+₺#&#\nşimdi??", ozelOpacity);
   if (ozelFaz === 'cildirma' || ozelFaz === 'ciglik') drawOzelYazi("Çıldıracağım\nşimdiiiiii.....", "!!!!!\nÇıldıracağım!!!!!", ozelOpacity);
   drawCiglik();
+  drawHediyeler();
   drawQA();
   drawLogo();
   drawAdam(ox, false, oOtur, oOturT);
