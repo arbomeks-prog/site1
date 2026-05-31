@@ -231,7 +231,7 @@ function ciftSonraki() {
 
 function updateBalon() {
   // Sahne tamamlandıktan sonra başla
-  if (!oOtur || !kOtur) return;
+  if (!oOtur && !kOtur) return;
   if (balonFaz === 'bekle') { ciftSonraki(); return; }
 
   balonTimer2++;
