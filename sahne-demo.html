@@ -436,11 +436,21 @@ function drawHediyeler() {
     ctx.font = `bold ${fs*1.05}px sans-serif`;
     ctx.fillText(h.fiyat, x+kartW/2, y+imgH+fs*2.3, kartW-pad);
 
-    // Platform etiketleri
-    const pfs = fs*0.72;
-    ctx.font = `${pfs}px sans-serif`;
-    ctx.fillStyle = '#888';
-    ctx.fillText('Trendyol · Hepsiburada · Amazon', x+kartW/2, y+kartH-pfs*0.6, kartW-pad*2);
+    // Platform butonları — renkli, fiyatın altında
+    const pfs = fs * 0.7;
+    const btnH = kartH * 0.13;
+    const btnY = y + imgH + fs*2.9;
+    const platforms = [{label:'Trendyol', color:'#f27a1a'}, {label:'Hepsiburada', color:'#ff6000'}, {label:'Amazon', color:'#ff9900'}];
+    const btnW = (kartW - pad*4) / 3;
+    platforms.forEach((p, pi) => {
+      const bx = x + pad + pi*(btnW+pad);
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.roundRect(bx, btnY, btnW, btnH, btnH*0.3); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.font = `bold ${pfs}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(p.label, bx+btnW/2, btnY+btnH*0.67, btnW-2);
+    });
 
     ctx.restore();
   });
