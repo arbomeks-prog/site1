@@ -499,6 +499,15 @@ function drawZemin() {
   ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
   ctx.fillStyle = '#1e1e38'; ctx.fillRect(0, ZEMIN(), W, H - ZEMIN());
   ctx.fillStyle = '#4a4a8a'; ctx.fillRect(0, ZEMIN(), W, 2);
+
+  // DEBUG — sınır kutular
+  const solMax = TL() - W*0.05;
+  const sagMin = TR() + W*0.05;
+  ctx.strokeStyle = 'rgba(255,0,0,0.5)'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
+  ctx.strokeRect(0, 0, solMax, ZEMIN()); // sol şerit
+  ctx.strokeRect(sagMin, 0, W - sagMin, ZEMIN()); // sağ şerit
+  ctx.strokeRect(solMax, 0, sagMin - solMax, ZEMIN()); // orta alan
+  ctx.setLineDash([]);
 }
 
 function drawTabure(x) {
