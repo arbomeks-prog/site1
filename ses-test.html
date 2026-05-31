@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { background: #111; color: #fff; font-family: sans-serif; padding: 20px; }
+button { background: #FFD93D; color: #111; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; margin: 8px; cursor: pointer; display: block; width: 100%; }
+#liste { margin-top: 20px; font-size: 13px; line-height: 1.8; }
+</style>
+</head>
+<body>
+<h2>Ses Test</h2>
+<button onclick="listele()">Mevcut Sesleri Listele</button>
+<button onclick="turkceOku()">Türkçe Oku (varsayılan)</button>
+<button onclick="erkekOku()">Erkek Ses ile Oku</button>
+<button onclick="kizOku()">Kadın Ses ile Oku</button>
+<div id="liste">Listelemek için butona bas...</div>
+
+<script>
+function listele() {
+  const sesler = window.speechSynthesis.getVoices();
+  if (sesler.length === 0) {
+    setTimeout(listele, 500);
+    return;
+  }
+  const turkce = sesler.filter(v => v.lang.startsWith('tr'));
+  let html = '<b>Tüm sesler (' + sesler.length + '):</b><br>';
+  sesler.forEach(v => {
+    const isaretli = v.lang.startsWith('tr') ? '🇹🇷 ' : '';
+    html += isaretli + v.name + ' — ' + v.lang + '<br>';
+  });
+  html += '<br><b>Türkçe sesler: ' + turkce.length + '</b><br>';
+  turkce.forEach(v => html += '✓ ' + v.name + '<br>');
+  document.getElementById('liste').innerHTML = html;
+}
+
+function turkceOku() {
+  const u = new SpeechSynthesisUtterance('Babana hediye aldın mı? BudurBuldum dedin mi?');
+  u.lang = 'tr-TR';
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+function erkekOku() {
+  const sesler = window.speechSynthesis.getVoices();
+  const ses = sesler.find(v => v.lang.startsWith('tr'));
+  const u = new SpeechSynthesisUtterance('Hediye kime alıyorsun?');
+  u.lang = 'tr-TR';
+  u.pitch = 0.8;
+  u.rate = 1.0;
+  if (ses) u.voice = ses;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+function kizOku() {
+  const sesler = window.speechSynthesis.getVoices();
+  const ses = sesler.find(v => v.lang.startsWith('tr'));
+  const u = new SpeechSynthesisUtterance('Babalar günü ne zaman geliyor?');
+  u.lang = 'tr-TR';
+  u.pitch = 1.5;
+  u.rate = 1.1;
+  if (ses) u.voice = ses;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+window.speechSynthesis.onvoiceschanged = listele;
+listele();
+</script>
+</body>
+</html>
