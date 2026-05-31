@@ -96,7 +96,7 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   const bw = W * 0.30;
   const bh = W * 0.26;
   const bx = cx;
-  const by = headY - bh - W*0.05;
+  const by = headY; // headY artık direkt balon merkezi
 
   const renk = isKiz ? '#f8a4c8' : '#7ec8f8';
   ctx.fillStyle = 'rgba(255,255,255,0.96)';
@@ -104,12 +104,7 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   ctx.lineWidth = W * 0.004;
   ctx.beginPath(); ctx.ellipse(bx, by, bw, bh, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
 
-  // Köprü daireler
-  for (let i = 0; i < 3; i++) {
-    const r = W*(0.010 - i*0.003);
-    ctx.beginPath(); ctx.arc(bx, by+bh+i*W*0.018+W*0.004, r, 0, Math.PI*2);
-    ctx.fill(); ctx.stroke();
-  }
+  // Köprü daireler kaldırıldı — balonlar havada
 
   // Metni kelimelere böl, alt alta, hafif kaymış el yazısı stili
   const kelimeler = metin.split(' ');
@@ -235,7 +230,6 @@ function ciftSonraki() {
 
 function updateBalon() {
   // Sahne tamamlandıktan sonra başla
-  if (!oOtur || !kOtur) return;
   if (balonFaz === 'bekle') { ciftSonraki(); return; }
 
   balonTimer2++;
@@ -273,8 +267,11 @@ function draw() {
   const oHeady = drawAdam(ox, false, oOtur, oOturT);
   const kHeady = drawAdam(kx, true, kOtur, kOturT);
 
-  if (balonlar[0]) drawBalon(ox, oHeady, false, balonlar[0].t, balonlar[0].opacity);
-  if (balonlar[1]) drawBalon(kx, kHeady, true,  balonlar[1].t, balonlar[1].opacity);
+  // Balonlar tabure pozisyonunda sabit — karakterler gelip altına giriyor
+  const balonY0 = ZEMIN() * 0.52; // sabit yükseklik
+  const balonY1 = ZEMIN() * 0.52;
+  if (balonlar[0]) drawBalon(TL(), balonY0, false, balonlar[0].t, balonlar[0].opacity);
+  if (balonlar[1]) drawBalon(TR(), balonY1, true,  balonlar[1].t, balonlar[1].opacity);
 }
 
 function loop() { update(); draw(); requestAnimationFrame(loop); }
