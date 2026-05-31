@@ -13,6 +13,13 @@ canvas { position: fixed; top: 0; left: 0; width: 100% !important; height: 100% 
 <body>
 <canvas id="c"></canvas>
 <audio id="ses-ciglik" src="ses-muzik.mp3" preload="auto"></audio>
+
+<!-- BAŞLAT BUTONU -->
+<div id="startBtn" style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:9999; background:rgba(0,0,0,0.5);">
+  <div onclick="baslatHerSey()" style="width:80px; height:80px; border-radius:50%; background:rgba(255,217,61,0.92); display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 16px rgba(255,217,61,0.18), 0 0 0 32px rgba(255,217,61,0.08); cursor:pointer;">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="#0f0f14"><polygon points="5,3 19,12 5,21"/></svg>
+  </div>
+</div>
 <script>
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
@@ -833,7 +840,13 @@ function draw() {
 function loop() { update(); draw(); requestAnimationFrame(loop); }
 ox = W * 0.05;
 kx = W * 0.95;
-loop();
+// loop baslatHerSey() ile başlar
+
+function baslatHerSey() {
+  document.getElementById('startBtn').style.display = 'none';
+  sesCoz();
+  loop();
+}
 </script>
 </body>
 </html>
