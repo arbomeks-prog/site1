@@ -13,7 +13,6 @@ canvas { position: fixed; top: 0; left: 0; width: 100% !important; height: 100% 
 <body>
 <canvas id="c"></canvas>
 <audio id="ses-ciglik" src="ses-muzik.mp3" preload="auto"></audio>
-<audio id="adim-ses" src="ses-tik.mp3" preload="auto"></audio>
 
 <!-- BAŞLAT BUTONU -->
 <div id="startBtn" onclick="document.getElementById('startBtn').style.display='none'; baslatHerSey();" style="display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:9999; pointer-events:all;">
@@ -729,29 +728,15 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
 
 function update() {
   frame++;
-  if (!oOtur) {
-    ox += 0.2;
-    if (ox >= TL()) { ox = TL(); oOtur = true; }
-    if (frame % 15 === 0) adimSesi();
-  } else oOturT = Math.min(oOturT + 0.018, 1);
-  if (!kOtur) {
-    kx -= 0.2;
-    if (kx <= TR()) { kx = TR(); kOtur = true; }
-    if (frame % 15 === 7) adimSesi(); // 7 offset ile çakışmasın
-  } else kOturT = Math.min(kOturT + 0.018, 1);
+  if (!oOtur) { ox += 0.2; if (ox >= TL()) { ox = TL(); oOtur = true; } }
+  else oOturT = Math.min(oOturT + 0.018, 1);
+  if (!kOtur) { kx -= 0.2; if (kx <= TR()) { kx = TR(); kOtur = true; } }
+  else kOturT = Math.min(kOturT + 0.018, 1);
   updateYazi();
   updateOzel();
   updateQA();
   updateHediyeler();
   updateCTA();
-}
-
-function adimSesi() {
-  const a = document.getElementById('adim-ses');
-  if (!a) return;
-  a.volume = 0.3;
-  a.currentTime = 0;
-  a.play().catch(() => {});
 }
 
 let ctaOpacity = 0;
