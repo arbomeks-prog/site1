@@ -111,8 +111,11 @@ function updateOzel() {
       ozelTimer = 0;
       ciglikGoster = true;
       ciglikScale = 0;
-      document.getElementById('ses-ciglik').currentTime = 0;
-      document.getElementById('ses-ciglik').play();
+      const sesEl = document.getElementById('ses-ciglik');
+      sesEl.currentTime = 0;
+      sesEl.onended = null; // loop yok
+      sesEl.loop = false;
+      sesEl.play();
     }
   } else if (ozelFaz === 'ciglik') {
     ciglikScale = Math.min(ciglikScale + 0.04, 1);
@@ -266,12 +269,9 @@ let sesUnlocked = false;
 function sesCoz() {
   if (sesUnlocked) return;
   sesUnlocked = true;
-  // Audio unlock — sessizce unlock et
-  const audio = document.getElementById('ses-ciglik');
-  audio.muted = true;
-  audio.play().then(() => { audio.pause(); audio.currentTime = 0; audio.muted = false; }).catch(() => {});
   // SpeechSynthesis unlock
   const u = new SpeechSynthesisUtterance('');
+  u.volume = 0;
   window.speechSynthesis.speak(u);
   sesBaslat();
 }
