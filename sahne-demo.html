@@ -436,6 +436,12 @@ function drawHediyeler() {
     ctx.font = `bold ${fs*1.05}px sans-serif`;
     ctx.fillText(h.fiyat, x+kartW/2, y+imgH+fs*2.3, kartW-pad);
 
+    // Platform etiketleri
+    const pfs = fs*0.72;
+    ctx.font = `${pfs}px sans-serif`;
+    ctx.fillStyle = '#888';
+    ctx.fillText('T · HB · AMZ', x+kartW/2, y+kartH-pfs*0.6, kartW-pad*2);
+
     ctx.restore();
   });
 }
