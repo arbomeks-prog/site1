@@ -306,37 +306,29 @@ function drawKart(cx, cy, kw, kh, soru, cevap, opts, renk, highlight, kartX) {
 
 function drawBirikenCevaplar() {
   if (solCevaplar.length === 0) return;
-  const fs = W * 0.022;
+  const fs = W * 0.035;
   const satirH = fs * 1.5;
-  const solMax = W * 0.3;
-  const sagMin = W * 0.7;
 
   ctx.save();
   ctx.font = `bold ${fs}px sans-serif`;
 
-  // Sol cevaplar — sol şerite sığdır, sağa yaslı
-  ctx.save();
-  ctx.beginPath(); ctx.rect(0, 0, solMax, H); ctx.clip();
+  // Sol cevaplar — sol dış çizgiye (x=10) sağa yaslı
   solCevaplar.forEach((c, i) => {
     const y = ZEMIN() - W*0.02 - i*satirH;
     ctx.fillStyle = '#7ec8f8';
-    ctx.textAlign = 'right';
+    ctx.textAlign = 'left';
     ctx.globalAlpha = 0.85;
-    ctx.fillText('✓ ' + c, solMax, y);
+    ctx.fillText('✓ ' + c, 10, y);
   });
-  ctx.restore();
 
-  // Sağ cevaplar — sağ şerite sığdır, sola yaslı
-  ctx.save();
-  ctx.beginPath(); ctx.rect(sagMin, 0, W - sagMin, H); ctx.clip();
+  // Sağ cevaplar — sağ dış çizgiye (x=W-10) sola yaslı
   sagCevaplar.forEach((c, i) => {
     const y = ZEMIN() - W*0.02 - i*satirH;
     ctx.fillStyle = '#f8a4c8';
-    ctx.textAlign = 'left';
+    ctx.textAlign = 'right';
     ctx.globalAlpha = 0.85;
-    ctx.fillText('✓ ' + c, sagMin, y);
+    ctx.fillText('✓ ' + c, W - 10, y);
   });
-  ctx.restore();
 
   ctx.globalAlpha = 1;
   ctx.restore();
