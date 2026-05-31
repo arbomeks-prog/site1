@@ -93,8 +93,8 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   ctx.save();
   ctx.globalAlpha = opacity;
 
-  const bw = W * 0.16;
-  const bh = W * 0.14;
+  const bw = W * 0.22;
+  const bh = W * 0.19;
   const bx = cx;
   const by = headY - bh - W*0.05;
 
@@ -115,7 +115,7 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   const kelimeler = metin.split(' ');
   const satirlar = [];
   let satir = '';
-  const maxKar = 10;
+  const maxKar = 8;
   kelimeler.forEach(k => {
     if ((satir + ' ' + k).trim().length > maxKar && satir.length > 0) {
       satirlar.push(satir.trim());
@@ -126,7 +126,7 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   });
   if (satir) satirlar.push(satir.trim());
 
-  const fontSize = W * 0.028;
+  const fontSize = W * 0.042;
   const satirH = fontSize * 1.4;
   const topY = by - (satirlar.length - 1) * satirH / 2;
 
@@ -212,7 +212,7 @@ function updateBalon() {
 
   balonTimer++;
   const fadeSpd = 0.04;
-  const durSure = 120; // ~2sn
+  const durSure = 220; // ~2sn
 
   if (aktifBalon.faz === 'in') {
     aktifBalon.opacity = Math.min(aktifBalon.opacity + fadeSpd, 1);
@@ -232,9 +232,9 @@ function update() {
   frame++;
   const tl = TL(), tr = TR();
   if (kx === 0) kx = W + 80;
-  if (!oOtur) { ox += 0.5; if (ox >= tl) { ox = tl; oOtur = true; } }
+  if (!oOtur) { ox += 0.2; if (ox >= tl) { ox = tl; oOtur = true; } }
   else oOturT = Math.min(oOturT+0.018, 1);
-  if (!kOtur) { kx -= 0.5; if (kx <= tr) { kx = tr; kOtur = true; } }
+  if (!kOtur) { kx -= 0.2; if (kx <= tr) { kx = tr; kOtur = true; } }
   else kOturT = Math.min(kOturT+0.018, 1);
   updateBalon();
 }
