@@ -125,7 +125,7 @@ function updateOzel() {
     } else if (logoFaz === 3) {
       // Çığlık resmi hızla aşağı düşer
       ciglikY += 60;
-      if (ciglikY > H) { ciglikGoster = false; logoFaz = 4; guluyor = true; }
+      if (ciglikY > H) { ciglikGoster = false; logoFaz = 4; guluyor = true; setTimeout(baslaQA, 300); }
     }
   }
 }
@@ -177,6 +177,106 @@ function drawCiglik() {
   ctx.translate(W/2, H*0.42 + ciglikY);
   ctx.rotate(ciglikAngle);
   ctx.drawImage(ciglikImg, -size/2, -size/2, size, size);
+  ctx.restore();
+}
+
+// 10 soru çifti — sol=oglan cevabı sola uçar, sag=kiz sağa uçar
+const QA_CIFTER = [
+  {sol:"Hediye kime?", solC:"Babam 👨", sag:"Ne için?", sagC:"Babalar Günü 🎁"},
+  {sol:"Tarzı nasıl?", solC:"Klasik/Şık", sag:"Hobisi ne?", sagC:"Teknoloji 💻"},
+  {sol:"Bütçen?", solC:"500-1500 TL", sag:"Öncelik?", sagC:"Anlamlı olsun"},
+  {sol:"Yaşı?", solC:"45-55", sag:"Cinsiyeti?", sagC:"Erkek"},
+  {sol:"Renk tercihi?", solC:"Koyu tonlar", sag:"Ortam?", sagC:"Ev/İş"},
+  {sol:"Mevsim?", solC:"İlkbahar", sag:"Tarz?", sagC:"Modern"},
+  {sol:"Müzik zevki?", solC:"Rock/Caz", sag:"Spor yapar mı?", sagC:"Evet 🏃"},
+  {sol:"Seyahat sever mi?", solC:"Çok sever ✈️", sag:"Teknoloji?", sagC:"Meraklı 📱"},
+  {sol:"Hediye boyutu?", solC:"Küçük/Şık", sag:"Teslimat?", sagC:"Kargoya ver"},
+  {sol:"Son dokunuş?", solC:"Özel kutu 🎀", sag:"Mesaj?", sagC:"Kişisel not"},
+];
+
+let qaIdx = 0;
+let qaFaz = 'bekle'; // bekle, soru, ucus
+let qaTimer = 0;
+let qaOpacity = 0;
+let qaUcusX_sol = 0; // sola uçan cevap
+let qaUcusX_sag = 0; // sağa uçan cevap
+let qaUcusOp = 0;
+let qaGosterSoru = false;
+let qaHiz = 90; // ilk soru yavaş, giderek azalır
+
+function baslaQA() {
+  qaFaz = 'soru';
+  qaTimer = 0;
+  qaOpacity = 0;
+  qaGosterSoru = true;
+}
+
+function updateQA() {
+  if (qaFaz === 'bekle') return;
+  qaTimer++;
+
+  if (qaFaz === 'soru') {
+    qaOpacity = Math.min(qaOpacity + 0.08, 1);
+    const bekleSure = Math.max(qaHiz - qaIdx * 7, 30); // giderek hızlanır
+    if (qaTimer > bekleSure) {
+      qaFaz = 'ucus';
+      qaTimer = 0;
+      qaUcusX_sol = 0;
+      qaUcusX_sag = 0;
+      qaUcusOp = 1;
+    }
+  } else if (qaFaz === 'ucus') {
+    qaUcusX_sol -= W * 0.025; // sola uçar
+    qaUcusX_sag += W * 0.025; // sağa uçar
+    qaUcusOp = Math.max(qaUcusOp - 0.07, 0);
+    if (qaUcusOp <= 0) {
+      qaIdx++;
+      if (qaIdx < QA_CIFTER.length) {
+        qaFaz = 'soru';
+        qaTimer = 0;
+        qaOpacity = 0;
+      } else {
+        qaFaz = 'bitti';
+        qaGosterSoru = false;
+      }
+    }
+  }
+}
+
+function drawQA() {
+  if (!qaGosterSoru || qaIdx >= QA_CIFTER.length) return;
+  const c = QA_CIFTER[qaIdx];
+  const fs = W * 0.042;
+  const merkez = W / 2;
+  const soruY = H * 0.30;
+
+  ctx.save();
+
+  // Sol soru (oğlan)
+  ctx.globalAlpha = qaOpacity;
+  ctx.font = `italic bold ${fs}px 'Comic Sans MS', cursive, sans-serif`;
+  ctx.fillStyle = '#7ec8f8';
+  ctx.textAlign = 'right';
+  ctx.fillText(c.sol, merkez - W*0.05, soruY);
+
+  // Sağ soru (kız)
+  ctx.fillStyle = '#f8a4c8';
+  ctx.textAlign = 'left';
+  ctx.fillText(c.sag, merkez + W*0.05, soruY);
+
+  // Cevaplar — uçuş fazında
+  if (qaFaz === 'ucus') {
+    ctx.globalAlpha = qaUcusOp;
+    ctx.font = `bold ${fs*0.9}px 'Comic Sans MS', cursive, sans-serif`;
+    // Sol cevap sola uçar
+    ctx.fillStyle = '#FFD93D';
+    ctx.textAlign = 'right';
+    ctx.fillText('✓ ' + c.solC, merkez - W*0.05 + qaUcusX_sol, soruY + fs*1.4);
+    // Sağ cevap sağa uçar
+    ctx.textAlign = 'left';
+    ctx.fillText('✓ ' + c.sagC, merkez + W*0.05 + qaUcusX_sag, soruY + fs*1.4);
+  }
+
   ctx.restore();
 }
 
@@ -362,6 +462,7 @@ function update() {
   else kOturT = Math.min(kOturT+0.018, 1);
   updateYazi();
   updateOzel();
+  updateQA();
 }
 
 function draw() {
@@ -372,6 +473,7 @@ function draw() {
   if (ozelFaz === 'karmas') drawOzelYazi("Ben ne yapacağım\nşimdi ??!!!##@@@", "+₺#&#\nşimdi??", ozelOpacity);
   if (ozelFaz === 'cildirma' || ozelFaz === 'ciglik') drawOzelYazi("Çıldıracağım\nşimdiiiiii.....", "!!!!!\nÇıldıracağım!!!!!", ozelOpacity);
   drawCiglik();
+  drawQA();
   drawLogo();
   drawAdam(ox, false, oOtur, oOturT);
   drawAdam(kx, true, kOtur, kOturT);
