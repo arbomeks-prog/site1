@@ -222,6 +222,42 @@ const KH = () => H * 0.38;
 const KX = () => W/2;
 const KY = () => H * 0.22;
 
+// ---- SESLER ----
+function emojiTemizle(metin) {
+  return metin.replace(/[\u{1F000}-\u{1FFFF}]/gu, '').replace(/[\u2600-\u27FF]/g, '').trim();
+}
+
+let erkekSes = null;
+let kizSes = null;
+
+function sesBaslat() {
+  const sesler = window.speechSynthesis.getVoices();
+  erkekSes = sesler.find(v => v.lang.startsWith('tr') && v.name.toLowerCase().includes('erkek'))
+           || sesler.find(v => v.lang.startsWith('tr') && !v.name.toLowerCase().includes('female'))
+           || sesler.find(v => v.lang.startsWith('tr'))
+           || null;
+  kizSes   = sesler.find(v => v.lang.startsWith('tr') && (v.name.toLowerCase().includes('kadin') || v.name.toLowerCase().includes('female')))
+           || sesler.find(v => v.lang.startsWith('tr') && v !== erkekSes)
+           || erkekSes;
+}
+
+window.speechSynthesis.onvoiceschanged = sesBaslat;
+sesBaslat();
+
+function oku(metin, isKiz) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(emojiTemizle(metin));
+  u.lang = 'tr-TR';
+  u.rate = 1.1;
+  u.pitch = isKiz ? 1.5 : 0.85;
+  if (isKiz && kizSes) u.voice = kizSes;
+  if (!isKiz && erkekSes) u.voice = erkekSes;
+  window.speechSynthesis.speak(u);
+}
+// ---- SESLER SON ----
+
+
 function baslaQA() {
   qaAktif = true;
   qaFaz = 'giris';
@@ -233,11 +269,18 @@ function baslaQA() {
 function updateQA() {
   if (!qaAktif || qaIdx >= QA_CIFTER.length) return;
   qaTimer++;
-  const hiz = Math.max(120 - qaIdx * 10, 35);
+  const hiz = 90; // sabit 1.5 sn
 
   if (qaFaz === 'giris') {
     qaKartX = Math.max(qaKartX - W*0.06, KX());
-    if (qaKartX <= KX()) { qaFaz = 'bekle'; qaTimer = 0; }
+    if (qaKartX <= KX()) {
+      qaFaz = 'bekle';
+      qaTimer = 0;
+      // Kart durduğunda soruları seslendir
+      const c = QA_CIFTER[qaIdx];
+      oku(c.sol, false);       // erkek soruyu okur
+      setTimeout(() => oku(c.sag, true), 1200); // 1.2sn sonra kız
+    }
   } else if (qaFaz === 'bekle') {
     if (qaTimer > 25) { qaHighlight = true; qaFaz = 'highlight'; qaTimer = 0; }
   } else if (qaFaz === 'highlight') {
