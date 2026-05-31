@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body { margin: 0; background: #0d0d1a; display: flex; justify-content: center; align-items: center; height: 100vh; }
+canvas { border: 1px solid #333; }
+</style>
+</head>
+<body>
+<canvas id="c" width="400" height="640"></canvas>
+<script>
+const W = 400, H = 640;
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+
+const ZEMIN = H * 0.75;
+const TABURE_L = W * 0.32;
+const TABURE_R = W * 0.68;
+
+let frame = 0;
+const semboller = ['?', '!', '÷', '/'];
+let sembolIdx = 0;
+let sembolTimer = 0;
+
+const oglan = { x: -60, hedef: TABURE_L, oturuyor: false, oturma: 0 };
+const kiz   = { x: W + 60, hedef: TABURE_R, oturuyor: false, oturma: 0 };
+
+function drawZemin() {
+  ctx.fillStyle = '#0d0d1a';
+  ctx.fillRect(0, 0, W, H);
+  const grad = ctx.createRadialGradient(W/2, H*0.3, 10, W/2, H*0.3, 280);
+  grad.addColorStop(0, 'rgba(255,230,150,0.15)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#2a2a4a';
+  ctx.fillRect(0, ZEMIN, W, H - ZEMIN);
+  ctx.fillStyle = '#3a3a6a';
+  ctx.fillRect(0, ZEMIN, W, 3);
+}
+
+function drawTabure(x) {
+  ctx.strokeStyle = '#c8a96e';
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(x-22, ZEMIN-48); ctx.lineTo(x+22, ZEMIN-48); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x-18, ZEMIN-48); ctx.lineTo(x-20, ZEMIN); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x+18, ZEMIN-48); ctx.lineTo(x+20, ZEMIN); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x-18, ZEMIN-24); ctx.lineTo(x+18, ZEMIN-24); ctx.stroke();
+}
+
+function drawTelefon(x, y, angle) {
+  ctx.save();
+  ctx.translate(x, y); ctx.rotate(angle);
+  ctx.fillStyle = '#222'; ctx.strokeStyle = '#aaa'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect(-8,-13,16,26,3); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#4af'; ctx.fillRect(-6,-11,12,20);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.fillRect(-6,-11,12,4);
+  ctx.restore();
+}
+
+function drawBalon(cx, cy, isKiz, opacity) {
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  const bx = cx + (isKiz ? -8 : 8);
+  const by = cy - 52;
+  ctx.fillStyle = 'rgba(255,255,255,0.95)';
+  ctx.strokeStyle = isKiz ? '#f8a4c8' : '#7ec8f8';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.ellipse(bx, by, 30, 22, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  for (let i = 0; i < 3; i++) {
+    const r = 3 - i*0.7;
+    const ox = isKiz ? -i*5-4 : i*5+4;
+    ctx.beginPath(); ctx.arc(bx+ox, by+12+i*7, r, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  }
+  ctx.fillStyle = '#222';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(semboller[sembolIdx], bx, by);
+  ctx.restore();
+}
+
+function drawAdam(cx, isKiz, oturuyor, oturmaT) {
+  const t = Math.min(oturmaT, 1);
+  const govdeH = 55, basR = 14;
+  const telDir = isKiz ? -1 : 1;
+
+  let bedy;
+  if (!oturuyor) {
+    bedy = ZEMIN - govdeH;
+  } else {
+    const hedefY = ZEMIN - 48 - govdeH - 10;
+    bedy = (ZEMIN - govdeH) + (hedefY - (ZEMIN - govdeH)) * t;
+  }
+  const heady = bedy - basR - 10;
+
+  ctx.strokeStyle = isKiz ? '#f8a4c8' : '#7ec8f8';
+  ctx.lineWidth = 3.5; ctx.lineCap = 'round';
+
+  // Bacaklar
+  if (!oturuyor || t < 0.7) {
+    const la = Math.sin(frame * 0.18) * (oturuyor ? 0 : 0.3);
+    ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH); ctx.lineTo(cx-10+Math.sin(la)*12, ZEMIN); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH); ctx.lineTo(cx+10-Math.sin(la)*12, ZEMIN); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH); ctx.lineTo(cx-14, bedy+govdeH+12); ctx.lineTo(cx-14+telDir*18, bedy+govdeH+12); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, bedy+govdeH); ctx.lineTo(cx+14, bedy+govdeH+12); ctx.lineTo(cx+14+telDir*18, bedy+govdeH+12); ctx.stroke();
+  }
+
+  // Gövde
+  ctx.beginPath(); ctx.moveTo(cx, bedy); ctx.lineTo(cx, bedy+govdeH); ctx.stroke();
+
+  // Kollar
+  ctx.beginPath(); ctx.moveTo(cx, bedy+15); ctx.lineTo(cx+telDir*22, bedy+28); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, bedy+15); ctx.lineTo(cx-telDir*16, bedy+32); ctx.stroke();
+
+  // Telefon
+  drawTelefon(cx+telDir*30, bedy+22, telDir*-0.4);
+
+  // Baş
+  ctx.beginPath(); ctx.arc(cx, heady, basR, 0, Math.PI*2);
+  ctx.fillStyle = isKiz ? '#f8a4c8' : '#7ec8f8'; ctx.fill(); ctx.stroke();
+
+  if (isKiz) {
+    ctx.strokeStyle = '#f060a0'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(cx-basR, heady-4); ctx.quadraticCurveTo(cx-basR-8, heady+12, cx-basR-4, heady+20); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx+basR, heady-4); ctx.quadraticCurveTo(cx+basR+8, heady+12, cx+basR+4, heady+20); ctx.stroke();
+    ctx.lineWidth = 3;
+  }
+
+  ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.arc(cx-5, heady-2, 3, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx+5, heady-2, 3, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#333';
+  ctx.beginPath(); ctx.arc(cx-5, heady-1, 1.5, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx+5, heady-1, 1.5, 0, Math.PI*2); ctx.fill();
+
+  if (oturuyor && t > 0.5) {
+    drawBalon(cx, heady-basR-6, isKiz, (t-0.5)*2);
+  }
+}
+
+function update() {
+  frame++; sembolTimer++;
+  if (sembolTimer > 50) { sembolTimer = 0; sembolIdx = (sembolIdx+1) % semboller.length; }
+  if (!oglan.oturuyor) { oglan.x += 1.8; if (oglan.x >= oglan.hedef) { oglan.x = oglan.hedef; oglan.oturuyor = true; } }
+  else oglan.oturma = Math.min(oglan.oturma+0.025, 1);
+  if (!kiz.oturuyor) { kiz.x -= 1.8; if (kiz.x <= kiz.hedef) { kiz.x = kiz.hedef; kiz.oturuyor = true; } }
+  else kiz.oturma = Math.min(kiz.oturma+0.025, 1);
+}
+
+function draw() {
+  drawZemin();
+  drawTabure(TABURE_L); drawTabure(TABURE_R);
+  drawAdam(oglan.x, false, oglan.oturuyor, oglan.oturma);
+  drawAdam(kiz.x, true, kiz.oturuyor, kiz.oturma);
+}
+
+function loop() { update(); draw(); requestAnimationFrame(loop); }
+loop();
+</script>
+</body>
+</html>
