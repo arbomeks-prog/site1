@@ -106,7 +106,7 @@ function updateOzel() {
     if (ozelTimer > 220) { ozelFaz = 'cildirma'; ozelTimer = 0; ozelOpacity = 0; }
   } else if (ozelFaz === 'cildirma') {
     ozelOpacity = Math.min(ozelOpacity + 0.05, 1);
-    if (ozelTimer > 220) {
+    if (ozelTimer > 60) {
       ozelFaz = 'ciglik';
       ozelTimer = 0;
       ciglikGoster = true;
@@ -114,6 +114,7 @@ function updateOzel() {
       const sesEl = document.getElementById('ses-ciglik');
       sesEl.currentTime = 0;
       sesEl.loop = false;
+      sesEl.volume = 0.5;
       sesEl.play();
       setTimeout(() => { sesEl.pause(); sesEl.currentTime = 0; }, 2500);
     }
