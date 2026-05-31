@@ -284,10 +284,8 @@ function oku(metin, isKiz) {
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(emojiTemizle(metin));
   u.lang = 'tr-TR';
-  u.rate = 1.1;
-  u.pitch = isKiz ? 1.5 : 0.85;
-  if (isKiz && kizSes) u.voice = kizSes;
-  if (!isKiz && erkekSes) u.voice = erkekSes;
+  u.rate = isKiz ? 1.1 : 0.95;
+  u.pitch = isKiz ? 1.4 : 0.8;
   window.speechSynthesis.speak(u);
 }
 // ---- SESLER SON ----
