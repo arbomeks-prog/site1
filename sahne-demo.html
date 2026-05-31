@@ -265,6 +265,10 @@ function updateQA() {
 
 function drawKart(cx, cy, kw, kh, soru, cevap, opts, renk, highlight, kartX) {
   ctx.save();
+  // Kartı canvas sınırları içine kısıtla
+  ctx.beginPath();
+  ctx.rect(0, 0, W, H);
+  ctx.clip();
   ctx.translate(kartX - KX(), 0); // kaydır
 
   // Kart arka planı
@@ -308,19 +312,27 @@ function drawBirikenCevaplar() {
   const fs = W * 0.028;
   ctx.font = `bold ${fs}px sans-serif`;
   const satirH = fs * 1.6;
+  const minY = H * 0.05; // ekranın en üstüne kadar çıkabilir max
+
+  ctx.save();
+  // Sadece sahne alanına kısıtla
+  ctx.beginPath();
+  ctx.rect(0, minY, W, ZEMIN() - minY);
+  ctx.clip();
 
   // Sol cevaplar — zeminden yukarı doğru birikir
   solCevaplar.forEach((c, i) => {
     const y = ZEMIN() - W*0.02 - i*satirH;
+    if (y < minY) return;
     ctx.fillStyle = '#7ec8f8';
     ctx.textAlign = 'left';
     ctx.globalAlpha = 0.85;
     ctx.fillText('✓ ' + c, W*0.01, y);
   });
 
-  // Sağ cevaplar — zeminden yukarı doğru birikir, sağa yaslı, uzun kelime 2 satır
+  // Sağ cevaplar — zeminden yukarı doğru birikir, sağa yaslı
   sagCevaplar.forEach((c, i) => {
-    const maxW = W * 0.18;
+    const maxW = W * 0.22;
     const satirlar = [];
     const kelimeler = ('✓ ' + c).split(' ');
     let satir = '';
@@ -333,14 +345,18 @@ function drawBirikenCevaplar() {
     });
     if (satir) satirlar.push(satir);
     const topY = ZEMIN() - W*0.02 - i*satirH*(satirlar.length > 1 ? 1.8 : 1);
+    if (topY < minY) return;
     satirlar.forEach((s, si) => {
+      const lineY = topY + si*satirH*0.9;
+      if (lineY < minY) return;
       ctx.fillStyle = '#f8a4c8';
       ctx.textAlign = 'right';
       ctx.globalAlpha = 0.85;
-      ctx.fillText(s, W*0.985, topY + si*satirH*0.9);
+      ctx.fillText(s, W - W*0.015, lineY);
     });
   });
   ctx.globalAlpha = 1;
+  ctx.restore();
 }
 
 function drawQA() {
