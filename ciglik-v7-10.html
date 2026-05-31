@@ -292,6 +292,7 @@
 
 </div>
 <audio id="snd-bg" src="ses-ciglik.mp3" preload="auto" loop></audio>
+<audio id="snd-fon" src="ses-fon-ciglik.mp3" preload="auto" loop></audio>
 <audio id="snd-press" src="ses-dogru.mp3" preload="auto"></audio>
 <audio id="snd-correct" src="ses-tik.mp3" preload="auto"></audio>
 <audio id="snd-fill" src="ses-hover.mp3" preload="auto"></audio>
@@ -521,6 +522,7 @@ function startVideo(){
     setTimeout(()=>{
       intro.style.display="none";
       document.getElementById("grid").classList.add("show");document.getElementById("header").style.display="block";
+      const fon=document.getElementById("snd-fon");fon.volume=0.4;fon.currentTime=0;fon.play();
       setTimeout(showQuestion,400);
     },600);
   },2500);
@@ -539,6 +541,8 @@ function replay(){
   document.getElementById("scream-audio").currentTime=0;
   document.getElementById("snd-bg").pause();
   document.getElementById("snd-bg").currentTime=0;
+  document.getElementById("snd-fon").pause();
+  document.getElementById("snd-fon").currentTime=0;
   document.getElementById("brand-banner").classList.remove("show");
   document.getElementById("startBtn").style.display="flex";document.getElementById("header").style.display="none";
   window.scrollTo({top:0,behavior:"smooth"});
