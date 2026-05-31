@@ -266,9 +266,10 @@ let sesUnlocked = false;
 function sesCoz() {
   if (sesUnlocked) return;
   sesUnlocked = true;
-  // Audio unlock
+  // Audio unlock — sessizce unlock et
   const audio = document.getElementById('ses-ciglik');
-  audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
+  audio.muted = true;
+  audio.play().then(() => { audio.pause(); audio.currentTime = 0; audio.muted = false; }).catch(() => {});
   // SpeechSynthesis unlock
   const u = new SpeechSynthesisUtterance('');
   window.speechSynthesis.speak(u);
