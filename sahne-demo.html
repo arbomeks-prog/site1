@@ -203,29 +203,57 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
   return heady; // balon için
 }
 
-function updateBalonKanal(kanal) {
-  const b = balonlar[kanal];
-  if (!b) return;
-  b.timer++;
-  const fadeSpd = 0.05, durSure = 200;
-  if (b.faz === 'in') {
-    b.opacity = Math.min(b.opacity + fadeSpd, 1);
-    if (b.opacity >= 1) { b.faz = 'dur'; b.timer = 0; }
-  } else if (b.faz === 'dur') {
-    if (b.timer > durSure) { b.faz = 'out'; b.timer = 0; }
-  } else if (b.faz === 'out') {
-    b.opacity = Math.max(b.opacity - fadeSpd, 0);
-    if (b.opacity <= 0) {
-      balonlar[kanal] = null;
-      setTimeout(() => sonrakiBalon(kanal), 200);
-    }
+let balonFaz = 'bekle'; // bekle, in, dur, out
+let balonOpacity = 0;
+let balonTimer2 = 0;
+const durSure = 210;
+const fadeSpd = 0.05;
+
+function ciftSonraki() {
+  if (cumleIdx >= CUMLELER.length) return;
+  // Sıradaki iki cümleyi al (biri oglan biri kiz)
+  // Ama CUMLELER zaten kim=0 ve kim=1 olarak gelecek sırayla
+  let c0 = null, c1 = null;
+  for (let i = cumleIdx; i < CUMLELER.length; i++) {
+    if (!c0 && CUMLELER[i].kim === 0) c0 = CUMLELER[i];
+    if (!c1 && CUMLELER[i].kim === 1) c1 = CUMLELER[i];
+    if (c0 && c1) { cumleIdx = i + 1; break; }
   }
+  // Basit sıralı: ikisini sırayla al
+  if (cumleIdx < CUMLELER.length - 1) {
+    balonlar[0] = { t: CUMLELER[cumleIdx].t, opacity: 0 };
+    balonlar[1] = { t: CUMLELER[cumleIdx+1] ? CUMLELER[cumleIdx+1].t : CUMLELER[cumleIdx].t, opacity: 0 };
+    cumleIdx += 2;
+  } else if (cumleIdx < CUMLELER.length) {
+    balonlar[0] = { t: CUMLELER[cumleIdx].t, opacity: 0 };
+    balonlar[1] = { t: CUMLELER[cumleIdx].t, opacity: 0 };
+    cumleIdx++;
+  }
+  balonFaz = 'in';
+  balonTimer2 = 0;
 }
 
 function updateBalon() {
-  if (frame === 60) { sonrakiBalon(0); sonrakiBalon(1); }
-  updateBalonKanal(0);
-  updateBalonKanal(1);
+  // Sahne tamamlandıktan sonra başla
+  if (!oOtur || !kOtur) return;
+  if (balonFaz === 'bekle') { ciftSonraki(); return; }
+
+  balonTimer2++;
+  if (balonFaz === 'in') {
+    balonOpacity = Math.min(balonOpacity + fadeSpd, 1);
+    balonlar.forEach(b => { if(b) b.opacity = balonOpacity; });
+    if (balonOpacity >= 1) { balonFaz = 'dur'; balonTimer2 = 0; }
+  } else if (balonFaz === 'dur') {
+    if (balonTimer2 > durSure) { balonFaz = 'out'; balonTimer2 = 0; }
+  } else if (balonFaz === 'out') {
+    balonOpacity = Math.max(balonOpacity - fadeSpd, 0);
+    balonlar.forEach(b => { if(b) b.opacity = balonOpacity; });
+    if (balonOpacity <= 0) {
+      balonlar = [null, null];
+      balonFaz = 'bekle';
+      balonOpacity = 0;
+    }
+  }
 }
 
 function update() {
