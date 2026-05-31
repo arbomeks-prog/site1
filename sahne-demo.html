@@ -492,14 +492,6 @@ function drawZemin() {
   ctx.fillStyle = '#1e1e38'; ctx.fillRect(0, ZEMIN(), W, H - ZEMIN());
   ctx.fillStyle = '#4a4a8a'; ctx.fillRect(0, ZEMIN(), W, 2);
 
-  // DEBUG — sınır kutular
-  const solMax = W * 0.3;
-  const sagMin = W * 0.7;
-  ctx.strokeStyle = 'rgba(255,0,0,0.5)'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
-  ctx.strokeRect(10, 0, solMax - 10, ZEMIN()); // sol şerit
-  ctx.strokeRect(sagMin, 0, W - 10 - sagMin, ZEMIN()); // sağ şerit
-  ctx.strokeRect(solMax, 0, sagMin - solMax, ZEMIN()); // orta alan
-  ctx.setLineDash([]);
 }
 
 function drawTabure(x) {
@@ -659,9 +651,62 @@ function update() {
   updateOzel();
   updateQA();
   updateHediyeler();
+  updateCTA();
 }
 
-function draw() {
+let ctaOpacity = 0;
+
+function updateCTA() {
+  if (hediyelarBasladi) ctaOpacity = Math.min(ctaOpacity + 0.008, 1);
+}
+
+function drawCTA() {
+  if (ctaOpacity <= 0) return;
+  const Z = ZEMIN();
+  const altH = H - Z;
+  const cy = Z + altH * 0.38;
+  ctx.save();
+  ctx.globalAlpha = ctaOpacity;
+
+  // Ana başlık
+  const fs1 = W * 0.055;
+  ctx.font = `900 ${fs1}px 'Bebas Neue', 'Arial Black', sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#FFD93D';
+  ctx.fillText('Babanın hediyesini buldun mu?', W/2, cy);
+
+  // Alt metin
+  const fs2 = W * 0.032;
+  ctx.font = `${fs2}px sans-serif`;
+  ctx.fillStyle = '#cccccc';
+  ctx.fillText('Akıllı algoritmamız sana özel seçiyor.', W/2, cy + fs1 * 1.1);
+
+  // Buton
+  const btnW = W * 0.62, btnH = altH * 0.22;
+  const btnX = W/2 - btnW/2;
+  const btnY = cy + fs1 * 1.7;
+  const pulse = 1 + Math.sin(frame * 0.06) * 0.03;
+  ctx.save();
+  ctx.translate(W/2, btnY + btnH/2);
+  ctx.scale(pulse, pulse);
+  ctx.translate(-W/2, -(btnY + btnH/2));
+  const grad = ctx.createLinearGradient(btnX, btnY, btnX + btnW, btnY);
+  grad.addColorStop(0, '#FF6B35');
+  grad.addColorStop(1, '#FFD93D');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.roundRect(btnX, btnY, btnW, btnH, btnH * 0.5);
+  ctx.fill();
+  ctx.fillStyle = '#1a1a1a';
+  ctx.font = `bold ${W * 0.038}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('🎁  budurbuldum.com\'a git', W/2, btnY + btnH * 0.63);
+  ctx.restore();
+
+  ctx.restore();
+}
+
+
   ctx.save();
   ctx.beginPath();
   ctx.rect(0, 0, W, H);
@@ -678,6 +723,7 @@ function draw() {
   drawLogo();
   drawAdam(ox, false, oOtur, oOturT);
   drawAdam(kx, true, kOtur, kOturT);
+  drawCTA();
   ctx.restore();
 }
 
