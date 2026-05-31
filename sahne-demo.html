@@ -306,42 +306,40 @@ function drawKart(cx, cy, kw, kh, soru, cevap, opts, renk, highlight, kartX) {
 
 function drawBirikenCevaplar() {
   if (solCevaplar.length === 0) return;
-  const fs = W * 0.028;
-  ctx.font = `bold ${fs}px sans-serif`;
-  const satirH = fs * 1.6;
+  const fs = W * 0.022;
+  const satirH = fs * 1.5;
+  const solMax = TL() - W*0.05;   // sol şerit: 0 ile TL arası
+  const sagMin = TR() + W*0.05;   // sağ şerit: TR ile W arası
 
-  // Sol cevaplar — zeminden yukarı doğru birikir, sağa yaslı (TL'ye)
+  ctx.save();
+  ctx.font = `bold ${fs}px sans-serif`;
+
+  // Sol cevaplar — sol şerite sığdır, sağa yaslı
+  ctx.save();
+  ctx.beginPath(); ctx.rect(0, 0, solMax, H); ctx.clip();
   solCevaplar.forEach((c, i) => {
     const y = ZEMIN() - W*0.02 - i*satirH;
     ctx.fillStyle = '#7ec8f8';
     ctx.textAlign = 'right';
     ctx.globalAlpha = 0.85;
-    ctx.fillText('✓ ' + c, TL(), y);
+    ctx.fillText('✓ ' + c, solMax, y);
   });
+  ctx.restore();
 
-  // Sağ cevaplar — zeminden yukarı doğru birikir, sola yaslı (TR'den)
+  // Sağ cevaplar — sağ şerite sığdır, sola yaslı
+  ctx.save();
+  ctx.beginPath(); ctx.rect(sagMin, 0, W - sagMin, H); ctx.clip();
   sagCevaplar.forEach((c, i) => {
-    const maxW = W * 0.18;
-    const satirlar = [];
-    const kelimeler = ('✓ ' + c).split(' ');
-    let satir = '';
-    ctx.font = `bold ${fs}px sans-serif`;
-    kelimeler.forEach(k => {
-      const test = satir ? satir + ' ' + k : k;
-      if (ctx.measureText(test).width > maxW && satir) {
-        satirlar.push(satir); satir = k;
-      } else satir = test;
-    });
-    if (satir) satirlar.push(satir);
-    const topY = ZEMIN() - W*0.02 - i*satirH*(satirlar.length > 1 ? 1.8 : 1);
-    satirlar.forEach((s, si) => {
-      ctx.fillStyle = '#f8a4c8';
-      ctx.textAlign = 'left';
-      ctx.globalAlpha = 0.85;
-      ctx.fillText(s, TR(), topY + si*satirH*0.9);
-    });
+    const y = ZEMIN() - W*0.02 - i*satirH;
+    ctx.fillStyle = '#f8a4c8';
+    ctx.textAlign = 'left';
+    ctx.globalAlpha = 0.85;
+    ctx.fillText('✓ ' + c, sagMin, y);
   });
+  ctx.restore();
+
   ctx.globalAlpha = 1;
+  ctx.restore();
 }
 
 function drawQA() {
