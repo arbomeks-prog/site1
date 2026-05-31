@@ -486,7 +486,8 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
   ctx.beginPath(); ctx.moveTo(cx,bedy); ctx.lineTo(cx,bedy+govdeH); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH*0.3); ctx.lineTo(cx+telDir*basR*2.2,bedy+govdeH*0.55); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(cx,bedy+govdeH*0.3); ctx.lineTo(cx-telDir*basR*1.6,bedy+govdeH*0.65); ctx.stroke();
-  drawTelefon(cx+telDir*basR*3, bedy+govdeH*0.42, telDir*-0.4);
+  const telAci = guluyor ? telDir*-0.4 + Math.sin(frame*0.15)*0.5 : telDir*-0.4;
+  drawTelefon(cx+telDir*basR*3, bedy+govdeH*0.42, telAci);
 
   ctx.beginPath(); ctx.arc(cx,heady,basR,0,Math.PI*2);
   ctx.fillStyle = isKiz?'#f8a4c8':'#7ec8f8'; ctx.fill(); ctx.stroke();
