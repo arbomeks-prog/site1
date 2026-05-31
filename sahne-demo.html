@@ -684,9 +684,9 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
 
 function update() {
   frame++;
-  if (!oOtur) { ox += W*0.004; if (ox >= TL()) { ox = TL(); oOtur = true; } }
+  if (!oOtur) { ox += 0.2; if (ox >= TL()) { ox = TL(); oOtur = true; } }
   else oOturT = Math.min(oOturT + 0.018, 1);
-  if (!kOtur) { kx -= W*0.004; if (kx <= TR()) { kx = TR(); kOtur = true; } }
+  if (!kOtur) { kx -= 0.2; if (kx <= TR()) { kx = TR(); kOtur = true; } }
   else kOturT = Math.min(kOturT + 0.018, 1);
   updateYazi();
   updateOzel();
