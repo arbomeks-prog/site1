@@ -315,9 +315,6 @@ function updateQA() {
       qaSolX = 0; qaSolY = 0; qaSagX = 0; qaSagY = 0;
       qaFaz = 'bekle';
       qaTimer = 0;
-      const c = QA_CIFTER[qaIdx];
-      oku(c.sol, false);
-      setTimeout(() => oku(c.sag, true), 1200);
     }
   } else if (qaFaz === 'bekle') {
     if (qaTimer > 25) { qaHighlight = true; qaFaz = 'highlight'; qaTimer = 0; }
