@@ -35,9 +35,9 @@ const CIFTER = [
 ];
 
 let frame = 0;
-let ox = 0, kx = 0; // baştan sahnede
-let oOtur = true, kOtur = true;
-let oOturT = 1, kOturT = 1;
+let ox = W * 0.05, kx = W * 0.95; // ekran kenarlarında başla
+let oOtur = false, kOtur = false;
+let oOturT = 0, kOturT = 0;
 
 // Özel balonlar
 let ozelFaz = 'bekle';
@@ -684,8 +684,10 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
 
 function update() {
   frame++;
-  ox = TL();
-  kx = TR();
+  if (!oOtur) { ox += W*0.004; if (ox >= TL()) { ox = TL(); oOtur = true; } }
+  else oOturT = Math.min(oOturT + 0.018, 1);
+  if (!kOtur) { kx -= W*0.004; if (kx <= TR()) { kx = TR(); kOtur = true; } }
+  else kOturT = Math.min(kOturT + 0.018, 1);
   updateYazi();
   updateOzel();
   updateQA();
@@ -777,6 +779,8 @@ function draw() {
 }
 
 function loop() { update(); draw(); requestAnimationFrame(loop); }
+ox = W * 0.05;
+kx = W * 0.95;
 loop();
 </script>
 </body>
