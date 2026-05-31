@@ -310,16 +310,16 @@ function drawBirikenCevaplar() {
   ctx.font = `bold ${fs}px sans-serif`;
   const satirH = fs * 1.6;
 
-  // Sol cevaplar — zeminden yukarı doğru birikir
+  // Sol cevaplar — zeminden yukarı doğru birikir, sağa yaslı (TL'ye)
   solCevaplar.forEach((c, i) => {
     const y = ZEMIN() - W*0.02 - i*satirH;
     ctx.fillStyle = '#7ec8f8';
-    ctx.textAlign = 'left';
+    ctx.textAlign = 'right';
     ctx.globalAlpha = 0.85;
-    ctx.fillText('✓ ' + c, W*0.01, y);
+    ctx.fillText('✓ ' + c, TL(), y);
   });
 
-  // Sağ cevaplar — zeminden yukarı doğru birikir, sağa yaslı, uzun kelime 2 satır
+  // Sağ cevaplar — zeminden yukarı doğru birikir, sola yaslı (TR'den)
   sagCevaplar.forEach((c, i) => {
     const maxW = W * 0.18;
     const satirlar = [];
@@ -336,9 +336,9 @@ function drawBirikenCevaplar() {
     const topY = ZEMIN() - W*0.02 - i*satirH*(satirlar.length > 1 ? 1.8 : 1);
     satirlar.forEach((s, si) => {
       ctx.fillStyle = '#f8a4c8';
-      ctx.textAlign = 'right';
+      ctx.textAlign = 'left';
       ctx.globalAlpha = 0.85;
-      ctx.fillText(s, W - 2, topY + si*satirH*0.9);
+      ctx.fillText(s, TR(), topY + si*satirH*0.9);
     });
   });
   ctx.globalAlpha = 1;
