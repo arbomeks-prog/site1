@@ -99,7 +99,7 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   const by = headY; // headY artık direkt balon merkezi
 
   const renk = isKiz ? '#f8a4c8' : '#7ec8f8';
-  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.fillStyle = 'rgba(255,255,255,0.06)';
   ctx.strokeStyle = renk;
   ctx.lineWidth = W * 0.004;
   ctx.beginPath(); ctx.ellipse(bx, by, bw, bh, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
@@ -134,11 +134,12 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
     ctx.save();
     ctx.translate(kx2, topY + i * satirH);
     ctx.rotate(aci);
-    ctx.fillStyle = '#111';
+    ctx.fillStyle = '#ddd';
     ctx.font = `bold ${fontSize}px 'Comic Sans MS', cursive, sans-serif`;
-    ctx.textAlign = 'center';
+    ctx.textAlign = isKiz ? 'left' : 'right';
     ctx.textBaseline = 'middle';
-    ctx.fillText(s, 0, 0);
+    const xOff = isKiz ? -bw*0.6 : bw*0.6;
+    ctx.fillText(s, xOff, 0);
     ctx.restore();
   });
 
