@@ -116,8 +116,8 @@ function updateOzel() {
     logoTimer++;
     if (logoFaz === 1) {
       // BUDUR ve BULDUM yukarıdan iner
-      budurY = Math.min(budurY + 18, 0);
-      buldumY = Math.min(buldumY + 18, 0);
+      budurY = Math.min(budurY + 12, 0);
+      buldumY = Math.min(buldumY + 12, 0);
       if (budurY >= 0 && buldumY >= 0) { logoFaz = 2; logoTimer = 0; }
     } else if (logoFaz === 2) {
       // Kısa dur, sonra çığlık aşağı düşsün
@@ -182,22 +182,23 @@ function drawCiglik() {
 
 function drawLogo() {
   if (logoFaz < 1) return;
-  const fs = W * 0.18;
-  ctx.font = `900 ${fs}px 'Bebas Neue', 'Arial Black', sans-serif`;
+  const fs = W * 0.055; // küçük halo boyutu
+  const basR = W * 0.0012 * 22;
+  const kafaY = ZEMIN() - W*0.0012*80 - basR*2.5; // kafanın üstü
 
-  // BUDUR — oğlanın üstünde, yukarıdan iner
-  ctx.save();
-  ctx.translate(ox, ZEMIN() - W*0.0012*80*2 - W*0.0012*22*3 + budurY);
-  ctx.fillStyle = '#FFD93D';
+  ctx.font = `900 ${fs}px 'Bebas Neue', 'Arial Black', sans-serif`;
   ctx.textAlign = 'center';
+  ctx.fillStyle = '#FFD93D';
+
+  // BUDUR — oğlanın kafası üstüne iner
+  ctx.save();
+  ctx.translate(ox, kafaY + budurY);
   ctx.fillText('BUDUR', 0, 0);
   ctx.restore();
 
-  // BULDUM — kızın üstünde, yukarıdan iner
+  // BULDUM — kızın kafası üstüne iner
   ctx.save();
-  ctx.translate(kx, ZEMIN() - W*0.0012*80*2 - W*0.0012*22*3 + buldumY);
-  ctx.fillStyle = '#FFD93D';
-  ctx.textAlign = 'center';
+  ctx.translate(kx, kafaY + buldumY);
   ctx.fillText('BULDUM', 0, 0);
   ctx.restore();
 }
