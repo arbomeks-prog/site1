@@ -391,9 +391,9 @@ function updateHediyeler() {
 function drawHediyeler() {
   if (!hediyelarBasladi || hediyelarGoster.length === 0) return;
   const cols = 6;
-  const pad = W * 0.008;
+  const pad = W * 0.006;
   const topH = ZEMIN() * 0.56;
-  const kartW = (W - pad*(cols+1)) / cols;
+  const kartW = Math.floor((W - pad*(cols+1)) / cols);
   const kartH = (topH - pad*3) / 2;
 
   hediyelarGoster.forEach((h, i) => {
