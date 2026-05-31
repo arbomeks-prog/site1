@@ -504,8 +504,8 @@ function drawZemin() {
   const solMax = W * 0.3;
   const sagMin = W * 0.7;
   ctx.strokeStyle = 'rgba(255,0,0,0.5)'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
-  ctx.strokeRect(0, 0, solMax, ZEMIN()); // sol şerit
-  ctx.strokeRect(sagMin, 0, W - sagMin, ZEMIN()); // sağ şerit
+  ctx.strokeRect(10, 0, solMax - 10, ZEMIN()); // sol şerit
+  ctx.strokeRect(sagMin, 0, W - sagMin - 10, ZEMIN()); // sağ şerit
   ctx.strokeRect(solMax, 0, sagMin - solMax, ZEMIN()); // orta alan
   ctx.setLineDash([]);
 }
