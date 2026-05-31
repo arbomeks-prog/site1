@@ -4,25 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{background:#111;color:#fff;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;gap:16px;padding:20px;box-sizing:border-box;}
-button{background:#FFD93D;color:#111;border:none;padding:16px;border-radius:50px;font-size:17px;font-weight:bold;cursor:pointer;width:100%;max-width:320px;}
-#d{font-size:13px;color:#aaa;text-align:center;}
+body{background:#111;color:#fff;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;gap:12px;padding:20px;box-sizing:border-box;}
+button{background:#FFD93D;color:#111;border:none;padding:14px;border-radius:50px;font-size:16px;font-weight:bold;cursor:pointer;width:100%;max-width:320px;}
+#d{font-size:13px;color:#aaa;text-align:center;min-height:40px;}
 </style>
 </head>
 <body>
-<div id="d">Butona bas</div>
-<button id="btn">🔊 Seslendir</button>
+<div id="d">Bir butona bas</div>
+<button onclick="oku('tr-TR')">🔊 tr-TR ile oku</button>
+<button onclick="oku('')">🔊 Lang yok (varsayılan)</button>
+<button onclick="listele()">📋 Sesleri listele</button>
+<div id="liste" style="font-size:11px;color:#888;max-height:200px;overflow-y:auto;width:100%;"></div>
 <script>
-document.getElementById('btn').addEventListener('click', function(){
-  if(!window.speechSynthesis){document.getElementById('d').textContent='Desteklenmiyor';return;}
+function oku(lang) {
   window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance('Babana hediye aldın mı? BudurBuldum dedin mi?');
-  u.lang='tr-TR';
-  u.onstart=function(){document.getElementById('d').textContent='Okunuyor...';};
-  u.onend=function(){document.getElementById('d').textContent='Bitti!';};
-  u.onerror=function(e){document.getElementById('d').textContent='Hata: '+e.error;};
+  var u = new SpeechSynthesisUtterance('Babana hediye aldın mı? BudurBuldum dedin mi?');
+  if(lang) u.lang = lang;
+  u.onstart = function(){ document.getElementById('d').textContent = 'Okunuyor... (lang: ' + (lang||'yok') + ')'; };
+  u.onend = function(){ document.getElementById('d').textContent = 'Bitti!'; };
+  u.onerror = function(e){ document.getElementById('d').textContent = 'Hata: ' + e.error + ' (lang: ' + (lang||'yok') + ')'; };
   window.speechSynthesis.speak(u);
-});
+}
+function listele() {
+  var sesler = window.speechSynthesis.getVoices();
+  if(sesler.length === 0) { setTimeout(listele, 500); document.getElementById('liste').textContent = 'Yükleniyor...'; return; }
+  var html = sesler.length + ' ses bulundu:<br>';
+  sesler.forEach(function(v){ html += v.name + ' / ' + v.lang + '<br>'; });
+  document.getElementById('liste').innerHTML = html;
+}
+window.speechSynthesis.onvoiceschanged = listele;
 </script>
 </body>
 </html>
