@@ -67,6 +67,9 @@ let ciftIdx = 0;
 function sonrakiCift() {
   if (ciftIdx >= CIFTER.length) return;
   aktifCift = { ...CIFTER[ciftIdx++], opacity: 0, faz: 'in', timer: 0 };
+  // Düşünce balonlarını seslendir
+  oku(aktifCift.sol, false);
+  setTimeout(() => oku(aktifCift.sag, true), 1500);
 }
 
 function updateYazi() {
