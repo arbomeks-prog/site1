@@ -44,18 +44,18 @@ let oOtur = false, kOtur = false;
 let oOturT = 0, kOturT = 0;
 let sahneHazir = false;
 
-// Balon sistemi
-let aktifBalon = null; // {kim, metin, opacity, faz} faz: 'in','dur','out'
-let balonTimer = 0;
+// Balon sistemi - iki kanal
+let balonlar = [null, null]; // 0=oglan, 1=kiz
 let cumleIdx = 0;
-let balonAcik = false;
+let bekleTimer = 0;
 
-function sonrakiBalon() {
-  if (cumleIdx >= CUMLELER.length) return;
-  aktifBalon = { ...CUMLELER[cumleIdx], opacity: 0, faz: 'in' };
-  cumleIdx++;
-  balonTimer = 0;
-  balonAcik = true;
+function sonrakiBalon(kanal) {
+  // Sıradaki cümleyi bu kanala ata
+  while (cumleIdx < CUMLELER.length) {
+    const c = CUMLELER[cumleIdx++];
+    balonlar[c.kim] = { t: c.t, opacity: 0, faz: 'in', timer: 0 };
+    return;
+  }
 }
 
 function drawZemin() {
@@ -93,8 +93,8 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   ctx.save();
   ctx.globalAlpha = opacity;
 
-  const bw = W * 0.22;
-  const bh = W * 0.19;
+  const bw = W * 0.30;
+  const bh = W * 0.26;
   const bx = cx;
   const by = headY - bh - W*0.05;
 
@@ -115,7 +115,7 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   const kelimeler = metin.split(' ');
   const satirlar = [];
   let satir = '';
-  const maxKar = 8;
+  const maxKar = 7;
   kelimeler.forEach(k => {
     if ((satir + ' ' + k).trim().length > maxKar && satir.length > 0) {
       satirlar.push(satir.trim());
@@ -126,7 +126,7 @@ function drawBalon(cx, headY, isKiz, metin, opacity) {
   });
   if (satir) satirlar.push(satir.trim());
 
-  const fontSize = W * 0.042;
+  const fontSize = W * 0.055;
   const satirH = fontSize * 1.4;
   const topY = by - (satirlar.length - 1) * satirH / 2;
 
@@ -203,29 +203,29 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
   return heady; // balon için
 }
 
-function updateBalon() {
-  if (!aktifBalon) {
-    // İlk balonu başlat - yürürken de
-    if (frame > 80) sonrakiBalon();
-    return;
-  }
-
-  balonTimer++;
-  const fadeSpd = 0.04;
-  const durSure = 220; // ~2sn
-
-  if (aktifBalon.faz === 'in') {
-    aktifBalon.opacity = Math.min(aktifBalon.opacity + fadeSpd, 1);
-    if (aktifBalon.opacity >= 1) { aktifBalon.faz = 'dur'; balonTimer = 0; }
-  } else if (aktifBalon.faz === 'dur') {
-    if (balonTimer > durSure) { aktifBalon.faz = 'out'; balonTimer = 0; }
-  } else if (aktifBalon.faz === 'out') {
-    aktifBalon.opacity = Math.max(aktifBalon.opacity - fadeSpd, 0);
-    if (aktifBalon.opacity <= 0) {
-      aktifBalon = null;
-      setTimeout(sonrakiBalon, 300); // kısa bekle, sonraki çıksın
+function updateBalonKanal(kanal) {
+  const b = balonlar[kanal];
+  if (!b) return;
+  b.timer++;
+  const fadeSpd = 0.05, durSure = 200;
+  if (b.faz === 'in') {
+    b.opacity = Math.min(b.opacity + fadeSpd, 1);
+    if (b.opacity >= 1) { b.faz = 'dur'; b.timer = 0; }
+  } else if (b.faz === 'dur') {
+    if (b.timer > durSure) { b.faz = 'out'; b.timer = 0; }
+  } else if (b.faz === 'out') {
+    b.opacity = Math.max(b.opacity - fadeSpd, 0);
+    if (b.opacity <= 0) {
+      balonlar[kanal] = null;
+      setTimeout(() => sonrakiBalon(kanal), 200);
     }
   }
+}
+
+function updateBalon() {
+  if (frame === 60) { sonrakiBalon(0); sonrakiBalon(1); }
+  updateBalonKanal(0);
+  updateBalonKanal(1);
 }
 
 function update() {
@@ -245,12 +245,8 @@ function draw() {
   const oHeady = drawAdam(ox, false, oOtur, oOturT);
   const kHeady = drawAdam(kx, true, kOtur, kOturT);
 
-  if (aktifBalon) {
-    const isKiz = aktifBalon.kim === 1;
-    const cx = isKiz ? kx : ox;
-    const hy = isKiz ? kHeady : oHeady;
-    drawBalon(cx, hy, isKiz, aktifBalon.t, aktifBalon.opacity);
-  }
+  if (balonlar[0]) drawBalon(ox, oHeady, false, balonlar[0].t, balonlar[0].opacity);
+  if (balonlar[1]) drawBalon(kx, kHeady, true,  balonlar[1].t, balonlar[1].opacity);
 }
 
 function loop() { update(); draw(); requestAnimationFrame(loop); }
