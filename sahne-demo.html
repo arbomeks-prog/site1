@@ -254,8 +254,36 @@ function sesBaslat() {
            || erkekSes;
 }
 
+// Mobil ses unlock — ilk dokunuşta hem audio hem speechSynthesis açılır
+let sesUnlocked = false;
+function sesCoz() {
+  if (sesUnlocked) return;
+  sesUnlocked = true;
+  // Audio unlock
+  const audio = document.getElementById('ses-ciglik');
+  audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
+  // SpeechSynthesis unlock
+  const u = new SpeechSynthesisUtterance('');
+  window.speechSynthesis.speak(u);
+  sesBaslat();
+}
 window.speechSynthesis.onvoiceschanged = sesBaslat;
 sesBaslat();
+
+// Mobil ses unlock — ilk dokunuşta hem audio hem speechSynthesis açılır
+let sesUnlocked = false;
+function sesCoz() {
+  if (sesUnlocked) return;
+  sesUnlocked = true;
+  const audio = document.getElementById('ses-ciglik');
+  audio.play().then(() => { audio.pause(); audio.currentTime = 0; }).catch(() => {});
+  const u = new SpeechSynthesisUtterance(' ');
+  u.volume = 0;
+  window.speechSynthesis.speak(u);
+  sesBaslat();
+}
+document.addEventListener('touchstart', sesCoz, { once: true });
+document.addEventListener('click', sesCoz, { once: true });
 
 function oku(metin, isKiz) {
   if (!window.speechSynthesis) return;
