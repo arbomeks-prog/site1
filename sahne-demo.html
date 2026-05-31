@@ -11,6 +11,7 @@ canvas { display: block; width: 100vw; height: 100vh; }
 </head>
 <body>
 <canvas id="c"></canvas>
+<audio id="ses-ciglik" src="ses-muzik.mp3" preload="auto"></audio>
 <script>
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
@@ -35,9 +36,18 @@ const CIFTER = [
 
 let frame = 0;
 let ox = -80, kx = 0;
+
+// Özel balonlar
+let ozelFaz = 'bekle'; // bekle -> karmas -> cildirma -> ciglik -> bitti
+let ozelTimer = 0;
+let ozelOpacity = 0;
+let ciglikGoster = false;
+let ciglikScale = 0;
+let ciglikAngle = 0;
 let oOtur = false, kOtur = false;
 let oOturT = 0, kOturT = 0;
 
+let ozelBasladi = false;
 let aktifCift = null; // {sol, sag, opacity, faz, timer}
 let ciftIdx = 0;
 
@@ -60,8 +70,91 @@ function updateYazi() {
     if (aktifCift.timer > durSure) { aktifCift.faz = 'out'; aktifCift.timer = 0; }
   } else {
     aktifCift.opacity = Math.max(aktifCift.opacity - fadeSpd, 0);
-    if (aktifCift.opacity <= 0) { aktifCift = null; setTimeout(sonrakiCift, 200); }
+    if (aktifCift.opacity <= 0) {
+      aktifCift = null;
+      if (ciftIdx < CIFTER.length) setTimeout(sonrakiCift, 200);
+      else if (!ozelBasladi) { ozelBasladi = true; setTimeout(baslaTepki, 300); }
+    }
   }
+}
+
+function baslaTepki() {
+  ozelFaz = 'karmas';
+  ozelTimer = 0;
+  ozelOpacity = 0;
+}
+
+function updateOzel() {
+  if (ozelFaz === 'bekle') return;
+  ozelTimer++;
+
+  if (ozelFaz === 'karmas') {
+    ozelOpacity = Math.min(ozelOpacity + 0.05, 1);
+    if (ozelTimer > 220) { ozelFaz = 'cildirma'; ozelTimer = 0; ozelOpacity = 0; }
+  } else if (ozelFaz === 'cildirma') {
+    ozelOpacity = Math.min(ozelOpacity + 0.05, 1);
+    if (ozelTimer > 220) {
+      ozelFaz = 'ciglik';
+      ozelTimer = 0;
+      ciglikGoster = true;
+      ciglikScale = 0;
+      document.getElementById('ses-ciglik').currentTime = 0;
+      document.getElementById('ses-ciglik').play();
+    }
+  } else if (ozelFaz === 'ciglik') {
+    ciglikScale = Math.min(ciglikScale + 0.04, 1);
+    ciglikAngle = Math.sin(ozelTimer * 0.25) * 0.12;
+    if (ozelTimer > 180) { ozelFaz = 'bitti'; }
+  }
+}
+
+function drawOzelYazi(metin1, metin2, opacity) {
+  if (opacity <= 0) return;
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  const fontSize = W * 0.052;
+  const satirH = fontSize * 1.55;
+
+  function yazSatirlar(metin, isKiz) {
+    const satirlar = metin.split('\n');
+    const topY = H * 0.38;
+    const textX = isKiz ? W * 0.86 : W * 0.14;
+    ctx.font = `italic bold ${fontSize}px 'Comic Sans MS', cursive, sans-serif`;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = isKiz ? 'right' : 'left';
+    satirlar.forEach((s, i) => {
+      const xOff = (i%2===0?-1:1)*W*0.007;
+      const ang = (i%2===0?-1:1)*0.025;
+      ctx.save(); ctx.translate(textX+xOff, topY+i*satirH); ctx.rotate(ang);
+      ctx.fillText(s, 0, 0); ctx.restore();
+    });
+    return { x: textX, y: topY + satirlar.length * satirH + W*0.01 };
+  }
+
+  const p1 = yazSatirlar(metin1, false);
+  const p2 = yazSatirlar(metin2, true);
+
+  // Oklar
+  const oHeadY = oOtur ? ZEMIN()-W*0.065*1.4-W*0.0012*80-W*0.0012*44-W*0.0012*11 : ZEMIN()-W*0.0012*80-W*0.0012*33;
+  const kHeadY = oHeadY;
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  drawOk(p1.x, p1.y, ox, oHeadY, 1);
+  drawOk(p2.x, p2.y, kx, kHeadY, 1);
+  ctx.restore();
+  ctx.restore();
+}
+
+function drawCiglik() {
+  if (!ciglikGoster || ciglikScale <= 0) return;
+  const img = new Image();
+  img.src = '/assets/ciglik-bg.jpg';
+  const size = W * 0.55 * ciglikScale;
+  ctx.save();
+  ctx.translate(W/2, H*0.42);
+  ctx.rotate(ciglikAngle);
+  ctx.drawImage(img, -size/2, -size/2, size, size);
+  ctx.restore();
 }
 
 function drawZemin() {
@@ -222,12 +315,17 @@ function update() {
   if (!kOtur) { kx -= 0.2; if (kx <= TR()) { kx = TR(); kOtur = true; } }
   else kOturT = Math.min(kOturT+0.018, 1);
   updateYazi();
+  updateOzel();
 }
 
 function draw() {
   drawZemin();
   drawTabure(TL()); drawTabure(TR());
   drawYazilar();
+  // Özel sekans yazıları
+  if (ozelFaz === 'karmas') drawOzelYazi("Ben ne yapacağım\nşimdi ??!!!##@@@", "+₺#&#\nşimdi??", ozelOpacity);
+  if (ozelFaz === 'cildirma' || ozelFaz === 'ciglik') drawOzelYazi("Çıldıracağım\nşimdiiiiii.....", "!!!!!\nÇıldıracağım!!!!!", ozelOpacity);
+  drawCiglik();
   drawAdam(ox, false, oOtur, oOturT);
   drawAdam(kx, true, kOtur, kOturT);
 }
