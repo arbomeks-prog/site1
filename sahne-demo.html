@@ -27,7 +27,6 @@ const TR = () => W * 0.62;
 
 // Çiftler halinde — aynı anda çıkacak
 const CIFTER = [
-  {sol:"Babalar günü\ngeliyor eyvah...", sag:"Ben babama ne\nalacağım şimdi?"},
   {sol:"Kaç gün kaldı\nbabalar gününe?", sag:"Babamı en çok\nne severdi benim?"},
   {sol:"Hep aynı şeyleri\nalıyoruz yazık ya...", sag:"Müzik zevki\nneydi babamın?"},
   {sol:"En sevdiği renk\ntonunu düşünüyorum...", sag:"Hediye güzel mi\ngözüksün..."},
@@ -36,23 +35,23 @@ const CIFTER = [
 ];
 
 let frame = 0;
-let ox = -80, kx = 0;
+let ox = 0, kx = 0; // baştan sahnede
+let oOtur = true, kOtur = true;
+let oOturT = 1, kOturT = 1;
 
 // Özel balonlar
-let ozelFaz = 'bekle'; // bekle -> karmas -> cildirma -> ciglik -> logo -> bitti
+let ozelFaz = 'bekle';
 let ozelTimer = 0;
 let ozelOpacity = 0;
 let ciglikGoster = false;
 let ciglikScale = 0;
 let ciglikAngle = 0;
-let ciglikY = 0; // ciglik resmi aşağı düşecek
-let budurY = -200; // yukarıdan iniyor
+let ciglikY = 0;
+let budurY = -200;
 let buldumY = -200;
-let logoFaz = 0; // 0=hazır değil, 1=iniyor, 2=durdu, 3=ciglik düşüyor, 4=bitti
+let logoFaz = 0;
 let logoTimer = 0;
 let guluyor = false;
-let oOtur = false, kOtur = false;
-let oOturT = 0, kOturT = 0;
 
 let ozelBasladi = false;
 let aktifCift = null; // {sol, sag, opacity, faz, timer}
@@ -685,11 +684,8 @@ function drawAdam(cx, isKiz, oturuyor, oturmaT) {
 
 function update() {
   frame++;
-  if (kx === 0) kx = W + 80;
-  if (!oOtur) { ox += 0.2; if (ox >= TL()) { ox = TL(); oOtur = true; } }
-  else oOturT = Math.min(oOturT+0.018, 1);
-  if (!kOtur) { kx -= 0.2; if (kx <= TR()) { kx = TR(); kOtur = true; } }
-  else kOturT = Math.min(kOturT+0.018, 1);
+  ox = TL();
+  kx = TR();
   updateYazi();
   updateOzel();
   updateQA();
@@ -756,6 +752,16 @@ function draw() {
   ctx.clip();
   drawZemin();
   drawTabure(TL()); drawTabure(TR());
+  // Üst başlık yazısı
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#FFD93D';
+  ctx.font = `bold ${W*0.052}px sans-serif`;
+  ctx.fillText('Babana hediye aldın mı?', W/2, H * 0.10);
+  ctx.fillStyle = '#ff9ecd';
+  ctx.font = `bold ${W*0.045}px sans-serif`;
+  ctx.fillText('BudurBuldum dedin mi? 🎁', W/2, H * 0.17);
+  ctx.restore();
   drawYazilar();
   // Özel sekans yazıları
   if (ozelFaz === 'karmas') drawOzelYazi("Ben ne yapacağım\nşimdi ??!!!##@@@", "+₺#&#\nşimdi??", ozelOpacity);
@@ -771,7 +777,6 @@ function draw() {
 }
 
 function loop() { update(); draw(); requestAnimationFrame(loop); }
-kx = W + 80;
 loop();
 </script>
 </body>
