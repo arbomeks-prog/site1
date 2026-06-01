@@ -1000,15 +1000,44 @@ kx = W * 0.95;
 function baslatHerSey() {
   sesCoz();
   baslaHarfYagmuru();
-  const se = document.getElementById('ses-erkek');
-  const sk = document.getElementById('ses-kiz');
-  se.volume = 0.7; se.currentTime = 0; se.play().catch(()=>{});
-  sk.volume = 0.7; sk.currentTime = 0; sk.play().catch(()=>{});
 
-  // Video kayıt başlat
+  // AudioContext kur — tüm sesleri kayda dahil et
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const dest = audioCtx.createMediaStreamDestination();
+
+  function bagla(id) {
+    try {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const src = audioCtx.createMediaElementSource(el);
+      src.connect(dest);
+      src.connect(audioCtx.destination); // hoparlörden de çıksın
+      return el;
+    } catch(e) {}
+  }
+
+  const se = bagla('ses-erkek');
+  const sk = bagla('ses-kiz');
+  bagla('ses-ciglik');
+  bagla('ses-dogru');
+  bagla('ses-tik');
+  bagla('ses-fon');
+
+  if (se) { se.volume = 0.7; se.currentTime = 0; se.play().catch(()=>{}); }
+  if (sk) { sk.volume = 0.7; sk.currentTime = 0; sk.play().catch(()=>{}); }
+
+  // Video + ses stream birleştir
   try {
-    const stream = canvas.captureStream(30);
-    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    const videoStream = canvas.captureStream(30);
+    const audioTrack = dest.stream.getAudioTracks()[0];
+    if (audioTrack) videoStream.addTrack(audioTrack);
+
+    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
+      ? 'video/webm;codecs=vp9,opus'
+      : MediaRecorder.isTypeSupported('video/webm')
+      ? 'video/webm' : '';
+
+    const recorder = new MediaRecorder(videoStream, mimeType ? { mimeType } : {});
     const chunks = [];
     recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
     recorder.onstop = () => {
@@ -1018,7 +1047,7 @@ function baslatHerSey() {
       a.href = url; a.download = 'budurbuldum-video.webm'; a.click();
       URL.revokeObjectURL(url);
     };
-    recorder.start();
+    recorder.start(100);
     window._recorder = recorder;
   } catch(e) { console.log('Kayıt başlatılamadı:', e); }
 
