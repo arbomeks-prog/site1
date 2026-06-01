@@ -846,7 +846,7 @@ function kalpEkle(x, y) {
   kalpler.push({
     x: x + (Math.random()-0.5)*W*0.1,
     y: y,
-    vy: -(6 + Math.random()*5),
+    vy: -(2 + Math.random()*2),
     vx: (Math.random()-0.5)*1.5,
     opacity: 1,
     scale: 0.3 + Math.random()*0.7,
@@ -855,7 +855,7 @@ function kalpEkle(x, y) {
 }
 function updateKalpler() {
   kalpler = kalpler.filter(k => k.opacity > 0);
-  kalpler.forEach(k => { k.y += k.vy; k.x += k.vx; k.opacity -= 0.015; });
+  kalpler.forEach(k => { k.y += k.vy; k.x += k.vx; k.opacity -= 0.002; });
 }
 function drawKalp(ctx, x, y, size, renk, opacity) {
   ctx.save();
