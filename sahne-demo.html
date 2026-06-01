@@ -846,10 +846,10 @@ function kalpEkle(x, y) {
   kalpler.push({
     x: x + (Math.random()-0.5)*W*0.1,
     y: y,
-    vy: -(2 + Math.random()*2),
+    vy: -(3 + Math.random()*4),
     vx: (Math.random()-0.5)*1.5,
     opacity: 1,
-    scale: 0.5 + Math.random()*0.8,
+    scale: 0.3 + Math.random()*0.7,
     renk: renkler[Math.floor(Math.random()*renkler.length)]
   });
 }
@@ -877,6 +877,11 @@ function drawKalpler() {
 
 function update() {
   frame++;
+  // Sürekli kalp — ikisi oturduğunda başlar, sonuna kadar devam
+  if (oOtur && kOtur && frame % 20 === 0) {
+    kalpEkle(ox, ZEMIN() - W*0.2);
+    kalpEkle(kx, ZEMIN() - W*0.2);
+  }
   if (!oOtur) {
     ox += 0.2;
     if (ox >= TL()) {
