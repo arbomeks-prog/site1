@@ -878,7 +878,7 @@ function drawKalpler() {
 function update() {
   frame++;
   // Sürekli kalp — ikisi oturduğunda başlar, sonuna kadar devam
-  if (qaAktif && frame % 20 === 0) {
+  if (qaAktif && frame % 80 === 0) {
     kalpEkle(ox, ZEMIN() - W*0.2);
     kalpEkle(kx, ZEMIN() - W*0.2);
   }
