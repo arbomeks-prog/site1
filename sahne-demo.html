@@ -882,6 +882,10 @@ function update() {
     kalpEkle(ox, ZEMIN() - W*0.2);
     kalpEkle(kx, ZEMIN() - W*0.2);
   }
+  if (hediyelarBasladi && frame % 320 === 0) {
+    kalpEkle(ox, ZEMIN() - W*0.2);
+    kalpEkle(kx, ZEMIN() - W*0.2);
+  }
   if (!oOtur) {
     ox += 0.2;
     if (ox >= TL()) {
