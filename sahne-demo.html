@@ -77,9 +77,10 @@ function sonrakiCift() {
   setTimeout(() => oku(aktifCift.sag, true), 1500);
 }
 
+let ciftBasladi = false;
 function updateYazi() {
   if (!aktifCift) {
-    if (oOtur && kOtur && frame > 0) sonrakiCift();
+    if (oOtur && kOtur && !ciftBasladi) { ciftBasladi = true; sonrakiCift(); }
     return;
   }
   aktifCift.timer++;
