@@ -120,7 +120,43 @@ else: print('OK depth:', depth)
 
 ---
 
-## Diğer Önemli Sayfalar
+## Tarayıcı & Platform Uyumluluk Tablosu
+
+### canvas.captureStream() + MediaRecorder (Video Kayıt)
+
+| Platform | Durum | Format | Not |
+|---|---|---|---|
+| Chrome Android 126+ | ✅ Çalışır | MP4 veya WebM | En iyi seçenek |
+| Chrome Android 49-125 | ✅ Çalışır | WebM | MP4 yok |
+| Samsung Browser | ❌ Çalışmaz | - | 0 byte çıkar |
+| Safari iOS | ⚠️ Sorunlu | MP4 | `onstop` tetiklenmiyor, donma sorunu var |
+| Firefox Android | ✅ Çalışır | WebM | Test edilmedi |
+| Chrome Desktop | ✅ Çalışır | MP4 veya WebM | |
+
+### speechSynthesis (Metin Okuma)
+
+| Platform | Durum | Not |
+|---|---|---|
+| Chrome Android | ✅ Çalışır | Türkçe var |
+| Samsung Browser | ❌ Çalışmaz | Türkçe ses paketi yok — 13 ses var, Türkçe yok |
+| Safari iOS | ✅ Çalışır | Türkçe var |
+| Firefox | ✅ Çalışır | |
+
+### Genel Site Uyumluluğu (Canvas Animasyon İzleme)
+
+| Platform | Durum |
+|---|---|
+| Chrome Android | ✅ |
+| Samsung Browser | ✅ |
+| Safari iOS | ✅ |
+| Firefox | ✅ |
+
+### Sonuç
+- **Video kayıt için:** Chrome Android kullan
+- **Ekran kaydı için:** Samsung ekran kaydı en pratik — ses dahil kaydeder, MP4 çıkar, editörde düzenlenir
+- **iOS'ta:** Test edilmedi — Safari'de canvas kayıt sorunlu
+
+
 
 - `babalar-gunu-tanitim-v7-4.html` — quiz + fotoğraf geçişleri + şiir animasyonu (FINAL)
 - `ciglik-v7-10.html` — 3x4 ızgara Çığlık tablosu formatı
