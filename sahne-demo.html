@@ -79,7 +79,7 @@ function sonrakiCift() {
 
 function updateYazi() {
   if (!aktifCift) {
-    if (frame > 60) sonrakiCift();
+    if (oOtur && kOtur && frame > 0) sonrakiCift();
     return;
   }
   aktifCift.timer++;
