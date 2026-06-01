@@ -546,7 +546,7 @@ function baslaHediyeler() {
         {headers:{Authorization:PEXELS_KEY}})
       .then(r=>r.json()).then(d=>{
         if(d.photos&&d.photos[0]){
-          const im=new Image(); im.src=d.photos[0].src.small;
+          const im=new Image(); im.crossOrigin='anonymous'; im.src=d.photos[0].src.small;
           hediyelarGoster[i].img=im;
         }
       }).catch(()=>{});
@@ -1013,6 +1013,7 @@ function baslatHerSey() {
     .then(r=>r.json()).then(d=>{
       if(d.photos&&d.photos[0]){
         const img=new Image();
+        img.crossOrigin='anonymous';
         img.onload = () => { window._onYuklenenImglar[i]=img; };
         img.src=d.photos[0].src.small;
       }
