@@ -80,7 +80,7 @@ function sonrakiCift() {
 let ciftBasladi = false;
 function updateYazi() {
   if (!aktifCift) {
-    if (oOtur && kOtur && !ciftBasladi) { ciftBasladi = true; sonrakiCift(); }
+    if (!ciftBasladi && frame > 30) { ciftBasladi = true; sonrakiCift(); }
     return;
   }
   aktifCift.timer++;
@@ -95,7 +95,13 @@ function updateYazi() {
     if (aktifCift.opacity <= 0) {
       aktifCift = null;
       if (ciftIdx < CIFTER.length) setTimeout(sonrakiCift, 200);
-      else if (!ozelBasladi) { ozelBasladi = true; setTimeout(baslaTepki, 300); }
+      else if (!ozelBasladi && oOtur && kOtur) { ozelBasladi = true; setTimeout(baslaTepki, 300); }
+      else if (!ozelBasladi) {
+        // Henüz oturmadılarsa bekle
+        const bekle = setInterval(() => {
+          if (oOtur && kOtur && !ozelBasladi) { ozelBasladi = true; clearInterval(bekle); setTimeout(baslaTepki, 300); }
+        }, 100);
+      }
     }
   }
 }
