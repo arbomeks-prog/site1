@@ -83,6 +83,22 @@ img.crossOrigin = 'anonymous';
 // Kayıt CTA sonrası 20sn devam eder
 ```
 
+### ÖNEMLİ: Chrome 126+ MP4 Kaydedebiliyor
+Chrome 126'dan itibaren MediaRecorder MP4 formatını destekliyor.
+Aşağıdaki kodla `.mp4` çıktısı alınabilir — Samsung editöründe direkt açılır, montaja gerek kalmaz:
+```js
+const mimeType = MediaRecorder.isTypeSupported('video/mp4')
+  ? 'video/mp4'
+  : MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
+  ? 'video/webm;codecs=vp9,opus'
+  : 'video/webm';
+
+const recorder = new MediaRecorder(videoStream, { mimeType });
+// indirirken:
+a.download = mimeType.includes('mp4') ? 'video.mp4' : 'video.webm';
+```
+Bu kod sahne-demo.html ve _video-sablon.html'e henüz uygulanmadı — bir sonraki seferde eklenecek.
+
 ### JS Syntax Kontrol (HER DEĞİŞİKLİKTEN SONRA)
 ```bash
 python3 -c "
