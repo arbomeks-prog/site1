@@ -914,10 +914,10 @@ let ctaOpacity = 0;
 
 function updateCTA() {
   if (hediyelarBasladi) {
-    const once = ctaOpacity === 0;
     ctaOpacity = Math.min(ctaOpacity + 0.008, 1);
-    if (ctaOpacity >= 1 && once === false && window._recorder && window._recorder.state === 'recording') {
-      setTimeout(() => { window._recorder.stop(); }, 3000);
+    if (ctaOpacity >= 1 && !window._kayitDurdu && window._recorder && window._recorder.state === 'recording') {
+      window._kayitDurdu = true;
+      setTimeout(() => { window._recorder.stop(); }, 20000);
     }
   }
 }
