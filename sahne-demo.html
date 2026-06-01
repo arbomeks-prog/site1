@@ -15,6 +15,8 @@ canvas { position: fixed; top: 0; left: 0; width: 100% !important; height: 100% 
 <audio id="ses-ciglik" src="ses-muzik.mp3" preload="auto"></audio>
 <audio id="ses-erkek" src="mrstokes302-uh-oh-male-fx-mrstokes302-521215.mp3" preload="auto" loop></audio>
 <audio id="ses-kiz" src="dragon-studio-woman-sobbing-372482.mp3" preload="auto"></audio>
+<audio id="ses-dogru" src="ses-dogru.mp3" preload="auto"></audio>
+<audio id="ses-tik" src="ses-tik.mp3" preload="auto"></audio>
 
 <!-- BAŞLAT BUTONU -->
 <div id="startBtn" onclick="document.getElementById('startBtn').style.display='none'; baslatHerSey();" style="display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:9999; pointer-events:all;">
@@ -372,7 +374,13 @@ function updateQA() {
       qaTimer = 0;
     }
   } else if (qaFaz === 'bekle') {
-    if (qaTimer > 25) { qaHighlight = true; qaFaz = 'highlight'; qaTimer = 0; }
+    if (qaTimer > 25) {
+      qaHighlight = true; qaFaz = 'highlight'; qaTimer = 0;
+      const sd = document.getElementById('ses-dogru');
+      const st = document.getElementById('ses-tik');
+      sd.currentTime = 0; sd.volume = 0.4; sd.play().catch(()=>{});
+      st.currentTime = 0; st.volume = 0.4; st.play().catch(()=>{});
+    }
   } else if (qaFaz === 'highlight') {
     if (qaTimer > hiz) { qaFaz = 'cikis'; qaTimer = 0; }
   } else if (qaFaz === 'cikis') {
