@@ -539,6 +539,7 @@ const hImgCache = {};
 function baslaHediyeler() {
   if (hediyelarBasladi) return;
   hediyelarBasladi = true;
+  guluyor = true; // Hediyeler çıkınca mutlu olsunlar
   HEDIYELER.forEach((h, i) => {
     const renk = i < 6 ? '#7ec8f8' : '#f8a4c8';
     hediyelarGoster.push({isim:h.isim, fiyat:h.fiyat, img:null, renk, opacity:0});
@@ -883,8 +884,8 @@ function update() {
     kalpEkle(kx, ZEMIN() - W*0.2);
   }
   if (hediyelarBasladi && frame % 150 === 0) {
-    kalpEkle(ox, ZEMIN() - W*0.2);
-    kalpEkle(kx, ZEMIN() - W*0.2);
+    for (let i = 0; i < 4; i++) kalpEkle(ox, ZEMIN() - W*0.2);
+    for (let i = 0; i < 4; i++) kalpEkle(kx, ZEMIN() - W*0.2);
   }
   if (!oOtur) {
     ox += 0.2;
