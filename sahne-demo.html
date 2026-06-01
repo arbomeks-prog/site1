@@ -916,7 +916,13 @@ function update() {
 let ctaOpacity = 0;
 
 function updateCTA() {
-  if (hediyelarBasladi) ctaOpacity = Math.min(ctaOpacity + 0.008, 1);
+  if (hediyelarBasladi) {
+    const once = ctaOpacity === 0;
+    ctaOpacity = Math.min(ctaOpacity + 0.008, 1);
+    if (ctaOpacity >= 1 && once === false && window._recorder && window._recorder.state === 'recording') {
+      setTimeout(() => { window._recorder.stop(); }, 3000);
+    }
+  }
 }
 
 function drawCTA() {
@@ -997,11 +1003,28 @@ kx = W * 0.95;
 function baslatHerSey() {
   sesCoz();
   baslaHarfYagmuru();
-  // Yürüyüş sesleri
   const se = document.getElementById('ses-erkek');
   const sk = document.getElementById('ses-kiz');
   se.volume = 0.7; se.currentTime = 0; se.play().catch(()=>{});
   sk.volume = 0.7; sk.currentTime = 0; sk.play().catch(()=>{});
+
+  // Video kayıt başlat
+  try {
+    const stream = canvas.captureStream(30);
+    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    const chunks = [];
+    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'budurbuldum-video.webm'; a.click();
+      URL.revokeObjectURL(url);
+    };
+    recorder.start();
+    window._recorder = recorder;
+  } catch(e) { console.log('Kayıt başlatılamadı:', e); }
+
   loop();
 }
 ox = W * 0.05;
