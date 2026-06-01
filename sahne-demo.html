@@ -137,7 +137,11 @@ function updateOzel() {
     ciglikScale = Math.min(ciglikScale + 0.04, 1);
     ciglikAngle = Math.sin(ozelTimer * 0.25) * 0.12;
     ciglikY = 0;
-    if (ozelTimer > 180) { ozelFaz = 'logo'; ozelTimer = 0; logoFaz = 1; }
+    if (ozelTimer > 180) {
+      ozelFaz = 'logo'; ozelTimer = 0; logoFaz = 1;
+      const fon = document.getElementById('ses-fon');
+      fon.volume = 0.8; fon.currentTime = 0; fon.play().catch(()=>{});
+    }
   } else if (ozelFaz === 'logo') {
     logoTimer++;
     if (logoFaz === 1) {
@@ -154,8 +158,6 @@ function updateOzel() {
       if (ciglikY > H) {
         ciglikGoster = false; logoFaz = 4; guluyor = true;
         setTimeout(baslaQA, 300);
-        const fon = document.getElementById('ses-fon');
-        fon.volume = 0.8; fon.currentTime = 0; fon.play().catch(()=>{});
       }
     }
   }
