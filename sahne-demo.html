@@ -13,6 +13,8 @@ canvas { position: fixed; top: 0; left: 0; width: 100% !important; height: 100% 
 <body>
 <canvas id="c"></canvas>
 <audio id="ses-ciglik" src="ses-muzik.mp3" preload="auto"></audio>
+<audio id="ses-erkek" src="mrstokes302-uh-oh-male-fx-mrstokes302-521215.mp3" preload="auto"></audio>
+<audio id="ses-kiz" src="dragon-studio-woman-sobbing-372482.mp3" preload="auto"></audio>
 
 <!-- BAŞLAT BUTONU -->
 <div id="startBtn" onclick="document.getElementById('startBtn').style.display='none'; baslatHerSey();" style="display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:9999; pointer-events:all;">
@@ -850,10 +852,22 @@ function drawKalpler() {
 
 function update() {
   frame++;
-  if (!oOtur) { ox += 0.2; if (ox >= TL()) { ox = TL(); oOtur = true; } }
-  else oOturT = Math.min(oOturT + 0.018, 1);
-  if (!kOtur) { kx -= 0.2; if (kx <= TR()) { kx = TR(); kOtur = true; } }
-  else kOturT = Math.min(kOturT + 0.018, 1);
+  if (!oOtur) {
+    ox += 0.2;
+    if (ox >= TL()) {
+      ox = TL(); oOtur = true;
+      document.getElementById('ses-erkek').pause();
+      document.getElementById('ses-erkek').currentTime = 0;
+    }
+  } else oOturT = Math.min(oOturT + 0.018, 1);
+  if (!kOtur) {
+    kx -= 0.2;
+    if (kx <= TR()) {
+      kx = TR(); kOtur = true;
+      document.getElementById('ses-kiz').pause();
+      document.getElementById('ses-kiz').currentTime = 0;
+    }
+  } else kOturT = Math.min(kOturT + 0.018, 1);
   updateHarfler();
   updateYazi();
   updateOzel();
@@ -948,6 +962,11 @@ kx = W * 0.95;
 function baslatHerSey() {
   sesCoz();
   baslaHarfYagmuru();
+  // Yürüyüş sesleri
+  const se = document.getElementById('ses-erkek');
+  const sk = document.getElementById('ses-kiz');
+  se.volume = 0.7; se.currentTime = 0; se.play().catch(()=>{});
+  sk.volume = 0.7; sk.currentTime = 0; sk.play().catch(()=>{});
   loop();
 }
 ox = W * 0.05;
