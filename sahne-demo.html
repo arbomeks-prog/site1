@@ -139,6 +139,8 @@ function updateOzel() {
     ciglikY = 0;
     if (ozelTimer > 180) {
       ozelFaz = 'logo'; ozelTimer = 0; logoFaz = 1;
+    }
+    if (ozelTimer === 90) { // 1.5sn önce (90 frame @60fps)
       const fon = document.getElementById('ses-fon');
       fon.volume = 0.8; fon.currentTime = 0; fon.play().catch(()=>{});
     }
