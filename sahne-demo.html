@@ -536,18 +536,21 @@ const hImgCache = {};
 function baslaHediyeler() {
   if (hediyelarBasladi) return;
   hediyelarBasladi = true;
-  guluyor = true; // Hediyeler çıkınca mutlu olsunlar
+  guluyor = true;
   HEDIYELER.forEach((h, i) => {
     const renk = i < 6 ? '#7ec8f8' : '#f8a4c8';
-    hediyelarGoster.push({isim:h.isim, fiyat:h.fiyat, img:null, renk, opacity:0});
-    fetch("https://api.pexels.com/v1/search?query="+encodeURIComponent(h.query)+"&per_page=1&orientation=landscape",
-      {headers:{Authorization:PEXELS_KEY}})
-    .then(r=>r.json()).then(d=>{
-      if(d.photos&&d.photos[0]){
-        const img=new Image(); img.src=d.photos[0].src.small;
-        hediyelarGoster[i].img=img;
-      }
-    }).catch(()=>{});
+    const img = window._onYuklenenImglar && window._onYuklenenImglar[i] ? window._onYuklenenImglar[i] : null;
+    hediyelarGoster.push({isim:h.isim, fiyat:h.fiyat, img, renk, opacity:0});
+    if (!img) {
+      fetch("https://api.pexels.com/v1/search?query="+encodeURIComponent(h.query)+"&per_page=1&orientation=landscape",
+        {headers:{Authorization:PEXELS_KEY}})
+      .then(r=>r.json()).then(d=>{
+        if(d.photos&&d.photos[0]){
+          const im=new Image(); im.src=d.photos[0].src.small;
+          hediyelarGoster[i].img=im;
+        }
+      }).catch(()=>{});
+    }
   });
 }
 
@@ -1000,6 +1003,22 @@ kx = W * 0.95;
 function baslatHerSey() {
   sesCoz();
   baslaHarfYagmuru();
+
+  // Hediye görsellerini önceden yükle
+  let yukluSayac = 0;
+  window._onYuklenenImglar = {};
+  HEDIYELER.forEach((h, i) => {
+    fetch("https://api.pexels.com/v1/search?query="+encodeURIComponent(h.query)+"&per_page=1&orientation=landscape",
+      {headers:{Authorization:PEXELS_KEY}})
+    .then(r=>r.json()).then(d=>{
+      if(d.photos&&d.photos[0]){
+        const img=new Image();
+        img.onload = () => { window._onYuklenenImglar[i]=img; };
+        img.src=d.photos[0].src.small;
+      }
+      yukluSayac++;
+    }).catch(()=>{ yukluSayac++; });
+  });
 
   // AudioContext kur — tüm sesleri kayda dahil et
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
