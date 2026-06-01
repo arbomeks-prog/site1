@@ -17,6 +17,7 @@ canvas { position: fixed; top: 0; left: 0; width: 100% !important; height: 100% 
 <audio id="ses-kiz" src="dragon-studio-woman-sobbing-372482.mp3" preload="auto"></audio>
 <audio id="ses-dogru" src="ses-dogru.mp3" preload="auto"></audio>
 <audio id="ses-tik" src="ses-tik.mp3" preload="auto"></audio>
+<audio id="ses-fon" src="prettyjohn1-motivational-526517.mp3" preload="auto" loop></audio>
 
 <!-- BAŞLAT BUTONU -->
 <div id="startBtn" onclick="document.getElementById('startBtn').style.display='none'; baslatHerSey();" style="display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:9999; pointer-events:all;">
@@ -143,7 +144,12 @@ function updateOzel() {
     } else if (logoFaz === 3) {
       // Çığlık resmi hızla aşağı düşer
       ciglikY += 60;
-      if (ciglikY > H) { ciglikGoster = false; logoFaz = 4; guluyor = true; setTimeout(baslaQA, 300); }
+      if (ciglikY > H) {
+        ciglikGoster = false; logoFaz = 4; guluyor = true;
+        setTimeout(baslaQA, 300);
+        const fon = document.getElementById('ses-fon');
+        fon.volume = 0.4; fon.currentTime = 0; fon.play().catch(()=>{});
+      }
     }
   }
 }
