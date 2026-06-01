@@ -83,7 +83,7 @@ function updateYazi() {
     return;
   }
   aktifCift.timer++;
-  const fadeSpd = 0.04, durSure = 200;
+  const fadeSpd = 0.06, durSure = 80;
   if (aktifCift.faz === 'in') {
     aktifCift.opacity = Math.min(aktifCift.opacity + fadeSpd, 1);
     if (aktifCift.opacity >= 1) { aktifCift.faz = 'dur'; aktifCift.timer = 0; }
@@ -148,7 +148,7 @@ function updateOzel() {
         ciglikGoster = false; logoFaz = 4; guluyor = true;
         setTimeout(baslaQA, 300);
         const fon = document.getElementById('ses-fon');
-        fon.volume = 0.4; fon.currentTime = 0; fon.play().catch(()=>{});
+        fon.volume = 0.8; fon.currentTime = 0; fon.play().catch(()=>{});
       }
     }
   }
@@ -384,8 +384,8 @@ function updateQA() {
       qaHighlight = true; qaFaz = 'highlight'; qaTimer = 0;
       const sd = document.getElementById('ses-dogru');
       const st = document.getElementById('ses-tik');
-      sd.currentTime = 0; sd.volume = 0.4; sd.play().catch(()=>{});
-      st.currentTime = 0; st.volume = 0.4; st.play().catch(()=>{});
+      sd.currentTime = 0; sd.volume = 0.2; sd.play().catch(()=>{});
+      st.currentTime = 0; st.volume = 0.2; st.play().catch(()=>{});
     }
   } else if (qaFaz === 'highlight') {
     if (qaTimer > hiz) { qaFaz = 'cikis'; qaTimer = 0; }
