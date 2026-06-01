@@ -1,0 +1,128 @@
+# BudurBuldum — Proje Notları
+
+Bu dosya her büyük iş bittiğinde güncellenir.
+Yeni bir konuşmaya başlarken Claude bu dosyayı okumalı.
+
+---
+
+## Repo Yapısı
+
+- `index.html` → `quiz-kime.html` → quiz adımları → `ozet.html` → `hediyeler.html`
+- `config.js` — ortak JS ve quiz branching mantığı
+- `api/gifts.js` — xAI Grok API (grok-4.3), hediye önerileri
+- `api/log-quiz.js` — quiz log
+- `vercel.json` — redirect'ler ve Vercel config
+- `_video-sablon.html` — video animasyonu şablonu (play butonu, ses, kayıt hazır)
+
+---
+
+## Video Animasyonu — sahne-demo.html
+
+### Ne Yaptık (1 Haziran 2026)
+Canvas tabanlı sosyal medya animasyon videosu. 30 adımda tamamlandı.
+
+**Sahne sırası:**
+1. Harf yağmuru — "Babana hediye aldın mı?" + "BudurBuldum dedin mi?"
+2. Oğlan (mavi) soldan, Kız (pembe) sağdan yürüyüp taburelere oturur — yürürken gözyaşı
+3. Düşünce balonları (5 çift) yürürken başlar
+4. İkisi oturduğunda "Çıldıracağım" yazısı → çığlık resmi → ses-muzik.mp3
+5. BUDUR BULDUM logosu iner → fon müziği başlar
+6. Quiz kartları (10 soru) — her biri farklı yönde çıkar, kalpler fırlar
+7. Hediye ızgarası (12 ürün, Pexels)
+8. CTA bölümü
+
+**Ses dosyaları:**
+- `ses-muzik.mp3` — çığlık (2.5sn, volume 0.5)
+- `mrstokes302-uh-oh-male-fx-mrstokes302-521215.mp3` — erkek yürüyüş (loop)
+- `dragon-studio-woman-sobbing-372482.mp3` — kız yürüyüş
+- `ses-dogru.mp3` + `ses-tik.mp3` — quiz highlight (volume 0.2)
+- `prettyjohn1-motivational-526517.mp3` — fon müziği (volume 0.8, loop)
+
+---
+
+## Kritik Teknik Kurallar
+
+### Play Butonu (HER VİDEODA ŞART)
+```html
+<!-- display:none başlar -->
+<div id="startBtn" onclick="document.getElementById('startBtn').style.display='none'; baslatHerSey();"
+     style="display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:9999; pointer-events:all;">
+  <div style="width:72px; height:72px; border-radius:50%; background:rgba(255,217,61,0.92); ...">
+    <svg ...><polygon points="5,3 19,12 5,21"/></svg>
+  </div>
+</div>
+```
+```js
+// Script'in EN SONUNDA göster
+document.getElementById('startBtn').style.display = 'flex';
+```
+
+### touch-action (HER VİDEODA ŞART)
+```css
+/* YANLIŞ — butonu kırar */
+* { touch-action: none; }
+
+/* DOĞRU — sadece canvas */
+canvas { touch-action: none; }
+```
+
+### Video Kayıt Sistemi (Chrome'da çalışır, Samsung browser'da çalışmaz)
+```js
+// AudioContext ile ses + video birleştir
+const audioCtx = new AudioContext();
+const dest = audioCtx.createMediaStreamDestination();
+// Her ses elementi için:
+const src = audioCtx.createMediaElementSource(el);
+src.connect(dest);
+src.connect(audioCtx.destination); // hoparlörden de çıksın
+
+// crossOrigin ŞART — yoksa canvas tainted olur, Pexels görselleri kayda girmez
+img.crossOrigin = 'anonymous';
+
+// Hediye görselleri play'e basınca önceden yükle
+// Kayıt CTA sonrası 20sn devam eder
+```
+
+### JS Syntax Kontrol (HER DEĞİŞİKLİKTEN SONRA)
+```bash
+python3 -c "
+html = open('dosya.html').read()
+import re; m = re.search(r'<script>(.*?)</script>', html, re.DOTALL)
+code = m.group(1); depth = 0
+for i, line in enumerate(code.split('\n')):
+    depth += line.count('{') - line.count('}')
+    if depth < 0: print(f'Hata {i+1}: {line.strip()}'); break
+else: print('OK depth:', depth)
+"
+```
+
+### Sık Karşılaşılan Hatalar
+- `function baslaQA()` satırı str_replace sırasında kaybolabiliyor — kontrol et
+- `function update()` de kaybolabiliyor — kontrol et
+- Samsung browser Türkçe TTS yok (`synthesis-failed`) — speechSynthesis kullanma
+- `.webm` dosyası Samsung'da oynatılmıyor/paylaşılmıyor — cloudconvert.com ile mp4'e çevir
+
+---
+
+## Diğer Önemli Sayfalar
+
+- `babalar-gunu-tanitim-v7-4.html` — quiz + fotoğraf geçişleri + şiir animasyonu (FINAL)
+- `ciglik-v7-10.html` — 3x4 ızgara Çığlık tablosu formatı
+- `hediye-bulucu.html` — accordion dark theme, commit 9bff492, üzerine yazma
+- `hediye-dedektifi.html` — branching logic, popup, progress bar
+
+---
+
+## SEO Notları
+- "yapay zeka destekli" yazma → "akıllı algoritma" kullan
+- 72 quiz sayfasında JSON-LD schema var
+- Search Console: 8 sayfa indexlendi
+
+---
+
+## Çalışma Kuralları
+- "yap" demeden harekete geçme
+- Değişiklikten önce dosyayı oku
+- Commit mesajları Türkçe ve açıklayıcı
+- Her push sonrası syntax kontrol yap
+- `sadece-degisen-dosyalar.zip` repoda duruyor — silinecek
