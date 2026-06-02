@@ -169,7 +169,24 @@ else: print('OK depth:', depth)
 
 ---
 
-## SEO Notları
+## GitHub Actions — Pexels Fotoğraf İndirme
+
+Workflow hazır: `.github/workflows/pexels-indir.yml`
+Script hazır: `pexels-indir.py`
+
+**YAPILACAK:** Token'a workflow yetkisi ekle:
+GitHub.com → Settings → Developer settings → Personal access tokens → token'ı bul → Edit → **workflow** kutusunu işaretle → Save
+
+Token push'a hazır hale gelince:
+```bash
+git push https://ghp_TOKEN@github.com/arbomeks-prog/site1.git main
+```
+Sonra GitHub → Actions → "Pexels Fotoğraf İndir" → "Run workflow" butonuna bas.
+Fotoğraflar `gorseller/` klasörüne iner, otomatik commit edilir.
+
+---
+
+
 - "yapay zeka destekli" yazma → "akıllı algoritma" kullan
 - 72 quiz sayfasında JSON-LD schema var
 - Search Console: 8 sayfa indexlendi
