@@ -181,6 +181,13 @@
         <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px;">
 
             <!-- Makale kartı -->
+            <div style="margin-bottom:6px;">                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <span id="progress-soru" style="font-size:12px; font-weight:600; color:#1e293b;"></span>
+                    <span id="progress-yuzde" style="font-size:12px; font-weight:700; color:#2563eb;"></span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div></div>
             <div style="position:relative;">
             <div class="sticky-wrap" id="sticky-wrap">
               <div class="sticky-note">
@@ -213,13 +220,7 @@
 
             <!-- PROGRESS BAR + SORU BAŞLIĞI -->
             <div id="quiz-section" style="margin-top:16px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                    <span id="progress-soru" style="font-size:12px; font-weight:600; color:#1e293b;"></span>
-                    <span id="progress-yuzde" style="font-size:12px; font-weight:700; color:#2563eb;"></span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width:0%"></div>
-                </div>
+
             </div>
             <div>
                 <h2 id="soru-baslik" class="text-xl font-bold text-zinc-800 mb-0" style="margin-top:4px;">Kahve mi çay mı?</h2>
