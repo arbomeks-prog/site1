@@ -31,11 +31,11 @@
         #continue-btn.active-state:hover { background-color: #1d4ed8; }
 
         /* YAPIŞKAN NOT */
-        .sticky-wrap { display:none; position:absolute; inset:0; z-index:50; border-radius:16px; overflow:hidden; }
+        .sticky-wrap { display:none; position:fixed; left:0; right:0; z-index:50; overflow:hidden; }
         .sticky-wrap.show { display:flex; flex-direction:column; }
         .sticky-note { background:#fffbeb; border:2px solid #fcd34d; border-radius:16px; padding:16px; flex:1; display:flex; flex-direction:column; }
         .sticky-header { margin-bottom:12px; }
-        .gift-grid { flex:1; }
+        .gift-grid { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:8px; align-content:end; }
         .gift-card { height:100%; }
         .sticky-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
         .sticky-title { font-size:13px; font-weight:700; color:#92400e; line-height:1.4; }
@@ -562,7 +562,19 @@
         grid.appendChild(card);
       });
       setTimeout(function() {
-        document.getElementById('sticky-wrap').classList.add('show');
+        var makale = document.querySelector('[style*="position:relative"]');
+      var quizSection = document.getElementById('quiz-section') || document.querySelector('h2[id="soru-baslik"]').parentElement;
+      if (makale && quizSection) {
+        var top = makale.getBoundingClientRect().top + window.scrollY;
+        var bottom = quizSection.getBoundingClientRect().top + window.scrollY;
+        var wrap = document.getElementById('sticky-wrap');
+        wrap.style.top = top + 'px';
+        wrap.style.height = (bottom - top) + 'px';
+        wrap.style.borderRadius = '16px';
+        var pad = document.getElementById('sticky-gift-grid').closest('.sticky-note');
+        if(pad) pad.style.height = '100%';
+      }
+      document.getElementById('sticky-wrap').classList.add('show');
       }, 300);
     }
 
