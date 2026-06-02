@@ -9,6 +9,7 @@ html, body { overflow: hidden; width: 100%; height: 100%; }
 body { background: #0d0d1a; }
 canvas { position: fixed; top: 0; left: 0; width: 100% !important; height: 100% !important; touch-action: none; z-index: 0; }
 </style>
+<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -1052,24 +1053,58 @@ function baslatHerSey() {
     const audioTrack = dest.stream.getAudioTracks()[0];
     if (audioTrack) videoStream.addTrack(audioTrack);
 
-    const mimeType = MediaRecorder.isTypeSupported('video/mp4')
-      ? 'video/mp4'
-      : MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
+    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
       ? 'video/webm;codecs=vp9,opus'
       : 'video/webm';
 
-    const recorder = new MediaRecorder(videoStream, mimeType ? { mimeType } : {});
+    const recorder = new MediaRecorder(videoStream, { mimeType });
     const chunks = [];
     recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
-    recorder.onstop = () => {
-      const isMP4 = mimeType.includes('mp4');
-      const blob = new Blob(chunks, { type: isMP4 ? 'video/mp4' : 'video/webm' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = isMP4 ? 'budurbuldum-video.mp4' : 'budurbuldum-video.webm';
-      a.click();
-      URL.revokeObjectURL(url);
+    recorder.onstop = async () => {
+      // Önce "dönüştürülüyor" mesajı göster
+      const bilgi = document.createElement('div');
+      bilgi.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;color:#fff;font-family:sans-serif;font-size:18px;gap:16px;';
+      bilgi.innerHTML = '<div style="font-size:28px">⏳</div><div>Video hazırlanıyor...</div><div style="font-size:13px;color:#aaa">Bu işlem 30-60 saniye sürebilir</div>';
+      document.body.appendChild(bilgi);
+
+      try {
+        const { createFFmpeg, fetchFile } = FFmpeg;
+        const ffmpeg = createFFmpeg({ log: false });
+        await ffmpeg.load();
+
+        const webmBlob = new Blob(chunks, { type: 'video/webm' });
+        const webmData = await fetchFile(webmBlob);
+        ffmpeg.FS('writeFile', 'input.webm', webmData);
+
+        await ffmpeg.run(
+          '-i', 'input.webm',
+          '-c:v', 'libx264',
+          '-c:a', 'aac',
+          '-movflags', '+faststart',
+          'output.mp4'
+        );
+
+        const mp4Data = ffmpeg.FS('readFile', 'output.mp4');
+        const mp4Blob = new Blob([mp4Data.buffer], { type: 'video/mp4' });
+        const url = URL.createObjectURL(mp4Blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'budurbuldum-video.mp4';
+        a.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(bilgi);
+      } catch(err) {
+        // FFmpeg başarısız olursa WebM olarak indir
+        console.log('FFmpeg hatası, WebM olarak indiriliyor:', err);
+        document.body.removeChild(bilgi);
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'budurbuldum-video.webm';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
     };
     recorder.start(1000);
     window._recorder = recorder;
