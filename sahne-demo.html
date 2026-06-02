@@ -1052,12 +1052,13 @@ function baslatHerSey() {
     const audioTrack = dest.stream.getAudioTracks()[0];
     if (audioTrack) videoStream.addTrack(audioTrack);
 
-    const mimeType = MediaRecorder.isTypeSupported('video/mp4')
+    const mimeType = MediaRecorder.isTypeSupported('video/mp4;codecs=avc1.42E01E,mp4a.40.2')
+      ? 'video/mp4;codecs=avc1.42E01E,mp4a.40.2'
+      : MediaRecorder.isTypeSupported('video/mp4')
       ? 'video/mp4'
       : MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
       ? 'video/webm;codecs=vp9,opus'
-      : MediaRecorder.isTypeSupported('video/webm')
-      ? 'video/webm' : '';
+      : 'video/webm';
 
     const recorder = new MediaRecorder(videoStream, mimeType ? { mimeType } : {});
     const chunks = [];
