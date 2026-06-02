@@ -476,10 +476,13 @@
     function stickyGoster(secim) {
       var d = STICKY_VERI[secim];
       if (!d) return;
-      document.getElementById('sticky-title').textContent = d.baslik;
+      // Format desteği: {baslik, hediyeler} veya direkt array
+      var baslik = Array.isArray(d) ? (secim + ' için hediye fikirleri 🎁') : (d.baslik || secim);
+      var hediyeler = Array.isArray(d) ? d : d.hediyeler;
+      document.getElementById('sticky-title').textContent = baslik;
       var grid = document.getElementById('sticky-gift-grid');
       grid.innerHTML = '';
-      d.hediyeler.forEach(function(h) {
+      hediyeler.forEach(function(h) {
         var card = document.createElement('div');
         card.className = 'gift-card' + (h.sponsor ? ' sponsor' : '');
         card.onclick = (function(a, l) { return function() { sitePopupAc(a, l); }; })(h.arama, h.label);
