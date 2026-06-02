@@ -922,7 +922,6 @@ function updateCTA() {
     ctaOpacity = Math.min(ctaOpacity + 0.008, 1);
     if (ctaOpacity >= 1 && !window._kayitDurdu && window._recorder && window._recorder.state === 'recording') {
       window._kayitDurdu = true;
-      setTimeout(() => { window._loopDur = true; window._recorder.stop(); }, 20000);
     }
   }
 }
@@ -1110,6 +1109,7 @@ function baslatHerSey() {
     };
     recorder.start(1000);
     window._recorder = recorder;
+    setTimeout(() => { window._loopDur = true; if (recorder.state === 'recording') recorder.stop(); }, 45000);
   } catch(e) { console.log('Kayıt başlatılamadı:', e); }
 
   loop();
