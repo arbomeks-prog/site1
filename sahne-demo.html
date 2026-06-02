@@ -1109,7 +1109,14 @@ function baslatHerSey() {
     };
     recorder.start(1000);
     window._recorder = recorder;
-    setTimeout(() => { window._loopDur = true; if (recorder.state === 'recording') recorder.stop(); }, 45000);
+    setTimeout(() => {
+      window._loopDur = true;
+      ['ses-erkek','ses-kiz','ses-ciglik','ses-dogru','ses-tik','ses-fon'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.pause(); el.currentTime = 0; }
+      });
+      if (recorder.state === 'recording') recorder.stop();
+    }, 45000);
   } catch(e) { console.log('Kayıt başlatılamadı:', e); }
 
   loop();
