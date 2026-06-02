@@ -899,7 +899,7 @@ function startFilm() {
     T(()=>selectAnswer(qt.qIdx, qt.aIdx), qt.start + 2200);
 
     // Cevap seçilince: mevcut foto pip'e, yeni foto gelir, yeni soru
-    if(i < 5) {
+    if(i < 4) {
       T(()=>{
         // i. fotoğrafı pip'e gönder
         pipPhoto(`p${i+1}`, i);
@@ -935,10 +935,10 @@ function startFilm() {
   T(()=>{
     setPhotoText('','',false);
     // Tüm pip'leri ve fotoğrafları gizle
-    ['p1','p2','p3','p4','p5','p6'].forEach(id=>hidePhoto(id));
+    ['p1','p2','p3','p4','p5'].forEach(id=>hidePhoto(id));
 
-    // 2x2 grid için hücrelere fotoğrafları ata (p3-p6 daha taze)
-    const imgs = ['p3','p4','p5','p6'].map(id=>document.getElementById(id).style.backgroundImage);
+    // 2x2 grid için hücrelere fotoğrafları ata (p2-p5 daha taze)
+    const imgs = ['p2','p3','p4','p5'].map(id=>document.getElementById(id).style.backgroundImage);
     ['pg1','pg2','pg3','pg4'].forEach((id,i)=>{
       document.getElementById(id).style.backgroundImage = imgs[i] || imgs[0];
     });
