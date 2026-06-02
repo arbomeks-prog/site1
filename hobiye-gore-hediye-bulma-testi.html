@@ -38,7 +38,7 @@
         .gift-grid { flex:1; }
         .gift-card { height:100%; }
         .sticky-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
-        .sticky-title { font-size:13px; font-weight:700; color:#92400e; line-height:1.4; }
+        .sticky-title { font-size:11px; font-weight:700; color:#92400e; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
         .sticky-close { font-size:18px; cursor:pointer; color:#92400e; background:none; border:none; padding:0; line-height:1; flex-shrink:0; margin-left:8px; }
         .gift-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
         .gift-card { border-radius:10px; overflow:hidden; border:1.5px solid #fde68a; background:white; cursor:pointer; transition:transform 0.15s; position:relative; display:flex; flex-direction:column; }
@@ -525,7 +525,7 @@
       var d = STICKY_VERI[secim];
       if (!d) return;
       // Format desteği: {baslik, hediyeler} veya direkt array
-      var baslik = Array.isArray(d) ? (secim + ' için hediye fikirleri 🎁') : (d.baslik || secim);
+      var baslik = Array.isArray(d) ? (secim + ' için hediyeler 🎁') : (d.baslik || secim);
       var hediyeler = Array.isArray(d) ? d : d.hediyeler;
       document.getElementById('sticky-title').textContent = baslik;
       var grid = document.getElementById('sticky-gift-grid');
