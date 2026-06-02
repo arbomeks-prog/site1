@@ -389,7 +389,6 @@
         btn.classList.add('selected');
         if(typeof BudurSes!=='undefined') BudurSes.tik();
         QuizHelper.setCevap(SORU_ID, deger);
-        if (typeof stickyGoster !== "undefined") stickyGoster(deger);
 
         // Otomatik cevapları işle (Anne/Baba → cinsiyet)
         if (SORU_ID === 'kime') {
@@ -398,6 +397,7 @@
 
         // Devam butonu ve ileri butonu
         activateContinueBtn();
+        try { if (typeof stickyGoster !== "undefined") stickyGoster(deger); } catch(e) {}
         const ileri = document.getElementById('ileri-btn');
         const hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
         ileri.href = hedef;
