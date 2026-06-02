@@ -429,6 +429,7 @@
         if (multiSecimler.length > 0) {
             QuizHelper.setCevap(SORU_ID, multiSecimler.join(', '));
             activateContinueBtn();
+            setTimeout(function(){ try { if (typeof stickyGoster !== "undefined" && multiSecimler.length > 0) stickyGoster(multiSecimler[multiSecimler.length-1]); } catch(e) {} }, 400);
             const ileri = document.getElementById('ileri-btn');
             ileri.href = QuizHelper.getSonrakiSayfa(SORU_ID);
             ileri.style.color = '#2563eb';
