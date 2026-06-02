@@ -211,15 +211,7 @@
                             <img src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&w=400" alt="Kahve çay hediye önerisi" style="width:100%; height:130px; object-fit:cover; display:block;">
             </article></div>
 
-            <!-- PROGRESS BAR + SORU BAŞLIĞI -->
-            <div id="quiz-section" style="margin-top:16px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                    <span id="progress-soru" style="font-size:12px; font-weight:600; color:#1e293b;"></span>
-                    <span id="progress-yuzde" style="font-size:12px; font-weight:700; color:#2563eb;"></span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width:0%"></div>
-                </div>
+            <div id="quiz-section"></div>
             </div>
             <div>
                 <h2 id="soru-baslik" class="text-xl font-bold text-zinc-800 mb-0" style="margin-top:4px;">Kahve mi çay mı?</h2>
@@ -277,10 +269,7 @@
 
         // Progress bar
         var progressYuzde = QuizHelper.getProgress(SORU_ID);
-        document.getElementById('progress-bar').style.width = progressYuzde + '%';
-        document.getElementById('progress-soru').textContent = QuizHelper.getKalanSoru(SORU_ID) + ' soru kaldı';
-        document.getElementById('progress-yuzde').textContent = '%' + progressYuzde;
-
+                        
         // Soru başlığı
         const soruNo = QuizHelper.getSoruNo(SORU_ID);
         const soru = QuizHelper.getAktifSorular(SORU_ID).find(s => s.id === SORU_ID);
