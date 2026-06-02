@@ -414,7 +414,13 @@
         if (multiSecimler.length > 0) {
             QuizHelper.setCevap(SORU_ID, multiSecimler.join(', '));
             activateContinueBtn();
-            setTimeout(function(){ try { if (typeof stickyGoster !== "undefined" && multiSecimler.length > 0) stickyGoster(multiSecimler[multiSecimler.length-1]); } catch(e) {} }, 400);
+            setTimeout(function(){
+              try {
+                if (typeof stickyGoster !== "undefined" && multiSecimler.length > 0) {
+                  stickyGosterMulti(multiSecimler);
+                }
+              } catch(e) {}
+            }, 400);
             const ileri = document.getElementById('ileri-btn');
             ileri.href = QuizHelper.getSonrakiSayfa(SORU_ID);
             ileri.style.color = '#2563eb';
@@ -459,6 +465,72 @@
         document.addEventListener('touchmove', function(e){ if(!dragging) return; var dy=e.touches[0].clientY-startY; el.scrollTop=startTop+dy*(el.scrollHeight/el.clientHeight); });
         document.addEventListener('touchend', function(){ dragging=false; });
         setTimeout(updateThumb, 100);
+    }
+
+
+    function stickyGosterMulti(secimler) {
+      var grid = document.getElementById('sticky-gift-grid');
+      var titleEl = document.getElementById('sticky-title');
+      if (!grid || !titleEl) return;
+
+      if (secimler.length === 1) {
+        // Tek seçim — normal 4 kart
+        stickyGoster(secimler[0]);
+        return;
+      }
+
+      // İki seçim — üst 2 kart = 1. seçim, alt 2 kart = 2. seçim
+      var d1 = STICKY_VERI[secimler[0]];
+      var d2 = STICKY_VERI[secimler[1]];
+      if (!d1 || !d2) { stickyGoster(secimler[0]); return; }
+
+      var h1 = Array.isArray(d1) ? d1 : d1.hediyeler;
+      var h2 = Array.isArray(d2) ? d2 : d2.hediyeler;
+
+      titleEl.textContent = secimler[0] + ' & ' + secimler[1] + ' için hediyeler 🎁';
+      grid.innerHTML = '';
+
+      // İlk seçimden 2 ürün
+      h1.slice(0, 2).forEach(function(h) { grid.appendChild(stickyKartOlustur(h)); });
+      // İkinci seçimden 2 ürün
+      h2.slice(0, 2).forEach(function(h) { grid.appendChild(stickyKartOlustur(h)); });
+
+      document.getElementById('sticky-wrap').classList.add('show');
+    }
+
+    function stickyKartOlustur(h) {
+      var card = document.createElement('div');
+      card.className = 'gift-card' + (h.sponsor ? ' sponsor' : '');
+      card.onclick = (function(a,l){return function(){sitePopupAc(a,l);};})(h.arama, h.label);
+      var img = document.createElement('img');
+      img.alt = h.label;
+      img.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23fef9c3%22 width=%22100%22 height=%2260%22/%3E%3C/svg%3E';
+      (function(el, q) {
+        fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(q) + '&per_page=3&orientation=landscape', {
+          headers: {'Authorization': PEXELS_KEY}
+        }).then(function(r){return r.json();}).then(function(d){
+          if (d.photos && d.photos.length > 0) {
+            var idx = Math.floor(Math.random() * Math.min(3, d.photos.length));
+            el.src = d.photos[idx].src.medium;
+          }
+        }).catch(function(){});
+      })(img, h.arama);
+      card.appendChild(img);
+      var lbl = document.createElement('div');
+      lbl.className = 'gift-card-label';
+      lbl.textContent = h.label;
+      card.appendChild(lbl);
+      var tikla = document.createElement('div');
+      tikla.className = 'tikla-sec';
+      tikla.textContent = 'TIKLA · SEÇ';
+      card.appendChild(tikla);
+      if (h.sponsor) {
+        var badge = document.createElement('div');
+        badge.className = 'sponsor-badge';
+        badge.textContent = 'SPONSORLU';
+        card.appendChild(badge);
+      }
+      return card;
     }
 
     // YAPIŞKAN NOT
