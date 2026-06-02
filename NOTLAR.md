@@ -193,6 +193,32 @@ Fotoğraflar `gorseller/` klasörüne iner, otomatik commit edilir.
 
 ---
 
+## Quiz Sayfası Standart Yapısı (Makale İçeriği Ekleme)
+
+Her quiz sayfasının altına şu sırayla eklenir:
+
+1. **Makale içeriği** (`#makale-icerik` div) — ilgili makalenin tüm içeriği
+   - h2 başlıklar + makale-seo-inline gri sorgular
+   - Fotoğraflar: float-sol / full-genişlik / float-sağ sırasıyla
+   - highlight-box
+   - bb-hakkinda (TAM METİN — kısaltma!)
+   - "Teste Başla ↑" butonu
+
+2. **Sıradaki adım butonları** — bir sonraki quiz sayfasına tıklanabilir linkler
+   - Başlık: "🔀 Sıradaki Adım: [Soru Adı]"
+   - Grid 2 sütun, her buton `<a href="sonraki-sayfa.html">` ile sarılı
+   - Dallanma varsa: her dal kendi sayfasına link verir
+   - Dallanma yoksa (tek yol): tüm butonlar aynı sayfaya link verir
+
+3. **Pexels fotoğraf script** — her başlık için uygun sorgu
+
+4. **Footer** — standart (sosyal medya ikonları dahil)
+
+**bb-hakkinda tam metin (değişmez):**
+Budur Buldum, akıllı bir hediye bulma, seçme ve satın alma platformudur. Hazır hediye satışı yapmıyoruz — bunun yerine bütçenize uygun, sevdiğiniz kişinin zevkleri ve özellikleriyle örtüşen, kaliteli ve özgün seçimler yapıyoruz. Hediye seçimlerimizin kalitesinden ödün vermemek için 30 soruluk bir test hazırladık. Bu testi tamamladığınızda; 2 adet nokta atışı, 4 adet çapraz sorgu ile belirlenmiş ve isterseniz kişinin burcuna özel seçilmiş 7 hediye sunuyoruz. Önerdiğimiz hediyelerin **Trendyol**, **Hepsiburada**, **Çiçeksepeti**, **N11** ve **Amazon Türkiye** üzerindeki sayfalarını doğrudan bağlantılarıyla hediye kutucuklarında belirtiyoruz. Budur Buldum, kişiye özel hediye bulmanız, seçmeniz ve satın almanız için tasarlanmış Türkiye'nin en kapsamlı ilk ve tek platformudur. Hemen başlayın.
+
+---
+
 ## Çalışma Kuralları
 - "yap" demeden harekete geçme
 - Değişiklikten önce dosyayı oku
