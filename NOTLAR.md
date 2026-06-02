@@ -83,11 +83,14 @@ img.crossOrigin = 'anonymous';
 // Kayıt CTA sonrası 20sn devam eder
 ```
 
-### ÖNEMLİ: Chrome 126+ MP4 Kaydedebiliyor
-Chrome 126'dan itibaren MediaRecorder MP4 formatını destekliyor.
-Aşağıdaki kodla `.mp4` çıktısı alınabilir — Samsung editöründe direkt açılır, montaja gerek kalmaz:
+### ÖNEMLİ: Chrome 126+ MP4 + AAC Kaydedebiliyor ✅ TEST EDİLDİ ÇALIŞIYOR
+Chrome 126'dan itibaren MediaRecorder MP4 + AAC destekliyor.
+Codec açıkça belirtilmezse Chrome Opus koyar → Samsung native player sesi tanımaz.
+**AAC codec açıkça belirtilmeli** — böylece Samsung, iPhone, her oynatıcıda ses çalışır.
 ```js
-const mimeType = MediaRecorder.isTypeSupported('video/mp4')
+const mimeType = MediaRecorder.isTypeSupported('video/mp4;codecs=avc1.42E01E,mp4a.40.2')
+  ? 'video/mp4;codecs=avc1.42E01E,mp4a.40.2'   // H.264 + AAC → evrensel ✅
+  : MediaRecorder.isTypeSupported('video/mp4')
   ? 'video/mp4'
   : MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
   ? 'video/webm;codecs=vp9,opus'
@@ -95,9 +98,10 @@ const mimeType = MediaRecorder.isTypeSupported('video/mp4')
 
 const recorder = new MediaRecorder(videoStream, { mimeType });
 // indirirken:
-a.download = mimeType.includes('mp4') ? 'video.mp4' : 'video.webm';
+const isMP4 = mimeType.includes('mp4');
+a.download = isMP4 ? 'video.mp4' : 'video.webm';
 ```
-Bu kod sahne-demo.html ve _video-sablon.html'e henüz uygulanmadı — bir sonraki seferde eklenecek.
+sahne-demo.html'e uygulandı (commit 8468af6). _video-sablon.html'e henüz uygulanmadı.
 
 ### JS Syntax Kontrol (HER DEĞİŞİKLİKTEN SONRA)
 ```bash
