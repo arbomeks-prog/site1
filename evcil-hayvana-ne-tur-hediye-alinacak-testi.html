@@ -389,7 +389,7 @@
 
         // Devam butonu ve ileri butonu
         activateContinueBtn();
-        try { if (typeof stickyGoster !== "undefined") stickyGoster(deger); } catch(e) {}
+        setTimeout(function(){ try { if (typeof stickyGoster !== "undefined") stickyGoster(deger); } catch(e) {} }, 400);
         const ileri = document.getElementById('ileri-btn');
         const hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
         ileri.href = hedef;
