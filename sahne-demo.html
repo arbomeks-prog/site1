@@ -1052,7 +1052,9 @@ function baslatHerSey() {
     const audioTrack = dest.stream.getAudioTracks()[0];
     if (audioTrack) videoStream.addTrack(audioTrack);
 
-    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
+    const mimeType = MediaRecorder.isTypeSupported('video/mp4')
+      ? 'video/mp4'
+      : MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
       ? 'video/webm;codecs=vp9,opus'
       : MediaRecorder.isTypeSupported('video/webm')
       ? 'video/webm' : '';
@@ -1061,10 +1063,13 @@ function baslatHerSey() {
     const chunks = [];
     recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
     recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: 'video/webm' });
+      const isMP4 = mimeType.includes('mp4');
+      const blob = new Blob(chunks, { type: isMP4 ? 'video/mp4' : 'video/webm' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url; a.download = 'budurbuldum-video.webm'; a.click();
+      a.href = url;
+      a.download = isMP4 ? 'budurbuldum-video.mp4' : 'budurbuldum-video.webm';
+      a.click();
       URL.revokeObjectURL(url);
     };
     recorder.start(100);
