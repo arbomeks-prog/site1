@@ -301,13 +301,9 @@ function profilStateYukle(k) {
 }
 
 function yeniHediye(idx) {
-  localStorage.removeItem('budurBuldumCevaplar');
-  localStorage.removeItem('budurBuldumAktifSet');
-  localStorage.removeItem('budurBuldumSecilenKime');
-  localStorage.removeItem('budurBuldumSecilenBurc');
-  localStorage.removeItem('budurBuldumSelectedCriteria');
-  localStorage.removeItem('budurBuldumTiklananHediyeler');
-  window.location.href = 'hediye-kime-alinacak-testi.html';
+  var k = window._kisiler[idx];
+  profilStateYukle(k);
+  window.location.href = 'ozet.html';
 }
 
 function guncelle(idx) {
