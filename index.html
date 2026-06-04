@@ -130,29 +130,11 @@
 
   <!-- İlk kez geliyorsa veya profil yoksa -->
   <div id="auth-yeni">
-    <!-- Daha önce geldiniz mi? -->
-    <div style="margin-bottom:12px;">
-      <p style="font-size:13px;color:rgba(255,255,255,0.7);margin:0 0 8px;font-weight:500;">⚡ Daha önce geldin mi? Takma ismini yaz:</p>
-      <div style="display:flex;gap:8px;">
-        <input id="nick-devam-input" type="text" placeholder="Takma ismin..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:14px;outline:none;" />
-        <button onclick="nickDevamEt()" style="background:#e8a838;border:none;border-radius:12px;padding:12px 18px;color:#412402;font-size:14px;font-weight:700;cursor:pointer;">Devam →</button>
-      </div>
+    <div style="display:flex;gap:8px;">
+      <input id="nick-tek-input" type="text" placeholder="Takma ismini yaz..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:14px;outline:none;" />
+      <button onclick="nickTekGiris()" style="background:#e8a838;border:none;border-radius:12px;padding:12px 18px;color:#412402;font-size:14px;font-weight:700;cursor:pointer;">Devam →</button>
     </div>
-
-    <div style="display:flex;align-items:center;gap:10px;margin:0 0 12px;">
-      <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
-      <span style="font-size:12px;color:rgba(255,255,255,0.3);">ya da ilk kez mi geliyorsun?</span>
-      <div style="flex:1;height:1px;background:rgba(255,255,255,0.1);"></div>
-    </div>
-
-    <div style="margin-bottom:12px;">
-      <p style="font-size:13px;color:rgba(255,255,255,0.7);margin:0 0 8px;font-weight:500;">🎉 Bir takma isim ver, kaydedelim:</p>
-      <div style="display:flex;gap:8px;">
-        <input id="nick-kaydet-input" type="text" placeholder="Bir takma isim yaz..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:14px;outline:none;" />
-        <button onclick="nickKaydet()" style="background:#fff;border:none;border-radius:12px;padding:12px 18px;color:#0f172a;font-size:14px;font-weight:700;cursor:pointer;">Kaydedelim</button>
-      </div>
-      <p id="nick-hata" style="font-size:12px;color:#f87171;margin-top:6px;text-align:center;"></p>
-    </div>
+    <p id="nick-hata" style="font-size:12px;color:#f87171;margin-top:6px;text-align:center;"></p>
   </div>
 </div>
 
@@ -200,30 +182,9 @@ function nickDegistirIndex() {
   document.getElementById('auth-profil').style.display = 'none';
   document.getElementById('auth-yeni').style.display = 'block';
 }
-function nickDevamEt() {
-  var nick = document.getElementById('nick-devam-input').value.trim();
-  if (!nick) return;
-  localStorage.setItem('budurBuldumNickname', nick);
-  fetch('/api/get-profile?nickname=' + encodeURIComponent(nick))
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.kisiler && data.kisiler.length > 0) {
-        var k = data.kisiler[0];
-        var cv = k.tum_cevaplar || {};
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
-        if (k.cinsiyet) localStorage.setItem('budurBuldumGender', k.cinsiyet);
-        if (k.yas) localStorage.setItem('budurBuldumAge', k.yas);
-        var aktifSet = cv._aktifSet || 'normal';
-        localStorage.setItem('budurBuldumAktifSet', aktifSet);
-        localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(cv._selectedCriteria || []));
-      }
-    })
-    .catch(function() {})
-    .finally(function() { location.reload(); });
-}
 
-function nickKaydet() {
-  var nick = document.getElementById('nick-kaydet-input').value.trim();
+function nickTekGiris() {
+  var nick = document.getElementById('nick-tek-input').value.trim();
   if (!nick) return;
   var hataEl = document.getElementById('nick-hata');
   if (hataEl) hataEl.textContent = '';
@@ -231,15 +192,26 @@ function nickKaydet() {
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.kisiler && data.kisiler.length > 0) {
-        if (hataEl) hataEl.textContent = '⚠️ Bu takma isim alınmış, lütfen başka bir isim seç.';
-      } else {
+        // Eski kullanıcı — bilgileri getir
+        var k = data.kisiler[0];
+        var cv = k.tum_cevaplar || {};
+        if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
         localStorage.setItem('budurBuldumNickname', nick);
-        document.getElementById('auth-yeni').innerHTML = '<p style="font-size:15px;font-weight:700;color:#4ade80;text-align:center;margin:0 0 4px;">✅ Takma ismin kaydedildi!</p><p style="font-size:12px;color:#94a3b8;text-align:center;margin:0;">Quiz bitince aramalarını otomatik kaydedeceğiz.</p>';
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
+        if (k.cinsiyet) localStorage.setItem('budurBuldumGender', k.cinsiyet);
+        if (k.yas) localStorage.setItem('budurBuldumAge', k.yas);
+        localStorage.setItem('budurBuldumAktifSet', cv._aktifSet || 'normal');
+        localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(cv._selectedCriteria || []));
+        location.reload();
+      } else {
+        // Yeni kullanıcı — kaydet
+        localStorage.setItem('budurBuldumNickname', nick);
+        location.reload();
       }
     })
     .catch(function() {
       localStorage.setItem('budurBuldumNickname', nick);
-      document.getElementById('auth-yeni').innerHTML = '<p style="font-size:15px;font-weight:700;color:#4ade80;text-align:center;margin:0 0 4px;">✅ Takma ismin kaydedildi!</p><p style="font-size:12px;color:#94a3b8;text-align:center;margin:0;">Quiz bitince aramalarını otomatik kaydedeceğiz.</p>';
+      location.reload();
     });
 }
 </script>
