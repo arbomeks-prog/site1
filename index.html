@@ -130,7 +130,11 @@
 
   <!-- İlk kez geliyorsa veya profil yoksa -->
   <div id="auth-yeni">
-    <p id="nick-hata" style="font-size:12px;color:#f87171;margin:0;text-align:center;"></p>
+    <div style="display:flex;gap:6px;">
+      <input id="nick-tek-input" type="text" placeholder="Takma ismini yaz..." style="flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:0 10px;color:#fff;font-size:13px;outline:none;height:32px;box-sizing:border-box;" />
+      <button onclick="nickTekGiris()" style="background:#e8a838;border:none;border-radius:6px;padding:0 12px;color:#412402;font-size:13px;font-weight:700;cursor:pointer;height:32px;white-space:nowrap;">Devam →</button>
+    </div>
+    <p id="nick-hata" style="font-size:11px;color:#f87171;margin:2px 0 0;"></p>
   </div>
 </div>
 
