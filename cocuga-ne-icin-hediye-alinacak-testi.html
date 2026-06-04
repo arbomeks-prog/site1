@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doğum Günü mü Başarı Ödülü mü? Çocuğa Doğru Hediyeyi Bul | Budur Buldum · BudurBuldum</title>
-    <meta name="description" content="Hangi özel gün için hediye arıyorsun? Nedene göre en doğru çocuk hediyesini buluyoruz.">
+    <title>Hediyeyi ne için alıyorsun? | BudurBuldum</title>
+    <meta name="description" content="Hediyeyi ne için alıyorsun? - BudurBuldum hediye rehberi. Kişiye özel hediye testi için Budur Buldum · BudurBuldum.">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="config.js"></script>
@@ -29,41 +29,6 @@
         #continue-btn.disabled-state { background-color: #d1d5db; color: #9ca3af; cursor: not-allowed; pointer-events: none; }
         #continue-btn.active-state { background-color: #2563eb; color: white; cursor: pointer; pointer-events: auto; }
         #continue-btn.active-state:hover { background-color: #1d4ed8; }
-
-        /* YAPIŞKAN NOT */
-        .sticky-wrap { display:none; position:absolute; inset:0; z-index:50; border-radius:16px; overflow:hidden; }
-        .sticky-wrap.show { display:flex; flex-direction:column; }
-        .sticky-note { background:#fffbeb; border:2px solid #fcd34d; border-radius:16px; padding:16px; flex:1; display:flex; flex-direction:column; }
-        .sticky-header { margin-bottom:12px; }
-        .gift-grid { flex:1; }
-        .gift-card { height:100%; }
-        .sticky-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
-        .sticky-title { font-size:13px; font-weight:700; color:#92400e; line-height:1.4; }
-        .sticky-close { font-size:18px; cursor:pointer; color:#92400e; background:none; border:none; padding:0; line-height:1; flex-shrink:0; margin-left:8px; }
-        .gift-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-        .gift-card { border-radius:10px; overflow:hidden; border:1.5px solid #fde68a; background:white; cursor:pointer; transition:transform 0.15s; position:relative; display:flex; flex-direction:column; }
-        .gift-card:hover { transform:scale(1.03); }
-        .gift-img { width:100%; height:68px; object-fit:cover; display:block; background:#fef9c3; }
-        .gift-card-label { font-size:10px; color:#78350f; padding:5px 7px; line-height:1.4; font-weight:500; }
-        .sponsor-badge { position:absolute; top:5px; right:5px; background:#fbbf24; color:#78350f; font-size:8px; font-weight:800; padding:2px 6px; border-radius:4px; }
-        .gift-card.sponsor { border-color:#f59e0b; }
-        /* SİTE POP-UP */
-        .site-popup-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; z-index:999; opacity:0; pointer-events:none; transition:opacity 0.2s; }
-        .site-popup-overlay.show { opacity:1; pointer-events:all; }
-        .site-popup { background:white; border-radius:16px; padding:18px; width:280px; box-shadow:0 8px 32px rgba(0,0,0,0.18); }
-        .site-popup-title { font-size:13px; font-weight:700; color:#1e293b; margin-bottom:4px; }
-        .site-popup-urun { font-size:11px; color:#64748b; margin-bottom:14px; }
-        .site-btns { display:flex; flex-direction:column; gap:8px; }
-        .site-btn { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; border:1.5px solid #e2e8f0; background:#f8fafc; cursor:pointer; text-decoration:none; transition:all 0.15s; font-size:13px; font-weight:600; color:#1e293b; }
-        .site-btn:hover { border-color:#2563eb; background:#eff6ff; }
-        .site-btn img { width:20px; height:20px; object-fit:contain; border-radius:4px; }
-        .site-popup-kapat { width:100%; margin-top:10px; padding:9px; border-radius:10px; border:none; background:#f1f5f9; color:#64748b; font-size:13px; font-weight:500; cursor:pointer; }
-
-        @keyframes yanipson { 0%,100%{opacity:1;color:#d97706;} 50%{opacity:0.15;color:#f59e0b;} }
-        .tikla-sec { font-size:8px; font-weight:900; text-align:center; padding:1px 0; background:none; letter-spacing:0.5px; animation:yanipson 1.1s ease-in-out infinite; color:#d97706; margin-top:auto; }
-        .gift-card:nth-child(2) .tikla-sec { animation-delay:0.28s; }
-        .gift-card:nth-child(3) .tikla-sec { animation-delay:0.56s; }
-        .gift-card:nth-child(4) .tikla-sec { animation-delay:0.84s; }
     </style>
     <script type="application/ld+json">
     {
@@ -94,14 +59,14 @@
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://budurbuldum.com/cocuga-ne-icin-hediye-alinacak-testi.html">
-    <meta property="og:title" content="Doğum Günü mü Başarı Ödülü mü? Çocuğa Doğru Hediyeyi Bul | Budur Buldum · BudurBuldum">
-    <meta property="og:description" content="Hangi özel gün için hediye arıyorsun? Nedene göre en doğru çocuk hediyesini buluyoruz.">
+    <meta property="og:title" content="Hediyeyi ne için alıyorsun? | BudurBuldum">
+    <meta property="og:description" content="Hediyeyi ne için alıyorsun? - BudurBuldum hediye rehberi. Kişiye özel hediye testi için BudurBuldum.">
     <meta property="og:image" content="https://budurbuldum.com/og-image.jpg">
     <meta property="og:locale" content="tr_TR">
     <meta property="og:site_name" content="BudurBuldum">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Doğum Günü mü Başarı Ödülü mü? Çocuğa Doğru Hediyeyi Bul | Budur Buldum · BudurBuldum">
-    <meta name="twitter:description" content="Hangi özel gün için hediye arıyorsun? Nedene göre en doğru çocuk hediyesini buluyoruz.">
+    <meta name="twitter:title" content="Hediyeyi ne için alıyorsun? | BudurBuldum">
+    <meta name="twitter:description" content="Hediyeyi ne için alıyorsun? - BudurBuldum hediye rehberi. Kişiye özel hediye testi için BudurBuldum.">
     <meta name="twitter:image" content="https://budurbuldum.com/og-image.jpg">
     <link rel="icon" type="image/png" href="/favicon.png">
     <meta name="theme-color" content="#e8a838">
@@ -112,46 +77,6 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-HWPN7VD4VX');
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Bu hediye testi nasıl çalışır?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Birkaç kısa soruya cevap veriyorsunuz. Kişinin tarzı, hobileri, yaşı ve bütçenize göre size özel hediye önerileri sunuyoruz. Test 3-5 dakika sürüyor."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Hediye testi ücretsiz mi?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Evet, BudurBuldum'daki tüm hediye testleri tamamen ücretsizdir. Kayıt veya üyelik gerekmez."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Hangi platformlarda hediye önerileri gösteriliyor?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Test sonunda Trendyol, Hepsiburada, Çiçeksepeti ve N11 üzerinden hediye önerileri tek ekranda gösterilir. Fiyat karşılaştırması yaparak en uygununu seçebilirsiniz."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Sonuçları kaydetmem gerekiyor mu?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Hayır, kayıt gerekmez. Test sonunda öneriler anında ekrana gelir, istediğiniz ürünün linkine tıklayarak direkt satın alabilirsiniz."
-          }
-        }
-      ]
-    }
     </script>
 </head>
 <body>
@@ -181,24 +106,13 @@
         <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px;">
 
             <!-- Makale kartı -->
-            <div style="position:relative;">
-            <div class="sticky-wrap" id="sticky-wrap">
-              <div class="sticky-note">
-                <div class="sticky-header">
-                  <span class="sticky-title" id="sticky-title"></span>
-                  <button class="sticky-close" onclick="stickyKapat()">✕</button>
-                </div>
-                <div class="gift-grid" id="sticky-gift-grid"></div>
-              </div>
-            </div>
             <article style="background:white; border-radius:16px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
                 <div style="padding:12px;">
                     <div style="position:relative; display:flex; gap:0; margin-bottom:8px; height:110px;">
                         <div id="makale-scroll" style="flex:1; overflow-y:scroll; font-size:12px; color:#64748b; line-height:1.6; padding-right:4px; scrollbar-width:none; -ms-overflow-style:none;">
                             <style>#makale-scroll::-webkit-scrollbar{display:none;}</style>
-                            <h1 style="color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;">🎁 Doğum Günü mü Başarı Ödülü mü? Çocuğa Doğru Hediyeyi Bul</h1>
+                            <h2 style="color:#1e293b;font-size:14px;font-weight:700;margin:0 0 6px;">🎁 Çocuk Hediyesi Ne İçin?</h2>
                             <p style="color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;">Hediyenin amacı çocuk için de önemlidir.</p><h3 style="color:#d97706;font-size:12px;font-weight:700;margin:0 0 5px;">🎂 Doğum Günü</h3><p style="color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;">Çocuğun en çok istediği oyuncak veya deneyim hediyesi mükemmeldir.</p><h3 style="color:#d97706;font-size:12px;font-weight:700;margin:0 0 10px;">🏆 Başarı Ödülü</h3><p style="color:#64748b;font-size:12px;line-height:1.75;margin:0 0 10px;">Eğitici ve motivasyon artırıcı hediyeler başarıyı ödüllendirmenin en iyi yoludur.</p>
-                            <a href="#makale-icerik" style="display:inline-block;font-size:11px;font-weight:700;color:#d97706;text-decoration:none;margin-top:4px;">Devamını Oku ↓</a>
                         </div>
                         <div style="width:8px; background:#fecaca; border-radius:4px; position:relative; flex-shrink:0; margin-left:4px;">
                             <div id="makale-thumb" style="width:8px; background:#ef4444; border-radius:4px; position:absolute; top:0; left:0; cursor:pointer;"></div>
@@ -206,10 +120,10 @@
                     </div>
                 </div>
                             <img src="https://images.pexels.com/photos/1729797/pexels-photo-1729797.jpeg?auto=compress&w=400" alt="Çocuk doğum günü kutlama hediye" style="width:100%; height:130px; object-fit:cover; display:block;">
-            </article></div>
+            </article>
 
             <!-- PROGRESS BAR + SORU BAŞLIĞI -->
-            <div id="quiz-section" style="margin-top:16px;">
+            <div id="quiz-section" style="margin-top:4px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                     <span id="progress-soru" style="font-size:12px; font-weight:600; color:#1e293b;"></span>
                     <span id="progress-yuzde" style="font-size:12px; font-weight:700; color:#2563eb;"></span>
@@ -220,7 +134,6 @@
             </div>
             <div>
                 <h2 id="soru-baslik" class="text-xl font-bold text-zinc-800 mb-0" style="margin-top:4px;">Hediyeyi ne için alıyorsun?</h2>
-                <p id="espri-notu" class="text-sm text-amber-500 font-medium mb-1 italic"></p>
                 <p style="font-size:14px; color:#1e293b; margin:2px 0 6px; text-align:center; font-weight:500;">👇 Seçmek için tıkla 👇</p>
             </div>
 
@@ -284,10 +197,6 @@
         const soruNo = QuizHelper.getSoruNo(SORU_ID);
         const soru = QuizHelper.getAktifSorular(SORU_ID).find(s => s.id === SORU_ID);
         document.getElementById('soru-baslik').textContent = soruNo + '. ' + (soru ? soru.soru : '');
-
-        // Espri notu
-        const espri = QuizHelper.getEspriNotu(SORU_ID);
-        if (espri) document.getElementById('espri-notu').textContent = espri;
 
         // Gift box done/active durumları
         updateGiftBoxes();
@@ -393,7 +302,6 @@
 
         // Devam butonu ve ileri butonu
         activateContinueBtn();
-        setTimeout(function(){ try { if (typeof stickyGoster !== "undefined") stickyGoster(deger); } catch(e) {} }, 400);
         const ileri = document.getElementById('ileri-btn');
         const hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
         ileri.href = hedef;
@@ -416,13 +324,6 @@
         if (multiSecimler.length > 0) {
             QuizHelper.setCevap(SORU_ID, multiSecimler.join(', '));
             activateContinueBtn();
-            setTimeout(function(){
-              try {
-                if (typeof stickyGoster !== "undefined" && multiSecimler.length > 0) {
-                  stickyGosterMulti(multiSecimler.slice());
-                }
-              } catch(e) {}
-            }, 400);
             const ileri = document.getElementById('ileri-btn');
             ileri.href = QuizHelper.getSonrakiSayfa(SORU_ID);
             ileri.style.color = '#2563eb';
@@ -468,235 +369,6 @@
         document.addEventListener('touchend', function(){ dragging=false; });
         setTimeout(updateThumb, 100);
     }
-
-
-    function stickyGosterMulti(secimler) {
-      if (secimler.length <= 1) {
-        stickyGoster(secimler[0]);
-        return;
-      }
-      // İki seçim: önce 1. seçimi göster, grid'deki 2. ve 3. kartı 2. seçimle değiştir
-      stickyGoster(secimler[0]);
-      setTimeout(function() {
-        var d2 = STICKY_VERI[secimler[1]];
-        if (!d2) return;
-        var h2 = Array.isArray(d2) ? d2 : d2.hediyeler;
-        if (!h2 || h2.length < 2) return;
-        var grid = document.getElementById('sticky-gift-grid');
-        var kartlar = grid.querySelectorAll('.gift-card');
-        // Alt 2 kartın label'larını değiştir
-        [2, 3].forEach(function(i) {
-          if (kartlar[i] && h2[i-2]) {
-            var lbl = kartlar[i].querySelector('.gift-card-label');
-            if (lbl) lbl.textContent = h2[i-2].label;
-            var img = kartlar[i].querySelector('img');
-            if (img && h2[i-2].arama) {
-              fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(h2[i-2].arama) + '&per_page=1&orientation=landscape', {
-                headers: {'Authorization': PEXELS_KEY}
-              }).then(function(r){return r.json();}).then(function(d){
-                if (d.photos && d.photos.length > 0) img.src = d.photos[0].src.medium;
-              }).catch(function(){});
-            }
-          }
-        });
-        document.getElementById('sticky-title').textContent = secimler[0] + ' & ' + secimler[1] + ' için hediyeler 🎁';
-      }, 500);
-    }
-
-    // YAPIŞKAN NOT
-    var STICKY_SITELER = [
-      {ad:'Trendyol', link:'https://www.trendyol.com/sr?q=', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Trendyol_logo.svg/200px-Trendyol_logo.svg.png'},
-      {ad:'Hepsiburada', link:'https://www.hepsiburada.com/ara?q=', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Hepsiburada_logo.svg/200px-Hepsiburada_logo.svg.png'},
-      {ad:'Amazon TR', link:'https://www.amazon.com.tr/s?k=', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/200px-Amazon_logo.svg.png'},
-      {ad:'Çiçeksepeti', link:'https://www.ciceksepeti.com/arama?term=', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/%C3%87i%C3%A7eksepeti_logo.svg/200px-%C3%87i%C3%A7eksepeti_logo.svg.png'},
-      {ad:'N11', link:'https://www.n11.com/arama?q=', logo:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/N11.com_logo.svg/200px-N11.com_logo.svg.png'}
-    ];
-
-    var STICKY_VERI = {"Doğum Günü": [{"label": "Doğum günü oyuncak seti", "arama": "çocuk doğum günü oyuncak hediye"}, {"label": "Doğum günü balon seti", "arama": "çocuk doğum günü balon süsleme"}, {"label": "Doğum günü sürpriz kutu", "arama": "çocuk doğum günü sürpriz kutu"}, {"label": "Çocuk doğum günü hediye", "arama": "çocuk doğum günü hediye kutusu", "sponsor": true}], "Yılbaşı / Bayram": [{"label": "Yılbaşı oyuncak seti", "arama": "çocuk yılbaşı oyuncak hediye"}, {"label": "Bayram hediye kutusu", "arama": "çocuk bayram hediye kutusu"}, {"label": "Yılbaşı sürpriz seti", "arama": "çocuk yılbaşı sürpriz hediye seti"}, {"label": "Bayram yılbaşı hediye", "arama": "çocuk bayram yılbaşı hediye kutusu", "sponsor": true}], "Başarı Ödülü": [{"label": "Başarı ödül trofesi", "arama": "çocuk başarı ödül trofesi"}, {"label": "Motivasyon kitabı seti", "arama": "çocuk motivasyon kitabı seti"}, {"label": "Başarı hediye kutusu", "arama": "çocuk başarı hediye kutusu"}, {"label": "Başarı ödül hediyesi", "arama": "çocuk başarı ödül hediye seti", "sponsor": true}], "Sürpriz": [{"label": "Sürpriz oyuncak seti", "arama": "çocuk sürpriz oyuncak seti"}, {"label": "Kör kutu oyuncak", "arama": "çocuk kör kutu sürpriz oyuncak"}, {"label": "Sürpriz hediye kutusu", "arama": "çocuk sürpriz hediye kutusu"}, {"label": "Sürpriz çocuk hediyesi", "arama": "çocuk sürpriz hediye seti", "sponsor": true}]};
-
-    function stickyGoster(secim) {
-      var d = STICKY_VERI[secim];
-      if (!d) return;
-      // Format desteği: {baslik, hediyeler} veya direkt array
-      var baslik = Array.isArray(d) ? (secim + ' için hediyeler 🎁') : (d.baslik || secim);
-      var hediyeler = Array.isArray(d) ? d : d.hediyeler;
-      document.getElementById('sticky-title').textContent = baslik;
-      var grid = document.getElementById('sticky-gift-grid');
-      grid.innerHTML = '';
-      hediyeler.forEach(function(h) {
-        var card = document.createElement('div');
-        card.className = 'gift-card' + (h.sponsor ? ' sponsor' : '');
-        card.onclick = (function(a, l) { return function() { sitePopupAc(a, l); }; })(h.arama, h.label);
-        var img = document.createElement('img');
-        img.className = 'gift-img';
-        img.style.cssText = 'width:100%;height:60px;object-fit:cover;display:block;background:#fef9c3;';
-        img.alt = h.label;
-        img.src = '';
-        // Pexels'tan resim çek
-        (function(el, query) {
-          fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(query) + '&per_page=3&orientation=landscape', {
-            headers: { 'Authorization': 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB' }
-          }).then(function(r){ return r.json(); }).then(function(d){
-            if (d.photos && d.photos.length > 0) {
-              var idx = Math.floor(Math.random() * Math.min(3, d.photos.length));
-              el.src = d.photos[idx].src.medium;
-            }
-          }).catch(function(){});
-        })(img, h.arama);
-        card.appendChild(img);
-        var lbl = document.createElement('div');
-        lbl.className = 'gift-card-label';
-        lbl.textContent = h.label;
-        card.appendChild(lbl);
-        var tikla = document.createElement('div');
-        tikla.className = 'tikla-sec';
-        tikla.textContent = 'TIKLA · SEÇ';
-        card.appendChild(tikla);
-        if (h.sponsor) {
-          var badge = document.createElement('div');
-          badge.className = 'sponsor-badge';
-          badge.textContent = 'SPONSORLU';
-          card.appendChild(badge);
-        }
-        grid.appendChild(card);
-      });
-      setTimeout(function() {
-        document.getElementById('sticky-wrap').classList.add('show');
-      }, 300);
-    }
-
-    function stickyKapat() {
-      document.getElementById('sticky-wrap').classList.remove('show');
-    }
-
-    function sitePopupAc(arama, label) {
-      document.getElementById('popup-urun-adi').textContent = '"' + label + '" için hangi sitede bakayım?';
-      var btns = document.getElementById('site-btns');
-      btns.innerHTML = '';
-      STICKY_SITELER.forEach(function(s) {
-        var a = document.createElement('a');
-        a.className = 'site-btn';
-        a.href = s.link + encodeURIComponent(arama);
-        a.target = '_blank';
-        a.style.borderLeft = '3px solid #e2e8f0';
-        var logo = document.createElement('img');
-        logo.src = s.logo; logo.alt = s.ad;
-        logo.onerror = function() { this.style.display='none'; };
-        a.appendChild(logo);
-        var txt = document.createElement('span');
-        txt.textContent = s.ad;
-        a.appendChild(txt);
-        var ok = document.createElement('span');
-        ok.textContent = '→'; ok.style.marginLeft = 'auto'; ok.style.color = '#94a3b8';
-        a.appendChild(ok);
-        btns.appendChild(a);
-      });
-      document.getElementById('site-popup-overlay').classList.add('show');
-    }
-
-    function sitePopupKapat(e) {
-      if (!e || e.target === document.getElementById('site-popup-overlay')) {
-        document.getElementById('site-popup-overlay').classList.remove('show');
-      }
-    }
 </script>
-
-<div class="site-popup-overlay" id="site-popup-overlay" onclick="sitePopupKapat(event)">
-  <div class="site-popup">
-    <div class="site-popup-title">Nerede bakmak istersin?</div>
-    <div class="site-popup-urun" id="popup-urun-adi"></div>
-    <div class="site-btns" id="site-btns"></div>
-    <button class="site-popup-kapat" onclick="sitePopupKapat()">Vazgeç</button>
-  </div>
-</div>
-<!-- MAKALE İÇERİĞİ — SEO -->
-<div id="makale-icerik" style="max-width:480px;margin:32px auto 0;padding:0 16px 48px;">
-  <style>
-    #makale-icerik h2{font-size:19px;font-weight:800;color:#0f172a;margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid #fef3c7;}
-    #makale-icerik p{font-size:15px;line-height:1.9;color:#475569;margin-bottom:16px;}
-    #makale-icerik .highlight-box{background:#fffbeb;border-left:4px solid #e8a838;border-radius:0 10px 10px 0;padding:16px 20px;margin:20px 0;}
-    #makale-icerik .highlight-box p{margin:0;color:#92400e;font-weight:500;}
-    #makale-icerik .bb-hakkinda{background:#fff;border-radius:16px;padding:20px;margin:28px 0;border-left:4px solid #e8a838;font-size:14px;line-height:1.8;color:#475569;}
-    #makale-icerik .makale-seo-inline{font-size:11.5px;color:#b0bec5;line-height:1.7;margin:6px 0 18px;font-style:italic;}
-  </style>
-  <div style="border-top:2px solid #e2e8f0;margin-bottom:24px;"></div>
-  <h2 style="font-size:19px;font-weight:800;color:#0f172a;margin-bottom:16px;">📖 Çocuk Hediyesi Rehberi</h2>
-  <p>Çocuğa hediye alacaksın ama "ne alayım" sorusu sana büyük hediye mağazasının koridorlarında kaybolmuş gibi hissettiriyor. Oyuncak mı, kitap mı, oyun mu, deneyim mi? Çocukların ilgi alanları çok hızlı değişiyor ve yaşa göre hediye kategorisi de tamamen değişiyor.</p>
-<div style="float:left;margin:0 16px 12px 0;width:155px;">
-    <img id="cocuk-foto1" src="" alt="3-6 yaş çocuk hediye" style="width:100%;height:120px;object-fit:cover;border-radius:12px;display:block;">
-    <p style="font-size:11px;color:#94a3b8;margin-top:5px;font-style:italic;text-align:center;">Küçük çocuklara yaratıcı hediyeler</p>
-  </div><h2>3–6 Yaş Çocuğa Hediye Almak İçin Ne Düşünmeli?</h2>
-<p class="makale-seo-inline">3 yaşındaki çocuğa ne alayım söyle. Anaokulu çağındaki çocuğa hediye bul.</p>
-<p>Bu yaş grubu hayal gücünün en açık olduğu dönem. Rol yapma, yaratma ve keşfetme bu yaşta çok önemli. Blok seti, oyun hamuru, boyama kitabı seti, küçük mutfak oyunu ya da inşaat seti bu yaş için mükemmel. Dikkat etmen gereken şey: güvenlik ve dayanıklılık. Bu yaştaki çocuklar oyuncaklara çok serttir.</p>
-<div style="clear:both;"></div><div style="margin:0 0 16px 0;">
-    <img id="cocuk-foto2" src="" alt="7-10 yaş çocuk hediye" style="width:100%;height:200px;object-fit:cover;border-radius:14px;display:block;">
-    <p style="font-size:11px;color:#94a3b8;margin-top:6px;font-style:italic;text-align:center;">Okul çağı çocuklarına hediyeler</p>
-  </div><h2>7–10 Yaş Çocuğa Ne Hediye Edilir?</h2>
-<p class="makale-seo-inline">İlkokul çağındaki çocuğa ne alayım göster. 8 yaşındaki çocuğa hediye öner.</p>
-<p>Bu dönemde çocuklar artık kendi ilgi alanlarını netleştirmeye başlıyor. Futbol oynayan biri, çizgi roman okuyan biri, Lego yapan biri ya da müziğe ilgi duyan biri — bunların hepsi farklı hediye istiyor. Bu yaş için en iyi strateji çocuğun ne yapmasından keyif aldığını bilerek o alana özel bir hediye seçmek.</p>
-<div style="float:right;margin:0 0 12px 16px;width:155px;">
-    <img id="cocuk-foto3" src="" alt="ergen hediye deneyim" style="width:100%;height:120px;object-fit:cover;border-radius:12px;display:block;">
-    <p style="font-size:11px;color:#94a3b8;margin-top:5px;font-style:italic;text-align:center;">11-14 yaş için özgün hediyeler</p>
-  </div><h2>11–14 Yaş (Ergen Dönemine Giriş) İçin Hediye Nasıl Seçilir?</h2>
-<p class="makale-seo-inline">12 yaşındaki çocuğa ne alayım söyle. Ergene hediye almak zor yardım et.</p>
-<p>Bu yaş grubu hediye alması en zor olanlar çünkü "çocukça" şeyler artık istenmiyor ama tam olarak yetişkin kategorisine de giremiyor. En işe yarayan hediyeler özerkliklerini destekleyen şeyler — bir mağaza hediye kartı, kendi ilgi alanına yönelik bir başlangıç kiti ya da bir çevrimiçi kurs aboneliği.</p>
-<div style="clear:both;"></div><h2>Oyuncak mı Deneyim mi — Hangisi Daha Değerli?</h2>
-<p class="makale-seo-inline">Çocuğa oyuncak mı deneyim mi hediye etsem söyle. Çocuğa kalıcı hediye bul.</p>
-<p>Araştırmalar çocukların uzun vadede deneyimleri nesnelerden daha çok hatırladığını gösteriyor. Bir oyuncak yerine bir aktivite — spor dersi, sanat atölyesi, hayvanat bahçesi ziyareti, konsere bilet — çok daha kalıcı bir iz bırakabiliyor.</p>
-<div class="highlight-box"><p>💡 Çocuğun yaşını ve ilgi alanını bilmeden hediye almak çok riskli. Ebeveyne sormak en akıllıca yol — onlar zaten ne gelmesini istediklerini biliyorlar.</p></div>
-  <div class="bb-hakkinda">Budur Buldum, akıllı bir hediye bulma, seçme ve satın alma platformudur. Hazır hediye satışı yapmıyoruz — bunun yerine bütçenize uygun, sevdiğiniz kişinin zevkleri ve özellikleriyle örtüşen, kaliteli ve özgün seçimler yapıyoruz. Hediye seçimlerimizin kalitesinden ödün vermemek için 30 soruluk bir test hazırladık. Bu testi tamamladığınızda; 2 adet nokta atışı, 4 adet çapraz sorgu ile belirlenmiş ve isterseniz kişinin burcuna özel seçilmiş 7 hediye sunuyoruz. Önerdiğimiz hediyelerin <strong>Trendyol</strong>, <strong>Hepsiburada</strong>, <strong>Çiçeksepeti</strong>, <strong>N11</strong> ve <strong>Amazon Türkiye</strong> üzerindeki sayfalarını doğrudan bağlantılarıyla hediye kutucuklarında belirtiyoruz. Budur Buldum, kişiye özel hediye bulmanız, seçmeniz ve satın almanız için tasarlanmış Türkiye'nin en kapsamlı ilk ve tek platformudur. Hemen başlayın.</div>
-  <div style="margin:32px 0 20px;">
-    <h2 style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:6px;">🔀 Sıradaki Adım</h2>
-    <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;">Daha iyi sonuç için diğer sorulara da cevap ver.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <a href="cocugun-yasina-gore-hediye-testi.html" style="text-decoration:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;display:block;">
-        <div style="font-size:18px;margin-bottom:4px;">🎂</div>
-        <div style="font-size:12px;font-weight:700;color:#0f172a;margin-bottom:4px;">Yaşa Göre Hediye</div>
-        <div style="font-size:11px;color:#94a3b8;line-height:1.5;">Çocuğun yaşına uygun</div>
-      </a><a href="cocugun-aktivitesine-gore-hediye-testi.html" style="text-decoration:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;display:block;">
-        <div style="font-size:18px;margin-bottom:4px;">⚽</div>
-        <div style="font-size:12px;font-weight:700;color:#0f172a;margin-bottom:4px;">Aktiviteye Göre Hediye</div>
-        <div style="font-size:11px;color:#94a3b8;line-height:1.5;">İlgi alanına özel</div>
-      </a>
-    </div>
-  </div>
-  <div style="background:#0f172a;border-radius:12px;padding:16px;text-align:center;margin-top:24px;">
-    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" style="display:inline-block;background:#d97706;color:#fff;text-decoration:none;font-size:13px;font-weight:700;padding:10px 24px;border-radius:24px;">🎯 Teste Başla ↑</a>
-  </div>
-</div>
-<script>
-(function(){
-  var KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
-  var f = [
-    {id:'cocuk-foto1', q:'child birthday gift toys', o:'portrait'},
-    {id:'cocuk-foto2', q:'kids playing learning', o:'landscape'},
-    {id:'cocuk-foto3', q:'teenager gift ideas', o:'portrait'},
-  ];
-  f.forEach(function(p){
-    fetch('https://api.pexels.com/v1/search?query='+encodeURIComponent(p.q)+'&per_page=1&orientation='+p.o,
-      {headers:{Authorization:KEY}})
-    .then(function(r){return r.json();})
-    .then(function(d){
-      if(d.photos&&d.photos[0]){
-        var el=document.getElementById(p.id);
-        if(el) el.src=p.o==='portrait'?d.photos[0].src.medium:d.photos[0].src.large;
-      }
-    }).catch(function(){});
-  });
-})();
-</script>
-<footer style="background:#0f172a;padding:24px 16px;text-align:center;margin-top:32px;">
-  <div style="max-width:480px;margin:0 auto;">
-    <p style="color:#f1f5f9;font-size:14px;font-weight:700;margin:0 0 8px;">Budur Buldum</p>
-    <p style="color:#64748b;font-size:12px;margin:0 0 12px;">Kişiye özel hediye bulma platformu</p>
-    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;">
-      <a href="index.html" style="color:#94a3b8;font-size:12px;text-decoration:none;">Ana Sayfa</a>
-      <a href="biz-kimiz.html" style="color:#94a3b8;font-size:12px;text-decoration:none;">Hakkımızda</a>
-      <a href="iletisim.html" style="color:#94a3b8;font-size:12px;text-decoration:none;">İletişim</a>
-      <a href="gizlilik-politikasi.html" style="color:#94a3b8;font-size:12px;text-decoration:none;">Gizlilik</a>
-    </div>
-    <p style="color:#334155;font-size:11px;margin:0;">© 2026 BudurBuldum · Tüm hakları saklıdır</p>
-  </div>
-</footer>
 </body>
 </html>
