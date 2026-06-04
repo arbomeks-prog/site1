@@ -5,6 +5,14 @@ Yeni bir konuşmaya başlarken Claude bu dosyayı okumalı.
 
 ---
 
+## ⚠️ KRİTİK ÇALIŞMA KURALI
+
+**Repoya ASLA sormadan push yapma.**
+- "yap" veya "push et" demeden hiçbir dosya repoya atılmaz
+- Demo dosyaları sadece outputs klasöründe kalır
+- Canlıya almak için açık onay şart
+- Bu kural her oturumda geçerlidir, istisnası yoktur
+
 ## Repo Yapısı
 
 - `index.html` → `quiz-kime.html` → quiz adımları → `ozet.html` → `hediyeler.html`
