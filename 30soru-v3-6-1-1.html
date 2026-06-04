@@ -804,20 +804,25 @@ function sonrakiSoru() {
                                 hKart.classList.add('hediye');
                                 // Glare + kalp efekti
                                 setTimeout(() => {
-                                    // Kalplar (bir kez)
-                                    for (let k = 0; k < 3; k++) {
-                                        setTimeout(() => {
-                                            const fr = frame.getBoundingClientRect();
-                                            const kr = hKart.getBoundingClientRect();
-                                            const kalp = document.createElement('div');
-                                            kalp.className = 'kalp-parcacik';
-                                            kalp.textContent = '❤️';
-                                            kalp.style.left = (kr.left - fr.left + 8 + Math.random() * (kr.width - 16)) + 'px';
-                                            kalp.style.top = (kr.top - fr.top + 10) + 'px';
-                                            frame.appendChild(kalp);
-                                            setTimeout(() => kalp.remove(), 1300);
-                                        }, k * 200);
+                                    // Kalplar her 3 saniyede tekrar
+                                    function kalpEkle() {
+                                        if (!hKart.isConnected) return;
+                                        for (let k = 0; k < 3; k++) {
+                                            setTimeout(() => {
+                                                const fr = frame.getBoundingClientRect();
+                                                const kr = hKart.getBoundingClientRect();
+                                                const kalp = document.createElement('div');
+                                                kalp.className = 'kalp-parcacik';
+                                                kalp.textContent = '❤️';
+                                                kalp.style.left = (kr.left - fr.left + 8 + Math.random() * (kr.width - 16)) + 'px';
+                                                kalp.style.top = (kr.top - fr.top + 10) + 'px';
+                                                frame.appendChild(kalp);
+                                                setTimeout(() => kalp.remove(), 1300);
+                                            }, k * 200);
+                                        }
                                     }
+                                    kalpEkle();
+                                    setInterval(kalpEkle, 3000);
                                     // Glare her 3 saniyede tekrar
                                     function glareEkle() {
                                         if (!hKart.isConnected) return;
