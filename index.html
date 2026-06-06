@@ -141,7 +141,7 @@
       <div style="font-size:14px;font-weight:800;color:#e8a838;margin-bottom:2px;">Araman kaydedildi</div>
       <div style="font-size:12px;color:#94a3b8;margin-bottom:10px;">Kaldığın yerden devam et veya profilini gör.</div>
       <div style="display:flex;gap:8px;">
-        <button onclick="window.location.href='ozet.html'" style="flex:1;background:#e8a838;border:none;border-radius:8px;padding:9px 8px;font-size:12px;font-weight:700;color:#412402;cursor:pointer;">Devam Et →</button>
+        <button onclick="devamEt()" style="flex:1;background:#e8a838;border:none;border-radius:8px;padding:9px 8px;font-size:12px;font-weight:700;color:#412402;cursor:pointer;">Devam Et →</button>
         <button onclick="window.location.href='profil.html'" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:9px 8px;font-size:12px;font-weight:600;color:#94a3b8;cursor:pointer;">Profilim →</button>
       </div>
     </div>
@@ -157,6 +157,18 @@
       document.getElementById('devam-karti').style.display = 'block';
     }
   } catch(e) {}
+
+  // Devam Et: quiz yarıdaysa son sayfaya, tamamlandıysa ozet'e git
+  window.devamEt = function() {
+    var sonSayfa = localStorage.getItem('budurBuldumSonSayfa');
+    var QUIZ_SAYFALARI = ['hediye-kime-alinacak-testi.html','cinsiyet','yas','dogum','amac','butce','oncelik','tarz','kisilik','hobiler','teknoloji','tatli','spor','muzik','hayvan','seyahat','kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak','doga','sanat','foto'];
+    var quizMi = sonSayfa && QUIZ_SAYFALARI.some(function(s) { return sonSayfa.indexOf(s) >= 0; });
+    if (quizMi) {
+      window.location.href = sonSayfa;
+    } else {
+      window.location.href = 'ozet.html';
+    }
+  };
 
   var savedNick = localStorage.getItem('budurBuldumNickname');
   if (savedNick) {
