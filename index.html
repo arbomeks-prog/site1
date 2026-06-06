@@ -283,39 +283,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 
 <!-- TAKMAİSİM BÖLÜMÜ -->
-<div id="auth-section" style="display:none;background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:4px 16px;">
 
-  <!-- Daha önce kaydolduysa: profil kartları -->
-  <div id="auth-profil" style="display:none;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><p style="font-size:15px;font-weight:700;color:#fff;margin:0;">Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;"></span>! 👋</p><button onclick="nickDegistirIndex()" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Değiştir</button></div>
-    <p style="font-size:12px;color:#94a3b8;margin:0 0 14px;">Kayıtlı kişilerin için hemen hediye aramaya başla.</p>
-    <div id="profil-kartlar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;"></div>
-    <button onclick="document.getElementById('auth-section').style.display='none'" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;color:#94a3b8;font-size:13px;cursor:pointer;">Farklı bir kişi için quiz başlat ↓</button>
-  </div>
-
-  <!-- İlk kez geliyorsa veya profil yoksa -->
-  <div id="auth-yeni" style="display:none;">
-    <div style="display:flex;gap:6px;">
-      <input id="nick-tek-input" type="text" placeholder="Takma ismini yaz..." style="flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:0 10px;color:#fff;font-size:13px;outline:none;height:32px;box-sizing:border-box;" />
-      <button onclick="nickTekGiris()" style="background:#e8a838;border:none;border-radius:6px;padding:0 12px;color:#412402;font-size:13px;font-weight:700;cursor:pointer;height:32px;white-space:nowrap;">Devam →</button>
-    </div>
-    <p id="nick-hata" style="font-size:11px;color:#f87171;margin:2px 0 0;"></p>
-  </div>
-</div>
-
-<div id="devam-karti" style="display:none;background:rgba(232,168,56,0.12);border:1px solid rgba(232,168,56,0.35);border-radius:14px;padding:14px 16px;margin-bottom:12px;">
-  <div style="display:flex;align-items:center;gap:10px;">
-    <span style="font-size:24px;">🔖</span>
-    <div style="flex:1;">
-      <div style="font-size:14px;font-weight:800;color:#e8a838;margin-bottom:2px;">Araman kaydedildi</div>
-      <div style="font-size:12px;color:#94a3b8;margin-bottom:10px;">Kaldığın yerden devam et veya profilini gör.</div>
-      <div style="display:flex;gap:8px;">
-        <button onclick="devamEt()" style="flex:1;background:#e8a838;border:none;border-radius:8px;padding:9px 8px;font-size:12px;font-weight:700;color:#412402;cursor:pointer;">Devam Et →</button>
-        <button onclick="window.location.href='profil.html'" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:9px 8px;font-size:12px;font-weight:600;color:#94a3b8;cursor:pointer;">Profilim →</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 (function() {
@@ -323,8 +291,6 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   try {
     var cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
     if (Object.keys(cv).length > 0) {
-      document.getElementById('devam-karti').style.display = 'block';
-    }
   } catch(e) {}
 
   // Devam Et: quiz yarıdaysa son sayfaya, tamamlandıysa ozet'e git
@@ -339,20 +305,6 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
     }
   };
 
-  var savedNick = localStorage.getItem('budurBuldumNickname');
-  if (savedNick) {
-    document.getElementById('auth-section').style.display = 'block';
-    document.getElementById('auth-yeni').style.display = 'none';
-    document.getElementById('auth-profil').style.display = 'block';
-    document.getElementById('nick-goster').textContent = savedNick;
-    fetch('/api/get-profile?nickname=' + encodeURIComponent(savedNick))
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var kartlar = document.getElementById('profil-kartlar');
-        if (!data.kisiler || data.kisiler.length === 0) {
-          kartlar.innerHTML = '<p style="font-size:13px;color:#94a3b8;">Henüz kayıtlı kişin yok. Quiz bitince kaydet!</p>';
-          return;
-        }
         data.kisiler.forEach(function(k) {
           var isim = k.kisi_adi || k.iliski_durumu || 'Kişi';
           var initials = isim.substring(0, 2).toUpperCase();
@@ -377,43 +329,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   }
 })();
 
-function nickDegistirIndex() {
-  localStorage.removeItem('budurBuldumNickname');
-  document.getElementById('auth-profil').style.display = 'none';
-  document.getElementById('auth-yeni').style.display = 'block';
-}
 
-function nickTekGiris() {
-  var nick = document.getElementById('nick-tek-input').value.trim();
-  if (!nick) return;
-  var hataEl = document.getElementById('nick-hata');
-  if (hataEl) hataEl.textContent = '';
-  fetch('/api/get-profile?nickname=' + encodeURIComponent(nick))
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.kisiler && data.kisiler.length > 0) {
-        // Eski kullanıcı — bilgileri getir
-        var k = data.kisiler[0];
-        var cv = k.tum_cevaplar || {};
-        if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
-        localStorage.setItem('budurBuldumNickname', nick);
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
-        if (k.cinsiyet) localStorage.setItem('budurBuldumGender', k.cinsiyet);
-        if (k.yas) localStorage.setItem('budurBuldumAge', k.yas);
-        localStorage.setItem('budurBuldumAktifSet', cv._aktifSet || 'normal');
-        localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(cv._selectedCriteria || []));
-        location.reload();
-      } else {
-        // Yeni kullanıcı — kaydet
-        localStorage.setItem('budurBuldumNickname', nick);
-        location.reload();
-      }
-    })
-    .catch(function() {
-      localStorage.setItem('budurBuldumNickname', nick);
-      location.reload();
-    });
-}
 </script>
 
 <!-- HERO + KİME -->
