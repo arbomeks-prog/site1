@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#0f172a;font-family:-apple-system,sans-serif;padding-bottom:60px;color:#e2e8f0;}
+body{background:#0f172a;font-family:-apple-system,sans-serif;padding-bottom:80px;color:#e2e8f0;}
 .nav{background:rgba(15,23,42,0.98);border-bottom:1px solid rgba(255,255,255,0.08);padding:14px 20px;display:flex;align-items:center;justify-content:center;}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
 .logo-box{width:32px;height:32px;background:#e8a838;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;}
@@ -17,15 +17,23 @@ body{background:#0f172a;font-family:-apple-system,sans-serif;padding-bottom:60px
 h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
 .sub{font-size:13px;color:#64748b;margin-bottom:20px;}
 
-/* Nick giriş */
-.nick-block{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:18px;margin-bottom:20px;}
-.nick-label{font-size:14px;color:#e2e8f0;margin-bottom:10px;font-weight:500;}
-.nick-row{display:flex;gap:8px;}
-.nick-input{flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px 14px;color:#fff;font-size:14px;outline:none;}
+/* Nick giriş bloğu — büyük, dikkat çekici */
+#nick-giris-blok{background:linear-gradient(135deg,rgba(232,168,56,0.12),rgba(232,168,56,0.05));border:1.5px solid rgba(232,168,56,0.4);border-radius:18px;padding:22px 18px;margin-bottom:20px;}
+.nick-baslik{font-size:16px;font-weight:800;color:#e8a838;margin-bottom:4px;}
+.nick-aciklama{font-size:13px;color:#94a3b8;margin-bottom:14px;line-height:1.5;}
+.nick-satir{display:flex;gap:8px;}
+.nick-input{flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;transition:border-color 0.2s;}
 .nick-input:focus{border-color:#e8a838;}
-.nick-input::placeholder{color:rgba(255,255,255,0.35);}
-.btn-ara{background:#e8a838;border:none;border-radius:10px;padding:10px 18px;color:#412402;font-size:14px;font-weight:700;cursor:pointer;}
-.nick-degistir{font-size:12px;color:#64748b;margin-top:8px;cursor:pointer;text-decoration:underline;}
+.nick-input::placeholder{color:rgba(255,255,255,0.3);}
+.btn-kaydet{background:#e8a838;border:none;border-radius:12px;padding:12px 20px;color:#412402;font-size:15px;font-weight:800;cursor:pointer;white-space:nowrap;}
+.nick-hata{font-size:12px;color:#f87171;margin-top:6px;min-height:16px;}
+.btn-gec{width:100%;margin-top:10px;background:transparent;border:none;font-size:12px;color:#475569;cursor:pointer;padding:4px;}
+
+/* Merhaba satırı */
+#nick-merhaba{display:none;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+.merhaba-sol{font-size:15px;font-weight:700;color:#fff;}
+.merhaba-sol span{color:#e8a838;}
+.btn-degistir{font-size:11px;color:#64748b;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 10px;cursor:pointer;}
 
 /* Kartlar */
 .kartlar-baslik{font-size:13px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;}
@@ -35,7 +43,6 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
 .kart-meta{flex:1;min-width:0;}
 .kart-isim{font-size:16px;font-weight:600;color:#fff;margin-bottom:2px;}
 .kart-alt{font-size:12px;color:#94a3b8;}
-.kart-son{background:rgba(232,168,56,0.15);border:1px solid rgba(232,168,56,0.3);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:600;color:#e8a838;white-space:nowrap;}
 .kart-detaylar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
 .detay{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;}
 .detay-label{font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.04em;}
@@ -43,6 +50,11 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
 .kart-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .btn-hediye{background:#e8a838;border:none;border-radius:10px;padding:11px 8px;font-size:13px;font-weight:700;color:#412402;cursor:pointer;}
 .btn-guncelle{background:transparent;border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:11px 8px;font-size:13px;font-weight:500;color:#94a3b8;cursor:pointer;}
+
+/* Düzenleme paneli */
+.dp{display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;}
+.dp-label{font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px;}
+.dp-margin{margin:12px 0 6px;}
 
 /* Boş / yükleniyor */
 .bos{text-align:center;padding:40px 20px;color:#64748b;}
@@ -62,28 +74,29 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
 <div class="wrap">
   <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#94a3b8;text-decoration:none;margin-bottom:16px;">← Ana Sayfa</a>
   <h1>Profilim 👤</h1>
-  <p class="sub">Kayıtlı kişilerin ve geçmiş aramaların</p>
+  <p class="sub">Kayıtlı kişilerin ve geçmiş aramalar</p>
 
-  <input id="nick-input" type="hidden" />
-
-  <!-- Takma isim seç kutusu — nickname yoksa görünür -->
-  <div id="nick-sec-kutu" style="display:none;background:rgba(232,168,56,0.1);border:1px solid rgba(232,168,56,0.3);border-radius:14px;padding:16px;margin-bottom:16px;">
-    <div style="font-size:14px;font-weight:700;color:#e8a838;margin-bottom:4px;">📌 Takma isim seç</div>
-    <div style="font-size:12px;color:#94a3b8;margin-bottom:12px;">Başka cihazdan da erişmek istersen bir takma isim seç.</div>
-    <div style="display:flex;gap:8px;">
-      <input id="nick-sec-input" type="text" placeholder="Takma ismin..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px 14px;color:#fff;font-size:14px;outline:none;" />
-      <button onclick="nickSec()" style="background:#e8a838;border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kaydet</button>
+  <!-- DURUM 1: Nickname yok — giriş kutusu -->
+  <div id="nick-giris-blok" style="display:none;">
+    <p class="nick-baslik">📌 Takma isminle giriş yap</p>
+    <p class="nick-aciklama">Bir takma isim seçersen farklı cihazlardan da profilini görebilirsin. İstersen sonra da yapabilirsin.</p>
+    <div class="nick-satir">
+      <input id="nick-giris-input" class="nick-input" type="text" placeholder="Takma ismin..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+      <button class="btn-kaydet" onclick="nickGirisKaydet()">Kaydet</button>
     </div>
-    <p id="nick-sec-hata" style="font-size:11px;color:#f87171;margin:4px 0 0;"></p>
-    <button onclick="document.getElementById('nick-sec-kutu').style.display='none'" style="width:100%;margin-top:8px;background:transparent;border:none;font-size:12px;color:#64748b;cursor:pointer;">Şimdilik geç →</button>
+    <p id="nick-giris-hata" class="nick-hata"></p>
+    <button class="btn-gec" onclick="nickGirisGec()">Şimdilik geç, sadece son aramayı gör →</button>
   </div>
 
-  <div id="profil-alani">
-    <div style="margin-bottom:16px;" id="nick-merhaba">
-      <span style="font-size:15px;font-weight:700;color:#fff;">👋 Merhaba, <span id="nick-adi" style="color:#e8a838;"></span></span>
-    </div>
+  <!-- DURUM 2: Nickname var — merhaba satırı -->
+  <div id="nick-merhaba" style="display:none;">
+    <p class="merhaba-sol">👋 Merhaba, <span id="nick-adi"></span>!</p>
+    <button class="btn-degistir" onclick="nickDegistir()">Değiştir</button>
+  </div>
 
-    <div id="yukleniyor" class="yukleniyor">Yükleniyor...</div>
+  <!-- Profil içeriği -->
+  <div id="profil-alani">
+    <div id="yukleniyor" class="yukleniyor" style="display:none;">Yükleniyor...</div>
     <div id="kisiler-alani" style="display:none;">
       <p class="kartlar-baslik" id="kart-sayisi"></p>
       <div id="kartlar"></div>
@@ -98,350 +111,285 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
 </div>
 
 <script>
-const AVATAR_RENKLER = [
+var AVATAR_RENKLER = [
   {bg:'#FBEAF0',text:'#993556'},
   {bg:'#FAEEDA',text:'#854F0B'},
   {bg:'#EAF3DE',text:'#3B6D11'},
   {bg:'#E6F1FB',text:'#185FA5'},
-  {bg:'#EEEDFE',text:'#534AB7'},
+  {bg:'#EEEDFE',text:'#534AB7'}
 ];
+var AMAC_OPT = {
+  normal:   ['Doğum Günü','Yıl Dönümü','Sevgililer Günü','Özel Bir Başarı','Sadece sürpriz','Noel / Yılbaşı'],
+  bebekler: ['Yeni doğdu 🎀','Doğum günü 🎂','Baby shower 🛁','Sünnet 🌙','Sadece sürpriz 🎁'],
+  cocuklar: ['Doğum Günü','Yılbaşı / Bayram','Başarı Ödülü','Sürpriz'],
+  petler:   ['Doğum Günü','Bayram','Sadece sürpriz']
+};
+var ONCELIK_OPT = ['Kullanışlı olsun','Güzel görünsün','Özel ve anlamlı olsun','Uygun fiyatlı olsun'];
 
 function getInitials(isim) {
   if (!isim) return '??';
-  var parts = isim.trim().split(' ');
-  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
-  return isim.substring(0, 2).toUpperCase();
+  var p = isim.trim().split(' ');
+  return p.length >= 2 ? (p[0][0]+p[1][0]).toUpperCase() : isim.substring(0,2).toUpperCase();
 }
-
 function tarihFarki(isoStr) {
   if (!isoStr) return '';
-  var diff = Math.floor((Date.now() - new Date(isoStr)) / 86400000);
-  if (diff === 0) return 'Bugün';
-  if (diff === 1) return 'Dün';
-  return diff + ' gün önce';
+  var d = Math.floor((Date.now()-new Date(isoStr))/86400000);
+  if (d===0) return 'Bugün'; if (d===1) return 'Dün'; return d+' gün önce';
+}
+function getAktifSet(cv, iliski) {
+  var s = cv._aktifSet || 'normal';
+  if (s === 'normal') {
+    var k = cv.kime || iliski || '';
+    if (k==='Bebek') s='bebekler'; else if (k==='Çocuk') s='cocuklar'; else if (k==='Pet') s='petler';
+  }
+  return s;
+}
+function btnler(secenekler, secili, idx, tip) {
+  return secenekler.map(function(s) {
+    var sel = s===secili;
+    return '<button onclick="sec_'+tip+'_'+idx+'(this)" style="background:'+(sel?'#e8a838':'rgba(255,255,255,0.07)')+';color:'+(sel?'#412402':'#e2e8f0')+';border:1px solid '+(sel?'#e8a838':'rgba(255,255,255,0.15)')+';border-radius:8px;padding:7px 11px;font-size:12px;font-weight:'+(sel?'700':'400')+';cursor:pointer;margin:3px 3px 0 0;">'+s+'</button>';
+  }).join('');
 }
 
-function profilYukle() {
-  var nick = document.getElementById('nick-input').value.trim();
-  if (!nick) { document.getElementById('nick-input').focus(); return; }
-  localStorage.setItem('budurBuldumNickname', nick);
-  document.getElementById('nick-adi').textContent = nick;
-  document.getElementById('profil-alani').style.display = 'block';
-  document.getElementById('yukleniyor').style.display = 'block';
-  document.getElementById('kisiler-alani').style.display = 'none';
-  document.getElementById('bos-alani').style.display = 'none';
+/* ── NİCKNAME FONKSİYONLARI ── */
+function nickGirisKaydet() {
+  var nick = document.getElementById('nick-giris-input').value.trim();
+  var hata = document.getElementById('nick-giris-hata');
+  if (!nick) { hata.textContent='Bir takma isim yaz.'; return; }
+  hata.textContent='';
+  var sessionId = localStorage.getItem('budurBuldumSessionId');
+  var cevaplar = {};
+  try { cevaplar=JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}'); } catch(e){}
+  // Session varsa bağla
+  if (sessionId) {
+    fetch('/api/save-profile',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({session_id:sessionId,nickname:nick,kisi_adi:cevaplar.kime||'',tum_cevaplar:cevaplar})
+    }).then(function(r){return r.json();}).then(function(){
+      localStorage.setItem('budurBuldumNickname',nick);
+      gosterNickMerhaba(nick);
+      profilYukle(nick);
+    }).catch(function(){ hata.textContent='Kaydedilemedi, tekrar dene.'; });
+  } else {
+    localStorage.setItem('budurBuldumNickname',nick);
+    gosterNickMerhaba(nick);
+    profilYukle(nick);
+  }
+}
+function nickGirisGec() {
+  document.getElementById('nick-giris-blok').style.display='none';
+  var sessionId = localStorage.getItem('budurBuldumSessionId');
+  if (sessionId) profilYukleSession(sessionId);
+  else { document.getElementById('bos-alani').style.display='block'; }
+}
+function nickDegistir() {
+  localStorage.removeItem('budurBuldumNickname');
+  document.getElementById('nick-merhaba').style.display='none';
+  document.getElementById('kisiler-alani').style.display='none';
+  document.getElementById('bos-alani').style.display='none';
+  document.getElementById('kartlar').innerHTML='';
+  document.getElementById('nick-giris-blok').style.display='block';
+}
+function gosterNickMerhaba(nick) {
+  document.getElementById('nick-giris-blok').style.display='none';
+  document.getElementById('nick-merhaba').style.display='flex';
+  document.getElementById('nick-adi').textContent=nick;
+}
 
-  fetch('/api/get-profile?nickname=' + encodeURIComponent(nick))
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      document.getElementById('yukleniyor').style.display = 'none';
-      var kisiler = data.kisiler || [];
-      if (kisiler.length === 0) {
-        document.getElementById('bos-alani').style.display = 'block';
-        return;
-      }
-      document.getElementById('kisiler-alani').style.display = 'block';
-      document.getElementById('kart-sayisi').textContent = kisiler.length + ' kayıtlı kişi';
-      var kartlarDiv = document.getElementById('kartlar');
-      kartlarDiv.innerHTML = '';
-      kisiler.forEach(function(k, idx) {
-        var isim = k.kisi_adi || k.iliski_durumu || 'Kişi';
-        var renk = AVATAR_RENKLER[idx % AVATAR_RENKLER.length];
-        var kart = document.createElement('div');
-        // tum_cevaplar parse
-        var cv = k.tum_cevaplar || {};
-        if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
-        var butce = k.butce || cv.butce || cv.bebek_butce || cv.cocuk_butce || cv.evcil_butce || cv.kedi_butce || cv.kopek_butce || cv.kus_butce || cv.pet_butce || cv.balik_butce || cv.kucukpet_butce || '—';
-        var amac = cv.amac || cv.cocuk_amac || cv.bebek_amac || cv.pet_amac || cv.kedi_amac || '—';
-        var oncelik = cv.oncelik || '—';
-        var tikSayisi = 0;
-        try { tikSayisi = (JSON.parse(k.tiklanan_hediyeler || '[]')).length; } catch(e) {}
-        var altBilgi = tarihFarki(k.updated_at || k.created_at) + (tikSayisi > 0 ? ' · ' + tikSayisi + ' hediye tıklandı' : '');
-
-        // Amaç seçenekleri set'e göre
-        var aktifSet = cv._aktifSet || 'normal';
-        var kimeVal = cv.kime || k.iliski_durumu || '';
-        if (aktifSet === 'normal') {
-          if (kimeVal === 'Bebek') aktifSet = 'bebekler';
-          else if (kimeVal === 'Çocuk') aktifSet = 'cocuklar';
-          else if (kimeVal === 'Pet') aktifSet = 'petler';
-        }
-        var amacKey = aktifSet === 'bebekler' ? 'bebek_amac' : aktifSet === 'cocuklar' ? 'cocuk_amac' : 'amac';
-        var AMAC_OPT = {
-          normal:   ['Doğum Günü','Yıl Dönümü','Sevgililer Günü','Özel Bir Başarı','Sadece sürpriz','Noel / Yılbaşı'],
-          bebekler: ['Yeni doğdu 🎀','Doğum günü 🎂','Baby shower 🛁','Sünnet 🌙','Sadece sürpriz 🎁'],
-          cocuklar: ['Doğum Günü','Yılbaşı / Bayram','Başarı Ödülü','Sürpriz'],
-          petler:   ['Doğum Günü','Bayram','Sadece sürpriz']
-        };
-        var ONCELIK_OPT = ['Kullanışlı olsun','Güzel görünsün','Özel ve anlamlı olsun','Uygun fiyatlı olsun'];
-
-        function btnler(secenekler, secili, fnAdi) {
-          return secenekler.map(function(s) {
-            var sel = s === secili;
-            return '<button onclick="' + fnAdi + '(this)" style="background:' + (sel?'#e8a838':'rgba(255,255,255,0.07)') + ';color:' + (sel?'#412402':'#e2e8f0') + ';border:1px solid ' + (sel?'#e8a838':'rgba(255,255,255,0.15)') + ';border-radius:8px;padding:7px 11px;font-size:12px;font-weight:' + (sel?'700':'400') + ';cursor:pointer;margin:3px 3px 0 0;">' + s + '</button>';
-          }).join('');
-        }
-
-        kart.className = 'kart';
-        kart.id = 'kart-' + idx;
-        kart.innerHTML =
-          '<div class="kart-header">' +
-            '<div class="avatar" style="background:' + renk.bg + ';color:' + renk.text + ';">' + getInitials(isim) + '</div>' +
-            '<div class="kart-meta">' +
-              '<p class="kart-isim">' + isim + '</p>' +
-              '<p class="kart-alt">' + (k.cinsiyet || '') + (k.yas ? ' · ' + k.yas : '') + '</p>' +
-            '</div>' +
-          '</div>' +
-          '<div class="kart-detaylar">' +
-            '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">' + butce + '</p></div>' +
-            '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val" id="amac-val-' + idx + '">' + amac + '</p></div>' +
-            '<div class="detay" style="grid-column:1/-1;"><p class="detay-label">Öncelik</p><p class="detay-val" id="oncelik-val-' + idx + '">' + oncelik + '</p></div>' +
-          '</div>' +
-          // Düzenleme paneli (gizli)
-          '<div id="dp-' + idx + '" style="display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;">' +
-            '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px;">Amaç</p>' +
-            '<div id="amac-btns-' + idx + '">' + btnler(AMAC_OPT[aktifSet]||AMAC_OPT.normal, amac, 'secA' + idx) + '</div>' +
-            '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:12px 0 6px;">Öncelik</p>' +
-            '<div id="oncelik-btns-' + idx + '">' + btnler(ONCELIK_OPT, oncelik, 'secO' + idx) + '</div>' +
-            '<button onclick="kaydetDP(' + idx + ')" style="width:100%;margin-top:14px;background:#e8a838;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kaydet ✓</button>' +
-            '<button onclick="kapDP(' + idx + ')" style="width:100%;margin-top:6px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:9px;font-size:13px;color:#64748b;cursor:pointer;">İptal</button>' +
-          '</div>' +
-          '<div class="kart-btns" id="kb-' + idx + '" style="margin-top:12px;">' +
-            '<button class="btn-hediye" onclick="yeniHediye(' + idx + ')">Yeni hediye bul</button>' +
-            '<button class="btn-guncelle" onclick="acDP(' + idx + ')">✏️ Düzenle</button>' +
-          '</div>' +
-          '<button onclick="kartSil(' + idx + ')" style="width:100%;margin-top:8px;background:transparent;border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:8px;font-size:12px;color:#ef4444;cursor:pointer;">🗑️ Bu kişiyi sil</button>' +
-          '<p style="font-size:11px;color:#64748b;margin-top:10px;">🕐 ' + altBilgi + '</p>';
-
-        // Seçim fonksiyonlarını dinamik oluştur
-        window['secA' + idx] = function(btn) {
-          btn.parentNode.querySelectorAll('button').forEach(function(b) { b.style.background='rgba(255,255,255,0.07)';b.style.color='#e2e8f0';b.style.fontWeight='400';b.style.borderColor='rgba(255,255,255,0.15)'; });
-          btn.style.background='#e8a838';btn.style.color='#412402';btn.style.fontWeight='700';btn.style.borderColor='#e8a838';
-          window._kisiler[idx]._ea = btn.textContent;
-          window._kisiler[idx]._eaKey = amacKey;
-        };
-        window['secO' + idx] = function(btn) {
-          btn.parentNode.querySelectorAll('button').forEach(function(b) { b.style.background='rgba(255,255,255,0.07)';b.style.color='#e2e8f0';b.style.fontWeight='400';b.style.borderColor='rgba(255,255,255,0.15)'; });
-          btn.style.background='#e8a838';btn.style.color='#412402';btn.style.fontWeight='700';btn.style.borderColor='#e8a838';
-          window._kisiler[idx]._eo = btn.textContent;
-        };
-
-        kartlarDiv.appendChild(kart);
-      });
-      window._kisiler = kisiler;
+/* ── PROFİL YÜKLEME — nickname ile ── */
+function profilYukle(nick) {
+  document.getElementById('yukleniyor').style.display='block';
+  document.getElementById('kisiler-alani').style.display='none';
+  document.getElementById('bos-alani').style.display='none';
+  fetch('/api/get-profile?nickname='+encodeURIComponent(nick))
+    .then(function(r){return r.json();})
+    .then(function(data){
+      document.getElementById('yukleniyor').style.display='none';
+      var kisiler = data.kisiler||[];
+      if (kisiler.length===0) { document.getElementById('bos-alani').style.display='block'; return; }
+      renderKartlar(kisiler);
     })
-    .catch(function() {
-      document.getElementById('yukleniyor').style.display = 'none';
-      document.getElementById('bos-alani').style.display = 'block';
+    .catch(function(){
+      document.getElementById('yukleniyor').style.display='none';
+      document.getElementById('bos-alani').style.display='block';
     });
 }
 
-function hesapSil() {
-  if (!confirm('Tüm kayıtların silinecek ve hesabın kapanacak. Emin misin?')) return;
-  var nick = localStorage.getItem('budurBuldumNickname');
-  fetch('/api/delete-account', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ nickname: nick }) })
-    .then(function() {
-      localStorage.removeItem('budurBuldumNickname');
-      localStorage.removeItem('budurBuldumCevaplar');
-      localStorage.removeItem('budurBuldumSessionId');
-      localStorage.removeItem('budurBuldumGender');
-      localStorage.removeItem('budurBuldumAge');
-      localStorage.removeItem('budurBuldumAktifSet');
-      localStorage.removeItem('budurBuldumSelectedCriteria');
-      localStorage.removeItem('budurBuldumKisiAdi');
-      window.location.href = 'index.html';
-    }).catch(function() { alert('Silinemedi, tekrar dene.'); });
+/* ── PROFİL YÜKLEME — session ile (nickname yok) ── */
+function profilYukleSession(sessionId) {
+  document.getElementById('yukleniyor').style.display='block';
+  var cevaplar={};
+  try { cevaplar=JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}'); } catch(e){}
+  document.getElementById('yukleniyor').style.display='none';
+  if (Object.keys(cevaplar).length===0) {
+    document.getElementById('bos-alani').style.display='block'; return;
+  }
+  var isim = cevaplar.kime||'Son Araman';
+  var butce = cevaplar.butce||'—';
+  var amac = cevaplar.amac||cevaplar.bebek_amac||cevaplar.cocuk_amac||'—';
+  var renk = AVATAR_RENKLER[0];
+  var kisiler = [{session_id:sessionId,tum_cevaplar:cevaplar,kisi_adi:isim,butce:butce,cinsiyet:cevaplar.cinsiyet||'',yas:cevaplar.yas||''}];
+  renderKartlar(kisiler);
 }
-function kartSil(idx) {
-  if (!confirm('Bu kişiyi silmek istediğinden emin misin?')) return;
-  var k = window._kisiler[idx];
-  var nick = localStorage.getItem('budurBuldumNickname');
-  fetch('/api/delete-profile', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ session_id: k.session_id, nickname: nick }) })
-    .then(function() {
-      document.getElementById('kart-' + idx).remove();
-      window._kisiler.splice(idx, 1);
-      var sayac = document.getElementById('kart-sayisi');
-      if (sayac) sayac.textContent = window._kisiler.length + ' kayıtlı kişi';
-    }).catch(function() { alert('Silinemedi, tekrar dene.'); });
+
+/* ── KART RENDER ── */
+function renderKartlar(kisiler) {
+  window._kisiler = kisiler;
+  var alan = document.getElementById('kisiler-alani');
+  alan.style.display='block';
+  document.getElementById('kart-sayisi').textContent = kisiler.length + ' kayıtlı kişi';
+  var div = document.getElementById('kartlar');
+  div.innerHTML='';
+  kisiler.forEach(function(k,idx){
+    var isim = k.kisi_adi||k.iliski_durumu||'Kişi';
+    var renk = AVATAR_RENKLER[idx%AVATAR_RENKLER.length];
+    var cv = k.tum_cevaplar||{};
+    if (typeof cv==='string'){try{cv=JSON.parse(cv);}catch(e){cv={};}}
+    var aktifSet = getAktifSet(cv, k.iliski_durumu);
+    var amacKey = aktifSet==='bebekler'?'bebek_amac':aktifSet==='cocuklar'?'cocuk_amac':'amac';
+    var butce = k.butce||cv.butce||cv.bebek_butce||cv.cocuk_butce||'—';
+    var amac = cv[amacKey]||cv.amac||'—';
+    var oncelik = cv.oncelik||'—';
+    var tikSayisi=0;
+    try{tikSayisi=(JSON.parse(k.tiklanan_hediyeler||'[]')).length;}catch(e){}
+    var altBilgi = tarihFarki(k.updated_at||k.created_at)+(tikSayisi>0?' · '+tikSayisi+' hediye tıklandı':'');
+
+    // Seçim fonksiyonları
+    window['sec_amac_'+idx]=function(btn){
+      btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.background='rgba(255,255,255,0.07)';b.style.color='#e2e8f0';b.style.fontWeight='400';b.style.borderColor='rgba(255,255,255,0.15)';});
+      btn.style.background='#e8a838';btn.style.color='#412402';btn.style.fontWeight='700';btn.style.borderColor='#e8a838';
+      window._kisiler[idx]._ea=btn.textContent;window._kisiler[idx]._eaKey=amacKey;
+    };
+    window['sec_oncelik_'+idx]=function(btn){
+      btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.background='rgba(255,255,255,0.07)';b.style.color='#e2e8f0';b.style.fontWeight='400';b.style.borderColor='rgba(255,255,255,0.15)';});
+      btn.style.background='#e8a838';btn.style.color='#412402';btn.style.fontWeight='700';btn.style.borderColor='#e8a838';
+      window._kisiler[idx]._eo=btn.textContent;
+    };
+
+    var el=document.createElement('div');
+    el.className='kart'; el.id='kart-'+idx;
+    el.innerHTML=
+      '<div class="kart-header">'+
+        '<div class="avatar" style="background:'+renk.bg+';color:'+renk.text+';">'+getInitials(isim)+'</div>'+
+        '<div class="kart-meta">'+
+          '<p class="kart-isim">'+isim+'</p>'+
+          '<p class="kart-alt">'+(k.cinsiyet||'')+(k.yas?' · '+k.yas:'')+'</p>'+
+        '</div>'+
+      '</div>'+
+      '<div class="kart-detaylar">'+
+        '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">'+butce+'</p></div>'+
+        '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val" id="amac-val-'+idx+'">'+amac+'</p></div>'+
+        '<div class="detay" style="grid-column:1/-1;"><p class="detay-label">Öncelik</p><p class="detay-val" id="oncelik-val-'+idx+'">'+oncelik+'</p></div>'+
+      '</div>'+
+      '<div class="dp" id="dp-'+idx+'">'+
+        '<p class="dp-label">Amaç</p>'+
+        '<div>'+btnler(AMAC_OPT[aktifSet]||AMAC_OPT.normal,amac,idx,'amac')+'</div>'+
+        '<p class="dp-label dp-margin">Öncelik</p>'+
+        '<div>'+btnler(ONCELIK_OPT,oncelik,idx,'oncelik')+'</div>'+
+        '<button onclick="kaydetDP('+idx+')" style="width:100%;margin-top:14px;background:#e8a838;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kaydet ✓</button>'+
+        '<button onclick="kapDP('+idx+')" style="width:100%;margin-top:6px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:9px;font-size:13px;color:#64748b;cursor:pointer;">İptal</button>'+
+      '</div>'+
+      '<div class="kart-btns" id="kb-'+idx+'" style="margin-top:12px;">'+
+        '<button class="btn-hediye" onclick="yeniHediye('+idx+')">Yeni hediye bul</button>'+
+        '<button class="btn-guncelle" onclick="acDP('+idx+')">✏️ Düzenle</button>'+
+      '</div>'+
+      '<button onclick="kartSil('+idx+')" style="width:100%;margin-top:8px;background:transparent;border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:8px;font-size:12px;color:#ef4444;cursor:pointer;">🗑️ Bu kişiyi sil</button>'+
+      '<p style="font-size:11px;color:#64748b;margin-top:10px;">🕐 '+altBilgi+'</p>';
+    div.appendChild(el);
+  });
 }
-function acDP(idx) {
-  document.getElementById('dp-'+idx).style.display='block';
-  document.getElementById('kb-'+idx).style.display='none';
-}
-function kapDP(idx) {
-  document.getElementById('dp-'+idx).style.display='none';
-  document.getElementById('kb-'+idx).style.display='grid';
-}
-function kaydetDP(idx) {
-  var k = window._kisiler[idx];
-  var cv = k.tum_cevaplar || {};
-  if (typeof cv === 'string') { try { cv=JSON.parse(cv); } catch(e) { cv={}; } }
-  var amacDegisti = k._ea && k._ea !== (cv[k._eaKey||'amac']);
-  if (k._ea) { cv[k._eaKey||'amac']=k._ea; document.getElementById('amac-val-'+idx).textContent=k._ea; }
-  if (k._eo) { cv.oncelik=k._eo; document.getElementById('oncelik-val-'+idx).textContent=k._eo; }
+
+/* ── DP (Düzenleme Paneli) ── */
+function acDP(idx){ document.getElementById('dp-'+idx).style.display='block'; document.getElementById('kb-'+idx).style.display='none'; }
+function kapDP(idx){ document.getElementById('dp-'+idx).style.display='none'; document.getElementById('kb-'+idx).style.display='grid'; }
+function kaydetDP(idx){
+  var k=window._kisiler[idx];
+  var cv=k.tum_cevaplar||{};
+  if(typeof cv==='string'){try{cv=JSON.parse(cv);}catch(e){cv={};}}
+  var amacDegisti=k._ea&&k._ea!==(cv[k._eaKey||'amac']);
+  if(k._ea){cv[k._eaKey||'amac']=k._ea;document.getElementById('amac-val-'+idx).textContent=k._ea;}
+  if(k._eo){cv.oncelik=k._eo;document.getElementById('oncelik-val-'+idx).textContent=k._eo;}
   k.tum_cevaplar=cv;
   var nick=localStorage.getItem('budurBuldumNickname');
-  // Amaç değiştiyse yeni session aç (yeni kart oluşur)
-  var sessionId = amacDegisti
-    ? ('sess_' + Date.now() + '_' + Math.random().toString(36).substr(2,9))
-    : k.session_id;
-  if (amacDegisti) {
-    localStorage.setItem('budurBuldumSessionId', sessionId);
-    k.session_id = sessionId;
-  }
-  fetch('/api/save-profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,nickname:nick,kisi_adi:k.kisi_adi||'',tum_cevaplar:cv})})
-    .then(function(){kapDP(idx);}).catch(function(){kapDP(idx);});
+  var sessionId=amacDegisti?('sess_'+Date.now()+'_'+Math.random().toString(36).substr(2,9)):k.session_id;
+  if(amacDegisti){localStorage.setItem('budurBuldumSessionId',sessionId);k.session_id=sessionId;}
+  fetch('/api/save-profile',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({session_id:sessionId,nickname:nick||'',kisi_adi:k.kisi_adi||'',tum_cevaplar:cv})
+  }).then(function(){kapDP(idx);}).catch(function(){kapDP(idx);});
 }
-function profilStateYukle(k) {
-  if (!k) return;
-  var cv = k.tum_cevaplar || {};
-  localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
 
-  // cinsiyet ve yaş
-  if (k.cinsiyet) localStorage.setItem('budurBuldumGender', k.cinsiyet);
-  if (k.yas) localStorage.setItem('budurBuldumAge', k.yas);
+/* ── SİLME ── */
+function hesapSil(){
+  if(!confirm('Tüm kayıtların silinecek. Emin misin?'))return;
+  var nick=localStorage.getItem('budurBuldumNickname');
+  fetch('/api/delete-account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nickname:nick})})
+    .then(function(){
+      ['budurBuldumNickname','budurBuldumCevaplar','budurBuldumSessionId','budurBuldumGender','budurBuldumAge','budurBuldumAktifSet','budurBuldumSelectedCriteria','budurBuldumKisiAdi'].forEach(function(k){localStorage.removeItem(k);});
+      window.location.href='index.html';
+    }).catch(function(){alert('Silinemedi, tekrar dene.');});
+}
+function kartSil(idx){
+  if(!confirm('Bu kişiyi silmek istediğinden emin misin?'))return;
+  var k=window._kisiler[idx];
+  var nick=localStorage.getItem('budurBuldumNickname');
+  fetch('/api/delete-profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:k.session_id,nickname:nick||''})})
+    .then(function(){
+      document.getElementById('kart-'+idx).remove();
+      window._kisiler.splice(idx,1);
+      var s=document.getElementById('kart-sayisi');
+      if(s)s.textContent=window._kisiler.length+' kayıtlı kişi';
+    }).catch(function(){alert('Silinemedi.');});
+}
 
-  // aktifSet — kaydedilmişse onu kullan, yoksa kime'den türet
-  var aktifSet = cv._aktifSet || 'normal';
-  if (aktifSet === 'normal') {
-    var kime = cv.kime || k.iliski_durumu || '';
-    if (kime === 'Bebek') aktifSet = 'bebekler';
-    else if (kime === 'Çocuk') aktifSet = 'cocuklar';
-    else if (kime === 'Pet') aktifSet = 'petler';
-  }
-  localStorage.setItem('budurBuldumAktifSet', aktifSet);
-
-  // selectedCriteria — kaydedilmişse kullan, yoksa boş bırak (ozet'te yeniden seçilir)
-  var criteria = cv._selectedCriteria || [];
-  localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(criteria));
-
-  // Diğer state'ler
+/* ── HEDİYE / GÜNCELLE ── */
+function profilStateYukle(k){
+  var cv=k.tum_cevaplar||{};
+  localStorage.setItem('budurBuldumCevaplar',JSON.stringify(cv));
+  if(k.cinsiyet)localStorage.setItem('budurBuldumGender',k.cinsiyet);
+  if(k.yas)localStorage.setItem('budurBuldumAge',k.yas);
+  var aktifSet=getAktifSet(cv,k.iliski_durumu);
+  localStorage.setItem('budurBuldumAktifSet',aktifSet);
+  var criteria=cv._selectedCriteria||[];
+  localStorage.setItem('budurBuldumSelectedCriteria',JSON.stringify(criteria));
   localStorage.removeItem('budurBuldumSecilenBurc');
   localStorage.removeItem('budurBuldumButceEsnek');
   localStorage.removeItem('budurBuldumTiklananHediyeler');
 }
+function yeniHediye(idx){ profilStateYukle(window._kisiler[idx]); window.location.href='ozet.html'; }
 
-function yeniHediye(idx) {
-  var k = window._kisiler[idx];
-  profilStateYukle(k);
-  window.location.href = 'ozet.html';
-}
+/* ── SAYFA AÇILIŞ ── */
+window.onload=function(){
+  var nick=localStorage.getItem('budurBuldumNickname');
+  var sessionId=localStorage.getItem('budurBuldumSessionId');
 
-function guncelle(idx) {
-  var k = window._kisiler[idx];
-  profilStateYukle(k);
-  window.location.href = 'ozet.html';
-}
+  // İkisi de yoksa → index'e
+  if(!nick&&!sessionId){ window.location.href='index.html'; return; }
 
-function nikDegistir() {
-  localStorage.removeItem('budurBuldumNickname');
-  document.getElementById('nick-input').value = '';
-  document.getElementById('profil-alani').style.display = 'none';
-}
-
-// Sayfa açılırken kayıtlı nick varsa otomatik yükle
-function nickSec() {
-  var nick = document.getElementById('nick-sec-input').value.trim();
-  var hata = document.getElementById('nick-sec-hata');
-  if (!nick) { hata.textContent = 'Bir takma isim yaz.'; return; }
-  var sessionId = localStorage.getItem('budurBuldumSessionId');
-  var cevaplar = {};
-  try { cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
-  fetch('/api/save-profile', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ session_id: sessionId, nickname: nick, kisi_adi: cevaplar.kime || '', tum_cevaplar: cevaplar })
-  }).then(function(r) { return r.json(); })
-  .then(function() {
-    localStorage.setItem('budurBuldumNickname', nick);
-    document.getElementById('nick-sec-kutu').style.display = 'none';
-    document.getElementById('nick-merhaba').style.display = 'block';
-    document.getElementById('nick-adi').textContent = nick;
-    document.getElementById('nick-input').value = nick;
-  }).catch(function() { hata.textContent = 'Kaydedilemedi, tekrar dene.'; });
-}
-
-function profilYukleSession(sessionId) {
-  // Session ID ile tek kaydı getir
-  document.getElementById('yukleniyor').style.display = 'block';
-  fetch('/api/log-quiz', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ session_id: sessionId, cinsiyet: '', yas: '', iliski_durumu: '', butce: '', ilgi_alanlari: '', ozel_not: '' })
-  }).catch(function(){});
-  // localStorage'daki cevapları kartlara dök
-  var cevaplar = {};
-  try { cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
-  document.getElementById('yukleniyor').style.display = 'none';
-  if (Object.keys(cevaplar).length === 0) {
-    document.getElementById('bos-alani').style.display = 'block';
-    return;
-  }
-  var isim = cevaplar.kime || 'Son Araman';
-  var butce = cevaplar.butce || '—';
-  var amac = cevaplar.amac || '—';
-  document.getElementById('kisiler-alani').style.display = 'block';
-  document.getElementById('kart-sayisi').textContent = '1 kayıtlı arama';
-  var kartlarDiv = document.getElementById('kartlar');
-  var renk = {bg:'#FBEAF0',text:'#993556'};
-  var initials = isim.substring(0,2).toUpperCase();
-  var kart = document.createElement('div');
-  kart.className = 'kart';
-  kart.innerHTML =
-    '<div class="kart-header">' +
-      '<div class="avatar" style="background:' + renk.bg + ';color:' + renk.text + ';">' + initials + '</div>' +
-      '<div class="kart-meta"><p class="kart-isim">' + isim + '</p><p class="kart-alt">' + (cevaplar.cinsiyet||'') + (cevaplar.yas?' · '+cevaplar.yas:'') + '</p></div>' +
-    '</div>' +
-    '<div class="kart-detaylar">' +
-      '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">' + butce + '</p></div>' +
-      '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val">' + amac + '</p></div>' +
-    '</div>' +
-    '<div class="kart-btns" style="margin-top:12px;">' +
-      '<button class="btn-hediye" onclick="window.location.href='ozet.html'">Yeni hediye bul</button>' +
-      '<button class="btn-guncelle" onclick="window.location.href='ozet.html'">✏️ Düzenle</button>' +
-    '</div>';
-  kartlarDiv.appendChild(kart);
-  window._kisiler = [{ session_id: sessionId, tum_cevaplar: cevaplar, kisi_adi: isim, butce: butce }];
-}
-
-window.onload = function() {
-  var saved = localStorage.getItem('budurBuldumNickname');
-  var sessionId = localStorage.getItem('budurBuldumSessionId');
-  if (!saved && !sessionId) { window.location.href = 'index.html'; return; }
-
-  if (!saved) {
-    // Nickname yok ama session var — takma isim kutusunu göster
-    document.getElementById('nick-sec-kutu').style.display = 'block';
-    document.getElementById('nick-merhaba').style.display = 'none';
-    // Session ile profil yükle
-    profilYukleSession(sessionId);
+  if(nick){
+    // Nickname var → merhaba göster, profil yükle
+    gosterNickMerhaba(nick);
+    profilYukle(nick);
   } else {
-    document.getElementById('nick-input').value = saved;
-    document.getElementById('nick-adi').textContent = saved;
-    profilYukle();
+    // Nickname yok, session var → giriş kutusunu göster + altına session kartı
+    document.getElementById('nick-giris-blok').style.display='block';
+    profilYukleSession(sessionId);
   }
 
-  // URL'de ?session=xxx varsa index.html'den kart tıklamasıyla gelindi
-  var urlParams = new URLSearchParams(window.location.search);
-  var hedefSession = urlParams.get('session');
-  if (hedefSession && saved) {
-    var bekle = setInterval(function() {
-      if (window._kisiler) {
+  // URL'de ?session=xxx varsa kartı vurgula
+  var hedefSession=new URLSearchParams(window.location.search).get('session');
+  if(hedefSession&&nick){
+    var bekle=setInterval(function(){
+      if(window._kisiler){
         clearInterval(bekle);
-        var idx = -1;
-        for (var i=0; i<window._kisiler.length; i++) {
-          if (window._kisiler[i].session_id === hedefSession) { idx = i; break; }
-        }
-        if (idx >= 0) {
-          var kartlar = document.querySelectorAll('.kart');
-          if (kartlar[idx]) {
-            kartlar[idx].style.border = '2px solid #e8a838';
-            kartlar[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        for(var i=0;i<window._kisiler.length;i++){
+          if(window._kisiler[i].session_id===hedefSession){
+            var el=document.getElementById('kart-'+i);
+            if(el){el.style.border='2px solid #e8a838';el.scrollIntoView({behavior:'smooth',block:'center'});}
+            break;
           }
         }
       }
-    }, 200);
-    setTimeout(function() { clearInterval(bekle); }, 5000);
+    },200);
+    setTimeout(function(){clearInterval(bekle);},5000);
   }
 };
 </script>
