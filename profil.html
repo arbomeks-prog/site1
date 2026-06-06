@@ -91,7 +91,7 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
   <!-- DURUM 2: Nickname var — merhaba satırı -->
   <div id="nick-merhaba" style="display:none;">
     <p class="merhaba-sol">👋 Merhaba, <span id="nick-adi"></span>!</p>
-    <button class="btn-degistir" onclick="nickDegistir()">Değiştir</button>
+    <button class="btn-degistir" onclick="nickDegistirOnayla()" title="Farklı bir hesaba geçmek için — mevcut kayıtların silinmez">Hesabı Değiştir</button>
   </div>
 
   <!-- Profil içeriği -->
@@ -205,6 +205,10 @@ function nickGirisGec() {
   var sessionId = localStorage.getItem('budurBuldumSessionId');
   if (sessionId) profilYukleSession(sessionId);
   else { document.getElementById('bos-alani').style.display='block'; }
+}
+function nickDegistirOnayla() {
+  if (!confirm('Farklı bir hesaba geçmek istiyorsun.\n\nMevcut kayıtların silinmez — tekrar aynı takma isimle girince geri gelir.\n\nDevam etmek istiyor musun?')) return;
+  nickDegistir();
 }
 function nickDegistir() {
   localStorage.removeItem('budurBuldumNickname');
