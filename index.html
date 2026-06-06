@@ -335,22 +335,22 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
       var kart = document.createElement('div');
 
       if (a.tamamlandi) {
-        kart.style.cssText = 'flex-shrink:0;width:140px;background:rgba(232,168,56,0.08);border:1.5px solid rgba(232,168,56,0.5);border-radius:12px;padding:10px;cursor:pointer;';
+        kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #e8a838;border-radius:12px;padding:12px;cursor:pointer;';
         kart.innerHTML =
-          '<div style="width:32px;height:32px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:'+renk.text+';margin-bottom:6px;">'+initials+'</div>'+
-          '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">'+(a.kime||'—')+'</p>'+
-          '<p style="font-size:10px;color:rgba(255,255,255,0.6);margin:0 0 1px;">'+(a.amac||'')+'</p>'+
-          '<p style="font-size:10px;color:#e8a838;margin:0 0 8px;">'+(a.butce||'')+'</p>'+
-          '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>'+
-          '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:5px;font-size:10px;color:#ef4444;cursor:pointer;">Sil</button>';
+          '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+          '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+'</p>'+
+          '<p style="font-size:12px;color:#e2e8f0;margin:0 0 2px;">'+(a.amac||'')+'</p>'+
+          '<p style="font-size:12px;color:#e8a838;font-weight:700;margin:0 0 10px;">'+(a.butce||'')+'</p>'+
+          '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Yeni hediye</button>'+
+          '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
       } else {
-        kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:10px;cursor:pointer;';
+        kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #475569;border-radius:12px;padding:12px;cursor:pointer;';
         kart.innerHTML =
-          '<div style="width:32px;height:32px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:'+renk.text+';margin-bottom:6px;">'+initials+'</div>'+
-          '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">'+(a.kime||'—')+'</p>'+
-          '<p style="font-size:10px;color:#475569;margin:0 0 8px;">Yarım kaldı</p>'+
-          '<div style="background:#e2e8f0;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#1e293b;text-align:center;">Devam Et →</div>'+
-          '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:5px;font-size:10px;color:#ef4444;cursor:pointer;">Sil</button>';
+          '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+          '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+'</p>'+
+          '<p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Yarım kaldı</p>'+
+          '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Devam Et →</button>'+
+          '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
       }
       kart.onclick = (function(ayrac, kartEl) { return function(e) {
         if (e.target.classList.contains('ayrac-sil')) {
