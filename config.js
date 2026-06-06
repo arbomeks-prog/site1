@@ -230,96 +230,6 @@ const QUIZ_CONFIG = {
         'Balık':   'hayalci, sanatci ruhlu, empatik, spirituel; sanat, müzik, meditasyon, yaratıcı & romantik',
     },
 
-    // ==========================================
-    // ESPRİ NOTLARI (Kendime seçildiğinde)
-    // ==========================================
-    espriNotlari: {
-        // Kendime
-        kendime: {
-            yas:       "Sormak ayıp ama sormadan da olmaz 😅",
-            hobiler:   "Kendine karşı dürüst ol 😄",
-            tarz:      "Aynaya bak, tarzın ne? 🪞",
-            butce:     "Kendine de mi kıyamıyorsun? 😁",
-            amac:      "Bu sefer bahane yok, sadece sen varsın 🎁",
-            mevsim:    "En sevdiğin mevsim, en iyi hediye ipucu! 🌸",
-            teknoloji: "Teknoloji meraklısı mısın yoksa 'telefonum yeter' mi? 😄",
-            kahve:     "Kahve mi çay mı — hayatın en zor sorusu 😂",
-            spor:      "Spor yapıyorum diyip kanepeye uzanma modun kaç? 😂",
-            film:      "Kendi film zevkini bilmemek mümkün mü? 🎬",
-            kitap:     "Okuyorum ama bitiremiyorum değil mi? 📚",
-            muzik:     "Duş'ta hangi türü söylüyorsun? 🚿🎵",
-        },
-        // Sevgili
-        sevgili: {
-            yas:       "Yıllardır birlikteyken hâlâ sormak zorunda mısın? 😄",
-            hobiler:   "Sevgilinin hobisini bilmiyorsan biraz düşün... 🤔",
-            tarz:      "Her gün görüyorsun, tarzını bilmiyorsan sorun sende 😅",
-            butce:     "Sevgiliye bütçe kısıyorsan dikkat et! 😂",
-            amac:      "Yıl dönümünü unuttuysan doğrudan hediyeye geç 🎁",
-            mevsim:    "Sevgilinle hangi mevsimde daha çok vakit geçirdiniz? 🌸",
-            teknoloji: "Telefonu elinden düşürmüyor mu zaten? 📱",
-            kahve:     "Kahvesini bile bilmiyor musun? 😄",
-            spor:      "Birlikte spor yapmayı hiç denediniz mi? 🏃",
-            film:      "Netflix'te ne izleyeceğinize karar vermek kaç saat alıyor? 😂",
-            kitap:     "Kitap okurken rahatsız etme diyor mu sana? 📚",
-            muzik:     "Araçta müzik seçimi hep kavga konusu mu? 🎵",
-        },
-        // Anne
-        anne: {
-            yas:       "Annenin yaşını sormak... cesur adamsın 😄",
-            hobiler:   "Annen senin için neler yapıyor, sen onun hobisini biliyor musun? 💕",
-            tarz:      "Annen seni giydirirdi, şimdi sen onu düşün 👗",
-            butce:     "Annen için bütçe mi? Utanmıyor musun! 😄",
-            amac:      "Her gün anneler günü olsa az gelir 💐",
-            mevsim:    "Annen en çok hangi mevsimde mutlu olur? 🌸",
-            teknoloji: "Annen telefon kullanıyor mu yoksa sen mi kuruyorsun? 😄",
-            kahve:     "Annenin çayını nasıl sevdiğini bilmeli mısın? ☕",
-        },
-        // Baba
-        baba: {
-            yas:       "Babanın yaşını bilmek zorundasın aslında 😄",
-            hobiler:   "Baban ne yapar boş vakitlerde? Gerçekten biliyor musun? 🤔",
-            tarz:      "Babanın tarzı 'rahat' değil mi zaten? 😄",
-            butce:     "Baban için de bütçe mi? 'Olmaz öyle şey' diyor olmalı 😄",
-            amac:      "Babalara her zaman hediye alınır, bahane şart değil 🎁",
-            mevsim:    "Babanla en güzel hangi mevsimde vakit geçirdin? 🍂",
-            teknoloji: "Baban telefon kullanıyor mu yoksa hâlâ tuşlu mu? 😄",
-            kahve:     "Babanın kahvesini kaç şeker yapar? ☕",
-        },
-        // Arkadaş
-        arkadas: {
-            yas:       "Arkadaşının yaşını bilmiyorsan iyi arkadaş sayılmazsın 😄",
-            hobiler:   "Arkadaşın ne sever? Hep kendinizden mi konuştunuz? 😂",
-            tarz:      "Arkadaşının tarzını bilmek için bakmak yeter 👀",
-            butce:     "Arkadaşa bütçe kısmak dostluğa zarar verir 😄",
-            amac:      "Sebebsiz hediye en güzel hediyedir 🎁",
-            mevsim:    "Arkadaşınla en çok hangi mevsimde takılıyorsunuz? ☀️",
-            teknoloji: "Arkadaşın teknoloji meraklısı mı yoksa 'bunu nasıl kullanıyorum' tipi mi? 😄",
-            kahve:     "Kafelerde ne içer hep? Bilmeli misin? ☕",
-        },
-        // İş arkadaşı
-        is_arkadasi: {
-            yas:       "İş arkadaşına yaşını sormak biraz riskli 😄",
-            hobiler:   "Ofisten dışarı çıkınca ne yaptığını biliyor musun? 🤔",
-            tarz:      "Takım elbise mi casual mı? Ofiste gördün zaten 😄",
-            butce:     "Maaşını biliyorsun, bütçeni ona göre ayarla 😄",
-            amac:      "Ofis hediyesi = herkesin göreceği hediye, dikkatli ol 🎁",
-            mevsim:    "Tatilini hangi mevsimde alır? 🌴",
-            teknoloji: "Bilgisayarını en çok kim kullanan o 😄",
-            kahve:     "Sabah kahvesi olmadan çalışamıyor mu? ☕",
-        },
-        // Kardeş
-        kardes: {
-            yas:       "Kardeşinin yaşını bilmiyorsan... 😶",
-            hobiler:   "Evi paylaştıysanız hobisini çok iyi biliyorsundur 😄",
-            tarz:      "Giysilerini çalıyorsa tarzını biliyorsundur 😂",
-            butce:     "Kardeşe bütçe kısmak kardeşliğe yakışmaz 😄",
-            amac:      "Kardeşler arası hediye: borç değil sevgi 💕",
-            mevsim:    "Hangi mevsimde daha az kavga ediyorsunuz? 😄",
-            teknoloji: "Teknoloji konusunda kim kime soruyor? 📱",
-            kahve:     "Sabah kahvesini bilen kardeş iyi kardeştir ☕",
-        },
-    },
 };
 
 // ============================================================
@@ -657,25 +567,6 @@ const QuizHelper = {
         }
     },
 
-    // Espri notu al
-    getEspriNotu: function(soruId) {
-        const cevaplar = this.getCevaplar();
-        const kime = (cevaplar.kime || '').toLowerCase();
-        const notlar = QUIZ_CONFIG.espriNotlari;
-
-        // Kime'ye göre espri grubunu belirle
-        let grup = null;
-        if (kime === 'kendime')         grup = notlar.kendime;
-        else if (kime === 'sevgili')    grup = notlar.sevgili;
-        else if (kime === 'anne')       grup = notlar.anne;
-        else if (kime === 'baba')       grup = notlar.baba;
-        else if (kime === 'arkadaş')    grup = notlar.arkadas;
-        else if (kime === 'iş arkadaşı') grup = notlar.is_arkadasi;
-        else if (kime === 'kardeş')     grup = notlar.kardes;
-
-        if (grup && grup[soruId]) return grup[soruId];
-        return '';
-    },
 
     // Zorunlu soru mu?
     isZorunlu: function(soruId) {
