@@ -103,135 +103,46 @@
 <div class="page-wrapper">
 
 <!-- ÜST ŞERİT -->
-<div style="background:rgba(15,23,42,0.98);border-bottom:1px solid rgba(255,255,255,0.08);padding:10px 16px;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;">
-    <a href="iletisim.html" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Mail</a>
-    <a href="#" style="display:flex;align-items:center;gap:6px;text-decoration:none;">
-        <div style="width:28px;height:28px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;">🎁</div>
-        <span style="font-family:Georgia,serif;font-size:16px;font-weight:900;color:#fff;">budur<span style="color:#e8a838;">buldum</span></span>
+<div style="background:rgba(15,23,42,0.98);border-bottom:1px solid rgba(255,255,255,0.08);padding:14px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+    <a href="#" style="display:flex;align-items:center;gap:9px;text-decoration:none;">
+        <div style="width:34px;height:34px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;">🎁</div>
+        <span style="font-family:Georgia,serif;font-size:18px;font-weight:900;color:#fff;">budur<span style="color:#e8a838;">buldum</span></span>
     </a>
-    <a href="biz-kimiz.html" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Biz Kimiz?</a>
-</div>
-
-
-<!-- TAKMAİSİM BÖLÜMÜ -->
-<div id="auth-section" style="background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:4px 16px;">
-
-  <!-- Daha önce kaydolduysa: profil kartları -->
-  <div id="auth-profil" style="display:none;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><p style="font-size:15px;font-weight:700;color:#fff;margin:0;">Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;"></span>! 👋</p><button onclick="nickDegistirIndex()" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Değiştir</button></div>
-    <p style="font-size:12px;color:#94a3b8;margin:0 0 14px;">Kayıtlı kişilerin için hemen hediye aramaya başla.</p>
-    <div id="profil-kartlar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;"></div>
-    <button onclick="document.getElementById('auth-section').style.display='none'" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;color:#94a3b8;font-size:13px;cursor:pointer;">Farklı bir kişi için quiz başlat ↓</button>
-  </div>
-
-  <!-- İlk kez geliyorsa veya profil yoksa -->
-  <div id="auth-yeni">
-    <div style="display:flex;gap:6px;">
-      <input id="nick-tek-input" type="text" placeholder="Takma ismini yaz..." style="flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:0 10px;color:#fff;font-size:13px;outline:none;height:32px;box-sizing:border-box;" />
-      <button onclick="nickTekGiris()" style="background:#e8a838;border:none;border-radius:6px;padding:0 12px;color:#412402;font-size:13px;font-weight:700;cursor:pointer;height:32px;white-space:nowrap;">Devam →</button>
+    <div style="display:flex;flex-direction:row;gap:10px;">
+        <a href="iletisim.html" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Mail</a>
+        <a href="#" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Adres</a>
+        <a href="tel:+902121234567" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Telefon</a>
+        <a href="biz-kimiz.html" style="background:#1a73e8;color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:7px 18px;border-radius:50px;white-space:nowrap;">Biz Kimiz?</a>
     </div>
-    <p id="nick-hata" style="font-size:11px;color:#f87171;margin:2px 0 0;"></p>
-  </div>
 </div>
 
-<script>
-(function() {
-  var savedNick = localStorage.getItem('budurBuldumNickname');
-  if (savedNick) {
-    document.getElementById('auth-yeni').style.display = 'none';
-    document.getElementById('auth-profil').style.display = 'block';
-    document.getElementById('nick-goster').textContent = savedNick;
-    fetch('/api/get-profile?nickname=' + encodeURIComponent(savedNick))
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var kartlar = document.getElementById('profil-kartlar');
-        if (!data.kisiler || data.kisiler.length === 0) {
-          kartlar.innerHTML = '<p style="font-size:13px;color:#94a3b8;">Henüz kayıtlı kişin yok. Quiz bitince kaydet!</p>';
-          return;
-        }
-        data.kisiler.forEach(function(k) {
-          var isim = k.kisi_adi || k.iliski_durumu || 'Kişi';
-          var initials = isim.substring(0, 2).toUpperCase();
-          var kart = document.createElement('div');
-          kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px;cursor:pointer;';
-          kart.innerHTML = '<div style="width:32px;height:32px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#993556;margin-bottom:8px;">' + initials + '</div>' +
-            '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">' + isim + '</p>' +
-            (function() {
-              var cv = k.tum_cevaplar || {};
-              if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
-              var amac = cv.amac || cv.bebek_amac || cv.cocuk_amac || '';
-              return '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">' + amac + '</p>';
-            })() +
-            '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>';
-          kart.onclick = (function(kisi) { return function() {
-            window.location.href = 'profil.html?session=' + encodeURIComponent(kisi.session_id || '');
-          }; })(k);
-          kartlar.appendChild(kart);
-        });
-      })
-      .catch(function() {});
-  }
-})();
-
-function nickDegistirIndex() {
-  localStorage.removeItem('budurBuldumNickname');
-  document.getElementById('auth-profil').style.display = 'none';
-  document.getElementById('auth-yeni').style.display = 'block';
-}
-
-function nickTekGiris() {
-  var nick = document.getElementById('nick-tek-input').value.trim();
-  if (!nick) return;
-  var hataEl = document.getElementById('nick-hata');
-  if (hataEl) hataEl.textContent = '';
-  fetch('/api/get-profile?nickname=' + encodeURIComponent(nick))
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.kisiler && data.kisiler.length > 0) {
-        // Eski kullanıcı — bilgileri getir
-        var k = data.kisiler[0];
-        var cv = k.tum_cevaplar || {};
-        if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
-        localStorage.setItem('budurBuldumNickname', nick);
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
-        if (k.cinsiyet) localStorage.setItem('budurBuldumGender', k.cinsiyet);
-        if (k.yas) localStorage.setItem('budurBuldumAge', k.yas);
-        localStorage.setItem('budurBuldumAktifSet', cv._aktifSet || 'normal');
-        localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(cv._selectedCriteria || []));
-        location.reload();
-      } else {
-        // Yeni kullanıcı — kaydet
-        localStorage.setItem('budurBuldumNickname', nick);
-        location.reload();
-      }
-    })
-    .catch(function() {
-      localStorage.setItem('budurBuldumNickname', nick);
-      location.reload();
-    });
-}
-</script>
 
 <!-- HERO -->
 <section id="hero-section" class="hero-bg text-white" style="padding:8px 0 16px;">
     <div class="max-w-5xl mx-auto px-4 text-center">
-
+        <h1 class="mb-2 text-center" style="font-size:15px; font-weight:500; line-height:2; letter-spacing:0.01em; color:rgba(255,255,255,0.92);">
+            Budur Buldum —<br>
+            Kişiye özel<br>
+            hediye bulmak, hediye seçmek ve satın almak için<br>
+            hediye testi <span style="color:#fbbf24; font-weight:600;">(QUIZ)</span> temelli web sitesi
+        </h1>
+        <p class="text-xs mb-3 text-white/70">Trendyol, Hepsiburada, Amazon, Çiçeksepeti, n11, TEK SAYFADA.</p>
         <div class="mb-3">
             <p class="text-amber-200 mb-3 font-medium" style="font-size:16px;">Sizi tanıyalım &nbsp;👇 Tıkla, seç</p>
             <div class="flex gap-3 max-w-4xl mx-auto">
-                <button onclick="selectGender(this,'Kadın')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-xl flex items-center justify-center gap-1" style="padding:2px 4px;font-size:13px;font-weight:600;"><span style="font-size:15px;">👠</span>Kadın</button>
-                <button onclick="selectGender(this,'Erkek')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-xl flex items-center justify-center gap-1" style="padding:2px 4px;font-size:13px;font-weight:600;"><span style="font-size:15px;">👔</span>Erkek</button>
-                <button onclick="selectGender(this,'Çiftiz')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-xl flex items-center justify-center gap-1" style="padding:2px 4px;font-size:13px;font-weight:600;"><span style="font-size:15px;">👫</span>Çiftiz</button>
+                <button onclick="selectGender(this,'Kadın')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👠</span>Kadın</button>
+                <button onclick="selectGender(this,'Erkek')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👔</span>Erkek</button>
+                <button onclick="selectGender(this,'Çiftiz')" class="gender-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-2xl py-6 text-lg font-semibold flex flex-col items-center gap-2"><span class="text-5xl">👫</span>Çiftiz</button>
             </div>
         </div>
         <div class="mb-4">
             <p class="text-amber-200 mb-3 font-medium" style="font-size:16px;">Yaşınızı belirtin &nbsp;👇 Tıkla, seç</p>
-            <div class="flex gap-3 max-w-4xl mx-auto">
-                <button onclick="selectAge(this,'20')" class="age-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-xl flex items-center justify-center gap-1" style="padding:2px 4px;font-size:13px;font-weight:600;"><span style="font-size:15px;">✨</span>20'li</button>
-                <button onclick="selectAge(this,'30')" class="age-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-xl flex items-center justify-center gap-1" style="padding:2px 4px;font-size:13px;font-weight:600;"><span style="font-size:15px;">🌟</span>30'lu</button>
-                <button onclick="selectAge(this,'40')" class="age-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-xl flex items-center justify-center gap-1" style="padding:2px 4px;font-size:13px;font-weight:600;"><span style="font-size:15px;">💫</span>40'lı</button>
-                <button onclick="selectAge(this,'50')" class="age-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-xl flex items-center justify-center gap-1" style="padding:2px 4px;font-size:13px;font-weight:600;"><span style="font-size:15px;">🌸</span>50'li</button>
-                <button onclick="selectAge(this,'60')" class="age-btn flex-1 border-2 border-white/70 bg-white/10 text-white rounded-xl flex items-center justify-center gap-1" style="padding:2px 4px;font-size:13px;font-weight:600;"><span style="font-size:15px;">☕</span>60+</button>
+            <div class="flex gap-2 justify-center flex-wrap max-w-2xl mx-auto">
+                <button onclick="selectAge(this,'20')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">✨ 20'li</button>
+                <button onclick="selectAge(this,'30')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">🌟 30'lu</button>
+                <button onclick="selectAge(this,'40')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">💫 40'lı</button>
+                <button onclick="selectAge(this,'50')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">🌸 50'li</button>
+                <button onclick="selectAge(this,'60')" class="age-btn border-2 border-white/70 bg-white/10 text-white rounded-xl px-4 py-3 text-base font-semibold">☕ 60+</button>
             </div>
         </div>
     </div>
@@ -249,7 +160,15 @@ function nickTekGiris() {
 
 <!-- KİME SORUSU - Hero altı -->
 <div style="position:relative;">
-
+<!-- QUIZ POPUP OVERLAY -->
+<div id="quiz-overlay" style="position:absolute;inset:0;background:rgba(255,255,255,0.25);backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px);z-index:10;display:flex;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:20px;padding:28px 24px;max-width:300px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.18);">
+    <div style="font-size:44px;margin-bottom:10px;">🎁</div>
+    <h3 style="font-size:18px;font-weight:800;color:#1e293b;margin:0 0 8px;">Hayalindeki hediyeyi bulalım!</h3>
+    <p style="font-size:14px;color:#64748b;margin:0 0 20px;">Birkaç soruyla sana özel öneriler hazırlayacağız.</p>
+    <button onclick="document.getElementById('quiz-overlay').style.display='none'" style="width:100%;padding:14px;background:linear-gradient(135deg,#f97316,#ea580c);color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(249,115,22,0.4);">✨ Başla, hediyemi bul!</button>
+  </div>
+</div>
 <div id="kime-bolumu" style="background:#F9F9F9; padding:16px 16px 16px;">
     <div style="max-width:600px; margin:0 auto;">
         <!-- Soru + Hediye kutuları yan yana -->
@@ -314,16 +233,7 @@ document.addEventListener("DOMContentLoaded",function(){
 </script>
 
 <!-- SORULAR -->
-<div style="background:#0f172a;padding:0 24px 40px;">
-    <div style="text-align:center;padding:20px 16px 12px;background:#0f172a;">
-        <p style="font-size:15px;font-weight:500;line-height:2;letter-spacing:0.01em;color:rgba(255,255,255,0.92);margin:0 0 4px;">
-            Budur Buldum —<br>
-            Kişiye özel<br>
-            hediye bulmak, hediye seçmek ve satın almak için<br>
-            hediye testi <span style="color:#fbbf24;font-weight:600;">(QUIZ)</span> temelli web sitesi
-        </p>
-        <p style="font-size:12px;color:rgba(255,255,255,0.5);margin:0;">Trendyol, Hepsiburada, Amazon, Çiçeksepeti, n11, TEK SAYFADA.</p>
-    </div>
+<div style="background:#0f172a;padding:40px 24px;">
     <div id="kartlar-bolumu" style="max-width:1100px;margin:0 auto;">
 
     <style>
