@@ -246,17 +246,25 @@ function profilYukle(nick) {
 /* ── PROFİL YÜKLEME — session ile (nickname yok) ── */
 function profilYukleSession(sessionId) {
   document.getElementById('yukleniyor').style.display='block';
-  var cevaplar={};
-  try { cevaplar=JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}'); } catch(e){}
+  // Ayraç listesinden tamamlananları al
+  var ayraclar = [];
+  try { ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar')||'[]'); } catch(e){}
+  var tamamlananlar = ayraclar.filter(function(a){ return a.tamamlandi; });
   document.getElementById('yukleniyor').style.display='none';
-  if (Object.keys(cevaplar).length===0) {
+  if (tamamlananlar.length === 0) {
     document.getElementById('bos-alani').style.display='block'; return;
   }
-  var isim = cevaplar.kime||'Son Araman';
-  var butce = cevaplar.butce||'—';
-  var amac = cevaplar.amac||cevaplar.bebek_amac||cevaplar.cocuk_amac||'—';
-  var renk = AVATAR_RENKLER[0];
-  var kisiler = [{session_id:sessionId,tum_cevaplar:cevaplar,kisi_adi:isim,butce:butce,cinsiyet:cevaplar.cinsiyet||'',yas:cevaplar.yas||''}];
+  var kisiler = tamamlananlar.map(function(a) {
+    var cv = a.cevaplar || {};
+    return {
+      session_id: a.sessionId,
+      tum_cevaplar: cv,
+      kisi_adi: a.kime || cv.kime || 'Kişi',
+      butce: a.butce || cv.butce || '',
+      cinsiyet: cv.cinsiyet || '',
+      yas: cv.yas || ''
+    };
+  });
   renderKartlar(kisiler);
 }
 
