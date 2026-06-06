@@ -247,93 +247,228 @@ function nickTekGiris() {
 </script>
 
 <!-- HEDİYELER SEKSİYONU -->
-<div style="background:#0f172a; padding:16px 16px 8px;">
+<div style="background:#0f172a; padding:16px 16px 0;">
     <h2 style="color:#fff; font-size:20px; font-weight:800; text-align:center; margin:0 0 12px;">🎁 Hediyeler seni bekliyor</h2>
-    <div id="gift-card-grid" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; max-width:600px; margin:0 auto;">
+    <div style="position:relative; max-width:600px; margin:0 auto; height:220px; overflow:hidden;">
 
-        <!-- Kart 1 - Nokta Atışı -->
-        <div style="background:#1e293b; border:2px solid #e8a838; border-radius:14px; overflow:hidden; position:relative;">
-            <div style="position:absolute;top:6px;left:6px;background:#e8a838;color:#0f172a;font-size:9px;font-weight:800;padding:2px 6px;border-radius:20px;z-index:1;">🎯 Nokta Atışı</div>
-            <img id="gc-img-0" src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&w=300" alt="" style="width:100%;height:80px;object-fit:cover;">
-            <div style="padding:8px;">
-                <div style="color:#fff;font-size:12px;font-weight:700;margin-bottom:4px;" id="gc-name-0">Premium Alet Seti</div>
-                <div style="color:#e8a838;font-size:13px;font-weight:800;margin-bottom:6px;" id="gc-price-0">₺3.200</div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;" id="gc-badges-0">
-                    <span style="background:#f27a1a;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Trendyol</span>
-                    <span style="background:#1a1a1a;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Amazon</span>
+        <!-- SET A -->
+        <div id="gc-set-a" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;opacity:1;transition:opacity 0.5s ease;">
+            <div style="background:#1e293b;border:2px solid #e8a838;border-radius:12px;overflow:hidden;position:relative;">
+                <div style="position:absolute;top:5px;left:5px;background:#e8a838;color:#0f172a;font-size:8px;font-weight:800;padding:2px 5px;border-radius:20px;z-index:1;">🎯 Nokta Atışı</div>
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:28px;">🔧</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Premium Alet Seti</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺3.200</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#f27a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Trendyol</span>
+                        <span style="background:#1a1a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Amazon</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:2px solid #e8a838;border-radius:12px;overflow:hidden;position:relative;">
+                <div style="position:absolute;top:5px;left:5px;background:#e8a838;color:#0f172a;font-size:8px;font-weight:800;padding:2px 5px;border-radius:20px;z-index:1;">🎯 Nokta Atışı</div>
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#4c1d95,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:28px;">🧘</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Yoga Matı & Set</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺890</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#f27a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Trendyol</span>
+                        <span style="background:#ff6000;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Hepsi</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#065f46,#10b981);display:flex;align-items:center;justify-content:center;font-size:28px;">♨️</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Termos & Kamp</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺1.100</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#1a1a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Amazon</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#7f1d1d,#ef4444);display:flex;align-items:center;justify-content:center;font-size:28px;">📸</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Fotoğraf Baskı</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺550</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#7c3aed;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Çiçek</span>
+                        <span style="background:#f27a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Trendyol</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#1e3a8a,#6366f1);display:flex;align-items:center;justify-content:center;font-size:28px;">♟️</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Satranç Takımı</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺750</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#1c75bc;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">N11</span>
+                        <span style="background:#ff6000;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Hepsi</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#78350f,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:28px;">💆</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Masaj Aleti</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺1.650</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#f27a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Trendyol</span>
+                        <span style="background:#1a1a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Amazon</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Kart 2 - Nokta Atışı -->
-        <div style="background:#1e293b; border:2px solid #e8a838; border-radius:14px; overflow:hidden; position:relative;">
-            <div style="position:absolute;top:6px;left:6px;background:#e8a838;color:#0f172a;font-size:9px;font-weight:800;padding:2px 6px;border-radius:20px;z-index:1;">🎯 Nokta Atışı</div>
-            <img id="gc-img-1" src="https://images.pexels.com/photos/4498362/pexels-photo-4498362.jpeg?auto=compress&w=300" alt="" style="width:100%;height:80px;object-fit:cover;">
-            <div style="padding:8px;">
-                <div style="color:#fff;font-size:12px;font-weight:700;margin-bottom:4px;" id="gc-name-1">Yoga Matı & Set</div>
-                <div style="color:#e8a838;font-size:13px;font-weight:800;margin-bottom:6px;" id="gc-price-1">₺890</div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;" id="gc-badges-1">
-                    <span style="background:#f27a1a;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Trendyol</span>
-                    <span style="background:#ff6000;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Hepsi</span>
+        <!-- SET B -->
+        <div id="gc-set-b" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;opacity:0;transition:opacity 0.5s ease;">
+            <div style="background:#1e293b;border:2px solid #e8a838;border-radius:12px;overflow:hidden;position:relative;">
+                <div style="position:absolute;top:5px;left:5px;background:#e8a838;color:#0f172a;font-size:8px;font-weight:800;padding:2px 5px;border-radius:20px;z-index:1;">🎯 Nokta Atışı</div>
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#701a75,#ec4899);display:flex;align-items:center;justify-content:center;font-size:28px;">💐</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Çiçek & Buket Set</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺680</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#7c3aed;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Çiçek</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:2px solid #e8a838;border-radius:12px;overflow:hidden;position:relative;">
+                <div style="position:absolute;top:5px;left:5px;background:#e8a838;color:#0f172a;font-size:8px;font-weight:800;padding:2px 5px;border-radius:20px;z-index:1;">🎯 Nokta Atışı</div>
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#064e3b,#34d399);display:flex;align-items:center;justify-content:center;font-size:28px;">🎮</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Gaming Mouse Pad</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺450</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#f27a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Trendyol</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#1e3a8a,#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:28px;">📚</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Kitap Seti</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺320</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#1a1a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Amazon</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#7f1d1d,#b91c1c);display:flex;align-items:center;justify-content:center;font-size:28px;">☕</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Pour Over Seti</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺740</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#ff6000;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Hepsi</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#4c1d95,#a855f7);display:flex;align-items:center;justify-content:center;font-size:28px;">🎨</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Boya Seti</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺590</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#1c75bc;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">N11</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#064e3b,#059669);display:flex;align-items:center;justify-content:center;font-size:28px;">🧴</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Cilt Bakım Seti</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺1.200</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#f27a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Trendyol</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Kart 3 -->
-        <div style="background:#1e293b; border:1px solid rgba(255,255,255,0.1); border-radius:14px; overflow:hidden;">
-            <img id="gc-img-2" src="https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg?auto=compress&w=300" alt="" style="width:100%;height:80px;object-fit:cover;">
-            <div style="padding:8px;">
-                <div style="color:#fff;font-size:12px;font-weight:700;margin-bottom:4px;" id="gc-name-2">Termos & Kamp</div>
-                <div style="color:#e8a838;font-size:13px;font-weight:800;margin-bottom:6px;" id="gc-price-2">₺1.100</div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;" id="gc-badges-2">
-                    <span style="background:#1a1a1a;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Amazon</span>
+        <!-- SET C -->
+        <div id="gc-set-c" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;opacity:0;transition:opacity 0.5s ease;">
+            <div style="background:#1e293b;border:2px solid #e8a838;border-radius:12px;overflow:hidden;position:relative;">
+                <div style="position:absolute;top:5px;left:5px;background:#e8a838;color:#0f172a;font-size:8px;font-weight:800;padding:2px 5px;border-radius:20px;z-index:1;">🎯 Nokta Atışı</div>
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#1e3a8a,#2563eb);display:flex;align-items:center;justify-content:center;font-size:28px;">⌚</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Akıllı Saat</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺2.800</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#f27a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Trendyol</span>
+                        <span style="background:#1a1a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Amazon</span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Kart 4 -->
-        <div style="background:#1e293b; border:1px solid rgba(255,255,255,0.1); border-radius:14px; overflow:hidden;">
-            <img id="gc-img-3" src="https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&w=300" alt="" style="width:100%;height:80px;object-fit:cover;">
-            <div style="padding:8px;">
-                <div style="color:#fff;font-size:12px;font-weight:700;margin-bottom:4px;" id="gc-name-3">Fotoğraf Baskı</div>
-                <div style="color:#e8a838;font-size:13px;font-weight:800;margin-bottom:6px;" id="gc-price-3">₺550</div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;" id="gc-badges-3">
-                    <span style="background:#7c3aed;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Çiçek</span>
-                    <span style="background:#f27a1a;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Trendyol</span>
+            <div style="background:#1e293b;border:2px solid #e8a838;border-radius:12px;overflow:hidden;position:relative;">
+                <div style="position:absolute;top:5px;left:5px;background:#e8a838;color:#0f172a;font-size:8px;font-weight:800;padding:2px 5px;border-radius:20px;z-index:1;">🎯 Nokta Atışı</div>
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#78350f,#d97706);display:flex;align-items:center;justify-content:center;font-size:28px;">🎸</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Ukulele Seti</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺1.400</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#ff6000;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Hepsi</span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Kart 5 -->
-        <div style="background:#1e293b; border:1px solid rgba(255,255,255,0.1); border-radius:14px; overflow:hidden;">
-            <img id="gc-img-4" src="https://images.pexels.com/photos/4498136/pexels-photo-4498136.jpeg?auto=compress&w=300" alt="" style="width:100%;height:80px;object-fit:cover;">
-            <div style="padding:8px;">
-                <div style="color:#fff;font-size:12px;font-weight:700;margin-bottom:4px;" id="gc-name-4">Satranç Takımı</div>
-                <div style="color:#e8a838;font-size:13px;font-weight:800;margin-bottom:6px;" id="gc-price-4">₺750</div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;" id="gc-badges-4">
-                    <span style="background:#1c75bc;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">N11</span>
-                    <span style="background:#ff6000;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Hepsi</span>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#1e3a8a,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:28px;">🧳</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Kabin Valiz</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺3.500</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#f27a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Trendyol</span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Kart 6 -->
-        <div style="background:#1e293b; border:1px solid rgba(255,255,255,0.1); border-radius:14px; overflow:hidden;">
-            <img id="gc-img-5" src="https://images.pexels.com/photos/3984829/pexels-photo-3984829.jpeg?auto=compress&w=300" alt="" style="width:100%;height:80px;object-fit:cover;">
-            <div style="padding:8px;">
-                <div style="color:#fff;font-size:12px;font-weight:700;margin-bottom:4px;" id="gc-name-5">Masaj Aleti</div>
-                <div style="color:#e8a838;font-size:13px;font-weight:800;margin-bottom:6px;" id="gc-price-5">₺1.650</div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;" id="gc-badges-5">
-                    <span style="background:#f27a1a;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Trendyol</span>
-                    <span style="background:#1a1a1a;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;">Amazon</span>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#065f46,#10b981);display:flex;align-items:center;justify-content:center;font-size:28px;">🌱</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Sukulent Seti</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺280</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#7c3aed;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Çiçek</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#7f1d1d,#ef4444);display:flex;align-items:center;justify-content:center;font-size:28px;">🏋️</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Spor Ekipmanı</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺960</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#ff6000;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Hepsi</span>
+                    </div>
+                </div>
+            </div>
+            <div style="background:#1e293b;border:1px solid rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;">
+                <div style="width:100%;height:90px;background:linear-gradient(135deg,#1e3a8a,#0284c7);display:flex;align-items:center;justify-content:center;font-size:28px;">🎧</div>
+                <div style="padding:6px 8px;">
+                    <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:3px;">Bluetooth Kulaklık</div>
+                    <div style="color:#e8a838;font-size:12px;font-weight:800;margin-bottom:5px;">₺1.900</div>
+                    <div style="display:flex;gap:3px;">
+                        <span style="background:#1a1a1a;color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;">Amazon</span>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
-    <p style="color:#64748b;font-size:11px;text-align:center;margin:8px 0 0;">✨ Quiz'i tamamla, sana özel hediyeler gelsin</p>
+    <p style="color:#64748b;font-size:10px;text-align:center;margin:6px 0 0;padding-bottom:8px;">✨ Quiz'i tamamla, sana özel hediyeler gelsin</p>
 </div>
-
+<script>
+(function(){
+    var sets = ['gc-set-a','gc-set-b','gc-set-c'];
+    var current = 0;
+    setInterval(function(){
+        document.getElementById(sets[current]).style.opacity = '0';
+        current = (current + 1) % sets.length;
+        document.getElementById(sets[current]).style.opacity = '1';
+    }, 3000);
+})();
+</script>
 <!-- HERO -->
 <section id="hero-section" class="hero-bg text-white" style="padding:8px 0 16px;">
     <div class="max-w-5xl mx-auto px-4 text-center">
