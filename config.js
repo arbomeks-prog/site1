@@ -343,6 +343,8 @@ const QuizHelper = {
         const c = this.getCevaplar();
         c[id] = deger;
         localStorage.setItem('budurBuldumCevaplar', JSON.stringify(c));
+        // Son cevaplanan soru sayfasını kaydet (yarıda çıkınca kaldığı yeri bilmek için)
+        localStorage.setItem('budurBuldumSonSayfa', window.location.pathname.split('/').pop());
         // Her cevap değişiminde database'e kaydet (debounce 2sn)
         clearTimeout(QuizHelper._logTimer);
         QuizHelper._logTimer = setTimeout(function() {
