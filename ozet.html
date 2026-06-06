@@ -127,9 +127,9 @@
         </div>
 
 
-        <div class="px-1 mb-3 flex items-center gap-2">
-            <div id="kriter-baslik" style="font-size:22px;font-weight:900;color:#1e293b;letter-spacing:0.01em;line-height:1.2;white-space:nowrap;">🎯 En önemli 6 kriteri seç</div>
-            <span id="sel-count" class="text-sm font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex-shrink-0">0/6</span>
+        <div class="px-1 mb-3">
+            <div id="kriter-baslik" style="font-size:26px;font-weight:900;color:#1e293b;letter-spacing:0.01em;line-height:1.1;text-align:center;width:100%;">🎯 SADECE 6 TANE SEÇEBİLİRSİN</div>
+            <span id="sel-count" class="text-sm font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex-shrink-0" style="display:none;">0/6</span>
         </div>
 
         <!-- Kriter listesi — JS gelince dolar (chip grid) -->
@@ -295,6 +295,7 @@
             chip.dataset.soruId = s.id;
             const label = labelMap[s.id] || s.soru.split(' ').slice(0,2).join(' ');
             chip.innerHTML = '<span class="c-label">'+label+'</span><span class="c-value">'+cevaplar[s.id]+'</span><span class="c-check">✓</span>';
+            chip.style.borderColor = ['#378ADD','#1D9E75','#BA7517','#D4537E','#534AB7','#639922','#D85A30','#888780'][list.children.length % 8];
             chip.onclick = function() { toggleSelection(chip, s.id); };
             list.appendChild(chip);
         }
@@ -374,7 +375,7 @@
             document.getElementById('floating-kriter-btn').style.display = 'none';
         } else {
             const limit = Math.min(6, adet);
-            if (baslik) baslik.textContent = '🎯 En önemli ' + limit + ' kriteri seç';
+            // başlık sabit kalır
             document.getElementById('sel-count').textContent = '0/' + limit;
             btn.disabled = true;
             lbl.textContent = limit + ' kriter seç → Hediyeleri Gör ✨';
