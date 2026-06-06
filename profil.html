@@ -66,8 +66,20 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
 
   <input id="nick-input" type="hidden" />
 
+  <!-- Takma isim seç kutusu — nickname yoksa görünür -->
+  <div id="nick-sec-kutu" style="display:none;background:rgba(232,168,56,0.1);border:1px solid rgba(232,168,56,0.3);border-radius:14px;padding:16px;margin-bottom:16px;">
+    <div style="font-size:14px;font-weight:700;color:#e8a838;margin-bottom:4px;">📌 Takma isim seç</div>
+    <div style="font-size:12px;color:#94a3b8;margin-bottom:12px;">Başka cihazdan da erişmek istersen bir takma isim seç.</div>
+    <div style="display:flex;gap:8px;">
+      <input id="nick-sec-input" type="text" placeholder="Takma ismin..." style="flex:1;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px 14px;color:#fff;font-size:14px;outline:none;" />
+      <button onclick="nickSec()" style="background:#e8a838;border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kaydet</button>
+    </div>
+    <p id="nick-sec-hata" style="font-size:11px;color:#f87171;margin:4px 0 0;"></p>
+    <button onclick="document.getElementById('nick-sec-kutu').style.display='none'" style="width:100%;margin-top:8px;background:transparent;border:none;font-size:12px;color:#64748b;cursor:pointer;">Şimdilik geç →</button>
+  </div>
+
   <div id="profil-alani">
-    <div style="margin-bottom:16px;">
+    <div style="margin-bottom:16px;" id="nick-merhaba">
       <span style="font-size:15px;font-weight:700;color:#fff;">👋 Merhaba, <span id="nick-adi" style="color:#e8a838;"></span></span>
     </div>
 
@@ -319,11 +331,86 @@ function nikDegistir() {
 }
 
 // Sayfa açılırken kayıtlı nick varsa otomatik yükle
+function nickSec() {
+  var nick = document.getElementById('nick-sec-input').value.trim();
+  var hata = document.getElementById('nick-sec-hata');
+  if (!nick) { hata.textContent = 'Bir takma isim yaz.'; return; }
+  var sessionId = localStorage.getItem('budurBuldumSessionId');
+  var cevaplar = {};
+  try { cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+  fetch('/api/save-profile', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ session_id: sessionId, nickname: nick, kisi_adi: cevaplar.kime || '', tum_cevaplar: cevaplar })
+  }).then(function(r) { return r.json(); })
+  .then(function() {
+    localStorage.setItem('budurBuldumNickname', nick);
+    document.getElementById('nick-sec-kutu').style.display = 'none';
+    document.getElementById('nick-merhaba').style.display = 'block';
+    document.getElementById('nick-adi').textContent = nick;
+    document.getElementById('nick-input').value = nick;
+  }).catch(function() { hata.textContent = 'Kaydedilemedi, tekrar dene.'; });
+}
+
+function profilYukleSession(sessionId) {
+  // Session ID ile tek kaydı getir
+  document.getElementById('yukleniyor').style.display = 'block';
+  fetch('/api/log-quiz', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ session_id: sessionId, cinsiyet: '', yas: '', iliski_durumu: '', butce: '', ilgi_alanlari: '', ozel_not: '' })
+  }).catch(function(){});
+  // localStorage'daki cevapları kartlara dök
+  var cevaplar = {};
+  try { cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+  document.getElementById('yukleniyor').style.display = 'none';
+  if (Object.keys(cevaplar).length === 0) {
+    document.getElementById('bos-alani').style.display = 'block';
+    return;
+  }
+  var isim = cevaplar.kime || 'Son Araman';
+  var butce = cevaplar.butce || '—';
+  var amac = cevaplar.amac || '—';
+  document.getElementById('kisiler-alani').style.display = 'block';
+  document.getElementById('kart-sayisi').textContent = '1 kayıtlı arama';
+  var kartlarDiv = document.getElementById('kartlar');
+  var renk = {bg:'#FBEAF0',text:'#993556'};
+  var initials = isim.substring(0,2).toUpperCase();
+  var kart = document.createElement('div');
+  kart.className = 'kart';
+  kart.innerHTML =
+    '<div class="kart-header">' +
+      '<div class="avatar" style="background:' + renk.bg + ';color:' + renk.text + ';">' + initials + '</div>' +
+      '<div class="kart-meta"><p class="kart-isim">' + isim + '</p><p class="kart-alt">' + (cevaplar.cinsiyet||'') + (cevaplar.yas?' · '+cevaplar.yas:'') + '</p></div>' +
+    '</div>' +
+    '<div class="kart-detaylar">' +
+      '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">' + butce + '</p></div>' +
+      '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val">' + amac + '</p></div>' +
+    '</div>' +
+    '<div class="kart-btns" style="margin-top:12px;">' +
+      '<button class="btn-hediye" onclick="window.location.href='ozet.html'">Yeni hediye bul</button>' +
+      '<button class="btn-guncelle" onclick="window.location.href='ozet.html'">✏️ Düzenle</button>' +
+    '</div>';
+  kartlarDiv.appendChild(kart);
+  window._kisiler = [{ session_id: sessionId, tum_cevaplar: cevaplar, kisi_adi: isim, butce: butce }];
+}
+
 window.onload = function() {
   var saved = localStorage.getItem('budurBuldumNickname');
-  if (!saved) { window.location.href = 'index.html'; return; }
-  document.getElementById('nick-input').value = saved;
-  profilYukle();
+  var sessionId = localStorage.getItem('budurBuldumSessionId');
+  if (!saved && !sessionId) { window.location.href = 'index.html'; return; }
+
+  if (!saved) {
+    // Nickname yok ama session var — takma isim kutusunu göster
+    document.getElementById('nick-sec-kutu').style.display = 'block';
+    document.getElementById('nick-merhaba').style.display = 'none';
+    // Session ile profil yükle
+    profilYukleSession(sessionId);
+  } else {
+    document.getElementById('nick-input').value = saved;
+    document.getElementById('nick-adi').textContent = saved;
+    profilYukle();
+  }
 
   // URL'de ?session=xxx varsa index.html'den kart tıklamasıyla gelindi
   var urlParams = new URLSearchParams(window.location.search);
