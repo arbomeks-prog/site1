@@ -255,6 +255,8 @@ const QuizHelper = {
         localStorage.setItem('budurBuldumCevaplar', JSON.stringify(c));
         // Son cevaplanan soru sayfasını kaydet (yarıda çıkınca kaldığı yeri bilmek için)
         localStorage.setItem('budurBuldumSonSayfa', window.location.pathname.split('/').pop());
+        // Ayraç listesini güncelle
+        QuizHelper.ayracGuncelle(false);
         // Her cevap değişiminde database'e kaydet (debounce 2sn)
         clearTimeout(QuizHelper._logTimer);
         QuizHelper._logTimer = setTimeout(function() {
@@ -289,6 +291,38 @@ const QuizHelper = {
         localStorage.removeItem('budurBuldumSecilenKime');
         localStorage.removeItem('budurBuldumSecilenBurc');
         localStorage.removeItem('budurBuldumSelectedCriteria');
+    },
+
+    // Ayraç listesini güncelle (her cevap değişiminde çağrılır)
+    ayracGuncelle: function(tamamlandi) {
+        try {
+            var sid = localStorage.getItem('budurBuldumSessionId');
+            if (!sid) return;
+            var cv = this.getCevaplar();
+            var sonSayfa = localStorage.getItem('budurBuldumSonSayfa') || '';
+            var ayraclar = [];
+            try { ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]'); } catch(e) {}
+            var idx = -1;
+            for (var i = 0; i < ayraclar.length; i++) {
+                if (ayraclar[i].sessionId === sid) { idx = i; break; }
+            }
+            var ayrac = {
+                sessionId: sid,
+                kime: cv.kime || '',
+                amac: cv.amac || cv.bebek_amac || cv.cocuk_amac || '',
+                butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
+                cevaplar: cv,
+                sonSayfa: sonSayfa,
+                tamamlandi: tamamlandi || false
+            };
+            if (idx >= 0) { ayraclar[idx] = ayrac; } else { ayraclar.push(ayrac); }
+            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
+        } catch(e) {}
+    },
+
+    // Quiz tamamlandığında ayracı tamamlandı olarak işaretle
+    ayracTamamlandi: function() {
+        this.ayracGuncelle(true);
     },
 
     // Aktif soru setini belirle

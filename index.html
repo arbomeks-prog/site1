@@ -284,115 +284,95 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 
 
-<!-- PROFİL BÖLÜMÜ — nickname varsa çıkar -->
-<div id="auth-section" style="display:none;background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:8px 16px;">
-  <div id="auth-profil">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-      <p style="font-size:15px;font-weight:700;color:#fff;margin:0;">Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;"></span>! 👋</p>
-      <button onclick="nickDegistirIndex()" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Değiştir</button>
-    </div>
-    <p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Kayıtlı kişilerin için hemen hediye aramaya başla.</p>
-    <div id="profil-kartlar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;"></div>
-    <button onclick="document.getElementById('auth-section').style.display='none'" style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;color:#94a3b8;font-size:13px;cursor:pointer;">Farklı bir kişi için quiz başlat ↓</button>
+<!-- AYRAÇLAR — tüm aramalar burada kartlar halinde çıkar -->
+<div id="arayaclar-sarici" style="display:none;background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 16px;">
+  <div id="nick-satir" style="display:none;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <p style="font-size:13px;color:#94a3b8;margin:0;">👋 Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;font-weight:700;"></span>!</p>
+    <button onclick="nickDegistirIndex()" style="font-size:11px;color:#64748b;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:4px 8px;cursor:pointer;">Hesabı Değiştir</button>
   </div>
-</div>
-
-<!-- DEVAM KARTI — quiz yarıda bırakıldıysa çıkar -->
-<div id="devam-karti" style="display:none;background:rgba(232,168,56,0.12);border:1px solid rgba(232,168,56,0.35);border-radius:14px;padding:14px 16px;margin:8px 16px;">
-  <div style="display:flex;align-items:center;gap:10px;">
-    <span style="font-size:24px;">🔖</span>
-    <div style="flex:1;">
-      <div style="font-size:14px;font-weight:800;color:#e8a838;margin-bottom:2px;">Araman kaydedildi</div>
-      <div style="font-size:12px;color:#94a3b8;margin-bottom:10px;">Kaldığın yerden devam et veya profilini gör.</div>
-      <div style="display:flex;gap:8px;">
-        <button onclick="devamEt()" style="flex:1;background:#e8a838;border:none;border-radius:8px;padding:9px 8px;font-size:12px;font-weight:700;color:#412402;cursor:pointer;">Devam Et →</button>
-        <button onclick="window.location.href='profil.html'" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:9px 8px;font-size:12px;font-weight:600;color:#94a3b8;cursor:pointer;">Profilim →</button>
-      </div>
-    </div>
-  </div>
+  <p style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">🔖 Aramalarım</p>
+  <div id="arayaclar-konteyner" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;"></div>
 </div>
 
 <script>
 (function() {
-  // Cevaplar varsa devam kartını göster
+  // Ayraç listesinden kartları göster
   try {
-    var cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
-    var tamamlandi = localStorage.getItem('budurBuldumTamamlandi') === '1';
-    if (Object.keys(cv).length > 0) {
-      if (tamamlandi) {
-        // Tamamlamış — profil kartı göster (auth-section)
-        var kime = cv.kime || '';
-        var amac = cv.amac || cv.bebek_amac || cv.cocuk_amac || '';
-        var butce = cv.butce || '';
-        var initials = kime.substring(0, 2).toUpperCase();
-        var kartlar = document.getElementById('profil-kartlar');
-        var kart = document.createElement('div');
-        kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px;cursor:pointer;';
-        kart.innerHTML =
-          '<div style="width:32px;height:32px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#993556;margin-bottom:8px;">' + initials + '</div>' +
-          '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">' + kime + '</p>' +
-          '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">' + amac + '</p>' +
-          '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>';
-        kart.onclick = function() { window.location.href = 'profil.html'; };
-        kartlar.appendChild(kart);
-        document.getElementById('auth-section').style.display = 'block';
-      } else {
-        // Yarıda bırakmış — devam kartı göster
-        document.getElementById('devam-karti').style.display = 'block';
+    var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+    // Aktif (mevcut) quiz de ayraçlara ekle
+    var cv = {};
+    try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+    var aktifSid = localStorage.getItem('budurBuldumSessionId');
+    if (aktifSid && Object.keys(cv).length > 0) {
+      var varMi = ayraclar.some(function(a) { return a.sessionId === aktifSid; });
+      if (!varMi) {
+        ayraclar.push({
+          sessionId: aktifSid,
+          kime: cv.kime || '',
+          amac: cv.amac || cv.bebek_amac || cv.cocuk_amac || '',
+          butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
+          cevaplar: cv,
+          sonSayfa: localStorage.getItem('budurBuldumSonSayfa') || '',
+          tamamlandi: localStorage.getItem('budurBuldumTamamlandi') === '1'
+        });
       }
     }
+
+    if (ayraclar.length === 0) return;
+
+    var RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
+    var saraci = document.getElementById('arayaclar-sarici');
+    if (!saraci) return;
+    saraci.style.display = 'block';
+    var konteyner = document.getElementById('arayaclar-konteyner');
+
+    ayraclar.slice().reverse().forEach(function(a, i) {
+      var renk = RENKLER[i % RENKLER.length];
+      var initials = (a.kime || '?').substring(0, 2).toUpperCase();
+      var kart = document.createElement('div');
+      kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px;cursor:pointer;';
+      var butonMetin = a.tamamlandi ? 'Yeni hediye' : 'Devam Et →';
+      var butonRenk = a.tamamlandi ? '#e8a838' : '#334155';
+      var butonYazi = a.tamamlandi ? '#412402' : '#94a3b8';
+      kart.innerHTML =
+        '<div style="width:32px;height:32px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+        '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">'+( a.kime || '—' )+'</p>'+
+        '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">'+( a.amac || '' )+'</p>'+
+        '<div style="background:'+butonRenk+';border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:'+butonYazi+';text-align:center;">'+butonMetin+'</div>';
+      kart.onclick = (function(ayrac) { return function() {
+        // Bu ayracı aktif yap
+        localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
+        if (ayrac.tamamlandi) {
+          localStorage.setItem('budurBuldumTamamlandi', '1');
+          window.location.href = 'ozet.html';
+        } else {
+          localStorage.removeItem('budurBuldumTamamlandi');
+          var sonSayfa = ayrac.sonSayfa;
+          var QUIZ = ['hediye-kime-alinacak-testi.html','cinsiyet','yas','dogum','amac','butce','oncelik','tarz','kisilik','hobiler','teknoloji','tatli','spor','muzik','hayvan','seyahat','kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak','doga','sanat','foto'];
+          var quizMi = sonSayfa && QUIZ.some(function(s){ return sonSayfa.indexOf(s) >= 0; });
+          window.location.href = quizMi ? sonSayfa : 'ozet.html';
+        }
+      }; })(a);
+      konteyner.appendChild(kart);
+    });
   } catch(e) {}
 
-  // Devam Et: quiz sayfasıysa oraya, değilse ozet'e
-  window.devamEt = function() {
-    var sonSayfa = localStorage.getItem('budurBuldumSonSayfa');
-    var QUIZ_SAYFALARI = ['hediye-kime-alinacak-testi.html','cinsiyet','yas','dogum','amac','butce','oncelik','tarz','kisilik','hobiler','teknoloji','tatli','spor','muzik','hayvan','seyahat','kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak','doga','sanat','foto'];
-    var quizMi = sonSayfa && QUIZ_SAYFALARI.some(function(s) { return sonSayfa.indexOf(s) >= 0; });
-    if (quizMi) {
-      window.location.href = sonSayfa;
-    } else {
-      window.location.href = 'ozet.html';
-    }
-  };
-
-  // Nickname varsa profil kartlarını göster
+  // Nickname varsa nick'i göster
   var savedNick = localStorage.getItem('budurBuldumNickname');
   if (savedNick) {
-    document.getElementById('auth-section').style.display = 'block';
-    document.getElementById('nick-goster').textContent = savedNick;
-    fetch('/api/get-profile?nickname=' + encodeURIComponent(savedNick))
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var kartlar = document.getElementById('profil-kartlar');
-        if (!data.kisiler || data.kisiler.length === 0) {
-          kartlar.innerHTML = '<p style="font-size:13px;color:#94a3b8;">Henüz kayıtlı kişin yok. Quiz bitince kaydet!</p>';
-          return;
-        }
-        data.kisiler.forEach(function(k) {
-          var isim = k.kisi_adi || k.iliski_durumu || 'Kişi';
-          var initials = isim.substring(0, 2).toUpperCase();
-          var cv = k.tum_cevaplar || {};
-          if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
-          var amac = cv.amac || cv.bebek_amac || cv.cocuk_amac || '';
-          var kart = document.createElement('div');
-          kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px;cursor:pointer;';
-          kart.innerHTML = '<div style="width:32px;height:32px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#993556;margin-bottom:8px;">' + initials + '</div>' +
-            '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">' + isim + '</p>' +
-            '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">' + amac + '</p>' +
-            '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>';
-          kart.onclick = (function(kisi) { return function() {
-            window.location.href = 'profil.html?session=' + encodeURIComponent(kisi.session_id || '');
-          }; })(k);
-          kartlar.appendChild(kart);
-        });
-      })
-      .catch(function() {});
+    var nickEl = document.getElementById('nick-goster');
+    if (nickEl) nickEl.textContent = savedNick;
+    var nickSatir = document.getElementById('nick-satir');
+    if (nickSatir) nickSatir.style.display = 'flex';
   }
 })();
 
 function nickDegistirIndex() {
+  if (!confirm('Farklı bir hesaba geçmek istiyorsun.\n\nMevcut kayıtların silinmez — tekrar aynı takma isimle girince geri gelir.\n\nDevam etmek istiyor musun?')) return;
   localStorage.removeItem('budurBuldumNickname');
-  document.getElementById('auth-section').style.display = 'none';
+  var nickSatir = document.getElementById('nick-satir');
+  if (nickSatir) nickSatir.style.display = 'none';
 }
 </script>
 
@@ -1531,6 +1511,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function startQuiz() {
         if (!selectedKime) return;
+        // Mevcut quiz varsa ayraç listesine kaydet
+        if (typeof QuizHelper !== 'undefined') QuizHelper.ayracGuncelle(false);
         // Önceki quiz verilerini temizle
         localStorage.removeItem('budurBuldumCevaplar');
         localStorage.removeItem('budurBuldumAktifSet');
