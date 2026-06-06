@@ -289,7 +289,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   <div id="auth-profil">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
       <p style="font-size:15px;font-weight:700;color:#fff;margin:0;">Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;"></span>! 👋</p>
-      <button onclick="nickDegistirIndex()" title="Farklı bir hesaba geçmek için" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Hesabı Değiştir</button>
+      <button onclick="nickDegistirIndex()" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Hesabı Değiştir</button>
     </div>
     <p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Kayıtlı kişilerin için hemen hediye aramaya başla.</p>
     <div id="profil-kartlar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;"></div>
@@ -314,13 +314,49 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 <script>
 (function() {
-  var savedNick = localStorage.getItem('budurBuldumNickname');
-  var cv = {};
-  try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
-  var tamamlandi = localStorage.getItem('budurBuldumTamamlandi') === '1';
-  var cvDolu = Object.keys(cv).length > 0;
+  // Cevaplar varsa devam kartını göster
+  try {
+    var cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+    var tamamlandi = localStorage.getItem('budurBuldumTamamlandi') === '1';
+    if (Object.keys(cv).length > 0) {
+      if (tamamlandi) {
+        // Tamamlamış — profil kartı göster (auth-section)
+        var kime = cv.kime || '';
+        var amac = cv.amac || cv.bebek_amac || cv.cocuk_amac || '';
+        var butce = cv.butce || '';
+        var initials = kime.substring(0, 2).toUpperCase();
+        var kartlar = document.getElementById('profil-kartlar');
+        var kart = document.createElement('div');
+        kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px;cursor:pointer;';
+        kart.innerHTML =
+          '<div style="width:32px;height:32px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#993556;margin-bottom:8px;">' + initials + '</div>' +
+          '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">' + kime + '</p>' +
+          '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">' + amac + '</p>' +
+          '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>';
+        kart.onclick = function() { window.location.href = 'profil.html'; };
+        kartlar.appendChild(kart);
+        document.getElementById('auth-section').style.display = 'block';
+      } else {
+        // Yarıda bırakmış — devam kartı göster
+        document.getElementById('devam-karti').style.display = 'block';
+      }
+    }
+  } catch(e) {}
 
-  // ÖNCELİK 1: Nickname var → DB'den profil kartlarını çek, her şey oradan gelsin
+  // Devam Et: quiz sayfasıysa oraya, değilse ozet'e
+  window.devamEt = function() {
+    var sonSayfa = localStorage.getItem('budurBuldumSonSayfa');
+    var QUIZ_SAYFALARI = ['hediye-kime-alinacak-testi.html','cinsiyet','yas','dogum','amac','butce','oncelik','tarz','kisilik','hobiler','teknoloji','tatli','spor','muzik','hayvan','seyahat','kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak','doga','sanat','foto'];
+    var quizMi = sonSayfa && QUIZ_SAYFALARI.some(function(s) { return sonSayfa.indexOf(s) >= 0; });
+    if (quizMi) {
+      window.location.href = sonSayfa;
+    } else {
+      window.location.href = 'ozet.html';
+    }
+  };
+
+  // Nickname varsa profil kartlarını göster
+  var savedNick = localStorage.getItem('budurBuldumNickname');
   if (savedNick) {
     document.getElementById('auth-section').style.display = 'block';
     document.getElementById('nick-goster').textContent = savedNick;
@@ -329,23 +365,18 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
       .then(function(data) {
         var kartlar = document.getElementById('profil-kartlar');
         if (!data.kisiler || data.kisiler.length === 0) {
-          // Kayıt yok ama quiz yarıdaysa devam kartını da göster
-          if (cvDolu && !tamamlandi) {
-            document.getElementById('devam-karti').style.display = 'block';
-          }
           kartlar.innerHTML = '<p style="font-size:13px;color:#94a3b8;">Henüz kayıtlı kişin yok. Quiz bitince kaydet!</p>';
           return;
         }
         data.kisiler.forEach(function(k) {
           var isim = k.kisi_adi || k.iliski_durumu || 'Kişi';
           var initials = isim.substring(0, 2).toUpperCase();
-          var kcv = k.tum_cevaplar || {};
-          if (typeof kcv === 'string') { try { kcv = JSON.parse(kcv); } catch(e) { kcv = {}; } }
-          var amac = kcv.amac || kcv.bebek_amac || kcv.cocuk_amac || '';
+          var cv = k.tum_cevaplar || {};
+          if (typeof cv === 'string') { try { cv = JSON.parse(cv); } catch(e) { cv = {}; } }
+          var amac = cv.amac || cv.bebek_amac || cv.cocuk_amac || '';
           var kart = document.createElement('div');
           kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px;cursor:pointer;';
-          kart.innerHTML =
-            '<div style="width:32px;height:32px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#993556;margin-bottom:8px;">' + initials + '</div>' +
+          kart.innerHTML = '<div style="width:32px;height:32px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#993556;margin-bottom:8px;">' + initials + '</div>' +
             '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">' + isim + '</p>' +
             '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">' + amac + '</p>' +
             '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>';
@@ -354,36 +385,10 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
           }; })(k);
           kartlar.appendChild(kart);
         });
-        // Nickname'li kullanıcı quiz yarıdaysa devam kartını da göster
-        if (cvDolu && !tamamlandi) {
-          document.getElementById('devam-karti').style.display = 'block';
-        }
       })
-      .catch(function() {
-        // API hata verirse en azından devam kartını göster
-        if (cvDolu && !tamamlandi) {
-          document.getElementById('devam-karti').style.display = 'block';
-        }
-      });
-    return; // nickname varsa buradan çık, aşağıdaki localStorage mantığı çalışmasın
-  }
-
-  // ÖNCELİK 2: Nickname yok — sadece localStorage'a bak
-  if (cvDolu) {
-    if (!tamamlandi) {
-      // Yarıda bırakmış — devam kartı
-      document.getElementById('devam-karti').style.display = 'block';
-    }
-    // tamamlandi ama nickname yoksa hiçbir şey gösterme (profil sayfasına yönlendirme yeterli)
+      .catch(function() {});
   }
 })();
-
-window.devamEt = function() {
-  var sonSayfa = localStorage.getItem('budurBuldumSonSayfa');
-  var QUIZ_SAYFALARI = ['hediye-kime-alinacak-testi.html','cinsiyet','yas','dogum','amac','butce','oncelik','tarz','kisilik','hobiler','teknoloji','tatli','spor','muzik','hayvan','seyahat','kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak','doga','sanat','foto'];
-  var quizMi = sonSayfa && QUIZ_SAYFALARI.some(function(s) { return sonSayfa.indexOf(s) >= 0; });
-  window.location.href = quizMi ? sonSayfa : 'ozet.html';
-};
 
 function nickDegistirIndex() {
   if (!confirm('Farklı bir hesaba geçmek istiyorsun.
@@ -1538,7 +1543,6 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('budurBuldumSecilenBurc');
         localStorage.removeItem('budurBuldumSelectedCriteria');
         localStorage.removeItem('budurBuldumTiklananHediyeler');
-        localStorage.removeItem('budurBuldumTamamlandi');
         // Her yeni quiz için taze session_id üret
         var newSessionId = (crypto && crypto.randomUUID)
             ? crypto.randomUUID()
