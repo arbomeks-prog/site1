@@ -317,8 +317,29 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   // Cevaplar varsa devam kartını göster
   try {
     var cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+    var tamamlandi = localStorage.getItem('budurBuldumTamamlandi') === '1';
     if (Object.keys(cv).length > 0) {
-      document.getElementById('devam-karti').style.display = 'block';
+      if (tamamlandi) {
+        // Tamamlamış — profil kartı göster (auth-section)
+        var kime = cv.kime || '';
+        var amac = cv.amac || cv.bebek_amac || cv.cocuk_amac || '';
+        var butce = cv.butce || '';
+        var initials = kime.substring(0, 2).toUpperCase();
+        var kartlar = document.getElementById('profil-kartlar');
+        var kart = document.createElement('div');
+        kart.style.cssText = 'flex-shrink:0;width:130px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px;cursor:pointer;';
+        kart.innerHTML =
+          '<div style="width:32px;height:32px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#993556;margin-bottom:8px;">' + initials + '</div>' +
+          '<p style="font-size:12px;font-weight:700;color:#fff;margin:0 0 2px;">' + kime + '</p>' +
+          '<p style="font-size:10px;color:rgba(255,255,255,0.45);margin:0 0 8px;">' + amac + '</p>' +
+          '<div style="background:#e8a838;border-radius:6px;padding:5px;font-size:9px;font-weight:700;color:#412402;text-align:center;">Yeni hediye</div>';
+        kart.onclick = function() { window.location.href = 'profil.html'; };
+        kartlar.appendChild(kart);
+        document.getElementById('auth-section').style.display = 'block';
+      } else {
+        // Yarıda bırakmış — devam kartı göster
+        document.getElementById('devam-karti').style.display = 'block';
+      }
     }
   } catch(e) {}
 

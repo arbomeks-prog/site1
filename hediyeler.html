@@ -385,6 +385,7 @@ fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application
 }
 
 window.onload = async function() {
+    localStorage.setItem('budurBuldumTamamlandi', '1');
 const list = document.getElementById('gifts-list');
 const subtitle = document.getElementById('gifts-subtitle');
 const shareSection = document.getElementById('share-section');
