@@ -276,11 +276,20 @@ function kaydetDP(idx) {
   var k = window._kisiler[idx];
   var cv = k.tum_cevaplar || {};
   if (typeof cv === 'string') { try { cv=JSON.parse(cv); } catch(e) { cv={}; } }
+  var amacDegisti = k._ea && k._ea !== (cv[k._eaKey||'amac']);
   if (k._ea) { cv[k._eaKey||'amac']=k._ea; document.getElementById('amac-val-'+idx).textContent=k._ea; }
   if (k._eo) { cv.oncelik=k._eo; document.getElementById('oncelik-val-'+idx).textContent=k._eo; }
   k.tum_cevaplar=cv;
   var nick=localStorage.getItem('budurBuldumNickname');
-  fetch('/api/save-profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:k.session_id,nickname:nick,kisi_adi:k.kisi_adi||'',tum_cevaplar:cv})})
+  // Amaç değiştiyse yeni session aç (yeni kart oluşur)
+  var sessionId = amacDegisti
+    ? ('sess_' + Date.now() + '_' + Math.random().toString(36).substr(2,9))
+    : k.session_id;
+  if (amacDegisti) {
+    localStorage.setItem('budurBuldumSessionId', sessionId);
+    k.session_id = sessionId;
+  }
+  fetch('/api/save-profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId,nickname:nick,kisi_adi:k.kisi_adi||'',tum_cevaplar:cv})})
     .then(function(){kapDP(idx);}).catch(function(){kapDP(idx);});
 }
 function profilStateYukle(k) {
