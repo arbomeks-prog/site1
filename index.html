@@ -309,12 +309,8 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
   window.devamEt = function() {
     var sonSayfa = localStorage.getItem('budurBuldumSonSayfa');
-    var QUIZ_SAYFALARI = ['hediye-kime-alinacak-testi.html','cinsiyet','yas','dogum','amac','butce','oncelik','tarz','kisilik','hobiler','teknoloji','tatli','spor','muzik','hayvan','seyahat','kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak','doga','sanat','foto'];
-    var quizMi = sonSayfa && QUIZ_SAYFALARI.some(function(s) { return sonSayfa.indexOf(s) >= 0; });
-    if (quizMi) {
+    if (sonSayfa) {
       window.location.href = sonSayfa;
-    } else {
-      window.location.href = 'ozet.html';
     }
   };
 })();
