@@ -371,7 +371,7 @@ function hesapSil(){
   var nick=localStorage.getItem('budurBuldumNickname');
   fetch('/api/delete-account',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nickname:nick})})
     .then(function(){
-      ['budurBuldumNickname','budurBuldumCevaplar','budurBuldumSessionId','budurBuldumGender','budurBuldumAge','budurBuldumAktifSet','budurBuldumSelectedCriteria','budurBuldumKisiAdi'].forEach(function(k){localStorage.removeItem(k);});
+      ['budurBuldumNickname','budurBuldumCevaplar','budurBuldumSessionId','budurBuldumGender','budurBuldumAge','budurBuldumAktifSet','budurBuldumSelectedCriteria','budurBuldumKisiAdi','budurBuldumAyraclar','budurBuldumTamamlandi','budurBuldumSonSayfa'].forEach(function(k){localStorage.removeItem(k);});
       window.location.href='index.html';
     }).catch(function(){alert('Silinemedi, tekrar dene.');});
 }
