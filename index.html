@@ -318,9 +318,10 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   try {
     var cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
     var tamamlandi = localStorage.getItem('budurBuldumTamamlandi') === '1';
+    var savedNick = localStorage.getItem('budurBuldumNickname');
     if (Object.keys(cv).length > 0) {
-      if (tamamlandi) {
-        // Tamamlamış — profil kartı göster (auth-section)
+      if (tamamlandi && savedNick) {
+        // Tamamlamış ve nickname var — profil kartı göster (auth-section)
         var kime = cv.kime || '';
         var amac = cv.amac || cv.bebek_amac || cv.cocuk_amac || '';
         var butce = cv.butce || '';
@@ -337,7 +338,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
         kartlar.appendChild(kart);
         document.getElementById('auth-section').style.display = 'block';
       } else {
-        // Yarıda bırakmış — devam kartı göster
+        // Yarıda bırakmış VEYA tamamlamış ama nickname yok — devam kartı göster
         document.getElementById('devam-karti').style.display = 'block';
       }
     }
