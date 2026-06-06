@@ -304,18 +304,21 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
     try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
     var aktifSid = localStorage.getItem('budurBuldumSessionId');
     if (aktifSid && Object.keys(cv).length > 0) {
-      var varMi = ayraclar.some(function(a) { return a.sessionId === aktifSid; });
-      if (!varMi) {
-        ayraclar.push({
-          sessionId: aktifSid,
-          kime: cv.kime || '',
-          amac: cv.amac || cv.bebek_amac || cv.cocuk_amac || '',
-          butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
-          cevaplar: cv,
-          sonSayfa: localStorage.getItem('budurBuldumSonSayfa') || '',
-          tamamlandi: false
-        });
+      var aktifIdx = -1;
+      for (var j = 0; j < ayraclar.length; j++) {
+        if (ayraclar[j].sessionId === aktifSid) { aktifIdx = j; break; }
       }
+      var aktifAyrac = {
+        sessionId: aktifSid,
+        kime: cv.kime || '',
+        amac: cv.amac || cv.bebek_amac || cv.cocuk_amac || '',
+        butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
+        cevaplar: cv,
+        sonSayfa: localStorage.getItem('budurBuldumSonSayfa') || '',
+        tamamlandi: aktifIdx >= 0 ? ayraclar[aktifIdx].tamamlandi : false
+      };
+      if (aktifIdx >= 0) { ayraclar[aktifIdx] = aktifAyrac; }
+      else { ayraclar.push(aktifAyrac); }
     }
 
     if (ayraclar.length === 0) return;
