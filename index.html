@@ -289,7 +289,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   <div id="auth-profil">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
       <p style="font-size:15px;font-weight:700;color:#fff;margin:0;">Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;"></span>! 👋</p>
-      <button onclick="nickDegistirIndex()" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Hesabı Değiştir</button>
+      <button onclick="nickDegistirIndex()" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Değiştir</button>
     </div>
     <p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Kayıtlı kişilerin için hemen hediye aramaya başla.</p>
     <div id="profil-kartlar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;"></div>
@@ -318,10 +318,9 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   try {
     var cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
     var tamamlandi = localStorage.getItem('budurBuldumTamamlandi') === '1';
-    var savedNick = localStorage.getItem('budurBuldumNickname');
     if (Object.keys(cv).length > 0) {
-      if (tamamlandi && savedNick) {
-        // Tamamlamış ve nickname var — profil kartı göster (auth-section)
+      if (tamamlandi) {
+        // Tamamlamış — profil kartı göster (auth-section)
         var kime = cv.kime || '';
         var amac = cv.amac || cv.bebek_amac || cv.cocuk_amac || '';
         var butce = cv.butce || '';
@@ -338,7 +337,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
         kartlar.appendChild(kart);
         document.getElementById('auth-section').style.display = 'block';
       } else {
-        // Yarıda bırakmış VEYA tamamlamış ama nickname yok — devam kartı göster
+        // Yarıda bırakmış — devam kartı göster
         document.getElementById('devam-karti').style.display = 'block';
       }
     }
@@ -392,11 +391,6 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 })();
 
 function nickDegistirIndex() {
-  if (!confirm('Farklı bir hesaba geçmek istiyorsun.
-
-Mevcut kayıtların silinmez — tekrar aynı takma isimle girince geri gelir.
-
-Devam etmek istiyor musun?')) return;
   localStorage.removeItem('budurBuldumNickname');
   document.getElementById('auth-section').style.display = 'none';
 }
