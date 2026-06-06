@@ -289,7 +289,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   <div id="auth-profil">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
       <p style="font-size:15px;font-weight:700;color:#fff;margin:0;">Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;"></span>! 👋</p>
-      <button onclick="nickDegistirIndex()" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Değiştir</button>
+      <button onclick="nickDegistirIndex()" title="Farklı bir hesaba geçmek için" style="font-size:11px;font-weight:600;color:#94a3b8;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;cursor:pointer;">Hesabı Değiştir</button>
     </div>
     <p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Kayıtlı kişilerin için hemen hediye aramaya başla.</p>
     <div id="profil-kartlar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;"></div>
@@ -391,6 +391,11 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 })();
 
 function nickDegistirIndex() {
+  if (!confirm('Farklı bir hesaba geçmek istiyorsun.
+
+Mevcut kayıtların silinmez — tekrar aynı takma isimle girince geri gelir.
+
+Devam etmek istiyor musun?')) return;
   localStorage.removeItem('budurBuldumNickname');
   document.getElementById('auth-section').style.display = 'none';
 }
