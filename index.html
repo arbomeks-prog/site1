@@ -283,7 +283,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 
 <!-- TAKMAİSİM BÖLÜMÜ -->
-<div id="auth-section" style="background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:4px 16px;">
+<div id="auth-section" style="display:none;background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:4px 16px;">
 
   <!-- Daha önce kaydolduysa: profil kartları -->
   <div id="auth-profil" style="display:none;">
@@ -294,7 +294,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   </div>
 
   <!-- İlk kez geliyorsa veya profil yoksa -->
-  <div id="auth-yeni">
+  <div id="auth-yeni" style="display:none;">
     <div style="display:flex;gap:6px;">
       <input id="nick-tek-input" type="text" placeholder="Takma ismini yaz..." style="flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:0 10px;color:#fff;font-size:13px;outline:none;height:32px;box-sizing:border-box;" />
       <button onclick="nickTekGiris()" style="background:#e8a838;border:none;border-radius:6px;padding:0 12px;color:#412402;font-size:13px;font-weight:700;cursor:pointer;height:32px;white-space:nowrap;">Devam →</button>
@@ -341,6 +341,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
   var savedNick = localStorage.getItem('budurBuldumNickname');
   if (savedNick) {
+    document.getElementById('auth-section').style.display = 'block';
     document.getElementById('auth-yeni').style.display = 'none';
     document.getElementById('auth-profil').style.display = 'block';
     document.getElementById('nick-goster').textContent = savedNick;
