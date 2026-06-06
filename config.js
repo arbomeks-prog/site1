@@ -343,6 +343,31 @@ const QuizHelper = {
         const c = this.getCevaplar();
         c[id] = deger;
         localStorage.setItem('budurBuldumCevaplar', JSON.stringify(c));
+        // Her cevap değişiminde database'e kaydet (debounce 2sn)
+        clearTimeout(QuizHelper._logTimer);
+        QuizHelper._logTimer = setTimeout(function() {
+            try {
+                var sid = localStorage.getItem('budurBuldumSessionId');
+                if (!sid) {
+                    sid = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
+                    localStorage.setItem('budurBuldumSessionId', sid);
+                }
+                var cevaplar = QuizHelper.getCevaplar();
+                fetch('/api/log-quiz', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: sid,
+                        cinsiyet: cevaplar.cinsiyet || '',
+                        yas: cevaplar.yas || '',
+                        iliski_durumu: cevaplar.kime || '',
+                        butce: cevaplar.butce || '',
+                        ilgi_alanlari: '',
+                        ozel_not: JSON.stringify({ tum_cevaplar: cevaplar, quiz_tamamlandi: false })
+                    })
+                }).catch(function(){});
+            } catch(e) {}
+        }, 2000);
     },
 
     // Tüm cevapları sıfırla
