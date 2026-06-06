@@ -313,7 +313,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
           butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
           cevaplar: cv,
           sonSayfa: localStorage.getItem('budurBuldumSonSayfa') || '',
-          tamamlandi: localStorage.getItem('budurBuldumTamamlandi') === '1'
+          tamamlandi: false
         });
       }
     }
@@ -1525,6 +1525,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof QuizHelper !== 'undefined') QuizHelper.ayracGuncelle(false);
         // Önceki quiz verilerini temizle
         localStorage.removeItem('budurBuldumCevaplar');
+        localStorage.removeItem('budurBuldumTamamlandi');
         localStorage.removeItem('budurBuldumAktifSet');
         localStorage.removeItem('budurBuldumSecilenKime');
         localStorage.removeItem('budurBuldumSecilenBurc');
