@@ -483,6 +483,26 @@ msg._interval = iv;
   animWrap._stopYukleme = function() { animIc.className = ''; };
 })();
 
+// Kayıt popup - 3sn sonra göster, 5sn sonra kapat
+setTimeout(function() {
+    var pop = document.createElement('div');
+    pop.id = 'kayit-popup';
+    pop.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:#fff;border-radius:20px;padding:24px 28px;box-shadow:0 8px 40px rgba(0,0,0,0.18);text-align:center;max-width:300px;width:90%;';
+    pop.innerHTML = '<div style="font-size:32px;margin-bottom:10px;">💾</div><div style="font-size:16px;font-weight:800;color:#1e293b;margin-bottom:8px;">Araman kaydedildi!</div><div style="font-size:13px;color:#64748b;line-height:1.5;">Bir dahaki gelişinde bilgilerin hazır olacak, hemen özet sayfasından başlayabilirsin.</div>';
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9998;';
+    document.body.appendChild(overlay);
+    document.body.appendChild(pop);
+    setTimeout(function() {
+        pop.style.transition = 'opacity 0.4s';
+        overlay.style.transition = 'opacity 0.4s';
+        pop.style.opacity = '0';
+        overlay.style.opacity = '0';
+        setTimeout(function() { pop.remove(); overlay.remove(); }, 400);
+    }, 4000);
+    overlay.onclick = function() { pop.remove(); overlay.remove(); };
+}, 3000);
+
 try {
 const prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
 const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
