@@ -134,8 +134,26 @@
   </div>
 </div>
 
+<div id="devam-karti" style="display:none;background:rgba(232,168,56,0.12);border:1px solid rgba(232,168,56,0.35);border-radius:14px;padding:14px 16px;margin-bottom:12px;cursor:pointer;" onclick="window.location.href='ozet.html'">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="font-size:24px;">🔖</span>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:#e8a838;margin-bottom:2px;">Araman kaydedildi</div>
+      <div style="font-size:12px;color:#94a3b8;">Kaldığın yerden devam etmek için tıkla →</div>
+    </div>
+  </div>
+</div>
+
 <script>
 (function() {
+  // Cevaplar varsa devam kartını göster
+  try {
+    var cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+    if (Object.keys(cv).length > 0) {
+      document.getElementById('devam-karti').style.display = 'block';
+    }
+  } catch(e) {}
+
   var savedNick = localStorage.getItem('budurBuldumNickname');
   if (savedNick) {
     document.getElementById('auth-yeni').style.display = 'none';
