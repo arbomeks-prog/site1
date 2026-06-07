@@ -378,7 +378,32 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
         } else {
           localStorage.removeItem('budurBuldumTamamlandi');
           var sonSayfa = ayrac.sonSayfa;
-          var QUIZ = ['hediye-kime-alinacak-testi.html','cinsiyet','yas','dogum','amac','butce','oncelik','tarz','kisilik','hobiler','teknoloji','tatli','spor','muzik','hayvan','seyahat','kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak','doga','sanat','foto'];
+          var QUIZ = [
+            'hediye-kime-alinacak-testi.html','kadin-erkek-hediye-secimi-testi.html',
+            'dogum-tarihine-gore-hediye-testi.html','yasa-gore-hediye-bulma-testi.html',
+            'kisilik-tarzina-gore-hediye-testi.html','hobiye-gore-hediye-bulma-testi.html',
+            'sevdigi-renge-gore-hediye-testi.html','ne-icin-hediye-alinacak-testi.html',
+            'yasam-tarzina-gore-hediye-testi.html','teknoloji-ilgisine-gore-hediye-testi.html',
+            'butceye-gore-hediye-bulma-testi.html','mevsime-gore-hediye-secimi-testi.html',
+            'tatli-zevkine-gore-hediye-testi.html','sporcu-icin-hediye-bulma-testi.html',
+            'muzik-zevkine-gore-hediye-testi.html','hayvan-sever-icin-hediye-testi.html',
+            'seyahat-sevene-hediye-bulma-testi.html','kitap-okuyucuya-hediye-testi.html',
+            'kahve-cay-icene-hediye-testi.html','film-sevene-hediye-bulma-testi.html',
+            'bitki-sevene-hediye-testi.html','oyun-oynayanlara-hediye-testi.html',
+            'makyaj-bakim-sevene-hediye-testi.html','aksesuar-saat-sevene-hediye-testi.html',
+            'yemek-icin-hediye-bulma-testi.html','doga-yuruyusu-sevene-hediye-testi.html',
+            'sanat-sevene-hediye-bulma-testi.html','fotograf-cekmeyi-sevene-hediye-testi.html',
+            'kisilik-tipine-gore-hediye-testi.html','hediye-onceliklerine-gore-secim-testi.html',
+            'bebek-kiz-mi-erkek-mi-hediye-testi.html','bebek-yasina-gore-hediye-testi.html',
+            'bebek-hediyesi-ne-icin-alinacak-testi.html','bebege-ne-tur-hediye-alinacak-testi.html',
+            'butceye-gore-bebek-hediyesi-testi.html','anne-baba-tarzina-gore-bebek-hediyesi-testi.html',
+            'cocuk-kiz-mi-erkek-mi-hediye-testi.html','cocugun-yasina-gore-hediye-testi.html',
+            'cocuga-ne-icin-hediye-alinacak-testi.html','cocuga-ne-tur-hediye-alinacak-testi.html',
+            'butceye-gore-cocuk-hediyesi-testi.html','evcil-hayvan-icin-hediye-testi.html',
+            'butceye-gore-kedi-hediyesi-testi.html','butceye-gore-kopek-hediyesi-testi.html',
+            'butceye-gore-kus-hediyesi-testi.html','butceye-gore-balik-hediyesi-testi.html',
+            'butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html'
+          ];
           var quizMi = sonSayfa && QUIZ.some(function(s){ return sonSayfa.indexOf(s) >= 0; });
           window.location.href = quizMi ? sonSayfa : 'ozet.html';
         }
