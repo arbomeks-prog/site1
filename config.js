@@ -310,7 +310,7 @@ const QuizHelper = {
                 sessionId: sid,
                 kime: cv.kime || '',
                 amac: cv.amac || cv.bebek_amac || cv.cocuk_amac || '',
-                butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
+                butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || cv.kedi_butce || cv.kopek_butce || cv.kus_butce || cv.balik_butce || cv.kucukpet_butce || cv.pet_butce || '',
                 cevaplar: cv,
                 sonSayfa: sonSayfa,
                 tamamlandi: tamamlandi || false
