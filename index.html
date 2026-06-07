@@ -1568,8 +1568,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function startQuiz() {
         if (!selectedKime) return;
-        // Mevcut quiz varsa ayraç listesine kaydet
-        if (typeof QuizHelper !== 'undefined') QuizHelper.ayracGuncelle(false);
         // Önceki quiz verilerini temizle
         localStorage.removeItem('budurBuldumCevaplar');
         localStorage.removeItem('budurBuldumTamamlandi');
