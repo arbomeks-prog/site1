@@ -13,7 +13,6 @@ const QUIZ_CONFIG = {
     sorular: [
         { id:"kime",       soru:"Hediye kime alınıyor?",                     secenekler:["Sevgili","Arkadaş","Anne","Baba","Kardeş","Çocuk 🧒","Kendime","İş arkadaşı","Bebek ❤️","Pet ❤️"], sayfa:"hediye-kime-alinacak-testi.html" },
         { id:"cinsiyet",   soru:"Cinsiyeti nedir?",                          secenekler:["Kadın","Erkek","Kız Çocuğu","Erkek Çocuğu"], sayfa:"kadin-erkek-hediye-secimi-testi.html" },
-        { id:"dogum",      soru:"Doğum tarihi hakkında ne biliyorsunuz?",    secenekler:["Tarihini biliyorum","Bilmiyorum","Burcunu biliyorum"], sayfa:"dogum-tarihine-gore-hediye-testi.html", ozelTip:"dogum" },
         { id:"yas",        soru:"Yaş aralığı yaklaşık olarak nedir?",        secenekler:["0-2 (Bebek)","3-6 (Küçük Çocuk)","7-12 (Çocuk)","13-17 (Genç)","18-25","26-35","36-45","46-60","61-75","76+"], sayfa:"yasa-gore-hediye-bulma-testi.html" },
         { id:"tarz",       soru:"Tarzı nasıldır?",                           secenekler:["Minimalist","Renkli ve Eğlenceli","Klasik / Şık","Modern / Şık","Spor / Casual"], sayfa:"kisilik-tarzina-gore-hediye-testi.html" },
         { id:"hobiler",    soru:"Hobileri nelerdir?",                        secenekler:["Okumak","Spor yapmak","Müzik / Enstrüman","Seyahat","Yemek yapmak","Teknoloji","Sanat ve el işi","Bahçe / Bitki bakımı"], sayfa:"hobiye-gore-hediye-bulma-testi.html", maxSecim:2 },
@@ -41,6 +40,7 @@ const QUIZ_CONFIG = {
         { id:"foto",       soru:"Fotoğraf çekmeyi sever mi?",               secenekler:["Evet","Ara sıra","Hiç"], sayfa:"fotograf-cekmeyi-sevene-hediye-testi.html" },
         { id:"kisilik",    soru:"Kişilik tipi nasıl?",                       secenekler:["İçedönük","Dışadönük","Dengeli"], sayfa:"kisilik-tipine-gore-hediye-testi.html" },
         { id:"oncelik",    soru:"Hediye alırken en çok neye dikkat edersin?", secenekler:["Kullanışlı olsun","Güzel görünsün","Özel ve anlamlı olsun","Uygun fiyatlı olsun"], sayfa:"hediye-onceliklerine-gore-secim-testi.html" },
+        { id:"dogum",      soru:"Doğum tarihi hakkında ne biliyorsunuz?",    secenekler:["Tarihini biliyorum","Bilmiyorum","Burcunu biliyorum"], sayfa:"dogum-tarihine-gore-hediye-testi.html", ozelTip:"dogum" },
     ],
 
     // ==========================================
@@ -310,7 +310,7 @@ const QuizHelper = {
                 sessionId: sid,
                 kime: cv.kime || '',
                 amac: cv.amac || cv.bebek_amac || cv.cocuk_amac || '',
-                butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || cv.kedi_butce || cv.kopek_butce || cv.kus_butce || cv.balik_butce || cv.kucukpet_butce || cv.pet_butce || '',
+                butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
                 cevaplar: cv,
                 sonSayfa: sonSayfa,
                 tamamlandi: tamamlandi || false
