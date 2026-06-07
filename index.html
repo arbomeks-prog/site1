@@ -372,7 +372,9 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
         localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
         if (ayrac.tamamlandi) {
           localStorage.setItem('budurBuldumTamamlandi', '1');
-          window.location.href = 'ozet.html';
+          localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
+          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
+          window.location.href = 'profil.html';
         } else {
           localStorage.removeItem('budurBuldumTamamlandi');
           var sonSayfa = ayrac.sonSayfa;
