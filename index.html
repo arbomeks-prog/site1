@@ -1607,6 +1607,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const cevaplar = {};
             cevaplar['kime'] = selectedKime;
             localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cevaplar));
+            // Quiz başlarken hemen kaydet (yarım kalsa da kart açılsın)
+            var _sid = localStorage.getItem('budurBuldumSessionId') || '';
+            var _nick = localStorage.getItem('budurBuldumNickname') || '';
+            var _kisiAdi = localStorage.getItem('budurBuldumKisiAdi') || selectedKime || '';
+            if (_sid && (_nick || _kisiAdi)) {
+                fetch('/api/save-profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: _sid, nickname: _nick, kisi_adi: _kisiAdi, tum_cevaplar: cevaplar })
+                }).catch(function(e) {});
+            }
             const sonrakiSayfa = QuizHelper.getSonrakiSayfa('kime');
             window.location.href = sonrakiSayfa;
         } else {
