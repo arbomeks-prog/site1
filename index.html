@@ -1610,6 +1610,20 @@ document.addEventListener('DOMContentLoaded', function() {
             var _sid = localStorage.getItem('budurBuldumSessionId') || '';
             var _nick = localStorage.getItem('budurBuldumNickname') || '';
             var _kisiAdi = localStorage.getItem('budurBuldumKisiAdi_' + _sid) || '';
+            // Ayraç listesine hemen kisiAdi'yi yaz
+            if (_sid) {
+                try {
+                    var _ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+                    var _idx = -1;
+                    for (var _j = 0; _j < _ayraclar.length; _j++) {
+                        if (_ayraclar[_j].sessionId === _sid) { _idx = _j; break; }
+                    }
+                    var _yeniAyrac = { sessionId: _sid, kime: selectedKime, kisiAdi: _kisiAdi, cevaplar: cevaplar, tamamlandi: false };
+                    if (_idx >= 0) { _ayraclar[_idx] = Object.assign(_ayraclar[_idx], { kisiAdi: _kisiAdi }); }
+                    else { _ayraclar.push(_yeniAyrac); }
+                    localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_ayraclar));
+                } catch(e) {}
+            }
             if (_sid && (_nick || _kisiAdi)) {
                 fetch('/api/save-profile', {
                     method: 'POST',
@@ -1714,6 +1728,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateThumb();
 </script>
 </html>
+
 
 
 
