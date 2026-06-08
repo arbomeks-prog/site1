@@ -1556,8 +1556,6 @@ document.addEventListener('DOMContentLoaded', function() {
         devamBtn.scrollIntoView({behavior:'smooth', block:'nearest'});
     }
 
-    // kisiIsmiKaydet/kisiIsmiGec kaldırıldı
-
     function maybeStartQuiz() {
         if (selectedGender && selectedAge) {
             setTimeout(() => {
@@ -1576,6 +1574,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('budurBuldumSecilenBurc');
         localStorage.removeItem('budurBuldumSelectedCriteria');
         localStorage.removeItem('budurBuldumTiklananHediyeler');
+        localStorage.removeItem('budurBuldumKisiAdi');
         // Her yeni quiz için taze session_id üret
         var newSessionId = (crypto && crypto.randomUUID)
             ? crypto.randomUUID()
@@ -1583,7 +1582,26 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('budurBuldumSessionId', newSessionId);
         localStorage.setItem('budurBuldumGender', selectedGender);
         localStorage.setItem('budurBuldumAge', selectedAge);
-        // Kime cevabını kaydet (index'te zaten seçildi, tekrar sorma)
+        // İsim popup'ını aç
+        var inp = document.getElementById('kisi-ismi-input');
+        if (inp) inp.value = '';
+        document.getElementById('kisi-ismi-popup').style.display = 'flex';
+    }
+
+    function kisiIsmiKaydet() {
+        var isim = document.getElementById('kisi-ismi-input').value.trim();
+        localStorage.setItem('budurBuldumKisiAdi', isim);
+        document.getElementById('kisi-ismi-popup').style.display = 'none';
+        _quizeGec();
+    }
+
+    function kisiIsmiGec() {
+        localStorage.setItem('budurBuldumKisiAdi', '');
+        document.getElementById('kisi-ismi-popup').style.display = 'none';
+        _quizeGec();
+    }
+
+    function _quizeGec() {
         if (selectedKime) {
             const cevaplar = {};
             cevaplar['kime'] = selectedKime;
@@ -1598,6 +1616,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </div>
 
+
+<!-- KİŞİ İSMİ POPUP -->
+<div id="kisi-ismi-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#1e293b;border-radius:20px;padding:26px 22px;margin:20px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    <p style="font-size:18px;font-weight:800;color:#fff;margin:0 0 6px;">Bu aramaya isim ver 🏷️</p>
+    <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">Sonradan kolayca ayırt edebilirsin.<br>(ör: Ahmet, Selin, Annem, Nişanlım...)</p>
+    <input id="kisi-ismi-input" type="text" placeholder="İsim yaz..." maxlength="30"
+      onkeydown="if(event.key==='Enter') kisiIsmiKaydet()"
+      style="width:100%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:13px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box;margin-bottom:12px;" />
+    <button onclick="kisiIsmiKaydet()" style="width:100%;background:#e8a838;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;color:#412402;cursor:pointer;margin-bottom:10px;">Devam Et →</button>
+    <button onclick="kisiIsmiGec()" style="width:100%;background:transparent;border:1.5px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:15px;font-weight:600;color:#cbd5e1;cursor:pointer;">İsimsiz devam et</button>
+  </div>
+</div>
 
 </body>
 
@@ -1672,3 +1703,4 @@ document.addEventListener('DOMContentLoaded', function() {
     updateThumb();
 </script>
 </html>
+
