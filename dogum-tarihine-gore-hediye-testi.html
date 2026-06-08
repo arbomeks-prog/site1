@@ -624,48 +624,6 @@
     const IS_DOGUM = true;
 
     // Sayfa yüklendiğinde
-    window.onload = function() {
-        // Gift box'ları yükle
-        for(let i=0;i<6;i++){
-            const el=document.getElementById('gb-'+i);
-            if(el)el.querySelector('img').src=GIFT_IMGS[i]||'';
-        }
-
-        // Geri butonu
-        document.getElementById('geri-btn').href = QuizHelper.getOncekiSayfa(SORU_ID);
-        document.getElementById('geri-btn').addEventListener('click', function() { if(typeof BudurSes!=='undefined') BudurSes.geri(); });
-
-        // Progress bar
-        var progressYuzde = QuizHelper.getProgress(SORU_ID);
-        document.getElementById('progress-bar').style.width = progressYuzde + '%';
-        document.getElementById('progress-soru').textContent = QuizHelper.getKalanSoru(SORU_ID) + ' soru kaldı';
-        document.getElementById('progress-yuzde').textContent = '%' + progressYuzde;
-
-        // Soru başlığı
-        const soruNo = QuizHelper.getSoruNo(SORU_ID);
-        const soru = QuizHelper.getAktifSorular(SORU_ID).find(s => s.id === SORU_ID);
-        document.getElementById('soru-baslik').textContent = soruNo + '. ' + (soru ? soru.soru : '');
-
-        // Espri notu
-
-
-        // Gift box done/active durumları
-        updateGiftBoxes();
-
-        // Seçenekleri oluştur
-        renderSecenekler();
-
-    // Makale scrollbar
-        initMakaleScroll();
-
-        // Sayfa açılışında quiz bölümünü parmak erişim yüksekliğinde konumlandır
-        var qs = document.getElementById('quiz-section');
-        if (qs) {
-            var rect = qs.getBoundingClientRect();
-            var hedef = qs.offsetTop - (window.innerHeight * 0.25);
-            window.scrollTo({ top: hedef < 0 ? 0 : hedef });
-        }
-    };
 
     function updateGiftBoxes() {
         const sorular = QuizHelper.getAktifSorular(SORU_ID);
@@ -793,14 +751,6 @@
     }
 
     
-
-    // Devam butonu
-    document.getElementById('continue-btn').addEventListener('click', function() {
-        if(this.classList.contains('disabled-state')) return;
-        if(typeof BudurSes!=='undefined') BudurSes.basari();
-        var hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
-        window.location.href = hedef;
-    });
 
     // Doğum tarihi özel render
     function renderDogumSoru(cont, eskiCevap) {
@@ -1270,3 +1220,4 @@
 </script>
 </body>
 </html>
+
