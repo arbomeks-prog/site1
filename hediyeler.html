@@ -422,6 +422,7 @@ if (nickname || kisiAdiOnce) {
   const kisiAdi = kisiAdiOnce || _cvObj.kime || '';
   fetch('/api/save-profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, nickname: nickname || '', kisi_adi: kisiAdi, tum_cevaplar: _cvObj }) }).catch(function(e) {});
 }
+}
 } catch(e) {}
 
 const kime = cevaplar.kime || '';
