@@ -311,7 +311,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
       var aktifAyrac = {
         sessionId: aktifSid,
         kime: cv.kime || '',
-        kisiAdi: localStorage.getItem('budurBuldumKisiAdi') || '',
+        kisiAdi: localStorage.getItem('budurBuldumKisiAdi_' + aktifSid) || '',
         amac: cv.amac || cv.bebek_amac || cv.cocuk_amac || '',
         butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
         cevaplar: cv,
@@ -1575,7 +1575,6 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('budurBuldumSecilenBurc');
         localStorage.removeItem('budurBuldumSelectedCriteria');
         localStorage.removeItem('budurBuldumTiklananHediyeler');
-        localStorage.removeItem('budurBuldumKisiAdi');
         // Her yeni quiz için taze session_id üret
         var newSessionId = (crypto && crypto.randomUUID)
             ? crypto.randomUUID()
@@ -1591,13 +1590,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function kisiIsmiKaydet() {
         var isim = document.getElementById('kisi-ismi-input').value.trim();
-        localStorage.setItem('budurBuldumKisiAdi', isim);
+        var _sid = localStorage.getItem('budurBuldumSessionId') || '';
+        if (_sid) localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
         document.getElementById('kisi-ismi-popup').style.display = 'none';
         _quizeGec();
     }
 
     function kisiIsmiGec() {
-        localStorage.setItem('budurBuldumKisiAdi', '');
         document.getElementById('kisi-ismi-popup').style.display = 'none';
         _quizeGec();
     }
@@ -1610,7 +1609,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Quiz başlarken hemen kaydet (yarım kalsa da kart açılsın)
             var _sid = localStorage.getItem('budurBuldumSessionId') || '';
             var _nick = localStorage.getItem('budurBuldumNickname') || '';
-            var _kisiAdi = localStorage.getItem('budurBuldumKisiAdi') || '';
+            var _kisiAdi = localStorage.getItem('budurBuldumKisiAdi_' + _sid) || '';
             if (_sid && (_nick || _kisiAdi)) {
                 fetch('/api/save-profile', {
                     method: 'POST',
