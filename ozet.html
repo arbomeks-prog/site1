@@ -192,6 +192,9 @@
     window.onload = function() {
         localStorage.setItem('budurBuldumTamamlandi', '1');
         if (typeof QuizHelper !== 'undefined') QuizHelper.ayracTamamlandi();
+        if (typeof gtag === 'function') {
+            gtag('event', 'quiz_tamamlandi');
+        }
         setTimeout(function() {
             const target = document.getElementById('butce-baslik-wrapper');
             if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
