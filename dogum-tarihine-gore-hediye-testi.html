@@ -147,7 +147,7 @@
             <!-- Cevap butonları - statik HTML (SEO için) + JS ile interaktif -->
             <div style="display:flex; flex-direction:column; gap:0;">
                 <div id="options-container" class="grid grid-cols-2 gap-2"></div>
-                <button id="continue-btn" class="mt-2 w-full py-4 rounded-3xl text-lg font-semibold disabled-state" >Devam Et →</button>
+                <button id="continue-btn" class="mt-2 w-full py-4 rounded-3xl text-lg font-semibold disabled-state">Devam Et →</button>
             </div>
 
         </div>
@@ -205,10 +205,7 @@
         document.getElementById('progress-soru').textContent = QuizHelper.getKalanSoru(SORU_ID) + ' soru kaldı';
         document.getElementById('progress-yuzde').textContent = '%' + progressYuzde;
 
-        // Soru başlığı
-        const soruNo = QuizHelper.getSoruNo(SORU_ID);
-        const soru = QuizHelper.getAktifSorular(SORU_ID).find(s => s.id === SORU_ID);
-        document.getElementById('soru-baslik').textContent = soruNo + '. ' + (soru ? soru.soru : '');
+        // Soru başlığı statik HTML'de yazılı
 
         // Gift box done/active durumları
         updateGiftBoxes();
