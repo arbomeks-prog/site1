@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo — BudurBuldum</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #f8fafc; color: #1e293b; }
+
+  nav {
+    background: #0f172a;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #fbbf24; }
+  .nav-logo span { color: white; }
+
+  .page-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  h1.baslik {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: #0f172a;
+    margin-bottom: 20px;
+  }
+
+  .satir {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+    align-items: start;
+  }
+
+  .paragraf {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #334155;
+  }
+  .paragraf h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 10px;
+  }
+
+  .quiz-bolum {}
+
+  .q-baslik {
+    font-size: 10px;
+    font-weight: 800;
+    color: #f97316;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .q-soru {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .q-ans {
+    display: block;
+    width: 100%;
+    background: white;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  .q-ans:hover { border-color: #f97316; color: #f97316; background: #fff7ed; }
+  .q-ans.selected { background: #16a34a; border-color: #16a34a; color: white; }
+
+  /* ÜST POPUP */
+  #popup {
+    position: fixed;
+    top: 16%;
+    left: 50%;
+    transform: translateX(-50%) translateY(200px); opacity: 0;
+    background: #0f172a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  #popup.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  #popup .dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; flex-shrink: 0; }
+
+  .cta-wrap { margin-top: 8px; }
+  .cta-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white; border: none; border-radius: 8px;
+    padding: 10px; font-size: 12px; font-weight: 800;
+    font-family: 'Nunito', sans-serif; cursor: pointer;
+  }
+  .cta-btn:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+</style>
+</head>
+<body>
+
+<!-- ÜST POPUP -->
+<div id="popup">
+  <div class="dot"></div>
+  <span>✓ Kaydedildi — istediğin zaman tamamla</span>
+</div>
+
+<nav>
+  <div class="nav-logo"><span>Budur</span>Buldum</div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.4);">Kişiye Özel Hediye</div>
+</nav>
+
+<div class="page-wrap">
+  <h1 class="baslik">Babana En İyi Hediyeyi Nasıl Bulursun?</h1>
+
+  <!-- SATIR 1 -->
+  <div class="satir">
+    <div class="paragraf">
+      Her yıl Haziran ayının üçüncü Pazarı geldiğinde milyonlarca insan aynı soruyu sorar: <strong>"Babama ne alsam?"</strong> Çorap, kravat, parfüm — yıllardır aynı döngü. Ama babanın gerçekten istediği hediye bunlar değil. İyi bir hediye seçmek çok basit bir formüle dayanır: karşındaki insanı tanımak. Hobisi ne? Günlük hayatında neye ihtiyaç duyuyor? Hangi şeylerden zevk alıyor?
+    </div>
+    <div class="quiz-bolum">
+      <div class="q-baslik">Soru 1</div>
+      <div class="q-soru">Hediye kime alınıyor?</div>
+      <button class="q-ans" onclick="sec(this,1)">Baba</button>
+      <button class="q-ans" onclick="sec(this,1)">Anne</button>
+      <button class="q-ans" onclick="sec(this,1)">Sevgili</button>
+      <button class="q-ans" onclick="sec(this,1)">Arkadaş</button>
+      <button class="q-ans" onclick="sec(this,1)">Kardeş</button>
+      <button class="q-ans" onclick="sec(this,1)">Kendime</button>
+    </div>
+  </div>
+
+  <!-- SATIR 2 -->
+  <div class="satir">
+    <div class="paragraf">
+      <h2>Yaşa Göre Hediye Nasıl Değişir?</h2>
+      Yaş aralığına göre baba profilleri çok farklılaşır. 40-50 yaş arası bir baba ile 60+ yaş bir babanın beklentileri neredeyse hiç örtüşmez. Genç bir baba teknoloji odaklı hediyelerden hoşlanırken, daha olgun bir baba pratik ve kalıcı şeyleri tercih eder.
+    </div>
+    <div class="quiz-bolum">
+      <div class="q-baslik">Soru 2</div>
+      <div class="q-soru">Yaş aralığı nedir?</div>
+      <button class="q-ans" onclick="sec(this,2)">36-45</button>
+      <button class="q-ans" onclick="sec(this,2)">46-60</button>
+      <button class="q-ans" onclick="sec(this,2)">61-75</button>
+      <button class="q-ans" onclick="sec(this,2)">76+</button>
+    </div>
+  </div>
+
+  <!-- SATIR 3 -->
+  <div class="satir">
+    <div class="paragraf">
+      <h2>Hediyenin Amacı Çok Önemli</h2>
+      Babalar Günü için alınan hediye ile doğum günü hediyesi arasında büyük fark vardır. Babalar Günü daha duygusal, doğum günü daha kişisel bir hediye çağrısında bulunur. Aynı şekilde yılbaşı hediyeleri daha eğlenceli ve sürpriz odaklı olabilir.
+    </div>
+    <div class="quiz-bolum">
+      <div class="q-baslik">Soru 3</div>
+      <div class="q-soru">Hediye ne için?</div>
+      <button class="q-ans" onclick="sec(this,3)">Babalar Günü 🎉</button>
+      <button class="q-ans" onclick="sec(this,3)">Doğum Günü 🎂</button>
+      <button class="q-ans" onclick="sec(this,3)">Yılbaşı 🎄</button>
+      <button class="q-ans" onclick="sec(this,3)">Sürpriz</button>
+    </div>
+  </div>
+
+  <!-- SATIR 4 -->
+  <div class="satir">
+    <div class="paragraf">
+      <h2>Hobisi Her Şeyi Söyler</h2>
+      Babanın hobisi doğru hediyenin en kısa yoludur. Balık tutan bir babaya genel bir hediye değil, balıkçılıkla ilgili bir şey almak hem çok daha kolaydır hem de çok daha değer görür. Teknolojiyi seven biri ise her yeni gadget'tan heyecan duyar.
+    </div>
+    <div class="quiz-bolum">
+      <div class="q-baslik">Soru 4</div>
+      <div class="q-soru">Hobisi ne?</div>
+      <button class="q-ans" onclick="sec(this,4)">Teknoloji 💻</button>
+      <button class="q-ans" onclick="sec(this,4)">Spor ⚽</button>
+      <button class="q-ans" onclick="sec(this,4)">Balık 🎣</button>
+      <button class="q-ans" onclick="sec(this,4)">Müzik 🎵</button>
+      <button class="q-ans" onclick="sec(this,4)">Kitap 📚</button>
+      <button class="q-ans" onclick="sec(this,4)">Yemek 🍳</button>
+    </div>
+  </div>
+
+  <!-- SATIR 5 -->
+  <div class="satir">
+    <div class="paragraf">
+      <h2>Bütçeyi Doğru Belirle</h2>
+      Hediyenin fiyatı değil, düşüncesi önemlidir — ama bu her zaman doğru değil. Bazen 500 TL'lik doğru hediye, 2.000 TL'lik yanlış hediyeden çok daha değerlidir. Önemli olan parayı nereye harcadığın, ne kadar değil.
+    </div>
+    <div class="quiz-bolum">
+      <div class="q-baslik">Soru 5</div>
+      <div class="q-soru">Bütçe nedir?</div>
+      <button class="q-ans" onclick="sec(this,5)">500 TL altı</button>
+      <button class="q-ans" onclick="sec(this,5)">500-1000 TL</button>
+      <button class="q-ans" onclick="sec(this,5)">1-3 bin TL</button>
+      <button class="q-ans" onclick="sec(this,5)">3000+ TL</button>
+      <div class="cta-wrap">
+        <button class="cta-btn" id="cta" disabled>🎁 Hediyeleri Gör</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let done = 0;
+  let popupTimer = null;
+
+  function sec(el, n) {
+    const parent = el.parentElement;
+    parent.querySelectorAll('.q-ans').forEach(a => a.classList.remove('selected'));
+    el.classList.add('selected');
+    if (n > done) done = n;
+
+    // Popup göster
+    const popup = document.getElementById('popup');
+    popup.classList.add('show');
+    clearTimeout(popupTimer);
+    popupTimer = setTimeout(() => popup.classList.remove('show'), 3000);
+
+    if (done >= 5) document.getElementById('cta').disabled = false;
+  }
+</script>
+</body>
+</html>
