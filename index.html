@@ -1585,6 +1585,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // İsim popup'ını aç
         var inp = document.getElementById('kisi-ismi-input');
         if (inp) inp.value = '';
+        var kimeLabel = document.getElementById('kisi-ismi-kime-label');
+        if (kimeLabel) kimeLabel.textContent = selectedKime;
         document.getElementById('kisi-ismi-popup').style.display = 'flex';
     }
 
@@ -1648,9 +1650,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- KİŞİ İSMİ POPUP -->
 <div id="kisi-ismi-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;">
   <div style="background:#1e293b;border-radius:20px;padding:26px 22px;margin:20px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-    <p style="font-size:18px;font-weight:800;color:#fff;margin:0 0 6px;">Bu aramaya isim ver 🏷️</p>
-    <p style="font-size:13px;color:#94a3b8;margin:0 0 16px;">Sonradan kolayca ayırt edebilirsin.<br>(ör: Ahmet, Selin, Annem, Nişanlım...)</p>
-    <input id="kisi-ismi-input" type="text" placeholder="İsim yaz..." maxlength="30"
+    <p style="font-size:18px;font-weight:800;color:#fff;margin:0 0 12px;">Bu aramaya isim ver 🏷️</p>
+    <div style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:12px 14px;margin-bottom:10px;">
+      <p style="font-size:11px;color:#64748b;margin:0 0 2px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;">Kime alınıyor</p>
+      <p id="kisi-ismi-kime-label" style="font-size:16px;font-weight:700;color:#e2e8f0;margin:0;"></p>
+    </div>
+    <input id="kisi-ismi-input" type="text" placeholder="Kişiye isim ver... (opsiyonel)" maxlength="30"
       onkeydown="if(event.key==='Enter') kisiIsmiKaydet()"
       style="width:100%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:13px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box;margin-bottom:12px;" />
     <button onclick="kisiIsmiKaydet()" style="width:100%;background:#e8a838;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;color:#412402;cursor:pointer;margin-bottom:10px;">Devam Et →</button>
