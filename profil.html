@@ -151,6 +151,7 @@ function getButceSet(butceKey) {
   return m[butceKey] || 'normal';
 }
 
+function encodeHTML(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 function getInitials(isim) {
   if (!isim) return '??';
   var p = isim.trim().split(' ');
@@ -327,7 +328,7 @@ function renderKartlar(kisiler) {
       '</div>'+
       '<div class="dp" id="dp-'+idx+'">'+
         '<p class="dp-label">İsim</p>'+
-        '<input id="dp-isim-'+idx+'" type="text" value="'+isim.replace(/"/g,\'&quot;\')+'" maxlength="30" placeholder="Ahmet, Selin, Annem..." style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);border-radius:10px;padding:10px 12px;color:#fff;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:4px;"/>'+
+        '<input id="dp-isim-'+idx+'" type="text" value="'+encodeHTML(isim)+'" maxlength="30" placeholder="Ahmet, Selin, Annem..." style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);border-radius:10px;padding:10px 12px;color:#fff;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:4px;"/>'+
         '<p class="dp-label dp-margin">Bütçe</p>'+
         '<div>'+btnler(BUTCE_OPT[butceSet]||BUTCE_OPT.normal,butce,idx,'butce')+'</div>'+
         '<p class="dp-label dp-margin">Amaç</p>'+
@@ -448,4 +449,5 @@ window.onload=function(){
 </script>
 </body>
 </html>
+
 
