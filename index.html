@@ -1591,7 +1591,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function kisiIsmiKaydet() {
         var isim = document.getElementById('kisi-ismi-input').value.trim();
         var _sid = localStorage.getItem('budurBuldumSessionId') || '';
-        if (_sid) localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
+        if (_sid) {
+            localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
+            // Ayraç listesindeki bu session'ın kisiAdi'sini hemen güncelle
+            try {
+                var _list = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+                for (var _i = 0; _i < _list.length; _i++) {
+                    if (_list[_i].sessionId === _sid) { _list[_i].kisiAdi = isim; break; }
+                }
+                localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_list));
+            } catch(e) {}
+        }
         document.getElementById('kisi-ismi-popup').style.display = 'none';
         _quizeGec();
     }
@@ -1728,6 +1738,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateThumb();
 </script>
 </html>
+
 
 
 
