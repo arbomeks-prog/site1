@@ -173,6 +173,14 @@
 
     // Sayfa yüklendiğinde
     window.onload = function() {
+        // GA4: quiz adım takibi
+        if (typeof gtag === 'function') {
+            gtag('event', 'quiz_adim', {
+                soru_id: SORU_ID,
+                adim_no: QuizHelper.getSoruNo ? QuizHelper.getSoruNo(SORU_ID) : SORU_ID
+            });
+        }
+
         // Gift box'ları yükle
         for(let i=0;i<6;i++){
             const el=document.getElementById('gb-'+i);
