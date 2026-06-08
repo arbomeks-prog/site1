@@ -209,10 +209,7 @@
         document.getElementById('progress-soru').textContent = QuizHelper.getKalanSoru(SORU_ID) + ' soru kaldı';
         document.getElementById('progress-yuzde').textContent = '%' + progressYuzde;
 
-        // Soru başlığı
-        const soruNo = QuizHelper.getSoruNo(SORU_ID);
-        const soru = QuizHelper.getAktifSorular(SORU_ID).find(s => s.id === SORU_ID);
-        document.getElementById('soru-baslik').textContent = soruNo + '. ' + (soru ? soru.soru : '');
+        // Soru başlığı statik HTML'de yazılı
 
         // Espri notu
 
@@ -624,7 +621,7 @@
     }
 </script>
 
-<div class="site-popup-overlay" id="site-popup-overlay" onclick="sitePopupKapat(event)">
+<div class="site-popup-overlay" id="site-popup-overlay" onclick="sitePopupKapat(event)" style="display:none">
   <div class="site-popup">
     <div class="site-popup-title">Nerede bakmak istersin?</div>
     <div class="site-popup-urun" id="popup-urun-adi"></div>
