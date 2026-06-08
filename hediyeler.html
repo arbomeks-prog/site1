@@ -411,16 +411,16 @@ const sessionId = localStorage.getItem('budurBuldumSessionId');
 if (sessionId) {
 const hobiler = Array.isArray(cevaplar.hobiler) ? cevaplar.hobiler.join(',') : (cevaplar.hobiler || '');
 fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, cinsiyet: cevaplar.cinsiyet || '', yas: cevaplar.yas || '', iliski_durumu: cevaplar.kime || '', butce: cevaplar.butce || '', ilgi_alanlari: hobiler, ozel_not: JSON.stringify({ ziyaretci_cinsiyet: localStorage.getItem('budurBuldumGender') || '', tum_cevaplar: cevaplar, secilen_kriterler: selectedCriteria, burc: secilenBurc }) }) }).catch(function(e) {});
-// Nickname varsa profili kaydet
+// Profili kaydet (nickname olmasa da kisiAdi varsa)
 const nickname = localStorage.getItem('budurBuldumNickname');
-if (nickname) {
+const kisiAdiOnce = localStorage.getItem('budurBuldumKisiAdi') || '';
+if (nickname || kisiAdiOnce) {
   var _cvObj = {};
   try { _cvObj = typeof cevaplar === 'string' ? JSON.parse(cevaplar) : cevaplar; } catch(e) {}
   _cvObj._selectedCriteria = selectedCriteria;
   _cvObj._aktifSet = localStorage.getItem('budurBuldumAktifSet') || 'normal';
-  const kisiAdi = localStorage.getItem('budurBuldumKisiAdi') || _cvObj.kime || '';
-  fetch('/api/save-profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, nickname: nickname, kisi_adi: kisiAdi, tum_cevaplar: _cvObj }) }).catch(function(e) {});
-}
+  const kisiAdi = kisiAdiOnce || _cvObj.kime || '';
+  fetch('/api/save-profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, nickname: nickname || '', kisi_adi: kisiAdi, tum_cevaplar: _cvObj }) }).catch(function(e) {});
 }
 } catch(e) {}
 
@@ -690,3 +690,4 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
 </script>
 </body>
 </html>
+
