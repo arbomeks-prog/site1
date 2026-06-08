@@ -318,7 +318,10 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
         sonSayfa: localStorage.getItem('budurBuldumSonSayfa') || '',
         tamamlandi: aktifIdx >= 0 ? ayraclar[aktifIdx].tamamlandi : false
       };
-      if (aktifIdx >= 0) { ayraclar[aktifIdx] = aktifAyrac; }
+      if (aktifIdx >= 0) {
+        aktifAyrac.kisiAdi = aktifAyrac.kisiAdi || ayraclar[aktifIdx].kisiAdi || '';
+        ayraclar[aktifIdx] = aktifAyrac;
+      }
       else { ayraclar.push(aktifAyrac); }
     }
 
@@ -1736,6 +1739,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateThumb();
 </script>
 </html>
+
 
 
 
