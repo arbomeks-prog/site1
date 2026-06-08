@@ -323,6 +323,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
         ayraclar[aktifIdx] = aktifAyrac;
       }
       else { ayraclar.push(aktifAyrac); }
+      localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
     }
 
     if (ayraclar.length === 0) return;
@@ -1739,6 +1740,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateThumb();
 </script>
 </html>
+
 
 
 
