@@ -326,7 +326,9 @@ function renderKartlar(kisiler) {
         '<div class="detay" style="grid-column:1/-1;"><p class="detay-label">Öncelik</p><p class="detay-val" id="oncelik-val-'+idx+'">'+oncelik+'</p></div>'+
       '</div>'+
       '<div class="dp" id="dp-'+idx+'">'+
-        '<p class="dp-label">Bütçe</p>'+
+        '<p class="dp-label">İsim</p>'+
+        '<input id="dp-isim-'+idx+'" type="text" value="'+isim.replace(/"/g,\'&quot;\')+'" maxlength="30" placeholder="Ahmet, Selin, Annem..." style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);border-radius:10px;padding:10px 12px;color:#fff;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:4px;"/>'+
+        '<p class="dp-label dp-margin">Bütçe</p>'+
         '<div>'+btnler(BUTCE_OPT[butceSet]||BUTCE_OPT.normal,butce,idx,'butce')+'</div>'+
         '<p class="dp-label dp-margin">Amaç</p>'+
         '<div>'+btnler(AMAC_OPT[aktifSet]||AMAC_OPT.normal,amac,idx,'amac')+'</div>'+
@@ -353,6 +355,9 @@ function kaydetDP(idx){
   var cv=k.tum_cevaplar||{};
   if(typeof cv==='string'){try{cv=JSON.parse(cv);}catch(e){cv={};}}
   var amacDegisti=k._ea&&k._ea!==(cv[k._eaKey||'amac']);
+  // İsim güncelle
+  var yeniIsim=document.getElementById('dp-isim-'+idx);
+  if(yeniIsim&&yeniIsim.value.trim()){k.kisi_adi=yeniIsim.value.trim();var kartIsimEl=document.querySelector('#kart-'+idx+' .kart-isim');if(kartIsimEl)kartIsimEl.textContent=k.kisi_adi;}
   if(k._eb){cv[k._ebKey||'butce']=k._eb;k.butce=k._eb;}
   if(k._ea){cv[k._eaKey||'amac']=k._ea;document.getElementById('amac-val-'+idx).textContent=k._ea;}
   if(k._eo){cv.oncelik=k._eo;document.getElementById('oncelik-val-'+idx).textContent=k._eo;}
@@ -443,3 +448,4 @@ window.onload=function(){
 </script>
 </body>
 </html>
+
