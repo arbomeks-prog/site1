@@ -359,18 +359,39 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
       }
       kart.onclick = (function(ayrac, kartEl) { return function(e) {
         if (e.target.classList.contains('ayrac-sil')) {
-          var list = [];
-          try { list = JSON.parse(localStorage.getItem('budurBuldumAyraclar')||'[]'); } catch(ex){}
-          list = list.filter(function(x){ return x.sessionId !== ayrac.sessionId; });
-          localStorage.setItem('budurBuldumAyraclar', JSON.stringify(list));
-          if (localStorage.getItem('budurBuldumSessionId') === ayrac.sessionId) {
-            localStorage.removeItem('budurBuldumSessionId');
-            localStorage.removeItem('budurBuldumCevaplar');
-            localStorage.removeItem('budurBuldumTamamlandi');
-          }
-          kartEl.remove();
-          var k = document.getElementById('arayaclar-konteyner');
-          if (k && k.children.length === 0) document.getElementById('arayaclar-sarici').style.display='none';
+          e.stopPropagation();
+          // Onay katmanı zaten açıksa tekrar açma
+          if (kartEl.querySelector('.ayrac-onay')) return;
+          var onay = document.createElement('div');
+          onay.className = 'ayrac-onay';
+          onay.style.cssText = 'position:absolute;inset:0;background:rgba(15,23,42,0.93);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;z-index:10;';
+          onay.innerHTML =
+            '<p style="font-size:13px;font-weight:700;color:#fff;text-align:center;margin:0;">Bu aramayı sil?</p>'+
+            '<div style="display:flex;gap:6px;width:100%;">'+
+            '<button class="onay-evet" style="flex:1;background:#ef4444;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;">Evet, sil</button>'+
+            '<button class="onay-iptal" style="flex:1;background:rgba(255,255,255,0.12);border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:600;color:#cbd5e1;cursor:pointer;">İptal</button>'+
+            '</div>';
+          kartEl.style.position = 'relative';
+          kartEl.appendChild(onay);
+          onay.querySelector('.onay-iptal').onclick = function(ev) {
+            ev.stopPropagation();
+            onay.remove();
+          };
+          onay.querySelector('.onay-evet').onclick = function(ev) {
+            ev.stopPropagation();
+            var list = [];
+            try { list = JSON.parse(localStorage.getItem('budurBuldumAyraclar')||'[]'); } catch(ex){}
+            list = list.filter(function(x){ return x.sessionId !== ayrac.sessionId; });
+            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(list));
+            if (localStorage.getItem('budurBuldumSessionId') === ayrac.sessionId) {
+              localStorage.removeItem('budurBuldumSessionId');
+              localStorage.removeItem('budurBuldumCevaplar');
+              localStorage.removeItem('budurBuldumTamamlandi');
+            }
+            kartEl.remove();
+            var k = document.getElementById('arayaclar-konteyner');
+            if (k && k.children.length === 0) document.getElementById('arayaclar-sarici').style.display='none';
+          };
           return;
         }
         localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
