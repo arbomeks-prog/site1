@@ -336,7 +336,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
     ayraclar.slice().reverse().forEach(function(a, i) {
       var renk = RENKLER[i % RENKLER.length];
-      var initials = (a.kisiAdi || a.kime || '?').substring(0, 2).toUpperCase();
+      var initials = (a.kime || '?').substring(0, 2).toUpperCase();
       var kart = document.createElement('div');
 
       if (a.tamamlandi) {
@@ -1761,6 +1761,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateThumb();
 </script>
 </html>
+
 
 
 
