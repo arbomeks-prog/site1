@@ -50,7 +50,10 @@ body{background:#0f172a;font-family:-apple-system,sans-serif;color:#e2e8f0;min-h
   <div class="giris-kart">
     <h1>🔒 Panel</h1>
     <p>BudurBuldum yönetim paneli</p>
-    <div style="position:relative;margin-bottom:12px;"><input id="sifre-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')girisYap()" style="width:100%;padding-right:44px;margin-bottom:0;"/><button onclick="var i=document.getElementById('sifre-input');i.type=i.type==='password'?'text':'password'" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;color:#94a3b8;padding:0;">👁</button></div>
+    <div style="position:relative;margin-bottom:12px;">
+<input id="sifre-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')girisYap()" style="width:100%;padding-right:48px;margin-bottom:0;text-align:left;letter-spacing:3px;"/>
+<button onclick="var i=document.getElementById('sifre-input');i.type=i.type==='password'?'text':'password';this.style.opacity=i.type==='text'?'1':'0.4';" type="button" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#94a3b8;padding:4px;opacity:0.4;line-height:1;">👁</button>
+</div>
     <button onclick="girisYap()">Gir</button>
     <p class="hata" id="giris-hata"></p>
   </div>
