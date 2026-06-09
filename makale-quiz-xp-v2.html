@@ -330,6 +330,7 @@
 <script>
   var secimler = {};
   var popupTimer = null;
+  var aktifSoru = null;
 
   // Her soruya özel örnek hediyeler (gerçek uygulamada API'den gelecek)
   var hediyeler = {
@@ -441,6 +442,13 @@
     el.classList.add('selected');
     secimler[n] = deger;
 
+    // Eğer hediye popup'ı açıksa ve bu soruya aitti, direkt hediyeleri göster
+    var hediyePopup = document.getElementById('hediye-popup');
+    if (hediyePopup.style.display === 'block' && aktifSoru === n) {
+      hediyeGoster(n);
+      return;
+    }
+
     var popup = document.getElementById('popup');
     popup.classList.add('show');
     clearTimeout(popupTimer);
@@ -485,6 +493,7 @@
   function popupKapat() {
     document.getElementById('hediye-popup').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
+    aktifSoru = null;
   }
 </script>
 </body>
