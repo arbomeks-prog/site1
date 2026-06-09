@@ -111,10 +111,10 @@
   }
   .hediye-btn:hover { transform: translateY(-1px); }
   @keyframes hediye-flash { 0%,100%{opacity:1;box-shadow:none;} 50%{opacity:0.35;box-shadow:0 0 16px 5px #f97316;} }
-  @keyframes hediye-glare { 0%{background-position:-200% 0;} 100%{background-position:200% 0;} }
+  @keyframes hediye-glare { 0%{background-position:-200% 0;} 100%{background-position:250% 0;} }
   .flash { animation: hediye-flash 0.7s ease-in-out 4 !important; }
   .glare { position:relative; overflow:hidden; }
-  .glare::after { content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.55) 50%,transparent 60%); background-size:200% 100%; animation:hediye-glare 0.6s ease-in-out 1; }
+  .glare::after { content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.5) 50%,transparent 65%); background-size:200% 100%; animation:hediye-glare 1.1s ease-in-out 1 forwards; }
 
   /* OVERLAY */
   #overlay {
