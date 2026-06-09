@@ -75,15 +75,14 @@ export default async function handler(req, res) {
             ORDER BY tarih ASC
         `;
 
-        // Yarıda bırakanların son sayfası
-        const yarim_birakanlar = await sql`
-            SELECT ozel_not, COUNT(*) as sayi
+        // Yarıda bırakanlar — kaç soru cevapladı
+        const yarim_detay = await sql`
+            SELECT session_id, iliski_durumu, butce, cinsiyet, yas, ozel_not, updated_at
             FROM quiz_logs
             WHERE quiz_tamamlandi = false
             AND ozel_not IS NOT NULL
-            GROUP BY ozel_not
-            ORDER BY sayi DESC
-            LIMIT 10
+            ORDER BY updated_at DESC
+            LIMIT 50
         `;
 
         res.status(200).json({
@@ -95,7 +94,7 @@ export default async function handler(req, res) {
             kime_dagilim,
             butce_dagilim,
             son_7_gun,
-            yarim_birakanlar
+            yarim_detay
         });
 
     } catch (error) {
