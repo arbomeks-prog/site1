@@ -1,6 +1,6 @@
 import { neon } from '@neondatabase/serverless';
 
-const PANEL_SIFRE = process.env.PANEL_SIFRE || 'kerutti2026';
+const PANEL_SIFRE = 'kerutti2026';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
     const { sifre } = req.query;
-    if (sifre !== PANEL_SIFRE) return res.status(401).json({ error: 'Yetkisiz' });
+    if (!sifre || sifre.trim() !== PANEL_SIFRE) return res.status(401).json({ error: 'Yetkisiz' });
 
     try {
         const sql = neon(process.env.DATABASE_URL);
