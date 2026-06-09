@@ -538,7 +538,7 @@ function sonrakiSoru() {
                     t(() => {
                         document.getElementById('popup').classList.remove('aktif');
                         kart.classList.remove('aktif');
-                        kart.classList.add('cevaplandi'); kart.dataset.sira = adim + 1;
+                        kart.dataset.sira = adim + 1; kart.classList.add('cevaplandi');
                         document.getElementById('kicerik-' + i).textContent = secilenMetin;
 
                         adim++;
