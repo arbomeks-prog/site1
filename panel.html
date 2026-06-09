@@ -163,6 +163,42 @@ function render(d) {
     html += '</div>';
   }
 
+  // Yarıda bırakanlar detay
+  if (d.yarim_detay && d.yarim_detay.length > 0) {
+    html += '<div class="section"><div class="section-title">Yarıda bırakanlar (son 50)</div>';
+    html += '<div style="overflow-x:auto;">';
+    html += '<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+    html += '<thead><tr>';
+    html += '<th style="text-align:left;padding:6px 8px;color:#64748b;border-bottom:1px solid rgba(255,255,255,0.08);">Kime</th>';
+    html += '<th style="text-align:left;padding:6px 8px;color:#64748b;border-bottom:1px solid rgba(255,255,255,0.08);">Cevaplanan</th>';
+    html += '<th style="text-align:left;padding:6px 8px;color:#64748b;border-bottom:1px solid rgba(255,255,255,0.08);">Bütçe</th>';
+    html += '<th style="text-align:left;padding:6px 8px;color:#64748b;border-bottom:1px solid rgba(255,255,255,0.08);">Ne zaman</th>';
+    html += '</tr></thead><tbody>';
+    d.yarim_detay.forEach(function(r) {
+      var cevapSayisi = 0;
+      try {
+        var ozel = JSON.parse(r.ozel_not);
+        var cv = ozel.tum_cevaplar || {};
+        cevapSayisi = Object.keys(cv).filter(function(k){ return cv[k] && cv[k] !== ''; }).length;
+      } catch(e) {}
+      var zaman = '';
+      try {
+        var d2 = new Date(r.updated_at);
+        var fark = Math.floor((Date.now() - d2) / 60000);
+        if (fark < 60) zaman = fark + ' dk önce';
+        else if (fark < 1440) zaman = Math.floor(fark/60) + ' sa önce';
+        else zaman = Math.floor(fark/1440) + ' gün önce';
+      } catch(e) {}
+      html += '<tr>';
+      html += '<td style="padding:7px 8px;border-bottom:1px solid rgba(255,255,255,0.05);color:#e2e8f0;">' + (r.iliski_durumu||'—') + '</td>';
+      html += '<td style="padding:7px 8px;border-bottom:1px solid rgba(255,255,255,0.05);color:#e8a838;font-weight:700;">' + cevapSayisi + ' soru</td>';
+      html += '<td style="padding:7px 8px;border-bottom:1px solid rgba(255,255,255,0.05);color:#94a3b8;">' + (r.butce||'—') + '</td>';
+      html += '<td style="padding:7px 8px;border-bottom:1px solid rgba(255,255,255,0.05);color:#64748b;">' + zaman + '</td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table></div></div>';
+  }
+
   html += '<button class="admin-btn" onclick="adminIsaretle()">🔧 Bu cihazı admin olarak işaretle</button>';
 
   document.getElementById('panel-icerik').innerHTML = html;
