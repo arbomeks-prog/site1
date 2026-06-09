@@ -233,3 +233,22 @@ Budur Buldum, akıllı bir hediye bulma, seçme ve satın alma platformudur. Haz
 - Commit mesajları Türkçe ve açıklayıcı
 - Her push sonrası syntax kontrol yap
 - `sadece-degisen-dosyalar.zip` repoda duruyor — silinecek
+
+---
+
+## Makale XP Quiz Sistemi — FINAL (10 Haziran 2026)
+
+**Dosyalar:**
+- `makale-quiz-xp-v2.html` — aktif çalışma dosyası
+- `makale-quiz-xp-v2-final.html` — final yedek
+- `makale-quiz-xp-v2-20260610.html` — tarihli yedek
+- `makale-quiz-xp-deneme.html` — orijinal demo (dokunma)
+
+**Nasıl çalışır:**
+- Sol sütun: makale metni
+- Sağ sütun: quiz soruları + cevaplar + her sorunun altında "Hediyeleri Gör" butonu
+- Şıkka tıklayınca: altındaki "Hediyeleri Gör" butonu yanıp söner (flash) + son hamlede glare geçer
+- "Hediyeleri Gör" butonuna cevap vermeden basarsa: sol tarafta popup açılır, sağdaki cevapları işaret eder, cevap verilince direkt hediyeler açılır
+- "Hediyeleri Gör" butonuna cevap verdikten sonra basarsa: direkt hediyeler açılır
+- Popup kapatma butonu Windows XP kırmızı stili
+- Hediyeler 2x2 grid, tıklanınca alışveriş sitesine gider (affiliate)
