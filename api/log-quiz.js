@@ -20,7 +20,8 @@ export default async function handler(req, res) {
             butce,
             ilgi_alanlari,
             ozel_not = '',
-            tiklanan_hediyeler = null
+            tiklanan_hediyeler = null,
+            quiz_tamamlandi = false
         } = req.body;
 
         if (!session_id) {
@@ -48,7 +49,7 @@ export default async function handler(req, res) {
                     ilgi_alanlari = COALESCE(${ilgiAlanlariStr}, ilgi_alanlari),
                     ozel_not = COALESCE(${ozel_not}, ozel_not),
                     tiklanan_hediyeler = COALESCE(${tiklanan_hediyeler ? JSON.stringify(tiklanan_hediyeler) : null}, tiklanan_hediyeler),
-                    quiz_tamamlandi = true,
+                    quiz_tamamlandi = ${quiz_tamamlandi},
                     updated_at = NOW()
                 WHERE session_id = ${session_id}
             `;
@@ -59,7 +60,7 @@ export default async function handler(req, res) {
                     ilgi_alanlari, ozel_not, quiz_tamamlandi, tiklanan_hediyeler
                 ) VALUES (
                     ${session_id}, ${cinsiyet}, ${yas}, ${iliski_durumu}, ${butce},
-                    ${ilgiAlanlariStr}, ${ozel_not}, true, 
+                    ${ilgiAlanlariStr}, ${ozel_not}, ${quiz_tamamlandi}, 
                     ${tiklanan_hediyeler ? JSON.stringify(tiklanan_hediyeler) : null}
                 )
             `;
