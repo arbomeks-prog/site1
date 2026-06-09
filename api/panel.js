@@ -15,82 +15,91 @@ export default async function handler(req, res) {
     try {
         const sql = neon(process.env.DATABASE_URL);
 
-        // Tablo yoksa oluştur
-        await sql\`
-            CREATE TABLE IF NOT EXISTS page_views (
-                id SERIAL PRIMARY KEY,
-                sayfa VARCHAR(50) NOT NULL,
-                tarih DATE NOT NULL DEFAULT CURRENT_DATE,
-                created_at TIMESTAMPTZ DEFAULT NOW()
-            )
-        \`;
-
-        // Bugünkü sayfa görüntülemeleri
-        const bugun = await sql`
-            SELECT sayfa, COUNT(*) as sayi
-            FROM page_views
-            WHERE tarih = CURRENT_DATE
-            GROUP BY sayfa
-            ORDER BY sayi DESC
-        `;
-
-        // Son 7 gün
-        const yedi_gun = await sql`
-            SELECT sayfa, COUNT(*) as sayi
-            FROM page_views
-            WHERE tarih >= CURRENT_DATE - INTERVAL '7 days'
-            GROUP BY sayfa
-            ORDER BY sayi DESC
-        `;
-
-        // Toplam
-        const toplam = await sql`
-            SELECT sayfa, COUNT(*) as sayi
-            FROM page_views
-            GROUP BY sayfa
-            ORDER BY sayi DESC
-        `;
-
-        // Günlük trend (son 7 gün, her sayfa)
-        const trend = await sql`
-            SELECT tarih, sayfa, COUNT(*) as sayi
-            FROM page_views
-            WHERE tarih >= CURRENT_DATE - INTERVAL '6 days'
-            GROUP BY tarih, sayfa
-            ORDER BY tarih ASC, sayfa
-        `;
-
-        // Quiz tamamlayanlar bugün
-        const quiz_bugun = await sql`
-            SELECT COUNT(*) as sayi
+        // Bugün toplam giren (tamamlayan + yarıda bırakan)
+        const bugun_toplam = await sql`
+            SELECT COUNT(DISTINCT session_id) as sayi
             FROM quiz_logs
             WHERE DATE(created_at) = CURRENT_DATE
-              AND quiz_tamamlandi = true
         `;
 
-        // Kime dağılımı (tüm zamanlar)
+        // Bugün tamamlayan
+        const bugun_tamamlayan = await sql`
+            SELECT COUNT(DISTINCT session_id) as sayi
+            FROM quiz_logs
+            WHERE DATE(created_at) = CURRENT_DATE
+            AND quiz_tamamlandi = true
+        `;
+
+        // Toplam tamamlayan
+        const toplam_tamamlayan = await sql`
+            SELECT COUNT(DISTINCT session_id) as sayi
+            FROM quiz_logs
+            WHERE quiz_tamamlandi = true
+        `;
+
+        // Toplam giren
+        const toplam_giren = await sql`
+            SELECT COUNT(DISTINCT session_id) as sayi
+            FROM quiz_logs
+        `;
+
+        // Kime dağılımı (tamamlayanlar)
         const kime_dagilim = await sql`
             SELECT iliski_durumu, COUNT(*) as sayi
             FROM quiz_logs
             WHERE quiz_tamamlandi = true
-              AND iliski_durumu IS NOT NULL AND iliski_durumu != ''
+            AND iliski_durumu IS NOT NULL AND iliski_durumu != ''
             GROUP BY iliski_durumu
+            ORDER BY sayi DESC
+            LIMIT 10
+        `;
+
+        // Bütçe dağılımı
+        const butce_dagilim = await sql`
+            SELECT butce, COUNT(*) as sayi
+            FROM quiz_logs
+            WHERE quiz_tamamlandi = true
+            AND butce IS NOT NULL AND butce != ''
+            GROUP BY butce
+            ORDER BY sayi DESC
+            LIMIT 8
+        `;
+
+        // Son 7 gün günlük tamamlama
+        const son_7_gun = await sql`
+            SELECT DATE(created_at) as tarih, COUNT(DISTINCT session_id) as sayi
+            FROM quiz_logs
+            WHERE quiz_tamamlandi = true
+            AND created_at >= NOW() - INTERVAL '7 days'
+            GROUP BY DATE(created_at)
+            ORDER BY tarih ASC
+        `;
+
+        // Yarıda bırakanların son sayfası
+        const yarim_birakanlar = await sql`
+            SELECT ozel_not, COUNT(*) as sayi
+            FROM quiz_logs
+            WHERE quiz_tamamlandi = false
+            AND ozel_not IS NOT NULL
+            GROUP BY ozel_not
             ORDER BY sayi DESC
             LIMIT 10
         `;
 
         res.status(200).json({
             success: true,
-            bugun: bugun,
-            yedi_gun: yedi_gun,
-            toplam: toplam,
-            trend: trend,
-            quiz_bugun: quiz_bugun[0]?.sayi || 0,
-            kime_dagilim: kime_dagilim
+            bugun_toplam: parseInt(bugun_toplam[0]?.sayi || 0),
+            bugun_tamamlayan: parseInt(bugun_tamamlayan[0]?.sayi || 0),
+            toplam_tamamlayan: parseInt(toplam_tamamlayan[0]?.sayi || 0),
+            toplam_giren: parseInt(toplam_giren[0]?.sayi || 0),
+            kime_dagilim,
+            butce_dagilim,
+            son_7_gun,
+            yarim_birakanlar
         });
 
     } catch (error) {
         console.error('panel hatası:', error);
-        res.status(500).json({ error: 'Veritabanı hatası' });
+        res.status(500).json({ error: 'Veritabanı hatası: ' + error.message });
     }
 }
