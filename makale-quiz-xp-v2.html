@@ -442,10 +442,10 @@
     el.classList.add('selected');
     secimler[n] = deger;
 
-    // Eğer hediye popup'ı açıksa ve bu soruya aitti, direkt hediyeleri göster
+    // Eğer hediye popup'ı açıksa direkt hediyeleri göster
     var hediyePopup = document.getElementById('hediye-popup');
-    if (hediyePopup.style.display === 'block' && aktifSoru === n) {
-      hediyeGoster(n);
+    if (hediyePopup.style.display === 'block') {
+      hediyeGoster(aktifSoru || n);
       return;
     }
 
