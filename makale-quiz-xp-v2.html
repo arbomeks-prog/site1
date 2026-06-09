@@ -116,7 +116,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: transparent;
     z-index: 9998;
   }
 
@@ -125,15 +125,15 @@
     display: none;
     position: fixed;
     top: 50%;
-    left: 16px;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 9999;
     background: #fff;
-    border-radius: 14px;
-    padding: 16px 14px;
-    width: 72%;
-    max-width: 480px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    border-radius: 20px;
+    padding: 20px 16px;
+    width: 92%;
+    max-width: 420px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.3);
   }
   #hediye-popup .popup-baslik {
     font-size: 14px;
@@ -211,7 +211,7 @@
 <div id="hediye-popup">
   <button class="popup-kapat" onclick="popupKapat()">✕</button>
   <div class="popup-baslik" id="popup-baslik">🎁 Seçime Özel Hediyeler</div>
-  <div id="popup-parmak" style="text-align:right;font-size:22px;animation:parmak-sag 0.7s ease-in-out infinite;display:none;">👉</div>
+  <div id="popup-parmak" style="display:none;text-align:right;font-size:24px;animation:parmak-sag 0.7s ease-in-out infinite;">👉</div>
   <div class="hediye-grid" id="popup-icerik"></div>
 </div>
 
