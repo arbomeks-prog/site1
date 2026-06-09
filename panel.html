@@ -164,17 +164,19 @@ function render(d) {
   }
 
   // Kaçıncı soruda çıkmış
-  if (d.soru_dagilim && Object.keys(d.soru_dagilim).length > 0) {
-    var sirali = ['1-3','4-7','8-14','15-20','21+'];
-    var maxS = Math.max.apply(null, sirali.map(function(k){ return d.soru_dagilim[k]||0; }));
-    html += '<div class="section"><div class="section-title">Yarıda bırakanlar — kaçıncı soruda çıktı</div>';
+  var sirali = ['1-3','4-7','8-14','15-20','21+'];
+  var maxS = Math.max.apply(null, sirali.map(function(k){ return (d.soru_dagilim&&d.soru_dagilim[k])||0; }));
+  html += '<div class="section"><div class="section-title">Yarıda bırakanlar — kaçıncı soruda çıktı</div>';
+  if (!d.soru_dagilim || Object.keys(d.soru_dagilim).length === 0) {
+    html += '<p style="font-size:13px;color:#475569;text-align:center;padding:10px 0;">Henüz veri yok — yeni kullanıcılardan itibaren görünecek</p>';
+  } else {
     sirali.forEach(function(grup) {
-      var sayi = d.soru_dagilim[grup] || 0;
+      var sayi = (d.soru_dagilim&&d.soru_dagilim[grup]) || 0;
       var pct = maxS > 0 ? Math.round(sayi / maxS * 100) : 0;
       html += '<div class="bar-row"><span class="bar-label">' + grup + '. soru</span><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + sayi + '</span></div>';
     });
-    html += '</div>';
   }
+  html += '</div>';
 
   // Yarıda bırakanlar detay
   if (d.yarim_detay && d.yarim_detay.length > 0) {
