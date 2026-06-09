@@ -110,8 +110,11 @@
     transition: transform 0.15s;
   }
   .hediye-btn:hover { transform: translateY(-1px); }
-  @keyframes hediye-flash { 0%,100%{opacity:1;box-shadow:none;} 50%{opacity:0.4;box-shadow:0 0 12px 4px #f97316;} }
-  .flash { animation: hediye-flash 0.4s ease-in-out 5 !important; }
+  @keyframes hediye-flash { 0%,100%{opacity:1;box-shadow:none;} 50%{opacity:0.35;box-shadow:0 0 16px 5px #f97316;} }
+  @keyframes hediye-glare { 0%{background-position:-200% 0;} 100%{background-position:200% 0;} }
+  .flash { animation: hediye-flash 0.7s ease-in-out 4 !important; }
+  .glare { position:relative; overflow:hidden; }
+  .glare::after { content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.55) 50%,transparent 60%); background-size:200% 100%; animation:hediye-glare 0.6s ease-in-out 1; }
 
   /* OVERLAY */
   #overlay {
@@ -454,10 +457,14 @@
     // O sorunun hediye butonunu flash yap
     var butonlar = document.querySelectorAll('.hediye-btn');
     if (butonlar[n-1]) {
-      butonlar[n-1].classList.remove('flash');
+      butonlar[n-1].classList.remove('flash','glare');
       void butonlar[n-1].offsetWidth;
       butonlar[n-1].classList.add('flash');
-      setTimeout(function(){ butonlar[n-1].classList.remove('flash'); }, 2200);
+      setTimeout(function(){
+        butonlar[n-1].classList.remove('flash');
+        butonlar[n-1].classList.add('glare');
+        setTimeout(function(){ butonlar[n-1].classList.remove('glare'); }, 700);
+      }, 2800);
     }
 
     var popup = document.getElementById('popup');
