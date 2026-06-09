@@ -94,10 +94,12 @@ function adminCihazAyarla() {
 
 function panelYukle() {
   fetch('/api/panel?sifre=' + encodeURIComponent(SIFRE))
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (!data.success) {
-        document.getElementById('giris-hata').textContent = 'Şifre yanlış.';
+    .then(function(r) { return r.json().then(function(d){ return {status:r.status, data:d}; }); })
+    .then(function(obj) {
+      var data = obj.data;
+      if (obj.status === 401) { document.getElementById('giris-hata').textContent = 'Şifre yanlış.'; return; }
+      if (obj.status !== 200 || !data.success) {
+        document.getElementById('giris-hata').textContent = 'Hata: ' + (data.error || obj.status);
         return;
       }
       document.getElementById('giris-ekrani').style.display = 'none';
