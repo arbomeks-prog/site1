@@ -315,7 +315,7 @@ function renderKartlar(kisiler) {
     el.className='kart'; el.id='kart-'+idx;
     el.innerHTML=
       '<div class="kart-header">'+
-        '<div class="avatar" style="background:'+renk.bg+';color:'+renk.text+';">'+getInitials(isim)+'</div>'+
+        '<div class="avatar" style="background:'+renk.bg+';color:'+renk.text+';">'+getInitials(k.iliski_durumu||k.kisi_adi||isim)+'</div>'+
         '<div class="kart-meta">'+
           '<p class="kart-isim">'+isim+'</p>'+
           '<p class="kart-alt">'+(k.cinsiyet||'')+(k.yas?' · '+k.yas:'')+'</p>'+
@@ -449,5 +449,6 @@ window.onload=function(){
 </script>
 </body>
 </html>
+
 
 
