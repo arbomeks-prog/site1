@@ -432,12 +432,65 @@
     popupTimer = setTimeout(function(){ popup.classList.remove('show'); }, 3000);
   }
 
+  // Her cevaba özel samimi başlıklar
+  var basliklar = {
+    1: {
+      'Baba': 'Babana layık bir hediye bulalım 🎁',
+      'Anne': 'Annen için en doğrusu burada 🌸',
+      'Sevgili': 'Kalbini fethedecek hediyeler 💛',
+      'Arkadaş': 'Arkadaşın yüzü gülsün 😊',
+      'Kardeş': 'Kardeşine öyle bir hediye al ki konuşulsun',
+      'Kendime': 'En iyi hediye bazen kendine alınandır',
+      'default': 'Ona özel seçtiklerimiz 🎁'
+    },
+    2: {
+      '36-45': 'Hayatın tam ortasındaki babalar için',
+      '46-60': 'Tecrübenin ve zarafetin adresi',
+      '61-75': 'Emekçi ellere layık hediyeler',
+      '76+': 'Yılların verdiği bilgeliğe saygıyla',
+      'default': 'Yaşına göre en doğru seçimler'
+    },
+    3: {
+      'Babalar Günü': 'Yılda bir gün, ama ömür boyu hatırlanır',
+      'Doğum Günü': 'Bir yaş daha, bir hediye daha güzel olsun',
+      'Yılbaşı': 'Yeni yıla girerken yanında olsun',
+      'Sürpriz': 'Beklemediği bir anda, beklemediği bir hediye',
+      'default': 'Özel günün en güzel hediyesi'
+    },
+    4: {
+      'Teknoloji': 'Ekranın başından kaldıracak bir hediye 😄',
+      'Spor': 'Sahaya çıkmadan önce eksik olan şey',
+      'Balık': 'Sabah 5'te kalkan adama layık hediye',
+      'Müzik': 'Notaların arasına gizlenmiş bir sürpriz',
+      'Kitap': 'Okumayı bırakamayan birine okumayı bıraktıracak hediye',
+      'Yemek': 'Mutfakta kral olan birine kraliyet hediyesi',
+      'default': 'Hobiyle örtüşen en iyi seçimler'
+    },
+    5: {
+      '500 TL altı': 'Az bütçe, çok düşünce',
+      '500-1000 TL': 'Doğru fiyata doğru hediye',
+      '1-3 bin TL': 'Kaliteli hediyeler bu aralıkta',
+      '3000+ TL': 'Sınır tanımayan sevgiye sınırsız hediye',
+      'default': 'Bütçene uygun en iyi seçimler'
+    }
+  };
+
   function hediyeGoster(soruNo) {
     var secim = secimler[soruNo];
-    var soruHediyeleri = hediyeler[soruNo];
-    var liste = (secim && soruHediyeleri[secim]) ? soruHediyeleri[secim] : soruHediyeleri['default'];
 
-    var baslik = secim ? ('🎁 ' + secim + ' için hediyeler') : '🎁 Seçime Özel Hediyeler';
+    // Cevap verilmemişse uyar
+    if (!secim) {
+      document.getElementById('popup-baslik').textContent = '👆 Önce yukarıdaki soruyu cevapla';
+      document.getElementById('popup-icerik').innerHTML = '<p style="text-align:center;color:#64748b;font-size:13px;padding:16px 0;">Bir seçeneğe tıkladıktan sonra hediyeleri görebilirsin.</p>';
+      document.getElementById('hediye-popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+      return;
+    }
+
+    var soruHediyeleri = hediyeler[soruNo];
+    var liste = soruHediyeleri[secim] ? soruHediyeleri[secim] : soruHediyeleri['default'];
+    var soruBasliklar = basliklar[soruNo];
+    var baslik = (soruBasliklar && soruBasliklar[secim]) ? soruBasliklar[secim] : (soruBasliklar['default'] || '🎁 Seçime Özel Hediyeler');
     document.getElementById('popup-baslik').textContent = baslik;
 
     var icerik = '';
