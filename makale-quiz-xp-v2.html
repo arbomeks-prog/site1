@@ -110,6 +110,8 @@
     transition: transform 0.15s;
   }
   .hediye-btn:hover { transform: translateY(-1px); }
+  @keyframes hediye-flash { 0%,100%{opacity:1;box-shadow:none;} 50%{opacity:0.4;box-shadow:0 0 12px 4px #f97316;} }
+  .flash { animation: hediye-flash 0.4s ease-in-out 5 !important; }
 
   /* OVERLAY */
   #overlay {
