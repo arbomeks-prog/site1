@@ -85,6 +85,26 @@ export default async function handler(req, res) {
             LIMIT 50
         `;
 
+        // Kaçıncı soruda çıkmışlar
+        const yarim_raw = await sql`
+            SELECT ozel_not
+            FROM quiz_logs
+            WHERE quiz_tamamlandi = false
+            AND ozel_not IS NOT NULL
+        `;
+
+        // ozel_not içindeki tum_cevaplar'dan cevap sayısını çıkar
+        var soru_dagilim = {};
+        yarim_raw.forEach(function(r) {
+            try {
+                var ozel = JSON.parse(r.ozel_not);
+                var cv = ozel.tum_cevaplar || {};
+                var sayi = Object.keys(cv).filter(function(k){ return cv[k] && cv[k] !== ''; }).length;
+                var grup = sayi <= 3 ? '1-3' : sayi <= 7 ? '4-7' : sayi <= 14 ? '8-14' : sayi <= 20 ? '15-20' : '21+';
+                soru_dagilim[grup] = (soru_dagilim[grup] || 0) + 1;
+            } catch(e) {}
+        });
+
         res.status(200).json({
             success: true,
             bugun_toplam: parseInt(bugun_toplam[0]?.sayi || 0),
@@ -94,7 +114,8 @@ export default async function handler(req, res) {
             kime_dagilim,
             butce_dagilim,
             son_7_gun,
-            yarim_detay
+            yarim_detay,
+            soru_dagilim: soru_dagilim
         });
 
     } catch (error) {
