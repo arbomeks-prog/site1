@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         const { sayfa } = req.body;
         if (!sayfa) return res.status(400).json({ error: 'sayfa gereklidir' });
 
-        const sql = neon(process.env.DATABASE_URL);
+        const sql = neon(process.env.POSTGRES_URL || process.env.DATABASE_URL);
 
         // Tablo yoksa oluştur
         await sql`
