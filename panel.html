@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel | BudurBuldum</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0f172a;font-family:-apple-system,sans-serif;color:#e2e8f0;min-height:100vh;}
+.giris{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+.giris-kart{background:#1e293b;border-radius:20px;padding:36px 32px;width:100%;max-width:360px;text-align:center;}
+.giris-kart h1{font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;}
+.giris-kart p{font-size:13px;color:#64748b;margin-bottom:24px;}
+.giris-kart input{width:100%;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:13px 16px;color:#fff;font-size:16px;outline:none;margin-bottom:12px;text-align:center;letter-spacing:4px;}
+.giris-kart button{width:100%;background:#e8a838;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:800;color:#412402;cursor:pointer;}
+.giris-kart .hata{font-size:13px;color:#f87171;margin-top:8px;min-height:18px;}
+.wrap{max-width:600px;margin:0 auto;padding:24px 16px 60px;}
+.nav{background:rgba(15,23,42,0.98);border-bottom:1px solid rgba(255,255,255,0.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-size:16px;font-weight:700;color:#fff;}
+.nav-logo span{color:#e8a838;}
+.nav-right{font-size:12px;color:#64748b;cursor:pointer;}
+.baslik{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
+.tarih{font-size:13px;color:#64748b;margin-bottom:24px;}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
+.metric{background:#1e293b;border-radius:14px;padding:16px 14px;text-align:center;}
+.metric-label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px;}
+.metric-val{font-size:28px;font-weight:700;color:#e8a838;}
+.metric-sub{font-size:11px;color:#475569;margin-top:4px;}
+.section{background:#1e293b;border-radius:16px;padding:18px;margin-bottom:14px;}
+.section-title{font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px;}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.bar-label{font-size:13px;color:#e2e8f0;min-width:90px;}
+.bar-track{flex:1;height:8px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;background:#e8a838;}
+.bar-count{font-size:12px;color:#94a3b8;min-width:28px;text-align:right;}
+.huni{display:flex;flex-direction:column;gap:8px;}
+.huni-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);border-radius:10px;padding:12px 14px;}
+.huni-label{font-size:14px;color:#e2e8f0;}
+.huni-sayi{font-size:18px;font-weight:700;color:#e8a838;}
+.huni-oran{font-size:12px;color:#64748b;margin-left:8px;}
+.admin-btn{width:100%;margin-top:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px;font-size:12px;color:#475569;cursor:pointer;}
+.loading{text-align:center;padding:40px;color:#475569;font-size:14px;}
+</style>
+</head>
+<body>
+
+<!-- GİRİŞ EKRANI -->
+<div id="giris-ekrani" class="giris">
+  <div class="giris-kart">
+    <h1>🔒 Panel</h1>
+    <p>BudurBuldum yönetim paneli</p>
+    <input id="sifre-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')girisYap()"/>
+    <button onclick="girisYap()">Gir</button>
+    <p class="hata" id="giris-hata"></p>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panel-ekrani" style="display:none;">
+  <nav class="nav">
+    <span class="nav-logo">budur<span>buldum</span> panel</span>
+    <span class="nav-right" onclick="cikisYap()">Çıkış</span>
+  </nav>
+  <div class="wrap">
+    <p class="baslik" style="margin-top:20px;">Genel Bakış</p>
+    <p class="tarih" id="tarih-yazisi"></p>
+    <div id="panel-icerik" class="loading">Yükleniyor...</div>
+  </div>
+</div>
+
+<script>
+var SIFRE = '';
+
+function girisYap() {
+  var s = document.getElementById('sifre-input').value.trim();
+  if (!s) return;
+  SIFRE = s;
+  document.getElementById('giris-hata').textContent = '';
+  panelYukle();
+}
+
+function cikisYap() {
+  SIFRE = '';
+  document.getElementById('panel-ekrani').style.display = 'none';
+  document.getElementById('giris-ekrani').style.display = 'flex';
+  document.getElementById('sifre-input').value = '';
+}
+
+function adminCihazAyarla() {
+  localStorage.setItem('bb_admin', '1');
+  alert('Bu cihaz admin olarak işaretlendi. Artık senin girişlerin sayılmayacak.');
+}
+
+function panelYukle() {
+  fetch('/api/panel?sifre=' + encodeURIComponent(SIFRE))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.success) {
+        document.getElementById('giris-hata').textContent = 'Şifre yanlış.';
+        return;
+      }
+      document.getElementById('giris-ekrani').style.display = 'none';
+      document.getElementById('panel-ekrani').style.display = 'block';
+      panelRender(data);
+    })
+    .catch(function() {
+      document.getElementById('giris-hata').textContent = 'Bağlantı hatası.';
+    });
+}
+
+function getSayfa(list, sayfa) {
+  var r = list.find(function(x){ return x.sayfa === sayfa; });
+  return r ? parseInt(r.sayi) : 0;
+}
+
+function panelRender(d) {
+  var now = new Date();
+  document.getElementById('tarih-yazisi').textContent =
+    now.toLocaleDateString('tr-TR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+
+  var idx_b = getSayfa(d.bugun, 'INDEX');
+  var ozet_b = getSayfa(d.bugun, 'OZET');
+  var hed_b = getSayfa(d.bugun, 'HEDIYELER');
+
+  var idx_t = getSayfa(d.toplam, 'INDEX');
+  var ozet_t = getSayfa(d.toplam, 'OZET');
+  var hed_t = getSayfa(d.toplam, 'HEDIYELER');
+
+  var oran_ozet = idx_b > 0 ? Math.round(ozet_b / idx_b * 100) : 0;
+  var oran_hed = ozet_b > 0 ? Math.round(hed_b / ozet_b * 100) : 0;
+
+  var html = '';
+
+  // Bugün metrikler
+  html += '<div class="metrics">';
+  html += '<div class="metric"><div class="metric-label">Bugün siteye</div><div class="metric-val">' + idx_b + '</div><div class="metric-sub">ziyaret</div></div>';
+  html += '<div class="metric"><div class="metric-label">Özete kadar</div><div class="metric-val">' + ozet_b + '</div><div class="metric-sub">kişi</div></div>';
+  html += '<div class="metric"><div class="metric-label">Hediyelere</div><div class="metric-val">' + hed_b + '</div><div class="metric-sub">kişi</div></div>';
+  html += '</div>';
+
+  // Huni
+  html += '<div class="section"><div class="section-title">Bugün dönüşüm hunisi</div><div class="huni">';
+  html += '<div class="huni-row"><span class="huni-label">🏠 Ana Sayfa</span><span><span class="huni-sayi">' + idx_b + '</span></span></div>';
+  html += '<div class="huni-row"><span class="huni-label">📋 Özet Sayfası</span><span><span class="huni-sayi">' + ozet_b + '</span><span class="huni-oran">%' + oran_ozet + '</span></span></div>';
+  html += '<div class="huni-row"><span class="huni-label">🎁 Hediyeler</span><span><span class="huni-sayi">' + hed_b + '</span><span class="huni-oran">%' + oran_hed + '</span></span></div>';
+  html += '</div></div>';
+
+  // Kime dağılımı
+  if (d.kime_dagilim && d.kime_dagilim.length > 0) {
+    var maxKime = Math.max.apply(null, d.kime_dagilim.map(function(k){ return parseInt(k.sayi); }));
+    html += '<div class="section"><div class="section-title">Kime arama dağılımı (tüm zamanlar)</div>';
+    d.kime_dagilim.forEach(function(k) {
+      var pct = maxKime > 0 ? Math.round(parseInt(k.sayi) / maxKime * 100) : 0;
+      html += '<div class="bar-row"><span class="bar-label">' + (k.iliski_durumu||'—') + '</span><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + k.sayi + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  // Toplam
+  html += '<div class="section"><div class="section-title">Toplam (tüm zamanlar)</div><div class="huni">';
+  html += '<div class="huni-row"><span class="huni-label">Ana Sayfa</span><span class="huni-sayi">' + idx_t + '</span></div>';
+  html += '<div class="huni-row"><span class="huni-label">Özet</span><span class="huni-sayi">' + ozet_t + '</span></div>';
+  html += '<div class="huni-row"><span class="huni-label">Hediyeler</span><span class="huni-sayi">' + hed_t + '</span></div>';
+  html += '</div></div>';
+
+  // Admin cihaz ayarı
+  html += '<button class="admin-btn" onclick="adminCihazAyarla()">🔧 Bu cihazı admin olarak işaretle (benim girişlerim sayılmasın)</button>';
+
+  document.getElementById('panel-icerik').innerHTML = html;
+}
+
+// Tarih
+var d = new Date();
+document.getElementById && (document.getElementById('tarih-yazisi') && (document.getElementById('tarih-yazisi').textContent = ''));
+</script>
+
+</body>
+</html>
