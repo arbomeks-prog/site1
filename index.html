@@ -1654,7 +1654,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_ayraclar));
                 } catch(e) {}
             }
-            if (_sid && (_nick || _kisiAdi)) {
+            if (_sid) {
                 fetch('/api/save-profile', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
