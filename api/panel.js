@@ -15,6 +15,16 @@ export default async function handler(req, res) {
     try {
         const sql = neon(process.env.DATABASE_URL);
 
+        // Tablo yoksa oluştur
+        await sql\`
+            CREATE TABLE IF NOT EXISTS page_views (
+                id SERIAL PRIMARY KEY,
+                sayfa VARCHAR(50) NOT NULL,
+                tarih DATE NOT NULL DEFAULT CURRENT_DATE,
+                created_at TIMESTAMPTZ DEFAULT NOW()
+            )
+        \`;
+
         // Bugünkü sayfa görüntülemeleri
         const bugun = await sql`
             SELECT sayfa, COUNT(*) as sayi
