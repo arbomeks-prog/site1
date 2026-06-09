@@ -1688,6 +1688,12 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
+<script>
+(function(){
+  if(localStorage.getItem('bb_admin')==='1')return;
+  fetch('/api/log-view',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sayfa:'INDEX'}) }).catch(function(){});
+})();
+</script>
 </body>
 
 <!-- SABİT SCROLL BAR -->
