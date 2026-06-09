@@ -348,6 +348,18 @@ function renderKartlar(kisiler) {
       '<p style="font-size:11px;color:#64748b;margin-top:10px;">🕐 '+altBilgi+'</p>';
     div.appendChild(el);
   });
+  // URL'de kart parametresi varsa o karta scroll et
+  var urlParams = new URLSearchParams(window.location.search);
+  var hedefSid = urlParams.get('kart');
+  if (hedefSid) {
+    var hedefIdx = kisiler.findIndex(function(k){ return k.session_id === hedefSid; });
+    if (hedefIdx >= 0) {
+      setTimeout(function(){
+        var hedefKart = document.getElementById('kart-'+hedefIdx);
+        if (hedefKart) hedefKart.scrollIntoView({behavior:'smooth', block:'center'});
+      }, 300);
+    }
+  }
 }
 
 /* ── DP (Düzenleme Paneli) ── */
