@@ -449,6 +449,15 @@
       return;
     }
 
+    // O sorunun hediye butonunu flash yap
+    var butonlar = document.querySelectorAll('.hediye-btn');
+    if (butonlar[n-1]) {
+      butonlar[n-1].classList.remove('flash');
+      void butonlar[n-1].offsetWidth;
+      butonlar[n-1].classList.add('flash');
+      setTimeout(function(){ butonlar[n-1].classList.remove('flash'); }, 2200);
+    }
+
     var popup = document.getElementById('popup');
     popup.classList.add('show');
     clearTimeout(popupTimer);
