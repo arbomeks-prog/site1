@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     if (!sifre || sifre.trim() !== PANEL_SIFRE) return res.status(401).json({ error: 'Yetkisiz' });
 
     try {
-        const sql = neon(process.env.DATABASE_URL);
+        const sql = neon(process.env.POSTGRES_URL || process.env.DATABASE_URL);
 
         // Bugünkü sayfa görüntülemeleri
         const bugun = await sql`
