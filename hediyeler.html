@@ -689,6 +689,12 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
 'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\nSadece JSON array döndür. Başka hiçbir şey yazma.';
 }
 </script>
+<script>
+(function(){
+  if(localStorage.getItem('bb_admin')==='1')return;
+  fetch('/api/log-view',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sayfa:'HEDIYELER'}) }).catch(function(){});
+})();
+</script>
 </body>
 </html>
 
