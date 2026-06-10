@@ -141,6 +141,40 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 .footer-social a{width:30px;height:30px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:7px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);text-decoration:none;font-size:13px;}
 .footer-social a:hover{color:#e8a838;border-color:rgba(232,168,56,0.3);}
 @media(max-width:480px){.article-header h1{font-size:22px;}.related-grid{grid-template-columns:1fr;}}
+/* 2 KOLONLU LAYOUT */
+.page-layout{display:grid;grid-template-columns:1fr 280px;gap:28px;align-items:start;}
+.sag-sutun{position:sticky;top:80px;}
+@media(max-width:700px){.page-layout{grid-template-columns:1fr;}.sag-sutun{position:static;}}
+/* XP SORU BLOĞU */
+.xp-blok{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-bottom:14px;}
+.xp-baslik{font-size:10px;font-weight:700;color:#f97316;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.xp-soru{font-size:13px;font-weight:800;color:#0f172a;margin-bottom:10px;line-height:1.3;}
+.xp-ans{display:block;width:100%;background:linear-gradient(180deg,#f8f9fa,#e9ecef);border:2px solid #ced4da;border-bottom:4px solid #adb5bd;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:700;color:#1e293b;cursor:pointer;margin-bottom:6px;text-align:left;transition:all 0.15s;}
+.xp-ans:hover{border-color:#f97316;color:#f97316;transform:translateY(-1px);}
+.xp-ans.selected{background:linear-gradient(180deg,#bbf7d0,#86efac);border:2px solid #16a34a;color:#14532d;}
+.xp-hediye-btn{display:block;width:100%;margin-top:10px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:10px;padding:10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;}
+@keyframes xp-flash{0%,100%{opacity:1;box-shadow:none;}50%{opacity:0.35;box-shadow:0 0 16px 5px #f97316;}}
+@keyframes xp-glare{0%{background-position:-200% 0;}100%{background-position:250% 0;}}
+.xp-hediye-btn.flash{animation:xp-flash 0.7s ease-in-out 4;}
+.xp-hediye-btn.glare{position:relative;overflow:hidden;}
+.xp-hediye-btn.glare::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.5) 50%,transparent 65%);background-size:200% 100%;animation:xp-glare 1.1s ease-in-out 1 forwards;}
+/* XP POPUP */
+#xp-overlay{display:none;position:fixed;inset:0;background:transparent;z-index:9998;pointer-events:none;}
+#xp-popup{display:none;position:fixed;top:30%;left:2%;z-index:9999;background:#fff;border-radius:16px;padding:16px;width:68%;max-width:340px;box-shadow:0 8px 40px rgba(0,0,0,0.2);}
+#xp-popup .xp-popup-baslik{font-size:15px;font-weight:800;color:#0f172a;margin-bottom:10px;padding-right:20px;border-bottom:1.5px solid #e2e8f0;padding-bottom:8px;}
+#xp-popup .xp-popup-kapat{position:absolute;top:8px;right:8px;background:linear-gradient(180deg,#ff6b6b,#cc0000);border:2px solid #990000;border-radius:4px;width:22px;height:22px;font-size:12px;font-weight:900;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;}
+.xp-popup-icerik{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.xp-popup-kart{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:8px;text-align:center;text-decoration:none;display:block;}
+.xp-popup-kart .pk-isim{font-size:11px;font-weight:700;color:#1e293b;margin-bottom:3px;}
+.xp-popup-kart .pk-fiyat{font-size:12px;font-weight:800;color:#f97316;margin-bottom:2px;}
+.xp-popup-kart .pk-site{font-size:10px;color:#94a3b8;}
+/* CTA BUTON */
+.cta-hook{background:linear-gradient(135deg,#f97316,#ea580c);border-radius:14px;padding:14px 16px;margin:24px 0;cursor:pointer;text-decoration:none;display:block;}
+.cta-hook-yazi{font-size:15px;font-weight:800;color:#fff;margin-bottom:10px;line-height:1.3;}
+.cta-hook-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+.cta-hook-kart{background:rgba(255,255,255,0.15);border-radius:7px;overflow:hidden;aspect-ratio:1;position:relative;}
+.cta-hook-kart img{width:100%;height:100%;object-fit:cover;display:block;}
+.cta-hook-kart-isim{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.5);color:#fff;font-size:8px;font-weight:700;padding:2px 3px;text-align:center;}
 .bb-hakkinda{background:#fff;border-radius:16px;padding:20px;margin:28px 0;border-left:4px solid #e8a838;font-size:14px;line-height:1.8;color:#475569;}
 .bb-quiz-block{background:#fff;border:2px solid #e8a838;border-radius:20px;padding:24px 20px;margin:20px 0 28px;box-shadow:0 4px 24px rgba(232,168,56,0.15);}
 .bb-q-label{font-size:11px;font-weight:700;color:#e8a838;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
@@ -156,6 +190,20 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 </style>
 </head>
 <body>
+
+<!-- XP POPUP -->
+<div id="xp-overlay"></div>
+<div id="xp-popup">
+  <button class="xp-popup-kapat" onclick="xpKapat()">✕</button>
+  <div class="xp-popup-baslik" id="xp-popup-baslik">🎁 Seçime Özel Hediyeler</div>
+  <div id="xp-popup-alt" style="display:none;">
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;align-items:center;min-height:70px;">
+      <div id="xp-popup-yazi" style="font-size:14px;color:#334155;font-weight:600;line-height:1.5;"></div>
+      <div id="xp-popup-parmak" style="font-size:32px;text-align:center;animation:parmak-sag 0.7s ease-in-out infinite;">👉</div>
+    </div>
+  </div>
+  <div class="xp-popup-icerik" id="xp-popup-icerik"></div>
+</div>
 <header class="site-header">
   <div class="header-inner">
     <a href="index.html" class="logo">
@@ -163,7 +211,7 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       <span class="logo-text">budur<span>buldum</span></span>
     </a>
     <nav class="header-nav">
-      <a href="hediye-kime-alinacak-testi.html" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'});">Hediye Bul</a>
+      <a href="quiz-kime.html" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'});">Hediye Bul</a>
     </nav>
   </div>
 </header>
@@ -172,6 +220,8 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
   Babalar Günü Hediyesi
 </nav>
 <div class="container">
+<div class="page-layout">
+<div class="sol-sutun">
   <div class="article-header">
     <h1>👨 Babalar Günü Hediyesi Almak İstiyorum Ama Ne Alayım?</h1>
     <div class="article-meta">
@@ -185,17 +235,14 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     <p>Her yıl aynı soru, aynı çaresizlik. Babalar günü yaklaşıyor, sen de "ne alsam" diye düşünüp duruyorsun. Klasik kravat mı? Kolonya mı? Zaten üç tane var. Gömlek mi? Kendi beğendiğini alıyor zaten. Ve tam bu noktada Google'a yazıyorsun: "babalar günü hediyesi almak istiyorum ama ne alayım."</p>
 
     <p>Ama durun bir dakika. Babalar günü neden var? Neden Haziran'da kutlanıyor? Bunu biliyor musun? Çünkü bu sorunun cevabı aslında sana hediye seçiminde de yol gösteriyor.</p>
-
-    <div class="bb-quiz-block">
-      <div class="bb-q-label">🎁 Hızlı Soru</div>
-      <p class="bb-q-text">Baban boş vaktinde ne yapar?</p>
+<p class="bb-q-text">Baban boş vaktinde ne yapar?</p>
       <div class="bb-quiz-opts">
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Spor yapar ya da takip eder ⚽</button>
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Teknoloji, alet edevat meraklısı 🔧</button>
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Dizi, kitap, müzik — keyif peşinde 🎵</button>
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Eve kapanır, bahçe ya da mutfakla uğraşır 🌱</button>
       </div>
-      <button class="bb-devam-btn" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'}); window.location.href='hediye-kime-alinacak-testi.html'">🎯 Babana Özel Hediye Bul →</button>
+      <button class="bb-devam-btn" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'}); window.location.href='quiz-kime.html'">🎯 Babana Özel Hediye Bul →</button>
     </div>
 
     <h2>Babalar Günü Nereden Çıktı? Kim Neden Başlattı?</h2>
@@ -253,18 +300,26 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     <h3>Kaliteli Keyif Ürünleri — Kendine Almayacağı Şeyler</h3>
 
     <p>Premium bir kahve seti, özel çay koleksiyonu, kaliteli bir tıraş seti, iyi bir viski ya da şarap, el yapımı çikolata. Bunlar babalar günlük hayatta almayı düşünmez ama önlerine geldiğinde gerçekten keyif alır. İşte bu gap tam olarak senin hediyenin gireceği yer.</p>
-
-    <div class="bb-quiz-block">
-      <div class="bb-q-label">🎁 Hızlı Soru</div>
-      <p class="bb-q-text">Babanın tarzı nasıl?</p>
+<p class="bb-q-text">Babanın tarzı nasıl?</p>
       <div class="bb-quiz-opts">
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Klasik, sade ama şık 👔</button>
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Rahat, spor casual 👟</button>
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Her şeye uyar, belirli bir tarzı yok 😄</button>
         <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Pratik ve fonksiyonel sever 🛠️</button>
       </div>
-      <button class="bb-devam-btn" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'}); window.location.href='hediye-kime-alinacak-testi.html'">🎯 Babana Özel Hediye Bul →</button>
+      <button class="bb-devam-btn" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'}); window.location.href='quiz-kime.html'">🎯 Babana Özel Hediye Bul →</button>
     </div>
+
+
+    <a class="cta-hook" href="quiz-kime.html">
+      <div class="cta-hook-yazi">Kişiye özel sürpriz hediyeler için 120 saniye yeterli — tıkla →</div>
+      <div class="cta-hook-grid">
+        <div class="cta-hook-kart"><img id="hook-img-1" src="" alt="hediye" crossorigin="anonymous"><div class="cta-hook-kart-isim">Deri Cüzdan</div></div>
+        <div class="cta-hook-kart"><img id="hook-img-2" src="" alt="hediye" crossorigin="anonymous"><div class="cta-hook-kart-isim">Parfüm</div></div>
+        <div class="cta-hook-kart"><img id="hook-img-3" src="" alt="hediye" crossorigin="anonymous"><div class="cta-hook-kart-isim">Çiçek</div></div>
+        <div class="cta-hook-kart"><img id="hook-img-4" src="" alt="hediye" crossorigin="anonymous"><div class="cta-hook-kart-isim">Aksesuar</div></div>
+      </div>
+    </a>
 
     <h2>Kardeşlerle Ortak Hediye Almak Mantıklı mı?</h2>
 
@@ -296,12 +351,56 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
     <div class="bb-hakkinda">Budur Buldum, akıllı bir hediye bulma, seçme ve satın alma platformudur. Hazır hediye satışı yapmıyoruz — bunun yerine bütçenize uygun, sevdiğiniz kişinin zevkleri ve özellikleriyle örtüşen, kaliteli ve özgün seçimler yapıyoruz. Hediye seçimlerimizin kalitesinden ödün vermemek için 30 soruluk bir test hazırladık. Bu testi tamamladığınızda; 2 adet nokta atışı, 4 adet çapraz sorgu ile belirlenmiş ve isterseniz kişinin burcuna özel seçilmiş 7 hediye sunuyoruz. Önerdiğimiz hediyelerin 5 büyük alışveriş platformundaki sayfalarını doğrudan bağlantılarıyla hediye kutucuklarında belirtiyoruz. Budur Buldum, kişiye özel hediye bulmanız, seçmeniz ve satın almanız için tasarlanmış Türkiye'nin en kapsamlı ilk ve tek platformudur. Hemen başlayın.</div>
 
   </article>
+</div>
+<div class="sag-sutun">
+  <!-- XP SORU 1 -->
+  <div class="xp-blok">
+    <div class="xp-baslik">Soru 1</div>
+    <div class="xp-soru">Babanın yaşı kaç civarında?</div>
+    <button class="xp-ans" onclick="xpSec(this,1,0)">35-45 yaş</button>
+    <button class="xp-ans" onclick="xpSec(this,1,1)">46-60 yaş</button>
+    <button class="xp-ans" onclick="xpSec(this,1,2)">61-75 yaş</button>
+    <button class="xp-ans" onclick="xpSec(this,1,3)">76 ve üzeri</button>
+    <button class="xp-hediye-btn" onclick="xpHediye(1)">🎁 Hediyeleri Gör</button>
+  </div>
+  <!-- XP SORU 2 -->
+  <div class="xp-blok">
+    <div class="xp-baslik">Soru 2</div>
+    <div class="xp-soru">Baban en çok ne yapmaktan zevk alır?</div>
+    <button class="xp-ans" onclick="xpSec(this,2,0)">Spor yapar / takip eder ⚽</button>
+    <button class="xp-ans" onclick="xpSec(this,2,1)">Teknoloji, alet edevat 🔧</button>
+    <button class="xp-ans" onclick="xpSec(this,2,2)">Dizi, kitap, müzik 🎵</button>
+    <button class="xp-ans" onclick="xpSec(this,2,3)">Bahçe, balık, doğa 🌿</button>
+    <button class="xp-ans" onclick="xpSec(this,2,4)">Yemek, mutfak 🍳</button>
+    <button class="xp-hediye-btn" onclick="xpHediye(2)">🎁 Hediyeleri Gör</button>
+  </div>
+  <!-- XP SORU 3 -->
+  <div class="xp-blok">
+    <div class="xp-baslik">Soru 3</div>
+    <div class="xp-soru">Bütçen ne kadar?</div>
+    <button class="xp-ans" onclick="xpSec(this,3,0)">500 TL altı</button>
+    <button class="xp-ans" onclick="xpSec(this,3,1)">500-1500 TL</button>
+    <button class="xp-ans" onclick="xpSec(this,3,2)">1500-3000 TL</button>
+    <button class="xp-ans" onclick="xpSec(this,3,3)">3000+ TL</button>
+    <button class="xp-hediye-btn" onclick="xpHediye(3)">🎁 Hediyeleri Gör</button>
+  </div>
+  <!-- XP SORU 4 -->
+  <div class="xp-blok">
+    <div class="xp-baslik">Soru 4</div>
+    <div class="xp-soru">Babanın tarzı nasıl?</div>
+    <button class="xp-ans" onclick="xpSec(this,4,0)">Klasik, sade 👔</button>
+    <button class="xp-ans" onclick="xpSec(this,4,1)">Rahat, spor casual 👟</button>
+    <button class="xp-ans" onclick="xpSec(this,4,2)">Pratik, fonksiyonel 🛠️</button>
+    <button class="xp-hediye-btn" onclick="xpHediye(4)">🎁 Hediyeleri Gör</button>
+  </div>
+</div>
+</div>
 
   <div class="cta-box">
     <div class="cta-tag">✨ Ücretsiz · 2 Dakika</div>
     <h3>Babana Özel Hediyeni Bul</h3>
     <p class="cta-desc">Babanın tarzını, hobilerini ve bütçeni gir — sana özel 7 hediye önerisi hazırlayalım. Trendyol, Hepsiburada, Amazon ve daha fazlasında karşılaştır.</p>
-    <a href="hediye-kime-alinacak-testi.html" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'});" class="cta-btn">🎯 Hediye Testini Başlat →</a>
+    <a href="quiz-kime.html" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'});" class="cta-btn">🎯 Hediye Testini Başlat →</a>
     <p class="cta-sub">Trendyol · Hepsiburada · Amazon · Çiçeksepeti · N11</p>
   </div>
 
@@ -322,10 +421,10 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
       <div class="footer-logo-icon">🎁</div>
       <span class="footer-logo-text">budur<span>buldum</span></span>
     </a>
-    <p class="footer-desc">Budur Buldum, yapay zeka destekli hediye öneri platformudur. Kişiye özel sorularla doğru hediyeyi bulmanıza yardımcı olur.</p>
+    <p class="footer-desc">Budur Buldum, akıllı algoritma destekli hediye öneri platformudur. Kişiye özel sorularla doğru hediyeyi bulmanıza yardımcı olur.</p>
     <div class="footer-links">
       <a href="index.html">Ana Sayfa</a>
-      <a href="hediye-kime-alinacak-testi.html" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'});">Hediye Bul</a>
+      <a href="quiz-kime.html" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'});">Hediye Bul</a>
     </div>
     <div class="footer-bottom">
       <span class="footer-copy">© 2026 Budur Buldum. Tüm hakları saklıdır.</span>
@@ -338,6 +437,110 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
   </div>
 </footer>
 
+
+<script>
+var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
+var xpSecimler = {};
+var xpAktifSoru = null;
+
+// Pexels hook görselleri
+var hookAramalar = [
+  {q:'leather wallet gift brown', id:'hook-img-1'},
+  {q:'perfume bottle luxury gift', id:'hook-img-2'},
+  {q:'flower bouquet gift colorful', id:'hook-img-3'},
+  {q:'watch accessory gift men', id:'hook-img-4'}
+];
+hookAramalar.forEach(function(a){
+  fetch('https://api.pexels.com/v1/search?query='+encodeURIComponent(a.q)+'&per_page=1&orientation=square',{headers:{Authorization:PEXELS_KEY}})
+  .then(function(r){return r.json();})
+  .then(function(d){if(d.photos&&d.photos[0]){var el=document.getElementById(a.id);if(el)el.src=d.photos[0].src.small;}})
+  .catch(function(){});
+});
+
+// Her soruya özel hediyeler
+var xpHediyeler = {
+  1: {
+    0:[{isim:'Akıllı Bileklik',fiyat:'₺1.200',site:'Trendyol',url:'https://trendyol.com'},{isim:'Bluetooth Hoparlör',fiyat:'₺1.450',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Spor Çantası',fiyat:'₺680',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Kahve Makinesi',fiyat:'₺2.800',site:'N11',url:'https://n11.com'}],
+    1:[{isim:'Masaj Aleti',fiyat:'₺1.890',site:'Trendyol',url:'https://trendyol.com'},{isim:'Deri Cüzdan',fiyat:'₺649',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Termos',fiyat:'₺389',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Parfüm Seti',fiyat:'₺1.299',site:'Çiçeksepeti',url:'https://ciceksepeti.com'}],
+    2:[{isim:'Kol Saati',fiyat:'₺2.499',site:'Trendyol',url:'https://trendyol.com'},{isim:'Kişiye Özel Kupa',fiyat:'₺220',site:'N11',url:'https://n11.com'},{isim:'Çay Seti',fiyat:'₺520',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Kitap Koleksiyonu',fiyat:'₺450',site:'Amazon',url:'https://amazon.com.tr'}],
+    3:[{isim:'Ahşap Fotoğraf Çerçeve',fiyat:'₺290',site:'N11',url:'https://n11.com'},{isim:'Kişisel Tablo',fiyat:'₺850',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Gurme Çay Kutusu',fiyat:'₺380',site:'Amazon',url:'https://amazon.com.tr'},{isim:'El İşi Cüzdan',fiyat:'₺550',site:'Trendyol',url:'https://trendyol.com'}]
+  },
+  2: {
+    0:[{isim:'Spor Ayakkabı',fiyat:'₺1.650',site:'Trendyol',url:'https://trendyol.com'},{isim:'Fitness Bandı',fiyat:'₺890',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Spor Çantası',fiyat:'₺680',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Termos',fiyat:'₺389',site:'N11',url:'https://n11.com'}],
+    1:[{isim:'Kablosuz Kulaklık',fiyat:'₺1.899',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Powerbank',fiyat:'₺590',site:'Trendyol',url:'https://trendyol.com'},{isim:'Akıllı Saat',fiyat:'₺2.499',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Klavye',fiyat:'₺1.100',site:'N11',url:'https://n11.com'}],
+    2:[{isim:'Kitap Seti',fiyat:'₺450',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Müzik Aleti Aksesuarı',fiyat:'₺380',site:'Trendyol',url:'https://trendyol.com'},{isim:'Bluetooth Hoparlör',fiyat:'₺1.450',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Film Paketi',fiyat:'₺320',site:'N11',url:'https://n11.com'}],
+    3:[{isim:'Olta Seti',fiyat:'₺780',site:'Trendyol',url:'https://trendyol.com'},{isim:'Termos & Kamp Seti',fiyat:'₺749',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Bahçe Aletleri',fiyat:'₺650',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Çakı Seti',fiyat:'₺590',site:'N11',url:'https://n11.com'}],
+    4:[{isim:'Gurme Sepeti',fiyat:'₺1.200',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Kahve Makinesi',fiyat:'₺2.800',site:'Trendyol',url:'https://trendyol.com'},{isim:'Mutfak Seti',fiyat:'₺890',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Çay Koleksiyonu',fiyat:'₺520',site:'Amazon',url:'https://amazon.com.tr'}]
+  },
+  3: {
+    0:[{isim:'Çikolata Kutusu',fiyat:'₺280',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Kitap',fiyat:'₺180',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Kupa',fiyat:'₺220',site:'Trendyol',url:'https://trendyol.com'},{isim:'Çay Seti',fiyat:'₺320',site:'N11',url:'https://n11.com'}],
+    1:[{isim:'Deri Cüzdan',fiyat:'₺649',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Parfüm',fiyat:'₺780',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Termos',fiyat:'₺389',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Kemer',fiyat:'₺420',site:'Trendyol',url:'https://trendyol.com'}],
+    2:[{isim:'Akıllı Saat',fiyat:'₺2.499',site:'Trendyol',url:'https://trendyol.com'},{isim:'Bluetooth Hoparlör',fiyat:'₺1.450',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Kahve Makinesi',fiyat:'₺1.890',site:'N11',url:'https://n11.com'},{isim:'Parfüm Seti',fiyat:'₺1.299',site:'Hepsiburada',url:'https://hepsiburada.com'}],
+    3:[{isim:'Tablet',fiyat:'₺8.999',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Akıllı Saat Pro',fiyat:'₺5.499',site:'Trendyol',url:'https://trendyol.com'},{isim:'Premium Valiz',fiyat:'₺3.800',site:'N11',url:'https://n11.com'},{isim:'Gurme Sepeti',fiyat:'₺2.500',site:'Çiçeksepeti',url:'https://ciceksepeti.com'}]
+  },
+  4: {
+    0:[{isim:'Kol Saati',fiyat:'₺2.499',site:'Trendyol',url:'https://trendyol.com'},{isim:'Deri Cüzdan',fiyat:'₺649',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Kravat Seti',fiyat:'₺380',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Parfüm',fiyat:'₺780',site:'Çiçeksepeti',url:'https://ciceksepeti.com'}],
+    1:[{isim:'Spor Ayakkabı',fiyat:'₺1.650',site:'Trendyol',url:'https://trendyol.com'},{isim:'Spor Çantası',fiyat:'₺680',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Fitness Bandı',fiyat:'₺890',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Termos',fiyat:'₺389',site:'N11',url:'https://n11.com'}],
+    2:[{isim:'Alet Çantası',fiyat:'₺899',site:'Trendyol',url:'https://trendyol.com'},{isim:'Çakı Seti',fiyat:'₺590',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Powerbank',fiyat:'₺590',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Kamp Ekipmanı',fiyat:'₺750',site:'N11',url:'https://n11.com'}]
+  }
+};
+
+var xpSecenekler = {1:['35-45 yaş','46-60 yaş','61-75 yaş','76 ve üzeri'],2:['Spor','Teknoloji','Dizi/Kitap/Müzik','Bahçe/Balık/Doğa','Yemek/Mutfak'],3:['500 TL altı','500-1500 TL','1500-3000 TL','3000+ TL'],4:['Klasik','Spor Casual','Pratik']};
+
+function xpSec(el, n, idx) {
+  var parent = el.parentElement;
+  parent.querySelectorAll('.xp-ans').forEach(function(a){a.classList.remove('selected');});
+  el.classList.add('selected');
+  xpSecimler[n] = idx;
+  // Flash efekti
+  var btn = parent.querySelector('.xp-hediye-btn');
+  if(btn){
+    btn.classList.remove('flash','glare');
+    void btn.offsetWidth;
+    btn.classList.add('flash');
+    setTimeout(function(){
+      btn.classList.remove('flash');
+      btn.classList.add('glare');
+      setTimeout(function(){btn.classList.remove('glare');},1200);
+    },2800);
+  }
+  // Popup açıksa direkt hediyeleri göster
+  if(document.getElementById('xp-popup').style.display==='block'){
+    xpHediye(xpAktifSoru||n);
+  }
+}
+
+function xpHediye(soruNo) {
+  xpAktifSoru = soruNo;
+  var idx = xpSecimler[soruNo];
+  if(idx===undefined){
+    document.getElementById('xp-popup-baslik').textContent = 'Önce sağdaki soruyu cevapla';
+    document.getElementById('xp-popup-yazi').textContent = 'Bir seçeneğe tıkladıktan sonra hediyeleri görebilirsin.';
+    document.getElementById('xp-popup-alt').style.display='block';
+    document.getElementById('xp-popup-icerik').innerHTML='';
+    document.getElementById('xp-popup').style.display='block';
+    document.getElementById('xp-overlay').style.display='block';
+    return;
+  }
+  var secim = xpSecenekler[soruNo][idx];
+  var hediyeler = (xpHediyeler[soruNo]&&xpHediyeler[soruNo][idx])?xpHediyeler[soruNo][idx]:xpHediyeler[soruNo][0];
+  document.getElementById('xp-popup-baslik').textContent = secim + ' için hediyeler 🎁';
+  document.getElementById('xp-popup-alt').style.display='none';
+  var html='';
+  hediyeler.forEach(function(h){
+    html+='<a href="'+h.url+'" target="_blank" class="xp-popup-kart"><div class="pk-isim">'+h.isim+'</div><div class="pk-fiyat">'+h.fiyat+'</div><div class="pk-site">'+h.site+'</div></a>';
+  });
+  document.getElementById('xp-popup-icerik').innerHTML=html;
+  document.getElementById('xp-popup').style.display='block';
+  document.getElementById('xp-overlay').style.display='block';
+}
+
+function xpKapat(){
+  document.getElementById('xp-popup').style.display='none';
+  document.getElementById('xp-overlay').style.display='none';
+  xpAktifSoru=null;
+}
+</script>
 <script>
 function bbSec(btn) {
   var blok = btn.closest(".bb-quiz-block");
