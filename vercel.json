@@ -365,5 +365,20 @@
       "destination": "/evcil-hayvanin-yasam-alanina-gore-hediye-testi.html",
       "permanent": true
     }
+  ],
+  "headers": [
+    {
+      "source": "/(.*\\.mp3)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "audio/mpeg"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000"
+        }
+      ]
+    }
   ]
 }
