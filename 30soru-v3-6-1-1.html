@@ -574,6 +574,7 @@ body {
 </style>
 </head>
 <body>
+<audio id="bgMusic" src="paulyudin-emotional-508959.mp3" loop preload="auto"></audio>
 <div class="frame" id="frame">
     <div class="top-bar">
         <div class="logo">BUDUR BULDUM</div>
@@ -941,6 +942,19 @@ function timerGuncelle() {
     document.getElementById('timer').textContent = `⏱ ${str}`;
     document.getElementById('alt-krono').textContent = str;
 }
+
+// Fon müziği - ilk kullanıcı etkileşiminde başlat
+(function() {
+    const music = document.getElementById('bgMusic');
+    music.volume = 0.35;
+    function startMusic() {
+        music.play().catch(() => {});
+        document.removeEventListener('click', startMusic);
+        document.removeEventListener('touchstart', startMusic);
+    }
+    document.addEventListener('click', startMusic);
+    document.addEventListener('touchstart', startMusic);
+})();
 </script>
 </body>
 </html>
