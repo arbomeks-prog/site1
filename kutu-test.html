@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kutu Test</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: sans-serif; background: #f8fafc; padding: 16px; }
+
+  .satir {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) 160px;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .sol {
+    border: 2px solid #22c55e;
+    min-height: 120px;
+    padding: 8px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+
+  .sag {
+    border: 2px solid #ef4444;
+    min-height: 120px;
+    padding: 8px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+
+  .no {
+    font-size: 10px;
+    font-weight: 800;
+    color: #f97316;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="satir">
+  <div class="sol"><div class="no">SOL 1</div></div>
+  <div class="sag"><div class="no">SAĞ 1</div></div>
+</div>
+
+</body>
+</html>
