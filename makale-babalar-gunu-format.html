@@ -8,69 +8,261 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Nunito', sans-serif; background: #f8fafc; color: #1e293b; }
-  nav { background: #0f172a; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+
+  nav {
+    background: #0f172a;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #fbbf24; }
   .nav-logo span { color: white; }
-  .page-wrap { max-width: 960px; margin: 0 auto; padding: 20px 16px; border: 3px solid #6366f1; }
-  h1.baslik { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: #0f172a; margin-bottom: 20px; border: 2px dashed #a855f7; padding: 8px; }
-  .satir { display: grid; grid-template-columns: 3fr 1fr; gap: 20px; align-items: start; border: 2px solid #f59e0b; }
-  .paragraf { border: 2px solid #22c55e; padding: 12px; min-width: 0; overflow: hidden; word-break: break-word; }
-  .paragraf * { max-width: 100% !important; box-sizing: border-box !important; float: none !important; }
-  .paragraf img { width: 100% !important; height: auto !important; }
-  .paragraf h2, .paragraf h3 { font-size: 15px; font-weight: 800; color: #0f172a; margin: 10px 0 6px; }
-  .paragraf p { font-size: 14px; line-height: 1.7; color: #334155; margin-bottom: 8px; }
-  .tarihce-box, .highlight-box, .bb-hakkinda { background: #f1f5f9; border-left: 3px solid #f97316; padding: 10px; margin: 10px 0; font-size: 12px; line-height: 1.6; }
-  .quiz-bolum { border: 2px solid #ef4444; padding: 8px; min-width: 0; overflow: hidden; }
-  .q-baslik { font-size: 10px; font-weight: 800; color: #f97316; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .q-soru { font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 8px; line-height: 1.3; }
-  .q-ans { display: block; width: 100%; background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%); border: 2px solid #ced4da; border-bottom: 4px solid #adb5bd; border-right: 3px solid #adb5bd; box-shadow: 2px 3px 6px rgba(0,0,0,0.12); border-radius: 10px; padding: 7px 10px; font-size: 12px; font-weight: 700; color: #1e293b; cursor: pointer; transition: all 0.15s; margin-bottom: 6px; text-align: left; }
-  .q-ans:hover { background: linear-gradient(180deg, #fff 0%, #f1f3f5 100%); border-color: #f97316; color: #f97316; transform: translateY(-1px); }
-  .q-ans.selected { background: linear-gradient(180deg, #bbf7d0 0%, #86efac 100%); border: 2px solid #16a34a; color: #14532d; font-weight: 800; transform: translateY(2px); }
-  .hediye-btn { display: block; width: 100%; margin-top: 10px; background: linear-gradient(135deg, #f97316, #ea580c); color: white; border: none; border-radius: 8px; padding: 9px 10px; font-size: 12px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; }
-  #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 9998; pointer-events: none; }
-  #hediye-popup { display: none; position: fixed; top: 30%; left: 2%; z-index: 9999; background: #fff; border-radius: 16px; padding: 16px 14px; width: 68%; max-width: 360px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); }
-  #hediye-popup .popup-kapat { position: absolute; top: 10px; right: 10px; background: linear-gradient(180deg, #ff6b6b 0%, #cc0000 100%); border: 2px solid #990000; border-radius: 4px; width: 22px; height: 22px; font-size: 13px; font-weight: 900; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; }
-  .hediye-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .hediye-kart { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; text-align: center; text-decoration: none; display: block; }
-  .hediye-kart .h-isim { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
-  .hediye-kart .h-fiyat { font-size: 13px; font-weight: 800; color: #f97316; margin-bottom: 4px; }
-  .hediye-kart .h-site { font-size: 10px; color: #94a3b8; }
-  #popup { position: fixed; top: 16%; left: 50%; transform: translateX(-50%) translateY(200px); opacity: 0; background: #0f172a; color: white; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 8px; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease; pointer-events: none; white-space: nowrap; }
-  #popup.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-  #popup .dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; flex-shrink: 0; }
-  @keyframes hediye-flash { 0%,100%{opacity:1;} 50%{opacity:0.35;box-shadow:0 0 16px 5px #f97316;} }
+
+  .page-wrap { border: 3px solid #6366f1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  h1.baslik { border: 2px dashed #a855f7;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: #0f172a;
+    margin-bottom: 20px;
+  }
+
+  .satir { border: 2px solid #f59e0b;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+    align-items: start;
+  }
+
+  .paragraf { overflow: hidden; min-width: 0; width: 100%; border: 2px solid #22c55e;
+    font-size: 15px;
+    line-height: 1.85;
+    color: #334155;
+  }
+  .paragraf h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 10px;
+  }
+
+  .quiz-bolum { border: 2px solid #ef4444; }
+
+  .q-baslik {
+    font-size: 10px;
+    font-weight: 800;
+    color: #f97316;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .q-soru {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .q-ans {
+    display: block;
+    width: 100%;
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #ced4da;
+    border-bottom: 4px solid #adb5bd;
+    border-right: 3px solid #adb5bd;
+    box-shadow: 2px 3px 6px rgba(0,0,0,0.12);
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 6px;
+    text-align: left;
+    position: relative;
+  }
+  .q-ans:hover { background: linear-gradient(180deg, #fff 0%, #f1f3f5 100%); border-color: #f97316; border-bottom-color: #ea580c; color: #f97316; transform: translateY(-1px); }
+  .q-ans.selected { background: linear-gradient(180deg, #bbf7d0 0%, #86efac 100%); border: 2px solid #16a34a; border-bottom: 2px solid #15803d; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); color: #14532d; font-weight: 800; transform: translateY(2px); }
+
+  /* HEDİYELERİ GÖR BUTONU */
+  .hediye-btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 10px;
+    font-size: 12px;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .hediye-btn:hover { transform: translateY(-1px); }
+  @keyframes hediye-flash { 0%,100%{opacity:1;box-shadow:none;} 50%{opacity:0.35;box-shadow:0 0 16px 5px #f97316;} }
   @keyframes hediye-glare { 0%{background-position:-200% 0;} 100%{background-position:250% 0;} }
   .flash { animation: hediye-flash 0.7s ease-in-out 4 !important; }
   .glare { position:relative; overflow:hidden; }
   .glare::after { content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.5) 50%,transparent 65%); background-size:200% 100%; animation:hediye-glare 1.1s ease-in-out 1 forwards; }
+
+  /* OVERLAY */
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 9998;
+    pointer-events: none;
+  }
+
+  /* HEDİYE POPUP */
+  #hediye-popup {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 2%;
+    z-index: 9999;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 14px;
+    width: 68%;
+    max-width: 360px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+  }
+  #hediye-popup .popup-baslik {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 14px;
+    text-align: left;
+  }
+  #hediye-popup .popup-kapat {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(180deg, #ff6b6b 0%, #cc0000 100%);
+    border: 2px solid #990000;
+    border-radius: 4px;
+    width: 22px;
+    height: 22px;
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 1px 1px 0 #660000;
+  }
+  .hediye-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .hediye-kart {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.15s;
+  }
+  .hediye-kart:hover { transform: translateY(-2px); }
+  .hediye-kart .h-isim { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+  .hediye-kart .h-fiyat { font-size: 13px; font-weight: 800; color: #f97316; margin-bottom: 4px; }
+  .hediye-kart .h-site { font-size: 10px; color: #94a3b8; }
+
+  /* ÜST POPUP */
+  #popup {
+    position: fixed;
+    top: 16%;
+    left: 50%;
+    transform: translateX(-50%) translateY(200px); opacity: 0;
+    background: #0f172a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  #popup.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  #popup .dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
-<div id="popup"><div class="dot"></div><span>✓ Kaydedildi — istediğin zaman tamamla</span></div>
+
+<!-- ÜST POPUP -->
+<div id="popup">
+  <div class="dot"></div>
+  <span>✓ Kaydedildi — istediğin zaman tamamla</span>
+</div>
+
+<!-- HEDİYE POPUP -->
 <div id="overlay" onclick="popupKapat()"></div>
 <div id="hediye-popup">
   <button class="popup-kapat" onclick="popupKapat()">✕</button>
   <div id="popup-baslik" style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:12px;padding-right:20px;border-bottom:1.5px solid #e2e8f0;padding-bottom:10px;">🎁 Seçime Özel Hediyeler</div>
-  <div id="popup-alt" style="display:none;"><div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;align-items:center;min-height:80px;"><div id="popup-yazi2" style="font-size:15px;color:#334155;font-weight:600;line-height:1.6;"></div><div style="font-size:36px;text-align:center;">👉</div></div></div>
+  <div id="popup-alt" style="display:none;">
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;align-items:center;min-height:80px;">
+      <div id="popup-yazi2" style="font-size:15px;color:#334155;font-weight:600;line-height:1.6;"></div>
+      <div id="popup-parmak" style="font-size:36px;text-align:center;animation:parmak-sag 0.7s ease-in-out infinite;">👉</div>
+    </div>
+  </div>
   <div class="hediye-grid" id="popup-icerik"></div>
 </div>
-<nav><div class="nav-logo"><span>Budur</span>Buldum</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">Kişiye Özel Hediye</div></nav>
+
+<nav>
+  <div class="nav-logo"><span>Budur</span>Buldum</div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.4);">Kişiye Özel Hediye</div>
+</nav>
+
 <div class="page-wrap">
   <h1 class="baslik">👨 Babalar Günü Hediyesi Almak İstiyorum Ama Ne Alayım?</h1>
+
   <div class="satir">
     <div class="paragraf">
 <p>Her yıl aynı soru, aynı çaresizlik. Babalar günü yaklaşıyor, sen de "ne alsam" diye düşünüp duruyorsun. Klasik kravat mı? Kolonya mı? Zaten üç tane var. Gömlek mi? Kendi beğendiğini alıyor zaten. Ve tam bu noktada Google'a yazıyorsun: "babalar günü hediyesi almak istiyorum ama ne alayım."</p>
 
     <p>Ama durun bir dakika. Babalar günü neden var? Neden Haziran'da kutlanıyor? Bunu biliyor musun? Çünkü bu sorunun cevabı aslında sana hediye seçiminde de yol gösteriyor.</p>
-
+<p class="bb-q-text">Baban boş vaktinde ne yapar?</p>
+      <div class="bb-quiz-opts">
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Spor yapar ya da takip eder ⚽</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Teknoloji, alet edevat meraklısı 🔧</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Dizi, kitap, müzik — keyif peşinde 🎵</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Eve kapanır, bahçe ya da mutfakla uğraşır 🌱</button>
+      </div>
+      <button class="bb-devam-btn" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'}); window.location.href='quiz-kime.html'">🎯 Babana Özel Hediye Bul →</button>
     </div>
 <h2>Babalar Günü Nereden Çıktı? Kim Neden Başlattı?</h2>
 
-    <div style=" margin:0 20px 12px 0; width:100%;">
-      <img id="pximg-baba1" src="" alt="Baba ve çocuğu birlikte duygusal an" style="width:100%;height:auto;object-fit:cover;border-radius:12px;display:block;">
+    <div style="float:left; margin:0 20px 12px 0; width:220px;">
+      <img id="pximg-baba1" src="" alt="Baba ve çocuğu birlikte duygusal an" style="width:100%;height:155px;object-fit:cover;border-radius:12px;display:block;">
       <p style="font-size:11px;color:#94a3b8;margin-top:5px;font-style:italic;text-align:center;">Her çocuğun bir kahramanı vardır.</p>
     </div>
-    
+    <script>(function(){fetch('https://api.pexels.com/v1/search?query=father+child+hug+emotional+love&per_page=1&orientation=portrait',{headers:{'Authorization':'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB'}}).then(r=>r.json()).then(d=>{if(d.photos&&d.photos[0])document.getElementById('pximg-baba1').src=d.photos[0].src.medium;}).catch(function(){});})();</script>
 
     <p>1909 yılı. Washington eyaletinin küçük bir kenti, Spokane. Sonora Smart Dodd adlı bir kadın kilisede vaaz dinliyor. Vaaz Anneler Günü üzerine. Ve Sonora içinden şunu düşünüyor: "Peki ya babalar?"</p>
 
@@ -90,10 +282,10 @@
 <h2>Babaya Hediye Almak Neden Bu Kadar Zor?</h2>
 
     <div style="margin:0 0 20px 0; clear:both;">
-      <img id="pximg-baba2" src="" alt="Baba çalışırken çocuğu yanında bekliyor" style="width:100%;height:auto;object-fit:cover;border-radius:14px;display:block;">
+      <img id="pximg-baba2" src="" alt="Baba çalışırken çocuğu yanında bekliyor" style="width:100%;height:220px;object-fit:cover;border-radius:14px;display:block;">
       <p style="font-size:11px;color:#94a3b8;margin-top:6px;font-style:italic;text-align:center;">"Sen hep oradaydın." — Her babanın hak ettiği söz.</p>
     </div>
-    
+    <script>(function(){fetch('https://api.pexels.com/v1/search?query=father+working+child+watching+together&per_page=1&orientation=landscape',{headers:{'Authorization':'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB'}}).then(r=>r.json()).then(d=>{if(d.photos&&d.photos[0])document.getElementById('pximg-baba2').src=d.photos[0].src.large;}).catch(function(){});})();</script>
 
     <p>Çoğu baba "benim bir şeye ihtiyacım yok" der. Ve bunu gerçekten öyle hisseder. İhtiyaç duyduğu şeyleri zaten kendisi alır. Sana bir liste vermez. Hint yapmaz. "Şunu istiyorum" demez. Bu yüzden hediye seçmek zorlaşıyor.</p>
 
@@ -117,11 +309,26 @@
     <h3>Kaliteli Keyif Ürünleri — Kendine Almayacağı Şeyler</h3>
 
     <p>Premium bir kahve seti, özel çay koleksiyonu, kaliteli bir tıraş seti, iyi bir viski ya da şarap, el yapımı çikolata. Bunlar babalar günlük hayatta almayı düşünmez ama önlerine geldiğinde gerçekten keyif alır. İşte bu gap tam olarak senin hediyenin gireceği yer.</p>
-
+<p class="bb-q-text">Babanın tarzı nasıl?</p>
+      <div class="bb-quiz-opts">
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Klasik, sade ama şık 👔</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Rahat, spor casual 👟</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Her şeye uyar, belirli bir tarzı yok 😄</button>
+        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Pratik ve fonksiyonel sever 🛠️</button>
+      </div>
+      <button class="bb-devam-btn" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-babalar-gunu.html'}); window.location.href='quiz-kime.html'">🎯 Babana Özel Hediye Bul →</button>
     </div>
 
 
-    
+    <a class="cta-hook" href="quiz-kime.html">
+      <div class="cta-hook-yazi">Kişiye özel sürpriz hediyeler için 120 saniye yeterli — tıkla →</div>
+      <div class="cta-hook-grid">
+        <div class="cta-hook-kart"><img id="hook-img-1" src="" alt="hediye" crossorigin="anonymous"><div class="cta-hook-kart-isim">Deri Cüzdan</div></div>
+        <div class="cta-hook-kart"><img id="hook-img-2" src="" alt="hediye" crossorigin="anonymous"><div class="cta-hook-kart-isim">Parfüm</div></div>
+        <div class="cta-hook-kart"><img id="hook-img-3" src="" alt="hediye" crossorigin="anonymous"><div class="cta-hook-kart-isim">Çiçek</div></div>
+        <div class="cta-hook-kart"><img id="hook-img-4" src="" alt="hediye" crossorigin="anonymous"><div class="cta-hook-kart-isim">Aksesuar</div></div>
+      </div>
+    </a>
 <h2>Kardeşlerle Ortak Hediye Almak Mantıklı mı?</h2>
 
     <p>Mantıklı, hem de çok. Bütçeyi birleştirince tek başına alamayacağın ama gerçekten değerli bir şey mümkün oluyor. Bir hafta sonu kaçamağı, güzel bir saat, özel bir deneyim aktivitesi — bunlar grup hediyeleri için mükemmel. Üstelik "hepimizden" hediyesi babalara ayrı anlamlı geliyor. "Çocuklar bir araya gelmiş, düşünmüşler" hissi paha biçilemez.</p>
@@ -134,11 +341,11 @@
     <p>Bir de şunu söyleyelim — kardeşlerle bütçeyi birleştirmekten çekinme. 200 TL'lik dört hediye yerine 800 TL'lik tek güzel hediye çok daha iyi bir izlenim bırakır.</p>
 <h2>Babalar Günü'nü Anlamlı Kılan Nedir Gerçekten?</h2>
 
-    <div style=" margin:0 0 16px 20px; width:100%;">
-      <img id="pximg-baba3" src="" alt="Kız çocuğu babasına sarılıyor" style="width:100%;height:auto;object-fit:cover;border-radius:12px;display:block;">
+    <div style="float:right; margin:0 0 16px 20px; width:220px;">
+      <img id="pximg-baba3" src="" alt="Kız çocuğu babasına sarılıyor" style="width:100%;height:180px;object-fit:cover;border-radius:12px;display:block;">
       <p style="font-size:11px;color:#94a3b8;margin-top:5px;font-style:italic;text-align:center;">Bu an için bir hediye bul.</p>
     </div>
-    
+    <script>(function(){fetch('https://api.pexels.com/v1/search?query=daughter+hugging+father+love+emotional&per_page=1&orientation=portrait',{headers:{'Authorization':'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB'}}).then(r=>r.json()).then(d=>{if(d.photos&&d.photos[0])document.getElementById('pximg-baba3').src=d.photos[0].src.medium;}).catch(function(){});})();</script>
 
     <p>Sonora Smart Dodd, babasına bir gün değil bir his hediye etmek istedi. "Sen görülüyorsun, sen önemlisin, sen unutulmadın." İşte Babalar Günü'nün özü bu. Hediye o hissin somut hali.</p>
 
@@ -191,11 +398,15 @@
       <button class="hediye-btn" onclick="hediyeGoster(5)">🎁 Hediyeleri Gör</button>
     </div>
   </div>
+
 </div>
+
 <script>
   var secimler = {};
   var popupTimer = null;
   var aktifSoru = null;
+
+  // Her soruya özel örnek hediyeler (gerçek uygulamada API'den gelecek)
   var hediyeler = {
     1: {
       'Baba': [
@@ -298,28 +509,43 @@
       ]
     }
   };
+
   function sec(el, n, deger) {
     var parent = el.parentElement;
     parent.querySelectorAll('.q-ans').forEach(function(a){ a.classList.remove('selected'); });
     el.classList.add('selected');
     secimler[n] = deger;
+
+    // Eğer hediye popup'ı açıksa direkt hediyeleri göster
     var hediyePopup = document.getElementById('hediye-popup');
-    if (hediyePopup.style.display === 'block') { hediyeGoster(aktifSoru || n); return; }
+    if (hediyePopup.style.display === 'block') {
+      hediyeGoster(aktifSoru || n);
+      return;
+    }
+
+    // O sorunun hediye butonunu flash yap
     var butonlar = document.querySelectorAll('.hediye-btn');
     if (butonlar[n-1]) {
       butonlar[n-1].classList.remove('flash','glare');
       void butonlar[n-1].offsetWidth;
       butonlar[n-1].classList.add('flash');
-      setTimeout(function(){ butonlar[n-1].classList.remove('flash'); butonlar[n-1].classList.add('glare'); setTimeout(function(){ butonlar[n-1].classList.remove('glare'); }, 700); }, 2800);
+      setTimeout(function(){
+        butonlar[n-1].classList.remove('flash');
+        butonlar[n-1].classList.add('glare');
+        setTimeout(function(){ butonlar[n-1].classList.remove('glare'); }, 700);
+      }, 2800);
     }
+
     var popup = document.getElementById('popup');
     popup.classList.add('show');
     clearTimeout(popupTimer);
     popupTimer = setTimeout(function(){ popup.classList.remove('show'); }, 3000);
   }
+
   function hediyeGoster(soruNo) {
-    aktifSoru = soruNo;
     var secim = secimler[soruNo];
+
+    // Cevap verilmemişse uyarı popup'ı göster
     if (!secim) {
       document.getElementById('popup-baslik').textContent = 'Önce sağdaki soruyu cevapla';
       document.getElementById('popup-yazi2').textContent = 'Bir seçeneğe tıkladıktan sonra hediyeleri görebilirsin.';
@@ -329,16 +555,28 @@
       document.getElementById('overlay').style.display = 'block';
       return;
     }
+
     var soruHediyeleri = hediyeler[soruNo];
-    var liste = (soruHediyeleri && soruHediyeleri[secim]) ? soruHediyeleri[secim] : (soruHediyeleri ? soruHediyeleri['default'] : []);
-    document.getElementById('popup-baslik').textContent = '🎁 ' + secim + ' için hediyeler';
+    var liste = (secim && soruHediyeleri[secim]) ? soruHediyeleri[secim] : soruHediyeleri['default'];
+
+    var baslik = secim ? ('🎁 ' + secim + ' için hediyeler') : '🎁 Seçime Özel Hediyeler';
+    document.getElementById('popup-baslik').textContent = baslik;
+
     var icerik = '';
-    liste.forEach(function(h) { icerik += '<a href="' + h.url + '" target="_blank" class="hediye-kart"><div class="h-isim">' + h.isim + '</div><div class="h-fiyat">' + h.fiyat + '</div><div class="h-site">' + h.site + '</div></a>'; });
+    liste.forEach(function(h) {
+      icerik += '<a href="' + h.url + '" target="_blank" class="hediye-kart">' +
+        '<div class="h-isim">' + h.isim + '</div>' +
+        '<div class="h-fiyat">' + h.fiyat + '</div>' +
+        '<div class="h-site">' + h.site + '</div>' +
+        '</a>';
+    });
     document.getElementById('popup-icerik').innerHTML = icerik;
     document.getElementById('popup-alt').style.display = 'none';
+
     document.getElementById('hediye-popup').style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
   }
+
   function popupKapat() {
     document.getElementById('hediye-popup').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
