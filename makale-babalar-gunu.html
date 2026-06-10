@@ -80,114 +80,231 @@
 }
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>*{box-sizing:border-box;margin:0;padding:0;}
-body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1e293b;}
-.site-header{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;}
-.header-inner{max-width:780px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
-.logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
-.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
-.logo-text{font-family:Georgia,serif;font-size:19px;font-weight:900;color:#1e293b;}
-.logo-text span{color:#e8a838;}
-.header-nav{display:flex;gap:16px;align-items:center;}
-.header-nav a{font-size:13px;color:#64748b;text-decoration:none;font-weight:500;}
-.header-nav a:hover{color:#e8a838;}
-.breadcrumb{max-width:780px;margin:0 auto;padding:12px 16px;font-size:12px;color:#94a3b8;}
-.breadcrumb a{color:#94a3b8;text-decoration:none;}
-.breadcrumb a:hover{color:#e8a838;}
-.breadcrumb span{margin:0 6px;}
-.container{max-width:780px;margin:0 auto;padding:0 16px 60px;}
-.article-header{margin-bottom:28px;}
-.article-header h1{font-size:26px;font-weight:900;line-height:1.3;color:#0f172a;margin-bottom:10px;}
-.article-meta{font-size:12px;color:#94a3b8;display:flex;gap:16px;flex-wrap:wrap;}
-.article-meta span{display:flex;align-items:center;gap:5px;}
-.article-body h2{font-size:19px;font-weight:800;color:#0f172a;margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid #fef3c7;}
-.article-body h3{font-size:16px;font-weight:700;color:#0f172a;margin:24px 0 8px;}
-.article-body p{font-size:15px;line-height:1.9;color:#475569;margin-bottom:16px;}
-.article-body .highlight-box{background:#fffbeb;border-left:4px solid #e8a838;border-radius:0 10px 10px 0;padding:16px 20px;margin:20px 0;}
-.article-body .highlight-box p{margin:0;color:#92400e;font-weight:500;}
-.tarihce-box{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1px solid #bae6fd;border-radius:16px;padding:24px;margin:28px 0;}
-.tarihce-box h3{font-size:15px;font-weight:800;color:#0369a1;margin-bottom:12px;}
-.tarihce-box p{font-size:14px;color:#0c4a6e;line-height:1.8;margin-bottom:8px;}
-.tarihce-box p:last-child{margin-bottom:0;}
-.cta-box{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border-radius:20px;padding:32px 24px;text-align:center;margin:36px 0;position:relative;overflow:hidden;}
-.cta-box::before{content:"🎁";position:absolute;font-size:80px;opacity:0.06;top:-10px;right:-10px;}
-.cta-tag{display:inline-block;background:rgba(232,168,56,0.15);color:#e8a838;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1px;margin-bottom:14px;text-transform:uppercase;}
-.cta-box h3{font-size:22px;font-weight:900;color:#fff;margin-bottom:10px;}
-.cta-box .cta-desc{font-size:14px;color:#94a3b8;margin-bottom:24px;line-height:1.7;}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,#e8a838,#f5c96a);color:#0f172a;font-size:17px;font-weight:800;padding:16px 40px;border-radius:50px;text-decoration:none;box-shadow:0 8px 24px rgba(232,168,56,0.35);}
-.cta-btn:hover{transform:translateY(-2px);}
-.cta-sub{font-size:12px;color:#475569;margin-top:14px;}
-.related-section{margin:40px 0 20px;}
-.related-section h2{font-size:18px;font-weight:800;color:#0f172a;margin-bottom:16px;}
-.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.related-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;text-decoration:none;display:block;transition:all 0.2s;}
-.related-card:hover{border-color:#e8a838;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.08);}
-.related-card .rc-icon{font-size:22px;margin-bottom:6px;}
-.related-card .rc-title{font-size:13px;font-weight:700;color:#0f172a;line-height:1.3;}
-.related-card .rc-desc{font-size:11px;color:#94a3b8;margin-top:3px;}
-.site-footer{background:#060d15;border-top:1px solid rgba(255,255,255,0.06);padding:28px 16px;margin-top:40px;}
-.footer-inner{max-width:780px;margin:0 auto;}
-.footer-logo{display:flex;align-items:center;gap:8px;text-decoration:none;margin-bottom:16px;}
-.footer-logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
-.footer-logo-text{font-family:Georgia,serif;font-size:16px;font-weight:900;color:#fff;}
-.footer-logo-text span{color:#e8a838;}
-.footer-desc{font-size:13px;color:#475569;line-height:1.7;margin-bottom:20px;max-width:500px;}
-.footer-links{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;}
-.footer-links a{font-size:13px;color:#475569;text-decoration:none;}
-.footer-links a:hover{color:#e8a838;}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);}
-.footer-copy{font-size:12px;color:rgba(255,255,255,0.25);}
-.footer-social{display:flex;gap:8px;}
-.footer-social a{width:30px;height:30px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:7px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);text-decoration:none;font-size:13px;}
-.footer-social a:hover{color:#e8a838;border-color:rgba(232,168,56,0.3);}
-@media(max-width:480px){.article-header h1{font-size:22px;}.related-grid{grid-template-columns:1fr;}}
-/* 2 KOLONLU LAYOUT */
-.page-layout{display:grid;grid-template-columns:3fr 1fr;gap:20px;align-items:start;}
-.sag-sutun{position:sticky;top:80px;}
-@media(max-width:600px){.page-layout{grid-template-columns:1fr;}.sag-sutun{position:static;}}
-/* XP SORU BLOĞU */
-.xp-blok{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin-bottom:14px;}
-.xp-baslik{font-size:10px;font-weight:700;color:#f97316;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.xp-soru{font-size:13px;font-weight:800;color:#0f172a;margin-bottom:10px;line-height:1.3;}
-.xp-ans{display:block;width:100%;background:linear-gradient(180deg,#f8f9fa,#e9ecef);border:2px solid #ced4da;border-bottom:4px solid #adb5bd;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:700;color:#1e293b;cursor:pointer;margin-bottom:6px;text-align:left;transition:all 0.15s;}
-.xp-ans:hover{border-color:#f97316;color:#f97316;transform:translateY(-1px);}
-.xp-ans.selected{background:linear-gradient(180deg,#bbf7d0,#86efac);border:2px solid #16a34a;color:#14532d;}
-.xp-hediye-btn{display:block;width:100%;margin-top:10px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:10px;padding:10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;}
-@keyframes xp-flash{0%,100%{opacity:1;box-shadow:none;}50%{opacity:0.35;box-shadow:0 0 16px 5px #f97316;}}
-@keyframes xp-glare{0%{background-position:-200% 0;}100%{background-position:250% 0;}}
-.xp-hediye-btn.flash{animation:xp-flash 0.7s ease-in-out 4;}
-.xp-hediye-btn.glare{position:relative;overflow:hidden;}
-.xp-hediye-btn.glare::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.5) 50%,transparent 65%);background-size:200% 100%;animation:xp-glare 1.1s ease-in-out 1 forwards;}
-/* XP POPUP */
-#xp-overlay{display:none;position:fixed;inset:0;background:transparent;z-index:9998;pointer-events:none;}
-#xp-popup{display:none;position:fixed;top:30%;left:2%;z-index:9999;background:#fff;border-radius:16px;padding:16px;width:68%;max-width:340px;box-shadow:0 8px 40px rgba(0,0,0,0.2);}
-#xp-popup .xp-popup-baslik{font-size:15px;font-weight:800;color:#0f172a;margin-bottom:10px;padding-right:20px;border-bottom:1.5px solid #e2e8f0;padding-bottom:8px;}
-#xp-popup .xp-popup-kapat{position:absolute;top:8px;right:8px;background:linear-gradient(180deg,#ff6b6b,#cc0000);border:2px solid #990000;border-radius:4px;width:22px;height:22px;font-size:12px;font-weight:900;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;}
-.xp-popup-icerik{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
-.xp-popup-kart{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:8px;text-align:center;text-decoration:none;display:block;}
-.xp-popup-kart .pk-isim{font-size:11px;font-weight:700;color:#1e293b;margin-bottom:3px;}
-.xp-popup-kart .pk-fiyat{font-size:12px;font-weight:800;color:#f97316;margin-bottom:2px;}
-.xp-popup-kart .pk-site{font-size:10px;color:#94a3b8;}
-/* CTA BUTON */
-.cta-hook{background:linear-gradient(135deg,#f97316,#ea580c);border-radius:14px;padding:14px 16px;margin:24px 0;cursor:pointer;text-decoration:none;display:block;}
-.cta-hook-yazi{font-size:15px;font-weight:800;color:#fff;margin-bottom:10px;line-height:1.3;}
-.cta-hook-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
-.cta-hook-kart{background:rgba(255,255,255,0.15);border-radius:7px;overflow:hidden;aspect-ratio:1;position:relative;}
-.cta-hook-kart img{width:100%;height:100%;object-fit:cover;display:block;}
-.cta-hook-kart-isim{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.5);color:#fff;font-size:8px;font-weight:700;padding:2px 3px;text-align:center;}
-.bb-hakkinda{background:#fff;border-radius:16px;padding:20px;margin:28px 0;border-left:4px solid #e8a838;font-size:14px;line-height:1.8;color:#475569;}
-.bb-quiz-block{background:#fff;border:2px solid #e8a838;border-radius:20px;padding:24px 20px;margin:20px 0 28px;box-shadow:0 4px 24px rgba(232,168,56,0.15);}
-.bb-q-label{font-size:11px;font-weight:700;color:#e8a838;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
-.bb-q-text{font-size:17px;font-weight:800;color:#0f172a;margin-bottom:16px;line-height:1.4;}
-.bb-quiz-opts{display:flex;flex-direction:column;gap:10px;}
-.bb-opt{display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#f8f9fa,#e9ecef);border:2px solid #ced4da;border-bottom:4px solid #adb5bd;border-radius:12px;padding:13px 16px;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;transition:all 0.15s;text-align:left;width:100%;}
-.bb-opt:hover{border-color:#6366f1;background:linear-gradient(180deg,#fff,#f1f3f5);transform:translateY(-1px);}
-.bb-opt.selected{background:linear-gradient(180deg,#d1fae5,#a7f3d0);border-color:#10b981;border-bottom-color:#059669;color:#065f46;}
-.bb-opt-check{width:20px;height:20px;min-width:20px;border-radius:5px;border:2px solid #ced4da;background:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
-.bb-opt.selected .bb-opt-check{background:#10b981;border-color:#10b981;color:#fff;}
-.bb-devam-btn{display:none;width:100%;margin-top:14px;background:linear-gradient(135deg,#e8a838,#f5c96a);color:#0f172a;font-size:16px;font-weight:800;padding:14px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(232,168,56,0.35);transition:transform 0.15s;}
-.bb-devam-btn:hover{transform:translateY(-2px);}
-</style>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #f8fafc; color: #1e293b; }
+
+  nav {
+    background: #0f172a;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #fbbf24; }
+  .nav-logo span { color: white; }
+
+  .page-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  h1.baslik {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: #0f172a;
+    margin-bottom: 20px;
+  }
+
+  .satir {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+    align-items: start;
+  }
+
+  .paragraf {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #334155;
+  }
+  .paragraf h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 10px;
+  }
+
+  .quiz-bolum {}
+
+  .q-baslik {
+    font-size: 10px;
+    font-weight: 800;
+    color: #f97316;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .q-soru {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .q-ans {
+    display: block;
+    width: 100%;
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #ced4da;
+    border-bottom: 4px solid #adb5bd;
+    border-right: 3px solid #adb5bd;
+    box-shadow: 2px 3px 6px rgba(0,0,0,0.12);
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 6px;
+    text-align: left;
+    position: relative;
+  }
+  .q-ans:hover { background: linear-gradient(180deg, #fff 0%, #f1f3f5 100%); border-color: #f97316; border-bottom-color: #ea580c; color: #f97316; transform: translateY(-1px); }
+  .q-ans.selected { background: linear-gradient(180deg, #bbf7d0 0%, #86efac 100%); border: 2px solid #16a34a; border-bottom: 2px solid #15803d; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); color: #14532d; font-weight: 800; transform: translateY(2px); }
+
+  /* HEDİYELERİ GÖR BUTONU */
+  .hediye-btn {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 10px;
+    font-size: 12px;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .hediye-btn:hover { transform: translateY(-1px); }
+  @keyframes hediye-flash { 0%,100%{opacity:1;box-shadow:none;} 50%{opacity:0.35;box-shadow:0 0 16px 5px #f97316;} }
+  @keyframes hediye-glare { 0%{background-position:-200% 0;} 100%{background-position:250% 0;} }
+  .flash { animation: hediye-flash 0.7s ease-in-out 4 !important; }
+  .glare { position:relative; overflow:hidden; }
+  .glare::after { content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,0.5) 50%,transparent 65%); background-size:200% 100%; animation:hediye-glare 1.1s ease-in-out 1 forwards; }
+
+  /* OVERLAY */
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 9998;
+    pointer-events: none;
+  }
+
+  /* HEDİYE POPUP */
+  #hediye-popup {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 2%;
+    z-index: 9999;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 14px;
+    width: 68%;
+    max-width: 360px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+  }
+  #hediye-popup .popup-baslik {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 14px;
+    text-align: left;
+  }
+  #hediye-popup .popup-kapat {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(180deg, #ff6b6b 0%, #cc0000 100%);
+    border: 2px solid #990000;
+    border-radius: 4px;
+    width: 22px;
+    height: 22px;
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 1px 1px 0 #660000;
+  }
+  .hediye-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .hediye-kart {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.15s;
+  }
+  .hediye-kart:hover { transform: translateY(-2px); }
+  .hediye-kart .h-isim { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+  .hediye-kart .h-fiyat { font-size: 13px; font-weight: 800; color: #f97316; margin-bottom: 4px; }
+  .hediye-kart .h-site { font-size: 10px; color: #94a3b8; }
+
+  /* ÜST POPUP */
+  #popup {
+    position: fixed;
+    top: 16%;
+    left: 50%;
+    transform: translateX(-50%) translateY(200px); opacity: 0;
+    background: #0f172a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  #popup.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  #popup .dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; flex-shrink: 0; }
+
+  .tarihce-box{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:1px solid #bae6fd;border-radius:16px;padding:24px;margin:28px 0;}
+  .tarihce-box h3{font-size:15px;font-weight:800;color:#0369a1;margin-bottom:12px;}
+  .tarihce-box p{font-size:14px;color:#0c4a6e;line-height:1.8;margin-bottom:8px;}
+  .cta-box{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:20px;padding:32px 24px;text-align:center;margin:36px 0;position:relative;overflow:hidden;}
+  .cta-tag{display:inline-block;background:rgba(232,168,56,0.15);color:#e8a838;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:14px;text-transform:uppercase;}
+  .cta-box h3{font-size:22px;font-weight:900;color:#fff;margin-bottom:10px;}
+  .cta-box .cta-desc{font-size:14px;color:#94a3b8;margin-bottom:24px;line-height:1.7;}
+  .cta-btn{display:inline-block;background:linear-gradient(135deg,#e8a838,#f5c96a);color:#0f172a;font-size:17px;font-weight:800;padding:16px 40px;border-radius:50px;text-decoration:none;}
+  .cta-sub{font-size:12px;color:#475569;margin-top:14px;}
+  .related-section{margin:40px 0 20px;}
+  .related-section h2{font-size:18px;font-weight:800;color:#0f172a;margin-bottom:16px;}
+  .related-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .related-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px;text-decoration:none;display:block;}
+  .related-card .rc-icon{font-size:22px;margin-bottom:6px;}
+  .related-card .rc-title{font-size:13px;font-weight:700;color:#0f172a;line-height:1.3;}
+  .related-card .rc-desc{font-size:11px;color:#94a3b8;margin-top:3px;}
+  .bb-hakkinda{background:#fff;border-radius:16px;padding:20px;margin:28px 0;border-left:4px solid #e8a838;font-size:14px;line-height:1.8;color:#475569;}
+  .highlight-box{background:#fffbeb;border-left:4px solid #e8a838;border-radius:0 10px 10px 0;padding:16px 20px;margin:20px 0;}
+  .highlight-box p{margin:0;color:#92400e;font-weight:500;}</style>
 </head>
 <body>
 
@@ -438,120 +555,189 @@ body{background:#F9F9F9;font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1
 </footer>
 
 
+
+
 <script>
-var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
-var xpSecimler = {};
-var xpAktifSoru = null;
+  var secimler = {};
+  var popupTimer = null;
+  var aktifSoru = null;
 
-// Pexels hook görselleri
-var hookAramalar = [
-  {q:'leather wallet gift brown', id:'hook-img-1'},
-  {q:'perfume bottle luxury gift', id:'hook-img-2'},
-  {q:'flower bouquet gift colorful', id:'hook-img-3'},
-  {q:'watch accessory gift men', id:'hook-img-4'}
-];
-hookAramalar.forEach(function(a){
-  fetch('https://api.pexels.com/v1/search?query='+encodeURIComponent(a.q)+'&per_page=1&orientation=square',{headers:{Authorization:PEXELS_KEY}})
-  .then(function(r){return r.json();})
-  .then(function(d){if(d.photos&&d.photos[0]){var el=document.getElementById(a.id);if(el)el.src=d.photos[0].src.small;}})
-  .catch(function(){});
-});
+  // Her soruya özel örnek hediyeler (gerçek uygulamada API'den gelecek)
+  var hediyeler = {
+    1: {
+      'Baba': [
+        {isim:'Akıllı Saat', fiyat:'₺2.499', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Deri Cüzdan', fiyat:'₺649', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Termos', fiyat:'₺389', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Parfüm Seti', fiyat:'₺1.299', site:'Çiçeksepeti', url:'https://ciceksepeti.com'}
+      ],
+      'Anne': [
+        {isim:'Çiçek Buketi', fiyat:'₺480', site:'Çiçeksepeti', url:'https://ciceksepeti.com'},
+        {isim:'Cilt Bakım Seti', fiyat:'₺920', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Kolye', fiyat:'₺750', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Pijama Takımı', fiyat:'₺599', site:'Amazon', url:'https://amazon.com.tr'}
+      ],
+      'default': [
+        {isim:'Hediye Kartı', fiyat:'₺500', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Çikolata Kutusu', fiyat:'₺280', site:'Çiçeksepeti', url:'https://ciceksepeti.com'},
+        {isim:'Kitap Seti', fiyat:'₺450', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Dekoratif Kutu', fiyat:'₺320', site:'Hepsiburada', url:'https://hepsiburada.com'}
+      ]
+    },
+    2: {
+      '36-45': [
+        {isim:'Bluetooth Hoparlör', fiyat:'₺1.450', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Spor Çantası', fiyat:'₺680', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Akıllı Bileklik', fiyat:'₺1.200', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Kahve Makinesi', fiyat:'₺2.800', site:'N11', url:'https://n11.com'}
+      ],
+      '46-60': [
+        {isim:'Masaj Aleti', fiyat:'₺1.890', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Termos & Kamp Seti', fiyat:'₺749', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Deri Kemer', fiyat:'₺420', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Kitap', fiyat:'₺180', site:'Çiçeksepeti', url:'https://ciceksepeti.com'}
+      ],
+      'default': [
+        {isim:'Premium Alet Seti', fiyat:'₺899', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Puzzle 1000', fiyat:'₺380', site:'N11', url:'https://n11.com'},
+        {isim:'Dijital Çerçeve', fiyat:'₺1.850', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Çay Seti', fiyat:'₺520', site:'Çiçeksepeti', url:'https://ciceksepeti.com'}
+      ]
+    },
+    3: {
+      'Babalar Günü': [
+        {isim:'Kişiye Özel Tablo', fiyat:'₺850', site:'Çiçeksepeti', url:'https://ciceksepeti.com'},
+        {isim:'Baba & Ben Kupası', fiyat:'₺220', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Fotoğraf Albümü', fiyat:'₺380', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Ahşap İsimlik', fiyat:'₺290', site:'N11', url:'https://n11.com'}
+      ],
+      'default': [
+        {isim:'Hediye Paketi', fiyat:'₺650', site:'Çiçeksepeti', url:'https://ciceksepeti.com'},
+        {isim:'Saat', fiyat:'₺1.200', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Aksesuar Seti', fiyat:'₺480', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Özel Kutulama', fiyat:'₺350', site:'Hepsiburada', url:'https://hepsiburada.com'}
+      ]
+    },
+    4: {
+      'Teknoloji': [
+        {isim:'Kablosuz Kulaklık', fiyat:'₺1.899', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Powerbank', fiyat:'₺590', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Akıllı Lamba', fiyat:'₺420', site:'N11', url:'https://n11.com'},
+        {isim:'Klavye', fiyat:'₺1.100', site:'Hepsiburada', url:'https://hepsiburada.com'}
+      ],
+      'Balık': [
+        {isim:'Olta Seti', fiyat:'₺780', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Balıkçı Şapkası', fiyat:'₺220', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Termos', fiyat:'₺389', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Çakı Seti', fiyat:'₺650', site:'N11', url:'https://n11.com'}
+      ],
+      'default': [
+        {isim:'Spor Ayakkabı', fiyat:'₺1.650', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Kitap Seti', fiyat:'₺450', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Müzik Aleti Aksesuarı', fiyat:'₺380', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Gurme Sepeti', fiyat:'₺1.200', site:'Çiçeksepeti', url:'https://ciceksepeti.com'}
+      ]
+    },
+    5: {
+      '500 TL altı': [
+        {isim:'Çay & Kahve Seti', fiyat:'₺280', site:'Çiçeksepeti', url:'https://ciceksepeti.com'},
+        {isim:'Kitap', fiyat:'₺180', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Kupa', fiyat:'₺220', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Çikolata Kutusu', fiyat:'₺320', site:'Hepsiburada', url:'https://hepsiburada.com'}
+      ],
+      '500-1000 TL': [
+        {isim:'Deri Cüzdan', fiyat:'₺649', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Termos', fiyat:'₺389', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Kemer', fiyat:'₺420', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Parfüm', fiyat:'₺780', site:'Çiçeksepeti', url:'https://ciceksepeti.com'}
+      ],
+      '1-3 bin TL': [
+        {isim:'Akıllı Saat', fiyat:'₺2.499', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Bluetooth Hoparlör', fiyat:'₺1.450', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Kahve Makinesi', fiyat:'₺1.890', site:'N11', url:'https://n11.com'},
+        {isim:'Parfüm Seti', fiyat:'₺1.299', site:'Hepsiburada', url:'https://hepsiburada.com'}
+      ],
+      '3000+ TL': [
+        {isim:'Tablet', fiyat:'₺8.999', site:'Amazon', url:'https://amazon.com.tr'},
+        {isim:'Akıllı Saat Pro', fiyat:'₺5.499', site:'Trendyol', url:'https://trendyol.com'},
+        {isim:'Masaj Koltuğu', fiyat:'₺12.000', site:'Hepsiburada', url:'https://hepsiburada.com'},
+        {isim:'Premium Valiz', fiyat:'₺3.800', site:'N11', url:'https://n11.com'}
+      ]
+    }
+  };
 
-// Her soruya özel hediyeler
-var xpHediyeler = {
-  1: {
-    0:[{isim:'Akıllı Bileklik',fiyat:'₺1.200',site:'Trendyol',url:'https://trendyol.com'},{isim:'Bluetooth Hoparlör',fiyat:'₺1.450',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Spor Çantası',fiyat:'₺680',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Kahve Makinesi',fiyat:'₺2.800',site:'N11',url:'https://n11.com'}],
-    1:[{isim:'Masaj Aleti',fiyat:'₺1.890',site:'Trendyol',url:'https://trendyol.com'},{isim:'Deri Cüzdan',fiyat:'₺649',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Termos',fiyat:'₺389',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Parfüm Seti',fiyat:'₺1.299',site:'Çiçeksepeti',url:'https://ciceksepeti.com'}],
-    2:[{isim:'Kol Saati',fiyat:'₺2.499',site:'Trendyol',url:'https://trendyol.com'},{isim:'Kişiye Özel Kupa',fiyat:'₺220',site:'N11',url:'https://n11.com'},{isim:'Çay Seti',fiyat:'₺520',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Kitap Koleksiyonu',fiyat:'₺450',site:'Amazon',url:'https://amazon.com.tr'}],
-    3:[{isim:'Ahşap Fotoğraf Çerçeve',fiyat:'₺290',site:'N11',url:'https://n11.com'},{isim:'Kişisel Tablo',fiyat:'₺850',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Gurme Çay Kutusu',fiyat:'₺380',site:'Amazon',url:'https://amazon.com.tr'},{isim:'El İşi Cüzdan',fiyat:'₺550',site:'Trendyol',url:'https://trendyol.com'}]
-  },
-  2: {
-    0:[{isim:'Spor Ayakkabı',fiyat:'₺1.650',site:'Trendyol',url:'https://trendyol.com'},{isim:'Fitness Bandı',fiyat:'₺890',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Spor Çantası',fiyat:'₺680',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Termos',fiyat:'₺389',site:'N11',url:'https://n11.com'}],
-    1:[{isim:'Kablosuz Kulaklık',fiyat:'₺1.899',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Powerbank',fiyat:'₺590',site:'Trendyol',url:'https://trendyol.com'},{isim:'Akıllı Saat',fiyat:'₺2.499',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Klavye',fiyat:'₺1.100',site:'N11',url:'https://n11.com'}],
-    2:[{isim:'Kitap Seti',fiyat:'₺450',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Müzik Aleti Aksesuarı',fiyat:'₺380',site:'Trendyol',url:'https://trendyol.com'},{isim:'Bluetooth Hoparlör',fiyat:'₺1.450',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Film Paketi',fiyat:'₺320',site:'N11',url:'https://n11.com'}],
-    3:[{isim:'Olta Seti',fiyat:'₺780',site:'Trendyol',url:'https://trendyol.com'},{isim:'Termos & Kamp Seti',fiyat:'₺749',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Bahçe Aletleri',fiyat:'₺650',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Çakı Seti',fiyat:'₺590',site:'N11',url:'https://n11.com'}],
-    4:[{isim:'Gurme Sepeti',fiyat:'₺1.200',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Kahve Makinesi',fiyat:'₺2.800',site:'Trendyol',url:'https://trendyol.com'},{isim:'Mutfak Seti',fiyat:'₺890',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Çay Koleksiyonu',fiyat:'₺520',site:'Amazon',url:'https://amazon.com.tr'}]
-  },
-  3: {
-    0:[{isim:'Çikolata Kutusu',fiyat:'₺280',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Kitap',fiyat:'₺180',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Kupa',fiyat:'₺220',site:'Trendyol',url:'https://trendyol.com'},{isim:'Çay Seti',fiyat:'₺320',site:'N11',url:'https://n11.com'}],
-    1:[{isim:'Deri Cüzdan',fiyat:'₺649',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Parfüm',fiyat:'₺780',site:'Çiçeksepeti',url:'https://ciceksepeti.com'},{isim:'Termos',fiyat:'₺389',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Kemer',fiyat:'₺420',site:'Trendyol',url:'https://trendyol.com'}],
-    2:[{isim:'Akıllı Saat',fiyat:'₺2.499',site:'Trendyol',url:'https://trendyol.com'},{isim:'Bluetooth Hoparlör',fiyat:'₺1.450',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Kahve Makinesi',fiyat:'₺1.890',site:'N11',url:'https://n11.com'},{isim:'Parfüm Seti',fiyat:'₺1.299',site:'Hepsiburada',url:'https://hepsiburada.com'}],
-    3:[{isim:'Tablet',fiyat:'₺8.999',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Akıllı Saat Pro',fiyat:'₺5.499',site:'Trendyol',url:'https://trendyol.com'},{isim:'Premium Valiz',fiyat:'₺3.800',site:'N11',url:'https://n11.com'},{isim:'Gurme Sepeti',fiyat:'₺2.500',site:'Çiçeksepeti',url:'https://ciceksepeti.com'}]
-  },
-  4: {
-    0:[{isim:'Kol Saati',fiyat:'₺2.499',site:'Trendyol',url:'https://trendyol.com'},{isim:'Deri Cüzdan',fiyat:'₺649',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Kravat Seti',fiyat:'₺380',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Parfüm',fiyat:'₺780',site:'Çiçeksepeti',url:'https://ciceksepeti.com'}],
-    1:[{isim:'Spor Ayakkabı',fiyat:'₺1.650',site:'Trendyol',url:'https://trendyol.com'},{isim:'Spor Çantası',fiyat:'₺680',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Fitness Bandı',fiyat:'₺890',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Termos',fiyat:'₺389',site:'N11',url:'https://n11.com'}],
-    2:[{isim:'Alet Çantası',fiyat:'₺899',site:'Trendyol',url:'https://trendyol.com'},{isim:'Çakı Seti',fiyat:'₺590',site:'Amazon',url:'https://amazon.com.tr'},{isim:'Powerbank',fiyat:'₺590',site:'Hepsiburada',url:'https://hepsiburada.com'},{isim:'Kamp Ekipmanı',fiyat:'₺750',site:'N11',url:'https://n11.com'}]
+  function sec(el, n, deger) {
+    var parent = el.parentElement;
+    parent.querySelectorAll('.q-ans').forEach(function(a){ a.classList.remove('selected'); });
+    el.classList.add('selected');
+    secimler[n] = deger;
+
+    // Eğer hediye popup'ı açıksa direkt hediyeleri göster
+    var hediyePopup = document.getElementById('hediye-popup');
+    if (hediyePopup.style.display === 'block') {
+      hediyeGoster(aktifSoru || n);
+      return;
+    }
+
+    // O sorunun hediye butonunu flash yap
+    var butonlar = document.querySelectorAll('.hediye-btn');
+    if (butonlar[n-1]) {
+      butonlar[n-1].classList.remove('flash','glare');
+      void butonlar[n-1].offsetWidth;
+      butonlar[n-1].classList.add('flash');
+      setTimeout(function(){
+        butonlar[n-1].classList.remove('flash');
+        butonlar[n-1].classList.add('glare');
+        setTimeout(function(){ butonlar[n-1].classList.remove('glare'); }, 700);
+      }, 2800);
+    }
+
+    var popup = document.getElementById('popup');
+    popup.classList.add('show');
+    clearTimeout(popupTimer);
+    popupTimer = setTimeout(function(){ popup.classList.remove('show'); }, 3000);
   }
-};
 
-var xpSecenekler = {1:['35-45 yaş','46-60 yaş','61-75 yaş','76 ve üzeri'],2:['Spor','Teknoloji','Dizi/Kitap/Müzik','Bahçe/Balık/Doğa','Yemek/Mutfak'],3:['500 TL altı','500-1500 TL','1500-3000 TL','3000+ TL'],4:['Klasik','Spor Casual','Pratik']};
+  function hediyeGoster(soruNo) {
+    var secim = secimler[soruNo];
 
-function xpSec(el, n, idx) {
-  var parent = el.parentElement;
-  parent.querySelectorAll('.xp-ans').forEach(function(a){a.classList.remove('selected');});
-  el.classList.add('selected');
-  xpSecimler[n] = idx;
-  // Flash efekti
-  var btn = parent.querySelector('.xp-hediye-btn');
-  if(btn){
-    btn.classList.remove('flash','glare');
-    void btn.offsetWidth;
-    btn.classList.add('flash');
-    setTimeout(function(){
-      btn.classList.remove('flash');
-      btn.classList.add('glare');
-      setTimeout(function(){btn.classList.remove('glare');},1200);
-    },2800);
+    // Cevap verilmemişse uyarı popup'ı göster
+    if (!secim) {
+      document.getElementById('popup-baslik').textContent = 'Önce sağdaki soruyu cevapla';
+      document.getElementById('popup-yazi2').textContent = 'Bir seçeneğe tıkladıktan sonra hediyeleri görebilirsin.';
+      document.getElementById('popup-alt').style.display = 'block';
+      document.getElementById('popup-icerik').innerHTML = '';
+      document.getElementById('hediye-popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+      return;
+    }
+
+    var soruHediyeleri = hediyeler[soruNo];
+    var liste = (secim && soruHediyeleri[secim]) ? soruHediyeleri[secim] : soruHediyeleri['default'];
+
+    var baslik = secim ? ('🎁 ' + secim + ' için hediyeler') : '🎁 Seçime Özel Hediyeler';
+    document.getElementById('popup-baslik').textContent = baslik;
+
+    var icerik = '';
+    liste.forEach(function(h) {
+      icerik += '<a href="' + h.url + '" target="_blank" class="hediye-kart">' +
+        '<div class="h-isim">' + h.isim + '</div>' +
+        '<div class="h-fiyat">' + h.fiyat + '</div>' +
+        '<div class="h-site">' + h.site + '</div>' +
+        '</a>';
+    });
+    document.getElementById('popup-icerik').innerHTML = icerik;
+    document.getElementById('popup-alt').style.display = 'none';
+
+    document.getElementById('hediye-popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
   }
-  // Popup açıksa direkt hediyeleri göster
-  if(document.getElementById('xp-popup').style.display==='block'){
-    xpHediye(xpAktifSoru||n);
-  }
-}
 
-function xpHediye(soruNo) {
-  xpAktifSoru = soruNo;
-  var idx = xpSecimler[soruNo];
-  if(idx===undefined){
-    document.getElementById('xp-popup-baslik').textContent = 'Önce sağdaki soruyu cevapla';
-    document.getElementById('xp-popup-yazi').textContent = 'Bir seçeneğe tıkladıktan sonra hediyeleri görebilirsin.';
-    document.getElementById('xp-popup-alt').style.display='block';
-    document.getElementById('xp-popup-icerik').innerHTML='';
-    document.getElementById('xp-popup').style.display='block';
-    document.getElementById('xp-overlay').style.display='block';
-    return;
+  function popupKapat() {
+    document.getElementById('hediye-popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+    aktifSoru = null;
   }
-  var secim = xpSecenekler[soruNo][idx];
-  var hediyeler = (xpHediyeler[soruNo]&&xpHediyeler[soruNo][idx])?xpHediyeler[soruNo][idx]:xpHediyeler[soruNo][0];
-  document.getElementById('xp-popup-baslik').textContent = secim + ' için hediyeler 🎁';
-  document.getElementById('xp-popup-alt').style.display='none';
-  var html='';
-  hediyeler.forEach(function(h){
-    html+='<a href="'+h.url+'" target="_blank" class="xp-popup-kart"><div class="pk-isim">'+h.isim+'</div><div class="pk-fiyat">'+h.fiyat+'</div><div class="pk-site">'+h.site+'</div></a>';
-  });
-  document.getElementById('xp-popup-icerik').innerHTML=html;
-  document.getElementById('xp-popup').style.display='block';
-  document.getElementById('xp-overlay').style.display='block';
-}
-
-function xpKapat(){
-  document.getElementById('xp-popup').style.display='none';
-  document.getElementById('xp-overlay').style.display='none';
-  xpAktifSoru=null;
-}
-</script>
-<script>
-function bbSec(btn) {
-  var blok = btn.closest(".bb-quiz-block");
-  blok.querySelectorAll(".bb-opt").forEach(function(b) {
-    b.classList.remove("selected");
-    b.querySelector(".bb-opt-check").textContent = "";
-  });
-  btn.classList.add("selected");
-  btn.querySelector(".bb-opt-check").textContent = "✔";
-  blok.querySelector(".bb-devam-btn").style.display = "block";
-}
 </script>
 </body>
 </html>
