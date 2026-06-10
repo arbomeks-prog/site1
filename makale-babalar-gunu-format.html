@@ -12,7 +12,7 @@
   .page-wrap {
     max-width: 960px;
     margin: 0 auto;
-    padding: 20px 16px;
+    padding: 0;
     border: 3px solid #6366f1;
   }
 
@@ -28,14 +28,16 @@
 
   .satir {
     display: grid;
-    grid-template-columns: 292px 98px;
+    grid-template-columns: 3fr 1fr;
     gap: 20px;
     align-items: start;
     border: 2px solid #f59e0b;
+    overflow: hidden;
   }
 
   .paragraf {
     border: 2px solid #22c55e;
+    min-width: 0;
     min-height: 400px;
     padding: 12px;
     overflow: hidden;
@@ -45,6 +47,7 @@
 
   .quiz-bolum {
     border: 2px solid #ef4444;
+    min-width: 0;
     min-height: 400px;
     padding: 8px;
     overflow: hidden;
