@@ -252,3 +252,27 @@ Budur Buldum, akıllı bir hediye bulma, seçme ve satın alma platformudur. Haz
 - "Hediyeleri Gör" butonuna cevap verdikten sonra basarsa: direkt hediyeler açılır
 - Popup kapatma butonu Windows XP kırmızı stili
 - Hediyeler 2x2 grid, tıklanınca alışveriş sitesine gider (affiliate)
+
+---
+
+## Makale CTA Butonu — Hook Sistemi (10 Haziran 2026)
+
+**Dosya:** `cta-test.html` (test), makale sayfalarına entegre edilecek
+
+**Mantık:**
+- Makale paragrafları arasına turuncu büyük CTA butonu yerleştirilir
+- Buton metni: "Kişiye özel sürpriz hediyeler için 120 saniye yeterli — tıkla →"
+- Tıklayınca quiz-kime.html'e gider (ana quiz akışı)
+- Altında 4 küçük Pexels görseli — makalenin konusundan FARKLI ürünler
+- Amaç: "Başka kategorilerde de güzel hediyeler var, gel bak" mesajı vermek
+- Örnek: Teknoloji makalesinde → deri cüzdan, kitap, parfüm, çiçek görselleri
+
+**Hook mantığı (Reels hook gibi):**
+1. XP soruları (sağ sütun) — "bu konuda hemen ürün gör" oltası
+2. CTA butonu (paragraf arası) — "başka kategorilerde de var" oltası
+3. Her ikisi aynı anda çalışıyor, farklı kullanıcı profillerini yakalıyor
+
+**Görsel seçim kuralı:**
+- Makalenin konusundan farklı ürün görselleri seç
+- Merak uyandıran, çeşitli kategorilerden görseller
+- Pexels API ile dinamik çekilir
