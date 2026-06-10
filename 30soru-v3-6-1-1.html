@@ -734,7 +734,7 @@ function baslat() {
     const music = document.getElementById('bgMusic');
     music.volume = 0.35;
     music.currentTime = 0;
-    music.play().catch(() => {});
+    music.play().catch(()=>{});
 }
 
 function bittiDemo() {
@@ -947,7 +947,12 @@ function timerGuncelle() {
     document.getElementById('alt-krono').textContent = str;
 }
 
-
+// Sayfa yüklenince müziği önceden buffer'a al
+window.addEventListener('load', function() {
+    const music = document.getElementById('bgMusic');
+    music.volume = 0;
+    music.play().then(() => { music.pause(); music.currentTime = 0; music.volume = 0.35; }).catch(()=>{});
+});
 </script>
 </body>
 </html>
