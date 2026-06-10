@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA Test</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, sans-serif; background: #f8fafc; padding: 20px; }
+.paragraf { font-size: 15px; line-height: 1.85; color: #334155; margin-bottom: 20px; }
+.cta-wrap {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+.cta-wrap:hover { opacity: 0.95; }
+.cta-yazi {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.cta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.cta-kart {
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  position: relative;
+}
+.cta-kart img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cta-kart-isim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 4px;
+  text-align: center;
+}
+.cta-kart-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.cta-kart-placeholder span:first-child { font-size: 20px; }
+.cta-kart-placeholder span:last-child { font-size: 9px; color: rgba(255,255,255,0.85); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<p class="paragraf">Teknoloji seven biri için hediye seçmek aslında çok kolay — doğru soruları sorduğunuzda cevap kendiliğinden geliyor. Kablolu mu kablosuz mu, oyun mu iş mi, masaüstü mü taşınabilir mi?</p>
+
+<a class="cta-wrap" href="hediye-kime-alinacak-testi.html">
+  <div class="cta-yazi">Kişiye özel sürpriz hediyeler için 120 saniye yeterli — tıkla →</div>
+  <div class="cta-grid" id="cta-grid">
+    <div class="cta-kart"><div class="cta-kart-placeholder"><span>⌚</span><span>Yükleniyor</span></div></div>
+    <div class="cta-kart"><div class="cta-kart-placeholder"><span>🎧</span><span>Yükleniyor</span></div></div>
+    <div class="cta-kart"><div class="cta-kart-placeholder"><span>💻</span><span>Yükleniyor</span></div></div>
+    <div class="cta-kart"><div class="cta-kart-placeholder"><span>🔋</span><span>Yükleniyor</span></div></div>
+  </div>
+</a>
+
+<p class="paragraf">Bir sonraki paragraf burada devam ediyor. Makale akmaya devam ediyor ve okuyucu aşağı inerken bu butonu görüyor...</p>
+
+<script>
+var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
+
+var aramalar = [
+  { q: 'smart watch gift', isim: 'Akıllı Saat' },
+  { q: 'wireless headphones', isim: 'Kulaklık' },
+  { q: 'laptop computer desk', isim: 'Laptop' },
+  { q: 'powerbank portable charger', isim: 'Powerbank' }
+];
+
+var grid = document.getElementById('cta-grid');
+
+aramalar.forEach(function(arama, i) {
+  fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(arama.q) + '&per_page=1&orientation=square', {
+    headers: { Authorization: PEXELS_KEY }
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data.photos && data.photos.length > 0) {
+      var url = data.photos[0].src.small;
+      var kart = grid.children[i];
+      kart.innerHTML = '<img src="' + url + '" alt="' + arama.isim + '" crossorigin="anonymous"><div class="cta-kart-isim">' + arama.isim + '</div>';
+    }
+  })
+  .catch(function(){});
+});
+</script>
+
+</body>
+</html>
