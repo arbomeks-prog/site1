@@ -415,33 +415,6 @@
 
   .final-url { font-size:10px; color:rgba(255,217,61,0.25); letter-spacing:0.15em; }
 
-  .siir-alani {
-    min-height: 36px;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  .siir-cumle {
-    font-size: 13px;
-    color: rgba(255,210,60,0.9);
-    font-family: Georgia, serif;
-    font-style: italic;
-    line-height: 1.6;
-    text-align: center;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .siir-harf {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(-40px);
-    animation: siirBirikim 0.35s ease-out forwards;
-  }
-  @keyframes siirBirikim {
-    0% { opacity: 0; transform: translateY(-40px); }
-    65% { opacity: 1; transform: translateY(3px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
 
   /* 2x2 Grid kolaj */
   .photo-grid {
@@ -655,10 +628,6 @@
     <div class="final-sub">Kişiye özel hediye bulucu</div>
     <a class="final-cta" href="https://budurbuldum.com" target="_blank">Babana Hediye Bul →</a>
     <div class="final-url">budurbuldum.com</div>
-    <div class="siir-alani">
-      <div class="siir-cumle" id="siirAlani"></div>
-      <div id="siirAltYazi" style="font-size:11px;color:rgba(255,210,60,0.5);font-family:Georgia,serif;font-style:italic;margin-top:10px;letter-spacing:1px;opacity:0;transition:opacity 1.5s ease;">Baba bir masal anlat bana...</div>
-    </div>
   </div>
 
   <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
@@ -975,7 +944,6 @@ function startFilm() {
   // === FİNAL (40sn) ===
   T(()=>{
     document.getElementById('finalZone').classList.add('show');
-    setTimeout(siirBaslat, 1200);
   }, 40000);
 
   // Progress
@@ -1022,82 +990,6 @@ async function fetchGiftPhoto(query, id) {
 }
 
 
-// ===== ŞİİR ANİMASYONU =====
-const siirCumleler = [
-  'Baba bir masal anlat bana',
-  'Uykum gelmiyor bu gece',
-  'Ellerimi tut istiyorum',
-  'Gitme yanımdan sakın',
-  'Sen benim masallarımın tek kahramanısın',
-  'Seni çok seviyorum baba',
-];
-let siirIdx = 0;
-
-function siirBaslat() {
-  siirIdx = 0;
-  siirSonraki();
-}
-
-function siirSonraki() {
-  if (siirIdx >= siirCumleler.length) return;
-  const cumle = siirCumleler[siirIdx];
-  const sonMu = siirIdx === siirCumleler.length - 1;
-  siirIdx++;
-  siirHarfler(cumle, () => {
-    if (sonMu) {
-      // Son cümle: kaybolmaz, altında flu yazı belirir
-      setTimeout(() => {
-        document.getElementById('siirAltYazi').style.opacity = '1';
-      }, 800);
-    } else {
-      setTimeout(() => siirYukari(() => setTimeout(siirSonraki, 300)), 2000);
-    }
-  });
-}
-
-function siirHarfler(metin, cb) {
-  const alan = document.getElementById('siirAlani');
-  alan.innerHTML = '';
-  alan.style.transition = '';
-  alan.style.opacity = '1';
-  alan.style.transform = 'translateY(0)';
-  let gecikme = 0;
-  metin.split(' ').forEach((kelime, ki, arr) => {
-    const ks = document.createElement('span');
-    ks.style.cssText = 'display:inline-block;white-space:pre';
-    [...kelime].forEach(harf => {
-      const h = document.createElement('span');
-      h.className = 'siir-harf';
-      h.textContent = harf;
-      h.style.animationDelay = gecikme + 'ms';
-      gecikme += 55;
-      ks.appendChild(h);
-    });
-    alan.appendChild(ks);
-    if (ki < arr.length - 1) {
-      const b = document.createElement('span');
-      b.textContent = ' ';
-      alan.appendChild(b);
-      gecikme += 35;
-    }
-  });
-  setTimeout(cb, gecikme + 250);
-}
-
-function siirYukari(cb) {
-  const alan = document.getElementById('siirAlani');
-  if (siirIdx >= siirCumleler.length) {
-    setTimeout(() => {
-      document.getElementById('siirAltYazi').style.opacity = '1';
-    }, 800);
-    cb && cb();
-    return;
-  }
-  alan.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-  alan.style.opacity = '0';
-  alan.style.transform = 'translateY(-28px)';
-  setTimeout(cb, 700);
-}
 async function init() {
   await Promise.all([
     ...queries.map((q,i)=>fetchPhoto(q,`p${i+1}`)),
