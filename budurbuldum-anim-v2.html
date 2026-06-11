@@ -186,6 +186,107 @@ function drawKadin(x, y, s, flip, label){
   ctx.restore();
 }
 
+// Hediye kartı verileri
+const kartlar = [
+  { isim: 'Akıllı Saat', fiyat: '₺2.499', badge: '🎯', img: 'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&w=300', platform: 'Trendyol' },
+  { isim: 'Parfüm Seti', fiyat: '₺1.299', badge: '🎯', img: 'https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&w=300', platform: 'Hepsiburada' },
+  { isim: 'Kablosuz Kulaklık', fiyat: '₺1.899', badge: '⭐', img: 'https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&w=300', platform: 'Amazon TR' },
+  { isim: 'Premium Alet Seti', fiyat: '₺3.200', badge: '🎯', img: 'https://images.pexels.com/photos/2536965/pexels-photo-2536965.jpeg?auto=compress&w=300', platform: 'Trendyol' },
+];
+
+const kartImgs = kartlar.map(k => { const img = new Image(); img.crossOrigin='anonymous'; img.src = k.img; return img; });
+
+// Kart partikülleri
+const kartParticles = [
+  { kIdx:0, x:W+80, y:60,  vx:-0.5, vy:0.3,  rot:0.08, delay:150 },
+  { kIdx:1, x:-80,  y:120, vx:0.4,  vy:-0.2, rot:-0.06, delay:220 },
+  { kIdx:2, x:W+80, y:200, vx:-0.45,vy:-0.3, rot:0.05, delay:300 },
+  { kIdx:3, x:-80,  y:260, vx:0.5,  vy:0.25, rot:-0.07, delay:380 },
+].map(p => ({...p, life:0, alpha:0, maxLife:600}));
+
+function drawKart(k, img, x, y, rot, alpha){
+  const cw = 100, ch = 72;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.translate(x, y);
+  ctx.rotate(rot);
+  // Gölge
+  ctx.shadowColor = 'rgba(0,0,0,0.5)';
+  ctx.shadowBlur = 10;
+  // Kart arka planı
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.roundRect(-cw/2, -ch/2, cw, ch, 8);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  // Fotoğraf alanı
+  if(img.complete && img.naturalWidth > 0){
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(-cw/2, -ch/2, cw, 38, [8,8,0,0]);
+    ctx.clip();
+    ctx.drawImage(img, -cw/2, -ch/2, cw, 38);
+    ctx.restore();
+  } else {
+    ctx.fillStyle = '#e2e8f0';
+    ctx.beginPath();
+    ctx.roundRect(-cw/2, -ch/2, cw, 38, [8,8,0,0]);
+    ctx.fill();
+  }
+  // Badge
+  ctx.fillStyle = '#f59e0b';
+  ctx.beginPath();
+  ctx.roundRect(-cw/2+4, -ch/2+4, 46, 12, 6);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 7px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(k.badge + ' Nokta Atışı', -cw/2+7, -ch/2+13);
+  // İsim
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 8px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(k.isim, -cw/2+5, -ch/2+46);
+  // Fiyat
+  ctx.fillStyle = '#d97706';
+  ctx.font = 'bold 10px sans-serif';
+  ctx.fillText(k.fiyat, -cw/2+5, -ch/2+58);
+  // Platform
+  ctx.fillStyle = '#f27a1a';
+  ctx.beginPath();
+  ctx.roundRect(cw/2-42, -ch/2+60, 38, 9, 3);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = '6px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(k.platform, cw/2-23, -ch/2+67);
+  ctx.restore();
+}
+
+function drawKartParticles(phase){
+  kartParticles.forEach(p => {
+    if(phase < p.delay) return;
+    p.life++;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += 0.002;
+
+    const fadeIn = Math.min(1, p.life/40);
+    const fadeOut = Math.max(0, 1 - Math.max(0, p.life - p.maxLife*0.8)/(p.maxLife*0.2));
+    p.alpha = Math.min(fadeIn, fadeOut) * 0.88;
+
+    if(p.life > p.maxLife){
+      p.life = 0;
+      p.x = Math.random() > 0.5 ? W+80 : -80;
+      p.y = 40 + Math.random()*(H-80);
+      p.vx = p.x > 0 ? -(0.4+Math.random()*0.3) : (0.4+Math.random()*0.3);
+      p.vy = (Math.random()-0.5)*0.4;
+    }
+
+    drawKart(kartlar[p.kIdx], kartImgs[p.kIdx], p.x, p.y, p.rot, p.alpha);
+  });
+}
+
 function drawParticles(phase){
   particles.forEach(p => {
     if(phase < p.delay) return;
@@ -289,6 +390,7 @@ function draw(){
 
     // Partiküller
     drawParticles(phase);
+    drawKartParticles(phase);
   }
 
   t++;
