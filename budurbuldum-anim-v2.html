@@ -296,11 +296,10 @@ function drawParticles(phase){
     if(p.rot !== undefined) p.rot += p.rotV;
 
     const fadeIn = Math.min(1, p.life/30);
-    const fadeOut = Math.max(0, 1 - Math.max(0, p.life - p.maxLife*0.7)/(p.maxLife*0.3));
+    const fadeOut = p.y < 40 ? Math.max(0, p.y/40) : 1;
     p.alpha = Math.min(fadeIn, fadeOut) * 0.9;
 
-    if(p.life > p.maxLife){
-      // Yeniden doğ
+    if(p.y < -60){
       p.life = 0;
       p.x = 40 + Math.random()*(W-80);
       p.y = H + 20 + Math.random()*60;
