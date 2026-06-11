@@ -12,6 +12,9 @@ canvas{display:block;max-width:100%;border-radius:16px;}
 </head>
 <body>
 <canvas id="c"></canvas>
+<div id="startOverlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999;">
+  <button onclick="baslat()" style="background:linear-gradient(135deg,#FFD93D,#FF9500);border:none;border-radius:50px;padding:20px 50px;font-size:22px;font-weight:900;color:#1a0d00;cursor:pointer;font-family:sans-serif;box-shadow:0 8px 40px rgba(255,217,61,0.5);">▶ Başlat</button>
+</div>
 <audio id="bgm" src="nastelbom-happy-happy-music-481659.mp3" loop></audio>
 <script>
 const GIFT_IMGS = [
@@ -29,13 +32,7 @@ const ctx = canvas.getContext('2d');
 const W = 380, H = 320;
 canvas.width = W; canvas.height = H;
 
-// Müzik — canvas'a ilk tıkta başlat
-canvas.addEventListener('click', ()=>{ document.getElementById('bgm').play(); }, {once:true});
-window.addEventListener('load', ()=>{
-  const a = document.getElementById('bgm');
-  a.volume = 0.5;
-  a.play().catch(()=>{});
-});
+document.getElementById('bgm').volume = 0.5;
 
 // Hediye kutusu görsellerini yükle
 const giftImgs = GIFT_IMGS.map(src=>{
@@ -294,7 +291,14 @@ function draw(){
   requestAnimationFrame(draw);
 }
 
-draw();
+// Başlangıçta animasyon durdurulmuş
+let started = false;
+function baslat(){
+  document.getElementById('startOverlay').style.display='none';
+  document.getElementById('bgm').play().catch(()=>{});
+  started = true;
+  draw();
+}
 </script>
 </body>
 </html>
