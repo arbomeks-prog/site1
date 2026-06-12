@@ -695,6 +695,154 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
   fetch('/api/log-view',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sayfa:'HEDIYELER'}) }).catch(function(){});
 })();
 </script>
+
+<!-- EKRAN GORUNTUSU BUTONU -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<button id="screenshot-btn" onclick="ekranGoruntusuAl()" style="
+  position:fixed;
+  bottom:24px;
+  right:16px;
+  z-index:9999;
+  background:linear-gradient(135deg,#e8a838,#f5c96a);
+  color:#1e293b;
+  border:none;
+  border-radius:50px;
+  padding:12px 18px;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,0.18);
+  display:flex;
+  align-items:center;
+  gap:6px;
+">📸 Paylaş</button>
+
+<div id="screenshot-overlay" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  z-index:10000;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:16px;
+">
+  <div style="background:white;border-radius:16px;padding:20px;max-width:320px;width:90%;text-align:center;">
+    <div style="font-size:13px;color:#64748b;margin-bottom:12px;">Görüntü hazırlanıyor...</div>
+    <img id="screenshot-preview" style="width:100%;border-radius:8px;display:none;" />
+    <div id="screenshot-actions" style="display:none;margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+      <a id="screenshot-download" download="budurbuldum-hediyeler.png" style="
+        display:block;
+        background:#1e293b;
+        color:white;
+        padding:10px;
+        border-radius:10px;
+        text-decoration:none;
+        font-size:13px;
+        font-weight:700;
+      ">⬇️ Galeriye Kaydet</a>
+      <button onclick="document.getElementById('screenshot-overlay').style.display='none'" style="
+        background:#f1f5f9;
+        border:none;
+        padding:10px;
+        border-radius:10px;
+        font-size:13px;
+        cursor:pointer;
+      ">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function ekranGoruntusuAl() {
+  var overlay = document.getElementById('screenshot-overlay');
+  var preview = document.getElementById('screenshot-preview');
+  var actions = document.getElementById('screenshot-actions');
+  var downloadBtn = document.getElementById('screenshot-download');
+
+  overlay.style.display = 'flex';
+  preview.style.display = 'none';
+  actions.style.display = 'none';
+
+  // 9:16 canvas oluştur (story formatı: 1080x1920)
+  var W = 1080, H = 1920;
+  var canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  var ctx = canvas.getContext('2d');
+
+  // Arka plan
+  ctx.fillStyle = '#F9F9F9';
+  ctx.fillRect(0, 0, W, H);
+
+  // Logo alanı
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(0, 0, W, 120);
+
+  // Logo emoji
+  var logoBox = 56;
+  ctx.fillStyle = '#e8a838';
+  ctx.beginPath();
+  ctx.roundRect(40, 32, logoBox, logoBox, 14);
+  ctx.fill();
+  ctx.font = '32px serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('🎁', 48, 74);
+
+  // Logo yazı
+  ctx.font = 'bold 36px Georgia, serif';
+  ctx.fillStyle = 'white';
+  ctx.fillText('budur', 108, 72);
+  ctx.fillStyle = '#e8a838';
+  ctx.fillText('buldum', 108 + ctx.measureText('budur').width, 72);
+
+  // Hediye kartlarını yakala
+  var giftsList = document.getElementById('gifts-list');
+  html2canvas(giftsList, {
+    scale: 2,
+    backgroundColor: '#F9F9F9',
+    useCORS: true,
+    allowTaint: false,
+    logging: false
+  }).then(function(giftsCanvas) {
+    // Kartları ortaya yerleştir
+    var padding = 40;
+    var availW = W - padding * 2;
+    var availH = H - 120 - 160; // logo + alt alan
+    var scale = Math.min(availW / giftsCanvas.width, availH / giftsCanvas.height);
+    var drawW = giftsCanvas.width * scale;
+    var drawH = giftsCanvas.height * scale;
+    var drawX = (W - drawW) / 2;
+    var drawY = 140;
+
+    ctx.drawImage(giftsCanvas, drawX, drawY, drawW, drawH);
+
+    // Alt bilgi
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(0, H - 100, W, 100);
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillStyle = '#e8a838';
+    ctx.textAlign = 'center';
+    ctx.fillText('budurbuldum.com', W/2, H - 58);
+    ctx.font = '22px Arial, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fillText('Kişiye özel hediye önerileri', W/2, H - 26);
+
+    // Önizleme
+    var dataUrl = canvas.toDataURL('image/png');
+    preview.src = dataUrl;
+    preview.style.display = 'block';
+    actions.style.display = 'flex';
+    downloadBtn.href = dataUrl;
+  }).catch(function(e) {
+    overlay.style.display = 'none';
+    alert('Görüntü alınamadı. Lütfen tekrar deneyin.');
+  });
+}
+</script>
+<!-- /EKRAN GORUNTUSU BUTONU -->
 </body>
 </html>
 
