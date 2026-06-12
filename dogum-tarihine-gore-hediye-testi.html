@@ -444,7 +444,7 @@
                 // "Tarih: 15 Haziran 1990, Salı, Burç: ♊ İkizler" formatı
                 btn1.classList.add('selected');
                 // Tarihi parse et
-                var tarihMatch = eskiCevap.match(/Tarih: (\d+) (\w+) (\d+)/);
+                var tarihMatch = eskiCevap.match(/Tarih: (\d+) ([^\s,]+) (\d+)/);
                 var burcMatch = eskiCevap.match(/Burç: (\S+) (.+)/);
                 if (tarihMatch) {
                     var ayIdx2 = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"].indexOf(tarihMatch[2]) + 1;
