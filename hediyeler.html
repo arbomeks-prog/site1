@@ -709,13 +709,13 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
   font-family:-apple-system,sans-serif;
 ">📸 Paylaş</button>
 
-<div id="paylas-overlay" style="
+<div id="paylas-overlay" onclick="if(event.target===this)this.style.display='none'" style="
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,0.75);z-index:10000;
   align-items:center;justify-content:center;
   flex-direction:column;gap:12px;
 ">
-  <div style="background:white;border-radius:20px;padding:20px;width:88%;max-width:360px;text-align:center;">
+  <div style="background:white;border-radius:20px;padding:20px;width:88%;max-width:360px;text-align:center;max-height:80vh;overflow-y:auto;margin-bottom:env(safe-area-inset-bottom,0px);">
     <div id="paylas-yukleniyor" style="color:#64748b;font-size:13px;padding:20px 0;">
       ⏳ Görsel hazırlanıyor...
     </div>
@@ -728,7 +728,7 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
       ">⬇️ Galeriye Kaydet</a>
       <button onclick="document.getElementById('paylas-overlay').style.display='none'" style="
         background:#f1f5f9;border:none;padding:11px;
-        border-radius:12px;font-size:13px;cursor:pointer;
+        border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;
       ">✕ Kapat</button>
     </div>
   </div>
