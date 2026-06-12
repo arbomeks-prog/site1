@@ -383,7 +383,7 @@
         var btn1 = document.createElement('button');
         btn1.className = 'col-span-2 w-full text-left p-3 border-2 border-gray-200 rounded-2xl hover:border-blue-500 text-sm option-btn mb-2';
         btn1.textContent = 'Tarihini biliyorum';
-        btn1.onclick = function() { handleDogumSecim('tarih', btn1, cont); };
+        btn1.onclick = function() { handleDogumSecim('tarih', btn1, cont, burcGrid); };
         cont.appendChild(btn1);
 
         // "Bilmiyorum" butonu
@@ -393,18 +393,24 @@
         btn2.onclick = function() { secimYap('Bilmiyorum', btn2); };
         cont.appendChild(btn2);
 
-        // Burç seçimi başlık
+        // Burç seçimi wrapper - başta gizli
+        var burcWrapper = document.createElement('div');
+        burcWrapper.className = 'col-span-2';
+        burcWrapper.id = 'burc-wrapper';
+        burcWrapper.style.display = 'none';
+
         var burcBaslik = document.createElement('div');
-        burcBaslik.className = 'col-span-2';
         burcBaslik.innerHTML = '<div style="font-size:12px;font-weight:700;color:#6366f1;margin:8px 0 6px;">⭐ Burcunu biliyorum:</div>';
-        cont.appendChild(burcBaslik);
+        burcWrapper.appendChild(burcBaslik);
 
         // Burç grid
         var burcGrid = document.createElement('div');
-        burcGrid.className = 'col-span-2 grid grid-cols-4 gap-2';
+        burcGrid.className = 'grid grid-cols-4 gap-2';
+        burcGrid.id = 'burc-grid';
         BURCLAR.forEach(function(b) {
             var bb = document.createElement('button');
             bb.className = 'burc-btn';
+            bb.dataset.burc = b.isim;
             bb.innerHTML = '<span class="burc-sembol">' + b.sembol + '</span><span class="burc-isim">' + b.isim + '</span>';
             if (eskiCevap && eskiCevap.includes(b.isim)) bb.classList.add('selected');
             bb.onclick = function() {
@@ -415,12 +421,26 @@
             };
             burcGrid.appendChild(bb);
         });
-        cont.appendChild(burcGrid);
+        burcWrapper.appendChild(burcGrid);
+
+        // "Burcunu biliyorum" butonu
+        var btn3 = document.createElement('button');
+        btn3.className = 'col-span-2 w-full text-left p-3 border-2 border-gray-200 rounded-2xl hover:border-blue-500 text-sm option-btn mb-2';
+        btn3.textContent = 'Burcunu biliyorum';
+        btn3.onclick = function() {
+            cont.querySelectorAll('.option-btn').forEach(function(b){ b.classList.remove('selected','previous-answer'); });
+            btn3.classList.add('selected');
+            if(typeof BudurSes!=='undefined') BudurSes.tik();
+            cont.querySelectorAll('.extra-box').forEach(function(e){ e.remove(); });
+            burcWrapper.style.display = 'block';
+        };
+        cont.appendChild(btn3);
+        cont.appendChild(burcWrapper);
 
         if (eskiCevap) activateContinueBtn();
     }
 
-    function handleDogumSecim(tip, btn, cont) {
+    function handleDogumSecim(tip, btn, cont, burcGrid) {
         cont.querySelectorAll('.option-btn').forEach(function(b){ b.classList.remove('selected','previous-answer'); });
         btn.classList.add('selected');
         if(typeof BudurSes!=='undefined') BudurSes.tik();
@@ -454,6 +474,7 @@
                 return {isim:"Oğlak",sembol:"♑"};
             }
 
+            var secimYapildi = false;
             function hesapla() {
                 var g=parseInt(gs.value), a=parseInt(as.value), y2=parseInt(ys.value);
                 var burc = hesaplaBurc(g, a);
@@ -462,10 +483,18 @@
                 var el = div.querySelector('#tarih-sonuc');
                 el.innerHTML = '<div style="font-weight:700;color:#1e40af;">🎂 ' + tarihStr + '</div><div style="color:#64748b;margin-top:4px;">' + gunAdi + ' günü doğmuş</div><div style="color:#6366f1;font-weight:700;font-size:18px;margin-top:4px;">' + burc.sembol + ' ' + burc.isim + '</div>';
                 el.style.display = 'block';
+                // Burç grid'inde otomatik işaretle
+                var burcGridEl = document.getElementById('burc-grid');
+                if (burcGridEl) {
+                    burcGridEl.querySelectorAll('.burc-btn').forEach(function(bb){
+                        bb.classList.remove('selected');
+                        if (bb.dataset.burc === burc.isim) bb.classList.add('selected');
+                    });
+                }
                 secimYap('Tarih: ' + tarihStr + ', ' + gunAdi + ', Burç: ' + burc.sembol + ' ' + burc.isim, btn);
             }
             gs.onchange = as.onchange = ys.onchange = hesapla;
-            hesapla();
+            // Başta otomatik çalıştırma — kullanıcı seçince çalışsın
         }
     }
 
