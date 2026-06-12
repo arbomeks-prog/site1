@@ -379,7 +379,7 @@
             document.getElementById('floating-kriter-btn').style.display = 'none';
         } else {
             const limit = Math.min(6, adet);
-            // başlık sabit kalır
+            if (baslik) baslik.textContent = '🎯 SADECE ' + limit + ' TANE SEÇEBİLİRSİN';
             document.getElementById('sel-count').textContent = '0/' + limit;
             btn.disabled = true;
             lbl.textContent = limit + ' kriter seç → Hediyeleri Gör ✨';
