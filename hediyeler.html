@@ -697,152 +697,281 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
 </script>
 
 <!-- EKRAN GORUNTUSU BUTONU -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<button id="screenshot-btn" onclick="ekranGoruntusuAl()" style="
-  position:fixed;
-  bottom:24px;
-  right:16px;
-  z-index:9999;
+<!-- PAYLAS BUTONU -->
+<button id="paylas-btn" onclick="hediyeKartiOlustur()" style="
+  position:fixed;bottom:24px;right:16px;z-index:9999;
   background:linear-gradient(135deg,#e8a838,#f5c96a);
-  color:#1e293b;
-  border:none;
-  border-radius:50px;
-  padding:12px 18px;
-  font-size:13px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 4px 16px rgba(0,0,0,0.18);
-  display:flex;
-  align-items:center;
-  gap:6px;
+  color:#1e293b;border:none;border-radius:50px;
+  padding:12px 20px;font-size:13px;font-weight:700;
+  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  display:flex;align-items:center;gap:6px;
+  font-family:-apple-system,sans-serif;
 ">📸 Paylaş</button>
 
-<div id="screenshot-overlay" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.7);
-  z-index:10000;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:16px;
+<div id="paylas-overlay" style="
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.75);z-index:10000;
+  align-items:center;justify-content:center;
+  flex-direction:column;gap:12px;
 ">
-  <div style="background:white;border-radius:16px;padding:20px;max-width:320px;width:90%;text-align:center;">
-    <div style="font-size:13px;color:#64748b;margin-bottom:12px;">Görüntü hazırlanıyor...</div>
-    <img id="screenshot-preview" style="width:100%;border-radius:8px;display:none;" />
-    <div id="screenshot-actions" style="display:none;margin-top:12px;display:flex;flex-direction:column;gap:8px;">
-      <a id="screenshot-download" download="budurbuldum-hediyeler.png" style="
-        display:block;
-        background:#1e293b;
-        color:white;
-        padding:10px;
-        border-radius:10px;
-        text-decoration:none;
-        font-size:13px;
-        font-weight:700;
+  <div style="background:white;border-radius:20px;padding:20px;width:88%;max-width:360px;text-align:center;">
+    <div id="paylas-yukleniyor" style="color:#64748b;font-size:13px;padding:20px 0;">
+      ⏳ Görsel hazırlanıyor...
+    </div>
+    <canvas id="paylas-canvas" style="display:none;width:100%;border-radius:12px;"></canvas>
+    <div id="paylas-aksiyonlar" style="display:none;margin-top:14px;display:flex;flex-direction:column;gap:8px;">
+      <a id="paylas-indir" download="budurbuldum-hediyelerim.png" style="
+        display:block;background:#1e293b;color:white;
+        padding:11px;border-radius:12px;text-decoration:none;
+        font-size:13px;font-weight:700;
       ">⬇️ Galeriye Kaydet</a>
-      <button onclick="document.getElementById('screenshot-overlay').style.display='none'" style="
-        background:#f1f5f9;
-        border:none;
-        padding:10px;
-        border-radius:10px;
-        font-size:13px;
-        cursor:pointer;
-      ">Kapat</button>
+      <button onclick="document.getElementById('paylas-overlay').style.display='none'" style="
+        background:#f1f5f9;border:none;padding:11px;
+        border-radius:12px;font-size:13px;cursor:pointer;
+      ">✕ Kapat</button>
     </div>
   </div>
 </div>
 
 <script>
-function ekranGoruntusuAl() {
-  var overlay = document.getElementById('screenshot-overlay');
-  var preview = document.getElementById('screenshot-preview');
-  var actions = document.getElementById('screenshot-actions');
-  var downloadBtn = document.getElementById('screenshot-download');
+function hediyeKartiOlustur() {
+  var overlay = document.getElementById('paylas-overlay');
+  var yukleniyor = document.getElementById('paylas-yukleniyor');
+  var canvasEl = document.getElementById('paylas-canvas');
+  var aksiyonlar = document.getElementById('paylas-aksiyonlar');
+  var indirBtn = document.getElementById('paylas-indir');
 
   overlay.style.display = 'flex';
-  preview.style.display = 'none';
-  actions.style.display = 'none';
+  yukleniyor.style.display = 'block';
+  canvasEl.style.display = 'none';
+  aksiyonlar.style.display = 'none';
 
-  // 9:16 canvas oluştur (story formatı: 1080x1920)
-  var W = 1080, H = 1920;
+  // Kartlardan veri topla
+  var kartlar = [];
+  document.querySelectorAll('.gift-card').forEach(function(kart) {
+    if (kart.style.display === 'none') return;
+    var ad = kart.querySelector('.gift-name');
+    var fiyat = kart.querySelector('.gift-price-num');
+    var img = kart.querySelector('.img-wrap img');
+    var reason = kart.querySelector('.gift-reason');
+    if (!ad || !ad.textContent.trim()) return;
+    kartlar.push({
+      ad: ad.textContent.trim(),
+      fiyat: fiyat ? fiyat.textContent.trim() : '',
+      imgSrc: (img && img.src && !img.src.endsWith('/')) ? img.src : '',
+      sebep: reason ? reason.textContent.trim().replace(/["""]/g,'') : ''
+    });
+  });
+
+  if (kartlar.length === 0) {
+    yukleniyor.textContent = '⚠️ Hediyeler henüz yüklenmedi. Lütfen bekleyin.';
+    return;
+  }
+
+  // Canvas boyutları - 9:16 story formatı
+  var W = 1080, COLS = 2;
+  var PADDING = 40;
+  var KART_W = (W - PADDING * 3) / COLS;
+  var KART_H = KART_W * 1.3;
+  var ROWS = Math.ceil(kartlar.length / COLS);
+  var H = 160 + ROWS * (KART_H + 24) + 120;
+
   var canvas = document.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
   var ctx = canvas.getContext('2d');
 
   // Arka plan
-  ctx.fillStyle = '#F9F9F9';
+  ctx.fillStyle = '#F8F9FA';
   ctx.fillRect(0, 0, W, H);
 
-  // Logo alanı
+  // Üst bar
   ctx.fillStyle = '#1e293b';
-  ctx.fillRect(0, 0, W, 120);
+  ctx.fillRect(0, 0, W, 130);
 
-  // Logo emoji
-  var logoBox = 56;
-  ctx.fillStyle = '#e8a838';
+  // Logo kutu
+  var grad = ctx.createLinearGradient(40, 35, 40, 95);
+  grad.addColorStop(0, '#e8a838');
+  grad.addColorStop(1, '#f5c96a');
+  ctx.fillStyle = grad;
   ctx.beginPath();
-  ctx.roundRect(40, 32, logoBox, logoBox, 14);
+  ctx.roundRect(40, 35, 60, 60, 14);
   ctx.fill();
-  ctx.font = '32px serif';
-  ctx.textAlign = 'left';
-  ctx.fillText('🎁', 48, 74);
+  ctx.font = '34px serif';
+  ctx.fillText('🎁', 50, 79);
 
   // Logo yazı
-  ctx.font = 'bold 36px Georgia, serif';
+  ctx.font = 'bold 38px Georgia, serif';
   ctx.fillStyle = 'white';
-  ctx.fillText('budur', 108, 72);
+  ctx.fillText('budur', 116, 76);
+  var bw = ctx.measureText('budur').width;
   ctx.fillStyle = '#e8a838';
-  ctx.fillText('buldum', 108 + ctx.measureText('budur').width, 72);
+  ctx.fillText('buldum', 116 + bw, 76);
 
-  // Hediye kartlarını yakala
-  var giftsList = document.getElementById('gifts-list');
-  html2canvas(giftsList, {
-    scale: 2,
-    backgroundColor: '#F9F9F9',
-    useCORS: true,
-    allowTaint: false,
-    logging: false
-  }).then(function(giftsCanvas) {
-    // Kartları ortaya yerleştir
-    var padding = 40;
-    var availW = W - padding * 2;
-    var availH = H - 120 - 160; // logo + alt alan
-    var scale = Math.min(availW / giftsCanvas.width, availH / giftsCanvas.height);
-    var drawW = giftsCanvas.width * scale;
-    var drawH = giftsCanvas.height * scale;
-    var drawX = (W - drawW) / 2;
-    var drawY = 140;
+  // Alt başlık
+  ctx.font = '22px -apple-system, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.fillText('Kişiye özel hediye önerileri', 116, 108);
 
-    ctx.drawImage(giftsCanvas, drawX, drawY, drawW, drawH);
+  // Görüntüleri yükle ve kartları çiz
+  var yuklenen = 0;
+  var imgObjleri = kartlar.map(function() { return null; });
 
-    // Alt bilgi
+  function kartCiz(i) {
+    var kart = kartlar[i];
+    var col = i % COLS;
+    var row = Math.floor(i / COLS);
+    var x = PADDING + col * (KART_W + PADDING);
+    var y = 155 + row * (KART_H + 24);
+
+    // Kart arka plan
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.roundRect(x, y, KART_W, KART_H, 20);
+    ctx.fill();
+
+    // Kart gölge efekti
+    ctx.shadowColor = 'rgba(0,0,0,0.08)';
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.roundRect(x, y, KART_W, KART_H, 20);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Fotoğraf alanı
+    var IMG_H = KART_W * 0.7;
+    ctx.fillStyle = '#f1f5f9';
+    ctx.beginPath();
+    ctx.roundRect(x, y, KART_W, IMG_H, [20, 20, 0, 0]);
+    ctx.fill();
+
+    if (imgObjleri[i] && imgObjleri[i].complete && imgObjleri[i].naturalWidth > 0) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(x, y, KART_W, IMG_H, [20, 20, 0, 0]);
+      ctx.clip();
+      // Fotoğrafı cover gibi yerleştir
+      var img = imgObjleri[i];
+      var scale = Math.max(KART_W / img.naturalWidth, IMG_H / img.naturalHeight);
+      var dw = img.naturalWidth * scale;
+      var dh = img.naturalHeight * scale;
+      var dx = x + (KART_W - dw) / 2;
+      var dy = y + (IMG_H - dh) / 2;
+      ctx.drawImage(img, dx, dy, dw, dh);
+      ctx.restore();
+    }
+
+    // Metin alanı
+    var textY = y + IMG_H + 18;
+    var textX = x + 18;
+    var textW = KART_W - 36;
+
+    // Ürün adı
+    ctx.font = 'bold 26px -apple-system, Arial, sans-serif';
+    ctx.fillStyle = '#1e293b';
+    ctx.textAlign = 'left';
+    // Uzun adları kes
+    var ad = kart.ad;
+    while (ctx.measureText(ad).width > textW && ad.length > 5) {
+      ad = ad.slice(0, -1);
+    }
+    if (ad !== kart.ad) ad += '…';
+    ctx.fillText(ad, textX, textY);
+
+    // Fiyat
+    if (kart.fiyat) {
+      textY += 38;
+      ctx.font = 'bold 28px -apple-system, Arial, sans-serif';
+      ctx.fillStyle = '#e8a838';
+      ctx.fillText(kart.fiyat + ' TL', textX, textY);
+    }
+
+    // Sebep (max 2 satır)
+    if (kart.sebep) {
+      textY += 36;
+      ctx.font = '20px -apple-system, Arial, sans-serif';
+      ctx.fillStyle = '#64748b';
+      var sebep = kart.sebep;
+      var maxW = textW;
+      var satirlar = [];
+      var kelimeler = sebep.split(' ');
+      var satir = '';
+      kelimeler.forEach(function(k) {
+        var test = satir ? satir + ' ' + k : k;
+        if (ctx.measureText(test).width <= maxW) {
+          satir = test;
+        } else {
+          if (satir) satirlar.push(satir);
+          satir = k;
+        }
+      });
+      if (satir) satirlar.push(satir);
+      satirlar.slice(0, 2).forEach(function(s, si) {
+        ctx.fillText(s, textX, textY + si * 26);
+      });
+    }
+  }
+
+  function hepsiniCiz() {
+    kartlar.forEach(function(_, i) { kartCiz(i); });
+
+    // Alt bilgi bar
     ctx.fillStyle = '#1e293b';
     ctx.fillRect(0, H - 100, W, 100);
-    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.font = 'bold 30px Georgia, serif';
     ctx.fillStyle = '#e8a838';
     ctx.textAlign = 'center';
-    ctx.fillText('budurbuldum.com', W/2, H - 58);
-    ctx.font = '22px Arial, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.fillText('Kişiye özel hediye önerileri', W/2, H - 26);
+    ctx.fillText('budurbuldum.com', W/2, H - 55);
+    ctx.font = '20px -apple-system, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('Kişiye özel hediye · Burç · Doğum tarihi analizi', W/2, H - 22);
 
-    // Önizleme
+    // Canvas'ı göster
+    canvasEl.width = W;
+    canvasEl.height = H;
+    var destCtx = canvasEl.getContext('2d');
+    destCtx.drawImage(canvas, 0, 0);
+
     var dataUrl = canvas.toDataURL('image/png');
-    preview.src = dataUrl;
-    preview.style.display = 'block';
-    actions.style.display = 'flex';
-    downloadBtn.href = dataUrl;
-  }).catch(function(e) {
-    overlay.style.display = 'none';
-    alert('Görüntü alınamadı. Lütfen tekrar deneyin.');
+    canvasEl.style.display = 'block';
+    yukleniyor.style.display = 'none';
+    aksiyonlar.style.display = 'flex';
+    indirBtn.href = dataUrl;
+  }
+
+  // Görselleri yükle
+  var toplamImg = kartlar.filter(function(k){ return k.imgSrc; }).length;
+  if (toplamImg === 0) {
+    hepsiniCiz();
+    return;
+  }
+
+  kartlar.forEach(function(kart, i) {
+    if (!kart.imgSrc) {
+      yuklenen++;
+      if (yuklenen >= toplamImg) hepsiniCiz();
+      return;
+    }
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    imgObjleri[i] = img;
+    img.onload = function() {
+      yuklenen++;
+      if (yuklenen >= toplamImg) hepsiniCiz();
+    };
+    img.onerror = function() {
+      yuklenen++;
+      if (yuklenen >= toplamImg) hepsiniCiz();
+    };
+    // Pexels CORS için proxy olmadan dene
+    img.src = kart.imgSrc;
   });
 }
 </script>
-<!-- /EKRAN GORUNTUSU BUTONU -->
+<!-- /PAYLAS BUTONU -->
+
 </body>
 </html>
 
