@@ -447,23 +447,8 @@
                 var tarihMatch = eskiCevap.match(/Tarih: (\d+) (\w+) (\d+)/);
                 var burcMatch = eskiCevap.match(/Burç: (\S+) (.+)/);
                 if (tarihMatch) {
-                    handleDogumSecim('tarih', btn1, cont, burcGrid);
-                    setTimeout(function() {
-                        var gun = parseInt(tarihMatch[1]);
-                        var ayAdi = tarihMatch[2];
-                        var yil = parseInt(tarihMatch[3]);
-                        var ayIdx = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"].indexOf(ayAdi) + 1;
-                        var gs = document.getElementById('dp-g');
-                        var as = document.getElementById('dp-a');
-                        var ys = document.getElementById('dp-y');
-                        if (gs && as && ys) {
-                            gs.value = gun;
-                            as.value = ayIdx;
-                            ys.value = yil;
-                            // hesapla'yı tetikle
-                            gs.dispatchEvent(new Event('change'));
-                        }
-                    }, 50);
+                    var ayIdx2 = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"].indexOf(tarihMatch[2]) + 1;
+                    handleDogumSecim('tarih', btn1, cont, burcGrid, parseInt(tarihMatch[1]), ayIdx2, parseInt(tarihMatch[3]));
                 }
             } else if (eskiCevap.startsWith('Burç:')) {
                 // Manuel burç seçimi
@@ -475,7 +460,7 @@
         }
     }
 
-    function handleDogumSecim(tip, btn, cont, burcGrid) {
+    function handleDogumSecim(tip, btn, cont, burcGrid, basGun, basAy, basYil) {
         cont.querySelectorAll('.option-btn').forEach(function(b){ b.classList.remove('selected','previous-answer'); });
         btn.classList.add('selected');
         if(typeof BudurSes!=='undefined') BudurSes.tik();
@@ -529,7 +514,13 @@
                 secimYap('Tarih: ' + tarihStr + ', ' + gunAdi + ', Burç: ' + burc.sembol + ' ' + burc.isim, btn);
             }
             gs.onchange = as.onchange = ys.onchange = hesapla;
-            // Başta otomatik çalıştırma — kullanıcı seçince çalışsın
+            // Eski cevap varsa değerleri doldur ve hesapla çalıştır
+            if (basGun && basAy && basYil) {
+                gs.value = basGun;
+                as.value = basAy;
+                ys.value = basYil;
+                hesapla();
+            }
         }
     }
 
