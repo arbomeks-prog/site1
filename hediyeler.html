@@ -786,7 +786,27 @@ function hediyeKartiOlustur() {
   var GAP = 32;
   var KART_W = (W - PADDING * 2 - GAP) / COLS;
   var IMG_H = KART_W * 0.65;
-  var TEXT_H = 200; // Metin alanı yüksekliği
+  // TEXT_H dinamik: ad(40) + fiyat(40) + sebep(3x30=90) + badge satırları
+  var BADGE_H = 34; var BADGE_PAD = 16; var BADGE_R = 8;
+  var tmpCanvas = document.createElement('canvas');
+  var tmpCtx = tmpCanvas.getContext('2d');
+  tmpCtx.font = 'bold 19px Arial, sans-serif';
+  function hesaplaBadgeSatir(platforms) {
+    if (!platforms || platforms.length === 0) return 0;
+    var bx = 0; var satirSayisi = 1;
+    platforms.forEach(function(p) {
+      var bw = tmpCtx.measureText(p.ad).width + BADGE_PAD * 2;
+      if (bx + bw > KART_W - 44) { bx = 0; satirSayisi++; }
+      bx += bw + 10;
+    });
+    return satirSayisi;
+  }
+  var maxBadgeSatir = 0;
+  kartlar.forEach(function(k) {
+    var s = hesaplaBadgeSatir(k.platforms);
+    if (s > maxBadgeSatir) maxBadgeSatir = s;
+  });
+  var TEXT_H = 40 + 40 + 90 + (maxBadgeSatir > 0 ? 28 + maxBadgeSatir * (BADGE_H + 10) : 0) + 20;
   var KART_H = IMG_H + TEXT_H;
   var ROWS = Math.ceil(kartlar.length / COLS);
   var H = 160 + ROWS * (KART_H + GAP) + 20 + 110;
