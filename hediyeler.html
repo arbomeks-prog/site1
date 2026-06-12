@@ -756,11 +756,21 @@ function hediyeKartiOlustur() {
     var img = kart.querySelector('.img-wrap img');
     var reason = kart.querySelector('.gift-reason');
     if (!ad || !ad.textContent.trim()) return;
+    var platforms = [];
+    kart.querySelectorAll('.plt-link').forEach(function(a) {
+      var cls = a.className;
+      if (cls.includes('plt-trendyol')) platforms.push({ad:'Trendyol', bg:'#f27a1a', fg:'white'});
+      else if (cls.includes('plt-hepsiburada')) platforms.push({ad:'Hepsiburada', bg:'#ff6000', fg:'white'});
+      else if (cls.includes('plt-amazon')) platforms.push({ad:'Amazon', bg:'#ff9900', fg:'#111'});
+      else if (cls.includes('plt-ciceksepeti')) platforms.push({ad:'Çiçeksepeti', bg:'#e91e8c', fg:'white'});
+      else if (cls.includes('plt-n11')) platforms.push({ad:'N11', bg:'#6f2da8', fg:'white'});
+    });
     kartlar.push({
       ad: ad.textContent.trim(),
       fiyat: fiyat ? fiyat.textContent.trim() : '',
       imgSrc: (img && img.src && !img.src.endsWith('/') && img.naturalWidth > 0) ? img.src : '',
-      sebep: reason ? reason.textContent.trim().replace(/["""]/g,'').replace(/^"+|"+$/g,'') : ''
+      sebep: reason ? reason.textContent.trim().replace(/["""]/g,'').replace(/^"+|"+$/g,'') : '',
+      platforms: platforms
     });
   });
 
@@ -879,7 +889,7 @@ function hediyeKartiOlustur() {
       ty += 40;
       ctx.font = 'bold 30px Arial, sans-serif';
       ctx.fillStyle = '#e8a838';
-      ctx.fillText(kart.fiyat + ' TL', tx, ty);
+      ctx.fillText(kart.fiyat, tx, ty);
     }
 
     // Sebep - max 3 satır
@@ -901,6 +911,29 @@ function hediyeKartiOlustur() {
       if (satir) satirlar.push(satir);
       satirlar.slice(0, 3).forEach(function(s, si) {
         ctx.fillText(s, tx, ty + si * 30);
+      });
+      ty += Math.min(satirlar.length, 3) * 30;
+    }
+
+    // Platform badge'leri
+    if (kart.platforms && kart.platforms.length > 0) {
+      ty += 28;
+      var bx = tx;
+      var BADGE_H = 34;
+      var BADGE_PAD = 16;
+      var BADGE_R = 8;
+      ctx.font = 'bold 19px Arial, sans-serif';
+      kart.platforms.forEach(function(p) {
+        var bw = ctx.measureText(p.ad).width + BADGE_PAD * 2;
+        if (bx + bw > tx + tw) { bx = tx; ty += BADGE_H + 10; }
+        ctx.fillStyle = p.bg;
+        ctx.beginPath();
+        ctx.roundRect(bx, ty - 24, bw, BADGE_H, BADGE_R);
+        ctx.fill();
+        ctx.fillStyle = p.fg;
+        ctx.textAlign = 'left';
+        ctx.fillText(p.ad, bx + BADGE_PAD, ty - 2);
+        bx += bw + 10;
       });
     }
   }
