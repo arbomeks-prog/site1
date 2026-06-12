@@ -437,7 +437,42 @@
         cont.appendChild(btn3);
         cont.appendChild(burcWrapper);
 
-        if (eskiCevap) activateContinueBtn();
+        // Eski cevap varsa durumu geri yükle
+        if (eskiCevap) {
+            activateContinueBtn();
+            if (eskiCevap.startsWith('Tarih:')) {
+                // "Tarih: 15 Haziran 1990, Salı, Burç: ♊ İkizler" formatı
+                btn1.classList.add('selected');
+                // Tarihi parse et
+                var tarihMatch = eskiCevap.match(/Tarih: (\d+) (\w+) (\d+)/);
+                var burcMatch = eskiCevap.match(/Burç: (\S+) (.+)/);
+                if (tarihMatch) {
+                    handleDogumSecim('tarih', btn1, cont, burcGrid);
+                    setTimeout(function() {
+                        var gun = parseInt(tarihMatch[1]);
+                        var ayAdi = tarihMatch[2];
+                        var yil = parseInt(tarihMatch[3]);
+                        var ayIdx = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"].indexOf(ayAdi) + 1;
+                        var gs = document.getElementById('dp-g');
+                        var as = document.getElementById('dp-a');
+                        var ys = document.getElementById('dp-y');
+                        if (gs && as && ys) {
+                            gs.value = gun;
+                            as.value = ayIdx;
+                            ys.value = yil;
+                            // hesapla'yı tetikle
+                            gs.dispatchEvent(new Event('change'));
+                        }
+                    }, 50);
+                }
+            } else if (eskiCevap.startsWith('Burç:')) {
+                // Manuel burç seçimi
+                btn3.classList.add('selected');
+                burcWrapper.style.display = 'block';
+            } else if (eskiCevap === 'Bilmiyorum') {
+                btn2.classList.add('selected');
+            }
+        }
     }
 
     function handleDogumSecim(tip, btn, cont, burcGrid) {
