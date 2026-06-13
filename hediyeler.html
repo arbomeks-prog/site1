@@ -235,6 +235,63 @@ gtag('config', 'G-HWPN7VD4VX');
 </div>
 
 <div id="share-section" style="display:none;">
+
+<div style="display:flex;align-items:flex-start;gap:10px;justify-content:center;margin:28px 0 8px;flex-wrap:wrap;">
+  <!-- Puan Ver -->
+  <div style="position:relative;">
+    <button id="puan-btn" onclick="puanAc()" style="display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:2px solid #e2e8f0;background:#fff;color:#1e293b;transition:all 0.2s;">
+      ⭐ Puan Ver
+    </button>
+    <div id="puan-panel" style="display:none;position:absolute;top:calc(100% + 8px);left:0;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.15);padding:14px 16px;z-index:100;white-space:nowrap;">
+      <p style="font-size:11px;font-weight:700;color:#94a3b8;margin:0 0 10px;text-transform:uppercase;letter-spacing:0.08em;">Bu öneri işine yaradı mı?</p>
+      <div style="display:flex;gap:6px;">
+        <script>
+        (function(){
+          var nums = [0,1,2,3,4,5,6,7,8,9,10];
+          document.write(nums.map(function(n){
+            return '<button onclick="puanSec('+n+')" style="width:32px;height:32px;border-radius:8px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:13px;font-weight:700;color:#475569;cursor:pointer;transition:all 0.15s;" id="pb-'+n+'">'+n+'</button>';
+          }).join(''));
+        })();
+        </script>
+      </div>
+    </div>
+  </div>
+  <!-- Bize Yazın -->
+  <a href="mailto:budurbuldum@gmail.com?subject=Hediye%20%C3%B6nerisi%20hakk%C4%B1nda" style="display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;border:2px solid #e2e8f0;background:#fff;color:#1e293b;text-decoration:none;transition:all 0.2s;">
+    ✉️ Bize Yazın
+  </a>
+</div>
+<div id="puan-mesaj" style="display:none;text-align:center;font-size:14px;font-weight:700;color:#e8a838;margin-bottom:8px;"></div>
+
+<script>
+function puanAc() {
+  var p = document.getElementById('puan-panel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
+}
+function puanSec(n) {
+  // Seçili stili göster
+  for(var i=0;i<=10;i++){
+    var b=document.getElementById('pb-'+i);
+    if(b) { b.style.background=i===n?'#e8a838':'#f8fafc'; b.style.color=i===n?'#412402':'#475569'; b.style.borderColor=i===n?'#e8a838':'#e2e8f0'; }
+  }
+  // GA4
+  if(typeof gtag==='function') gtag('event','puan_verildi',{puan:n});
+  // Mesaj
+  setTimeout(function(){
+    document.getElementById('puan-panel').style.display='none';
+    var m=document.getElementById('puan-mesaj');
+    m.style.display='block';
+    m.textContent = n>=7 ? '🎉 Teşekkürler! '+n+'/10 puan için minnettarız.' : n>=4 ? '🙏 Görüşün için teşekkürler ('+n+'/10). Daha iyi olmaya çalışacağız.' : '💬 '+n+'/10 — eksiklerimizi bize yazmak ister misin?';
+  }, 600);
+}
+// Panel dışına tıklayınca kapat
+document.addEventListener('click', function(e){
+  var btn=document.getElementById('puan-btn');
+  var panel=document.getElementById('puan-panel');
+  if(panel && btn && !btn.contains(e.target) && !panel.contains(e.target)) panel.style.display='none';
+});
+</script>
+
 <div class="share-bar">
 <button class="share-btn share-wa" onclick="shareWA()"><i class="fab fa-whatsapp"></i> WhatsApp'ta Paylaş</button>
 <button class="share-btn share-tw" onclick="shareTW()"><i class="fab fa-x-twitter"></i> X'te Paylaş</button>
