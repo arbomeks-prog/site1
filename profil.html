@@ -262,7 +262,8 @@ function profilYukleSession(sessionId) {
     return {
       session_id: a.sessionId,
       tum_cevaplar: cv,
-      kisi_adi: a.kime || cv.kime || 'Kişi',
+      kisi_adi: a.kisiAdi || a.kime || cv.kime || 'Kişi',
+      iliski_tipi: a.kime || cv.kime || '',
       butce: a.butce || cv.butce || '',
       cinsiyet: cv.cinsiyet || '',
       yas: cv.yas || ''
@@ -320,7 +321,7 @@ function renderKartlar(kisiler) {
         '<div class="avatar" style="background:'+renk.bg+';color:'+renk.text+';">'+getInitials(k.iliski_durumu||k.kisi_adi||isim)+'</div>'+
         '<div class="kart-meta">'+
           '<p class="kart-isim">'+isim+'</p>'+
-          '<p class="kart-alt">'+(k.cinsiyet||'')+(k.yas?' · '+k.yas:'')+'</p>'+
+          '<p class="kart-alt">'+((k.iliski_tipi||k.iliski_durumu)&&(k.iliski_tipi||k.iliski_durumu)!==isim?(k.iliski_tipi||k.iliski_durumu)+' · ':'')+(k.cinsiyet||'')+(k.yas?' · '+k.yas:'')+'</p>'+
         '</div>'+
       '</div>'+
       '<div class="kart-detaylar">'+
