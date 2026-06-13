@@ -496,10 +496,38 @@ msg._interval = iv;
 
 // Kayıt popup - 1sn sonra göster, 4sn kal, fade out
 setTimeout(function() {
+    // Aktif kişi bilgilerini çek
+    var _cv = {}; try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}'); } catch(e){}
+    var _sid = localStorage.getItem('budurBuldumSessionId')||'';
+    var _kisiAdi = localStorage.getItem('budurBuldumKisiAdi_'+_sid)||'';
+    var _kime = _cv.kime||'';
+    var _butce = _cv.butce||'';
+    var _yas = _cv.yas||'';
+    var _cinsiyet = _cv.cinsiyet||'';
+    // Avatar baş harfleri
+    var _avatarMetin = (_kisiAdi||_kime||'?').replace(/\p{Emoji}/gu,'').trim();
+    var _initials = _avatarMetin.split(' ').slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase()||'?';
+    // Alt bilgi satırı
+    var _altBilgi = [_kime,_cinsiyet,_yas].filter(Boolean).join(' · ');
+
     var pop = document.createElement('div');
     pop.id = 'kayit-popup';
-    pop.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#fff;border-radius:20px 20px 0 0;padding:28px 28px 36px;box-shadow:0 -8px 40px rgba(0,0,0,0.2);text-align:center;opacity:0;transition:opacity 0.4s;';
-    pop.innerHTML = '<div style="font-size:36px;margin-bottom:12px;">💾</div><div style="font-size:22px;font-weight:900;color:#1e293b;margin-bottom:10px;">Araman kaydedildi!</div><div style="font-size:16px;color:#475569;line-height:1.7;">Bir dahaki gelişinde aramalarını görüyorsun.<br>Kaldığın yerden devam et, yeniden başlamana gerek yok.</div>';
+    pop.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#fff;border-radius:20px 20px 0 0;padding:22px 20px 32px;box-shadow:0 -8px 40px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.4s;';
+    pop.innerHTML =
+      '<div style="display:flex;align-items:center;gap:16px;">' +
+        // Sol: mini kart
+        '<div style="flex-shrink:0;background:#0f172a;border-radius:16px;padding:16px 14px;width:130px;box-shadow:0 4px 16px rgba(0,0,0,0.18);">' +
+          '<div style="width:44px;height:44px;border-radius:50%;background:#e8a838;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#412402;margin-bottom:10px;">' + _initials + '</div>' +
+          '<div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (_kisiAdi||_kime||'Kişi') + '</div>' +
+          (_altBilgi ? '<div style="font-size:11px;color:#94a3b8;margin-bottom:8px;line-height:1.4;">' + _altBilgi + '</div>' : '') +
+          (_butce ? '<div style="font-size:11px;font-weight:700;color:#e8a838;">' + _butce + '</div>' : '') +
+        '</div>' +
+        // Sağ: yazı
+        '<div style="flex:1;min-width:0;">' +
+          '<div style="font-size:18px;font-weight:900;color:#1e293b;margin-bottom:6px;line-height:1.3;">Araman kaydedildi! 💾</div>' +
+          '<div style="font-size:13px;color:#475569;line-height:1.65;">Bir dahaki gelişinde aramalarını görüyorsun. Kaldığın yerden devam et, yeniden başlamana gerek yok.</div>' +
+        '</div>' +
+      '</div>';
     var overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;inset:0;background:transparent;z-index:9998;';
     document.body.appendChild(overlay);
@@ -509,7 +537,7 @@ setTimeout(function() {
         pop.style.opacity = '0'; overlay.style.opacity = '0';
         setTimeout(function() { pop.remove(); overlay.remove(); }, 400);
     };
-    setTimeout(kapat, 4000);
+    setTimeout(kapat, 4500);
     overlay.onclick = kapat;
 }, 1000);
 
