@@ -769,7 +769,14 @@ function sonrakiSoru() {
 
     // Rastgele hedef şık
     const btnler = Array.from(secDiv.querySelectorAll('.popup-btn'));
-    const hedefIdx = Math.floor(Math.random() * btnler.length);
+    let hedefIdx = Math.floor(Math.random() * btnler.length);
+
+    // Baba seçildiyse cinsiyet sorusunda otomatik Erkek seç
+    const kimeSec = document.getElementById('kicerik-0') ? document.getElementById('kicerik-0').textContent : '';
+    if (i === 1 && kimeSec === 'Baba') {
+      const erkekIdx = s.sec.indexOf('Erkek');
+      if (erkekIdx !== -1) hedefIdx = erkekIdx;
+    }
 
     // Önce 1-2 başka şıkta gez, sonra hedefe git
     const gezAdimlar = [];
