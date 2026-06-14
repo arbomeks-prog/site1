@@ -1580,6 +1580,30 @@ document.addEventListener('DOMContentLoaded', function() {
         devamBtn.style.boxShadow = '0 4px 12px rgba(37,99,235,0.4)';
         devamBtn.textContent = kime + ' için hediye bul →';
         devamBtn.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+        // Anlık kart göster
+        var saraci = document.getElementById('arayaclar-sarici');
+        var konteyner = document.getElementById('arayaclar-konteyner');
+        if (saraci && konteyner) {
+            // Daha önce anlık kart varsa güncelle, yoksa oluştur
+            var anlikKart = document.getElementById('anlik-kart');
+            var RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
+            var renk = RENKLER[0];
+            var initials = kime.replace(/\p{Emoji}/gu,'').trim().substring(0,2).toUpperCase();
+            if (!anlikKart) {
+                anlikKart = document.createElement('div');
+                anlikKart.id = 'anlik-kart';
+                anlikKart.style.cssText = 'flex-shrink:0;width:160px;background:#1e293b;border-radius:16px;padding:14px;border:2px solid #e8a838;cursor:default;opacity:0;transition:opacity 0.4s;';
+                konteyner.insertBefore(anlikKart, konteyner.firstChild);
+                saraci.style.display = 'block';
+                setTimeout(function(){ anlikKart.style.opacity='1'; }, 50);
+                // Sayfayı yukarı scroll et
+                setTimeout(function(){ saraci.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 100);
+            }
+            anlikKart.innerHTML =
+                '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+                '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+kime+'</p>';
+        }
     }
 
     function maybeStartQuiz() {
