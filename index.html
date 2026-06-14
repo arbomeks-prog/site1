@@ -1585,7 +1585,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var saraci = document.getElementById('arayaclar-sarici');
         var konteyner = document.getElementById('arayaclar-konteyner');
         if (saraci && konteyner) {
-            // Daha önce anlık kart varsa güncelle, yoksa oluştur
             var anlikKart = document.getElementById('anlik-kart');
             var RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
             var renk = RENKLER[0];
@@ -1597,8 +1596,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 konteyner.insertBefore(anlikKart, konteyner.firstChild);
                 saraci.style.display = 'block';
                 setTimeout(function(){ anlikKart.style.opacity='1'; }, 50);
-                // Sayfayı yukarı scroll et
+                // Önce kartı göster, sonra devam butonuna dön
                 setTimeout(function(){ saraci.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 100);
+                setTimeout(function(){ devamBtn.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 800);
+            } else {
+                // Kart zaten var, sadece güncelle
             }
             anlikKart.innerHTML =
                 '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
