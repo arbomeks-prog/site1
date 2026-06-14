@@ -203,7 +203,7 @@
         document.getElementById('soru-baslik').textContent = soruNo + '. ' + (soru ? soru.soru : '');
 
         // Gift box done/active durumları
-        updateGiftBoxes();
+        updateGiftBoxes(false);
 
         // Seçenekleri oluştur
         renderSecenekler();
@@ -220,7 +220,7 @@
         }
     };
 
-    function updateGiftBoxes() {
+    function updateGiftBoxes(sesCal) {
         const sorular = QuizHelper.getAktifSorular(SORU_ID);
         const idx = sorular.findIndex(s => s.id === SORU_ID);
         const SORULAR_PER_BOX = Math.ceil(sorular.length / 6);
@@ -233,11 +233,12 @@
             el.classList.remove('done','active');
             if(i<done) {
                 el.classList.add('done');
-                if(!wasoneDone) {
+                if(!wasoneDone && sesCal) {
                     try { var s=new Audio('ses-tik.mp3'); s.volume=0.5; s.play(); } catch(e) {}
                 }
             }
             else if(i===active) el.classList.add('active');
+        }
         }
     }
 
@@ -349,6 +350,7 @@
     document.getElementById('continue-btn').addEventListener('click', function() {
         if(this.classList.contains('disabled-state')) return;
         if(typeof BudurSes!=='undefined') BudurSes.basari();
+        try { var s=new Audio('ses-tik.mp3'); s.volume=0.4; s.play(); } catch(e) {}
         var hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
         window.location.href = hedef;
     });
