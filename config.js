@@ -652,8 +652,18 @@ var BudurSes = (function() {
             try { ctx = new (window.AudioContext || window.webkitAudioContext)(); }
             catch(e) { enabled = false; }
         }
+        if (ctx && ctx.state === 'suspended') { ctx.resume(); }
         return ctx;
     }
+
+    // Sayfa ilk yüklenince ilk dokunuşta context'i ısıt
+    function isit() {
+        var c = getCtx();
+        if (c && c.state === 'suspended') c.resume();
+    }
+    document.addEventListener('touchstart', isit, { once: true });
+    document.addEventListener('touchend', isit, { once: true });
+    document.addEventListener('click', isit, { once: true });
 
     // Kısa tık/seçim sesi
     function tikSes() {
