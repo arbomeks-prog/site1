@@ -320,8 +320,8 @@ function renderKartlar(kisiler) {
       '<div class="kart-header">'+
         '<div class="avatar" style="background:'+renk.bg+';color:'+renk.text+';">'+getInitials(k.iliski_durumu||k.kisi_adi||isim)+'</div>'+
         '<div class="kart-meta">'+
-          '<p class="kart-isim">'+isim+'</p>'+
-          '<p class="kart-alt">'+[k.iliski_tipi||k.iliski_durumu,k.cinsiyet,k.yas].filter(function(x){return x&&x!==isim;}).join(' · ')+'</p>'+
+          '<p class="kart-isim">'+(k.iliski_tipi||k.iliski_durumu||isim)+'</p>'+
+          '<p class="kart-alt">'+[isim!==(k.iliski_tipi||k.iliski_durumu)?isim:'',k.cinsiyet,k.yas].filter(function(x){return x&&x.trim();}).join(' · ')+'</p>'+
         '</div>'+
       '</div>'+
       '<div class="kart-detaylar">'+
