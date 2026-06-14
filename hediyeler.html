@@ -575,8 +575,9 @@ setTimeout(function() {
         // Sol: mini kart
         '<div style="flex-shrink:0;background:#0f172a;border-radius:16px;padding:16px 14px;width:130px;box-shadow:0 4px 16px rgba(0,0,0,0.18);">' +
           '<div style="width:44px;height:44px;border-radius:50%;background:#e8a838;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#412402;margin-bottom:10px;">' + _initials + '</div>' +
-          '<div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (_kisiAdi||_kime||'Kişi') + '</div>' +
-          (_altBilgi ? '<div style="font-size:11px;color:#94a3b8;margin-bottom:8px;line-height:1.4;">' + _altBilgi + '</div>' : '') +
+          '<div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (_kime||'Kişi') + '</div>' +
+          ((_kisiAdi&&_kisiAdi!==_kime) ? '<div style="font-size:11px;color:#94a3b8;margin-bottom:4px;">' + _kisiAdi + '</div>' : '') +
+          (_altBilgi ? '<div style="font-size:11px;color:#94a3b8;margin-bottom:8px;line-height:1.4;">' + [_cinsiyet,_yas].filter(Boolean).join(' · ') + '</div>' : '') +
           (_butce ? '<div style="font-size:11px;font-weight:700;color:#e8a838;">' + _butce + '</div>' : '') +
         '</div>' +
         // Sağ: yazı
