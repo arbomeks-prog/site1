@@ -1570,8 +1570,9 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.classList.add('selected');
         btn.querySelector('.opt-check').textContent = '✔';
         selectedKime = kime;
-        selectedGender = 'Kadın'; // varsayılan, quiz'de tekrar sorulacak
-        selectedAge = '30';       // varsayılan, quiz'de tekrar sorulacak
+        selectedGender = 'Kadın';
+        selectedAge = '30';
+        if(typeof BudurSes!=='undefined') BudurSes.tik();
         const devamBtn = document.getElementById('kime-devam-btn');
         devamBtn.disabled = false;
         devamBtn.style.background = '#2563eb';

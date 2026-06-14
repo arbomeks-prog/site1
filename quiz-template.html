@@ -229,8 +229,12 @@
         for(let i=0;i<6;i++){
             const el=document.getElementById('gb-'+i);
             if(!el) continue;
+            var wasoneDone = el.classList.contains('done');
             el.classList.remove('done','active');
-            if(i<done) el.classList.add('done');
+            if(i<done) {
+                el.classList.add('done');
+                if(!wasoneDone && typeof BudurSes!=='undefined') BudurSes.basari();
+            }
             else if(i===active) el.classList.add('active');
         }
     }
