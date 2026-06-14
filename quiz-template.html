@@ -233,7 +233,9 @@
             el.classList.remove('done','active');
             if(i<done) {
                 el.classList.add('done');
-                if(!wasoneDone && typeof BudurSes!=='undefined') BudurSes.basari();
+                if(!wasoneDone) {
+                    try { var s=new Audio('ses-tik.mp3'); s.volume=0.5; s.play(); } catch(e) {}
+                }
             }
             else if(i===active) el.classList.add('active');
         }
