@@ -370,9 +370,14 @@
             ileri.href = hedef;
             ileri.style.color = '#2563eb';
             ileri.style.pointerEvents = 'auto';
-            // Scroll Quiz: ilk seçim yapılınca parent'a sinyal gönder
-            if (multiSecimler.length === 1 && window.parent !== window) {
-                window.parent.postMessage({ type: 'soru_cevaplandi', soruId: SORU_ID, deger: multiSecimler.join(', '), sonrakiSayfa: hedef }, '*');
+            // Scroll Quiz: ilk seçimde scroll, sonrakinde sadece localStorage güncelle
+            if (window.parent !== window) {
+                window.parent.postMessage({ 
+                    type: multiSecimler.length === 1 ? 'soru_cevaplandi' : 'cevap_guncelle', 
+                    soruId: SORU_ID, 
+                    deger: multiSecimler.join(', '), 
+                    sonrakiSayfa: hedef 
+                }, '*');
             }
         } else {
             deactivateContinueBtn();
