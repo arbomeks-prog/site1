@@ -343,17 +343,6 @@ function giftBoxGuncelle(soruIndex) {
     }
 }
 
-// Sonraki iframe'i yükle (lazy: sadece cevap verilince src set edilir)
-function sonrakiIframeYukle(soruId) {
-    var sonrakiId = SONRAKI_MAP[soruId];
-    if (!sonrakiId || sonrakiId === 'ozet') return;
-    var iframe = document.getElementById('iframe-' + sonrakiId);
-    if (!iframe) return;
-    // Zaten yüklüyse reload et (dallanma değişmiş olabilir)
-    var base = iframe.getAttribute('data-src') || iframe.src.split('?')[0];
-    iframe.setAttribute('data-src', base);
-    iframe.src = base + '?embed=1&t=' + Date.now();
-}
 
 // Scroll - sonraki soru bloğuna git
 function scrollToBlok(soruId) {
@@ -391,28 +380,11 @@ window.addEventListener('message', function(e) {
             return;
         }
 
-        // Sonraki iframe'i yükle
-        sonrakiIframeYukle(soruId);
-
         // Scroll
         setTimeout(function(){ scrollToBlok(sonrakiId); }, 300);
     }
 });
 
-// İlk iframe zaten src'li yüklü, diğerleri lazy — sadece src'lerini temizle
-// (Sayfa yüklenince sadece kime iframe'i aktif olsun)
-window.addEventListener('DOMContentLoaded', function() {
-    var sIds = ["kime", "cinsiyet", "yas", "tarz", "hobiler", "renk", "amac", "ortam", "teknoloji", "butce", "mevsim", "tatli", "spor", "muzik", "hayvan", "seyahat", "kitap", "kahve", "film", "bitki", "oyun", "makyaj", "aksesuar", "mutfak", "doga", "sanat", "foto", "kisilik", "oncelik", "dogum"];
-    var sayfalar = {"kime": "hediye-kime-alinacak-testi.html", "cinsiyet": "kadin-erkek-hediye-secimi-testi.html", "yas": "yasa-gore-hediye-bulma-testi.html", "tarz": "kisilik-tarzina-gore-hediye-testi.html", "hobiler": "hobiye-gore-hediye-bulma-testi.html", "renk": "sevdigi-renge-gore-hediye-testi.html", "amac": "ne-icin-hediye-alinacak-testi.html", "ortam": "yasam-tarzina-gore-hediye-testi.html", "teknoloji": "teknoloji-ilgisine-gore-hediye-testi.html", "butce": "butceye-gore-hediye-bulma-testi.html", "mevsim": "mevsime-gore-hediye-secimi-testi.html", "tatli": "tatli-zevkine-gore-hediye-testi.html", "spor": "sporcu-icin-hediye-bulma-testi.html", "muzik": "muzik-zevkine-gore-hediye-testi.html", "hayvan": "hayvan-sever-icin-hediye-testi.html", "seyahat": "seyahat-sevene-hediye-bulma-testi.html", "kitap": "kitap-okuyucuya-hediye-testi.html", "kahve": "kahve-cay-icene-hediye-testi.html", "film": "film-sevene-hediye-bulma-testi.html", "bitki": "bitki-sevene-hediye-testi.html", "oyun": "oyun-oynayanlara-hediye-testi.html", "makyaj": "makyaj-bakim-sevene-hediye-testi.html", "aksesuar": "aksesuar-saat-sevene-hediye-testi.html", "mutfak": "yemek-icin-hediye-bulma-testi.html", "doga": "doga-yuruyusu-sevene-hediye-testi.html", "sanat": "sanat-sevene-hediye-bulma-testi.html", "foto": "fotograf-cekmeyi-sevene-hediye-testi.html", "kisilik": "kisilik-tipine-gore-hediye-testi.html", "oncelik": "hediye-onceliklerine-gore-secim-testi.html", "dogum": "dogum-tarihine-gore-hediye-testi.html"};
-    // İlk soru dışındakilerin src'sini data-src'ye taşı (lazy loading)
-    for (var i = 1; i < sIds.length; i++) {
-        var iframe = document.getElementById('iframe-' + sIds[i]);
-        if (iframe) {
-            iframe.setAttribute('data-src', sayfalar[sIds[i]]);
-            iframe.src = 'about:blank';
-        }
-    }
-});
 </script>
 </body>
 </html>
