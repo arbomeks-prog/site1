@@ -90,7 +90,14 @@
     </script>
 <script>
 if(new URLSearchParams(window.location.search).get('embed')==='1'){
-document.write('<style>body>div{display:none!important}body{margin:0;padding:0;background:transparent}#options-container{display:grid!important}</style>');
+document.write('<style>'
++'body{margin:0;padding:4px;background:transparent}'
++'body>div>div>div:first-child{display:none!important}'  /* üst nav: geri/logo/ileri */
++'article{display:none!important}'                        /* makale+fotoğraf */
++'#quiz-section{display:none!important}'                 /* progress bar */
++'body>div>div>div:last-child{display:none!important}'   /* sağ sütun hediye kutuları */
++'#continue-btn{display:none!important}'                 /* devam butonu */
++'</style>');
 }
 </script>
 </head>
