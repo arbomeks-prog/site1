@@ -343,11 +343,11 @@
         ileri.href = hedef;
         ileri.style.color = '#2563eb';
         ileri.style.pointerEvents = 'auto';
-    }
         // Scroll Quiz: parent'a seçim sinyali gönder
         if (window.parent !== window) {
             window.parent.postMessage({ type: 'soru_cevaplandi', soruId: SORU_ID, deger: deger, sonrakiSayfa: hedef }, '*');
         }
+    }
 
     // Çoklu seçim (hobiler)
     let multiSecimler = [];
