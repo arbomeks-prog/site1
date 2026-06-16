@@ -120,7 +120,7 @@
     </div>
     <h2 class="soru-baslik">Yaş aralığı yaklaşık olarak nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <iframe id="yas-iframe" src="yasa-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:600px;border:none;" scrolling="no"></iframe>
+    <iframe id="yas-iframe" src="" style="width:100%;height:600px;border:none;display:none;" scrolling="no"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-tarz">
@@ -709,6 +709,14 @@ window.addEventListener('message', function(e) {
     } catch(ex) {}
     var sonrakiMap = { 'kime': 'cinsiyet', 'cinsiyet': 'yas', 'yas': 'tarz' };
     var sonraki = sonrakiMap[e.data.soruId];
+    // Yaş iframe'ini cinsiyet seçilince yükle (kime localStorage'da hazır)
+    if (e.data.soruId === 'cinsiyet') {
+      var yasFrame = document.getElementById('yas-iframe');
+      if (yasFrame && !yasFrame.src) {
+        yasFrame.src = 'yasa-gore-hediye-bulma-testi.html?embed=1';
+        yasFrame.style.display = 'block';
+      }
+    }
     if (sonraki) sonrakiScroll(sonraki);
   }
   if (e.data && e.data.type === 'iframe_height') {
