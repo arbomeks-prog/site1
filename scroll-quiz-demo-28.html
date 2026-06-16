@@ -100,7 +100,7 @@
     </div>
     <h2 class="soru-baslik">Hediye kime alınıyor?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <iframe id="kime-iframe" src="kime-iframe.html" style="width:100%;height:290px;border:none;" scrolling="no"></iframe>
+    <iframe id="kime-iframe" src="hediye-kime-alinacak-testi.html" style="width:100%;height:500px;border:none;" scrolling="no"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-cinsiyet">
@@ -110,7 +110,7 @@
     </div>
     <h2 class="soru-baslik">Cinsiyeti nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <iframe src="cinsiyet-iframe.html" style="width:100%;height:120px;border:none;" scrolling="no"></iframe>
+    <iframe src="kadin-erkek-hediye-secimi-testi.html" style="width:100%;height:400px;border:none;" scrolling="no"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-yas">
@@ -707,13 +707,12 @@
 </script>
 <script>
 window.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'kime_secildi') {
-    cevaplananlar['kime'] = e.data.deger;
-    sonrakiScroll('cinsiyet');
-  }
-  if (e.data && e.data.type === 'cinsiyet_secildi') {
-    cevaplananlar['cinsiyet'] = e.data.deger;
-    sonrakiScroll('yas');
+  if (e.data && e.data.type === 'soru_cevaplandi') {
+    cevaplananlar[e.data.soruId] = e.data.deger;
+    // soruId'den sonraki bloğa scroll et
+    var sonrakiMap = { 'kime': 'cinsiyet', 'cinsiyet': 'yas' };
+    var sonraki = sonrakiMap[e.data.soruId];
+    if (sonraki) sonrakiScroll(sonraki);
   }
 });
 </script>
