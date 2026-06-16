@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: transparent; padding: 8px; font-family: 'Nunito', sans-serif; }
+  .options-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .option-btn {
+    transition: all 0.15s ease;
+    background: linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%);
+    border: 2px solid #ced4da;
+    border-bottom: 4px solid #adb5bd;
+    border-right: 3px solid #adb5bd;
+    box-shadow: 2px 3px 6px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    color: #1e293b;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 10px;
+    font-size: 13px;
+    width: 100%;
+    text-align: left;
+    font-family: 'Nunito', sans-serif;
+  }
+  .option-btn:hover {
+    background: linear-gradient(180deg,#ffffff 0%,#f1f3f5 100%);
+    border-color: #6366f1;
+    border-bottom-color: #4f46e5;
+    transform: translateY(-1px);
+  }
+  .option-btn.selected {
+    background: linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%);
+    border: 2px solid #10b981;
+    border-bottom: 2px solid #059669;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    color: #065f46;
+    font-weight: 700;
+    transform: translateY(2px);
+  }
+  .option-btn.selected .opt-check { background: #10b981; border-color: #10b981; color: white; }
+  .opt-check {
+    width: 20px; height: 20px; min-width: 20px;
+    border-radius: 5px;
+    border: 2px solid #ced4da;
+    background: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+<div class="options-grid">
+  <button class="option-btn" onclick="sec(this,'Kadın')"><span class="opt-check"></span>Kadın</button>
+  <button class="option-btn" onclick="sec(this,'Erkek')"><span class="opt-check"></span>Erkek</button>
+  <button class="option-btn" onclick="sec(this,'Kız Çocuğu')"><span class="opt-check"></span>Kız Çocuğu</button>
+  <button class="option-btn" onclick="sec(this,'Erkek Çocuğu')"><span class="opt-check"></span>Erkek Çocuğu</button>
+</div>
+<script>
+function sec(btn, deger) {
+  document.querySelectorAll('.option-btn').forEach(b => {
+    b.classList.remove('selected');
+    b.querySelector('.opt-check').textContent = '';
+  });
+  btn.classList.add('selected');
+  btn.querySelector('.opt-check').textContent = '✔';
+  window.parent.postMessage({ type: 'cinsiyet_secildi', deger: deger }, '*');
+}
+</script>
+</body>
+</html>

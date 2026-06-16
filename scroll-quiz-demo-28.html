@@ -110,12 +110,7 @@
     </div>
     <h2 class="soru-baslik">Cinsiyeti nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('cinsiyet',this,1,function(){ sonrakiScroll('yas') })"><span class="opt-check"></span>Kadın</button>
-        <button class="option-btn" onclick="sec('cinsiyet',this,1,function(){ sonrakiScroll('yas') })"><span class="opt-check"></span>Erkek</button>
-        <button class="option-btn" onclick="sec('cinsiyet',this,1,function(){ sonrakiScroll('yas') })"><span class="opt-check"></span>Kız Çocuğu</button>
-        <button class="option-btn" onclick="sec('cinsiyet',this,1,function(){ sonrakiScroll('yas') })"><span class="opt-check"></span>Erkek Çocuğu</button>
-    </div>
+    <iframe src="cinsiyet-iframe.html" style="width:100%;height:120px;border:none;" scrolling="no"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-yas">
@@ -713,9 +708,12 @@
 <script>
 window.addEventListener('message', function(e) {
   if (e.data && e.data.type === 'kime_secildi') {
-    // sec() fonksiyonunu simüle et — cevaplar objesine yaz, sonraki soruya scroll
     cevaplananlar['kime'] = e.data.deger;
     sonrakiScroll('cinsiyet');
+  }
+  if (e.data && e.data.type === 'cinsiyet_secildi') {
+    cevaplananlar['cinsiyet'] = e.data.deger;
+    sonrakiScroll('yas');
   }
 });
 </script>
