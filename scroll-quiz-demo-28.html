@@ -561,30 +561,69 @@
 </script>
 
 
+
+
+
 <script>
-// postMessage dinleyici - iframe'den gelen seçimleri yakala
-var SONRAKI_MAP = {"kime": "cinsiyet", "cinsiyet": "yas", "yas": "tarz", "tarz": "hobiler", "hobiler": "renk", "renk": "amac", "amac": "ortam", "ortam": "teknoloji", "teknoloji": "butce", "butce": "mevsim", "mevsim": "tatli", "tatli": "spor", "spor": "muzik", "muzik": "hayvan", "hayvan": "seyahat", "seyahat": "kitap", "kitap": "kahve", "kahve": "film", "film": "bitki", "bitki": "oyun", "oyun": "makyaj", "makyaj": "aksesuar", "aksesuar": "mutfak", "mutfak": "doga", "doga": "sanat", "sanat": "foto", "foto": "kisilik", "kisilik": "oncelik", "oncelik": "dogum", "dogum": "ozet"};
-var SORU_SIRASI = ["kime", "cinsiyet", "yas", "tarz", "hobiler", "renk", "amac", "ortam", "teknoloji", "butce", "mevsim", "tatli", "spor", "muzik", "hayvan", "seyahat", "kitap", "kahve", "film", "bitki", "oyun", "makyaj", "aksesuar", "mutfak", "doga", "sanat", "foto", "kisilik", "oncelik", "dogum"];
+// Sayfa açılınca localStorage temizle
+localStorage.removeItem('budurBuldumCevaplar');
+
+var SORU_SIRASI = ["kime","cinsiyet","yas","tarz","hobiler","renk","amac","ortam",
+    "teknoloji","butce","mevsim","tatli","spor","muzik","hayvan","seyahat",
+    "kitap","kahve","film","bitki","oyun","makyaj","aksesuar","mutfak",
+    "doga","sanat","foto","kisilik","oncelik","dogum"];
+
+// Dosya adından soru id'sini çıkar
+// örn: "kadin-erkek-hediye-secimi-testi.html" → "cinsiyet"
+var SAYFA_SORU_MAP = {
+    "hediye-kime-alinacak-testi.html": "kime",
+    "kadin-erkek-hediye-secimi-testi.html": "cinsiyet",
+    "yasa-gore-hediye-bulma-testi.html": "yas",
+    "kisilik-tarzina-gore-hediye-testi.html": "tarz",
+    "hobiye-gore-hediye-bulma-testi.html": "hobiler",
+    "sevdigi-renge-gore-hediye-testi.html": "renk",
+    "ne-icin-hediye-alinacak-testi.html": "amac",
+    "yasam-tarzina-gore-hediye-testi.html": "ortam",
+    "teknoloji-ilgisine-gore-hediye-testi.html": "teknoloji",
+    "butceye-gore-hediye-bulma-testi.html": "butce",
+    "mevsime-gore-hediye-secimi-testi.html": "mevsim",
+    "tatli-zevkine-gore-hediye-testi.html": "tatli",
+    "sporcu-icin-hediye-bulma-testi.html": "spor",
+    "muzik-zevkine-gore-hediye-testi.html": "muzik",
+    "hayvan-sever-icin-hediye-testi.html": "hayvan",
+    "seyahat-sevene-hediye-bulma-testi.html": "seyahat",
+    "kitap-okuyucuya-hediye-testi.html": "kitap",
+    "kahve-cay-icene-hediye-testi.html": "kahve",
+    "film-sevene-hediye-bulma-testi.html": "film",
+    "bitki-sevene-hediye-testi.html": "bitki",
+    "oyun-oynayanlara-hediye-testi.html": "oyun",
+    "makyaj-bakim-sevene-hediye-testi.html": "makyaj",
+    "aksesuar-saat-sevene-hediye-testi.html": "aksesuar",
+    "yemek-icin-hediye-bulma-testi.html": "mutfak",
+    "doga-yuruyusu-sevene-hediye-testi.html": "doga",
+    "sanat-sevene-hediye-bulma-testi.html": "sanat",
+    "fotograf-cekmeyi-sevene-hediye-testi.html": "foto",
+    "kisilik-tipine-gore-hediye-testi.html": "kisilik",
+    "hediye-onceliklerine-gore-secim-testi.html": "oncelik",
+    "dogum-tarihine-gore-hediye-testi.html": "dogum"
+};
 
 window.addEventListener('message', function(e) {
     if (!e.data) return;
 
     // iframe yükseklik ayarı
     if (e.data.type === 'iframe_height') {
-        var iframe = document.getElementById('iframe-' + e.data.soruId);
-        if (!iframe) {
-            // kime için farklı id
-            if (e.data.soruId === 'kime') iframe = document.getElementById('kime-iframe');
-        }
+        var iframe = document.getElementById('iframe-' + e.data.soruId)
+                  || document.getElementById('kime-iframe');
         if (iframe) iframe.style.height = (e.data.height + 8) + 'px';
         return;
     }
 
-    // Seçim yapıldı
     if (e.data.type === 'soru_cevaplandi') {
         var soruId = e.data.soruId;
+        var sonrakiSayfa = e.data.sonrakiSayfa; // config.js'in belirlediği gerçek sonraki sayfa
 
-        // localStorage'a yaz (diğer iframe'ler okusun — filtreleme için)
+        // localStorage'a yaz
         try {
             var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
             ls[soruId] = e.data.deger;
@@ -595,19 +634,24 @@ window.addEventListener('message', function(e) {
         var idx = SORU_SIRASI.indexOf(soruId);
         if (idx >= 0) giftBoxGuncelle(idx);
 
-        // Sonraki bloğa scroll
-        var sonrakiId = SONRAKI_MAP[soruId];
-        if (sonrakiId) {
+        // sonrakiSayfa'dan dosya adını çıkar (path olabilir, sadece dosya adı lazım)
+        var dosyaAdi = sonrakiSayfa ? sonrakiSayfa.split('/').pop().split('?')[0] : '';
+        var sonrakiSoruId = SAYFA_SORU_MAP[dosyaAdi];
+
+        if (sonrakiSoruId) {
+            // O sorunun bloğuna scroll et
             setTimeout(function() {
-                var el = document.getElementById('blok-' + sonrakiId);
+                var el = document.getElementById('blok-' + sonrakiSoruId);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 250);
+        } else if (dosyaAdi === 'ozet.html') {
+            setTimeout(function() {
+                var el = document.getElementById('blok-ozet');
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 250);
         }
     }
 });
-
-// Sayfa açılınca localStorage temizle
-localStorage.removeItem('budurBuldumCevaplar');
 </script>
 
 </body>
