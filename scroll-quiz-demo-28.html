@@ -649,14 +649,16 @@ window.addEventListener('message', function(e) {
         var sonrakiSoruId = SAYFA_SORU_MAP[dosyaAdi];
 
         if (sonrakiSoruId) {
-            // Sonraki iframe'i yenile — filtrelenmiş seçenekler gelsin
-            iframeYenile(sonrakiSoruId);
+            // 200ms bekle — localStorage kesin yazılsın, sonra reload et
+            setTimeout(function() {
+                iframeYenile(sonrakiSoruId);
+            }, 200);
 
-            // Sonraki bloğa scroll
+            // Scroll biraz daha sonra
             setTimeout(function() {
                 var el = document.getElementById('blok-' + sonrakiSoruId);
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 300);
+            }, 400);
         } else if (dosyaAdi === 'ozet.html') {
             setTimeout(function() {
                 var el = document.getElementById('blok-ozet');
