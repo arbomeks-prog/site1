@@ -695,9 +695,18 @@
     }
 </script>
 <script>
+// Demo açılınca localStorage temizle
+localStorage.removeItem('budurBuldumCevaplar');
+
 window.addEventListener('message', function(e) {
   if (e.data && e.data.type === 'soru_cevaplandi') {
     cevaplananlar[e.data.soruId] = e.data.deger;
+    // localStorage'a yaz - diğer iframe sayfaları okusun
+    try {
+      var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+      ls[e.data.soruId] = e.data.deger;
+      localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
+    } catch(ex) {}
     var sonrakiMap = { 'kime': 'cinsiyet', 'cinsiyet': 'yas', 'yas': 'tarz' };
     var sonraki = sonrakiMap[e.data.soruId];
     if (sonraki) sonrakiScroll(sonraki);
