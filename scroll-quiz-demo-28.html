@@ -589,8 +589,6 @@ window.addEventListener('message', function(e) {
     if (e.data.type === 'soru_cevaplandi') {
         var soruId = e.data.soruId;
         var sonrakiSayfa = e.data.sonrakiSayfa || '';
-        // DEBUG
-        alert('soruId:' + soruId + ' | sonraki:' + sonrakiSayfa);
 
         // localStorage'a yaz
         try {
@@ -623,8 +621,11 @@ window.addEventListener('message', function(e) {
         }
 
         if (sonrakiSoruId) {
-            // Sonraki iframe'i localStorage güncel haliyle reload et
-            setTimeout(function() { iframeYenile(sonrakiSoruId); }, 100);
+            // Sadece filtreleme gerektiren sayfaları reload et
+            var reloadGereken = ['cinsiyet', 'yas'];
+            if (reloadGereken.indexOf(sonrakiSoruId) !== -1) {
+                setTimeout(function() { iframeYenile(sonrakiSoruId); }, 100);
+            }
             // Scroll
             setTimeout(function() { sonrakiScroll(sonrakiSoruId); }, 300);
         }
