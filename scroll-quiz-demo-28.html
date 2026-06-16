@@ -390,7 +390,11 @@
     </div>
     <h2 class="soru-baslik">Doğum tarihi hakkında ne biliyorsunuz?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <iframe id="iframe-dogum" src="dogum-tarihine-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="dogum-butonlar">
+        <button class="option-btn" onclick="dogumSec(this,'Tarihini biliyorum')"><span class="opt-check"></span>Tarihini biliyorum</button>
+        <button class="option-btn" onclick="dogumSec(this,'Bilmiyorum')"><span class="opt-check"></span>Bilmiyorum</button>
+        <button class="option-btn" onclick="dogumSec(this,'Burcunu biliyorum')"><span class="opt-check"></span>Burcunu biliyorum</button>
+    </div>
 </div>
 
 <div style="height:40px;"></div>
@@ -549,6 +553,28 @@ localStorage.removeItem('budurBuldumCevaplar');
         } catch(e){}
         giftBoxGuncelle(soruIndex);
         setTimeout(function(){if(callback)callback();},220);
+    }
+
+    function dogumSec(btn, deger) {
+        // Butonu seç
+        document.querySelectorAll('#dogum-butonlar .option-btn').forEach(function(b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        if(typeof BudurSes!=='undefined') BudurSes.tik();
+        // localStorage'a yaz
+        try {
+            var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+            ls['dogum'] = deger;
+            localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
+        } catch(ex) {}
+        // Gift box güncelle
+        cevaplananlar['dogum'] = true;
+        giftBoxGuncelle(29);
+        // GA4 — dogum sayfası ping
+        if (typeof gtag === 'function') {
+            gtag('event', 'quiz_adim', { soru_id: 'dogum', deger: deger });
+        }
+        // Özete scroll
+        setTimeout(function() { tamamlandi(); }, 250);
     }
     function sonrakiScroll(soruId) {
         var el=document.getElementById('blok-'+soruId);
