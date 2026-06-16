@@ -759,13 +759,21 @@ window.addEventListener('message', function(e) {
             // 4. Sonraki iframe'i reload et (filtrelenmiş seçenekler gelsin)
             setTimeout(function() {
                 iframeYenile(sonrakiSoruId);
-                // 5. Reload tamamlanınca scroll et
-                setTimeout(function() {
-                    scrollaGit(sonrakiSoruId);
-                }, 500);
             }, 150);
+            // 5. Scroll - reload'dan bağımsız, biraz bekle
+            setTimeout(function() {
+                scrollaGit(sonrakiSoruId);
+            }, 350);
         } else if (dosyaAdi === 'ozet.html') {
             setTimeout(function() { scrollaGit('ozet'); }, 300);
+        } else {
+            // sonrakiSayfa haritada yoksa (dallanma farklı sayfa döndü)
+            // Mevcut sorunun sıradakine scroll et
+            var mevcutIdx = SORU_SIRASI.indexOf(soruId);
+            if (mevcutIdx >= 0 && mevcutIdx < SORU_SIRASI.length - 1) {
+                var fallbackId = SORU_SIRASI[mevcutIdx + 1];
+                setTimeout(function() { scrollaGit(fallbackId); }, 300);
+            }
         }
     }
 });
