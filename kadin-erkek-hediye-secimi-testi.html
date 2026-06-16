@@ -238,6 +238,16 @@
             var hedef = qs.offsetTop - (window.innerHeight * 0.25);
             window.scrollTo({ top: hedef < 0 ? 0 : hedef });
         }
+
+        // Embed modu: sadece options-container göster
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            var cont = document.getElementById('options-container');
+            if (cont) {
+                document.body.innerHTML = '';
+                document.body.style.cssText = 'margin:0;padding:4px;background:transparent;';
+                document.body.appendChild(cont);
+            }
+        }
     };
 
     function updateGiftBoxes() {

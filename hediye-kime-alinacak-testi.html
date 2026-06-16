@@ -234,12 +234,17 @@
     if (new URLSearchParams(window.location.search).get('embed') === '1') {
         var style = document.createElement('style');
         style.textContent = 
-            'body { background:transparent !important; margin:0; padding:4px; }' +
-            'body > div { background:transparent !important; }' +
-            '#geri-btn, #ileri-btn, #progress-soru, #progress-yuzde, #progress-bar, #soru-baslik, #continue-btn, #makale-scroll, #makale-icerik, [id^=gb-] { display:none !important; }' +
+            'body, html { background:transparent !important; margin:0; padding:0; }' +
+            'body > div > div > div, body > div > div > article, body > div > div > div[style*="flex:1"] { display:none !important; }' +
+            '#makale-icerik { display:none !important; }' +
             '.gift-box-item { display:none !important; }' +
-            '#options-container { display:grid !important; }';
+            '#options-container { display:grid !important; padding:4px; }';
         document.head.appendChild(style);
+        // options-container direkt body altına taşı
+        window.addEventListener('DOMContentLoaded', function() {
+            var cont = document.getElementById('options-container');
+            if (cont) document.body.appendChild(cont);
+        });
     }
         // Sayfa açılışında quiz bölümünü parmak erişim yüksekliğinde konumlandır
         var qs = document.getElementById('quiz-section');
@@ -247,6 +252,16 @@
             var rect = qs.getBoundingClientRect();
             var hedef = qs.offsetTop - (window.innerHeight * 0.25);
             window.scrollTo({ top: hedef < 0 ? 0 : hedef });
+        }
+
+        // Embed modu: sadece options-container göster
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            var cont = document.getElementById('options-container');
+            if (cont) {
+                document.body.innerHTML = '';
+                document.body.style.cssText = 'margin:0;padding:4px;background:transparent;';
+                document.body.appendChild(cont);
+            }
         }
     };
 
