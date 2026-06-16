@@ -273,7 +273,7 @@
                     var h = wrap.scrollHeight + 8;
                     window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
                 }
-                setTimeout(bildirimGonder, 100);
+                setTimeout(bildirimGonder, 300);
                 new MutationObserver(bildirimGonder).observe(cont, { childList: true, subtree: true });
             }
         }
