@@ -220,22 +220,16 @@
         initMakaleScroll();
 
 
-    // Embed modu
+    // Embed modu - sadece options-container göster
     if (new URLSearchParams(window.location.search).get('embed') === '1') {
-        document.documentElement.style.background = 'transparent';
-        document.body.style.background = 'transparent';
-        document.body.style.margin = '0';
-        document.body.style.padding = '0';
         var style = document.createElement('style');
-        style.textContent = 'body > div { display:none !important; } #makale-icerik { display:none !important; }';
+        style.textContent = 
+            'body { background:transparent !important; margin:0; padding:4px; }' +
+            'body > div { background:transparent !important; }' +
+            '#geri-btn, #ileri-btn, #progress-soru, #progress-yuzde, #progress-bar, #soru-baslik, #continue-btn, #makale-scroll, #makale-icerik, [id^=gb-] { display:none !important; }' +
+            '.gift-box-item { display:none !important; }' +
+            '#options-container { display:grid !important; }';
         document.head.appendChild(style);
-        var cont = document.getElementById('options-container');
-        if (cont) {
-            var wrapper = document.createElement('div');
-            wrapper.style.cssText = 'padding:8px;';
-            wrapper.appendChild(cont);
-            document.body.appendChild(wrapper);
-        }
     }
         // Sayfa açılışında quiz bölümünü parmak erişim yüksekliğinde konumlandır
         var qs = document.getElementById('quiz-section');
