@@ -232,6 +232,28 @@
             var hedef = qs.offsetTop - (window.innerHeight * 0.25);
             window.scrollTo({ top: hedef < 0 ? 0 : hedef });
         }
+
+
+        // Embed modu: sadece options-container göster
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            var cont = document.getElementById('options-container');
+            if (cont) {
+                var st = document.createElement('style');
+                st.textContent = 'body>*:not(#embed-cont){display:none!important;}body{margin:0;padding:4px;background:transparent;}';
+                document.head.appendChild(st);
+                var wrap = document.createElement('div');
+                wrap.id = 'embed-cont';
+                wrap.style.cssText = 'padding:0;';
+                wrap.appendChild(cont);
+                document.body.appendChild(wrap);
+                function bildirimGonder() {
+                    var h = wrap.scrollHeight + 8;
+                    window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
+                }
+                setTimeout(bildirimGonder, 100);
+                new MutationObserver(bildirimGonder).observe(cont, { childList: true, subtree: true });
+            }
+        }
     };
 
     function updateGiftBoxes() {
@@ -325,6 +347,12 @@
         ileri.href = hedef;
         ileri.style.color = '#2563eb';
         ileri.style.pointerEvents = 'auto';
+
+
+        // Scroll Quiz: parent'a seçim sinyali gönder
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'soru_cevaplandi', soruId: SORU_ID, deger: deger, sonrakiSayfa: hedef }, '*');
+        }
     }
 
     // Çoklu seçim (hobiler)

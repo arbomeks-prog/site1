@@ -120,18 +120,7 @@
     </div>
     <h2 class="soru-baslik">Yaş aralığı yaklaşık olarak nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>0-2 (Bebek)</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>3-6 (Küçük Çocuk)</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>7-12 (Çocuk)</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>13-17 (Genç)</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>18-25</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>26-35</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>36-45</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>46-60</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>61-75</button>
-        <button class="option-btn" onclick="sec('yas',this,2,function(){ sonrakiScroll('tarz') })"><span class="opt-check"></span>76+</button>
-    </div>
+    <iframe id="yas-iframe" src="yasa-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-tarz">
@@ -709,12 +698,12 @@
 window.addEventListener('message', function(e) {
   if (e.data && e.data.type === 'soru_cevaplandi') {
     cevaplananlar[e.data.soruId] = e.data.deger;
-    var sonrakiMap = { 'kime': 'cinsiyet', 'cinsiyet': 'yas' };
+    var sonrakiMap = { 'kime': 'cinsiyet', 'cinsiyet': 'yas', 'yas': 'tarz' };
     var sonraki = sonrakiMap[e.data.soruId];
     if (sonraki) sonrakiScroll(sonraki);
   }
   if (e.data && e.data.type === 'iframe_height') {
-    var iframeMap = { 'kime': 'kime-iframe', 'cinsiyet': 'cinsiyet-iframe' };
+    var iframeMap = { 'kime': 'kime-iframe', 'cinsiyet': 'cinsiyet-iframe', 'yas': 'yas-iframe' };
     var iframeId = iframeMap[e.data.soruId];
     if (iframeId) {
       var el = document.getElementById(iframeId);
