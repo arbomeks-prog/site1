@@ -90,6 +90,11 @@
     </script>
 </head>
 <body>
+<script>
+if (new URLSearchParams(window.location.search).get('embed') === '1') {
+    document.write('<style>body>*{display:none!important}body{margin:0;padding:0;background:transparent}</style>');
+}
+</script>
 
 <div style="background:#F9F9F9; display:flex; justify-content:center;">
 <div style="width:100%; max-width:480px; display:flex; flex-direction:column; background:#F9F9F9; padding:16px; padding-bottom:16px;">
@@ -233,14 +238,8 @@
     if (new URLSearchParams(window.location.search).get('embed') === '1') {
         var cont = document.getElementById('options-container');
         if (cont) {
-            // Tüm body içeriğini gizle
-            document.body.style.cssText = 'margin:0;padding:4px;background:transparent;overflow:hidden;';
-            Array.from(document.body.children).forEach(function(el) {
-                if (el.tagName !== 'SCRIPT') el.style.display = 'none';
-            });
-            // Cont'u body'ye ekle ve göster
             document.body.appendChild(cont);
-            cont.style.cssText = 'display:grid !important; width:100%; padding:0; background:transparent;';
+            cont.style.cssText = 'display:grid !important; width:100%; padding:4px; background:transparent;';
             function bildirimGonder() {
                 var h = cont.scrollHeight + 16;
                 window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
