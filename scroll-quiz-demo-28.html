@@ -714,7 +714,7 @@
 window.addEventListener('message', function(e) {
   if (e.data && e.data.type === 'kime_secildi') {
     // sec() fonksiyonunu simüle et — cevaplar objesine yaz, sonraki soruya scroll
-    cevaplar['kime'] = e.data.deger;
+    cevaplananlar['kime'] = e.data.deger;
     sonrakiScroll('cinsiyet');
   }
 });
