@@ -258,26 +258,21 @@
         if (new URLSearchParams(window.location.search).get('embed') === '1') {
             var cont = document.getElementById('options-container');
             if (cont) {
-                // body temizleme — fonksiyonları silmez, sadece görsel gizle
-                var st = document.createElement('style');
-                st.textContent = 'body>*:not(#embed-cont){display:none!important;}body{margin:0;padding:4px;background:transparent;}';
-                document.head.appendChild(st);
-                // options-container'ı koru, body'ye taşı
-                var wrap = document.createElement('div');
-                wrap.id = 'embed-cont';
-                wrap.style.cssText = 'padding:0;';
-                wrap.appendChild(cont);
-                document.body.appendChild(wrap);
-                // Yükseklik bildir
+                // Tüm visible elementleri gizle, script'leri koru
+                Array.from(document.body.children).forEach(function(el) {
+                    if (el.tagName !== 'SCRIPT') el.style.display = 'none';
+                });
+                document.body.style.cssText = 'margin:0;padding:4px;background:transparent;';
+                // options-container'ı doğrudan body'ye ekle
+                cont.style.display = 'grid';
+                document.body.appendChild(cont);
                 function bildirimGonder() {
-                    var h = document.body.scrollHeight + 8;
+                    var h = cont.scrollHeight + 16;
                     window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
                 }
-                // Seçenekler DOM'a yazılınca tetikle
                 new MutationObserver(function() {
                     setTimeout(bildirimGonder, 50);
                 }).observe(cont, { childList: true, subtree: true });
-                // İlk render için de bekle
                 setTimeout(bildirimGonder, 500);
             }
         }
