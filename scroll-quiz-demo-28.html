@@ -589,6 +589,8 @@ window.addEventListener('message', function(e) {
     if (e.data.type === 'soru_cevaplandi') {
         var soruId = e.data.soruId;
         var sonrakiSayfa = e.data.sonrakiSayfa || '';
+        // DEBUG
+        alert('soruId:' + soruId + ' | sonraki:' + sonrakiSayfa);
 
         // localStorage'a yaz
         try {
