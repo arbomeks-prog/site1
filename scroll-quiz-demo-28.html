@@ -433,6 +433,7 @@
 </div>
 <div style="height:80px;"></div>
 <script>
+localStorage.removeItem('budurBuldumCevaplar');
 
     var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
     var pexelsMap = {
@@ -559,60 +560,17 @@
         },250);
     }
 </script>
-
-
-
-
-
-
-
-
 <script>
-// Sayfa açılınca localStorage temizle
-localStorage.removeItem('budurBuldumCevaplar');
+// iframe postMessage dinleyici
+var SAYFA_SORU_MAP = {"hediye-kime-alinacak-testi.html": "kime", "kadin-erkek-hediye-secimi-testi.html": "cinsiyet", "yasa-gore-hediye-bulma-testi.html": "yas", "kisilik-tarzina-gore-hediye-testi.html": "tarz", "hobiye-gore-hediye-bulma-testi.html": "hobiler", "sevdigi-renge-gore-hediye-testi.html": "renk", "ne-icin-hediye-alinacak-testi.html": "amac", "yasam-tarzina-gore-hediye-testi.html": "ortam", "teknoloji-ilgisine-gore-hediye-testi.html": "teknoloji", "butceye-gore-hediye-bulma-testi.html": "butce", "mevsime-gore-hediye-secimi-testi.html": "mevsim", "tatli-zevkine-gore-hediye-testi.html": "tatli", "sporcu-icin-hediye-bulma-testi.html": "spor", "muzik-zevkine-gore-hediye-testi.html": "muzik", "hayvan-sever-icin-hediye-testi.html": "hayvan", "seyahat-sevene-hediye-bulma-testi.html": "seyahat", "kitap-okuyucuya-hediye-testi.html": "kitap", "kahve-cay-icene-hediye-testi.html": "kahve", "film-sevene-hediye-bulma-testi.html": "film", "bitki-sevene-hediye-testi.html": "bitki", "oyun-oynayanlara-hediye-testi.html": "oyun", "makyaj-bakim-sevene-hediye-testi.html": "makyaj", "aksesuar-saat-sevene-hediye-testi.html": "aksesuar", "yemek-icin-hediye-bulma-testi.html": "mutfak", "doga-yuruyusu-sevene-hediye-testi.html": "doga", "sanat-sevene-hediye-bulma-testi.html": "sanat", "fotograf-cekmeyi-sevene-hediye-testi.html": "foto", "kisilik-tipine-gore-hediye-testi.html": "kisilik", "hediye-onceliklerine-gore-secim-testi.html": "oncelik", "dogum-tarihine-gore-hediye-testi.html": "dogum"};
 
 var SORU_SIRASI = ["kime","cinsiyet","yas","tarz","hobiler","renk","amac","ortam",
     "teknoloji","butce","mevsim","tatli","spor","muzik","hayvan","seyahat",
     "kitap","kahve","film","bitki","oyun","makyaj","aksesuar","mutfak",
     "doga","sanat","foto","kisilik","oncelik","dogum"];
 
-var SAYFA_SORU_MAP = {
-    "hediye-kime-alinacak-testi.html": "kime",
-    "kadin-erkek-hediye-secimi-testi.html": "cinsiyet",
-    "yasa-gore-hediye-bulma-testi.html": "yas",
-    "kisilik-tarzina-gore-hediye-testi.html": "tarz",
-    "hobiye-gore-hediye-bulma-testi.html": "hobiler",
-    "sevdigi-renge-gore-hediye-testi.html": "renk",
-    "ne-icin-hediye-alinacak-testi.html": "amac",
-    "yasam-tarzina-gore-hediye-testi.html": "ortam",
-    "teknoloji-ilgisine-gore-hediye-testi.html": "teknoloji",
-    "butceye-gore-hediye-bulma-testi.html": "butce",
-    "mevsime-gore-hediye-secimi-testi.html": "mevsim",
-    "tatli-zevkine-gore-hediye-testi.html": "tatli",
-    "sporcu-icin-hediye-bulma-testi.html": "spor",
-    "muzik-zevkine-gore-hediye-testi.html": "muzik",
-    "hayvan-sever-icin-hediye-testi.html": "hayvan",
-    "seyahat-sevene-hediye-bulma-testi.html": "seyahat",
-    "kitap-okuyucuya-hediye-testi.html": "kitap",
-    "kahve-cay-icene-hediye-testi.html": "kahve",
-    "film-sevene-hediye-bulma-testi.html": "film",
-    "bitki-sevene-hediye-testi.html": "bitki",
-    "oyun-oynayanlara-hediye-testi.html": "oyun",
-    "makyaj-bakim-sevene-hediye-testi.html": "makyaj",
-    "aksesuar-saat-sevene-hediye-testi.html": "aksesuar",
-    "yemek-icin-hediye-bulma-testi.html": "mutfak",
-    "doga-yuruyusu-sevene-hediye-testi.html": "doga",
-    "sanat-sevene-hediye-bulma-testi.html": "sanat",
-    "fotograf-cekmeyi-sevene-hediye-testi.html": "foto",
-    "kisilik-tipine-gore-hediye-testi.html": "kisilik",
-    "hediye-onceliklerine-gore-secim-testi.html": "oncelik",
-    "dogum-tarihine-gore-hediye-testi.html": "dogum"
-};
-
-// iframe'i yeniden yükle — localStorage güncel olduğu için filtrelenmiş seçenekler gelir
 function iframeYenile(soruId) {
-    var iframe = document.getElementById('iframe-' + soruId)
-               || document.getElementById('kime-iframe');
+    var iframe = document.getElementById('iframe-' + soruId) || document.getElementById('kime-iframe');
     if (!iframe) return;
     var base = iframe.src.split('?')[0];
     iframe.src = base + '?embed=1&t=' + Date.now();
@@ -621,117 +579,9 @@ function iframeYenile(soruId) {
 window.addEventListener('message', function(e) {
     if (!e.data) return;
 
-    // iframe yükseklik ayarı
+    // Yükseklik ayarı
     if (e.data.type === 'iframe_height') {
-        var iframe = document.getElementById('iframe-' + e.data.soruId)
-                  || document.getElementById('kime-iframe');
-        if (iframe) iframe.style.height = (e.data.height + 8) + 'px';
-        return;
-    }
-
-    if (e.data.type === 'soru_cevaplandi') {
-        var soruId = e.data.soruId;
-        var sonrakiSayfa = e.data.sonrakiSayfa;
-
-        // localStorage'a yaz
-        try {
-            var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
-            ls[soruId] = e.data.deger;
-            localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
-        } catch(ex) {}
-
-        // Gift box güncelle
-        var idx = SORU_SIRASI.indexOf(soruId);
-        if (idx >= 0) giftBoxGuncelle(idx);
-
-        // Bir sonraki iframe'i yenile (localStorage'daki yeni cevabı okusun, filtrelesin)
-        var dosyaAdi = sonrakiSayfa ? sonrakiSayfa.split('/').pop().split('?')[0] : '';
-        var sonrakiSoruId = SAYFA_SORU_MAP[dosyaAdi];
-
-        if (sonrakiSoruId) {
-            // 200ms bekle — localStorage kesin yazılsın, sonra reload et
-            setTimeout(function() {
-                iframeYenile(sonrakiSoruId);
-            }, 200);
-
-            // Scroll biraz daha sonra
-            setTimeout(function() {
-                var el = document.getElementById('blok-' + sonrakiSoruId);
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 400);
-        } else if (dosyaAdi === 'ozet.html') {
-            setTimeout(function() {
-                var el = document.getElementById('blok-ozet');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 250);
-        }
-    }
-});
-</script>
-
-
-<script>
-localStorage.removeItem('budurBuldumCevaplar');
-
-var SORU_SIRASI = ["kime","cinsiyet","yas","tarz","hobiler","renk","amac","ortam",
-    "teknoloji","butce","mevsim","tatli","spor","muzik","hayvan","seyahat",
-    "kitap","kahve","film","bitki","oyun","makyaj","aksesuar","mutfak",
-    "doga","sanat","foto","kisilik","oncelik","dogum"];
-
-var SAYFA_SORU_MAP = {
-    "hediye-kime-alinacak-testi.html": "kime",
-    "kadin-erkek-hediye-secimi-testi.html": "cinsiyet",
-    "yasa-gore-hediye-bulma-testi.html": "yas",
-    "kisilik-tarzina-gore-hediye-testi.html": "tarz",
-    "hobiye-gore-hediye-bulma-testi.html": "hobiler",
-    "sevdigi-renge-gore-hediye-testi.html": "renk",
-    "ne-icin-hediye-alinacak-testi.html": "amac",
-    "yasam-tarzina-gore-hediye-testi.html": "ortam",
-    "teknoloji-ilgisine-gore-hediye-testi.html": "teknoloji",
-    "butceye-gore-hediye-bulma-testi.html": "butce",
-    "mevsime-gore-hediye-secimi-testi.html": "mevsim",
-    "tatli-zevkine-gore-hediye-testi.html": "tatli",
-    "sporcu-icin-hediye-bulma-testi.html": "spor",
-    "muzik-zevkine-gore-hediye-testi.html": "muzik",
-    "hayvan-sever-icin-hediye-testi.html": "hayvan",
-    "seyahat-sevene-hediye-bulma-testi.html": "seyahat",
-    "kitap-okuyucuya-hediye-testi.html": "kitap",
-    "kahve-cay-icene-hediye-testi.html": "kahve",
-    "film-sevene-hediye-bulma-testi.html": "film",
-    "bitki-sevene-hediye-testi.html": "bitki",
-    "oyun-oynayanlara-hediye-testi.html": "oyun",
-    "makyaj-bakim-sevene-hediye-testi.html": "makyaj",
-    "aksesuar-saat-sevene-hediye-testi.html": "aksesuar",
-    "yemek-icin-hediye-bulma-testi.html": "mutfak",
-    "doga-yuruyusu-sevene-hediye-testi.html": "doga",
-    "sanat-sevene-hediye-bulma-testi.html": "sanat",
-    "fotograf-cekmeyi-sevene-hediye-testi.html": "foto",
-    "kisilik-tipine-gore-hediye-testi.html": "kisilik",
-    "hediye-onceliklerine-gore-secim-testi.html": "oncelik",
-    "dogum-tarihine-gore-hediye-testi.html": "dogum"
-};
-
-function iframeGetir(soruId) {
-    return document.getElementById('iframe-' + soruId) || document.getElementById('kime-iframe');
-}
-
-function iframeYenile(soruId) {
-    var iframe = iframeGetir(soruId);
-    if (!iframe) return;
-    var base = iframe.src.split('?')[0];
-    iframe.src = base + '?embed=1&t=' + Date.now();
-}
-
-function scrollaGit(soruId) {
-    var el = document.getElementById('blok-' + soruId);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-window.addEventListener('message', function(e) {
-    if (!e.data) return;
-
-    if (e.data.type === 'iframe_height') {
-        var iframe = iframeGetir(e.data.soruId);
+        var iframe = document.getElementById('iframe-' + e.data.soruId) || document.getElementById('kime-iframe');
         if (iframe) iframe.style.height = (e.data.height + 8) + 'px';
         return;
     }
@@ -740,44 +590,44 @@ window.addEventListener('message', function(e) {
         var soruId = e.data.soruId;
         var sonrakiSayfa = e.data.sonrakiSayfa || '';
 
-        // 1. localStorage'a yaz
+        // localStorage'a yaz
         try {
             var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
             ls[soruId] = e.data.deger;
             localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
         } catch(ex) {}
 
-        // 2. Gift box güncelle
+        // orijinal sec() mantığını taklit et: cevaplananlar güncelle, ses çal, gift box
+        cevaplananlar[soruId] = true;
         var idx = SORU_SIRASI.indexOf(soruId);
         if (idx >= 0) giftBoxGuncelle(idx);
+        try {
+            var ctx = new (window.AudioContext||window.webkitAudioContext)();
+            var osc=ctx.createOscillator(),gain=ctx.createGain();
+            osc.connect(gain);gain.connect(ctx.destination);
+            osc.frequency.value=880;
+            gain.gain.setValueAtTime(0.12,ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.1);
+            osc.start();osc.stop(ctx.currentTime+0.1);
+        } catch(e2){}
 
-        // 3. Sonraki sayfanın soru id'sini bul
+        // Sonraki soruyu bul
         var dosyaAdi = sonrakiSayfa.split('/').pop().split('?')[0];
         var sonrakiSoruId = SAYFA_SORU_MAP[dosyaAdi];
 
+        if (dosyaAdi === 'ozet.html') {
+            setTimeout(function() { tamamlandi(); }, 250);
+            return;
+        }
+
         if (sonrakiSoruId) {
-            // 4. Sonraki iframe'i reload et (filtrelenmiş seçenekler gelsin)
-            setTimeout(function() {
-                iframeYenile(sonrakiSoruId);
-            }, 150);
-            // 5. Scroll - reload'dan bağımsız, biraz bekle
-            setTimeout(function() {
-                scrollaGit(sonrakiSoruId);
-            }, 350);
-        } else if (dosyaAdi === 'ozet.html') {
-            setTimeout(function() { scrollaGit('ozet'); }, 300);
-        } else {
-            // sonrakiSayfa haritada yoksa (dallanma farklı sayfa döndü)
-            // Mevcut sorunun sıradakine scroll et
-            var mevcutIdx = SORU_SIRASI.indexOf(soruId);
-            if (mevcutIdx >= 0 && mevcutIdx < SORU_SIRASI.length - 1) {
-                var fallbackId = SORU_SIRASI[mevcutIdx + 1];
-                setTimeout(function() { scrollaGit(fallbackId); }, 300);
-            }
+            // Sonraki iframe'i localStorage güncel haliyle reload et
+            setTimeout(function() { iframeYenile(sonrakiSoruId); }, 100);
+            // Scroll
+            setTimeout(function() { sonrakiScroll(sonrakiSoruId); }, 300);
         }
     }
 });
 </script>
-
 </body>
 </html>
