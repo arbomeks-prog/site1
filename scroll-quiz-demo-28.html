@@ -564,6 +564,9 @@
 
 
 
+
+
+
 <script>
 // Sayfa açılınca localStorage temizle
 localStorage.removeItem('budurBuldumCevaplar');
@@ -573,8 +576,6 @@ var SORU_SIRASI = ["kime","cinsiyet","yas","tarz","hobiler","renk","amac","ortam
     "kitap","kahve","film","bitki","oyun","makyaj","aksesuar","mutfak",
     "doga","sanat","foto","kisilik","oncelik","dogum"];
 
-// Dosya adından soru id'sini çıkar
-// örn: "kadin-erkek-hediye-secimi-testi.html" → "cinsiyet"
 var SAYFA_SORU_MAP = {
     "hediye-kime-alinacak-testi.html": "kime",
     "kadin-erkek-hediye-secimi-testi.html": "cinsiyet",
@@ -608,6 +609,15 @@ var SAYFA_SORU_MAP = {
     "dogum-tarihine-gore-hediye-testi.html": "dogum"
 };
 
+// iframe'i yeniden yükle — localStorage güncel olduğu için filtrelenmiş seçenekler gelir
+function iframeYenile(soruId) {
+    var iframe = document.getElementById('iframe-' + soruId)
+               || document.getElementById('kime-iframe');
+    if (!iframe) return;
+    var base = iframe.src.split('?')[0];
+    iframe.src = base + '?embed=1&t=' + Date.now();
+}
+
 window.addEventListener('message', function(e) {
     if (!e.data) return;
 
@@ -621,7 +631,7 @@ window.addEventListener('message', function(e) {
 
     if (e.data.type === 'soru_cevaplandi') {
         var soruId = e.data.soruId;
-        var sonrakiSayfa = e.data.sonrakiSayfa; // config.js'in belirlediği gerçek sonraki sayfa
+        var sonrakiSayfa = e.data.sonrakiSayfa;
 
         // localStorage'a yaz
         try {
@@ -634,16 +644,19 @@ window.addEventListener('message', function(e) {
         var idx = SORU_SIRASI.indexOf(soruId);
         if (idx >= 0) giftBoxGuncelle(idx);
 
-        // sonrakiSayfa'dan dosya adını çıkar (path olabilir, sadece dosya adı lazım)
+        // Bir sonraki iframe'i yenile (localStorage'daki yeni cevabı okusun, filtrelesin)
         var dosyaAdi = sonrakiSayfa ? sonrakiSayfa.split('/').pop().split('?')[0] : '';
         var sonrakiSoruId = SAYFA_SORU_MAP[dosyaAdi];
 
         if (sonrakiSoruId) {
-            // O sorunun bloğuna scroll et
+            // Sonraki iframe'i yenile — filtrelenmiş seçenekler gelsin
+            iframeYenile(sonrakiSoruId);
+
+            // Sonraki bloğa scroll
             setTimeout(function() {
                 var el = document.getElementById('blok-' + sonrakiSoruId);
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 250);
+            }, 300);
         } else if (dosyaAdi === 'ozet.html') {
             setTimeout(function() {
                 var el = document.getElementById('blok-ozet');
