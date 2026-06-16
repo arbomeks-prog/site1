@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scroll Quiz Demo — 30 Soru | BudurBuldum</title>
+    <title>Scroll Quiz — Tam Akış | BudurBuldum</title>
     <style>
         * { box-sizing:border-box; -webkit-tap-highlight-color:transparent !important; }
         *, *::before, *::after { --tw-ring-shadow:none !important; --tw-ring-offset-shadow:none !important; }
@@ -77,12 +77,20 @@
         .header-logo { font-family:Georgia,serif; font-size:18px; font-weight:900; color:#f1f5f9; }
         .header-logo span { color:#e8a838; }
     </style>
+    <style>
+        .soru-blok { padding:20px 16px 24px; border-bottom:2px dashed #e2e8f0; }
+        .soru-blok:last-child { border-bottom:none; }
+        .soru-no { font-size:11px; font-weight:700; color:#e8a838; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; }
+        .soru-baslik { font-size:20px; font-weight:800; color:#1e293b; margin:0 0 4px; }
+        .soru-alt { font-size:13px; color:#94a3b8; margin:0 0 10px; font-weight:500; }
+    </style>
 </head>
 <body>
 <div class="header">
     <div style="font-size:18px;">🎁</div>
     <div class="header-logo">budur<span>buldum</span></div>
 </div>
+
 <div class="gift-col">
         <div class="gift-box-item" id="gb-0"><img src="data:image/jpeg;base64,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" alt=""></div>
         <div class="gift-box-item" id="gb-1"><img src="data:image/jpeg;base64,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" alt=""></div>
@@ -91,646 +99,319 @@
         <div class="gift-box-item" id="gb-4"><img src="data:image/jpeg;base64,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" alt=""></div>
         <div class="gift-box-item" id="gb-5"><img src="data:image/jpeg;base64,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" alt=""></div>
 </div>
+
 <div class="page-wrap">
 
 <div class="soru-blok" id="blok-kime">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">1. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-kime-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kime-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kime-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">1. SORU</div>
     <h2 class="soru-baslik">Hediye kime alınıyor?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <iframe id="kime-iframe" src="hediye-kime-alinacak-testi.html?embed=1" style="width:100%;height:600px;border:none;" scrolling="no"></iframe>
+    <iframe id="iframe-kime" src="hediye-kime-alinacak-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-cinsiyet">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">2. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-cinsiyet-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-cinsiyet-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-cinsiyet-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">2. SORU</div>
     <h2 class="soru-baslik">Cinsiyeti nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <iframe id="cinsiyet-iframe" src="kadin-erkek-hediye-secimi-testi.html?embed=1" style="width:100%;height:300px;border:none;" scrolling="no"></iframe>
+    <iframe id="iframe-cinsiyet" src="kadin-erkek-hediye-secimi-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-yas">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">3. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-yas-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-yas-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-yas-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">3. SORU</div>
     <h2 class="soru-baslik">Yaş aralığı yaklaşık olarak nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <iframe id="yas-iframe" src="yasa-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:600px;border:none;" scrolling="no"></iframe>
+    <iframe id="iframe-yas" src="yasa-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-tarz">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">4. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-tarz-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-tarz-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-tarz-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">4. SORU</div>
     <h2 class="soru-baslik">Tarzı nasıldır?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('tarz',this,3,function(){ sonrakiScroll('hobiler') })"><span class="opt-check"></span>Minimalist</button>
-        <button class="option-btn" onclick="sec('tarz',this,3,function(){ sonrakiScroll('hobiler') })"><span class="opt-check"></span>Renkli ve Eğlenceli</button>
-        <button class="option-btn" onclick="sec('tarz',this,3,function(){ sonrakiScroll('hobiler') })"><span class="opt-check"></span>Klasik / Şık</button>
-        <button class="option-btn" onclick="sec('tarz',this,3,function(){ sonrakiScroll('hobiler') })"><span class="opt-check"></span>Modern / Şık</button>
-        <button class="option-btn" onclick="sec('tarz',this,3,function(){ sonrakiScroll('hobiler') })"><span class="opt-check"></span>Spor / Casual</button>
-    </div>
+    <iframe id="iframe-tarz" src="kisilik-tarzina-gore-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-hobiler">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">5. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-hobiler-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-hobiler-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-hobiler-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">5. SORU</div>
     <h2 class="soru-baslik">Hobileri nelerdir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('hobiler',this,4,function(){ sonrakiScroll('renk') })"><span class="opt-check"></span>Okumak</button>
-        <button class="option-btn" onclick="sec('hobiler',this,4,function(){ sonrakiScroll('renk') })"><span class="opt-check"></span>Spor yapmak</button>
-        <button class="option-btn" onclick="sec('hobiler',this,4,function(){ sonrakiScroll('renk') })"><span class="opt-check"></span>Müzik / Enstrüman</button>
-        <button class="option-btn" onclick="sec('hobiler',this,4,function(){ sonrakiScroll('renk') })"><span class="opt-check"></span>Seyahat</button>
-        <button class="option-btn" onclick="sec('hobiler',this,4,function(){ sonrakiScroll('renk') })"><span class="opt-check"></span>Yemek yapmak</button>
-        <button class="option-btn" onclick="sec('hobiler',this,4,function(){ sonrakiScroll('renk') })"><span class="opt-check"></span>Teknoloji</button>
-        <button class="option-btn" onclick="sec('hobiler',this,4,function(){ sonrakiScroll('renk') })"><span class="opt-check"></span>Sanat ve el işi</button>
-        <button class="option-btn" onclick="sec('hobiler',this,4,function(){ sonrakiScroll('renk') })"><span class="opt-check"></span>Bahçe / Bitki bakımı</button>
-    </div>
+    <iframe id="iframe-hobiler" src="hobiye-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-renk">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">6. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-renk-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-renk-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-renk-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">6. SORU</div>
     <h2 class="soru-baslik">En çok sevdiği renk tonu hangisi?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('renk',this,5,function(){ sonrakiScroll('amac') })"><span class="opt-check"></span>Pastel Tonlar</button>
-        <button class="option-btn" onclick="sec('renk',this,5,function(){ sonrakiScroll('amac') })"><span class="opt-check"></span>Koyu ve Şık Tonlar</button>
-        <button class="option-btn" onclick="sec('renk',this,5,function(){ sonrakiScroll('amac') })"><span class="opt-check"></span>Canlı ve Parlak Renkler</button>
-        <button class="option-btn" onclick="sec('renk',this,5,function(){ sonrakiScroll('amac') })"><span class="opt-check"></span>Doğal Tonlar</button>
-    </div>
+    <iframe id="iframe-renk" src="sevdigi-renge-gore-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-amac">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">7. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-amac-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-amac-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-amac-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">7. SORU</div>
     <h2 class="soru-baslik">Hediyeyi ne için alıyorsun?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('amac',this,6,function(){ sonrakiScroll('ortam') })"><span class="opt-check"></span>Doğum Günü</button>
-        <button class="option-btn" onclick="sec('amac',this,6,function(){ sonrakiScroll('ortam') })"><span class="opt-check"></span>Yıl Dönümü</button>
-        <button class="option-btn" onclick="sec('amac',this,6,function(){ sonrakiScroll('ortam') })"><span class="opt-check"></span>Sevgililer Günü</button>
-        <button class="option-btn" onclick="sec('amac',this,6,function(){ sonrakiScroll('ortam') })"><span class="opt-check"></span>Özel Bir Başarı</button>
-        <button class="option-btn" onclick="sec('amac',this,6,function(){ sonrakiScroll('ortam') })"><span class="opt-check"></span>Sadece sürpriz</button>
-        <button class="option-btn" onclick="sec('amac',this,6,function(){ sonrakiScroll('ortam') })"><span class="opt-check"></span>Noel / Yılbaşı</button>
-    </div>
+    <iframe id="iframe-amac" src="ne-icin-hediye-alinacak-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-ortam">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">8. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-ortam-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-ortam-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-ortam-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">8. SORU</div>
     <h2 class="soru-baslik">Kişi evde mi dışarıda mı zaman geçiriyor?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('ortam',this,7,function(){ sonrakiScroll('teknoloji') })"><span class="opt-check"></span>Daha çok evde</button>
-        <button class="option-btn" onclick="sec('ortam',this,7,function(){ sonrakiScroll('teknoloji') })"><span class="opt-check"></span>Daha çok dışarıda</button>
-        <button class="option-btn" onclick="sec('ortam',this,7,function(){ sonrakiScroll('teknoloji') })"><span class="opt-check"></span>İkisi de dengeli</button>
-    </div>
+    <iframe id="iframe-ortam" src="yasam-tarzina-gore-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-teknoloji">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">9. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-teknoloji-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-teknoloji-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-teknoloji-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">9. SORU</div>
     <h2 class="soru-baslik">Teknolojiye ilgisi var mı?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('teknoloji',this,8,function(){ sonrakiScroll('butce') })"><span class="opt-check"></span>Çok ilgili</button>
-        <button class="option-btn" onclick="sec('teknoloji',this,8,function(){ sonrakiScroll('butce') })"><span class="opt-check"></span>Orta seviyede</button>
-        <button class="option-btn" onclick="sec('teknoloji',this,8,function(){ sonrakiScroll('butce') })"><span class="opt-check"></span>Pek ilgilenmiyor</button>
-    </div>
+    <iframe id="iframe-teknoloji" src="teknoloji-ilgisine-gore-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-butce">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">10. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-butce-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-butce-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-butce-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">10. SORU</div>
     <h2 class="soru-baslik">Bütçe aralığın nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('butce',this,9,function(){ sonrakiScroll('mevsim') })"><span class="opt-check"></span>0-500 TL</button>
-        <button class="option-btn" onclick="sec('butce',this,9,function(){ sonrakiScroll('mevsim') })"><span class="opt-check"></span>500-1500 TL</button>
-        <button class="option-btn" onclick="sec('butce',this,9,function(){ sonrakiScroll('mevsim') })"><span class="opt-check"></span>1500-3000 TL</button>
-        <button class="option-btn" onclick="sec('butce',this,9,function(){ sonrakiScroll('mevsim') })"><span class="opt-check"></span>3000-5000 TL</button>
-        <button class="option-btn" onclick="sec('butce',this,9,function(){ sonrakiScroll('mevsim') })"><span class="opt-check"></span>5000-10000 TL</button>
-        <button class="option-btn" onclick="sec('butce',this,9,function(){ sonrakiScroll('mevsim') })"><span class="opt-check"></span>10000-30000 TL</button>
-        <button class="option-btn" onclick="sec('butce',this,9,function(){ sonrakiScroll('mevsim') })"><span class="opt-check"></span>30.000 TL+</button>
-    </div>
+    <iframe id="iframe-butce" src="butceye-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-mevsim">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">11. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-mevsim-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-mevsim-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-mevsim-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">11. SORU</div>
     <h2 class="soru-baslik">Favori mevsimi hangisi?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('mevsim',this,10,function(){ sonrakiScroll('tatli') })"><span class="opt-check"></span>İlkbahar</button>
-        <button class="option-btn" onclick="sec('mevsim',this,10,function(){ sonrakiScroll('tatli') })"><span class="opt-check"></span>Yaz</button>
-        <button class="option-btn" onclick="sec('mevsim',this,10,function(){ sonrakiScroll('tatli') })"><span class="opt-check"></span>Sonbahar</button>
-        <button class="option-btn" onclick="sec('mevsim',this,10,function(){ sonrakiScroll('tatli') })"><span class="opt-check"></span>Kış</button>
-    </div>
+    <iframe id="iframe-mevsim" src="mevsime-gore-hediye-secimi-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-tatli">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">12. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-tatli-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-tatli-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-tatli-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">12. SORU</div>
     <h2 class="soru-baslik">En sevdiği tatlı türü nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('tatli',this,11,function(){ sonrakiScroll('spor') })"><span class="opt-check"></span>Çikolata</button>
-        <button class="option-btn" onclick="sec('tatli',this,11,function(){ sonrakiScroll('spor') })"><span class="opt-check"></span>Pasta</button>
-        <button class="option-btn" onclick="sec('tatli',this,11,function(){ sonrakiScroll('spor') })"><span class="opt-check"></span>Dondurma</button>
-        <button class="option-btn" onclick="sec('tatli',this,11,function(){ sonrakiScroll('spor') })"><span class="opt-check"></span>Şekerleme</button>
-        <button class="option-btn" onclick="sec('tatli',this,11,function(){ sonrakiScroll('spor') })"><span class="opt-check"></span>Hiçbiri</button>
-    </div>
+    <iframe id="iframe-tatli" src="tatli-zevkine-gore-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-spor">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">13. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-spor-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-spor-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-spor-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">13. SORU</div>
     <h2 class="soru-baslik">Spor yapıyor mu?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('spor',this,12,function(){ sonrakiScroll('muzik') })"><span class="opt-check"></span>Evet düzenli</button>
-        <button class="option-btn" onclick="sec('spor',this,12,function(){ sonrakiScroll('muzik') })"><span class="opt-check"></span>Ara sıra</button>
-        <button class="option-btn" onclick="sec('spor',this,12,function(){ sonrakiScroll('muzik') })"><span class="opt-check"></span>Hiç yapmıyor</button>
-    </div>
+    <iframe id="iframe-spor" src="sporcu-icin-hediye-bulma-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-muzik">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">14. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-muzik-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-muzik-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-muzik-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">14. SORU</div>
     <h2 class="soru-baslik">Favori müzik türü?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('muzik',this,13,function(){ sonrakiScroll('hayvan') })"><span class="opt-check"></span>Pop</button>
-        <button class="option-btn" onclick="sec('muzik',this,13,function(){ sonrakiScroll('hayvan') })"><span class="opt-check"></span>Rock</button>
-        <button class="option-btn" onclick="sec('muzik',this,13,function(){ sonrakiScroll('hayvan') })"><span class="opt-check"></span>Klasik</button>
-        <button class="option-btn" onclick="sec('muzik',this,13,function(){ sonrakiScroll('hayvan') })"><span class="opt-check"></span>Rap / Hip-Hop</button>
-        <button class="option-btn" onclick="sec('muzik',this,13,function(){ sonrakiScroll('hayvan') })"><span class="opt-check"></span>Türk Sanat Müziği</button>
-        <button class="option-btn" onclick="sec('muzik',this,13,function(){ sonrakiScroll('hayvan') })"><span class="opt-check"></span>Diğer</button>
-    </div>
+    <iframe id="iframe-muzik" src="muzik-zevkine-gore-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-hayvan">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">15. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-hayvan-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-hayvan-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-hayvan-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">15. SORU</div>
     <h2 class="soru-baslik">Hayvan sever mi?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('hayvan',this,14,function(){ sonrakiScroll('seyahat') })"><span class="opt-check"></span>Evet çok sever</button>
-        <button class="option-btn" onclick="sec('hayvan',this,14,function(){ sonrakiScroll('seyahat') })"><span class="opt-check"></span>Orta</button>
-        <button class="option-btn" onclick="sec('hayvan',this,14,function(){ sonrakiScroll('seyahat') })"><span class="opt-check"></span>Pek sevmez</button>
-    </div>
+    <iframe id="iframe-hayvan" src="hayvan-sever-icin-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-seyahat">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">16. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-seyahat-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-seyahat-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-seyahat-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">16. SORU</div>
     <h2 class="soru-baslik">Seyahat etmeyi sever mi?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('seyahat',this,15,function(){ sonrakiScroll('kitap') })"><span class="opt-check"></span>Çok sever</button>
-        <button class="option-btn" onclick="sec('seyahat',this,15,function(){ sonrakiScroll('kitap') })"><span class="opt-check"></span>Ara sıra</button>
-        <button class="option-btn" onclick="sec('seyahat',this,15,function(){ sonrakiScroll('kitap') })"><span class="opt-check"></span>Pek sevmez</button>
-    </div>
+    <iframe id="iframe-seyahat" src="seyahat-sevene-hediye-bulma-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-kitap">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">17. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-kitap-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kitap-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kitap-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">17. SORU</div>
     <h2 class="soru-baslik">Kitap okumayı sever mi?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('kitap',this,16,function(){ sonrakiScroll('kahve') })"><span class="opt-check"></span>Evet çok</button>
-        <button class="option-btn" onclick="sec('kitap',this,16,function(){ sonrakiScroll('kahve') })"><span class="opt-check"></span>Ara sıra</button>
-        <button class="option-btn" onclick="sec('kitap',this,16,function(){ sonrakiScroll('kahve') })"><span class="opt-check"></span>Hiç okumaz</button>
-    </div>
+    <iframe id="iframe-kitap" src="kitap-okuyucuya-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-kahve">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">18. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-kahve-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kahve-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kahve-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">18. SORU</div>
     <h2 class="soru-baslik">Kahve mi çay mı?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('kahve',this,17,function(){ sonrakiScroll('film') })"><span class="opt-check"></span>Kahve</button>
-        <button class="option-btn" onclick="sec('kahve',this,17,function(){ sonrakiScroll('film') })"><span class="opt-check"></span>Çay</button>
-        <button class="option-btn" onclick="sec('kahve',this,17,function(){ sonrakiScroll('film') })"><span class="opt-check"></span>İkisi de</button>
-        <button class="option-btn" onclick="sec('kahve',this,17,function(){ sonrakiScroll('film') })"><span class="opt-check"></span>Hiçbiri</button>
-    </div>
+    <iframe id="iframe-kahve" src="kahve-cay-icene-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-film">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">19. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-film-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-film-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-film-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">19. SORU</div>
     <h2 class="soru-baslik">En sevdiği film türü?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('film',this,18,function(){ sonrakiScroll('bitki') })"><span class="opt-check"></span>Romantik</button>
-        <button class="option-btn" onclick="sec('film',this,18,function(){ sonrakiScroll('bitki') })"><span class="opt-check"></span>Komedi</button>
-        <button class="option-btn" onclick="sec('film',this,18,function(){ sonrakiScroll('bitki') })"><span class="opt-check"></span>Bilim Kurgu</button>
-        <button class="option-btn" onclick="sec('film',this,18,function(){ sonrakiScroll('bitki') })"><span class="opt-check"></span>Dram</button>
-        <button class="option-btn" onclick="sec('film',this,18,function(){ sonrakiScroll('bitki') })"><span class="opt-check"></span>Aksiyon</button>
-    </div>
+    <iframe id="iframe-film" src="film-sevene-hediye-bulma-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-bitki">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">20. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-bitki-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-bitki-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-bitki-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">20. SORU</div>
     <h2 class="soru-baslik">Evde bitki bakımı yapıyor mu?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('bitki',this,19,function(){ sonrakiScroll('oyun') })"><span class="opt-check"></span>Evet</button>
-        <button class="option-btn" onclick="sec('bitki',this,19,function(){ sonrakiScroll('oyun') })"><span class="opt-check"></span>Hayır</button>
-        <button class="option-btn" onclick="sec('bitki',this,19,function(){ sonrakiScroll('oyun') })"><span class="opt-check"></span>Deniyor</button>
-    </div>
+    <iframe id="iframe-bitki" src="bitki-sevene-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-oyun">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">21. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-oyun-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-oyun-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-oyun-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">21. SORU</div>
     <h2 class="soru-baslik">Oyun oynar mı?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('oyun',this,20,function(){ sonrakiScroll('makyaj') })"><span class="opt-check"></span>Evet sık sık</button>
-        <button class="option-btn" onclick="sec('oyun',this,20,function(){ sonrakiScroll('makyaj') })"><span class="opt-check"></span>Ara sıra</button>
-        <button class="option-btn" onclick="sec('oyun',this,20,function(){ sonrakiScroll('makyaj') })"><span class="opt-check"></span>Hiç oynamaz</button>
-    </div>
+    <iframe id="iframe-oyun" src="oyun-oynayanlara-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-makyaj">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">22. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-makyaj-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-makyaj-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-makyaj-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">22. SORU</div>
     <h2 class="soru-baslik">Makyaj / bakım ürünlerine ilgisi var mı?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('makyaj',this,21,function(){ sonrakiScroll('aksesuar') })"><span class="opt-check"></span>Çok var</button>
-        <button class="option-btn" onclick="sec('makyaj',this,21,function(){ sonrakiScroll('aksesuar') })"><span class="opt-check"></span>Orta</button>
-        <button class="option-btn" onclick="sec('makyaj',this,21,function(){ sonrakiScroll('aksesuar') })"><span class="opt-check"></span>Yok</button>
-    </div>
+    <iframe id="iframe-makyaj" src="makyaj-bakim-sevene-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-aksesuar">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">23. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-aksesuar-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-aksesuar-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-aksesuar-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">23. SORU</div>
     <h2 class="soru-baslik">Takı / aksesuar takmayı sever mi?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('aksesuar',this,22,function(){ sonrakiScroll('mutfak') })"><span class="opt-check"></span>Evet</button>
-        <button class="option-btn" onclick="sec('aksesuar',this,22,function(){ sonrakiScroll('mutfak') })"><span class="opt-check"></span>Ara sıra</button>
-        <button class="option-btn" onclick="sec('aksesuar',this,22,function(){ sonrakiScroll('mutfak') })"><span class="opt-check"></span>Hiç sevmez</button>
-    </div>
+    <iframe id="iframe-aksesuar" src="aksesuar-saat-sevene-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-mutfak">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">24. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-mutfak-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-mutfak-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-mutfak-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">24. SORU</div>
     <h2 class="soru-baslik">En sevdiği mutfak türü?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('mutfak',this,23,function(){ sonrakiScroll('doga') })"><span class="opt-check"></span>Türk</button>
-        <button class="option-btn" onclick="sec('mutfak',this,23,function(){ sonrakiScroll('doga') })"><span class="opt-check"></span>İtalyan</button>
-        <button class="option-btn" onclick="sec('mutfak',this,23,function(){ sonrakiScroll('doga') })"><span class="opt-check"></span>Asya</button>
-        <button class="option-btn" onclick="sec('mutfak',this,23,function(){ sonrakiScroll('doga') })"><span class="opt-check"></span>Fast Food</button>
-        <button class="option-btn" onclick="sec('mutfak',this,23,function(){ sonrakiScroll('doga') })"><span class="opt-check"></span>Sağlıklı</button>
-    </div>
+    <iframe id="iframe-mutfak" src="yemek-icin-hediye-bulma-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-doga">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">25. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-doga-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-doga-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-doga-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">25. SORU</div>
     <h2 class="soru-baslik">Doğa yürüyüşü yapar mı?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('doga',this,24,function(){ sonrakiScroll('sanat') })"><span class="opt-check"></span>Evet sever</button>
-        <button class="option-btn" onclick="sec('doga',this,24,function(){ sonrakiScroll('sanat') })"><span class="opt-check"></span>Ara sıra</button>
-        <button class="option-btn" onclick="sec('doga',this,24,function(){ sonrakiScroll('sanat') })"><span class="opt-check"></span>Hiç yapmaz</button>
-    </div>
+    <iframe id="iframe-doga" src="doga-yuruyusu-sevene-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-sanat">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">26. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-sanat-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-sanat-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-sanat-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">26. SORU</div>
     <h2 class="soru-baslik">Sanat eserlerine ilgisi var mı?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('sanat',this,25,function(){ sonrakiScroll('foto') })"><span class="opt-check"></span>Çok var</button>
-        <button class="option-btn" onclick="sec('sanat',this,25,function(){ sonrakiScroll('foto') })"><span class="opt-check"></span>Orta</button>
-        <button class="option-btn" onclick="sec('sanat',this,25,function(){ sonrakiScroll('foto') })"><span class="opt-check"></span>Yok</button>
-    </div>
+    <iframe id="iframe-sanat" src="sanat-sevene-hediye-bulma-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-foto">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">27. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-foto-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-foto-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-foto-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">27. SORU</div>
     <h2 class="soru-baslik">Fotoğraf çekmeyi sever mi?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('foto',this,26,function(){ sonrakiScroll('kisilik') })"><span class="opt-check"></span>Evet</button>
-        <button class="option-btn" onclick="sec('foto',this,26,function(){ sonrakiScroll('kisilik') })"><span class="opt-check"></span>Ara sıra</button>
-        <button class="option-btn" onclick="sec('foto',this,26,function(){ sonrakiScroll('kisilik') })"><span class="opt-check"></span>Hiç</button>
-    </div>
+    <iframe id="iframe-foto" src="fotograf-cekmeyi-sevene-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-kisilik">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">28. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-kisilik-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kisilik-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kisilik-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">28. SORU</div>
     <h2 class="soru-baslik">Kişilik tipi nasıl?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('kisilik',this,27,function(){ sonrakiScroll('oncelik') })"><span class="opt-check"></span>İçedönük</button>
-        <button class="option-btn" onclick="sec('kisilik',this,27,function(){ sonrakiScroll('oncelik') })"><span class="opt-check"></span>Dışadönük</button>
-        <button class="option-btn" onclick="sec('kisilik',this,27,function(){ sonrakiScroll('oncelik') })"><span class="opt-check"></span>Dengeli</button>
-    </div>
+    <iframe id="iframe-kisilik" src="kisilik-tipine-gore-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-oncelik">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">29. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-oncelik-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-oncelik-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-oncelik-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">29. SORU</div>
     <h2 class="soru-baslik">Hediye alırken en çok neye dikkat edersin?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('oncelik',this,28,function(){ sonrakiScroll('dogum') })"><span class="opt-check"></span>Kullanışlı olsun</button>
-        <button class="option-btn" onclick="sec('oncelik',this,28,function(){ sonrakiScroll('dogum') })"><span class="opt-check"></span>Güzel görünsün</button>
-        <button class="option-btn" onclick="sec('oncelik',this,28,function(){ sonrakiScroll('dogum') })"><span class="opt-check"></span>Özel ve anlamlı olsun</button>
-        <button class="option-btn" onclick="sec('oncelik',this,28,function(){ sonrakiScroll('dogum') })"><span class="opt-check"></span>Uygun fiyatlı olsun</button>
-    </div>
+    <iframe id="iframe-oncelik" src="hediye-onceliklerine-gore-secim-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-dogum">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div class="soru-no">30. SORU</div>
-        <div style="display:flex;gap:10px;"><div id="pex-dogum-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-dogum-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-dogum-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
-    </div>
+    <div class="soru-no">30. SORU</div>
     <h2 class="soru-baslik">Doğum tarihi hakkında ne biliyorsunuz?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <button class="option-btn" onclick="sec('dogum',this,29,function(){ tamamlandi() })"><span class="opt-check"></span>Tarihini biliyorum</button>
-        <button class="option-btn" onclick="sec('dogum',this,29,function(){ tamamlandi() })"><span class="opt-check"></span>Bilmiyorum</button>
-        <button class="option-btn" onclick="sec('dogum',this,29,function(){ tamamlandi() })"><span class="opt-check"></span>Burcunu biliyorum</button>
-    </div>
+    <iframe id="iframe-dogum" src="dogum-tarihine-gore-hediye-testi.html?embed=1" style="width:100%;height:500px;border:none;" scrolling="no" loading="lazy"></iframe>
 </div>
 
-<div style="height:40px;"></div>
-<!-- ÖZET -->
-<div id="blok-ozet" style="padding:0 16px 32px;">
-    <div style="border-top:3px solid #e8a838;margin-bottom:20px;"></div>
-    <div style="font-size:11px;font-weight:700;color:#e8a838;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">ÖZET</div>
-    <h2 style="font-size:20px;font-weight:800;color:#1e293b;margin:0 0 16px;">Seçimlerinin özeti</h2>
-    <div style="background:white;border-radius:16px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-            <div style="width:44px;height:44px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;">🎁</div>
-            <div><div style="font-size:15px;font-weight:800;color:#1e293b;">Baba · Erkek · 46-60</div><div style="font-size:12px;color:#94a3b8;">Klasik / Şık · 1500-3000 TL</div></div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-            <span style="background:#f1f5f9;border-radius:20px;padding:4px 10px;font-size:11px;color:#475569;font-weight:600;">Doğum Günü</span>
-            <span style="background:#f1f5f9;border-radius:20px;padding:4px 10px;font-size:11px;color:#475569;font-weight:600;">Teknoloji</span>
-            <span style="background:#f1f5f9;border-radius:20px;padding:4px 10px;font-size:11px;color:#475569;font-weight:600;">Kahve sever</span>
-            <span style="background:#f1f5f9;border-radius:20px;padding:4px 10px;font-size:11px;color:#475569;font-weight:600;">Dışadönük</span>
-            <span style="background:#f1f5f9;border-radius:20px;padding:4px 10px;font-size:11px;color:#475569;font-weight:600;">Spor yapıyor</span>
-        </div>
+<!-- ÖZET BLOĞU -->
+<div class="soru-blok" id="blok-ozet" style="border-bottom:none;">
+    <div class="soru-no">✓ TAMAMLANDI</div>
+    <h2 class="soru-baslik">Harika! Hediyelerin hazırlanıyor...</h2>
+    <p class="soru-alt">Yapay zeka cevaplarını analiz ediyor</p>
+    <div style="background:#fffbeb;border-left:4px solid #e8a838;border-radius:0 12px 12px 0;padding:14px;font-size:13px;color:#92400e;font-weight:500;margin-bottom:16px;">
+        🤖 Tüm sorular tamamlandı. Hediyeler için ozet.html sayfasına yönlendiriliyorsunuz...
     </div>
-    <div style="background:#fffbeb;border-left:4px solid #e8a838;border-radius:0 12px 12px 0;padding:12px 14px;font-size:13px;color:#92400e;font-weight:500;">🤖 Yapay zeka 7 hediye öneriyor...</div>
-    <button onclick="sonrakiScroll('hediyeler')" style="width:100%;margin-top:14px;padding:14px;background:#2563eb;color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;">Hediyeleri Gör →</button>
+    <a href="ozet.html" style="display:block;width:100%;padding:14px;background:#2563eb;color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;box-sizing:border-box;">
+        Hediyeleri Gör →
+    </a>
 </div>
-<!-- HEDİYELER -->
-<div id="blok-hediyeler" style="padding:0 16px 48px;">
-    <div style="border-top:3px solid #e8a838;margin-bottom:20px;"></div>
-    <div style="font-size:11px;font-weight:700;color:#e8a838;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">HEDİYELER</div>
-    <h2 style="font-size:20px;font-weight:800;color:#1e293b;margin:0 0 16px;">Sana özel 7 öneri</h2>
-    <div style="display:flex;flex-direction:column;gap:12px;">
-        <div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);"><div style="height:140px;background:linear-gradient(135deg,#1e293b,#334155);display:flex;align-items:center;justify-content:center;font-size:48px;">⌚</div><div style="padding:14px;"><div style="font-size:15px;font-weight:800;color:#1e293b;margin-bottom:4px;">Akıllı Saat</div><div style="font-size:12px;color:#64748b;margin-bottom:10px;">Teknoloji seven, aktif bir baba için ideal.</div><div style="display:flex;gap:6px;"><a href="#" style="flex:1;background:#f97316;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Trendyol</a><a href="#" style="flex:1;background:#ef4444;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Hepsiburada</a><a href="#" style="flex:1;background:#3b82f6;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Amazon</a></div></div></div>
-        <div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);"><div style="height:140px;background:linear-gradient(135deg,#422006,#78350f);display:flex;align-items:center;justify-content:center;font-size:48px;">☕</div><div style="padding:14px;"><div style="font-size:15px;font-weight:800;color:#1e293b;margin-bottom:4px;">Özel Kahve Seti</div><div style="font-size:12px;color:#64748b;margin-bottom:10px;">Premium çekirdek koleksiyonu ve French press.</div><div style="display:flex;gap:6px;"><a href="#" style="flex:1;background:#f97316;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Trendyol</a><a href="#" style="flex:1;background:#ef4444;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Hepsiburada</a><a href="#" style="flex:1;background:#3b82f6;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Amazon</a></div></div></div>
-        <div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);"><div style="height:140px;background:linear-gradient(135deg,#1e3a5f,#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:48px;">🎧</div><div style="padding:14px;"><div style="font-size:15px;font-weight:800;color:#1e293b;margin-bottom:4px;">Kablosuz Kulaklık</div><div style="font-size:12px;color:#64748b;margin-bottom:10px;">Gürültü önleyici, uzun pil ömrü.</div><div style="display:flex;gap:6px;"><a href="#" style="flex:1;background:#f97316;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Trendyol</a><a href="#" style="flex:1;background:#ef4444;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Hepsiburada</a><a href="#" style="flex:1;background:#3b82f6;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Amazon</a></div></div></div>
-        <div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);"><div style="height:140px;background:linear-gradient(135deg,#14532d,#166534);display:flex;align-items:center;justify-content:center;font-size:48px;">👔</div><div style="padding:14px;"><div style="font-size:15px;font-weight:800;color:#1e293b;margin-bottom:4px;">Kaliteli Kravat Seti</div><div style="font-size:12px;color:#64748b;margin-bottom:10px;">İpek kravat ve mendil kombinasyonu.</div><div style="display:flex;gap:6px;"><a href="#" style="flex:1;background:#f97316;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Trendyol</a><a href="#" style="flex:1;background:#ef4444;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Hepsiburada</a><a href="#" style="flex:1;background:#3b82f6;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Amazon</a></div></div></div>
-        <div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);"><div style="height:140px;background:linear-gradient(135deg,#4c1d95,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:48px;">📚</div><div style="padding:14px;"><div style="font-size:15px;font-weight:800;color:#1e293b;margin-bottom:4px;">Kitap Seti</div><div style="font-size:12px;color:#64748b;margin-bottom:10px;">Seçme 3 kitap, özel kutusunda.</div><div style="display:flex;gap:6px;"><a href="#" style="flex:1;background:#f97316;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Trendyol</a><a href="#" style="flex:1;background:#ef4444;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Hepsiburada</a><a href="#" style="flex:1;background:#3b82f6;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Amazon</a></div></div></div>
-        <div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);"><div style="height:140px;background:linear-gradient(135deg,#7f1d1d,#991b1b);display:flex;align-items:center;justify-content:center;font-size:48px;">🍷</div><div style="padding:14px;"><div style="font-size:15px;font-weight:800;color:#1e293b;margin-bottom:4px;">Özel Şarap Seti</div><div style="font-size:12px;color:#64748b;margin-bottom:10px;">İki şişe şarap, şık ahşap kutusunda.</div><div style="display:flex;gap:6px;"><a href="#" style="flex:1;background:#f97316;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Trendyol</a><a href="#" style="flex:1;background:#ef4444;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Hepsiburada</a><a href="#" style="flex:1;background:#3b82f6;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Amazon</a></div></div></div>
-        <div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);"><div style="height:140px;background:linear-gradient(135deg,#0c4a6e,#075985);display:flex;align-items:center;justify-content:center;font-size:48px;">🎽</div><div style="padding:14px;"><div style="font-size:15px;font-weight:800;color:#1e293b;margin-bottom:4px;">Spor Seti</div><div style="font-size:12px;color:#64748b;margin-bottom:10px;">Kaliteli spor çantası ve aksesuarlar.</div><div style="display:flex;gap:6px;"><a href="#" style="flex:1;background:#f97316;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Trendyol</a><a href="#" style="flex:1;background:#ef4444;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Hepsiburada</a><a href="#" style="flex:1;background:#3b82f6;color:white;text-align:center;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;">Amazon</a></div></div></div>
-    </div>
-</div>
+
 </div>
 <div style="height:80px;"></div>
+
 <script>
-
-    var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
-    var pexelsMap = {
-        'kime':['gift family','couple gift','friends surprise','baby gift'],
-        'cinsiyet':['woman portrait','man portrait','girl child','boy child'],
-        'yas':['baby newborn','teenager','young adult','senior elderly'],
-        'tarz':['minimalist interior','colorful fashion','classic elegant','modern design'],
-        'hobiler':['reading book','sport fitness','music instrument','travel adventure'],
-        'renk':['pastel colors','dark luxury','vibrant colors','natural tones'],
-        'amac':['birthday cake','anniversary','valentines day','celebration'],
-        'ortam':['cozy home','outdoor lifestyle','work life','city street'],
-        'teknoloji':['technology gadget','smartphone','smart home','coding'],
-        'butce':['shopping bag','luxury gift','price tag','money wallet'],
-        'mevsim':['spring flowers','summer beach','autumn leaves','winter snow'],
-        'tatli':['chocolate','cake bakery','ice cream','candy sweets'],
-        'spor':['running fitness','gym workout','yoga','sports activity'],
-        'muzik':['concert music','guitar rock','piano classical','hip hop'],
-        'hayvan':['cute cat','dog pet','animal','pet care'],
-        'seyahat':['travel','airplane journey','destination','backpack hiking'],
-        'kitap':['reading book','library','novel','cozy reading'],
-        'kahve':['coffee cup','tea ceremony','cafe morning','espresso'],
-        'film':['romantic movie','comedy','science fiction','cinema'],
-        'bitki':['indoor plant','succulent','garden','flower'],
-        'oyun':['video game','board game','gaming setup','playstation'],
-        'makyaj':['makeup cosmetics','skincare','lipstick','beauty'],
-        'aksesuar':['jewelry','watch accessory','bracelet','fashion accessories'],
-        'mutfak':['turkish food','italian pasta','asian food','healthy meal'],
-        'doga':['hiking nature','forest trail','mountain','outdoor walking'],
-        'sanat':['art gallery','sculpture','artwork','contemporary art'],
-        'foto':['photography camera','photographer','photo shoot','camera lens'],
-        'kisilik':['introvert alone','social people','balance','mindfulness'],
-        'oncelik':['practical gift','beautiful design','meaningful','affordable'],
-        'dogum':['birthday cake','horoscope zodiac','calendar date','stars']
-    };
-    function yukleGorsel(soruId, idx, query) {
-        fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(query) + '&per_page=1&orientation=square',
-            {headers:{Authorization:PEXELS_KEY}})
-        .then(function(r){return r.json();})
-        .then(function(d){
-            if(d.photos&&d.photos[0]){
-                var el=document.getElementById('pex-'+soruId+'-'+idx);
-                if(el) el.querySelector('img').src=d.photos[0].src.small;
-            }
-        }).catch(function(){});
-    }
-    // Samsung browser focus fix - tüm butonlara touch blur ekle
-    document.querySelectorAll('.option-btn').forEach(function(btn) {
-        btn.addEventListener('touchstart', function() {
-            var self = this;
-            setTimeout(function() { self.blur(); }, 0);
-        }, {passive: true});
-        btn.addEventListener('touchend', function() {
-            var self = this;
-            setTimeout(function() { self.blur(); }, 50);
-        }, {passive: true});
-    });
-
-        window.addEventListener('load',function(){
-        var keys=Object.keys(pexelsMap);
-        keys.forEach(function(sid,si){
-            pexelsMap[sid].forEach(function(q,idx){
-                setTimeout(function(){yukleGorsel(sid,idx,q);}, (si*4+idx)*100);
-            });
-        });
-    });
-
-    function giftBoxGuncelle(soruIndex) {
-        var tamamlanan = soruIndex + 1;
-        var kutuno = Math.floor(tamamlanan / 5) - 1;
-        for (var i = 0; i <= kutuno && i < 6; i++) {
-            var gb = document.getElementById('gb-' + i);
-            if (gb) gb.classList.add('done');
-        }
-    }
-    var cevaplananlar = {};
-
-    function sec(soruId, btn, soruIndex, callback) {
-        if (btn.classList.contains('selected')) { btn.classList.remove('selected'); setTimeout(function(){btn.blur();},0); cevaplananlar[soruId] = false; return; }
-
-        // Önceki soruya cevap verilmiş mi kontrol et
-        if (soruIndex > 0) {
-            var oncekiSorular = ['kime', 'cinsiyet', 'yas', 'tarz', 'hobiler', 'renk', 'amac', 'ortam', 'teknoloji', 'butce', 'mevsim', 'tatli', 'spor', 'muzik', 'hayvan', 'seyahat', 'kitap', 'kahve', 'film', 'bitki', 'oyun', 'makyaj', 'aksesuar', 'mutfak', 'doga', 'sanat', 'foto', 'kisilik', 'oncelik', 'dogum'];
-            var oncekiId = oncekiSorular[soruIndex - 1];
-            if (!cevaplananlar[oncekiId]) {
-                var oncekiBlok = document.getElementById('blok-' + oncekiId);
-                if (oncekiBlok) {
-                    oncekiBlok.style.background = '#fff8e1';
-                    oncekiBlok.style.borderLeft = '3px solid #e8a838';
-                    oncekiBlok.style.transition = 'all 0.3s';
-                    oncekiBlok.scrollIntoView({behavior:'smooth', block:'center'});
-                    setTimeout(function() {
-                        oncekiBlok.style.background = '';
-                        oncekiBlok.style.borderLeft = '';
-                    }, 1500);
-                }
-                btn.blur();
-                return;
-            }
-        }
-
-        setTimeout(function(){btn.blur();},0);
-        btn.closest('.soru-blok').querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('selected'); setTimeout(function(){b.blur();},0); });
-        btn.classList.add('selected');
-        cevaplananlar[soruId] = true;
-        try {
-            var ctx = new (window.AudioContext||window.webkitAudioContext)();
-            var osc=ctx.createOscillator(),gain=ctx.createGain();
-            osc.connect(gain);gain.connect(ctx.destination);
-            osc.frequency.value=880;
-            gain.gain.setValueAtTime(0.12,ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.1);
-            osc.start();osc.stop(ctx.currentTime+0.1);
-        } catch(e){}
-        giftBoxGuncelle(soruIndex);
-        setTimeout(function(){if(callback)callback();},220);
-    }
-    function sonrakiScroll(soruId) {
-        var el=document.getElementById('blok-'+soruId);
-        if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
-    }
-    function tamamlandi() {
-        setTimeout(function(){
-            document.getElementById('blok-ozet').scrollIntoView({behavior:'smooth',block:'center'});
-        },250);
-    }
-</script>
-<script>
-// Demo açılınca localStorage temizle
+// Sayfa açılınca cevapları temizle (demo amaçlı)
 localStorage.removeItem('budurBuldumCevaplar');
 
+var SONRAKI_MAP = {"kime": "cinsiyet", "cinsiyet": "yas", "yas": "tarz", "tarz": "hobiler", "hobiler": "renk", "renk": "amac", "amac": "ortam", "ortam": "teknoloji", "teknoloji": "butce", "butce": "mevsim", "mevsim": "tatli", "tatli": "spor", "spor": "muzik", "muzik": "hayvan", "hayvan": "seyahat", "seyahat": "kitap", "kitap": "kahve", "kahve": "film", "film": "bitki", "bitki": "oyun", "oyun": "makyaj", "makyaj": "aksesuar", "aksesuar": "mutfak", "mutfak": "doga", "doga": "sanat", "sanat": "foto", "foto": "kisilik", "kisilik": "oncelik", "oncelik": "dogum", "dogum": "ozet"};
+
+// Gift box güncelle - her 5 soruda bir yeşile dön
+function giftBoxGuncelle(soruIndex) {
+    var kutuno = Math.floor((soruIndex + 1) / 5) - 1;
+    for (var i = 0; i <= kutuno && i < 6; i++) {
+        var gb = document.getElementById('gb-' + i);
+        if (gb && !gb.classList.contains('done')) gb.classList.add('done');
+    }
+}
+
+// Sonraki iframe'i yükle (lazy: sadece cevap verilince src set edilir)
+function sonrakiIframeYukle(soruId) {
+    var sonrakiId = SONRAKI_MAP[soruId];
+    if (!sonrakiId || sonrakiId === 'ozet') return;
+    var iframe = document.getElementById('iframe-' + sonrakiId);
+    if (!iframe) return;
+    // Zaten yüklüyse reload et (dallanma değişmiş olabilir)
+    var base = iframe.getAttribute('data-src') || iframe.src.split('?')[0];
+    iframe.setAttribute('data-src', base);
+    iframe.src = base + '?embed=1&t=' + Date.now();
+}
+
+// Scroll - sonraki soru bloğuna git
+function scrollToBlok(soruId) {
+    var el = document.getElementById('blok-' + soruId);
+    if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// postMessage dinleyici
 window.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'soru_cevaplandi') {
-    cevaplananlar[e.data.soruId] = e.data.deger;
-    // localStorage'a yaz - diğer iframe sayfaları okusun
-    try {
-      var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
-      ls[e.data.soruId] = e.data.deger;
-      localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
-    } catch(ex) {}
-    var sonrakiMap = { 'kime': 'cinsiyet', 'cinsiyet': 'yas', 'yas': 'tarz' };
-    var sonraki = sonrakiMap[e.data.soruId];
-    // Yaş iframe'ini cinsiyet seçilince yükle (kime localStorage'da hazır)
-    // Her iframe bir önceki cevap seçilince yüklensin
-    if (e.data.soruId === 'kime') {
-      var cf = document.getElementById('cinsiyet-iframe');
-      if (cf) { cf.src = 'kadin-erkek-hediye-secimi-testi.html?embed=1&t=' + Date.now(); }
+    if (!e.data) return;
+
+    // iframe yükseklik ayarı
+    if (e.data.type === 'iframe_height') {
+        var iframe = document.getElementById('iframe-' + e.data.soruId);
+        if (iframe) iframe.style.height = (e.data.height + 16) + 'px';
+        return;
     }
-    if (e.data.soruId === 'cinsiyet') {
-      var yf = document.getElementById('yas-iframe');
-      if (yf) { yf.src = 'yasa-gore-hediye-bulma-testi.html?embed=1&t=' + Date.now(); yf.style.display = 'block'; }
-      var blokYas = document.getElementById('blok-yas');
-      if (blokYas) blokYas.style.display = 'block';
+
+    // Soru cevaplandı
+    if (e.data.type === 'soru_cevaplandi') {
+        var soruId = e.data.soruId;
+        var soruIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29].indexOf(
+            ['kime', 'cinsiyet', 'yas', 'tarz', 'hobiler', 'renk', 'amac', 'ortam', 'teknoloji', 'butce', 'mevsim', 'tatli', 'spor', 'muzik', 'hayvan', 'seyahat', 'kitap', 'kahve', 'film', 'bitki', 'oyun', 'makyaj', 'aksesuar', 'mutfak', 'doga', 'sanat', 'foto', 'kisilik', 'oncelik', 'dogum'].indexOf(soruId)
+        );
+        // Soru index'ini bul
+        var sIds = ['kime', 'cinsiyet', 'yas', 'tarz', 'hobiler', 'renk', 'amac', 'ortam', 'teknoloji', 'butce', 'mevsim', 'tatli', 'spor', 'muzik', 'hayvan', 'seyahat', 'kitap', 'kahve', 'film', 'bitki', 'oyun', 'makyaj', 'aksesuar', 'mutfak', 'doga', 'sanat', 'foto', 'kisilik', 'oncelik', 'dogum'];
+        var idx = sIds.indexOf(soruId);
+        if (idx >= 0) giftBoxGuncelle(idx);
+
+        var sonrakiId = SONRAKI_MAP[soruId];
+        if (!sonrakiId) return;
+
+        if (sonrakiId === 'ozet') {
+            setTimeout(function(){ scrollToBlok('ozet'); }, 250);
+            return;
+        }
+
+        // Sonraki iframe'i yükle
+        sonrakiIframeYukle(soruId);
+
+        // Scroll
+        setTimeout(function(){ scrollToBlok(sonrakiId); }, 300);
     }
-    if (sonraki) sonrakiScroll(sonraki);
-  }
-  if (e.data && e.data.type === 'iframe_height') {
-    var iframeMap = { 'kime': 'kime-iframe', 'cinsiyet': 'cinsiyet-iframe', 'yas': 'yas-iframe' };
-    var iframeId = iframeMap[e.data.soruId];
-    if (iframeId) {
-      var el = document.getElementById(iframeId);
-      if (el) el.style.height = (e.data.height + 8) + 'px';
+});
+
+// İlk iframe zaten src'li yüklü, diğerleri lazy — sadece src'lerini temizle
+// (Sayfa yüklenince sadece kime iframe'i aktif olsun)
+window.addEventListener('DOMContentLoaded', function() {
+    var sIds = ["kime", "cinsiyet", "yas", "tarz", "hobiler", "renk", "amac", "ortam", "teknoloji", "butce", "mevsim", "tatli", "spor", "muzik", "hayvan", "seyahat", "kitap", "kahve", "film", "bitki", "oyun", "makyaj", "aksesuar", "mutfak", "doga", "sanat", "foto", "kisilik", "oncelik", "dogum"];
+    var sayfalar = {"kime": "hediye-kime-alinacak-testi.html", "cinsiyet": "kadin-erkek-hediye-secimi-testi.html", "yas": "yasa-gore-hediye-bulma-testi.html", "tarz": "kisilik-tarzina-gore-hediye-testi.html", "hobiler": "hobiye-gore-hediye-bulma-testi.html", "renk": "sevdigi-renge-gore-hediye-testi.html", "amac": "ne-icin-hediye-alinacak-testi.html", "ortam": "yasam-tarzina-gore-hediye-testi.html", "teknoloji": "teknoloji-ilgisine-gore-hediye-testi.html", "butce": "butceye-gore-hediye-bulma-testi.html", "mevsim": "mevsime-gore-hediye-secimi-testi.html", "tatli": "tatli-zevkine-gore-hediye-testi.html", "spor": "sporcu-icin-hediye-bulma-testi.html", "muzik": "muzik-zevkine-gore-hediye-testi.html", "hayvan": "hayvan-sever-icin-hediye-testi.html", "seyahat": "seyahat-sevene-hediye-bulma-testi.html", "kitap": "kitap-okuyucuya-hediye-testi.html", "kahve": "kahve-cay-icene-hediye-testi.html", "film": "film-sevene-hediye-bulma-testi.html", "bitki": "bitki-sevene-hediye-testi.html", "oyun": "oyun-oynayanlara-hediye-testi.html", "makyaj": "makyaj-bakim-sevene-hediye-testi.html", "aksesuar": "aksesuar-saat-sevene-hediye-testi.html", "mutfak": "yemek-icin-hediye-bulma-testi.html", "doga": "doga-yuruyusu-sevene-hediye-testi.html", "sanat": "sanat-sevene-hediye-bulma-testi.html", "foto": "fotograf-cekmeyi-sevene-hediye-testi.html", "kisilik": "kisilik-tipine-gore-hediye-testi.html", "oncelik": "hediye-onceliklerine-gore-secim-testi.html", "dogum": "dogum-tarihine-gore-hediye-testi.html"};
+    // İlk soru dışındakilerin src'sini data-src'ye taşı (lazy loading)
+    for (var i = 1; i < sIds.length; i++) {
+        var iframe = document.getElementById('iframe-' + sIds[i]);
+        if (iframe) {
+            iframe.setAttribute('data-src', sayfalar[sIds[i]]);
+            iframe.src = 'about:blank';
+        }
     }
-  }
 });
 </script>
 </body>
