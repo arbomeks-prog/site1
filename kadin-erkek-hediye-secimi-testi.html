@@ -252,11 +252,15 @@
                 wrap.appendChild(cont);
                 document.body.appendChild(wrap);
                 function bildirimGonder() {
-                    var h = wrap.scrollHeight + 8;
+                    var h = document.body.scrollHeight + 8;
                     window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
                 }
-                setTimeout(bildirimGonder, 300);
-                new MutationObserver(bildirimGonder).observe(cont, { childList: true, subtree: true });
+                // Seçenekler DOM'a yazılınca tetikle
+                new MutationObserver(function() {
+                    setTimeout(bildirimGonder, 50);
+                }).observe(cont, { childList: true, subtree: true });
+                // İlk render için de bekle
+                setTimeout(bildirimGonder, 500);
             }
         }
     };
