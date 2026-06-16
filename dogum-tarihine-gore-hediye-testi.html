@@ -233,16 +233,14 @@
     if (new URLSearchParams(window.location.search).get('embed') === '1') {
         var cont = document.getElementById('options-container');
         if (cont) {
-            // Önce body'ye taşı
-            document.body.appendChild(cont);
-            cont.style.cssText = 'display:grid !important; padding:4px; background:transparent;';
-            // Sonra diğer tüm body child'larını gizle (cont hariç)
+            // Tüm body içeriğini gizle
+            document.body.style.cssText = 'margin:0;padding:4px;background:transparent;overflow:hidden;';
             Array.from(document.body.children).forEach(function(el) {
-                if (el !== cont && el.tagName !== 'SCRIPT') {
-                    el.style.display = 'none';
-                }
+                if (el.tagName !== 'SCRIPT') el.style.display = 'none';
             });
-            document.body.style.cssText = 'margin:0;padding:0;background:transparent;';
+            // Cont'u body'ye ekle ve göster
+            document.body.appendChild(cont);
+            cont.style.cssText = 'display:grid !important; width:100%; padding:0; background:transparent;';
             function bildirimGonder() {
                 var h = cont.scrollHeight + 16;
                 window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
