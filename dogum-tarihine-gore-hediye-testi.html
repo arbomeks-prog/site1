@@ -233,12 +233,13 @@
     if (new URLSearchParams(window.location.search).get('embed') === '1') {
         var cont = document.getElementById('options-container');
         if (cont) {
-            Array.from(document.body.children).forEach(function(el) {
-                if (el.tagName !== 'SCRIPT') el.style.display = 'none';
-            });
-            document.body.style.cssText = 'margin:0;padding:4px;background:transparent;';
-            cont.style.display = 'grid';
+            // CSS ile her şeyi gizle, sadece options-container göster
+            var embedStyle = document.createElement('style');
+            embedStyle.textContent = 'body > * { display:none !important; } #options-container { display:grid !important; } body { margin:0; padding:4px; background:transparent; }';
+            document.head.appendChild(embedStyle);
+            // options-container'ı body'ye taşı
             document.body.appendChild(cont);
+            cont.style.display = 'grid';
             function bildirimGonder() {
                 var h = cont.scrollHeight + 16;
                 window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
