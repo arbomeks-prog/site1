@@ -366,9 +366,14 @@
             QuizHelper.setCevap(SORU_ID, multiSecimler.join(', '));
             activateContinueBtn();
             const ileri = document.getElementById('ileri-btn');
-            ileri.href = QuizHelper.getSonrakiSayfa(SORU_ID);
+            const hedef = QuizHelper.getSonrakiSayfa(SORU_ID);
+            ileri.href = hedef;
             ileri.style.color = '#2563eb';
             ileri.style.pointerEvents = 'auto';
+            // Scroll Quiz: ilk seçim yapılınca parent'a sinyal gönder
+            if (multiSecimler.length === 1 && window.parent !== window) {
+                window.parent.postMessage({ type: 'soru_cevaplandi', soruId: SORU_ID, deger: multiSecimler.join(', '), sonrakiSayfa: hedef }, '*');
+            }
         } else {
             deactivateContinueBtn();
         }
