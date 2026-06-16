@@ -559,14 +559,56 @@
         },250);
     }
 </script>
+
+
 <script>
+// postMessage dinleyici - iframe'den gelen seçimleri yakala
+var SONRAKI_MAP = {"kime": "cinsiyet", "cinsiyet": "yas", "yas": "tarz", "tarz": "hobiler", "hobiler": "renk", "renk": "amac", "amac": "ortam", "ortam": "teknoloji", "teknoloji": "butce", "butce": "mevsim", "mevsim": "tatli", "tatli": "spor", "spor": "muzik", "muzik": "hayvan", "hayvan": "seyahat", "seyahat": "kitap", "kitap": "kahve", "kahve": "film", "film": "bitki", "bitki": "oyun", "oyun": "makyaj", "makyaj": "aksesuar", "aksesuar": "mutfak", "mutfak": "doga", "doga": "sanat", "sanat": "foto", "foto": "kisilik", "kisilik": "oncelik", "oncelik": "dogum", "dogum": "ozet"};
+var SORU_SIRASI = ["kime", "cinsiyet", "yas", "tarz", "hobiler", "renk", "amac", "ortam", "teknoloji", "butce", "mevsim", "tatli", "spor", "muzik", "hayvan", "seyahat", "kitap", "kahve", "film", "bitki", "oyun", "makyaj", "aksesuar", "mutfak", "doga", "sanat", "foto", "kisilik", "oncelik", "dogum"];
+
 window.addEventListener('message', function(e) {
-  if (e.data && e.data.type === 'kime_secildi') {
-    // sec() fonksiyonunu simüle et — cevaplar objesine yaz, sonraki soruya scroll
-    cevaplar['kime'] = e.data.deger;
-    sonrakiScroll('cinsiyet');
-  }
+    if (!e.data) return;
+
+    // iframe yükseklik ayarı
+    if (e.data.type === 'iframe_height') {
+        var iframe = document.getElementById('iframe-' + e.data.soruId);
+        if (!iframe) {
+            // kime için farklı id
+            if (e.data.soruId === 'kime') iframe = document.getElementById('kime-iframe');
+        }
+        if (iframe) iframe.style.height = (e.data.height + 8) + 'px';
+        return;
+    }
+
+    // Seçim yapıldı
+    if (e.data.type === 'soru_cevaplandi') {
+        var soruId = e.data.soruId;
+
+        // localStorage'a yaz (diğer iframe'ler okusun — filtreleme için)
+        try {
+            var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+            ls[soruId] = e.data.deger;
+            localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
+        } catch(ex) {}
+
+        // Gift box güncelle
+        var idx = SORU_SIRASI.indexOf(soruId);
+        if (idx >= 0) giftBoxGuncelle(idx);
+
+        // Sonraki bloğa scroll
+        var sonrakiId = SONRAKI_MAP[soruId];
+        if (sonrakiId) {
+            setTimeout(function() {
+                var el = document.getElementById('blok-' + sonrakiId);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 250);
+        }
+    }
 });
+
+// Sayfa açılınca localStorage temizle
+localStorage.removeItem('budurBuldumCevaplar');
 </script>
+
 </body>
 </html>
