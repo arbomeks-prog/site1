@@ -110,7 +110,7 @@
     </div>
     <h2 class="soru-baslik">Cinsiyeti nedir?</h2>
     <p class="soru-alt">👇 Seçmek için tıkla</p>
-    <iframe id="cinsiyet-iframe" src="" style="width:100%;height:300px;border:none;display:none;" scrolling="no"></iframe>
+    <iframe id="cinsiyet-iframe" src="kadin-erkek-hediye-secimi-testi.html?embed=1" style="width:100%;height:300px;border:none;" scrolling="no"></iframe>
 </div>
 
 <div class="soru-blok" id="blok-yas">
@@ -713,7 +713,7 @@ window.addEventListener('message', function(e) {
     // Her iframe bir önceki cevap seçilince yüklensin
     if (e.data.soruId === 'kime') {
       var cf = document.getElementById('cinsiyet-iframe');
-      if (cf) { cf.src = 'kadin-erkek-hediye-secimi-testi.html?embed=1&t=' + Date.now(); cf.style.display = 'block'; }
+      if (cf) { cf.src = 'kadin-erkek-hediye-secimi-testi.html?embed=1&t=' + Date.now(); }
     }
     if (e.data.soruId === 'cinsiyet') {
       var yf = document.getElementById('yas-iframe');
