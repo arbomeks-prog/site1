@@ -243,14 +243,19 @@
         if (new URLSearchParams(window.location.search).get('embed') === '1') {
             var cont = document.getElementById('options-container');
             if (cont) {
-                document.body.innerHTML = '';
-                document.body.style.cssText = 'margin:0;padding:4px;background:transparent;';
-                document.body.appendChild(cont);
+                var st = document.createElement('style');
+                st.textContent = 'body>*:not(#embed-cont){display:none!important;}body{margin:0;padding:4px;background:transparent;}';
+                document.head.appendChild(st);
+                var wrap = document.createElement('div');
+                wrap.id = 'embed-cont';
+                wrap.style.cssText = 'padding:0;';
+                wrap.appendChild(cont);
+                document.body.appendChild(wrap);
                 function bildirimGonder() {
-                    var h = document.body.scrollHeight;
+                    var h = wrap.scrollHeight + 8;
                     window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
                 }
-                bildirimGonder();
+                setTimeout(bildirimGonder, 100);
                 new MutationObserver(bildirimGonder).observe(cont, { childList: true, subtree: true });
             }
         }
