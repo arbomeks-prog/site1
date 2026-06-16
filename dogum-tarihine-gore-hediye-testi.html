@@ -91,10 +91,19 @@
 <script>
 if(new URLSearchParams(window.location.search).get('embed')==='1'){
 document.write('<style>'
-+'body,html{margin:0;padding:0;background:transparent}'
-+'#geri-btn,#ileri-btn,#sticky-wrap,article,#quiz-section,#progress-bar,#continue-btn{display:none!important}'
++'body,html{margin:0!important;padding:4px!important;background:transparent!important}'
++'#geri-btn{display:none!important}'
++'#ileri-btn{display:none!important}'
++'#sticky-wrap{display:none!important}'
++'article{display:none!important}'
++'#quiz-section{display:none!important}'
++'#continue-btn{display:none!important}'
 +'[id^="gb-"]{display:none!important}'
-+'h2#soru-baslik,p[style*="Seçmek"]{display:none!important}'
++'[id^="pex-"]{display:none!important}'
++'footer{display:none!important}'
++'#makale-icerik{display:none!important}'
++'body>div>div>div:last-child{display:none!important}'
++'body>div>div>div:first-child{display:none!important}'
 +'</style>');
 }
 </script>
