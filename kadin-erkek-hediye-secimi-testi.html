@@ -246,6 +246,12 @@
                 document.body.innerHTML = '';
                 document.body.style.cssText = 'margin:0;padding:4px;background:transparent;';
                 document.body.appendChild(cont);
+                function bildirimGonder() {
+                    var h = document.body.scrollHeight;
+                    window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
+                }
+                bildirimGonder();
+                new MutationObserver(bildirimGonder).observe(cont, { childList: true, subtree: true });
             }
         }
     };
