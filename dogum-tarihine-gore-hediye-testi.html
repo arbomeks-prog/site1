@@ -90,26 +90,23 @@
     </script>
 <script>
 if(new URLSearchParams(window.location.search).get('embed')==='1'){
-  var s=document.createElement('style');
-  s.textContent=[
-    'body,html{margin:0!important;padding:8px!important;background:transparent!important}',
-    'body>div{background:transparent!important}',
-    'body>div>div>div:first-child{display:none!important}',
-    'article{display:none!important}',
-    '#quiz-section{display:none!important}',
-    '#continue-btn{display:none!important}',
-    '[id^="gb-"]{display:none!important}',
-    '[id^="pex-"]{display:none!important}',
-    'footer{display:none!important}',
-    '#makale-icerik{display:none!important}',
-    '#sticky-wrap{display:none!important}',
-    '#geri-btn{display:none!important}',
-    '#ileri-btn{display:none!important}',
-    'body>div>div{flex-direction:column!important}',
-    'body>div>div>div:nth-child(2){width:100%!important;min-width:0!important}',
-    'body>div>div>div:last-child{display:none!important}'
-  ].join('');
-  document.head.appendChild(s);
+document.write('<style>'
++'body,html{margin:0!important;padding:6px!important;background:transparent!important}'
++'#geri-btn{display:none!important}'
++'#ileri-btn{display:none!important}'
++'#sticky-wrap{display:none!important}'
++'article{display:none!important}'
++'#quiz-section{display:none!important}'
++'#continue-btn{display:none!important}'
++'[id^="gb-"]{display:none!important}'
++'[id^="pex-"]{display:none!important}'
++'footer{display:none!important}'
++'#makale-icerik{display:none!important}'
++'#soru-baslik{display:none!important}'
++'.soru-alt{display:none!important}'
++'body>div>div>div:first-child{display:none!important}'
++'body>div>div>div:last-child:not(#options-container-wrap){display:none!important}'
++'</style>');
 }
 </script>
 </head>
@@ -438,6 +435,7 @@ if(new URLSearchParams(window.location.search).get('embed')==='1'){
             var burcGridE = document.createElement('div');
             burcGridE.className = 'grid grid-cols-4 gap-2';
             burcGridE.id = 'burc-grid';
+            burcGridE.style.cssText = 'width:100%;margin:0;';
             BURCLAR.forEach(function(b) {
                 var bb = document.createElement('button');
                 bb.className = 'burc-btn';
@@ -455,7 +453,7 @@ if(new URLSearchParams(window.location.search).get('embed')==='1'){
 
             // Bilmiyorum butonu
             var btnBilmiyorumE = document.createElement('button');
-            btnBilmiyorumE.className = 'col-span-2 w-full text-left p-3 border-2 border-gray-200 rounded-2xl hover:border-blue-500 text-sm option-btn mt-3';
+            btnBilmiyorumE.className = 'col-span-2 w-full text-left p-3 border-2 border-gray-200 rounded-2xl hover:border-blue-500 text-sm option-btn mt-1';
             btnBilmiyorumE.innerHTML = '🤷 Bilmiyorum';
             if (eskiCevap === 'Bilmiyorum') btnBilmiyorumE.classList.add('previous-answer');
             btnBilmiyorumE.onclick = function() { secimYap('Bilmiyorum', btnBilmiyorumE); };
@@ -952,32 +950,4 @@ if(new URLSearchParams(window.location.search).get('embed')==='1'){
   </div>
 </footer>
 
-</html>
-
-    // Makale scrollbar
-    function initMakaleScroll() {
-        var el = document.getElementById('makale-scroll');
-        var thumb = document.getElementById('makale-thumb');
-        if (!el || !thumb) return;
-        function updateThumb(){
-            var ratio = el.clientHeight / el.scrollHeight;
-            var thumbH = Math.max(20, el.clientHeight * ratio);
-            var maxScroll = el.scrollHeight - el.clientHeight;
-            var scrollRatio = maxScroll > 0 ? el.scrollTop / maxScroll : 0;
-            var maxTop = el.clientHeight - thumbH;
-            thumb.style.height = thumbH + 'px';
-            thumb.style.top = (scrollRatio * maxTop) + 'px';
-        }
-        el.addEventListener('scroll', updateThumb);
-        var dragging = false, startY, startTop;
-        thumb.addEventListener('mousedown', function(e){ dragging=true; startY=e.clientY; startTop=el.scrollTop; });
-        document.addEventListener('mousemove', function(e){ if(!dragging) return; var dy=e.clientY-startY; el.scrollTop=startTop+dy*(el.scrollHeight/el.clientHeight); });
-        document.addEventListener('mouseup', function(){ dragging=false; });
-        thumb.addEventListener('touchstart', function(e){ dragging=true; startY=e.touches[0].clientY; startTop=el.scrollTop; });
-        document.addEventListener('touchmove', function(e){ if(!dragging) return; var dy=e.touches[0].clientY-startY; el.scrollTop=startTop+dy*(el.scrollHeight/el.clientHeight); });
-        document.addEventListener('touchend', function(){ dragging=false; });
-        setTimeout(updateThumb, 100);
-    }
-</script>
-</body>
 </html>
