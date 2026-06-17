@@ -140,7 +140,7 @@ const QUIZ_CONFIG = {
     // ==========================================
     // NEGATİF CEVAPLAR: Bu ifadeleri içeren cevaplar kriter listesinde gösterilmez
     // ==========================================
-    negatifler: ["Pek ilgilenmiyor","Pek sevmez","Hiç yapmıyor","Hiç okumaz","Hiç oynamaz","Hiç sevmez","Hiç","Yok","Hayır","Emin değilim"],
+    negatifler: ["Hiç yapmıyor","Hiç okumaz","Hiç oynamaz","Hiç sevmez","Hiç","Yok","Hayır","Emin değilim"],
 
     // ==========================================
     // ZORUNLU SORULAR: "Emin değilim" seçeneği gösterilmez
