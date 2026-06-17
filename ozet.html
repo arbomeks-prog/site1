@@ -481,7 +481,13 @@
                 try { fetch('/api/log-quiz', { method:'POST', headers:{'Content-Type':'application/json'}, body:logData, keepalive:true }).catch(function(){}); } catch(e){}
             }
         } catch(e) {}
-        window.location.href = 'hediyeler.html';
+        document.getElementById('butce-popup').style.display = 'none';
+        const embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
+        if (embedMod && window.parent !== window) {
+            window.parent.postMessage({ type: 'hediyeleri_goster' }, '*');
+        } else {
+            window.location.href = 'hediyeler.html';
+        }
     }
 </script>
 

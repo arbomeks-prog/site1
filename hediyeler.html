@@ -50,6 +50,10 @@ body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; font-family: -a
 .share-wa { background: #25d366; color: white; }
 .share-tw { background: #1d9bf0; color: white; }
 .share-cp { background: #64748b; color: white; }
+body.hediye-vitrin .max-w-6xl, body.hediye-vitrin #paylas-btn { pointer-events: none; user-select: none; }
+body.hediye-vitrin #paylas-btn { opacity: 0.4; }
+body.hediye-embed #hediye-ust-bar, body.hediye-embed #hediye-buyuk-baslik { display: none !important; }
+body.hediye-embed .min-h-screen { padding-top: 8px; }
 </style>
 <link rel="canonical" href="https://budurbuldum.com/hediyeler.html">
 <meta name="robots" content="index, follow">
@@ -75,9 +79,14 @@ gtag('config', 'G-HWPN7VD4VX');
 </script>
 </head>
 <body>
+<script>
+if (new URLSearchParams(window.location.search).get('embed') === '1') {
+    document.body.classList.add('hediye-embed');
+}
+</script>
 <div class="min-h-screen bg-[#F9F9F9] py-12 px-4">
 <div class="max-w-6xl mx-auto">
-<div class="flex justify-between items-center mb-8">
+<div id="hediye-ust-bar" class="flex justify-between items-center mb-8">
 <a href="ozet.html" style="text-decoration:none;" class="text-gray-600 font-medium">← Özet'e Dön</a>
 <a href="index.html" style="display:flex;align-items:center;gap:7px;text-decoration:none;">
 <div style="width:28px;height:28px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;">🎁</div>
@@ -85,7 +94,7 @@ gtag('config', 'G-HWPN7VD4VX');
 </a>
 <a href="index.html" style="text-decoration:none;" class="text-gray-600 font-medium">Ana Sayfa</a>
 </div>
-<h1 class="text-4xl font-bold text-center mb-3">Kişiye Özel Hediye Önerileri ✨</h1>
+<h1 id="hediye-buyuk-baslik" class="text-4xl font-bold text-center mb-3">Kişiye Özel Hediye Önerileri ✨</h1>
 <div id="gifts-subtitle-wrap" class="text-center mb-10">
   <p id="gifts-subtitle" class="font-medium" style="font-size:15px;color:#64748b;margin-bottom:6px;"></p>
   <div id="animasyon-yazi" style="display:none;font-size:15px;font-weight:700;color:#1e40af;height:24px;overflow:hidden;">
@@ -323,10 +332,6 @@ document.addEventListener('click', function(e){
 document.querySelectorAll('.gift-box-icon').forEach(function(img, i) {
     img.src = GIFT_IMGS[i % 6] || '';
 });
-const cevaplar = localStorage.getItem('budurBuldumCevaplar');
-if (!cevaplar || Object.keys(JSON.parse(cevaplar || '{}')).length === 0) {
-window.location.href = 'index.html';
-}
 })();
 
 const PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
@@ -450,7 +455,7 @@ localStorage.setItem('budurBuldumTiklananHediyeler', JSON.stringify(tiklananlar)
 fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: sessionId, tiklanan_hediyeler: tiklananlar }) }).catch(function(e) {});
 }
 
-window.onload = async function() {
+async function baslatHediyeArama() {
     localStorage.setItem('budurBuldumTamamlandi', '1');
 const list = document.getElementById('gifts-list');
 const subtitle = document.getElementById('gifts-subtitle');
@@ -709,6 +714,34 @@ shareSection.style.display = 'block';
 clearInterval(mesajInterval);
 subtitle.textContent = '❌ Bir hata oluştu: ' + err.message;
 }
+}
+
+window.onload = function() {
+    const embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
+    if (embedMod) {
+        // Embed modunda: arama otomatik başlamaz, parent'tan tetik beklenir (vitrin modu)
+        document.body.classList.add('hediye-vitrin');
+        if (window.parent !== window) {
+            var container = document.querySelector('.max-w-6xl');
+            function bildirimGonder() {
+                var h = (container ? container.scrollHeight : document.body.scrollHeight) + 40;
+                window.parent.postMessage({ type: 'iframe_height', soruId: 'hediyeler', height: h }, '*');
+            }
+            if (container) {
+                new MutationObserver(function() { setTimeout(bildirimGonder, 50); }).observe(container, { childList: true, subtree: true, attributes: true });
+            }
+            setTimeout(bildirimGonder, 100);
+            setTimeout(bildirimGonder, 600);
+            window.addEventListener('message', function(e) {
+                if (e.data && e.data.type === 'hediyeleri_baslat') {
+                    document.body.classList.remove('hediye-vitrin');
+                    baslatHediyeArama();
+                }
+            });
+        }
+    } else {
+        baslatHediyeArama();
+    }
 };
 
 function buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek) {
