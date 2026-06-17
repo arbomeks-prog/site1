@@ -58,6 +58,8 @@ body.hediye-vitrin .max-w-6xl, body.hediye-vitrin #paylas-btn { pointer-events: 
 body.hediye-vitrin #paylas-btn { opacity: 0.4; }
 body.hediye-embed #hediye-ust-bar, body.hediye-embed #hediye-buyuk-baslik { display: none !important; }
 body.hediye-embed .min-h-screen { padding-top: 8px; }
+body.hediye-embed #paylas-btn { display:none !important; }
+body.hediye-embed #paylas-overlay, body.hediye-embed #iletisim-overlay { display:none !important; }
 </style>
 <link rel="canonical" href="https://budurbuldum.com/hediyeler.html">
 <meta name="robots" content="index, follow">
@@ -741,6 +743,9 @@ window.onload = function() {
                     document.body.classList.remove('hediye-vitrin');
                     baslatHediyeArama();
                 }
+                if (e.data && e.data.type === 'paylas_baslat') {
+                    hediyeKartiOlustur();
+                }
             });
         }
     } else {
@@ -874,6 +879,11 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
 </div>
 <script>
 function iletisimAc() {
+  var embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
+  if (embedMod && window.parent !== window) {
+    window.parent.postMessage({ type: 'iletisim_ac' }, '*');
+    return;
+  }
   var o = document.getElementById('iletisim-overlay');
   o.style.display = 'flex';
 }
@@ -925,16 +935,19 @@ async function iletisimGonder(e) {
 
 <script>
 function hediyeKartiOlustur() {
+  var embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
   var overlay = document.getElementById('paylas-overlay');
   var yukleniyor = document.getElementById('paylas-yukleniyor');
   var canvasEl = document.getElementById('paylas-canvas');
   var aksiyonlar = document.getElementById('paylas-aksiyonlar');
   var indirBtn = document.getElementById('paylas-indir');
 
-  overlay.style.display = 'flex';
-  yukleniyor.style.display = 'block';
-  canvasEl.style.display = 'none';
-  aksiyonlar.style.display = 'none';
+  if (!embedMod) {
+    overlay.style.display = 'flex';
+    yukleniyor.style.display = 'block';
+    canvasEl.style.display = 'none';
+    aksiyonlar.style.display = 'none';
+  }
 
   // Kartlardan veri topla
   var kartlar = [];
@@ -964,6 +977,10 @@ function hediyeKartiOlustur() {
   });
 
   if (kartlar.length === 0) {
+    if (embedMod && window.parent !== window) {
+      window.parent.postMessage({ type: 'paylas_hata', mesaj: 'Hediyeler henüz hazır değil, önce soruları tamamla 🙂' }, '*');
+      return;
+    }
     yukleniyor.textContent = '⚠️ Hediyeler henüz yüklenmedi.';
     return;
   }
@@ -1164,6 +1181,12 @@ function hediyeKartiOlustur() {
     ctx.font = '22px Arial, sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.5)';
     ctx.fillText('Hediyeni bul · budurbuldum.com', W/2, H - 22);
+
+    if (embedMod && window.parent !== window) {
+      var dataUrl = canvas.toDataURL('image/png');
+      window.parent.postMessage({ type: 'paylas_hazir', dataUrl: dataUrl }, '*');
+      return;
+    }
 
     // Blob ile indir - base64 gösterme
     canvas.toBlob(function(blob) {

@@ -692,5 +692,145 @@ window.addEventListener('message', function(e) {
     observer.observe(hedBlok);
 })();
 </script>
+<!-- PARENT PAYLAS BUTONU: gercek sayfada oldugu icin dogru sekilde yuzer -->
+<button id="parent-paylas-btn" onclick="parentPaylasBaslat()" style="
+  position:fixed;bottom:80px;right:16px;z-index:9999;
+  background:linear-gradient(135deg,#e8a838,#f5c96a);
+  color:#1e293b;border:none;border-radius:50px;
+  padding:12px 20px;font-size:13px;font-weight:700;
+  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  display:flex;align-items:center;gap:6px;
+  font-family:-apple-system,sans-serif;
+">📸 Paylaş</button>
+
+<!-- PARENT PAYLAS ONIZLEME -->
+<div id="parent-paylas-overlay" onclick="if(event.target===this)this.style.display='none'" style="
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.75);z-index:10000;
+  align-items:center;justify-content:center;
+  flex-direction:column;gap:12px;
+">
+  <div style="background:white;border-radius:20px;padding:20px;width:88%;max-width:360px;text-align:center;max-height:80vh;overflow-y:auto;margin-bottom:env(safe-area-inset-bottom,0px);">
+    <div id="parent-paylas-yukleniyor" style="color:#64748b;font-size:13px;padding:20px 0;">⏳ Görsel hazırlanıyor...</div>
+    <img id="parent-paylas-img" style="display:none;width:100%;border-radius:12px;">
+    <div id="parent-paylas-aksiyonlar" style="display:none;margin-top:14px;flex-direction:column;gap:8px;">
+      <a id="parent-paylas-indir" download="budurbuldum-hediyelerim.png" style="
+        display:block;background:#1e293b;color:white;
+        padding:11px;border-radius:12px;text-decoration:none;
+        font-size:13px;font-weight:700;
+      ">⬇️ Galeriye Kaydet</a>
+      <button onclick="document.getElementById('parent-paylas-overlay').style.display='none'" style="
+        background:#f1f5f9;border:none;padding:11px;
+        border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;
+      ">✕ Kapat</button>
+    </div>
+  </div>
+</div>
+
+<!-- PARENT ILETISIM POPUP -->
+<div id="parent-iletisim-overlay" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.7);z-index:10001;align-items:flex-end;justify-content:center;">
+  <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:540px;padding:24px 20px 32px;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <div style="font-size:17px;font-weight:900;color:#1e293b;">✉️ Bize Yazın</div>
+      <button onclick="document.getElementById('parent-iletisim-overlay').style.display='none'" style="background:none;border:none;font-size:22px;color:#94a3b8;cursor:pointer;line-height:1;">✕</button>
+    </div>
+    <div id="parent-iletisim-tesekkur" style="display:none;text-align:center;padding:24px 0;">
+      <div style="font-size:36px;margin-bottom:12px;">🎉</div>
+      <div style="font-size:18px;font-weight:900;color:#1e293b;margin-bottom:8px;">Mesajınız iletildi!</div>
+      <div style="font-size:14px;color:#64748b;">En kısa sürede dönüş yapacağız.</div>
+      <button onclick="document.getElementById('parent-iletisim-overlay').style.display='none'" style="margin-top:20px;background:#e8a838;border:none;border-radius:12px;padding:12px 28px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kapat</button>
+    </div>
+    <form id="parent-iletisim-form" onsubmit="parentIletisimGonder(event)">
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Adınız</label>
+        <input type="text" name="isim" placeholder="Adınız Soyadınız" required style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;box-sizing:border-box;color:#1e293b;">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">E-posta</label>
+        <input type="email" name="email" placeholder="ornek@email.com" required style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;box-sizing:border-box;color:#1e293b;">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Konu</label>
+        <select name="konu" style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;box-sizing:border-box;color:#1e293b;background:#fff;">
+          <option>Genel Soru</option>
+          <option>Öneri / Geri Bildirim</option>
+          <option>İş Birliği</option>
+          <option>Sorun Bildirimi</option>
+          <option>Diğer</option>
+        </select>
+      </div>
+      <div style="margin-bottom:18px;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Mesajınız</label>
+        <textarea name="mesaj" placeholder="Mesajınızı buraya yazın..." required rows="4" style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;box-sizing:border-box;color:#1e293b;resize:vertical;"></textarea>
+      </div>
+      <button type="submit" id="parent-iletisim-gonder-btn" style="width:100%;background:linear-gradient(135deg,#e8a838,#f5c96a);border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:800;color:#0f172a;cursor:pointer;">Gönder →</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function parentPaylasBaslat() {
+    var iframe = document.getElementById('iframe-hediyeler');
+    if (!iframe || !iframe.contentWindow) return;
+    var overlay = document.getElementById('parent-paylas-overlay');
+    var yukleniyor = document.getElementById('parent-paylas-yukleniyor');
+    var img = document.getElementById('parent-paylas-img');
+    var aksiyonlar = document.getElementById('parent-paylas-aksiyonlar');
+    overlay.style.display = 'flex';
+    yukleniyor.style.display = 'block';
+    yukleniyor.textContent = '⏳ Görsel hazırlanıyor...';
+    img.style.display = 'none';
+    aksiyonlar.style.display = 'none';
+    iframe.contentWindow.postMessage({ type: 'paylas_baslat' }, '*');
+}
+
+function parentIletisimAc() {
+    document.getElementById('parent-iletisim-overlay').style.display = 'flex';
+}
+
+async function parentIletisimGonder(e) {
+  e.preventDefault();
+  var btn = document.getElementById('parent-iletisim-gonder-btn');
+  btn.textContent = 'Gönderiliyor...';
+  btn.disabled = true;
+  var form = document.getElementById('parent-iletisim-form');
+  var data = new FormData();
+  data.append('İsim', form.isim.value);
+  data.append('Email', form.email.value);
+  data.append('Konu', form.konu.value);
+  data.append('Mesaj', form.mesaj.value);
+  data.append('_subject', 'BudurBuldum - Yeni Mesaj');
+  data.append('_captcha', 'false');
+  try {
+    await fetch('https://formsubmit.co/budurbuldum@gmail.com', { method: 'POST', body: data, mode: 'no-cors' });
+  } catch(err) {}
+  form.style.display = 'none';
+  document.getElementById('parent-iletisim-tesekkur').style.display = 'block';
+}
+
+window.addEventListener('message', function(e) {
+    if (!e.data) return;
+    if (e.data.type === 'iletisim_ac') {
+        parentIletisimAc();
+    }
+    if (e.data.type === 'paylas_hazir' && e.data.dataUrl) {
+        var img = document.getElementById('parent-paylas-img');
+        var yukleniyor = document.getElementById('parent-paylas-yukleniyor');
+        var aksiyonlar = document.getElementById('parent-paylas-aksiyonlar');
+        var indirBtn = document.getElementById('parent-paylas-indir');
+        img.src = e.data.dataUrl;
+        img.style.display = 'block';
+        yukleniyor.style.display = 'none';
+        aksiyonlar.style.display = 'flex';
+        indirBtn.href = e.data.dataUrl;
+    }
+    if (e.data.type === 'paylas_hata') {
+        var overlay = document.getElementById('parent-paylas-overlay');
+        var yukleniyor2 = document.getElementById('parent-paylas-yukleniyor');
+        yukleniyor2.textContent = '⚠️ ' + (e.data.mesaj || 'Hediyeler henüz hazır değil.');
+        setTimeout(function(){ overlay.style.display = 'none'; }, 2200);
+    }
+});
+</script>
 </body>
 </html>
