@@ -104,13 +104,9 @@ document.write('<style>'
 +'#makale-icerik{display:none!important}'
 +'#soru-baslik{display:none!important}'
 +'.soru-alt{display:none!important}'
-+'#options-container{width:100%!important;grid-column:1/-1!important}'
-+'#sol-sutun~div{display:none!important}'
 +'#sol-sutun{width:100%!important;flex:1 1 100%!important}'
-+'#sol-sutun{width:100%!important;flex:none!important}'
 +'#sol-sutun~div{display:none!important}'
-+'body>div>div{flex-direction:column!important}'
-+'body>div>div>div:last-child{display:none!important}'
++'#options-container{width:100%!important}'
 +'body>div>div>div:first-child{display:none!important}'
 +'body>div>div>div:last-child:not(#options-container-wrap){display:none!important}'
 +'</style>');
@@ -261,19 +257,12 @@ document.write('<style>'
             if (solSutun) { solSutun.style.width='100%'; solSutun.style.flex='1 1 100%'; }
             var sagSutun = solSutun ? solSutun.nextElementSibling : null;
             if (sagSutun) sagSutun.style.display = 'none';
-            var cont = document.getElementById('options-container');
-            if (cont) {
-                cont.style.cssText = 'display:grid !important; width:100%; padding:4px; background:transparent;';
-                document.body.appendChild(cont);
-                function bildirimGonder() {
-                    var h = cont.scrollHeight + 16;
-                    window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
-                }
-                new MutationObserver(function() {
-                    setTimeout(bildirimGonder, 50);
-                }).observe(cont, { childList: true, subtree: true });
-                setTimeout(bildirimGonder, 500);
+            function bildirimGonder() {
+                var h = document.body.scrollHeight + 16;
+                window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
             }
+            setTimeout(bildirimGonder, 300);
+            setTimeout(bildirimGonder, 900);
         }
 
     // Makale scrollbar
