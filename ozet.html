@@ -81,14 +81,23 @@
 </head>
 <body>
 
-<!-- Ziyaretçi direkt gelirse index'e yönlendir -->
+<!-- Quiz eksikse sayfa görünür ama kilitli (tıklanamaz); tamamsa normal çalışır -->
+<style>
+    #ozet-kilit-overlay { position:fixed; inset:0; background:rgba(249,249,249,0.55); z-index:9000; cursor:not-allowed; }
+    body.ozet-kilitli #summary-container { pointer-events:none; user-select:none; filter:saturate(0.5); }
+    #ozet-kilit-mesaj { position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:9001; background:#1e293b; color:#f1f5f9; font-size:12px; font-weight:700; padding:8px 16px; border-radius:20px; box-shadow:0 4px 16px rgba(0,0,0,0.25); white-space:nowrap; }
+</style>
 <script>
-    (function() {
-        const cevaplar = localStorage.getItem('budurBuldumCevaplar');
-        if (!cevaplar || Object.keys(JSON.parse(cevaplar || '{}')).length === 0) {
-            window.location.href = 'index.html';
-        }
-    })();
+    function ozetVeriTamMi() {
+        try {
+            if (typeof QuizHelper === 'undefined') return false;
+            const cevaplar = QuizHelper.getCevaplar();
+            const sorular = QuizHelper.getAktifSorular();
+            return sorular.every(function(s) {
+                return !QuizHelper.soruGecerliMi(s.id) || !!cevaplar[s.id];
+            });
+        } catch(e) { return false; }
+    }
 </script>
 
 <div id="summary-container" class="min-h-screen bg-[#F9F9F9] py-6 px-4" style="position:relative;">
@@ -189,16 +198,29 @@
     let secilenBurc = null;
 
     window.onload = function() {
-        localStorage.setItem('budurBuldumTamamlandi', '1');
-        if (typeof QuizHelper !== 'undefined') QuizHelper.ayracTamamlandi();
-        if (typeof gtag === 'function') {
-            gtag('event', 'quiz_tamamlandi');
+        const veriTam = ozetVeriTamMi();
+
+        if (!veriTam) {
+            document.body.classList.add('ozet-kilitli');
+            const overlay = document.createElement('div');
+            overlay.id = 'ozet-kilit-overlay';
+            document.body.appendChild(overlay);
+            const mesaj = document.createElement('div');
+            mesaj.id = 'ozet-kilit-mesaj';
+            mesaj.textContent = '🔒 Önce tüm soruları cevapla';
+            document.body.appendChild(mesaj);
+        } else {
+            localStorage.setItem('budurBuldumTamamlandi', '1');
+            if (typeof QuizHelper !== 'undefined') QuizHelper.ayracTamamlandi();
+            if (typeof gtag === 'function') {
+                gtag('event', 'quiz_tamamlandi');
+            }
+            setTimeout(function() {
+                const target = document.getElementById('butce-baslik-wrapper');
+                if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+            }, 600);
+            if(typeof BudurSes!=='undefined') BudurSes.tamam();
         }
-        setTimeout(function() {
-            const target = document.getElementById('butce-baslik-wrapper');
-            if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
-        }, 600);
-        if(typeof BudurSes!=='undefined') BudurSes.tamam();
 
         const cevaplar = QuizHelper.getCevaplar();
         const aktifSet = QuizHelper.getAktifSet();
