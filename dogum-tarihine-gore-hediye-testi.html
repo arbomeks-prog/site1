@@ -91,7 +91,7 @@
 <script>
 if(new URLSearchParams(window.location.search).get('embed')==='1'){
 document.write('<style>'
-+'body,html{margin:0!important;padding:4px!important;background:transparent!important}'
++'body,html{margin:0!important;padding:6px!important;background:transparent!important}'
 +'#geri-btn{display:none!important}'
 +'#ileri-btn{display:none!important}'
 +'#sticky-wrap{display:none!important}'
@@ -102,8 +102,10 @@ document.write('<style>'
 +'[id^="pex-"]{display:none!important}'
 +'footer{display:none!important}'
 +'#makale-icerik{display:none!important}'
-+'body>div>div>div:last-child{display:none!important}'
++'#soru-baslik{display:none!important}'
++'.soru-alt{display:none!important}'
 +'body>div>div>div:first-child{display:none!important}'
++'body>div>div>div:last-child:not(#options-container-wrap){display:none!important}'
 +'</style>');
 }
 </script>
@@ -420,7 +422,45 @@ document.write('<style>'
         var GUNLER = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
         var BURCLAR = QUIZ_CONFIG.burclar;
 
-        // "Tarihini biliyorum" butonu
+        var IS_EMBED = new URLSearchParams(window.location.search).get('embed') === '1';
+
+        // EMBED MOD: sadece burç grid + bilmiyorum
+        if (IS_EMBED) {
+            // Burç grid başlığı
+            var embedBaslik = document.createElement('div');
+            embedBaslik.innerHTML = '<div style="font-size:13px;font-weight:700;color:#6366f1;margin:0 0 10px;">⭐ Bir burç seçin:</div>';
+            cont.appendChild(embedBaslik);
+
+            // Burç grid
+            var burcGridE = document.createElement('div');
+            burcGridE.className = 'grid grid-cols-4 gap-2';
+            burcGridE.id = 'burc-grid';
+            BURCLAR.forEach(function(b) {
+                var bb = document.createElement('button');
+                bb.className = 'burc-btn';
+                bb.dataset.burc = b.isim;
+                bb.innerHTML = '<span class="burc-sembol">' + b.sembol + '</span><span class="burc-isim">' + b.isim + '</span>';
+                if (eskiCevap && eskiCevap.includes(b.isim)) bb.classList.add('selected');
+                bb.onclick = function() {
+                    burcGridE.querySelectorAll('.burc-btn').forEach(function(x){ x.classList.remove('selected'); });
+                    bb.classList.add('selected');
+                    secimYap('Burç: ' + b.sembol + ' ' + b.isim, bb);
+                };
+                burcGridE.appendChild(bb);
+            });
+            cont.appendChild(burcGridE);
+
+            // Bilmiyorum butonu
+            var btnBilmiyorumE = document.createElement('button');
+            btnBilmiyorumE.className = 'col-span-2 w-full text-left p-3 border-2 border-gray-200 rounded-2xl hover:border-blue-500 text-sm option-btn mt-3';
+            btnBilmiyorumE.innerHTML = '🤷 Bilmiyorum';
+            if (eskiCevap === 'Bilmiyorum') btnBilmiyorumE.classList.add('previous-answer');
+            btnBilmiyorumE.onclick = function() { secimYap('Bilmiyorum', btnBilmiyorumE); };
+            cont.appendChild(btnBilmiyorumE);
+            return;
+        }
+
+        // NORMAL MOD: "Tarihini biliyorum" butonu
         var btn1 = document.createElement('button');
         btn1.className = 'col-span-2 w-full text-left p-3 border-2 border-gray-200 rounded-2xl hover:border-blue-500 text-sm option-btn mb-2';
         btn1.textContent = 'Tarihini biliyorum';
