@@ -248,21 +248,14 @@ document.write('<style>'
         // Seçenekleri oluştur
         renderSecenekler();
 
-        // Embed modu - renderSecenekler tamamlandıktan sonra çalışır
+        // Embed modu - yükseklik bildir
         if (new URLSearchParams(window.location.search).get('embed') === '1') {
-            var cont = document.getElementById('options-container');
-            if (cont) {
-                cont.style.cssText = 'display:grid !important; width:100%; padding:4px; background:transparent;';
-                document.body.appendChild(cont);
-                function bildirimGonder() {
-                    var h = cont.scrollHeight + 16;
-                    window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
-                }
-                new MutationObserver(function() {
-                    setTimeout(bildirimGonder, 50);
-                }).observe(cont, { childList: true, subtree: true });
-                setTimeout(bildirimGonder, 500);
+            function bildirimGonder() {
+                var h = document.body.scrollHeight + 16;
+                window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
             }
+            setTimeout(bildirimGonder, 300);
+            setTimeout(bildirimGonder, 800);
         }
 
     // Makale scrollbar
