@@ -58,6 +58,9 @@
         .seo-soru .soru-text { font-size:13px; font-weight:600; color:#475569; margin-bottom:4px; }
         .seo-soru .soru-cevaplar { display:flex; flex-wrap:wrap; gap:4px; }
         .seo-soru .soru-cevaplar span { font-size:11px; background:#f8fafc; border:1px solid #e2e8f0; color:#64748b; padding:2px 8px; border-radius:8px; }
+
+        /* Veri eksikse: sayfa tam görünür ama tıklanamaz (vitrin modu) */
+        body.ozet-vitrin #summary-container { pointer-events:none; user-select:none; }
     </style>
     <link rel="canonical" href="https://budurbuldum.com/ozet.html">
     <meta name="robots" content="index, follow">
@@ -175,22 +178,53 @@
 </div>
 
 <script>
+    // Veri eksikse gösterilecek örnek (dummy) cevaplar — sadece vitrin amaçlı, gerçek değil
+    var OZET_ORNEK_CEVAPLAR = {
+        kime: "Baba", cinsiyet: "Erkek", yas: "46-60", tarz: "Klasik / Şık",
+        hobiler: "Okumak, Teknoloji", renk: "Koyu ve Şık Tonlar", amac: "Doğum Günü",
+        ortam: "Daha çok evde", teknoloji: "Orta seviyede", butce: "1500-3000 TL",
+        mevsim: "Kış", tatli: "Çikolata", spor: "Ara sıra", muzik: "Pop",
+        hayvan: "Evet çok sever", seyahat: "Çok sever", kitap: "Evet çok", kahve: "Kahve",
+        film: "Komedi", bitki: "Evet", oyun: "Ara sıra", makyaj: "Orta", aksesuar: "Evet",
+        mutfak: "İtalyan", doga: "Ara sıra", sanat: "Orta", foto: "Ara sıra",
+        kisilik: "Dengeli", oncelik: "Özel ve anlamlı olsun", dogum: "♑ Oğlak"
+    };
+
+    function ozetVeriTamMi() {
+        try {
+            if (typeof QuizHelper === 'undefined') return false;
+            const cevaplar = QuizHelper.getCevaplar();
+            const sorular = QuizHelper.getAktifSorular();
+            return sorular.every(function(s) {
+                return !QuizHelper.soruGecerliMi(s.id) || !!cevaplar[s.id];
+            });
+        } catch(e) { return false; }
+    }
+
     let selectedCriteria = [];
     let secilenBurc = null;
 
     window.onload = function() {
-        localStorage.setItem('budurBuldumTamamlandi', '1');
-        if (typeof QuizHelper !== 'undefined') QuizHelper.ayracTamamlandi();
-        if (typeof gtag === 'function') {
-            gtag('event', 'quiz_tamamlandi');
-        }
-        setTimeout(function() {
-            const target = document.getElementById('butce-baslik-wrapper');
-            if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
-        }, 600);
-        if(typeof BudurSes!=='undefined') BudurSes.tamam();
+        const veriTam = ozetVeriTamMi();
 
-        const cevaplar = QuizHelper.getCevaplar();
+        if (!veriTam) {
+            // Sahte/örnek verilerle vitrin göster, ama tıklanamaz yap
+            document.body.classList.add('ozet-vitrin');
+        } else {
+            localStorage.setItem('budurBuldumTamamlandi', '1');
+            if (typeof QuizHelper !== 'undefined') QuizHelper.ayracTamamlandi();
+            if (typeof gtag === 'function') {
+                gtag('event', 'quiz_tamamlandi');
+            }
+            setTimeout(function() {
+                const target = document.getElementById('butce-baslik-wrapper');
+                if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+            }, 600);
+            if(typeof BudurSes!=='undefined') BudurSes.tamam();
+        }
+
+        const gercekCevaplar = QuizHelper.getCevaplar();
+        const cevaplar = veriTam ? gercekCevaplar : Object.assign({}, OZET_ORNEK_CEVAPLAR, gercekCevaplar);
         const aktifSet = QuizHelper.getAktifSet();
         const sorular = QuizHelper.getAktifSorular();
         const isOzel = aktifSet !== 'normal';
@@ -207,6 +241,7 @@
         renderBurcPanel(cevaplar);
         afterSummaryReady();
     };
+
 
     function renderProfilBar(cevaplar, sorular, isOzel) {
         let profil = '';
