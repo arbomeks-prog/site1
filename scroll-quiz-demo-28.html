@@ -573,6 +573,11 @@ localStorage.removeItem('budurBuldumCevaplar');
         if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
     }
     function tamamlandi() {
+        var ozetIframe = document.getElementById('iframe-ozet');
+        if (ozetIframe) {
+            var base = ozetIframe.src.split('?')[0];
+            ozetIframe.src = base + '?embed=1&t=' + Date.now();
+        }
         setTimeout(function(){
             document.getElementById('blok-ozet').scrollIntoView({behavior:'smooth',block:'center'});
         },250);
