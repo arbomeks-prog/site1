@@ -88,25 +88,26 @@
       gtag('js', new Date());
       gtag('config', 'G-HWPN7VD4VX');
     </script>
+<style id="embed-style"></style>
 <script>
 if(new URLSearchParams(window.location.search).get('embed')==='1'){
-document.write('<style>'
-+'body,html{margin:0!important;padding:6px!important;background:transparent!important}'
-+'#geri-btn{display:none!important}'
-+'#ileri-btn{display:none!important}'
-+'#sticky-wrap{display:none!important}'
-+'article{display:none!important}'
-+'#quiz-section{display:none!important}'
-+'#continue-btn{display:none!important}'
-+'[id^="gb-"]{display:none!important}'
-+'[id^="pex-"]{display:none!important}'
-+'footer{display:none!important}'
-+'#makale-icerik{display:none!important}'
-+'#soru-baslik{display:none!important}'
-+'.soru-alt{display:none!important}'
-+'body>div>div>div:first-child{display:none!important}'
-+'body>div>div>div:last-child:not(#options-container-wrap){display:none!important}'
-+'</style>');
+  document.getElementById('embed-style').textContent = [
+    'body,html{margin:0!important;padding:8px!important;background:transparent!important;overflow-x:hidden!important}',
+    'body>div{background:transparent!important}',
+    'body>div>div>div:first-child{display:none!important}',
+    'article{display:none!important}',
+    '#quiz-section{display:none!important}',
+    '#continue-btn{display:none!important}',
+    '[id^="gb-"]{display:none!important}',
+    '[id^="pex-"]{display:none!important}',
+    'footer{display:none!important}',
+    '#makale-icerik{display:none!important}',
+    '#soru-baslik{display:none!important}',
+    '.soru-alt{display:none!important}',
+    '#sticky-wrap{display:none!important}',
+    'h2{display:none!important}',
+    'p{display:none!important}'
+  ].join('');
 }
 </script>
 </head>
@@ -248,14 +249,21 @@ document.write('<style>'
         // Seçenekleri oluştur
         renderSecenekler();
 
-        // Embed modu - yükseklik bildir
+        // Embed modu - renderSecenekler tamamlandıktan sonra çalışır
         if (new URLSearchParams(window.location.search).get('embed') === '1') {
-            function bildirimGonder() {
-                var h = document.body.scrollHeight + 16;
-                window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
+            var cont = document.getElementById('options-container');
+            if (cont) {
+                cont.style.cssText = 'display:grid !important; width:100%; padding:4px; background:transparent;';
+                document.body.appendChild(cont);
+                function bildirimGonder() {
+                    var h = cont.scrollHeight + 16;
+                    window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
+                }
+                new MutationObserver(function() {
+                    setTimeout(bildirimGonder, 50);
+                }).observe(cont, { childList: true, subtree: true });
+                setTimeout(bildirimGonder, 500);
             }
-            setTimeout(bildirimGonder, 300);
-            setTimeout(bildirimGonder, 800);
         }
 
     // Makale scrollbar
