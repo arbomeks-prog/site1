@@ -138,7 +138,7 @@
         </div>
 
         <!-- Burç paneli -->
-        <div class="bg-white rounded-2xl shadow-sm p-4 mb-6">
+        <div class="bg-white rounded-2xl shadow-sm p-4 mb-6" id="burc-panel-wrapper">
             <div class="flex items-center justify-between mb-3">
                 <div id="burc-baslik">⭐ Burcunu seç — şansını artır!</div>
                 <span id="burc-badge" class="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full font-bold hidden">+1</span>
@@ -318,6 +318,13 @@
     }
 
     function renderBurcPanel(cevaplar) {
+        const wrapper = document.getElementById('burc-panel-wrapper');
+        if (cevaplar.dogum === 'Bilmiyorum') {
+            if (wrapper) wrapper.style.display = 'none';
+            secilenBurc = null;
+            return;
+        }
+        if (wrapper) wrapper.style.display = '';
         const panel = document.getElementById('burc-panel');
         panel.innerHTML = '';
         secilenBurc = null;
