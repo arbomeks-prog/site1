@@ -255,8 +255,12 @@ document.write('<style>'
         // Seçenekleri oluştur
         renderSecenekler();
 
-        // Embed modu - renderSecenekler tamamlandıktan sonra çalışır
+        // Embed modu - layout düzelt + yükseklik bildir
         if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            var solSutun = document.getElementById('sol-sutun');
+            if (solSutun) { solSutun.style.width='100%'; solSutun.style.flex='1 1 100%'; }
+            var sagSutun = solSutun ? solSutun.nextElementSibling : null;
+            if (sagSutun) sagSutun.style.display = 'none';
             var cont = document.getElementById('options-container');
             if (cont) {
                 cont.style.cssText = 'display:grid !important; width:100%; padding:4px; background:transparent;';
