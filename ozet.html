@@ -38,7 +38,7 @@
         .chip { background:white; border:2px solid #e2e8f0; border-radius:12px; padding:6px 10px; cursor:pointer; transition:all 0.18s ease; display:flex; flex-direction:column; gap:1px; position:relative; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
         .chip:active { transform:scale(0.97); }
         .chip .c-label { font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.06em; }
-        .chip .c-value { font-size:13px; font-weight:800; color:#1e293b; line-height:1.3; }
+        .chip .c-value { font-size:13px; font-weight:800; color:#1e293b; line-height:1.3; min-height:17px; }
         .chip .c-check { position:absolute; top:6px; right:8px; font-size:14px; opacity:0; transition:all 0.18s; transform:scale(0.5); color:#16a34a; }
         .chip.selected { border-color:#16a34a; background:linear-gradient(135deg,#f0fdf4,#dcfce7); box-shadow:0 0 0 1px #16a34a, 0 4px 12px rgba(22,163,74,0.15); }
         .chip.selected .c-label { color:#15803d; }
@@ -178,18 +178,6 @@
 </div>
 
 <script>
-    // Veri eksikse gösterilecek örnek (dummy) cevaplar — sadece vitrin amaçlı, gerçek değil
-    var OZET_ORNEK_CEVAPLAR = {
-        kime: "Baba", cinsiyet: "Erkek", yas: "46-60", tarz: "Klasik / Şık",
-        hobiler: "Okumak, Teknoloji", renk: "Koyu ve Şık Tonlar", amac: "Doğum Günü",
-        ortam: "Daha çok evde", teknoloji: "Orta seviyede", butce: "1500-3000 TL",
-        mevsim: "Kış", tatli: "Çikolata", spor: "Ara sıra", muzik: "Pop",
-        hayvan: "Evet çok sever", seyahat: "Çok sever", kitap: "Evet çok", kahve: "Kahve",
-        film: "Komedi", bitki: "Evet", oyun: "Ara sıra", makyaj: "Orta", aksesuar: "Evet",
-        mutfak: "İtalyan", doga: "Ara sıra", sanat: "Orta", foto: "Ara sıra",
-        kisilik: "Dengeli", oncelik: "Özel ve anlamlı olsun", dogum: "♑ Oğlak"
-    };
-
     function ozetVeriTamMi() {
         try {
             if (typeof QuizHelper === 'undefined') return false;
@@ -208,7 +196,7 @@
         const veriTam = ozetVeriTamMi();
 
         if (!veriTam) {
-            // Sahte/örnek verilerle vitrin göster, ama tıklanamaz yap
+            // Sayfa tam görünür ama tıklanamaz (vitrin modu)
             document.body.classList.add('ozet-vitrin');
         } else {
             localStorage.setItem('budurBuldumTamamlandi', '1');
@@ -223,8 +211,7 @@
             if(typeof BudurSes!=='undefined') BudurSes.tamam();
         }
 
-        const gercekCevaplar = QuizHelper.getCevaplar();
-        const cevaplar = veriTam ? gercekCevaplar : Object.assign({}, OZET_ORNEK_CEVAPLAR, gercekCevaplar);
+        const cevaplar = QuizHelper.getCevaplar();
         const aktifSet = QuizHelper.getAktifSet();
         const sorular = QuizHelper.getAktifSorular();
         const isOzel = aktifSet !== 'normal';
@@ -237,7 +224,7 @@
 
         renderProfilBar(cevaplar, sorular, isOzel);
         renderButceButonlar(cevaplar, sorular, isOzel);
-        renderKriterListesi(cevaplar, sorular, isOzel);
+        renderKriterListesi(cevaplar, sorular, isOzel, !veriTam);
         renderBurcPanel(cevaplar);
         afterSummaryReady();
     };
@@ -246,9 +233,9 @@
     function renderProfilBar(cevaplar, sorular, isOzel) {
         let profil = '';
         if (isOzel) {
-            profil = sorular.map(s => cevaplar[s.id] ? '<span class="lbl">'+s.soru.split('?')[0]+': </span><span class="val">'+cevaplar[s.id]+'</span>' : '').filter(Boolean).join(' &nbsp;·&nbsp; ');
+            profil = sorular.map(s => '<span class="lbl">'+s.soru.split('?')[0]+': </span><span class="val">'+(cevaplar[s.id] || '—')+'</span>').join(' &nbsp;·&nbsp; ');
         } else {
-            profil = QUIZ_CONFIG.profilSabitler.filter(p => cevaplar[p.id]).map(p => '<span class="lbl">'+p.etiket+': </span><span class="val">'+cevaplar[p.id]+'</span>').join(' &nbsp;·&nbsp; ');
+            profil = QUIZ_CONFIG.profilSabitler.map(p => '<span class="lbl">'+p.etiket+': </span><span class="val">'+(cevaplar[p.id] || '—')+'</span>').join(' &nbsp;·&nbsp; ');
         }
         document.getElementById('profil-bar').innerHTML = profil;
     }
@@ -296,7 +283,7 @@
         });
     }
 
-    function renderKriterListesi(cevaplar, sorular, isOzel) {
+    function renderKriterListesi(cevaplar, sorular, isOzel, vitrinModu) {
         const list = document.getElementById('selections-list');
         list.innerHTML = '';
         const sabitIdler = QUIZ_CONFIG.profilSabitler.map(p => p.id);
@@ -316,14 +303,18 @@
         };
         for (let i = 0; i < sorular.length; i++) {
             const s = sorular[i];
-            if (!cevaplar[s.id]) continue;
             if (!isOzel && sabitIdler.includes(s.id)) continue;
-            if (negatifler.some(n => cevaplar[s.id].includes(n))) continue;
+            const cevapVar = !!cevaplar[s.id];
+            if (!vitrinModu) {
+                if (!cevapVar) continue;
+                if (negatifler.some(n => cevaplar[s.id].includes(n))) continue;
+            }
             const chip = document.createElement('div');
             chip.className = 'chip';
             chip.dataset.soruId = s.id;
             const label = labelMap[s.id] || s.soru.split(' ').slice(0,2).join(' ');
-            chip.innerHTML = '<span class="c-label">'+label+'</span><span class="c-value">'+cevaplar[s.id]+'</span><span class="c-check">✓</span>';
+            const deger = cevapVar ? cevaplar[s.id] : '';
+            chip.innerHTML = '<span class="c-label">'+label+'</span><span class="c-value">'+deger+'&nbsp;</span><span class="c-check">✓</span>';
             chip.style.borderColor = ['#378ADD','#1D9E75','#BA7517','#D4537E','#534AB7','#639922','#D85A30','#888780'][list.children.length % 8];
             chip.onclick = function() { toggleSelection(chip, s.id); };
             list.appendChild(chip);
