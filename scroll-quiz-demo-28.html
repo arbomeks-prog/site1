@@ -807,7 +807,7 @@ var KIME_ATLAMA_HARITASI = {
     "Kardeş": ["dogum"]
 };
 
-function disiplinKontrol(soruId) {
+function disiplinKontrol(soruId, engellenenIframeId) {
     var sira = aktifSoruSirasi();
     var idx = sira.indexOf(soruId);
     if (idx <= 0) return false; // ilk soru veya bulunamadı, kontrol gerekmiyor
@@ -827,16 +827,20 @@ function disiplinKontrol(soruId) {
         // değer taşır ama cevaplananlar objesine hiç yazılmamış olabilir)
         var cevaplanmis = cevaplananlar[oId] || (lsCevaplar[oId] !== undefined && lsCevaplar[oId] !== '');
         if (!cevaplanmis) {
+            // Engellenen sorunun iframe'indeki (henüz kabul edilmemiş) seçimi geri al
+            if (engellenenIframeId) {
+                setTimeout(function() { iframeYenile(engellenenIframeId); }, 50);
+            }
             var hedefBlok = document.getElementById('blok-' + oId);
             if (hedefBlok) {
                 hedefBlok.style.background = '#fff8e1';
-                hedefBlok.style.borderLeft = '3px solid #e8a838';
+                hedefBlok.style.borderLeft = '4px solid #e8a838';
                 hedefBlok.style.transition = 'all 0.3s';
                 hedefBlok.scrollIntoView({behavior:'smooth', block:'center'});
                 setTimeout(function() {
                     hedefBlok.style.background = '';
                     hedefBlok.style.borderLeft = '';
-                }, 1500);
+                }, 2200);
             }
             return true; // durduruldu
         }
@@ -880,7 +884,7 @@ window.addEventListener('message', function(e) {
         var sonrakiSayfa = e.data.sonrakiSayfa || '';
 
         // DİSİPLİN KONTROLÜ: önceki sorular cevaplanmadan bu soru işlenmesin
-        if (soruId !== 'kime' && disiplinKontrol(soruId)) {
+        if (soruId !== 'kime' && disiplinKontrol(soruId, soruId)) {
             return;
         }
 
