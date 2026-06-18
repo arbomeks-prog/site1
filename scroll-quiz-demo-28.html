@@ -107,6 +107,8 @@
     <iframe id="kime-iframe" src="hediye-kime-alinacak-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no"></iframe>
 </div>
 
+<div id="blok-ozel-akis" style="background:#fff;"></div>
+
 <div class="soru-blok" id="blok-cinsiyet">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
         <div class="soru-no">2. SORU</div>
@@ -600,6 +602,129 @@ var SORU_SIRASI = ["kime","cinsiyet","yas","tarz","hobiler","renk","amac","ortam
     "kitap","kahve","film","bitki","oyun","makyaj","aksesuar","mutfak",
     "doga","sanat","foto","kisilik","oncelik","dogum"];
 
+// ============================================================
+// DALLANMA: kime cevabı Bebek/Çocuk/Pet ise devreye giren özel setler.
+// config.js'deki QUIZ_CONFIG ile birebir aynı veri — ID ve sayfa adları
+// config.js değişirse burası da güncellenmeli.
+// ============================================================
+var OZEL_SETLER = {
+    bebekler: [
+        {id:"bebek_cinsiyet", soru:"Bebek kız mı erkek mi?", sayfa:"bebek-kiz-mi-erkek-mi-hediye-testi.html"},
+        {id:"bebek_yas", soru:"Kaç aylık / yaşında?", sayfa:"bebek-yasina-gore-hediye-testi.html"},
+        {id:"bebek_amac", soru:"Hediyeyi ne için alıyorsun?", sayfa:"bebek-hediyesi-ne-icin-alinacak-testi.html"},
+        {id:"bebek_tarz", soru:"Anne-baba tarzı nasıl?", sayfa:"anne-baba-tarzina-gore-bebek-hediyesi-testi.html"},
+        {id:"bebek_tur", soru:"Ne tür hediye tercih edersin?", sayfa:"bebege-ne-tur-hediye-alinacak-testi.html"},
+        {id:"bebek_butce", soru:"Bütçe aralığın nedir?", sayfa:"butceye-gore-bebek-hediyesi-testi.html"}
+    ],
+    cocuklar: [
+        {id:"cocuk_cinsiyet", soru:"Kız mı erkek mi?", sayfa:"cocuk-kiz-mi-erkek-mi-hediye-testi.html"},
+        {id:"cocuk_yas", soru:"Kaç yaşında?", sayfa:"cocugun-yasina-gore-hediye-testi.html"},
+        {id:"cocuk_amac", soru:"Hediyeyi ne için alıyorsun?", sayfa:"cocuga-ne-icin-hediye-alinacak-testi.html"},
+        {id:"cocuk_aktivite", soru:"En sevdiği aktivite nedir?", sayfa:"cocugun-aktivitesine-gore-hediye-testi.html"},
+        {id:"cocuk_tema", soru:"Favori tema / karakter kategorisi?", sayfa:"cocugun-sevdigi-temaya-gore-hediye-testi.html"},
+        {id:"cocuk_ortam", soru:"Daha çok nerede vakit geçiriyor?", sayfa:"cocugun-yasam-alanina-gore-hediye-testi.html"},
+        {id:"cocuk_tur", soru:"Ne tür hediye tercih edersin?", sayfa:"cocuga-ne-tur-hediye-alinacak-testi.html"},
+        {id:"cocuk_butce", soru:"Bütçe aralığın nedir?", sayfa:"butceye-gore-cocuk-hediyesi-testi.html"}
+    ],
+    petler: [
+        {id:"pet_tur", soru:"Hangi hayvan?", sayfa:"evcil-hayvan-icin-hediye-testi.html"}
+    ],
+    kedi: [
+        {id:"pet_tur", soru:"Hangi hayvan?", sayfa:"evcil-hayvan-icin-hediye-testi.html"},
+        {id:"kedi_yas", soru:"Kedi kaç yaşında?", sayfa:"kedinin-yasina-gore-hediye-testi.html"},
+        {id:"kedi_karakter", soru:"Karakteri nasıl?", sayfa:"kedinin-karakterine-gore-hediye-testi.html"},
+        {id:"kedi_ortam", soru:"Nerede yaşıyor?", sayfa:"kedinin-yasam-alanina-gore-hediye-testi.html"},
+        {id:"kedi_tur", soru:"Ne tür hediye düşünüyorsun?", sayfa:"kediye-ne-tur-hediye-alinacak-testi.html"},
+        {id:"kedi_butce", soru:"Bütçe aralığın nedir?", sayfa:"butceye-gore-kedi-hediyesi-testi.html"}
+    ],
+    kopek: [
+        {id:"pet_tur", soru:"Hangi hayvan?", sayfa:"evcil-hayvan-icin-hediye-testi.html"},
+        {id:"kopek_yas", soru:"Köpek kaç yaşında?", sayfa:"kopegin-yasina-gore-hediye-testi.html"},
+        {id:"kopek_irk", soru:"Irk büyüklüğü nasıl?", sayfa:"kopegin-irkina-gore-hediye-testi.html"},
+        {id:"kopek_karakter", soru:"Karakteri nasıl?", sayfa:"kopegin-karakterine-gore-hediye-testi.html"},
+        {id:"kopek_tur", soru:"Ne tür hediye düşünüyorsun?", sayfa:"kopege-ne-tur-hediye-alinacak-testi.html"},
+        {id:"kopek_butce", soru:"Bütçe aralığın nedir?", sayfa:"butceye-gore-kopek-hediyesi-testi.html"}
+    ],
+    kus: [
+        {id:"pet_tur", soru:"Hangi hayvan?", sayfa:"evcil-hayvan-icin-hediye-testi.html"},
+        {id:"kus_tur", soru:"Kuş türü nedir?", sayfa:"kus-turune-gore-hediye-testi.html"},
+        {id:"kus_kafes", soru:"Kafes durumu nasıl?", sayfa:"kus-kafesine-gore-hediye-testi.html"},
+        {id:"kus_hediye", soru:"Ne tür hediye düşünüyorsun?", sayfa:"kusa-ne-tur-hediye-alinacak-testi.html"},
+        {id:"kus_butce", soru:"Bütçe aralığın nedir?", sayfa:"butceye-gore-kus-hediyesi-testi.html"}
+    ],
+    balik: [
+        {id:"pet_tur", soru:"Hangi hayvan?", sayfa:"evcil-hayvan-icin-hediye-testi.html"},
+        {id:"balik_tip", soru:"Akvaryum türü nedir?", sayfa:"balik-tipine-gore-hediye-testi.html"},
+        {id:"balik_boyut", soru:"Akvaryum boyutu?", sayfa:"balik-boyutuna-gore-hediye-testi.html"},
+        {id:"balik_hediye", soru:"Ne tür hediye düşünüyorsun?", sayfa:"baliga-ne-tur-hediye-alinacak-testi.html"},
+        {id:"balik_butce", soru:"Bütçe aralığın nedir?", sayfa:"butceye-gore-balik-hediyesi-testi.html"}
+    ],
+    kucukpet: [
+        {id:"pet_tur", soru:"Hangi hayvan?", sayfa:"evcil-hayvan-icin-hediye-testi.html"},
+        {id:"kucukpet_yas", soru:"Yaşı ne kadar?", sayfa:"kucuk-evcil-hayvanin-yasina-gore-hediye-testi.html"},
+        {id:"kucukpet_yuva", soru:"Kafes / yuva durumu?", sayfa:"kucuk-evcil-hayvanin-yuvasina-gore-hediye-testi.html"},
+        {id:"kucukpet_hediye", soru:"Ne tür hediye düşünüyorsun?", sayfa:"kucuk-evcil-hayvana-ne-tur-hediye-testi.html"},
+        {id:"kucukpet_butce", soru:"Bütçe aralığın nedir?", sayfa:"butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html"}
+    ]
+};
+
+// kime cevabına göre hangi özel sete gidilecek
+var KIME_SET_HARITASI = {
+    "Bebek ❤️": "bebekler", "Bebek": "bebekler",
+    "Çocuk 🧒": "cocuklar", "Çocuk": "cocuklar",
+    "Pet ❤️": "petler", "Pet": "petler"
+};
+
+// pet_tur cevabına göre hangi pet alt-setine gidilecek
+function petAltSetiBul(petTurDegeri) {
+    if (petTurDegeri.indexOf('Kedi') !== -1) return 'kedi';
+    if (petTurDegeri.indexOf('Köpek') !== -1) return 'kopek';
+    if (petTurDegeri.indexOf('Kuş') !== -1) return 'kus';
+    if (petTurDegeri.indexOf('Balık') !== -1) return 'balik';
+    return 'kucukpet'; // Tavşan, Hamster, Egzotik/Diğer
+}
+
+// O an açık olan özel set adı ve içindeki kaç soru gösterildiği (DOM'a eklendi)
+var aktifOzelSet = null;
+var ozelSetGosterilenSayisi = 0;
+
+// Belirli bir özel-set sorusunu blok-ozel-akis'in içine ekler (varsa atlar)
+function ozelSetSoruEkle(setAdi, soruIdx) {
+    var setSorulari = OZEL_SETLER[setAdi];
+    if (!setSorulari || !setSorulari[soruIdx]) return;
+    var s = setSorulari[soruIdx];
+    var blokId = 'blok-' + s.id;
+    if (document.getElementById(blokId)) return; // zaten eklendi
+
+    var wrap = document.getElementById('blok-ozel-akis');
+    var div = document.createElement('div');
+    div.className = 'soru-blok';
+    div.id = blokId;
+    div.innerHTML =
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">' +
+            '<div class="soru-no">' + (soruIdx + 1) + '. SORU (özel akış)</div>' +
+        '</div>' +
+        '<h2 class="soru-baslik">' + s.soru + '</h2>' +
+        '<p class="soru-alt">👇 Seçmek için tıkla</p>' +
+        '<iframe id="iframe-' + s.id + '" src="' + s.sayfa + '?embed=1" style="width:100%;height:400px;border:none;" scrolling="no"></iframe>';
+    wrap.appendChild(div);
+    ozelSetGosterilenSayisi = soruIdx + 1;
+}
+
+// Özel set tamamlandığında (son sorusu cevaplandığında) özet+hediyeler bloklarını
+// blok-ozel-akis'in hemen altına taşır, böylece kullanıcı uzun bir boşluk
+// kaydırmadan özete ulaşır.
+function ozelSetTamamlandi() {
+    var ozelAkis = document.getElementById('blok-ozel-akis');
+    var ozet = document.getElementById('blok-ozet');
+    var hediyeler = document.getElementById('blok-hediyeler');
+    if (ozelAkis && ozet && hediyeler) {
+        ozelAkis.parentNode.insertBefore(ozet, ozelAkis.nextSibling);
+        ozelAkis.parentNode.insertBefore(hediyeler, ozet.nextSibling);
+    }
+    setTimeout(function() { tamamlandi(); }, 250);
+}
+
 function iframeYenile(soruId) {
     var iframe = document.getElementById('iframe-' + soruId) || document.getElementById('kime-iframe');
     if (!iframe) return;
@@ -632,19 +757,17 @@ window.addEventListener('message', function(e) {
 
     if (e.data.type === 'soru_cevaplandi') {
         var soruId = e.data.soruId;
+        var deger = e.data.deger;
         var sonrakiSayfa = e.data.sonrakiSayfa || '';
 
         // localStorage'a yaz
         try {
             var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
-            ls[soruId] = e.data.deger;
+            ls[soruId] = deger;
             localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
         } catch(ex) {}
 
-        // orijinal sec() mantığını taklit et: cevaplananlar güncelle, ses çal, gift box
-        cevaplananlar[soruId] = true;
-        var idx = SORU_SIRASI.indexOf(soruId);
-        if (idx >= 0) giftBoxGuncelle(idx);
+        // ses çal (hem normal hem özel akış soruları için)
         try {
             var ctx = new (window.AudioContext||window.webkitAudioContext)();
             var osc=ctx.createOscillator(),gain=ctx.createGain();
@@ -654,6 +777,84 @@ window.addEventListener('message', function(e) {
             gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.1);
             osc.start();osc.stop(ctx.currentTime+0.1);
         } catch(e2){}
+
+        // --- DALLANMA NOKTASI 1: kime cevabı Bebek/Çocuk/Pet mi? ---
+        if (soruId === 'kime' && KIME_SET_HARITASI[deger]) {
+            aktifOzelSet = KIME_SET_HARITASI[deger];
+            cevaplananlar['kime'] = true;
+            giftBoxGuncelle(0);
+            ozelSetSoruEkle(aktifOzelSet, 0);
+            setTimeout(function() {
+                var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
+                if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+            }, 300);
+            return;
+        }
+
+        // --- DALLANMA NOKTASI 2: pet_tur cevabına göre alt-pet setine geç ---
+        if (soruId === 'pet_tur') {
+            var altSet = petAltSetiBul(deger);
+            aktifOzelSet = altSet;
+            cevaplananlar['pet_tur'] = true;
+            ozelSetSoruEkle(altSet, 1); // pet_tur zaten 0. sorudaydı, 1. soruyu ekle
+            setTimeout(function() {
+                var el = document.getElementById('blok-' + OZEL_SETLER[altSet][1].id);
+                if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+            }, 300);
+            return;
+        }
+
+        // --- DALLANMA NOKTASI 3: Kardeş + Kız/Erkek Çocuğu seçilirse Çocuk setine atla ---
+        if (soruId === 'cinsiyet' && (deger === 'Kız Çocuğu' || deger === 'Erkek Çocuğu')) {
+            try {
+                var lsKime = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+                if (lsKime.kime === 'Kardeş') {
+                    aktifOzelSet = 'cocuklar';
+                    cevaplananlar['cinsiyet'] = true;
+                    // 1. çocuk sorusu (cocuk_cinsiyet) otomatik cevaplanmış sayılır
+                    var otomatikCevap = (deger === 'Kız Çocuğu') ? 'Kız' : 'Erkek';
+                    lsKime['cocuk_cinsiyet'] = otomatikCevap;
+                    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(lsKime));
+                    cevaplananlar['cocuk_cinsiyet'] = true;
+                    // Doğrudan 2. çocuk sorusunu (cocuk_yas) ekle
+                    ozelSetSoruEkle('cocuklar', 1);
+                    setTimeout(function() {
+                        var el = document.getElementById('blok-' + OZEL_SETLER['cocuklar'][1].id);
+                        if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+                    }, 300);
+                    return;
+                }
+            } catch(ex3) {}
+        }
+
+        // --- Eğer şu an bir özel set aktifse, sıradaki özel-set sorusunu ekle ---
+        if (aktifOzelSet && OZEL_SETLER[aktifOzelSet]) {
+            var setSorulari = OZEL_SETLER[aktifOzelSet];
+            var suankiIdx = -1;
+            for (var i = 0; i < setSorulari.length; i++) {
+                if (setSorulari[i].id === soruId) { suankiIdx = i; break; }
+            }
+            if (suankiIdx !== -1) {
+                cevaplananlar[soruId] = true;
+                var sonrakiIdx = suankiIdx + 1;
+                if (sonrakiIdx < setSorulari.length) {
+                    ozelSetSoruEkle(aktifOzelSet, sonrakiIdx);
+                    setTimeout(function() {
+                        var el = document.getElementById('blok-' + setSorulari[sonrakiIdx].id);
+                        if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+                    }, 300);
+                } else {
+                    // Özel setin son sorusu cevaplandı → özet'e geç
+                    ozelSetTamamlandi();
+                }
+                return;
+            }
+        }
+
+        // --- NORMAL AKIŞ (aktifOzelSet yoksa, standart 30 soru) ---
+        cevaplananlar[soruId] = true;
+        var idx = SORU_SIRASI.indexOf(soruId);
+        if (idx >= 0) giftBoxGuncelle(idx);
 
         // Sonraki soruyu bul
         var dosyaAdi = sonrakiSayfa.split('/').pop().split('?')[0];
