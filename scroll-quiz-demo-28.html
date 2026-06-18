@@ -804,9 +804,17 @@ function disiplinKontrol(soruId) {
     var idx = sira.indexOf(soruId);
     if (idx <= 0) return false; // ilk soru veya bulunamadı, kontrol gerekmiyor
 
+    var lsCevaplar = {};
+    try { lsCevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
+
     for (var i = 0; i < idx; i++) {
-        if (!cevaplananlar[sira[i]]) {
-            var hedefBlok = document.getElementById('blok-' + sira[i]);
+        var oId = sira[i];
+        // Hem bellekteki cevaplananlar hem localStorage'daki gerçek veri kontrol edilir
+        // (Anne/Baba gibi otomatik doldurulan veya atlanan sorular localStorage'da
+        // değer taşır ama cevaplananlar objesine hiç yazılmamış olabilir)
+        var cevaplanmis = cevaplananlar[oId] || (lsCevaplar[oId] !== undefined && lsCevaplar[oId] !== '');
+        if (!cevaplanmis) {
+            var hedefBlok = document.getElementById('blok-' + oId);
             if (hedefBlok) {
                 hedefBlok.style.background = '#fff8e1';
                 hedefBlok.style.borderLeft = '3px solid #e8a838';
