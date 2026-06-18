@@ -572,6 +572,17 @@ setTimeout(function() {
     var _butce = _cv.butce||'';
     var _yas = _cv.yas||'';
     var _cinsiyet = _cv.cinsiyet||'';
+
+    var _embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
+    if (_embedMod && window.parent !== window) {
+        // Embed modunda: parent'a veri gönder, popup'ı parent kendi üstünde göstersin
+        window.parent.postMessage({
+            type: 'kayit_popup_goster',
+            kime: _kime, kisiAdi: _kisiAdi, butce: _butce, yas: _yas, cinsiyet: _cinsiyet
+        }, '*');
+        return;
+    }
+
     // Avatar baş harfleri
     var _avatarMetin = (_kisiAdi||_kime||'?').replace(/\p{Emoji}/gu,'').trim();
     var _initials = _avatarMetin.split(' ').slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase()||'?';
