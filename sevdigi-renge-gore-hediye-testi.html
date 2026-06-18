@@ -289,9 +289,6 @@
         const soru = QuizHelper.getAktifSorular(SORU_ID).find(s => s.id === SORU_ID);
         document.getElementById('soru-baslik').textContent = soruNo + '. ' + (soru ? soru.soru : '');
 
-        // Espri notu
-
-
         // Gift box done/active durumları
         updateGiftBoxes();
 

@@ -31,9 +31,6 @@ function getAllSorular() {
 
 const tumSorular = getAllSorular();
 
-// Espri notları
-const espriNotlari = QUIZ_CONFIG.espriNotlari || {};
-
 // Statik seçenek HTML üret (SEO için)
 function buildSeceneklerHtml(soruId, secenekler) {
     if (!secenekler || secenekler.length === 0) return '';
@@ -55,7 +52,6 @@ for (const [soruId, data] of Object.entries(buildData)) {
         const soruObj = tumSorular[soruId];
         const soruMetin = soruObj ? soruObj.soru : '';
         const secenekler = soruObj ? soruObj.secenekler : [];
-        const espriNotu = espriNotlari[soruId] || '';
 
         // Statik seçenek HTML
         const seceneklerHtml = isDogum ? '' : buildSeceneklerHtml(soruId, secenekler);
@@ -74,7 +70,6 @@ for (const [soruId, data] of Object.entries(buildData)) {
         html = html.replace(/\{\{RESIM_URL\}\}/g, data.resimUrl);
         html = html.replace(/\{\{RESIM_ALT\}\}/g, data.resimAlt);
         html = html.replace(/\{\{SORU_METIN\}\}/g, soruMetin);
-        html = html.replace(/\{\{ESPRI_NOTU\}\}/g, espriNotu);
         html = html.replace(/\{\{SECENEKLER_HTML\}\}/g, seceneklerHtml);
 
         // Dogum sayfası için ekstra CSS ve JS ekle

@@ -172,8 +172,6 @@ else: print('OK depth:', depth)
 
 - `babalar-gunu-tanitim-v7-4.html` — quiz + fotoğraf geçişleri + şiir animasyonu (FINAL)
 - `ciglik-v7-10.html` — 3x4 ızgara Çığlık tablosu formatı
-- `hediye-bulucu.html` — accordion dark theme, commit 9bff492, üzerine yazma
-- `hediye-dedektifi.html` — branching logic, popup, progress bar
 
 ---
 
