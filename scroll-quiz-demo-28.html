@@ -799,6 +799,14 @@ function aktifSoruSirasi() {
 // Bir soru cevaplanmadan önce, ondan önceki TÜM sorular cevaplanmış mı kontrol eder.
 // Cevaplanmamış bir soru bulursa, o soruya direkt scroll eder ve true (durduruldu) döner.
 // Hepsi cevaplıysa false döner (cevap işlenebilir).
+// kime cevabına göre normal akıştan atlanması gereken sorular
+// (config.js QUIZ_CONFIG.dallanma.kime ile birebir aynı veri)
+var KIME_ATLAMA_HARITASI = {
+    "Anne": ["cinsiyet"],
+    "Baba": ["cinsiyet"],
+    "Kardeş": ["dogum"]
+};
+
 function disiplinKontrol(soruId) {
     var sira = aktifSoruSirasi();
     var idx = sira.indexOf(soruId);
@@ -807,8 +815,13 @@ function disiplinKontrol(soruId) {
     var lsCevaplar = {};
     try { lsCevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
 
+    var atlanmasiGerekenler = KIME_ATLAMA_HARITASI[lsCevaplar.kime] || [];
+
     for (var i = 0; i < idx; i++) {
         var oId = sira[i];
+        // Bu soru, mevcut kime cevabına göre zaten atlanması gereken bir soruysa kontrolden geç
+        if (atlanmasiGerekenler.indexOf(oId) !== -1) continue;
+
         // Hem bellekteki cevaplananlar hem localStorage'daki gerçek veri kontrol edilir
         // (Anne/Baba gibi otomatik doldurulan veya atlanan sorular localStorage'da
         // değer taşır ama cevaplananlar objesine hiç yazılmamış olabilir)
