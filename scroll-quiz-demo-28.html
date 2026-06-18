@@ -579,6 +579,9 @@ if (_baslangicKime) {
     }
 
     function dogumSec(btn, deger) {
+        // DİSİPLİN KONTROLÜ: önceki sorular cevaplanmadan dogum işlenmesin
+        if (disiplinKontrol('dogum')) return;
+
         // Butonu seç
         document.querySelectorAll('#dogum-butonlar .option-btn').forEach(function(b) { b.classList.remove('selected'); });
         btn.classList.add('selected');
@@ -785,6 +788,41 @@ function quizSifirla(yeniKime) {
     window.location.href = window.location.pathname;
 }
 
+// O anki geçerli soru sırasını döndürür (normal akış ya da aktif özel set)
+function aktifSoruSirasi() {
+    if (aktifOzelSet && OZEL_SETLER[aktifOzelSet]) {
+        return OZEL_SETLER[aktifOzelSet].map(function(s) { return s.id; });
+    }
+    return SORU_SIRASI;
+}
+
+// Bir soru cevaplanmadan önce, ondan önceki TÜM sorular cevaplanmış mı kontrol eder.
+// Cevaplanmamış bir soru bulursa, o soruya direkt scroll eder ve true (durduruldu) döner.
+// Hepsi cevaplıysa false döner (cevap işlenebilir).
+function disiplinKontrol(soruId) {
+    var sira = aktifSoruSirasi();
+    var idx = sira.indexOf(soruId);
+    if (idx <= 0) return false; // ilk soru veya bulunamadı, kontrol gerekmiyor
+
+    for (var i = 0; i < idx; i++) {
+        if (!cevaplananlar[sira[i]]) {
+            var hedefBlok = document.getElementById('blok-' + sira[i]);
+            if (hedefBlok) {
+                hedefBlok.style.background = '#fff8e1';
+                hedefBlok.style.borderLeft = '3px solid #e8a838';
+                hedefBlok.style.transition = 'all 0.3s';
+                hedefBlok.scrollIntoView({behavior:'smooth', block:'center'});
+                setTimeout(function() {
+                    hedefBlok.style.background = '';
+                    hedefBlok.style.borderLeft = '';
+                }, 1500);
+            }
+            return true; // durduruldu
+        }
+    }
+    return false;
+}
+
 function iframeYenile(soruId) {
     var iframe = document.getElementById('iframe-' + soruId) || document.getElementById('kime-iframe');
     if (!iframe) return;
@@ -819,6 +857,11 @@ window.addEventListener('message', function(e) {
         var soruId = e.data.soruId;
         var deger = e.data.deger;
         var sonrakiSayfa = e.data.sonrakiSayfa || '';
+
+        // DİSİPLİN KONTROLÜ: önceki sorular cevaplanmadan bu soru işlenmesin
+        if (soruId !== 'kime' && disiplinKontrol(soruId)) {
+            return;
+        }
 
         // localStorage'a yaz
         try {
