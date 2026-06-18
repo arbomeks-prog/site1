@@ -755,6 +755,9 @@ window.onload = function() {
     if (embedMod) {
         // Embed modunda: arama otomatik başlamaz, parent'tan tetik beklenir (vitrin modu)
         document.body.classList.add('hediye-vitrin');
+        // Footer scroll-quiz'de gereksiz boşluk yaratıyor, embed modunda gizlenir
+        var _footer = document.querySelector('footer');
+        if (_footer) _footer.style.display = 'none';
         if (window.parent !== window) {
             var container = document.querySelector('.max-w-6xl');
             function bildirimGonder() {
