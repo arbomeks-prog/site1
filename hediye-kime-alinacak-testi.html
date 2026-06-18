@@ -281,6 +281,18 @@
                 setTimeout(bildirimGonder, 500);
             }
         }
+        // Otomatik seçim: scroll-quiz sıfırlandıktan sonra parent bu mesajı göndererek
+        // kullanıcının önceki kime cevabını otomatik uygular
+        window.addEventListener('message', function(e) {
+            if (e.data && e.data.type === 'otomatik_secim') {
+                var butonlar = document.querySelectorAll('.option-btn');
+                butonlar.forEach(function(btn) {
+                    if (btn.textContent.trim() === e.data.deger) {
+                        btn.click();
+                    }
+                });
+            }
+        });
     };
 
     function updateGiftBoxes() {

@@ -441,6 +441,27 @@
 <script>
 localStorage.removeItem('budurBuldumCevaplar');
 
+// Eğer önceki oturumdan sıfırlama sonrası kime cevabı kaydedildiyse,
+// kime iframe'i yüklenince otomatik olarak o cevabı uygula
+var _baslangicKime = localStorage.getItem('budurBuldumBaslangicKime');
+if (_baslangicKime) {
+    localStorage.removeItem('budurBuldumBaslangicKime');
+    window.addEventListener('message', function _kimeOtomatik(e) {
+        if (e.data && e.data.type === 'iframe_height' && e.data.soruId === 'kime') {
+            window.removeEventListener('message', _kimeOtomatik);
+            var kimeIframe = document.getElementById('kime-iframe');
+            if (kimeIframe && kimeIframe.contentWindow) {
+                setTimeout(function() {
+                    kimeIframe.contentWindow.postMessage({
+                        type: 'otomatik_secim',
+                        deger: _baslangicKime
+                    }, '*');
+                }, 300);
+            }
+        }
+    });
+}
+
     var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
     var pexelsMap = {
         'kime':['gift family','couple gift','friends surprise','baby gift'],
@@ -726,7 +747,8 @@ function ozelSetTamamlandi() {
 }
 
 // kime cevabı değiştiğinde sayfayı sıfırdan yükle
-function quizSifirla() {
+function quizSifirla(yeniKime) {
+    localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
     window.location.href = window.location.pathname;
 }
 
@@ -787,7 +809,7 @@ window.addEventListener('message', function(e) {
         if (soruId === 'kime') {
             // Daha önce kime sorusu cevaplanmışsa (bu oturumda) → sıfırla
             if (cevaplananlar['kime']) {
-                quizSifirla();
+                quizSifirla(deger);
                 return;
             }
 
