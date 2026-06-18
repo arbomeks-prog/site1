@@ -225,6 +225,27 @@
             var hedef = qs.offsetTop - (window.innerHeight * 0.25);
             window.scrollTo({ top: hedef < 0 ? 0 : hedef });
         }
+
+        // Embed modu: sadece options-container göster
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            var cont = document.getElementById('options-container');
+            if (cont) {
+                Array.from(document.body.children).forEach(function(el) {
+                    if (el.tagName !== 'SCRIPT') el.style.display = 'none';
+                });
+                document.body.style.cssText = 'margin:0;padding:4px;background:transparent;';
+                cont.style.display = 'grid';
+                document.body.appendChild(cont);
+                function bildirimGonder() {
+                    var h = cont.scrollHeight + 16;
+                    window.parent.postMessage({ type: 'iframe_height', soruId: SORU_ID, height: h }, '*');
+                }
+                new MutationObserver(function() {
+                    setTimeout(bildirimGonder, 50);
+                }).observe(cont, { childList: true, subtree: true });
+                setTimeout(bildirimGonder, 500);
+            }
+        }
     };
 
     function updateGiftBoxes() {
@@ -318,6 +339,11 @@
         ileri.href = hedef;
         ileri.style.color = '#2563eb';
         ileri.style.pointerEvents = 'auto';
+
+        // Scroll Quiz: parent'a seçim sinyali gönder
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'soru_cevaplandi', soruId: SORU_ID, deger: deger, sonrakiSayfa: hedef }, '*');
+        }
     }
 
     // Çoklu seçim (hobiler)
