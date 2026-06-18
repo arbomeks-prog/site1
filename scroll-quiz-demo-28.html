@@ -785,13 +785,11 @@ window.addEventListener('message', function(e) {
 
         // --- DALLANMA NOKTASI 1: kime cevabı ---
         if (soruId === 'kime') {
-            // Daha önce farklı bir kime cevabı verildiyse sıfırla
-            try {
-                var eskiCevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
-                if (eskiCevaplar.kime && eskiCevaplar.kime !== deger) {
-                    quizSifirla(deger);
-                }
-            } catch(ex0) {}
+            // Daha önce kime sorusu cevaplanmışsa (bu oturumda) → sıfırla
+            if (cevaplananlar['kime']) {
+                quizSifirla();
+                return;
+            }
 
             cevaplananlar['kime'] = true;
             giftBoxGuncelle(0);
