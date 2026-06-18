@@ -872,6 +872,15 @@ window.addEventListener('message', function(e) {
                 if (lsKime.kime === 'Kardeş') {
                     aktifOzelSet = 'cocuklar';
                     cevaplananlar['cinsiyet'] = true;
+                    // Normal akış bloklarını gizle (cinsiyet dahil)
+                    var normalGizle = ['cinsiyet','yas','tarz','hobiler','renk','amac','ortam',
+                        'teknoloji','butce','mevsim','tatli','spor','muzik','hayvan','seyahat',
+                        'kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak',
+                        'doga','sanat','foto','kisilik','oncelik','dogum'];
+                    normalGizle.forEach(function(id) {
+                        var el = document.getElementById('blok-' + id);
+                        if (el) el.style.display = 'none';
+                    });
                     // 1. çocuk sorusu (cocuk_cinsiyet) otomatik cevaplanmış sayılır
                     var otomatikCevap = (deger === 'Kız Çocuğu') ? 'Kız' : 'Erkek';
                     lsKime['cocuk_cinsiyet'] = otomatikCevap;
