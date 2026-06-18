@@ -725,56 +725,9 @@ function ozelSetTamamlandi() {
     setTimeout(function() { tamamlandi(); }, 250);
 }
 
-// kime cevabı değiştiğinde tüm state'i temizler, sayfayı yeniden başlatır
-function quizSifirla(yeniKimeCevabi) {
-    // 1) localStorage sıfırla, yeni kime cevabıyla başlat
-    localStorage.setItem('budurBuldumCevaplar', JSON.stringify({kime: yeniKimeCevabi}));
-
-    // 2) cevaplananlar ve özel set state'ini sıfırla
-    cevaplananlar = {};
-    aktifOzelSet = null;
-    ozelSetGosterilenSayisi = 0;
-
-    // 3) blok-ozel-akis içini tamamen boşalt (dinamik eklenen tüm blokları sil)
-    var ozelAkis = document.getElementById('blok-ozel-akis');
-    if (ozelAkis) ozelAkis.innerHTML = '';
-
-    // 4) blok-ozet ve blok-hediyeler'i orijinal konumlarına taşı (en sona)
-    var ozet = document.getElementById('blok-ozet');
-    var hediyeler = document.getElementById('blok-hediyeler');
-    var parentEl = ozelAkis ? ozelAkis.parentNode : (ozet ? ozet.parentNode : null);
-    if (parentEl && ozet && hediyeler) {
-        parentEl.appendChild(ozet);
-        parentEl.appendChild(hediyeler);
-    }
-
-    // 5) Gift box'ları sıfırla
-    var boxes = document.querySelectorAll('.gift-box');
-    boxes.forEach(function(b) {
-        b.style.opacity = '0.3';
-        b.style.transform = 'scale(0.85)';
-    });
-
-    // 6) Özet iframe'ini sıfırla (eski sonuçları göstermesin)
-    var iframeOzet = document.getElementById('iframe-ozet');
-    if (iframeOzet) {
-        var src = iframeOzet.src.split('?')[0];
-        iframeOzet.src = src + '?t=' + Date.now();
-    }
-
-    // 7) Hediyeler iframe'ini sıfırla
-    var iframeHediyeler = document.getElementById('iframe-hediyeler');
-    if (iframeHediyeler) {
-        var srcH = iframeHediyeler.src.split('?')[0];
-        iframeHediyeler.src = srcH + '?t=' + Date.now();
-    }
-
-    // 8) kime iframe'ini sıfırla (seçim vurgusunu temizlesin)
-    var kimeIframe = document.getElementById('kime-iframe');
-    if (kimeIframe) {
-        var srcK = kimeIframe.src.split('?')[0];
-        kimeIframe.src = srcK + '?embed=1&t=' + Date.now();
-    }
+// kime cevabı değiştiğinde sayfayı sıfırdan yükle
+function quizSifirla() {
+    window.location.reload();
 }
 
 function iframeYenile(soruId) {
