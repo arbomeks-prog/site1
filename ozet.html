@@ -466,6 +466,12 @@
     function showGifts() {
         localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(selectedCriteria));
         localStorage.setItem('budurBuldumSecilenBurc', secilenBurc || '');
+        const embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
+        if (embedMod && window.parent !== window) {
+            // Embed modunda: parent'a sinyal gönder, popup'ı parent kendi üstünde göstersin
+            window.parent.postMessage({ type: 'butce_popup_goster' }, '*');
+            return;
+        }
         // Popup aç
         document.getElementById('butce-popup').style.display = 'flex';
     }
@@ -489,6 +495,13 @@
             window.location.href = 'hediyeler.html';
         }
     }
+
+    // Parent'taki bütçe popup'ından gelen seçimi yakala (embed modunda)
+    window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'butce_secimi') {
+            butceSecimYapVeGit(e.data.esnek);
+        }
+    });
 </script>
 
 <!-- Bütçe Popup -->
