@@ -570,8 +570,25 @@ setTimeout(function() {
     var _kisiAdi = localStorage.getItem('budurBuldumKisiAdi_'+_sid)||'';
     var _kime = _cv.kime||'';
     var _butce = _cv.butce||'';
+
+    // kime cevabına göre doğru yaş/cinsiyet/bütçe alanını seç
+    // (Bebek/Çocuk/Pet özel setlerinde yaş ve bütçe kendi alan adlarında tutulur)
     var _yas = _cv.yas||'';
     var _cinsiyet = _cv.cinsiyet||'';
+    if (_kime === 'Bebek ❤️' || _kime === 'Bebek') {
+        _yas = _cv.bebek_yas || _yas;
+        _cinsiyet = _cv.bebek_cinsiyet || _cinsiyet;
+        _butce = _cv.bebek_butce || _butce;
+    } else if (_kime === 'Çocuk 🧒' || _kime === 'Çocuk' || _cv.cocuk_cinsiyet) {
+        _yas = _cv.cocuk_yas || _yas;
+        _cinsiyet = _cv.cocuk_cinsiyet || _cinsiyet;
+        _butce = _cv.cocuk_butce || _butce;
+    } else if (_kime === 'Pet ❤️' || _kime === 'Pet') {
+        var _petButceler = [_cv.kedi_butce, _cv.kopek_butce, _cv.kus_butce, _cv.balik_butce, _cv.kucukpet_butce];
+        _butce = _petButceler.filter(Boolean)[0] || _butce;
+        _yas = _cv.kedi_yas || _cv.kopek_yas || _cv.kucukpet_yas || _yas;
+        _cinsiyet = _cv.pet_tur || _cinsiyet;
+    }
 
     var _embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
     if (_embedMod && window.parent !== window) {
