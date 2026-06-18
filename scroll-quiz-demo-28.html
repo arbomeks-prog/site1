@@ -710,24 +710,45 @@ var aktifOzelSet = null;
 var ozelSetGosterilenSayisi = 0;
 
 // Belirli bir özel-set sorusunu blok-ozel-akis'in içine ekler (varsa atlar)
+// Bir özel setin TÜM sorularını blok-ozel-akis'e aynı anda ekler
+function ozelSetTumSorularEkle(setAdi) {
+    var setSorulari = OZEL_SETLER[setAdi];
+    if (!setSorulari) return;
+
+    // Normal akış bloklarını gizle
+    var normalGizlenecekler = ['cinsiyet','yas','tarz','hobiler','renk','amac','ortam',
+        'teknoloji','butce','mevsim','tatli','spor','muzik','hayvan','seyahat',
+        'kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak',
+        'doga','sanat','foto','kisilik','oncelik','dogum'];
+    normalGizlenecekler.forEach(function(id) {
+        var el = document.getElementById('blok-' + id);
+        if (el) el.style.display = 'none';
+    });
+
+    var wrap = document.getElementById('blok-ozel-akis');
+    setSorulari.forEach(function(s, soruIdx) {
+        if (document.getElementById('blok-' + s.id)) return;
+        var div = document.createElement('div');
+        div.className = 'soru-blok';
+        div.id = 'blok-' + s.id;
+        div.innerHTML =
+            '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">' +
+                '<div class="soru-no">' + (soruIdx + 1) + '. SORU (özel akış)</div>' +
+            '</div>' +
+            '<h2 class="soru-baslik">' + s.soru + '</h2>' +
+            '<p class="soru-alt">👇 Seçmek için tıkla</p>' +
+            '<iframe id="iframe-' + s.id + '" src="' + s.sayfa + '?embed=1" style="width:100%;height:400px;border:none;" scrolling="no"></iframe>';
+        wrap.appendChild(div);
+    });
+}
+
+// Tek bir soruyu ekler (pet ikinci kademe için)
 function ozelSetSoruEkle(setAdi, soruIdx) {
     var setSorulari = OZEL_SETLER[setAdi];
     if (!setSorulari || !setSorulari[soruIdx]) return;
     var s = setSorulari[soruIdx];
     var blokId = 'blok-' + s.id;
-    if (document.getElementById(blokId)) return; // zaten eklendi
-
-    // İlk özel-set sorusu eklenirken normal akış bloklarını gizle
-    if (soruIdx === 0) {
-        var normalGizlenecekler = ['cinsiyet','yas','tarz','hobiler','renk','amac','ortam',
-            'teknoloji','butce','mevsim','tatli','spor','muzik','hayvan','seyahat',
-            'kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak',
-            'doga','sanat','foto','kisilik','oncelik','dogum'];
-        normalGizlenecekler.forEach(function(id) {
-            var el = document.getElementById('blok-' + id);
-            if (el) el.style.display = 'none';
-        });
-    }
+    if (document.getElementById(blokId)) return;
 
     var wrap = document.getElementById('blok-ozel-akis');
     var div = document.createElement('div');
@@ -829,9 +850,9 @@ window.addEventListener('message', function(e) {
             giftBoxGuncelle(0);
 
             if (KIME_SET_HARITASI[deger]) {
-                // Bebek / Çocuk / Pet → özel set aç
+                // Bebek / Çocuk / Pet → özel set tüm soruları aç
                 aktifOzelSet = KIME_SET_HARITASI[deger];
-                ozelSetSoruEkle(aktifOzelSet, 0);
+                ozelSetTumSorularEkle(aktifOzelSet);
                 setTimeout(function() {
                     var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
                     if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
@@ -857,7 +878,11 @@ window.addEventListener('message', function(e) {
             var altSet = petAltSetiBul(deger);
             aktifOzelSet = altSet;
             cevaplananlar['pet_tur'] = true;
-            ozelSetSoruEkle(altSet, 1); // pet_tur zaten 0. sorudaydı, 1. soruyu ekle
+            // pet_tur (index 0) zaten var, index 1'den itibaren geri kalanları ekle
+            var altSorulari = OZEL_SETLER[altSet];
+            for (var pi = 1; pi < altSorulari.length; pi++) {
+                ozelSetSoruEkle(altSet, pi);
+            }
             setTimeout(function() {
                 var el = document.getElementById('blok-' + OZEL_SETLER[altSet][1].id);
                 if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
@@ -886,8 +911,11 @@ window.addEventListener('message', function(e) {
                     lsKime['cocuk_cinsiyet'] = otomatikCevap;
                     localStorage.setItem('budurBuldumCevaplar', JSON.stringify(lsKime));
                     cevaplananlar['cocuk_cinsiyet'] = true;
-                    // Doğrudan 2. çocuk sorusunu (cocuk_yas) ekle
-                    ozelSetSoruEkle('cocuklar', 1);
+                    // index 1'den itibaren tüm çocuk sorularını ekle (cocuk_cinsiyet atlanıyor)
+                    var cocukSorulari = OZEL_SETLER['cocuklar'];
+                    for (var ci = 1; ci < cocukSorulari.length; ci++) {
+                        ozelSetSoruEkle('cocuklar', ci);
+                    }
                     setTimeout(function() {
                         var el = document.getElementById('blok-' + OZEL_SETLER['cocuklar'][1].id);
                         if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
