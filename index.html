@@ -372,13 +372,20 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 </div>
 
 <script>
-// Bir aramanın üst şeritte kart olarak tutulmaya değer sayılıp sayılmayacağını belirler.
-// Normal akışta "hobiler" sorusuna ulaşılmışsa kayda değer kabul edilir; Bebek/Çocuk/Pet
-// gibi daha kısa özel akışlarda eşdeğer bir derinlik (kime hariç en az 3 cevap) kullanılır.
+// Bir aramanın üst şeritte kart olarak KALICI tutulmaya değer sayılıp sayılmayacağını belirler.
+// Normal akışta SADECE "hobiler" sorusu cevaplanmışsa kayda değer kabul edilir — kime hariç
+// 3 cevap kuralı normal akışa UYGULANMAZ (önceki hata: bu satır aktifOzelSet kontrolü
+// yapmadan her akışta tetikleniyordu, hobiler'e gelmeden kart kalıcı oluyordu).
+// Bebek/Çocuk/Pet gibi özel akışlarda "hobiler" sorusu hiç yok; eşdeğer derinlik olarak
+// kime hariç en az 3 cevap kullanılır — typeof kontrolü, bu fonksiyon aktifOzelSet
+// tanımlanmadan önce (sayfa yüklenirken) çağrılırsa hata vermesin diye.
 function sqAramaKaydaDegerMi(cv) {
-    if (cv.hobiler) return true;
-    var digerCevapSayisi = Object.keys(cv).filter(function(k){ return k !== 'kime'; }).length;
-    return digerCevapSayisi >= 3;
+    var ozelAkisMi = (typeof aktifOzelSet !== 'undefined' && !!aktifOzelSet);
+    if (ozelAkisMi) {
+        var digerCevapSayisi = Object.keys(cv).filter(function(k){ return k !== 'kime'; }).length;
+        return digerCevapSayisi >= 3;
+    }
+    return !!cv.hobiler;
 }
 </script>
 <script>
@@ -1456,13 +1463,15 @@ function sqKimeIsimPopupAc(kimeDegeri, devamFn) {
     document.getElementById('kisi-ismi-popup').style.display = 'flex';
 }
 
-// İsim popup'ı kapanırken çağrılır. Ayraç/kart oluşturma işini artık doğrudan
-// yapmıyor — sadece ismi kaydedip eşik kontrolünü tetikliyor. Asıl kayıt/render
-// işi sqKartEsikKontrolVeOlustur() içinde, eşik gerçekten karşılanırsa yapılır
-// (eski koşulsuz davranış: kime cevaplanır cevaplanmaz kart oluşuyordu — kaldırıldı).
+// İsim popup'ı kapanırken çağrılır. Görsel kartı (üst şeritteki anlık kart) HER
+// DURUMDA hemen gösterir — isim verilse de verilmese de. Bu sadece görsel geri
+// bildirimdir, henüz KALICI değildir. Kalıcı kayıt (localStorage'daki ayraç
+// listesine yazma) yalnızca sqKartEsikKontrolVeOlustur() içinde, eşik (normal
+// akışta hobiler, özel akışta 3 cevap) gerçekten karşılanınca yapılır.
 function sqKimeIsmiKaydetVeDevam(isim) {
     var _sid = localStorage.getItem('budurBuldumSessionId') || '';
     if (_sid) localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
+    sqAnlikKartGuncelle(_sqKimeDegeri, isim);
     sqKartEsikKontrolVeOlustur();
     document.getElementById('kisi-ismi-popup').style.display = 'none';
     if (typeof _sqKimeContinue === 'function') {
@@ -1473,9 +1482,9 @@ function sqKimeIsmiKaydetVeDevam(isim) {
 }
 
 // Hem isim popup'ı kapanırken hem her cevap kaydından sonra çağrılır.
-// Arama henüz kayda değer eşiğine (hobiler cevaplanmış veya kime hariç >=3
-// cevap — bkz. sqAramaKaydaDegerMi) ulaşmadıysa hiçbir şey yapmaz; ayraç
-// kaydı ve üst şeritteki kart SADECE eşiğe ulaşıldığı an gerçekten oluşur.
+// Arama henüz kayda değer eşiğine ulaşmadıysa (normal akışta hobiler cevaplanmamış,
+// özel akışta kime hariç 3 cevaba ulaşılmamış — bkz. sqAramaKaydaDegerMi) hiçbir
+// şey yapmaz; ayraç kaydı (KALICI liste) SADECE eşiğe ulaşıldığı an gerçekten oluşur.
 function sqKartEsikKontrolVeOlustur() {
     var sid = localStorage.getItem('budurBuldumSessionId');
     if (!sid) return;
@@ -1541,14 +1550,17 @@ function sqAnlikKartGuncelle(kime, isim) {
 }
 
 // Hediyeler bölümüne ulaşılınca (quiz fiilen tamamlanmış sayılır) bu oturumun
-// kart kaydını tamamlandi:true yapar. budurBuldumAyraclar listesinde hiçbir yerde
-// bu alana true atayan kod yoktu (eski çok sayfalı yapıda da eksikti) — bu yüzden
-// kartlar hep "Yarım kaldı" olarak kalıyordu.
+// kart kaydını tamamlandi:true yapar. Eşik (hobiler/3 cevap) hiç karşılanmamış
+// olsa da, arama gerçekten tamamlanıp hediyeler görüldüyse kart HER ZAMAN kalıcı
+// olur — bu yüzden kayıt yoksa burada sıfırdan oluşturuluyor, sadece var olanı
+// güncellemekle kalınmıyor.
 function sqAyracTamamlandiIsaretle() {
     var sid = localStorage.getItem('budurBuldumSessionId');
     if (!sid) return;
     localStorage.setItem('budurBuldumTamamlandi', '1');
     try {
+        var cv = {};
+        try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(exCv) {}
         var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
         var idx = -1;
         for (var i = 0; i < ayraclar.length; i++) {
@@ -1556,8 +1568,15 @@ function sqAyracTamamlandiIsaretle() {
         }
         if (idx >= 0) {
             ayraclar[idx].tamamlandi = true;
-            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
+            ayraclar[idx].cevaplar = cv;
+        } else {
+            var kime = cv.kime || _sqKimeDegeri || '';
+            var isim = localStorage.getItem('budurBuldumKisiAdi_' + sid) || '';
+            if (kime) {
+                ayraclar.push({ sessionId: sid, kime: kime, kisiAdi: isim, cevaplar: cv, tamamlandi: true });
+            }
         }
+        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
     } catch(ex) {}
     // Ekranda zaten görünen kartı da (sayfa yenilenmeden) tamamlandı görünümüne çevir
     try {
