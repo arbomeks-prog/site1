@@ -372,6 +372,16 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 </div>
 
 <script>
+// Bir aramanın üst şeritte kart olarak tutulmaya değer sayılıp sayılmayacağını belirler.
+// Normal akışta "hobiler" sorusuna ulaşılmışsa kayda değer kabul edilir; Bebek/Çocuk/Pet
+// gibi daha kısa özel akışlarda eşdeğer bir derinlik (kime hariç en az 3 cevap) kullanılır.
+function sqAramaKaydaDegerMi(cv) {
+    if (cv.hobiler) return true;
+    var digerCevapSayisi = Object.keys(cv).filter(function(k){ return k !== 'kime'; }).length;
+    return digerCevapSayisi >= 3;
+}
+</script>
+<script>
 (function() {
   // Ayraç listesinden kartları göster
   try {
@@ -385,6 +395,9 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
       for (var j = 0; j < ayraclar.length; j++) {
         if (ayraclar[j].sessionId === aktifSid) { aktifIdx = j; break; }
       }
+      // Arama henüz kayda değer eşiğine ulaşmadıysa ve listede de yoksa,
+      // gereksiz "yarım kaldı" kartı oluşturmamak için listeye eklemiyoruz.
+      if (aktifIdx >= 0 || sqAramaKaydaDegerMi(cv)) {
       var aktifAyrac = {
         sessionId: aktifSid,
         kime: cv.kime || '',
@@ -401,6 +414,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
       }
       else { ayraclar.push(aktifAyrac); }
       localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
+      }
     }
 
     if (ayraclar.length === 0) return;
@@ -1337,6 +1351,23 @@ function ozelSetTamamlandi() {
 
 // kime cevabı değiştiğinde sayfayı sıfırdan yükle
 function quizSifirla(yeniKime) {
+    // Şu anki arama kayda değerse (hobiler'e ulaşmış veya tamamlanmışsa) eski kartın
+    // üzerine yazılmaması için yeni bir session_id üretiyoruz; değilse aynı session_id
+    // kullanılmaya devam eder (kaybedilen bir şey olmadığı için gerek yok).
+    var _sid = localStorage.getItem('budurBuldumSessionId');
+    var _cv = {};
+    try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
+    var _tamamlandi = false;
+    try {
+        var _ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+        for (var _i = 0; _i < _ayraclar.length; _i++) {
+            if (_ayraclar[_i].sessionId === _sid) { _tamamlandi = !!_ayraclar[_i].tamamlandi; break; }
+        }
+    } catch(ex2) {}
+    if (_tamamlandi || sqAramaKaydaDegerMi(_cv)) {
+        var _yeniSid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
+        localStorage.setItem('budurBuldumSessionId', _yeniSid);
+    }
     localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
     window.location.href = window.location.pathname;
 }
