@@ -13,12 +13,12 @@
         *:focus-within { outline:none !important; }
         body { background:#F9F9F9; margin:0; overflow-x:hidden; }
         *:focus, *:focus-visible, *:active { outline:none !important; }
-        .option-btn:active:not(.selected) { background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%) !important; box-shadow:2px 3px 6px rgba(0,0,0,0.15) !important; border-color:#ced4da !important; border-bottom-color:#adb5bd !important; transform:none !important; }
+        .sq-option-btn:active:not(.selected) { background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%) !important; box-shadow:2px 3px 6px rgba(0,0,0,0.15) !important; border-color:#ced4da !important; border-bottom-color:#adb5bd !important; transform:none !important; }
         button { -webkit-appearance:none; -webkit-tap-highlight-color:transparent !important; user-select:none; }
-        .option-btn { width:100%; text-align:left; padding:12px 10px; font-size:14px; -webkit-tap-highlight-color:transparent !important; }
-        .option-btn:focus, .option-btn:focus-visible, .option-btn:active { outline:none !important; border:none !important; box-shadow:0 0 0 2px #ced4da, 0 0 0 3px #adb5bd, 2px 3px 6px rgba(0,0,0,0.15) !important; transform:none !important; background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%) !important; }
-        .option-btn.selected:focus, .option-btn.selected:active { background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%) !important; border:none !important; box-shadow:0 0 0 2px #10b981, inset 0 2px 4px rgba(0,0,0,0.1) !important; }
-        .option-btn { width:100%; text-align:left; padding:12px 10px; font-size:14px;
+        .sq-option-btn { width:100%; text-align:left; padding:12px 10px; font-size:14px; -webkit-tap-highlight-color:transparent !important; }
+        .sq-option-btn:focus, .sq-option-btn:focus-visible, .sq-option-btn:active { outline:none !important; border:none !important; box-shadow:0 0 0 2px #ced4da, 0 0 0 3px #adb5bd, 2px 3px 6px rgba(0,0,0,0.15) !important; transform:none !important; background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%) !important; }
+        .sq-option-btn.selected:focus, .sq-option-btn.selected:active { background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%) !important; border:none !important; box-shadow:0 0 0 2px #10b981, inset 0 2px 4px rgba(0,0,0,0.1) !important; }
+        .sq-option-btn { width:100%; text-align:left; padding:12px 10px; font-size:14px;
             transition:all 0.15s ease;
             background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%);
             border:none !important; outline:none !important;
@@ -28,21 +28,21 @@
             -webkit-tap-highlight-color:transparent !important;
         }
         @media (hover:hover) {
-            .option-btn:hover {
+            .sq-option-btn:hover {
                 background:linear-gradient(180deg,#ffffff 0%,#f1f3f5 100%);
                 box-shadow:2px 3px 12px rgba(99,102,241,0.25),0 0 0 2px rgba(99,102,241,0.15);
                 border-color:#6366f1; border-bottom-color:#4f46e5; transform:translateY(-1px);
             }
         }
-        .option-btn.selected {
+        .sq-option-btn.selected {
             background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%);
             border:none !important; outline:none !important;
             box-shadow:0 0 0 2px #10b981, inset 0 2px 4px rgba(0,0,0,0.1);
             color:#065f46; font-weight:700; transform:translateY(2px);
         }
-        .option-btn.selected .opt-check { background:#10b981; border-color:#10b981; color:white; }
-        .option-btn.selected .opt-check::after { content:"✔"; }
-        .opt-check {
+        .sq-option-btn.selected .sq-opt-check { background:#10b981; border-color:#10b981; color:white; }
+        .sq-option-btn.selected .sq-opt-check::after { content:"✔"; }
+        .sq-opt-check {
             width:20px; height:20px; min-width:20px; border-radius:5px; border:2px solid #ced4da;
             background:white; display:inline-flex; align-items:center; justify-content:center;
             font-size:13px; font-weight:900; flex-shrink:0;
@@ -397,7 +397,7 @@
     <p class="soru-alt">👇 Biliyorsan seç, bilmiyorsan "Bilmiyorum" de</p>
     <div id="dogum-burc-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px;"></div>
     <div id="dogum-butonlar">
-        <button class="option-btn" onclick="dogumSec(this, 'Bilmiyorum')" style="width:100%;padding:14px;border-radius:14px;border:2px solid #e2e8f0;background:white;font-size:15px;font-weight:700;color:#475569;cursor:pointer;">Bilmiyorum</button>
+        <button class="sq-option-btn" onclick="dogumSec(this, 'Bilmiyorum')" style="width:100%;padding:14px;border-radius:14px;border:2px solid #e2e8f0;background:white;font-size:15px;font-weight:700;color:#475569;cursor:pointer;">Bilmiyorum</button>
     </div>
 </div>
 
@@ -507,7 +507,7 @@ if (_baslangicKime) {
         }).catch(function(){});
     }
     // Samsung browser focus fix - tüm butonlara touch blur ekle
-    document.querySelectorAll('.option-btn').forEach(function(btn) {
+    document.querySelectorAll('.sq-option-btn').forEach(function(btn) {
         btn.addEventListener('touchstart', function() {
             var self = this;
             setTimeout(function() { self.blur(); }, 0);
@@ -562,7 +562,7 @@ if (_baslangicKime) {
         }
 
         setTimeout(function(){btn.blur();},0);
-        btn.closest('.soru-blok').querySelectorAll('.option-btn').forEach(function(b) { b.classList.remove('selected'); setTimeout(function(){b.blur();},0); });
+        btn.closest('.soru-blok').querySelectorAll('.sq-option-btn').forEach(function(b) { b.classList.remove('selected'); setTimeout(function(){b.blur();},0); });
         btn.classList.add('selected');
         cevaplananlar[soruId] = true;
         try {
@@ -583,7 +583,7 @@ if (_baslangicKime) {
         if (disiplinKontrol('dogum')) return;
 
         // Butonu seç
-        document.querySelectorAll('#dogum-butonlar .option-btn').forEach(function(b) { b.classList.remove('selected'); });
+        document.querySelectorAll('#dogum-butonlar .sq-option-btn').forEach(function(b) { b.classList.remove('selected'); });
         btn.classList.add('selected');
         if(typeof BudurSes!=='undefined') BudurSes.tik();
         // localStorage'a yaz
