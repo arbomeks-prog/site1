@@ -1456,43 +1456,66 @@ function sqKimeIsimPopupAc(kimeDegeri, devamFn) {
     document.getElementById('kisi-ismi-popup').style.display = 'flex';
 }
 
-// Ayraç listesine kayıt + /api/save-profile çağrısı + üst şeritteki anlık kartı güncelleme
-// (eski _quizeGec içindeki aynı mantık, sayfa yönlendirmesi olmadan)
+// İsim popup'ı kapanırken çağrılır. Ayraç/kart oluşturma işini artık doğrudan
+// yapmıyor — sadece ismi kaydedip eşik kontrolünü tetikliyor. Asıl kayıt/render
+// işi sqKartEsikKontrolVeOlustur() içinde, eşik gerçekten karşılanırsa yapılır
+// (eski koşulsuz davranış: kime cevaplanır cevaplanmaz kart oluşuyordu — kaldırıldı).
 function sqKimeIsmiKaydetVeDevam(isim) {
     var _sid = localStorage.getItem('budurBuldumSessionId') || '';
     if (_sid) localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
-    var _nick = localStorage.getItem('budurBuldumNickname') || '';
-    var cevaplar = {};
-    try { cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
-    if (_sid) {
-        try {
-            var _ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
-            var _idx = -1;
-            for (var _j = 0; _j < _ayraclar.length; _j++) {
-                if (_ayraclar[_j].sessionId === _sid) { _idx = _j; break; }
-            }
-            if (_idx >= 0) {
-                _ayraclar[_idx].kisiAdi = isim;
-                _ayraclar[_idx].kime = _sqKimeDegeri;
-                _ayraclar[_idx].cevaplar = cevaplar;
-            } else {
-                _ayraclar.push({ sessionId: _sid, kime: _sqKimeDegeri, kisiAdi: isim, cevaplar: cevaplar, tamamlandi: false });
-            }
-            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_ayraclar));
-        } catch(ex2) {}
-        fetch('/api/save-profile', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ session_id: _sid, nickname: _nick, kisi_adi: isim, tum_cevaplar: cevaplar })
-        }).catch(function(ex3) {});
-    }
-    // Üst şeritte anlık kartı göster/güncelle (eski kimesec içindeki aynı mantık)
-    sqAnlikKartGuncelle(_sqKimeDegeri, isim);
+    sqKartEsikKontrolVeOlustur();
     document.getElementById('kisi-ismi-popup').style.display = 'none';
     if (typeof _sqKimeContinue === 'function') {
         var fn = _sqKimeContinue;
         _sqKimeContinue = null;
         fn();
+    }
+}
+
+// Hem isim popup'ı kapanırken hem her cevap kaydından sonra çağrılır.
+// Arama henüz kayda değer eşiğine (hobiler cevaplanmış veya kime hariç >=3
+// cevap — bkz. sqAramaKaydaDegerMi) ulaşmadıysa hiçbir şey yapmaz; ayraç
+// kaydı ve üst şeritteki kart SADECE eşiğe ulaşıldığı an gerçekten oluşur.
+function sqKartEsikKontrolVeOlustur() {
+    var sid = localStorage.getItem('budurBuldumSessionId');
+    if (!sid) return;
+    var cv = {};
+    try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
+    if (!sqAramaKaydaDegerMi(cv)) return;
+
+    var kime = cv.kime || _sqKimeDegeri || '';
+    if (!kime) return;
+    var isim = localStorage.getItem('budurBuldumKisiAdi_' + sid) || '';
+
+    var yeniKayit = false;
+    try {
+        var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+        var idx = -1;
+        for (var i = 0; i < ayraclar.length; i++) {
+            if (ayraclar[i].sessionId === sid) { idx = i; break; }
+        }
+        yeniKayit = (idx < 0);
+        if (idx >= 0) {
+            ayraclar[idx].kisiAdi = isim;
+            ayraclar[idx].kime = kime;
+            ayraclar[idx].cevaplar = cv;
+        } else {
+            ayraclar.push({ sessionId: sid, kime: kime, kisiAdi: isim, cevaplar: cv, tamamlandi: false });
+        }
+        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
+    } catch(ex2) {}
+
+    // Üst şeritte anlık kartı göster/güncelle (eski kimesec içindeki aynı mantık)
+    sqAnlikKartGuncelle(kime, isim);
+
+    // Backend profil kaydı sadece kart ilk kez oluşurken tetiklenir (her cevapta spam etmesin)
+    if (yeniKayit) {
+        var nick = localStorage.getItem('budurBuldumNickname') || '';
+        fetch('/api/save-profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session_id: sid, nickname: nick, kisi_adi: isim, tum_cevaplar: cv })
+        }).catch(function(ex3) {});
     }
 }
 
@@ -1596,6 +1619,10 @@ window.addEventListener('message', function(e) {
             ls[soruId] = deger;
             localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
         } catch(ex) {}
+
+        // Eşik kontrolü: bu cevapla birlikte arama kayda değer hale geldiyse
+        // ayraç/kart şimdi, bu noktada gerçekten oluşur (bkz. sqKartEsikKontrolVeOlustur)
+        sqKartEsikKontrolVeOlustur();
 
         // ses çal (hem normal hem özel akış soruları için)
         try {
