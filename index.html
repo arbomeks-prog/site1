@@ -415,6 +415,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
       var renk = RENKLER[i % RENKLER.length];
       var initials = (a.kime || '?').substring(0, 2).toUpperCase();
       var kart = document.createElement('div');
+      kart.setAttribute('data-kart-sid', a.sessionId);
 
       if (a.tamamlandi) {
         kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #e8a838;border-radius:12px;padding:12px;cursor:pointer;';
@@ -1485,6 +1486,38 @@ function sqAnlikKartGuncelle(kime, isim) {
         '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+kime+(isim ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+isim+'</span>' : '')+'</p>';
 }
 
+// Hediyeler bölümüne ulaşılınca (quiz fiilen tamamlanmış sayılır) bu oturumun
+// kart kaydını tamamlandi:true yapar. budurBuldumAyraclar listesinde hiçbir yerde
+// bu alana true atayan kod yoktu (eski çok sayfalı yapıda da eksikti) — bu yüzden
+// kartlar hep "Yarım kaldı" olarak kalıyordu.
+function sqAyracTamamlandiIsaretle() {
+    var sid = localStorage.getItem('budurBuldumSessionId');
+    if (!sid) return;
+    localStorage.setItem('budurBuldumTamamlandi', '1');
+    try {
+        var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+        var idx = -1;
+        for (var i = 0; i < ayraclar.length; i++) {
+            if (ayraclar[i].sessionId === sid) { idx = i; break; }
+        }
+        if (idx >= 0) {
+            ayraclar[idx].tamamlandi = true;
+            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
+        }
+    } catch(ex) {}
+    // Ekranda zaten görünen kartı da (sayfa yenilenmeden) tamamlandı görünümüne çevir
+    try {
+        var kartEl = document.querySelector('[data-kart-sid="' + sid + '"]');
+        if (kartEl) {
+            kartEl.style.border = '2px solid #e8a838';
+            var altYazi = kartEl.querySelector('p:nth-of-type(2)');
+            if (altYazi && altYazi.textContent === 'Yarım kaldı') altYazi.textContent = '';
+            var devamBtn = kartEl.querySelector('button:not(.ayrac-sil)');
+            if (devamBtn) devamBtn.textContent = 'Yeni hediye';
+        }
+    } catch(ex4) {}
+}
+
 function iframeYenile(soruId) {
     var iframe = document.getElementById('iframe-' + soruId) || document.getElementById('kime-iframe');
     if (!iframe) return;
@@ -1508,6 +1541,7 @@ window.addEventListener('message', function(e) {
         if (hediyelerIframe && hediyelerIframe.contentWindow) {
             hediyelerIframe.contentWindow.postMessage({ type: 'hediyeleri_baslat' }, '*');
         }
+        sqAyracTamamlandiIsaretle();
         setTimeout(function() {
             var blok = document.getElementById('blok-hediyeler');
             if (blok) blok.scrollIntoView({ behavior:'smooth', block:'start' });
