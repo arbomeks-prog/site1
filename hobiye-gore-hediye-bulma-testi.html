@@ -352,6 +352,23 @@
 
     // Çoklu seçim (hobiler)
     let multiSecimler = [];
+    var _kismiSecimZamanlayici = null;
+
+    function _kismiSecimSinyaliPlanla() {
+        if (_kismiSecimZamanlayici) clearTimeout(_kismiSecimZamanlayici);
+        if (window.parent === window) return; // sadece embed/scroll-quiz modunda
+        if (multiSecimler.length > 0 && multiSecimler.length < MAX_SECIM) {
+            _kismiSecimZamanlayici = setTimeout(function() {
+                window.parent.postMessage({
+                    type: 'kismi_secim_bekleme',
+                    soruId: SORU_ID,
+                    secilen: multiSecimler.length,
+                    gereken: MAX_SECIM
+                }, '*');
+            }, 2000);
+        }
+    }
+
     function toggleMulti(deger, btn) {
         btn.blur();
         if (btn.classList.contains('selected')) {
@@ -362,6 +379,7 @@
         if(typeof BudurSes!=='undefined') BudurSes.tik();
             multiSecimler.push(deger);
         }
+        _kismiSecimSinyaliPlanla();
         if (multiSecimler.length > 0) {
             QuizHelper.setCevap(SORU_ID, multiSecimler.join(', '));
             activateContinueBtn();
