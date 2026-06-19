@@ -1400,6 +1400,91 @@ function disiplinKontrol(soruId, engellenenIframeId) {
     return false;
 }
 
+// ============================================================
+// İSİM POPUP — eski tek-sayfa akışındaki startQuiz()/kisiIsmiKaydet()
+// mantığının scroll-quiz'e taşınmış hali. Sayfa yönlendirmesi (window.location)
+// yapmıyor; isim kaydedildikten/geçildikten sonra verilen devamFn'i çağırıyor.
+// ============================================================
+var _sqKimeContinue = null;
+var _sqKimeDegeri = '';
+
+function sqKimeIsimPopupAc(kimeDegeri, devamFn) {
+    _sqKimeDegeri = kimeDegeri;
+    _sqKimeContinue = devamFn;
+    // Bu oturum için session_id yoksa üret (eski startQuiz mantığı)
+    var sid = localStorage.getItem('budurBuldumSessionId');
+    if (!sid) {
+        sid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
+        localStorage.setItem('budurBuldumSessionId', sid);
+    }
+    var inp = document.getElementById('kisi-ismi-input');
+    if (inp) inp.value = '';
+    var kimeLabel = document.getElementById('kisi-ismi-kime-label');
+    if (kimeLabel) kimeLabel.textContent = kimeDegeri;
+    document.getElementById('kisi-ismi-popup').style.display = 'flex';
+}
+
+// Ayraç listesine kayıt + /api/save-profile çağrısı + üst şeritteki anlık kartı güncelleme
+// (eski _quizeGec içindeki aynı mantık, sayfa yönlendirmesi olmadan)
+function sqKimeIsmiKaydetVeDevam(isim) {
+    var _sid = localStorage.getItem('budurBuldumSessionId') || '';
+    if (_sid) localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
+    var _nick = localStorage.getItem('budurBuldumNickname') || '';
+    var cevaplar = {};
+    try { cevaplar = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
+    if (_sid) {
+        try {
+            var _ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+            var _idx = -1;
+            for (var _j = 0; _j < _ayraclar.length; _j++) {
+                if (_ayraclar[_j].sessionId === _sid) { _idx = _j; break; }
+            }
+            if (_idx >= 0) {
+                _ayraclar[_idx].kisiAdi = isim;
+                _ayraclar[_idx].kime = _sqKimeDegeri;
+                _ayraclar[_idx].cevaplar = cevaplar;
+            } else {
+                _ayraclar.push({ sessionId: _sid, kime: _sqKimeDegeri, kisiAdi: isim, cevaplar: cevaplar, tamamlandi: false });
+            }
+            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_ayraclar));
+        } catch(ex2) {}
+        fetch('/api/save-profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session_id: _sid, nickname: _nick, kisi_adi: isim, tum_cevaplar: cevaplar })
+        }).catch(function(ex3) {});
+    }
+    // Üst şeritte anlık kartı göster/güncelle (eski kimesec içindeki aynı mantık)
+    sqAnlikKartGuncelle(_sqKimeDegeri, isim);
+    document.getElementById('kisi-ismi-popup').style.display = 'none';
+    if (typeof _sqKimeContinue === 'function') {
+        var fn = _sqKimeContinue;
+        _sqKimeContinue = null;
+        fn();
+    }
+}
+
+function sqAnlikKartGuncelle(kime, isim) {
+    var saraci = document.getElementById('arayaclar-sarici');
+    var konteyner = document.getElementById('arayaclar-konteyner');
+    if (!saraci || !konteyner) return;
+    var anlikKart = document.getElementById('anlik-kart');
+    var RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
+    var renk = RENKLER[0];
+    var initials = kime.replace(/\p{Emoji}/gu,'').trim().substring(0,2).toUpperCase();
+    if (!anlikKart) {
+        anlikKart = document.createElement('div');
+        anlikKart.id = 'anlik-kart';
+        anlikKart.style.cssText = 'flex-shrink:0;width:160px;background:#1e293b;border-radius:16px;padding:14px;border:2px solid #e8a838;cursor:default;opacity:0;transition:opacity 0.4s;';
+        konteyner.insertBefore(anlikKart, konteyner.firstChild);
+        saraci.style.display = 'block';
+        setTimeout(function(){ anlikKart.style.opacity='1'; }, 50);
+    }
+    anlikKart.innerHTML =
+        '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+        '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+kime+(isim ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+isim+'</span>' : '')+'</p>';
+}
+
 function iframeYenile(soruId) {
     var iframe = document.getElementById('iframe-' + soruId) || document.getElementById('kime-iframe');
     if (!iframe) return;
@@ -1469,27 +1554,30 @@ window.addEventListener('message', function(e) {
             cevaplananlar['kime'] = true;
             giftBoxGuncelle(0);
 
-            if (KIME_SET_HARITASI[deger]) {
-                // Bebek / Çocuk / Pet → özel set tüm soruları aç
-                aktifOzelSet = KIME_SET_HARITASI[deger];
-                ozelSetTumSorularEkle(aktifOzelSet);
-                setTimeout(function() {
-                    var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
-                    if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
-                }, 300);
-            } else {
-                // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
-                aktifOzelSet = null;
-                var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
-                var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
-                if (sonrakiSoruIdKime) {
-                    var reloadGerekenKime = ['cinsiyet', 'yas'];
-                    if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
-                        setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
+            var sonrakiSayfaKime = e.data.sonrakiSayfa || '';
+            sqKimeIsimPopupAc(deger, function() {
+                if (KIME_SET_HARITASI[deger]) {
+                    // Bebek / Çocuk / Pet → özel set tüm soruları aç
+                    aktifOzelSet = KIME_SET_HARITASI[deger];
+                    ozelSetTumSorularEkle(aktifOzelSet);
+                    setTimeout(function() {
+                        var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
+                        if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+                    }, 300);
+                } else {
+                    // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
+                    aktifOzelSet = null;
+                    var dosyaAdiKime = sonrakiSayfaKime.split('/').pop().split('?')[0];
+                    var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
+                    if (sonrakiSoruIdKime) {
+                        var reloadGerekenKime = ['cinsiyet', 'yas'];
+                        if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
+                            setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
+                        }
+                        setTimeout(function() { sonrakiScroll(sonrakiSoruIdKime); }, 300);
                     }
-                    setTimeout(function() { sonrakiScroll(sonrakiSoruIdKime); }, 300);
                 }
-            }
+            });
             return;
         }
 
@@ -2902,6 +2990,7 @@ window.addEventListener('message', function(e) {
 
     function kisiIsmiKaydet() {
         var isim = document.getElementById('kisi-ismi-input').value.trim();
+        if (_sqKimeContinue) { sqKimeIsmiKaydetVeDevam(isim); return; }
         var _sid = localStorage.getItem('budurBuldumSessionId') || '';
         if (_sid) localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
         document.getElementById('kisi-ismi-popup').style.display = 'none';
@@ -2909,6 +2998,7 @@ window.addEventListener('message', function(e) {
     }
 
     function kisiIsmiGec() {
+        if (_sqKimeContinue) { sqKimeIsmiKaydetVeDevam(''); return; }
         document.getElementById('kisi-ismi-popup').style.display = 'none';
         _quizeGec();
     }
