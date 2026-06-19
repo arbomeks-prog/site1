@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+    <script>
+    // KESİN SIFIRLAMA: index.html?sifirla=1 ile açılırsa, budurBuldum* ile başlayan
+    // TÜM localStorage anahtarlarını (ayraçlar dahil) temizler ve temiz URL'e döner.
+    // Eski test verisi mi yeni hata mı tartışmasını bitirmek için eklendi — test
+    // öncesi bu URL ile garanti sıfır/temiz duruma geçilebilir.
+    if (location.search.indexOf('sifirla=1') !== -1) {
+        Object.keys(localStorage).forEach(function(k) {
+            if (k.indexOf('budurBuldum') === 0) localStorage.removeItem(k);
+        });
+        location.href = location.pathname;
+    }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hediye : Kime Yaş Bütçe Tarz Hobi Stil Kişilik Spor Teknoloji +20</title>
