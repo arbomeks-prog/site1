@@ -1554,6 +1554,13 @@ window.addEventListener('message', function(e) {
             cevaplananlar['kime'] = true;
             giftBoxGuncelle(0);
 
+            // KIME_ATLAMA_HARITASI'nda bu kime için atlanması gereken sorular varsa
+            // (örn. Baba → cinsiyet, Kardeş → dogum) bloklarını tamamen gizle
+            (KIME_ATLAMA_HARITASI[deger] || []).forEach(function(atlanacakId) {
+                var atlanacakBlok = document.getElementById('blok-' + atlanacakId);
+                if (atlanacakBlok) atlanacakBlok.style.display = 'none';
+            });
+
             var sonrakiSayfaKime = e.data.sonrakiSayfa || '';
             sqKimeIsimPopupAc(deger, function() {
                 if (KIME_SET_HARITASI[deger]) {
