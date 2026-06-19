@@ -392,12 +392,19 @@ function sqAramaKaydaDegerMi(cv) {
 (function() {
   // Ayraç listesinden kartları göster
   try {
+    // Eğer şu an bir kime-değiştirme reload'ı ortasındaysak (budurBuldumBaslangicKime
+    // set edilmiş), localStorage'daki cevaplar HENÜZ silinmemiş ama BAYAT veridir
+    // (az sonra temizlenip yeni kime ile değiştirilecek). Bu bayat veriyle aktif
+    // session'ı senkronize etmeye çalışmak, yanlış/hayalet bir ayraç kaydı oluşturur
+    // (bir önceki kişinin cevaplarını yeni session_id'ye yapıştırır). O yüzden bu
+    // geçiş anında senkronizasyonu tamamen atlıyoruz.
+    var _kimeGecisiSurerken = !!localStorage.getItem('budurBuldumBaslangicKime');
     var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
     // Aktif (mevcut) quiz de ayraçlara ekle
     var cv = {};
     try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
     var aktifSid = localStorage.getItem('budurBuldumSessionId');
-    if (aktifSid && Object.keys(cv).length > 0) {
+    if (!_kimeGecisiSurerken && aktifSid && Object.keys(cv).length > 0) {
       var aktifIdx = -1;
       for (var j = 0; j < ayraclar.length; j++) {
         if (ayraclar[j].sessionId === aktifSid) { aktifIdx = j; break; }
@@ -501,39 +508,15 @@ function sqAramaKaydaDegerMi(cv) {
           localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
           window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
         } else {
+          // Eski hatalı davranış: burada eski/tek-sayfalı quiz dosyalarına (QUIZ listesi)
+          // veya ozet.html'e yönlendiriyordu — kullanıcı bizim yeni scroll-quiz akışından
+          // (index.html) tamamen çıkıp eski, embed edilmemiş sayfalara düşüyordu.
+          // Artık burada DEĞİL, index.html'in kendisine (scroll-quiz akışına) devam
+          // ediyor — budurBuldumDevamEdiliyor bayrağı, cevapların sayfa yenilenirken
+          // silinmesini bir seferliğine engelliyor.
           localStorage.removeItem('budurBuldumTamamlandi');
-          var sonSayfa = ayrac.sonSayfa;
-          var QUIZ = [
-            'hediye-kime-alinacak-testi.html','kadin-erkek-hediye-secimi-testi.html',
-            'dogum-tarihine-gore-hediye-testi.html','yasa-gore-hediye-bulma-testi.html',
-            'kisilik-tarzina-gore-hediye-testi.html','hobiye-gore-hediye-bulma-testi.html',
-            'sevdigi-renge-gore-hediye-testi.html','ne-icin-hediye-alinacak-testi.html',
-            'yasam-tarzina-gore-hediye-testi.html','teknoloji-ilgisine-gore-hediye-testi.html',
-            'butceye-gore-hediye-bulma-testi.html','mevsime-gore-hediye-secimi-testi.html',
-            'tatli-zevkine-gore-hediye-testi.html','sporcu-icin-hediye-bulma-testi.html',
-            'muzik-zevkine-gore-hediye-testi.html','hayvan-sever-icin-hediye-testi.html',
-            'seyahat-sevene-hediye-bulma-testi.html','kitap-okuyucuya-hediye-testi.html',
-            'kahve-cay-icene-hediye-testi.html','film-sevene-hediye-bulma-testi.html',
-            'bitki-sevene-hediye-testi.html','oyun-oynayanlara-hediye-testi.html',
-            'makyaj-bakim-sevene-hediye-testi.html','aksesuar-saat-sevene-hediye-testi.html',
-            'yemek-icin-hediye-bulma-testi.html','doga-yuruyusu-sevene-hediye-testi.html',
-            'sanat-sevene-hediye-bulma-testi.html','fotograf-cekmeyi-sevene-hediye-testi.html',
-            'kisilik-tipine-gore-hediye-testi.html','hediye-onceliklerine-gore-secim-testi.html',
-            'bebek-kiz-mi-erkek-mi-hediye-testi.html','bebek-yasina-gore-hediye-testi.html',
-            'bebek-hediyesi-ne-icin-alinacak-testi.html','bebege-ne-tur-hediye-alinacak-testi.html',
-            'butceye-gore-bebek-hediyesi-testi.html','anne-baba-tarzina-gore-bebek-hediyesi-testi.html',
-            'cocuk-kiz-mi-erkek-mi-hediye-testi.html','cocugun-yasina-gore-hediye-testi.html',
-            'cocuga-ne-icin-hediye-alinacak-testi.html','cocuga-ne-tur-hediye-alinacak-testi.html',
-            'butceye-gore-cocuk-hediyesi-testi.html','evcil-hayvan-icin-hediye-testi.html',
-            'butceye-gore-kedi-hediyesi-testi.html','butceye-gore-kopek-hediyesi-testi.html',
-            'butceye-gore-kus-hediyesi-testi.html','butceye-gore-balik-hediyesi-testi.html',
-            'butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html',
-            'cocugun-aktivitesine-gore-hediye-testi.html',
-            'cocugun-sevdigi-temaya-gore-hediye-testi.html',
-            'cocugun-yasam-alanina-gore-hediye-testi.html'
-          ];
-          var quizMi = sonSayfa && QUIZ.some(function(s){ return sonSayfa.indexOf(s) >= 0; });
-          window.location.href = quizMi ? sonSayfa : 'ozet.html';
+          localStorage.setItem('budurBuldumDevamEdiliyor', '1');
+          window.location.href = window.location.pathname;
         }
       }; })(a, kart);
       konteyner.appendChild(kart);
@@ -1013,7 +996,15 @@ function nickDegistirIndex() {
 </script>
 
 <script>
-localStorage.removeItem('budurBuldumCevaplar');
+// "Devam Et" ile bir ayraç kartından geri dönülüyorsa (bkz. konteyner.appendChild
+// öncesindeki kart click handler'ı), cevaplar BİR SEFERLİĞİNE silinmez — aşağıdaki
+// restore script'i bu cevaplara göre doğru soruya scroll eder. Normal/temiz girişte
+// ve kime-değiştirme reload'ında (quizSifirla) bu bayrak set değildir, eski davranış sürer.
+if (localStorage.getItem('budurBuldumDevamEdiliyor')) {
+    localStorage.removeItem('budurBuldumDevamEdiliyor');
+} else {
+    localStorage.removeItem('budurBuldumCevaplar');
+}
 
 // Eğer önceki oturumdan sıfırlama sonrası kime cevabı kaydedildiyse,
 // kime iframe'i yüklenince otomatik olarak o cevabı uygula
@@ -1438,6 +1429,39 @@ function disiplinKontrol(soruId, engellenenIframeId) {
     }
     return false;
 }
+
+// ============================================================
+// "DEVAM ET" RESTORE — bookmark kartındaki "Devam Et" tıklanınca buraya
+// (index.html) cevaplar localStorage'da korunarak geri dönülür (bkz.
+// budurBuldumDevamEdiliyor bayrağı). Sayfa yüklenirken BİR KERE çalışır:
+// önceki cevapları cevaplananlar'a işaretler, gerekirse özel seti
+// (Bebek/Çocuk/Pet) yeniden kurar ve ilk cevaplanmamış soruya scroll eder.
+// Kime-değiştirme reload'ında (budurBuldumBaslangicKime set) devre dışıdır.
+(function() {
+    var _cv = {};
+    try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
+    if (!_cv.kime || localStorage.getItem('budurBuldumBaslangicKime')) return;
+
+    Object.keys(_cv).forEach(function(k) { cevaplananlar[k] = true; });
+
+    if (KIME_SET_HARITASI[_cv.kime]) {
+        aktifOzelSet = KIME_SET_HARITASI[_cv.kime];
+        ozelSetTumSorularEkle(aktifOzelSet);
+    }
+
+    setTimeout(function() {
+        var sira = aktifSoruSirasi();
+        var atlanmasiGerekenler = KIME_ATLAMA_HARITASI[_cv.kime] || [];
+        var hedefId = null;
+        for (var i = 0; i < sira.length; i++) {
+            var sId = sira[i];
+            if (atlanmasiGerekenler.indexOf(sId) !== -1) continue;
+            if (!_cv[sId]) { hedefId = sId; break; }
+        }
+        var hedefBlok = hedefId ? document.getElementById('blok-' + hedefId) : document.getElementById('blok-ozet');
+        if (hedefBlok) hedefBlok.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 700);
+})();
 
 // ============================================================
 // İSİM POPUP — eski tek-sayfa akışındaki startQuiz()/kisiIsmiKaydet()
