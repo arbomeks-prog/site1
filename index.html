@@ -1004,6 +1004,16 @@ if (localStorage.getItem('budurBuldumDevamEdiliyor')) {
     localStorage.removeItem('budurBuldumDevamEdiliyor');
 } else {
     localStorage.removeItem('budurBuldumCevaplar');
+    // ASIL KÖK SEBEP: bu gerçekten sıfırdan/temiz bir girişse (Devam Et değil,
+    // kime-değiştirme reload'ı da değil), eski budurBuldumSessionId'yi de
+    // temizliyoruz. Aksi halde sqKimeIsimPopupAc() "sid zaten var" diye eski
+    // (belki çok önce kalıcı olmuş, "Yarım kaldı" listesindeki) bir session_id'yi
+    // YENİ kime cevabına yapıştırıyordu — eski kart sessizce yeni kime'nin ismine
+    // dönüşüyordu (örn. "Anne" kartı "Arkadaş" oluyordu, sonra tekrar "Anne").
+    if (!localStorage.getItem('budurBuldumBaslangicKime')) {
+        localStorage.removeItem('budurBuldumSessionId');
+        localStorage.removeItem('budurBuldumTamamlandi');
+    }
 }
 
 // Eğer önceki oturumdan sıfırlama sonrası kime cevabı kaydedildiyse,
