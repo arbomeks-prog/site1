@@ -412,6 +412,20 @@ function sqAramaKaydaDegerMi(cv) {
     // geçiş anında senkronizasyonu tamamen atlıyoruz.
     var _kimeGecisiSurerken = !!localStorage.getItem('budurBuldumBaslangicKime');
     var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+
+    // SAVUNMA AMAÇLI TEMİZLİK: tamamlanmamış VE kayda değer olmayan (hobiler
+    // cevaplanmamış) hayalet kayıtları ayraçlardan sil. Bu kayıtlar normalde hiç
+    // oluşmaması gereken, eski bug'lardan veya tarayıcı bfcache'inden kalan çöplerdir.
+    var _temizOncesiUzunluk = ayraclar.length;
+    ayraclar = ayraclar.filter(function(a) {
+        if (a.tamamlandi) return true; // tamamlanmışı asla silme
+        var _acv = a.cevaplar || {};
+        return !!_acv.hobiler || Object.keys(_acv).filter(function(k){ return k !== 'kime'; }).length >= 3;
+    });
+    if (ayraclar.length !== _temizOncesiUzunluk) {
+        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
+    }
+
     // Aktif (mevcut) quiz de ayraçlara ekle
     var cv = {};
     try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
@@ -1371,9 +1385,6 @@ function ozelSetTamamlandi() {
 
 // kime cevabı değiştiğinde sayfayı sıfırdan yükle
 function quizSifirla(yeniKime) {
-    // Şu anki arama kayda değerse (hobiler'e ulaşmış veya tamamlanmışsa) eski kartın
-    // üzerine yazılmaması için yeni bir session_id üretiyoruz; değilse aynı session_id
-    // kullanılmaya devam eder (kaybedilen bir şey olmadığı için gerek yok).
     var _sid = localStorage.getItem('budurBuldumSessionId');
     var _cv = {};
     try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
@@ -1384,12 +1395,32 @@ function quizSifirla(yeniKime) {
             if (_ayraclar[_i].sessionId === _sid) { _tamamlandi = !!_ayraclar[_i].tamamlandi; break; }
         }
     } catch(ex2) {}
-    if (_tamamlandi || sqAramaKaydaDegerMi(_cv)) {
+
+    var kaydaDeger = _tamamlandi || sqAramaKaydaDegerMi(_cv);
+    if (kaydaDeger) {
+        // Kayda değer veya tamamlanmış arama: eski kartı koru, yeni session_id üret
         var _yeniSid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
         localStorage.setItem('budurBuldumSessionId', _yeniSid);
+    } else {
+        // KAYDA DEĞER DEĞİL (hobiler cevaplanmamış): bu oturumun ayraclar listesinde
+        // işi yok — varsa sil (savunma amaçlı), yoksa zaten sorun yok.
+        try {
+            var _temizAyraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+            _temizAyraclar = _temizAyraclar.filter(function(a) { return a.sessionId !== _sid; });
+            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_temizAyraclar));
+        } catch(ex3) {}
     }
+
+    // Görsel anlik-kartı DOM'dan kaldır (sayfa yenilense de Samsung Browser'ın
+    // bfcache'i DOM'u koruyabilir — o yüzden manuel temizlik şart)
+    var _anlik = document.getElementById('anlik-kart');
+    if (_anlik) _anlik.remove();
+
     localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
-    window.location.href = window.location.pathname;
+    // window.location.href = pathname aynı URL'e giderken bazı tarayıcılarda
+    // (Samsung Browser dahil) reload GARANTİSİ vermiyor — bfcache'ten eski
+    // DOM'u geri getirebiliyor. location.reload() kesin yenileme sağlıyor.
+    window.location.reload();
 }
 
 // O anki geçerli soru sırasını döndürür (normal akış ya da aktif özel set)
