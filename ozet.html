@@ -189,6 +189,13 @@
     let secilenBurc = null;
 
     window.onload = function() {
+        // Embed modunda footer scroll-quiz'de gereksiz boşluk yaratıyor, gizlenir
+        const _embedModFooter = new URLSearchParams(window.location.search).get('embed') === '1';
+        if (_embedModFooter) {
+            const _footer = document.querySelector('footer');
+            if (_footer) _footer.style.display = 'none';
+        }
+
         const veriTam = ozetVeriTamMi();
 
         if (!veriTam) {
