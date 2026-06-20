@@ -296,6 +296,14 @@ const QuizHelper = {
     // Ayraç listesini güncelle (her cevap değişiminde çağrılır)
     ayracGuncelle: function(tamamlandi) {
         try {
+            // EMBED MODU (scroll-quiz içinde iframe olarak çalışıyorsa): ayraç
+            // yönetimi artık TAMAMEN index.html'deki sq- fonksiyonları (eşik
+            // kontrolü + kime-çatışma koruması ile) tarafından yapılıyor. Bu eski
+            // fonksiyon hiçbir eşiğe/çatışmaya bakmadan her cevapta direkt üzerine
+            // yazıyordu — kayıtlı bir kartın kime'sini sessizce değiştiren asıl
+            // sorun buydu. Embed modunda bu fonksiyon hiçbir şey yapmamalı.
+            if (new URLSearchParams(window.location.search).get('embed') === '1') return;
+
             var sid = localStorage.getItem('budurBuldumSessionId');
             if (!sid) return;
             var cv = this.getCevaplar();
