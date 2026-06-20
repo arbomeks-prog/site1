@@ -1438,11 +1438,19 @@ function quizSifirla(yeniKime) {
     var _anlik = document.getElementById('anlik-kart');
     if (_anlik) _anlik.remove();
 
+    // ESKİ CEVAPLARI BURADA, NAVİGASYONDAN ÖNCE TEMİZLE: location.reload()
+    // Samsung Browser'da bazen GERÇEK bir yeniden yükleme yapmıyor, bfcache'ten
+    // eski sayfayı (ve içindeki eski cevaplarla işaretli iframe'leri) geri
+    // getirebiliyor — bu durumda sayfa başındaki temizlik script'i hiç çalışmıyor.
+    // Bu yüzden cevapları reload'a güvenmeden burada, hemen şimdi siliyoruz.
+    localStorage.removeItem('budurBuldumCevaplar');
+
     localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
-    // window.location.href = pathname aynı URL'e giderken bazı tarayıcılarda
-    // (Samsung Browser dahil) reload GARANTİSİ vermiyor — bfcache'ten eski
-    // DOM'u geri getirebiliyor. location.reload() kesin yenileme sağlıyor.
-    window.location.reload();
+    // bfcache'i KESİN olarak devre dışı bırakmak için location.reload() yerine
+    // her seferinde FARKLI bir URL'e (cache-busting query param'lı) gidiyoruz —
+    // bfcache sadece AYNI URL'e geri/ileri navigasyonda devreye girer, farklı
+    // URL'e gitmek her zaman tamamen taze bir sayfa yüklemesi garantiler.
+    window.location.href = window.location.pathname + '?_t=' + Date.now();
 }
 
 // O anki geçerli soru sırasını döndürür (normal akış ya da aktif özel set)
