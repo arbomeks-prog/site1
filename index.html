@@ -1335,10 +1335,55 @@ function ozelSetTamamlandi() {
 }
 
 // kime cevabı değiştiğinde sayfayı sıfırdan yükle
+// Mevcut session_id'nin ayraç kaydını günceller/oluşturur. TEK KORUMA KURALI:
+// eğer bu session_id'ye ait ZATEN bir kayıt varsa ve o kaydın kime'si şu anki
+// cevaplardan farklıysa (yani bu aslında farklı bir arama), eski kayda DOKUNULMAZ —
+// onun yerine yeni bir session_id üretilip ona geçilir. Böylece bir kart, kendisine
+// tıklanmadığı sürece (Devam Et ile resume edilmediği sürece) hiçbir şekilde değişmez;
+// sadece AYNI aramaya devam edildiğinde (aynı kime, sonraki sorular) güncellenir.
+function sqAyracSenkronEt() {
+    try {
+        var sid = localStorage.getItem('budurBuldumSessionId');
+        var cv = {};
+        try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e1) {}
+        if (!sid || !cv.kime) return;
+
+        var ayraclar = [];
+        try { ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]'); } catch(e2) {}
+        var idx = -1;
+        for (var i = 0; i < ayraclar.length; i++) {
+            if (ayraclar[i].sessionId === sid) { idx = i; break; }
+        }
+
+        // ÇATIŞMA KORUMASI
+        if (idx >= 0 && ayraclar[idx].kime && ayraclar[idx].kime !== cv.kime) {
+            var yeniSid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
+            localStorage.setItem('budurBuldumSessionId', yeniSid);
+            sid = yeniSid;
+            idx = -1;
+        }
+
+        var ayrac = {
+            sessionId: sid,
+            kime: cv.kime || '',
+            kisiAdi: localStorage.getItem('budurBuldumKisiAdi_' + sid) || (idx >= 0 ? ayraclar[idx].kisiAdi : '') || '',
+            amac: cv.amac || cv.bebek_amac || cv.cocuk_amac || '',
+            butce: cv.butce || cv.bebek_butce || cv.cocuk_butce || '',
+            cevaplar: cv,
+            sonSayfa: localStorage.getItem('budurBuldumSonSayfa') || '',
+            tamamlandi: idx >= 0 ? ayraclar[idx].tamamlandi : false
+        };
+        if (idx >= 0) { ayraclar[idx] = ayrac; } else { ayraclar.push(ayrac); }
+        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
+    } catch(eOuter) {}
+}
+
 function quizSifirla(yeniKime) {
     localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
     window.location.href = window.location.pathname;
 }
+
+
 
 // O anki geçerli soru sırasını döndürür (normal akış ya da aktif özel set)
 function aktifSoruSirasi() {
@@ -1423,6 +1468,28 @@ window.addEventListener('message', function(e) {
         if (hediyelerIframe && hediyelerIframe.contentWindow) {
             hediyelerIframe.contentWindow.postMessage({ type: 'hediyeleri_baslat' }, '*');
         }
+        // Hediyeler görüldü: kart kalıcı bir profil kartına dönüşür (tamamlandi:true)
+        try {
+            var _sidH = localStorage.getItem('budurBuldumSessionId');
+            if (_sidH) {
+                var _ayraclarH = [];
+                try { _ayraclarH = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]'); } catch(eH1) {}
+                var _idxH = -1;
+                for (var _iH = 0; _iH < _ayraclarH.length; _iH++) {
+                    if (_ayraclarH[_iH].sessionId === _sidH) { _idxH = _iH; break; }
+                }
+                var _cvH = {};
+                try { _cvH = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(eH2) {}
+                if (_idxH >= 0) {
+                    _ayraclarH[_idxH].tamamlandi = true;
+                    _ayraclarH[_idxH].cevaplar = _cvH;
+                } else if (_cvH.kime) {
+                    _ayraclarH.push({ sessionId: _sidH, kime: _cvH.kime, kisiAdi: localStorage.getItem('budurBuldumKisiAdi_' + _sidH) || '', cevaplar: _cvH, tamamlandi: true });
+                }
+                localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_ayraclarH));
+                localStorage.setItem('budurBuldumTamamlandi', '1');
+            }
+        } catch(eH3) {}
         setTimeout(function() {
             var blok = document.getElementById('blok-hediyeler');
             if (blok) blok.scrollIntoView({ behavior:'smooth', block:'start' });
@@ -1446,6 +1513,10 @@ window.addEventListener('message', function(e) {
             ls[soruId] = deger;
             localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
         } catch(ex) {}
+
+        // Ayraç senkronu: kart, sadece AYNI aramaya devam edildiğinde güncellenir;
+        // kime değişmişse (çatışma) eski karta dokunulmaz, otomatik yeni sid'e geçilir.
+        sqAyracSenkronEt();
 
         // ses çal (hem normal hem özel akış soruları için)
         try {
