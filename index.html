@@ -478,8 +478,9 @@ function sqAyraclarYenidenCiz() {
           localStorage.setItem('budurBuldumTamamlandi', '1');
           localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
           localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
-          sqYukleniyorGoster('Profilin açılıyor...');
-          window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
+          sqYukleniyorGoster('Profilin açılıyor...', function() {
+            window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
+          });
         } else {
           localStorage.removeItem('budurBuldumTamamlandi');
           // BU SAYFADA (index.html) kaldığı yere dön — eski standalone quiz
@@ -492,8 +493,9 @@ function sqAyraclarYenidenCiz() {
           if (ayrac.cevaplar && ayrac.cevaplar.kime) {
             localStorage.setItem('budurBuldumBaslangicKime', ayrac.cevaplar.kime);
           }
-          sqYukleniyorGoster('Aramana dönülüyor...');
-          window.location.href = window.location.pathname + '?_r=' + Date.now();
+          sqYukleniyorGoster('Aramana dönülüyor...', function() {
+            window.location.href = window.location.pathname + '?_r=' + Date.now();
+          });
         }
       }; })(a, kart);
       konteyner.appendChild(kart);
@@ -509,14 +511,15 @@ function sqAyraclarYenidenCiz() {
     if (nickSatir) nickSatir.style.display = 'flex';
   }
 }
-function sqYukleniyorGoster(mesaj) {
+function sqYukleniyorGoster(mesaj, sonra) {
   var ov = document.createElement('div');
-  ov.style.cssText = 'position:fixed;inset:0;background:#0f172a;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;';
+  ov.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#e8a838;color:#1e293b;font-weight:900;text-align:center;padding:14px 16px;font-size:14px;font-family:Nunito,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 14px rgba(0,0,0,0.25);';
   ov.innerHTML =
-    '<div style="width:42px;height:42px;border:4px solid rgba(232,168,56,0.25);border-top-color:#e8a838;border-radius:50%;animation:sqSpin 0.8s linear infinite;"></div>' +
-    '<p style="color:#e2e8f0;font-size:15px;font-weight:700;font-family:Nunito,sans-serif;margin:0;">' + (mesaj || 'Aramana dönülüyor...') + '</p>' +
+    '<span style="width:16px;height:16px;border:3px solid rgba(30,41,59,0.3);border-top-color:#1e293b;border-radius:50%;display:inline-block;animation:sqSpin 0.7s linear infinite;"></span>' +
+    '<span>' + (mesaj || 'Aramana dönülüyor...') + '</span>' +
     '<style>@keyframes sqSpin{to{transform:rotate(360deg);}}</style>';
   document.body.appendChild(ov);
+  if (typeof sonra === 'function') setTimeout(sonra, 1200);
 }
 sqAyraclarYenidenCiz();
 
