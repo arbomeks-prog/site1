@@ -372,7 +372,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 </div>
 
 <script>
-(function() {
+function sqAyraclarYenidenCiz() {
   // Ayraç listesinden kartları göster
   try {
     var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
@@ -410,6 +410,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
     if (!saraci) return;
     saraci.style.display = 'block';
     var konteyner = document.getElementById('arayaclar-konteyner');
+    konteyner.innerHTML = '';
 
     ayraclar.slice().reverse().forEach(function(a, i) {
       var renk = RENKLER[i % RENKLER.length];
@@ -505,7 +506,8 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
     var nickSatir = document.getElementById('nick-satir');
     if (nickSatir) nickSatir.style.display = 'flex';
   }
-})();
+}
+sqAyraclarYenidenCiz();
 
 function nickDegistirIndex() {
   if (!confirm('Farklı bir hesaba geçmek istiyorsun.\n\nMevcut kayıtların silinmez — tekrar aynı takma isimle girince geri gelir.\n\nDevam etmek istiyor musun?')) return;
@@ -1564,6 +1566,7 @@ window.addEventListener('message', function(e) {
                 }
                 localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_ayraclarH));
                 localStorage.setItem('budurBuldumTamamlandi', '1');
+                sqAyraclarYenidenCiz();
             }
         } catch(eH3) {}
         setTimeout(function() {
