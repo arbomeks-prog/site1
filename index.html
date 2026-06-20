@@ -385,13 +385,17 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 <script>
 // Bir aramanın üst şeritte kart olarak KALICI tutulmaya değer sayılıp sayılmayacağını belirler.
-// Normal akışta SADECE "hobiler" sorusu cevaplanmışsa kayda değer kabul edilir — kime hariç
-// 3 cevap kuralı normal akışa UYGULANMAZ (önceki hata: bu satır aktifOzelSet kontrolü
-// yapmadan her akışta tetikleniyordu, hobiler'e gelmeden kart kalıcı oluyordu).
-// Bebek/Çocuk/Pet gibi özel akışlarda "hobiler" sorusu hiç yok; eşdeğer derinlik olarak
-// kime hariç en az 3 cevap kullanılır — typeof kontrolü, bu fonksiyon aktifOzelSet
+// İKİ disiplin faktöründen HERHANGİ BİRİ yeterlidir (OR mantığı):
+//   1) Kullanıcı "Bu aramaya isim ver" popup'ında bir isim yazmış (budurBuldumKisiAdi_{sid})
+//   2) Normal akışta "hobiler" sorusu cevaplanmış, özel akışta (Bebek/Çocuk/Pet) kime hariç
+//      en az 3 soru cevaplanmış (hobiler sorusu özel akışlarda yok, eşdeğer derinlik olarak kullanılıyor)
+// sid verilmezse aktif session_id otomatik okunur. typeof kontrolü, bu fonksiyon aktifOzelSet
 // tanımlanmadan önce (sayfa yüklenirken) çağrılırsa hata vermesin diye.
-function sqAramaKaydaDegerMi(cv) {
+function sqAramaKaydaDegerMi(cv, sid) {
+    var _sid = sid || localStorage.getItem('budurBuldumSessionId') || '';
+    var isimVerildiMi = _sid ? !!localStorage.getItem('budurBuldumKisiAdi_' + _sid) : false;
+    if (isimVerildiMi) return true;
+
     var ozelAkisMi = (typeof aktifOzelSet !== 'undefined' && !!aktifOzelSet);
     if (ozelAkisMi) {
         var digerCevapSayisi = Object.keys(cv).filter(function(k){ return k !== 'kime'; }).length;
@@ -420,7 +424,7 @@ function sqAramaKaydaDegerMi(cv) {
     ayraclar = ayraclar.filter(function(a) {
         if (a.tamamlandi) return true; // tamamlanmışı asla silme
         var _acv = a.cevaplar || {};
-        return !!_acv.hobiler || Object.keys(_acv).filter(function(k){ return k !== 'kime'; }).length >= 3;
+        return sqAramaKaydaDegerMi(_acv, a.sessionId);
     });
     if (ayraclar.length !== _temizOncesiUzunluk) {
         localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
@@ -1396,7 +1400,7 @@ function quizSifirla(yeniKime) {
         }
     } catch(ex2) {}
 
-    var kaydaDeger = _tamamlandi || sqAramaKaydaDegerMi(_cv);
+    var kaydaDeger = _tamamlandi || sqAramaKaydaDegerMi(_cv, _sid);
     if (kaydaDeger) {
         // Kayda değer veya tamamlanmış arama: eski kartı koru, yeni session_id üret
         var _yeniSid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
@@ -1567,7 +1571,7 @@ function sqKartEsikKontrolVeOlustur() {
     if (!sid) return;
     var cv = {};
     try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
-    if (!sqAramaKaydaDegerMi(cv)) return;
+    if (!sqAramaKaydaDegerMi(cv, sid)) return;
 
     var kime = cv.kime || _sqKimeDegeri || '';
     if (!kime) return;
