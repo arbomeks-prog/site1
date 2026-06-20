@@ -1787,6 +1787,17 @@ window.addEventListener('message', function(e) {
         if (soruId === 'kime') {
             var _oncekiCv = {};
             try { _oncekiCv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(exK) {}
+
+            // TEŞHİS AMAÇLI GEÇİCİ BANNER: kime mesajı gerçekte parent'a ulaşıyor mu,
+            // hangi değerlerle ulaşıyor görmek için.
+            try {
+                var _tani2 = document.createElement('div');
+                _tani2.textContent = '📩 KIME MESAJI GELDİ → yeni: "' + deger + '" | eski (cv.kime): "' + (_oncekiCv.kime || '(boş)') + '"';
+                _tani2.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#22c55e;color:#000;font-weight:900;text-align:center;padding:14px;font-size:14px;';
+                document.body.appendChild(_tani2);
+                setTimeout(function(){ _tani2.remove(); }, 6000);
+            } catch(exTani2) {}
+
             if (_oncekiCv.kime && _oncekiCv.kime !== deger) {
                 quizSifirla(deger);
                 return;
