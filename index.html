@@ -1620,6 +1620,13 @@ window.addEventListener('message', function(e) {
             giftBoxGuncelle(0);
             kimeKartAc(deger);
 
+            // KIME_ATLAMA_HARITASI'nda bu kime için atlanması gereken sorular varsa
+            // (örn. Anne/Baba → cinsiyet, Kardeş → dogum) bloklarını tamamen gizle
+            (KIME_ATLAMA_HARITASI[deger] || []).forEach(function(atlanacakId) {
+                var atlanacakBlok = document.getElementById('blok-' + atlanacakId);
+                if (atlanacakBlok) atlanacakBlok.style.display = 'none';
+            });
+
             if (KIME_SET_HARITASI[deger]) {
                 // Bebek / Çocuk / Pet → özel set tüm soruları aç
                 aktifOzelSet = KIME_SET_HARITASI[deger];
