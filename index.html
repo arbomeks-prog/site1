@@ -480,38 +480,17 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
           window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
         } else {
           localStorage.removeItem('budurBuldumTamamlandi');
-          var sonSayfa = ayrac.sonSayfa;
-          var QUIZ = [
-            'hediye-kime-alinacak-testi.html','kadin-erkek-hediye-secimi-testi.html',
-            'dogum-tarihine-gore-hediye-testi.html','yasa-gore-hediye-bulma-testi.html',
-            'kisilik-tarzina-gore-hediye-testi.html','hobiye-gore-hediye-bulma-testi.html',
-            'sevdigi-renge-gore-hediye-testi.html','ne-icin-hediye-alinacak-testi.html',
-            'yasam-tarzina-gore-hediye-testi.html','teknoloji-ilgisine-gore-hediye-testi.html',
-            'butceye-gore-hediye-bulma-testi.html','mevsime-gore-hediye-secimi-testi.html',
-            'tatli-zevkine-gore-hediye-testi.html','sporcu-icin-hediye-bulma-testi.html',
-            'muzik-zevkine-gore-hediye-testi.html','hayvan-sever-icin-hediye-testi.html',
-            'seyahat-sevene-hediye-bulma-testi.html','kitap-okuyucuya-hediye-testi.html',
-            'kahve-cay-icene-hediye-testi.html','film-sevene-hediye-bulma-testi.html',
-            'bitki-sevene-hediye-testi.html','oyun-oynayanlara-hediye-testi.html',
-            'makyaj-bakim-sevene-hediye-testi.html','aksesuar-saat-sevene-hediye-testi.html',
-            'yemek-icin-hediye-bulma-testi.html','doga-yuruyusu-sevene-hediye-testi.html',
-            'sanat-sevene-hediye-bulma-testi.html','fotograf-cekmeyi-sevene-hediye-testi.html',
-            'kisilik-tipine-gore-hediye-testi.html','hediye-onceliklerine-gore-secim-testi.html',
-            'bebek-kiz-mi-erkek-mi-hediye-testi.html','bebek-yasina-gore-hediye-testi.html',
-            'bebek-hediyesi-ne-icin-alinacak-testi.html','bebege-ne-tur-hediye-alinacak-testi.html',
-            'butceye-gore-bebek-hediyesi-testi.html','anne-baba-tarzina-gore-bebek-hediyesi-testi.html',
-            'cocuk-kiz-mi-erkek-mi-hediye-testi.html','cocugun-yasina-gore-hediye-testi.html',
-            'cocuga-ne-icin-hediye-alinacak-testi.html','cocuga-ne-tur-hediye-alinacak-testi.html',
-            'butceye-gore-cocuk-hediyesi-testi.html','evcil-hayvan-icin-hediye-testi.html',
-            'butceye-gore-kedi-hediyesi-testi.html','butceye-gore-kopek-hediyesi-testi.html',
-            'butceye-gore-kus-hediyesi-testi.html','butceye-gore-balik-hediyesi-testi.html',
-            'butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html',
-            'cocugun-aktivitesine-gore-hediye-testi.html',
-            'cocugun-sevdigi-temaya-gore-hediye-testi.html',
-            'cocugun-yasam-alanina-gore-hediye-testi.html'
-          ];
-          var quizMi = sonSayfa && QUIZ.some(function(s){ return sonSayfa.indexOf(s) >= 0; });
-          window.location.href = quizMi ? sonSayfa : 'ozet.html';
+          // BU SAYFADA (index.html) kaldığı yere dön — eski standalone quiz
+          // sayfalarına ASLA gitme. budurBuldumDevamEdiliyor bayrağı, sayfa
+          // yenilenince cevapların silinmesini engeller; budurBuldumBaslangicKime
+          // ise kime sorusunu otomatik uygulayıp (Bebek/Çocuk/Pet ise özel set
+          // bloklarını doğru şekilde kurar), ardından resume-scroll ilk cevapsız
+          // soruya kaydırır.
+          localStorage.setItem('budurBuldumDevamEdiliyor', '1');
+          if (ayrac.cevaplar && ayrac.cevaplar.kime) {
+            localStorage.setItem('budurBuldumBaslangicKime', ayrac.cevaplar.kime);
+          }
+          window.location.href = window.location.pathname;
         }
       }; })(a, kart);
       konteyner.appendChild(kart);
@@ -991,10 +970,19 @@ function nickDegistirIndex() {
 </script>
 
 <script>
-localStorage.removeItem('budurBuldumCevaplar');
+// "Devam Et" ile bir karttan geri dönülüyorsa cevaplar silinmez (resume).
+// Normal/temiz girişte ve kime-değiştirme reload'ında (quizSifirla) eski davranış sürer.
+var _budurDevamEdiliyor = !!localStorage.getItem('budurBuldumDevamEdiliyor');
+if (_budurDevamEdiliyor) {
+    localStorage.removeItem('budurBuldumDevamEdiliyor');
+} else {
+    localStorage.removeItem('budurBuldumCevaplar');
+}
 
-// Eğer önceki oturumdan sıfırlama sonrası kime cevabı kaydedildiyse,
-// kime iframe'i yüklenince otomatik olarak o cevabı uygula
+// Eğer önceki oturumdan sıfırlama (kime değişti) VEYA "Devam Et" (resume) sonrası
+// kime cevabı kaydedildiyse, kime iframe'i yüklenince otomatik olarak o cevabı
+// uygula — bu hem yeni kime'yi seçer hem de Bebek/Çocuk/Pet ise özel set
+// bloklarını doğru şekilde kurar.
 var _baslangicKime = localStorage.getItem('budurBuldumBaslangicKime');
 if (_baslangicKime) {
     localStorage.removeItem('budurBuldumBaslangicKime');
@@ -1008,11 +996,35 @@ if (_baslangicKime) {
                         type: 'otomatik_secim',
                         deger: _baslangicKime
                     }, '*');
+                    // RESUME-SCROLL: "Devam Et" ile geri dönüldüyse, özel set
+                    // blokları kurulduktan sonra kullanıcıyı kaldığı (ilk cevapsız)
+                    // soruya kaydır — sayfanın en başında bırakma.
+                    if (_budurDevamEdiliyor) {
+                        setTimeout(function() {
+                            try {
+                                var _cvResume = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+                                var _sira = aktifSoruSirasi();
+                                var _hedefId = null;
+                                for (var _ri = 0; _ri < _sira.length; _ri++) {
+                                    if (_cvResume[_sira[_ri]] === undefined || _cvResume[_sira[_ri]] === '') { _hedefId = _sira[_ri]; break; }
+                                }
+                                if (_hedefId && _hedefId !== 'kime') {
+                                    var _hedefBlok = document.getElementById('blok-' + _hedefId);
+                                    if (_hedefBlok) _hedefBlok.scrollIntoView({behavior:'smooth', block:'center'});
+                                } else if (!_hedefId) {
+                                    // Tüm sorular cevaplı: özete kaydır
+                                    var _ozetBlok = document.getElementById('blok-ozet');
+                                    if (_ozetBlok) _ozetBlok.scrollIntoView({behavior:'smooth', block:'center'});
+                                }
+                            } catch(exResume) {}
+                        }, 1200);
+                    }
                 }, 300);
             }
         }
     });
 }
+
 
     var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
     var pexelsMap = {
