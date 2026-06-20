@@ -490,7 +490,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
           if (ayrac.cevaplar && ayrac.cevaplar.kime) {
             localStorage.setItem('budurBuldumBaslangicKime', ayrac.cevaplar.kime);
           }
-          window.location.href = window.location.pathname;
+          window.location.href = window.location.pathname + '?_r=' + Date.now();
         }
       }; })(a, kart);
       konteyner.appendChild(kart);
@@ -1392,7 +1392,7 @@ function sqAyracSenkronEt() {
 
 function quizSifirla(yeniKime) {
     localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
-    window.location.href = window.location.pathname;
+    window.location.href = window.location.pathname + '?_r=' + Date.now();
 }
 
 
