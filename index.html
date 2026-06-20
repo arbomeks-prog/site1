@@ -634,7 +634,7 @@ function nickDegistirIndex() {
     <div id="kime-fix-kart-avatar" style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#e8a838;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#412402;">?</div>
     <div style="flex:1;min-width:0;">
         <div id="kime-fix-kart-isim" style="font-size:13px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</div>
-        <div style="font-size:11px;color:#94a3b8;">Devam ettiğin yere dön ↓</div>
+        <div id="kime-fix-kart-alt" style="font-size:11px;color:#94a3b8;">Devam ettiğin yere dön ↓</div>
     </div>
 </div>
 <div class="gift-col">
@@ -1167,6 +1167,16 @@ if (_baslangicKime) {
         kart.style.margin = '0';
         kart.style.zIndex = '9998';
         kart.style.boxShadow = '0 6px 20px rgba(0,0,0,0.35)';
+        var isim = document.getElementById('kime-fix-kart-isim');
+        if (isim) isim.textContent = '🎉 Kişiye özel kartın oluşturuldu';
+        var altYazi = document.getElementById('kime-fix-kart-alt');
+        if (altYazi) altYazi.style.display = 'none';
+        setTimeout(function() {
+            kart.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            kart.style.opacity = '0';
+            kart.style.transform = 'translateY(-12px)';
+            setTimeout(function() { kart.style.display = 'none'; }, 400);
+        }, 2500);
     }
 
     // Kullanıcının şu an hangi soru bloğunda olduğunu sürekli takip et
