@@ -1261,9 +1261,24 @@ if (_baslangicKime) {
         // Özete scroll
         setTimeout(function() { tamamlandi(); }, 250);
     }
+    function sqHizliKaydir(el, sure) {
+        if (!el) return;
+        var hedefTop = el.getBoundingClientRect().top + window.pageYOffset - (window.innerHeight/2) + (el.offsetHeight/2);
+        var baslangic = window.pageYOffset;
+        var fark = hedefTop - baslangic;
+        var t0 = null;
+        function adim(zaman) {
+            if (!t0) t0 = zaman;
+            var ilerleme = Math.min((zaman - t0) / sure, 1);
+            var ease = 1 - Math.pow(1 - ilerleme, 3); // ease-out cubic
+            window.scrollTo(0, baslangic + fark * ease);
+            if (ilerleme < 1) requestAnimationFrame(adim);
+        }
+        requestAnimationFrame(adim);
+    }
     function sonrakiScroll(soruId) {
         var el=document.getElementById('blok-'+soruId);
-        if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+        if(el) sqHizliKaydir(el, 180);
     }
     function tamamlandi() {
         var ozetIframe = document.getElementById('iframe-ozet');
