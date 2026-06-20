@@ -1603,6 +1603,20 @@ function sqKartEsikKontrolVeOlustur() {
         for (var i = 0; i < ayraclar.length; i++) {
             if (ayraclar[i].sessionId === sid) { idx = i; break; }
         }
+
+        // ÇATIŞMA KORUMASI: idx'te bulunan kayıt zaten kayda değer hale gelmiş
+        // (isimli veya hobiler cevaplanmış/tamamlanmış) ve onun "kime" değeri şu anki
+        // kime'den FARKLIYSA, bu iki ayrı aramanın aynı session_id'yi paylaştığı
+        // anlamına gelir. Eski kaydın üzerine YAZMIYORUZ — bu yeni arama için taze
+        // bir session_id üretip ona geçiyoruz, eski kayıt olduğu gibi kalıyor.
+        if (idx >= 0 && ayraclar[idx].kime && ayraclar[idx].kime !== kime &&
+            (ayraclar[idx].tamamlandi || sqAramaKaydaDegerMi(ayraclar[idx].cevaplar || {}, sid))) {
+            var _yeniSidEsik = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
+            localStorage.setItem('budurBuldumSessionId', _yeniSidEsik);
+            sid = _yeniSidEsik;
+            idx = -1;
+        }
+
         yeniKayit = (idx < 0);
         if (idx >= 0) {
             ayraclar[idx].kisiAdi = isim;
