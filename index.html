@@ -405,6 +405,89 @@ function sqAramaKaydaDegerMi(cv, sid) {
 }
 </script>
 <script>
+var SQ_RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
+
+// Bir ayraç kaydı için TIKLANABİLİR, Devam Et/Sil butonlu gerçek kart DOM elemanı
+// üretir. Hem sayfa yüklenirken listeyi çizen döngüde hem de bir arama eşiği
+// (hobiler cevaplandı / isim verildi) sayfa yenilenmeden tam o anda karşılanınca
+// kullanılır — böylece anlık-kart (önizleme) ile gerçek kart aynı anda iki kez
+// görünmez, anlık-kart yerine doğrudan bu gerçek kart geçer.
+function sqKartElementOlustur(a, renkIdx) {
+  var renk = SQ_RENKLER[(renkIdx || 0) % SQ_RENKLER.length];
+  var initials = (a.kime || '?').substring(0, 2).toUpperCase();
+  var kart = document.createElement('div');
+  kart.setAttribute('data-kart-sid', a.sessionId);
+
+  if (a.tamamlandi) {
+    kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #e8a838;border-radius:12px;padding:12px;cursor:pointer;';
+    kart.innerHTML =
+      '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+      '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+(a.kisiAdi ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+a.kisiAdi+'</span>' : '')+'</p>'+
+      '<p style="font-size:12px;color:#e2e8f0;margin:0 0 2px;">'+(a.amac||'')+'</p>'+
+      '<p style="font-size:12px;color:#e8a838;font-weight:700;margin:0 0 10px;">'+(a.butce||'')+'</p>'+
+      '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Yeni hediye</button>'+
+      '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
+  } else {
+    kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #475569;border-radius:12px;padding:12px;cursor:pointer;';
+    kart.innerHTML =
+      '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+      '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+(a.kisiAdi ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+a.kisiAdi+'</span>' : '')+'</p>'+
+      '<p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Yarım kaldı</p>'+
+      '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Devam Et →</button>'+
+      '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
+  }
+  kart.onclick = (function(ayrac, kartEl) { return function(e) {
+    if (e.target.classList.contains('ayrac-sil')) {
+      e.stopPropagation();
+      if (kartEl.querySelector('.ayrac-onay')) return;
+      var onay = document.createElement('div');
+      onay.className = 'ayrac-onay';
+      onay.style.cssText = 'position:absolute;inset:0;background:rgba(15,23,42,0.93);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;z-index:10;';
+      onay.innerHTML =
+        '<p style="font-size:13px;font-weight:700;color:#fff;text-align:center;margin:0;">Bu aramayı sil?</p>'+
+        '<div style="display:flex;gap:6px;width:100%;">'+
+        '<button class="onay-evet" style="flex:1;background:#ef4444;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;">Evet, sil</button>'+
+        '<button class="onay-iptal" style="flex:1;background:rgba(255,255,255,0.12);border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:600;color:#cbd5e1;cursor:pointer;">İptal</button>'+
+        '</div>';
+      kartEl.style.position = 'relative';
+      kartEl.appendChild(onay);
+      onay.querySelector('.onay-iptal').onclick = function(ev) {
+        ev.stopPropagation();
+        onay.remove();
+      };
+      onay.querySelector('.onay-evet').onclick = function(ev) {
+        ev.stopPropagation();
+        var list = [];
+        try { list = JSON.parse(localStorage.getItem('budurBuldumAyraclar')||'[]'); } catch(ex){}
+        list = list.filter(function(x){ return x.sessionId !== ayrac.sessionId; });
+        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(list));
+        if (localStorage.getItem('budurBuldumSessionId') === ayrac.sessionId) {
+          localStorage.removeItem('budurBuldumSessionId');
+          localStorage.removeItem('budurBuldumCevaplar');
+          localStorage.removeItem('budurBuldumTamamlandi');
+        }
+        kartEl.remove();
+        var k = document.getElementById('arayaclar-konteyner');
+        if (k && k.children.length === 0) document.getElementById('arayaclar-sarici').style.display='none';
+      };
+      return;
+    }
+    localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
+    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
+    if (ayrac.tamamlandi) {
+      localStorage.setItem('budurBuldumTamamlandi', '1');
+      localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
+      localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
+      window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
+    } else {
+      localStorage.removeItem('budurBuldumTamamlandi');
+      localStorage.setItem('budurBuldumDevamEdiliyor', '1');
+      window.location.href = window.location.pathname;
+    }
+  }; })(a, kart);
+  return kart;
+}
+
 (function() {
   // Ayraç listesinden kartları göster
   try {
@@ -478,93 +561,13 @@ function sqAramaKaydaDegerMi(cv, sid) {
 
     if (ayraclar.length === 0) return;
 
-    var RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
     var saraci = document.getElementById('arayaclar-sarici');
     if (!saraci) return;
     saraci.style.display = 'block';
     var konteyner = document.getElementById('arayaclar-konteyner');
 
     ayraclar.slice().reverse().forEach(function(a, i) {
-      var renk = RENKLER[i % RENKLER.length];
-      var initials = (a.kime || '?').substring(0, 2).toUpperCase();
-      var kart = document.createElement('div');
-      kart.setAttribute('data-kart-sid', a.sessionId);
-
-      if (a.tamamlandi) {
-        kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #e8a838;border-radius:12px;padding:12px;cursor:pointer;';
-        kart.innerHTML =
-          '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
-          '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+(a.kisiAdi ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+a.kisiAdi+'</span>' : '')+'</p>'+
-          '<p style="font-size:12px;color:#e2e8f0;margin:0 0 2px;">'+(a.amac||'')+'</p>'+
-          '<p style="font-size:12px;color:#e8a838;font-weight:700;margin:0 0 10px;">'+(a.butce||'')+'</p>'+
-          '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Yeni hediye</button>'+
-          '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
-      } else {
-        kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #475569;border-radius:12px;padding:12px;cursor:pointer;';
-        kart.innerHTML =
-          '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
-          '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+(a.kisiAdi ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+a.kisiAdi+'</span>' : '')+'</p>'+
-          '<p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Yarım kaldı</p>'+
-          '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Devam Et →</button>'+
-          '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
-      }
-      kart.onclick = (function(ayrac, kartEl) { return function(e) {
-        if (e.target.classList.contains('ayrac-sil')) {
-          e.stopPropagation();
-          // Onay katmanı zaten açıksa tekrar açma
-          if (kartEl.querySelector('.ayrac-onay')) return;
-          var onay = document.createElement('div');
-          onay.className = 'ayrac-onay';
-          onay.style.cssText = 'position:absolute;inset:0;background:rgba(15,23,42,0.93);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;z-index:10;';
-          onay.innerHTML =
-            '<p style="font-size:13px;font-weight:700;color:#fff;text-align:center;margin:0;">Bu aramayı sil?</p>'+
-            '<div style="display:flex;gap:6px;width:100%;">'+
-            '<button class="onay-evet" style="flex:1;background:#ef4444;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;">Evet, sil</button>'+
-            '<button class="onay-iptal" style="flex:1;background:rgba(255,255,255,0.12);border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:600;color:#cbd5e1;cursor:pointer;">İptal</button>'+
-            '</div>';
-          kartEl.style.position = 'relative';
-          kartEl.appendChild(onay);
-          onay.querySelector('.onay-iptal').onclick = function(ev) {
-            ev.stopPropagation();
-            onay.remove();
-          };
-          onay.querySelector('.onay-evet').onclick = function(ev) {
-            ev.stopPropagation();
-            var list = [];
-            try { list = JSON.parse(localStorage.getItem('budurBuldumAyraclar')||'[]'); } catch(ex){}
-            list = list.filter(function(x){ return x.sessionId !== ayrac.sessionId; });
-            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(list));
-            if (localStorage.getItem('budurBuldumSessionId') === ayrac.sessionId) {
-              localStorage.removeItem('budurBuldumSessionId');
-              localStorage.removeItem('budurBuldumCevaplar');
-              localStorage.removeItem('budurBuldumTamamlandi');
-            }
-            kartEl.remove();
-            var k = document.getElementById('arayaclar-konteyner');
-            if (k && k.children.length === 0) document.getElementById('arayaclar-sarici').style.display='none';
-          };
-          return;
-        }
-        localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
-        if (ayrac.tamamlandi) {
-          localStorage.setItem('budurBuldumTamamlandi', '1');
-          localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
-          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
-          window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
-        } else {
-          // Eski hatalı davranış: burada eski/tek-sayfalı quiz dosyalarına (QUIZ listesi)
-          // veya ozet.html'e yönlendiriyordu — kullanıcı bizim yeni scroll-quiz akışından
-          // (index.html) tamamen çıkıp eski, embed edilmemiş sayfalara düşüyordu.
-          // Artık burada DEĞİL, index.html'in kendisine (scroll-quiz akışına) devam
-          // ediyor — budurBuldumDevamEdiliyor bayrağı, cevapların sayfa yenilenirken
-          // silinmesini bir seferliğine engelliyor.
-          localStorage.removeItem('budurBuldumTamamlandi');
-          localStorage.setItem('budurBuldumDevamEdiliyor', '1');
-          window.location.href = window.location.pathname;
-        }
-      }; })(a, kart);
-      konteyner.appendChild(kart);
+      konteyner.appendChild(sqKartElementOlustur(a, i));
     });
   } catch(e) {}
 
@@ -1593,6 +1596,7 @@ function sqKartEsikKontrolVeOlustur() {
     var isim = localStorage.getItem('budurBuldumKisiAdi_' + sid) || '';
 
     var yeniKayit = false;
+    var sonAyrac = null;
     try {
         var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
         var idx = -1;
@@ -1604,14 +1608,29 @@ function sqKartEsikKontrolVeOlustur() {
             ayraclar[idx].kisiAdi = isim;
             ayraclar[idx].kime = kime;
             ayraclar[idx].cevaplar = cv;
+            sonAyrac = ayraclar[idx];
         } else {
-            ayraclar.push({ sessionId: sid, kime: kime, kisiAdi: isim, cevaplar: cv, tamamlandi: false });
+            sonAyrac = { sessionId: sid, kime: kime, kisiAdi: isim, cevaplar: cv, tamamlandi: false };
+            ayraclar.push(sonAyrac);
         }
         localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
     } catch(ex2) {}
 
-    // Üst şeritte anlık kartı göster/güncelle (eski kimesec içindeki aynı mantık)
-    sqAnlikKartGuncelle(kime, isim);
+    // Eşik tam bu anda karşılandı: anlık-kart (önizleme, butonsuz) yerine artık
+    // GERÇEK, tıklanabilir kartı (Devam Et/Sil butonlu) doğrudan koyuyoruz —
+    // sayfa yenilenmeden iki kez görünmesin diye anlık-kart kaldırılıyor.
+    var _anlikOnce = document.getElementById('anlik-kart');
+    if (_anlikOnce) _anlikOnce.remove();
+    if (sonAyrac) {
+        var _konteynerEsik = document.getElementById('arayaclar-konteyner');
+        var _saraciEsik = document.getElementById('arayaclar-sarici');
+        if (_konteynerEsik) {
+            var _eskiKart = _konteynerEsik.querySelector('[data-kart-sid="' + sid + '"]');
+            if (_eskiKart) _eskiKart.remove();
+            _konteynerEsik.insertBefore(sqKartElementOlustur(sonAyrac, 0), _konteynerEsik.firstChild);
+            if (_saraciEsik) _saraciEsik.style.display = 'block';
+        }
+    }
 
     // Backend profil kaydı sadece kart ilk kez oluşurken tetiklenir (her cevapta spam etmesin)
     if (yeniKayit) {
