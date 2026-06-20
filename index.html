@@ -1407,6 +1407,14 @@ function ozelSetTamamlandi() {
 
 // kime cevabı değiştiğinde sayfayı sıfırdan yükle
 function quizSifirla(yeniKime) {
+    // TEŞHİS AMAÇLI GEÇİCİ İŞARET: bu fonksiyon gerçekten çalışıyor mu görmek için.
+    try {
+        var _tani = document.createElement('div');
+        _tani.textContent = '🔄 SIFIRLANIYOR: ' + yeniKime;
+        _tani.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#facc15;color:#000;font-weight:900;text-align:center;padding:14px;font-size:16px;';
+        document.body.appendChild(_tani);
+    } catch(exTani) {}
+
     var _sid = localStorage.getItem('budurBuldumSessionId');
     var _cv = {};
     try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
