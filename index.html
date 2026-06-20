@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <script>
-    // KESİN SIFIRLAMA: index.html?sifirla=1 ile açılırsa, budurBuldum* ile başlayan
-    // TÜM localStorage anahtarlarını (ayraçlar dahil) temizler ve temiz URL'e döner.
-    // Eski test verisi mi yeni hata mı tartışmasını bitirmek için eklendi — test
-    // öncesi bu URL ile garanti sıfır/temiz duruma geçilebilir.
-    if (location.search.indexOf('sifirla=1') !== -1) {
-        Object.keys(localStorage).forEach(function(k) {
-            if (k.indexOf('budurBuldum') === 0) localStorage.removeItem(k);
-        });
-        location.href = location.pathname;
-    }
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hediye : Kime Yaş Bütçe Tarz Hobi Stil Kişilik Spor Teknoloji +20</title>
@@ -384,162 +372,19 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 </div>
 
 <script>
-// Bir aramanın üst şeritte kart olarak KALICI tutulmaya değer sayılıp sayılmayacağını belirler.
-// İKİ disiplin faktöründen HERHANGİ BİRİ yeterlidir (OR mantığı):
-//   1) Kullanıcı "Bu aramaya isim ver" popup'ında bir isim yazmış (budurBuldumKisiAdi_{sid})
-//   2) Normal akışta "hobiler" sorusu cevaplanmış, özel akışta (Bebek/Çocuk/Pet) kime hariç
-//      en az 3 soru cevaplanmış (hobiler sorusu özel akışlarda yok, eşdeğer derinlik olarak kullanılıyor)
-// sid verilmezse aktif session_id otomatik okunur. typeof kontrolü, bu fonksiyon aktifOzelSet
-// tanımlanmadan önce (sayfa yüklenirken) çağrılırsa hata vermesin diye.
-function sqAramaKaydaDegerMi(cv, sid) {
-    var _sid = sid || localStorage.getItem('budurBuldumSessionId') || '';
-    var isimVerildiMi = _sid ? !!localStorage.getItem('budurBuldumKisiAdi_' + _sid) : false;
-    if (isimVerildiMi) return true;
-
-    var ozelAkisMi = (typeof aktifOzelSet !== 'undefined' && !!aktifOzelSet);
-    if (ozelAkisMi) {
-        var digerCevapSayisi = Object.keys(cv).filter(function(k){ return k !== 'kime'; }).length;
-        return digerCevapSayisi >= 3;
-    }
-    return !!cv.hobiler;
-}
-</script>
-<script>
-var SQ_RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
-
-// Bir ayraç kaydı için TIKLANABİLİR, Devam Et/Sil butonlu gerçek kart DOM elemanı
-// üretir. Hem sayfa yüklenirken listeyi çizen döngüde hem de bir arama eşiği
-// (hobiler cevaplandı / isim verildi) sayfa yenilenmeden tam o anda karşılanınca
-// kullanılır — böylece anlık-kart (önizleme) ile gerçek kart aynı anda iki kez
-// görünmez, anlık-kart yerine doğrudan bu gerçek kart geçer.
-function sqKartElementOlustur(a, renkIdx) {
-  var renk = SQ_RENKLER[(renkIdx || 0) % SQ_RENKLER.length];
-  var initials = (a.kime || '?').substring(0, 2).toUpperCase();
-  var kart = document.createElement('div');
-  kart.setAttribute('data-kart-sid', a.sessionId);
-
-  if (a.tamamlandi) {
-    kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #e8a838;border-radius:12px;padding:12px;cursor:pointer;';
-    kart.innerHTML =
-      '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
-      '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+(a.kisiAdi ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+a.kisiAdi+'</span>' : '')+'</p>'+
-      '<p style="font-size:12px;color:#e2e8f0;margin:0 0 2px;">'+(a.amac||'')+'</p>'+
-      '<p style="font-size:12px;color:#e8a838;font-weight:700;margin:0 0 10px;">'+(a.butce||'')+'</p>'+
-      '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Yeni hediye</button>'+
-      '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
-  } else {
-    kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #475569;border-radius:12px;padding:12px;cursor:pointer;';
-    kart.innerHTML =
-      '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
-      '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+(a.kisiAdi ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+a.kisiAdi+'</span>' : '')+'</p>'+
-      '<p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Yarım kaldı</p>'+
-      '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Devam Et →</button>'+
-      '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
-  }
-  kart.onclick = (function(ayrac, kartEl) { return function(e) {
-    if (e.target.classList.contains('ayrac-sil')) {
-      e.stopPropagation();
-      if (kartEl.querySelector('.ayrac-onay')) return;
-      var onay = document.createElement('div');
-      onay.className = 'ayrac-onay';
-      onay.style.cssText = 'position:absolute;inset:0;background:rgba(15,23,42,0.93);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;z-index:10;';
-      onay.innerHTML =
-        '<p style="font-size:13px;font-weight:700;color:#fff;text-align:center;margin:0;">Bu aramayı sil?</p>'+
-        '<div style="display:flex;gap:6px;width:100%;">'+
-        '<button class="onay-evet" style="flex:1;background:#ef4444;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;">Evet, sil</button>'+
-        '<button class="onay-iptal" style="flex:1;background:rgba(255,255,255,0.12);border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:600;color:#cbd5e1;cursor:pointer;">İptal</button>'+
-        '</div>';
-      kartEl.style.position = 'relative';
-      kartEl.appendChild(onay);
-      onay.querySelector('.onay-iptal').onclick = function(ev) {
-        ev.stopPropagation();
-        onay.remove();
-      };
-      onay.querySelector('.onay-evet').onclick = function(ev) {
-        ev.stopPropagation();
-        var list = [];
-        try { list = JSON.parse(localStorage.getItem('budurBuldumAyraclar')||'[]'); } catch(ex){}
-        list = list.filter(function(x){ return x.sessionId !== ayrac.sessionId; });
-        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(list));
-        if (localStorage.getItem('budurBuldumSessionId') === ayrac.sessionId) {
-          localStorage.removeItem('budurBuldumSessionId');
-          localStorage.removeItem('budurBuldumCevaplar');
-          localStorage.removeItem('budurBuldumTamamlandi');
-        }
-        kartEl.remove();
-        var k = document.getElementById('arayaclar-konteyner');
-        if (k && k.children.length === 0) document.getElementById('arayaclar-sarici').style.display='none';
-      };
-      return;
-    }
-    localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
-    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
-    if (ayrac.tamamlandi) {
-      localStorage.setItem('budurBuldumTamamlandi', '1');
-      localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
-      localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
-      window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
-    } else {
-      localStorage.removeItem('budurBuldumTamamlandi');
-      localStorage.setItem('budurBuldumDevamEdiliyor', '1');
-      window.location.href = window.location.pathname;
-    }
-  }; })(a, kart);
-  return kart;
-}
-
 (function() {
   // Ayraç listesinden kartları göster
   try {
-    // Eğer şu an bir kime-değiştirme reload'ı ortasındaysak (budurBuldumBaslangicKime
-    // set edilmiş), localStorage'daki cevaplar HENÜZ silinmemiş ama BAYAT veridir
-    // (az sonra temizlenip yeni kime ile değiştirilecek). Bu bayat veriyle aktif
-    // session'ı senkronize etmeye çalışmak, yanlış/hayalet bir ayraç kaydı oluşturur
-    // (bir önceki kişinin cevaplarını yeni session_id'ye yapıştırır). O yüzden bu
-    // geçiş anında senkronizasyonu tamamen atlıyoruz.
-    var _kimeGecisiSurerken = !!localStorage.getItem('budurBuldumBaslangicKime');
     var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
-
-    // SAVUNMA AMAÇLI TEMİZLİK: tamamlanmamış VE kayda değer olmayan (hobiler
-    // cevaplanmamış) hayalet kayıtları ayraçlardan sil. Bu kayıtlar normalde hiç
-    // oluşmaması gereken, eski bug'lardan veya tarayıcı bfcache'inden kalan çöplerdir.
-    var _temizOncesiUzunluk = ayraclar.length;
-    ayraclar = ayraclar.filter(function(a) {
-        if (a.tamamlandi) return true; // tamamlanmışı asla silme
-        var _acv = a.cevaplar || {};
-        return sqAramaKaydaDegerMi(_acv, a.sessionId);
-    });
-    if (ayraclar.length !== _temizOncesiUzunluk) {
-        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
-    }
-
     // Aktif (mevcut) quiz de ayraçlara ekle
     var cv = {};
     try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
     var aktifSid = localStorage.getItem('budurBuldumSessionId');
-    if (!_kimeGecisiSurerken && aktifSid && Object.keys(cv).length > 0) {
+    if (aktifSid && Object.keys(cv).length > 0) {
       var aktifIdx = -1;
       for (var j = 0; j < ayraclar.length; j++) {
         if (ayraclar[j].sessionId === aktifSid) { aktifIdx = j; break; }
       }
-      // Arama henüz kayda değer eşiğine ulaşmadıysa ve listede de yoksa,
-      // gereksiz "yarım kaldı" kartı oluşturmamak için listeye eklemiyoruz.
-      if (aktifIdx >= 0 || sqAramaKaydaDegerMi(cv, aktifSid)) {
-
-      // ÇATIŞMA KORUMASI: eğer bu sessionId'ye ait, ZATEN kayda değer hale gelmiş
-      // (isimli veya hobiler cevaplanmış) bir kayıt varsa ve o kaydın "kime" değeri
-      // şu anki cv.kime'den FARKLIYSA, bu aslında iki farklı aramanın aynı session_id'yi
-      // paylaştığı anlamına gelir (örn. eski bir arama tamamlanmadan/yenilenmeden yeni
-      // bir kime seçilmiş). Bu durumda eski kaydın üzerine YAZMIYORUZ — current cv için
-      // taze bir session_id üretip localStorage'a yazıyoruz, eski kayıt dokunulmadan kalıyor.
-      if (aktifIdx >= 0 && cv.kime && ayraclar[aktifIdx].kime && ayraclar[aktifIdx].kime !== cv.kime &&
-          (ayraclar[aktifIdx].tamamlandi || sqAramaKaydaDegerMi(ayraclar[aktifIdx].cevaplar || {}, aktifSid))) {
-        var _yeniSidCatisma = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
-        localStorage.setItem('budurBuldumSessionId', _yeniSidCatisma);
-        aktifSid = _yeniSidCatisma;
-        aktifIdx = -1;
-      }
-
       var aktifAyrac = {
         sessionId: aktifSid,
         kime: cv.kime || '',
@@ -556,18 +401,120 @@ function sqKartElementOlustur(a, renkIdx) {
       }
       else { ayraclar.push(aktifAyrac); }
       localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
-      }
     }
 
     if (ayraclar.length === 0) return;
 
+    var RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
     var saraci = document.getElementById('arayaclar-sarici');
     if (!saraci) return;
     saraci.style.display = 'block';
     var konteyner = document.getElementById('arayaclar-konteyner');
 
     ayraclar.slice().reverse().forEach(function(a, i) {
-      konteyner.appendChild(sqKartElementOlustur(a, i));
+      var renk = RENKLER[i % RENKLER.length];
+      var initials = (a.kime || '?').substring(0, 2).toUpperCase();
+      var kart = document.createElement('div');
+
+      if (a.tamamlandi) {
+        kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #e8a838;border-radius:12px;padding:12px;cursor:pointer;';
+        kart.innerHTML =
+          '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+          '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+(a.kisiAdi ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+a.kisiAdi+'</span>' : '')+'</p>'+
+          '<p style="font-size:12px;color:#e2e8f0;margin:0 0 2px;">'+(a.amac||'')+'</p>'+
+          '<p style="font-size:12px;color:#e8a838;font-weight:700;margin:0 0 10px;">'+(a.butce||'')+'</p>'+
+          '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Yeni hediye</button>'+
+          '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
+      } else {
+        kart.style.cssText = 'flex-shrink:0;width:150px;background:#1e293b;border:2px solid #475569;border-radius:12px;padding:12px;cursor:pointer;';
+        kart.innerHTML =
+          '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
+          '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+(a.kime||'—')+(a.kisiAdi ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+a.kisiAdi+'</span>' : '')+'</p>'+
+          '<p style="font-size:12px;color:#94a3b8;margin:0 0 10px;">Yarım kaldı</p>'+
+          '<button style="width:100%;background:#e8a838;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:700;color:#000;cursor:pointer;">Devam Et →</button>'+
+          '<button class="ayrac-sil" data-sid="'+a.sessionId+'" style="width:100%;margin-top:6px;background:transparent;border:1px solid #ef4444;border-radius:8px;padding:7px;font-size:12px;font-weight:600;color:#ef4444;cursor:pointer;">Sil</button>';
+      }
+      kart.onclick = (function(ayrac, kartEl) { return function(e) {
+        if (e.target.classList.contains('ayrac-sil')) {
+          e.stopPropagation();
+          // Onay katmanı zaten açıksa tekrar açma
+          if (kartEl.querySelector('.ayrac-onay')) return;
+          var onay = document.createElement('div');
+          onay.className = 'ayrac-onay';
+          onay.style.cssText = 'position:absolute;inset:0;background:rgba(15,23,42,0.93);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;z-index:10;';
+          onay.innerHTML =
+            '<p style="font-size:13px;font-weight:700;color:#fff;text-align:center;margin:0;">Bu aramayı sil?</p>'+
+            '<div style="display:flex;gap:6px;width:100%;">'+
+            '<button class="onay-evet" style="flex:1;background:#ef4444;border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;">Evet, sil</button>'+
+            '<button class="onay-iptal" style="flex:1;background:rgba(255,255,255,0.12);border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:600;color:#cbd5e1;cursor:pointer;">İptal</button>'+
+            '</div>';
+          kartEl.style.position = 'relative';
+          kartEl.appendChild(onay);
+          onay.querySelector('.onay-iptal').onclick = function(ev) {
+            ev.stopPropagation();
+            onay.remove();
+          };
+          onay.querySelector('.onay-evet').onclick = function(ev) {
+            ev.stopPropagation();
+            var list = [];
+            try { list = JSON.parse(localStorage.getItem('budurBuldumAyraclar')||'[]'); } catch(ex){}
+            list = list.filter(function(x){ return x.sessionId !== ayrac.sessionId; });
+            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(list));
+            if (localStorage.getItem('budurBuldumSessionId') === ayrac.sessionId) {
+              localStorage.removeItem('budurBuldumSessionId');
+              localStorage.removeItem('budurBuldumCevaplar');
+              localStorage.removeItem('budurBuldumTamamlandi');
+            }
+            kartEl.remove();
+            var k = document.getElementById('arayaclar-konteyner');
+            if (k && k.children.length === 0) document.getElementById('arayaclar-sarici').style.display='none';
+          };
+          return;
+        }
+        localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
+        if (ayrac.tamamlandi) {
+          localStorage.setItem('budurBuldumTamamlandi', '1');
+          localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
+          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
+          window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
+        } else {
+          localStorage.removeItem('budurBuldumTamamlandi');
+          var sonSayfa = ayrac.sonSayfa;
+          var QUIZ = [
+            'hediye-kime-alinacak-testi.html','kadin-erkek-hediye-secimi-testi.html',
+            'dogum-tarihine-gore-hediye-testi.html','yasa-gore-hediye-bulma-testi.html',
+            'kisilik-tarzina-gore-hediye-testi.html','hobiye-gore-hediye-bulma-testi.html',
+            'sevdigi-renge-gore-hediye-testi.html','ne-icin-hediye-alinacak-testi.html',
+            'yasam-tarzina-gore-hediye-testi.html','teknoloji-ilgisine-gore-hediye-testi.html',
+            'butceye-gore-hediye-bulma-testi.html','mevsime-gore-hediye-secimi-testi.html',
+            'tatli-zevkine-gore-hediye-testi.html','sporcu-icin-hediye-bulma-testi.html',
+            'muzik-zevkine-gore-hediye-testi.html','hayvan-sever-icin-hediye-testi.html',
+            'seyahat-sevene-hediye-bulma-testi.html','kitap-okuyucuya-hediye-testi.html',
+            'kahve-cay-icene-hediye-testi.html','film-sevene-hediye-bulma-testi.html',
+            'bitki-sevene-hediye-testi.html','oyun-oynayanlara-hediye-testi.html',
+            'makyaj-bakim-sevene-hediye-testi.html','aksesuar-saat-sevene-hediye-testi.html',
+            'yemek-icin-hediye-bulma-testi.html','doga-yuruyusu-sevene-hediye-testi.html',
+            'sanat-sevene-hediye-bulma-testi.html','fotograf-cekmeyi-sevene-hediye-testi.html',
+            'kisilik-tipine-gore-hediye-testi.html','hediye-onceliklerine-gore-secim-testi.html',
+            'bebek-kiz-mi-erkek-mi-hediye-testi.html','bebek-yasina-gore-hediye-testi.html',
+            'bebek-hediyesi-ne-icin-alinacak-testi.html','bebege-ne-tur-hediye-alinacak-testi.html',
+            'butceye-gore-bebek-hediyesi-testi.html','anne-baba-tarzina-gore-bebek-hediyesi-testi.html',
+            'cocuk-kiz-mi-erkek-mi-hediye-testi.html','cocugun-yasina-gore-hediye-testi.html',
+            'cocuga-ne-icin-hediye-alinacak-testi.html','cocuga-ne-tur-hediye-alinacak-testi.html',
+            'butceye-gore-cocuk-hediyesi-testi.html','evcil-hayvan-icin-hediye-testi.html',
+            'butceye-gore-kedi-hediyesi-testi.html','butceye-gore-kopek-hediyesi-testi.html',
+            'butceye-gore-kus-hediyesi-testi.html','butceye-gore-balik-hediyesi-testi.html',
+            'butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html',
+            'cocugun-aktivitesine-gore-hediye-testi.html',
+            'cocugun-sevdigi-temaya-gore-hediye-testi.html',
+            'cocugun-yasam-alanina-gore-hediye-testi.html'
+          ];
+          var quizMi = sonSayfa && QUIZ.some(function(s){ return sonSayfa.indexOf(s) >= 0; });
+          window.location.href = quizMi ? sonSayfa : 'ozet.html';
+        }
+      }; })(a, kart);
+      konteyner.appendChild(kart);
     });
   } catch(e) {}
 
@@ -1044,49 +991,7 @@ function nickDegistirIndex() {
 </script>
 
 <script>
-// TEŞHİS AMAÇLI GEÇİCİ BANNER: sayfa açılır açılmaz, herhangi bir temizlik
-// kodu çalışmadan ÖNCE, localStorage'da gerçekte ne var görmek için.
-(function() {
-    try {
-        var _t_cv = localStorage.getItem('budurBuldumCevaplar') || '(yok)';
-        var _t_bk = localStorage.getItem('budurBuldumBaslangicKime') || '(yok)';
-        var _t_de = localStorage.getItem('budurBuldumDevamEdiliyor') || '(yok)';
-        var _t_sid = localStorage.getItem('budurBuldumSessionId') || '(yok)';
-        var _b = document.createElement('div');
-        _b.textContent = '🔍 SAYFA AÇILIŞI — cevaplar: ' + _t_cv + ' | baslangicKime: ' + _t_bk + ' | devamEdiliyor: ' + _t_de + ' | sid: ' + _t_sid;
-        _b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#3b82f6;color:#fff;font-weight:700;text-align:left;padding:10px;font-size:11px;word-break:break-all;max-height:160px;overflow:auto;';
-        document.body.appendChild(_b);
-    } catch(exT0) {}
-})();
-</script>
-<script>
-// "Devam Et" ile bir ayraç kartından geri dönülüyorsa (bkz. konteyner.appendChild
-// öncesindeki kart click handler'ı), cevaplar BİR SEFERLİĞİNE silinmez — aşağıdaki
-// restore script'i bu cevaplara göre doğru soruya scroll eder. Normal/temiz girişte
-// ve kime-değiştirme reload'ında (quizSifirla) bu bayrak set değildir, eski davranış sürer.
-if (localStorage.getItem('budurBuldumDevamEdiliyor')) {
-    localStorage.removeItem('budurBuldumDevamEdiliyor');
-} else {
-    localStorage.removeItem('budurBuldumCevaplar');
-    // ASIL KÖK SEBEP: bu gerçekten sıfırdan/temiz bir girişse (Devam Et değil,
-    // kime-değiştirme reload'ı da değil), eski budurBuldumSessionId'yi de
-    // temizliyoruz. Aksi halde sqKimeIsimPopupAc() "sid zaten var" diye eski
-    // (belki çok önce kalıcı olmuş, "Yarım kaldı" listesindeki) bir session_id'yi
-    // YENİ kime cevabına yapıştırıyordu — eski kart sessizce yeni kime'nin ismine
-    // dönüşüyordu (örn. "Anne" kartı "Arkadaş" oluyordu, sonra tekrar "Anne").
-    if (!localStorage.getItem('budurBuldumBaslangicKime')) {
-        localStorage.removeItem('budurBuldumSessionId');
-        localStorage.removeItem('budurBuldumTamamlandi');
-    }
-}
-
-// TEŞHİS AMAÇLI GEÇİCİ BANNER 2: temizlik kodu çalıştıktan SONRA durum ne?
-try {
-    var _b2 = document.createElement('div');
-    _b2.textContent = '✅ TEMİZLİKTEN SONRA — cevaplar: ' + (localStorage.getItem('budurBuldumCevaplar') || '(yok - TEMİZ)');
-    _b2.style.cssText = 'position:fixed;top:170px;left:0;right:0;z-index:999999;background:#16a34a;color:#fff;font-weight:700;text-align:left;padding:10px;font-size:11px;word-break:break-all;max-height:160px;overflow:auto;';
-    document.body.appendChild(_b2);
-} catch(exT1) {}
+localStorage.removeItem('budurBuldumCevaplar');
 
 // Eğer önceki oturumdan sıfırlama sonrası kime cevabı kaydedildiyse,
 // kime iframe'i yüklenince otomatik olarak o cevabı uygula
@@ -1431,58 +1336,8 @@ function ozelSetTamamlandi() {
 
 // kime cevabı değiştiğinde sayfayı sıfırdan yükle
 function quizSifirla(yeniKime) {
-    // TEŞHİS AMAÇLI GEÇİCİ İŞARET: bu fonksiyon gerçekten çalışıyor mu görmek için.
-    try {
-        var _tani = document.createElement('div');
-        _tani.textContent = '🔄 SIFIRLANIYOR: ' + yeniKime;
-        _tani.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#facc15;color:#000;font-weight:900;text-align:center;padding:14px;font-size:16px;';
-        document.body.appendChild(_tani);
-    } catch(exTani) {}
-
-    var _sid = localStorage.getItem('budurBuldumSessionId');
-    var _cv = {};
-    try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
-    var _tamamlandi = false;
-    try {
-        var _ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
-        for (var _i = 0; _i < _ayraclar.length; _i++) {
-            if (_ayraclar[_i].sessionId === _sid) { _tamamlandi = !!_ayraclar[_i].tamamlandi; break; }
-        }
-    } catch(ex2) {}
-
-    var kaydaDeger = _tamamlandi || sqAramaKaydaDegerMi(_cv, _sid);
-    if (kaydaDeger) {
-        // Kayda değer veya tamamlanmış arama: eski kartı koru, yeni session_id üret
-        var _yeniSid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
-        localStorage.setItem('budurBuldumSessionId', _yeniSid);
-    } else {
-        // KAYDA DEĞER DEĞİL (hobiler cevaplanmamış): bu oturumun ayraclar listesinde
-        // işi yok — varsa sil (savunma amaçlı), yoksa zaten sorun yok.
-        try {
-            var _temizAyraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
-            _temizAyraclar = _temizAyraclar.filter(function(a) { return a.sessionId !== _sid; });
-            localStorage.setItem('budurBuldumAyraclar', JSON.stringify(_temizAyraclar));
-        } catch(ex3) {}
-    }
-
-    // Görsel anlik-kartı DOM'dan kaldır (sayfa yenilense de Samsung Browser'ın
-    // bfcache'i DOM'u koruyabilir — o yüzden manuel temizlik şart)
-    var _anlik = document.getElementById('anlik-kart');
-    if (_anlik) _anlik.remove();
-
-    // ESKİ CEVAPLARI BURADA, NAVİGASYONDAN ÖNCE TEMİZLE: location.reload()
-    // Samsung Browser'da bazen GERÇEK bir yeniden yükleme yapmıyor, bfcache'ten
-    // eski sayfayı (ve içindeki eski cevaplarla işaretli iframe'leri) geri
-    // getirebiliyor — bu durumda sayfa başındaki temizlik script'i hiç çalışmıyor.
-    // Bu yüzden cevapları reload'a güvenmeden burada, hemen şimdi siliyoruz.
-    localStorage.removeItem('budurBuldumCevaplar');
-
     localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
-    // bfcache'i KESİN olarak devre dışı bırakmak için location.reload() yerine
-    // her seferinde FARKLI bir URL'e (cache-busting query param'lı) gidiyoruz —
-    // bfcache sadece AYNI URL'e geri/ileri navigasyonda devreye girer, farklı
-    // URL'e gitmek her zaman tamamen taze bir sayfa yüklemesi garantiler.
-    window.location.href = window.location.pathname + '?_t=' + Date.now();
+    window.location.href = window.location.pathname;
 }
 
 // O anki geçerli soru sırasını döndürür (normal akış ya da aktif özel set)
@@ -1545,221 +1400,6 @@ function disiplinKontrol(soruId, engellenenIframeId) {
     return false;
 }
 
-// ============================================================
-// "DEVAM ET" RESTORE — bookmark kartındaki "Devam Et" tıklanınca buraya
-// (index.html) cevaplar localStorage'da korunarak geri dönülür (bkz.
-// budurBuldumDevamEdiliyor bayrağı). Sayfa yüklenirken BİR KERE çalışır:
-// önceki cevapları cevaplananlar'a işaretler, gerekirse özel seti
-// (Bebek/Çocuk/Pet) yeniden kurar ve ilk cevaplanmamış soruya scroll eder.
-// Kime-değiştirme reload'ında (budurBuldumBaslangicKime set) devre dışıdır.
-(function() {
-    var _cv = {};
-    try { _cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
-    if (!_cv.kime || localStorage.getItem('budurBuldumBaslangicKime')) return;
-
-    Object.keys(_cv).forEach(function(k) { cevaplananlar[k] = true; });
-
-    if (KIME_SET_HARITASI[_cv.kime]) {
-        aktifOzelSet = KIME_SET_HARITASI[_cv.kime];
-        ozelSetTumSorularEkle(aktifOzelSet);
-    }
-
-    setTimeout(function() {
-        var sira = aktifSoruSirasi();
-        var atlanmasiGerekenler = KIME_ATLAMA_HARITASI[_cv.kime] || [];
-        var hedefId = null;
-        for (var i = 0; i < sira.length; i++) {
-            var sId = sira[i];
-            if (atlanmasiGerekenler.indexOf(sId) !== -1) continue;
-            if (!_cv[sId]) { hedefId = sId; break; }
-        }
-        var hedefBlok = hedefId ? document.getElementById('blok-' + hedefId) : document.getElementById('blok-ozet');
-        if (hedefBlok) hedefBlok.scrollIntoView({behavior:'smooth', block:'start'});
-    }, 700);
-})();
-
-// ============================================================
-// İSİM POPUP — eski tek-sayfa akışındaki startQuiz()/kisiIsmiKaydet()
-// mantığının scroll-quiz'e taşınmış hali. Sayfa yönlendirmesi (window.location)
-// yapmıyor; isim kaydedildikten/geçildikten sonra verilen devamFn'i çağırıyor.
-// ============================================================
-var _sqKimeContinue = null;
-var _sqKimeDegeri = '';
-
-function sqKimeIsimPopupAc(kimeDegeri, devamFn) {
-    _sqKimeDegeri = kimeDegeri;
-    _sqKimeContinue = devamFn;
-    // Bu oturum için session_id yoksa üret (eski startQuiz mantığı)
-    var sid = localStorage.getItem('budurBuldumSessionId');
-    if (!sid) {
-        sid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
-        localStorage.setItem('budurBuldumSessionId', sid);
-    }
-    var inp = document.getElementById('kisi-ismi-input');
-    if (inp) inp.value = '';
-    var kimeLabel = document.getElementById('kisi-ismi-kime-label');
-    if (kimeLabel) kimeLabel.textContent = kimeDegeri;
-    document.getElementById('kisi-ismi-popup').style.display = 'flex';
-}
-
-// İsim popup'ı kapanırken çağrılır. Görsel kartı (üst şeritteki anlık kart) HER
-// DURUMDA hemen gösterir — isim verilse de verilmese de. Bu sadece görsel geri
-// bildirimdir, henüz KALICI değildir. Kalıcı kayıt (localStorage'daki ayraç
-// listesine yazma) yalnızca sqKartEsikKontrolVeOlustur() içinde, eşik (normal
-// akışta hobiler, özel akışta 3 cevap) gerçekten karşılanınca yapılır.
-function sqKimeIsmiKaydetVeDevam(isim) {
-    var _sid = localStorage.getItem('budurBuldumSessionId') || '';
-    if (_sid) localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
-    sqAnlikKartGuncelle(_sqKimeDegeri, isim);
-    sqKartEsikKontrolVeOlustur();
-    document.getElementById('kisi-ismi-popup').style.display = 'none';
-    if (typeof _sqKimeContinue === 'function') {
-        var fn = _sqKimeContinue;
-        _sqKimeContinue = null;
-        fn();
-    }
-}
-
-// Hem isim popup'ı kapanırken hem her cevap kaydından sonra çağrılır.
-// Arama henüz kayda değer eşiğine ulaşmadıysa (normal akışta hobiler cevaplanmamış,
-// özel akışta kime hariç 3 cevaba ulaşılmamış — bkz. sqAramaKaydaDegerMi) hiçbir
-// şey yapmaz; ayraç kaydı (KALICI liste) SADECE eşiğe ulaşıldığı an gerçekten oluşur.
-function sqKartEsikKontrolVeOlustur() {
-    var sid = localStorage.getItem('budurBuldumSessionId');
-    if (!sid) return;
-    var cv = {};
-    try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(ex) {}
-    if (!sqAramaKaydaDegerMi(cv, sid)) return;
-
-    var kime = cv.kime || _sqKimeDegeri || '';
-    if (!kime) return;
-    var isim = localStorage.getItem('budurBuldumKisiAdi_' + sid) || '';
-
-    var yeniKayit = false;
-    var sonAyrac = null;
-    try {
-        var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
-        var idx = -1;
-        for (var i = 0; i < ayraclar.length; i++) {
-            if (ayraclar[i].sessionId === sid) { idx = i; break; }
-        }
-
-        // ÇATIŞMA KORUMASI: idx'te bulunan kayıt zaten kayda değer hale gelmiş
-        // (isimli veya hobiler cevaplanmış/tamamlanmış) ve onun "kime" değeri şu anki
-        // kime'den FARKLIYSA, bu iki ayrı aramanın aynı session_id'yi paylaştığı
-        // anlamına gelir. Eski kaydın üzerine YAZMIYORUZ — bu yeni arama için taze
-        // bir session_id üretip ona geçiyoruz, eski kayıt olduğu gibi kalıyor.
-        if (idx >= 0 && ayraclar[idx].kime && ayraclar[idx].kime !== kime &&
-            (ayraclar[idx].tamamlandi || sqAramaKaydaDegerMi(ayraclar[idx].cevaplar || {}, sid))) {
-            var _yeniSidEsik = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
-            localStorage.setItem('budurBuldumSessionId', _yeniSidEsik);
-            sid = _yeniSidEsik;
-            idx = -1;
-        }
-
-        yeniKayit = (idx < 0);
-        if (idx >= 0) {
-            ayraclar[idx].kisiAdi = isim;
-            ayraclar[idx].kime = kime;
-            ayraclar[idx].cevaplar = cv;
-            sonAyrac = ayraclar[idx];
-        } else {
-            sonAyrac = { sessionId: sid, kime: kime, kisiAdi: isim, cevaplar: cv, tamamlandi: false };
-            ayraclar.push(sonAyrac);
-        }
-        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
-    } catch(ex2) {}
-
-    // Eşik tam bu anda karşılandı: anlık-kart (önizleme, butonsuz) yerine artık
-    // GERÇEK, tıklanabilir kartı (Devam Et/Sil butonlu) doğrudan koyuyoruz —
-    // sayfa yenilenmeden iki kez görünmesin diye anlık-kart kaldırılıyor.
-    var _anlikOnce = document.getElementById('anlik-kart');
-    if (_anlikOnce) _anlikOnce.remove();
-    if (sonAyrac) {
-        var _konteynerEsik = document.getElementById('arayaclar-konteyner');
-        var _saraciEsik = document.getElementById('arayaclar-sarici');
-        if (_konteynerEsik) {
-            var _eskiKart = _konteynerEsik.querySelector('[data-kart-sid="' + sid + '"]');
-            if (_eskiKart) _eskiKart.remove();
-            _konteynerEsik.insertBefore(sqKartElementOlustur(sonAyrac, 0), _konteynerEsik.firstChild);
-            if (_saraciEsik) _saraciEsik.style.display = 'block';
-        }
-    }
-
-    // Backend profil kaydı sadece kart ilk kez oluşurken tetiklenir (her cevapta spam etmesin)
-    if (yeniKayit) {
-        var nick = localStorage.getItem('budurBuldumNickname') || '';
-        fetch('/api/save-profile', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ session_id: sid, nickname: nick, kisi_adi: isim, tum_cevaplar: cv })
-        }).catch(function(ex3) {});
-    }
-}
-
-function sqAnlikKartGuncelle(kime, isim) {
-    var saraci = document.getElementById('arayaclar-sarici');
-    var konteyner = document.getElementById('arayaclar-konteyner');
-    if (!saraci || !konteyner) return;
-    var anlikKart = document.getElementById('anlik-kart');
-    var RENKLER = [{bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},{bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}];
-    var renk = RENKLER[0];
-    var initials = kime.replace(/\p{Emoji}/gu,'').trim().substring(0,2).toUpperCase();
-    if (!anlikKart) {
-        anlikKart = document.createElement('div');
-        anlikKart.id = 'anlik-kart';
-        anlikKart.style.cssText = 'flex-shrink:0;width:160px;background:#1e293b;border-radius:16px;padding:14px;border:2px solid #e8a838;cursor:default;opacity:0;transition:opacity 0.4s;';
-        konteyner.insertBefore(anlikKart, konteyner.firstChild);
-        saraci.style.display = 'block';
-        setTimeout(function(){ anlikKart.style.opacity='1'; }, 50);
-    }
-    anlikKart.innerHTML =
-        '<div style="width:36px;height:36px;border-radius:50%;background:'+renk.bg+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:'+renk.text+';margin-bottom:8px;">'+initials+'</div>'+
-        '<p style="font-size:14px;font-weight:700;color:#ffffff;margin:0 0 3px;">'+kime+(isim ? '<br><span style="font-size:11px;font-weight:500;opacity:0.7;">'+isim+'</span>' : '')+'</p>';
-}
-
-// Hediyeler bölümüne ulaşılınca (quiz fiilen tamamlanmış sayılır) bu oturumun
-// kart kaydını tamamlandi:true yapar. Eşik (hobiler/3 cevap) hiç karşılanmamış
-// olsa da, arama gerçekten tamamlanıp hediyeler görüldüyse kart HER ZAMAN kalıcı
-// olur — bu yüzden kayıt yoksa burada sıfırdan oluşturuluyor, sadece var olanı
-// güncellemekle kalınmıyor.
-function sqAyracTamamlandiIsaretle() {
-    var sid = localStorage.getItem('budurBuldumSessionId');
-    if (!sid) return;
-    localStorage.setItem('budurBuldumTamamlandi', '1');
-    try {
-        var cv = {};
-        try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(exCv) {}
-        var ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
-        var idx = -1;
-        for (var i = 0; i < ayraclar.length; i++) {
-            if (ayraclar[i].sessionId === sid) { idx = i; break; }
-        }
-        if (idx >= 0) {
-            ayraclar[idx].tamamlandi = true;
-            ayraclar[idx].cevaplar = cv;
-        } else {
-            var kime = cv.kime || _sqKimeDegeri || '';
-            var isim = localStorage.getItem('budurBuldumKisiAdi_' + sid) || '';
-            if (kime) {
-                ayraclar.push({ sessionId: sid, kime: kime, kisiAdi: isim, cevaplar: cv, tamamlandi: true });
-            }
-        }
-        localStorage.setItem('budurBuldumAyraclar', JSON.stringify(ayraclar));
-    } catch(ex) {}
-    // Ekranda zaten görünen kartı da (sayfa yenilenmeden) tamamlandı görünümüne çevir
-    try {
-        var kartEl = document.querySelector('[data-kart-sid="' + sid + '"]');
-        if (kartEl) {
-            kartEl.style.border = '2px solid #e8a838';
-            var altYazi = kartEl.querySelector('p:nth-of-type(2)');
-            if (altYazi && altYazi.textContent === 'Yarım kaldı') altYazi.textContent = '';
-            var devamBtn = kartEl.querySelector('button:not(.ayrac-sil)');
-            if (devamBtn) devamBtn.textContent = 'Yeni hediye';
-        }
-    } catch(ex4) {}
-}
-
 function iframeYenile(soruId) {
     var iframe = document.getElementById('iframe-' + soruId) || document.getElementById('kime-iframe');
     if (!iframe) return;
@@ -1783,7 +1423,6 @@ window.addEventListener('message', function(e) {
         if (hediyelerIframe && hediyelerIframe.contentWindow) {
             hediyelerIframe.contentWindow.postMessage({ type: 'hediyeleri_baslat' }, '*');
         }
-        sqAyracTamamlandiIsaretle();
         setTimeout(function() {
             var blok = document.getElementById('blok-hediyeler');
             if (blok) blok.scrollIntoView({ behavior:'smooth', block:'start' });
@@ -1801,43 +1440,12 @@ window.addEventListener('message', function(e) {
             return;
         }
 
-        // KİME DEĞİŞİKLİĞİ ÖZEL DURUMU: kime cevabı genel cevap-yazma kodundan
-        // ÖNCE kontrol edilmeli. Aksi halde yeni kime değeri önce eski cevaplara
-        // (hobiler dahil) karışıyor, eşik kontrolü kirli veriyle çalışıp eski
-        // kayıtlı karta yanlışlıkla yeni kime'yi yapıştırabiliyordu. Burada hiçbir
-        // şey yazmadan, mevcut kayıtlı kime'den farklıysa direkt sıfırlıyoruz —
-        // quizSifirla zaten doğru session_id yönetimini (eski kartı koru/yeni
-        // session_id üret) kendi içinde yapıyor.
-        if (soruId === 'kime') {
-            var _oncekiCv = {};
-            try { _oncekiCv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(exK) {}
-
-            // TEŞHİS AMAÇLI GEÇİCİ BANNER: kime mesajı gerçekte parent'a ulaşıyor mu,
-            // hangi değerlerle ulaşıyor görmek için.
-            try {
-                var _tani2 = document.createElement('div');
-                _tani2.textContent = '📩 KIME MESAJI GELDİ → yeni: "' + deger + '" | eski (cv.kime): "' + (_oncekiCv.kime || '(boş)') + '"';
-                _tani2.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#22c55e;color:#000;font-weight:900;text-align:center;padding:14px;font-size:14px;';
-                document.body.appendChild(_tani2);
-                setTimeout(function(){ _tani2.remove(); }, 6000);
-            } catch(exTani2) {}
-
-            if (_oncekiCv.kime && _oncekiCv.kime !== deger) {
-                quizSifirla(deger);
-                return;
-            }
-        }
-
         // localStorage'a yaz
         try {
             var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
             ls[soruId] = deger;
             localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
         } catch(ex) {}
-
-        // Eşik kontrolü: bu cevapla birlikte arama kayda değer hale geldiyse
-        // ayraç/kart şimdi, bu noktada gerçekten oluşur (bkz. sqKartEsikKontrolVeOlustur)
-        sqKartEsikKontrolVeOlustur();
 
         // ses çal (hem normal hem özel akış soruları için)
         try {
@@ -1852,40 +1460,36 @@ window.addEventListener('message', function(e) {
 
         // --- DALLANMA NOKTASI 1: kime cevabı ---
         if (soruId === 'kime') {
+            // Daha önce kime sorusu cevaplanmışsa (bu oturumda) → sıfırla
+            if (cevaplananlar['kime']) {
+                quizSifirla(deger);
+                return;
+            }
+
             cevaplananlar['kime'] = true;
             giftBoxGuncelle(0);
 
-            // KIME_ATLAMA_HARITASI'nda bu kime için atlanması gereken sorular varsa
-            // (örn. Baba → cinsiyet, Kardeş → dogum) bloklarını tamamen gizle
-            (KIME_ATLAMA_HARITASI[deger] || []).forEach(function(atlanacakId) {
-                var atlanacakBlok = document.getElementById('blok-' + atlanacakId);
-                if (atlanacakBlok) atlanacakBlok.style.display = 'none';
-            });
-
-            var sonrakiSayfaKime = e.data.sonrakiSayfa || '';
-            sqKimeIsimPopupAc(deger, function() {
-                if (KIME_SET_HARITASI[deger]) {
-                    // Bebek / Çocuk / Pet → özel set tüm soruları aç
-                    aktifOzelSet = KIME_SET_HARITASI[deger];
-                    ozelSetTumSorularEkle(aktifOzelSet);
-                    setTimeout(function() {
-                        var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
-                        if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
-                    }, 300);
-                } else {
-                    // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
-                    aktifOzelSet = null;
-                    var dosyaAdiKime = sonrakiSayfaKime.split('/').pop().split('?')[0];
-                    var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
-                    if (sonrakiSoruIdKime) {
-                        var reloadGerekenKime = ['cinsiyet', 'yas'];
-                        if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
-                            setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
-                        }
-                        setTimeout(function() { sonrakiScroll(sonrakiSoruIdKime); }, 300);
+            if (KIME_SET_HARITASI[deger]) {
+                // Bebek / Çocuk / Pet → özel set tüm soruları aç
+                aktifOzelSet = KIME_SET_HARITASI[deger];
+                ozelSetTumSorularEkle(aktifOzelSet);
+                setTimeout(function() {
+                    var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
+                    if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+                }, 300);
+            } else {
+                // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
+                aktifOzelSet = null;
+                var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
+                var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
+                if (sonrakiSoruIdKime) {
+                    var reloadGerekenKime = ['cinsiyet', 'yas'];
+                    if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
+                        setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
                     }
+                    setTimeout(function() { sonrakiScroll(sonrakiSoruIdKime); }, 300);
                 }
-            });
+            }
             return;
         }
 
@@ -3298,7 +2902,6 @@ window.addEventListener('message', function(e) {
 
     function kisiIsmiKaydet() {
         var isim = document.getElementById('kisi-ismi-input').value.trim();
-        if (_sqKimeContinue) { sqKimeIsmiKaydetVeDevam(isim); return; }
         var _sid = localStorage.getItem('budurBuldumSessionId') || '';
         if (_sid) localStorage.setItem('budurBuldumKisiAdi_' + _sid, isim);
         document.getElementById('kisi-ismi-popup').style.display = 'none';
@@ -3306,7 +2909,6 @@ window.addEventListener('message', function(e) {
     }
 
     function kisiIsmiGec() {
-        if (_sqKimeContinue) { sqKimeIsmiKaydetVeDevam(''); return; }
         document.getElementById('kisi-ismi-popup').style.display = 'none';
         _quizeGec();
     }
