@@ -1761,6 +1761,22 @@ window.addEventListener('message', function(e) {
             return;
         }
 
+        // KİME DEĞİŞİKLİĞİ ÖZEL DURUMU: kime cevabı genel cevap-yazma kodundan
+        // ÖNCE kontrol edilmeli. Aksi halde yeni kime değeri önce eski cevaplara
+        // (hobiler dahil) karışıyor, eşik kontrolü kirli veriyle çalışıp eski
+        // kayıtlı karta yanlışlıkla yeni kime'yi yapıştırabiliyordu. Burada hiçbir
+        // şey yazmadan, mevcut kayıtlı kime'den farklıysa direkt sıfırlıyoruz —
+        // quizSifirla zaten doğru session_id yönetimini (eski kartı koru/yeni
+        // session_id üret) kendi içinde yapıyor.
+        if (soruId === 'kime') {
+            var _oncekiCv = {};
+            try { _oncekiCv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(exK) {}
+            if (_oncekiCv.kime && _oncekiCv.kime !== deger) {
+                quizSifirla(deger);
+                return;
+            }
+        }
+
         // localStorage'a yaz
         try {
             var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
@@ -1785,12 +1801,6 @@ window.addEventListener('message', function(e) {
 
         // --- DALLANMA NOKTASI 1: kime cevabı ---
         if (soruId === 'kime') {
-            // Daha önce kime sorusu cevaplanmışsa (bu oturumda) → sıfırla
-            if (cevaplananlar['kime']) {
-                quizSifirla(deger);
-                return;
-            }
-
             cevaplananlar['kime'] = true;
             giftBoxGuncelle(0);
 
