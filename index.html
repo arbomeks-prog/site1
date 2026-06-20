@@ -519,7 +519,7 @@ function sqYukleniyorGoster(mesaj, sonra) {
     '<span>' + (mesaj || 'Aramana dönülüyor...') + '</span>' +
     '<style>@keyframes sqSpin{to{transform:rotate(360deg);}}</style>';
   document.body.appendChild(ov);
-  if (typeof sonra === 'function') setTimeout(sonra, 4500);
+  if (typeof sonra === 'function') setTimeout(sonra, 0);
 }
 sqAyraclarYenidenCiz();
 
