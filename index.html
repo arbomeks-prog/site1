@@ -1356,9 +1356,13 @@ function ozelSetTamamlandi() {
 function sqAyracSenkronEt() {
     try {
         var sid = localStorage.getItem('budurBuldumSessionId');
+        if (!sid) {
+            sid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
+            localStorage.setItem('budurBuldumSessionId', sid);
+        }
         var cv = {};
         try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e1) {}
-        if (!sid || !cv.kime) return;
+        if (!cv.kime) return;
 
         var ayraclar = [];
         try { ayraclar = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]'); } catch(e2) {}
