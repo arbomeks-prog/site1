@@ -1080,6 +1080,14 @@ if (localStorage.getItem('budurBuldumDevamEdiliyor')) {
     }
 }
 
+// TEŞHİS AMAÇLI GEÇİCİ BANNER 2: temizlik kodu çalıştıktan SONRA durum ne?
+try {
+    var _b2 = document.createElement('div');
+    _b2.textContent = '✅ TEMİZLİKTEN SONRA — cevaplar: ' + (localStorage.getItem('budurBuldumCevaplar') || '(yok - TEMİZ)');
+    _b2.style.cssText = 'position:fixed;top:170px;left:0;right:0;z-index:999999;background:#16a34a;color:#fff;font-weight:700;text-align:left;padding:10px;font-size:11px;word-break:break-all;max-height:160px;overflow:auto;';
+    document.body.appendChild(_b2);
+} catch(exT1) {}
+
 // Eğer önceki oturumdan sıfırlama sonrası kime cevabı kaydedildiyse,
 // kime iframe'i yüklenince otomatik olarak o cevabı uygula
 var _baslangicKime = localStorage.getItem('budurBuldumBaslangicKime');
