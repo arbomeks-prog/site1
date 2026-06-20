@@ -441,7 +441,22 @@ function sqAramaKaydaDegerMi(cv, sid) {
       }
       // Arama henüz kayda değer eşiğine ulaşmadıysa ve listede de yoksa,
       // gereksiz "yarım kaldı" kartı oluşturmamak için listeye eklemiyoruz.
-      if (aktifIdx >= 0 || sqAramaKaydaDegerMi(cv)) {
+      if (aktifIdx >= 0 || sqAramaKaydaDegerMi(cv, aktifSid)) {
+
+      // ÇATIŞMA KORUMASI: eğer bu sessionId'ye ait, ZATEN kayda değer hale gelmiş
+      // (isimli veya hobiler cevaplanmış) bir kayıt varsa ve o kaydın "kime" değeri
+      // şu anki cv.kime'den FARKLIYSA, bu aslında iki farklı aramanın aynı session_id'yi
+      // paylaştığı anlamına gelir (örn. eski bir arama tamamlanmadan/yenilenmeden yeni
+      // bir kime seçilmiş). Bu durumda eski kaydın üzerine YAZMIYORUZ — current cv için
+      // taze bir session_id üretip localStorage'a yazıyoruz, eski kayıt dokunulmadan kalıyor.
+      if (aktifIdx >= 0 && cv.kime && ayraclar[aktifIdx].kime && ayraclar[aktifIdx].kime !== cv.kime &&
+          (ayraclar[aktifIdx].tamamlandi || sqAramaKaydaDegerMi(ayraclar[aktifIdx].cevaplar || {}, aktifSid))) {
+        var _yeniSidCatisma = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sid-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9));
+        localStorage.setItem('budurBuldumSessionId', _yeniSidCatisma);
+        aktifSid = _yeniSidCatisma;
+        aktifIdx = -1;
+      }
+
       var aktifAyrac = {
         sessionId: aktifSid,
         kime: cv.kime || '',
