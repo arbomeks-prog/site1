@@ -1630,7 +1630,7 @@ window.addEventListener('message', function(e) {
                 aktifOzelSet = null;
                 var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
                 var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
-                if (sonrakiSoruIdKime) {
+                if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
                     var reloadGerekenKime = ['cinsiyet', 'yas'];
                     if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
                         setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
