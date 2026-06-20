@@ -1044,6 +1044,22 @@ function nickDegistirIndex() {
 </script>
 
 <script>
+// TEŞHİS AMAÇLI GEÇİCİ BANNER: sayfa açılır açılmaz, herhangi bir temizlik
+// kodu çalışmadan ÖNCE, localStorage'da gerçekte ne var görmek için.
+(function() {
+    try {
+        var _t_cv = localStorage.getItem('budurBuldumCevaplar') || '(yok)';
+        var _t_bk = localStorage.getItem('budurBuldumBaslangicKime') || '(yok)';
+        var _t_de = localStorage.getItem('budurBuldumDevamEdiliyor') || '(yok)';
+        var _t_sid = localStorage.getItem('budurBuldumSessionId') || '(yok)';
+        var _b = document.createElement('div');
+        _b.textContent = '🔍 SAYFA AÇILIŞI — cevaplar: ' + _t_cv + ' | baslangicKime: ' + _t_bk + ' | devamEdiliyor: ' + _t_de + ' | sid: ' + _t_sid;
+        _b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#3b82f6;color:#fff;font-weight:700;text-align:left;padding:10px;font-size:11px;word-break:break-all;max-height:160px;overflow:auto;';
+        document.body.appendChild(_b);
+    } catch(exT0) {}
+})();
+</script>
+<script>
 // "Devam Et" ile bir ayraç kartından geri dönülüyorsa (bkz. konteyner.appendChild
 // öncesindeki kart click handler'ı), cevaplar BİR SEFERLİĞİNE silinmez — aşağıdaki
 // restore script'i bu cevaplara göre doğru soruya scroll eder. Normal/temiz girişte
