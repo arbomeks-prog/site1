@@ -1000,6 +1000,12 @@ if (_baslangicKime) {
                     // blokları kurulduktan sonra kullanıcıyı kaldığı (ilk cevapsız)
                     // soruya kaydır — sayfanın en başında bırakma.
                     if (_budurDevamEdiliyor) {
+                        try {
+                            var _bdiag = document.createElement('div');
+                            _bdiag.textContent = '🎯 RESUME TETİKLENDİ — 1.2sn sonra kaydırılacak';
+                            _bdiag.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#f97316;color:#fff;font-weight:900;text-align:center;padding:12px;font-size:14px;';
+                            document.body.appendChild(_bdiag);
+                        } catch(exDiag) {}
                         setTimeout(function() {
                             try {
                                 var _cvResume = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
@@ -1008,6 +1014,12 @@ if (_baslangicKime) {
                                 for (var _ri = 0; _ri < _sira.length; _ri++) {
                                     if (_cvResume[_sira[_ri]] === undefined || _cvResume[_sira[_ri]] === '') { _hedefId = _sira[_ri]; break; }
                                 }
+                                try {
+                                    var _bdiag2 = document.createElement('div');
+                                    _bdiag2.textContent = '🎯 HEDEF SORU: ' + (_hedefId || '(hepsi cevaplı)') + ' | aktifOzelSet: ' + (aktifOzelSet || '(normal)');
+                                    _bdiag2.style.cssText = 'position:fixed;top:46px;left:0;right:0;z-index:999999;background:#9333ea;color:#fff;font-weight:900;text-align:center;padding:12px;font-size:14px;';
+                                    document.body.appendChild(_bdiag2);
+                                } catch(exDiag2) {}
                                 if (_hedefId && _hedefId !== 'kime') {
                                     var _hedefBlok = document.getElementById('blok-' + _hedefId);
                                     if (_hedefBlok) _hedefBlok.scrollIntoView({behavior:'smooth', block:'center'});
