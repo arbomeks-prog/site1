@@ -1827,10 +1827,19 @@ window.addEventListener('message', function(e) {
     }, { threshold: 0 });
     observer.observe(hedBlok);
 })();
+function sqYeniHediyeKriterineGit() {
+    try {
+        var iframe = document.getElementById('iframe-ozet');
+        var hedef = iframe && iframe.contentDocument ? iframe.contentDocument.getElementById('kriter-baslik') : null;
+        if (hedef) { hedef.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+    } catch(e) {}
+    var ozetBlok = document.getElementById('blok-ozet');
+    if (ozetBlok) ozetBlok.scrollIntoView({behavior:'smooth', block:'start'});
+}
 </script>
 <!-- PARENT PAYLAS BUTONU: gercek sayfada oldugu icin dogru sekilde yuzer -->
 <!-- PARENT YENİ HEDİYE BUTONU: gercek sayfada oldugu icin dogru sekilde yuzer -->
-<button id="parent-yeni-hediye-btn" onclick="document.getElementById('blok-ozet').scrollIntoView({behavior:'smooth',block:'start'})" style="
+<button id="parent-yeni-hediye-btn" onclick="sqYeniHediyeKriterineGit()" style="
   position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:9999;
   background:#1e40af;color:#fff;border:none;border-radius:16px 0 0 16px;
   padding:16px 10px;font-size:13px;font-weight:900;letter-spacing:0.08em;
