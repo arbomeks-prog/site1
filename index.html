@@ -1815,13 +1815,13 @@ window.addEventListener('message', function(e) {
     if (!hedBlok) return;
     var observer = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
-            var yhBtn = document.getElementById('parent-yeni-hediye-btn');
+            var yhGrup = document.getElementById('parent-yh-grup');
             if (entry.isIntersecting) {
                 document.body.classList.add('hediyeler-tam');
-                if (yhBtn) yhBtn.style.display = 'flex';
+                if (yhGrup) yhGrup.style.display = 'flex';
             } else {
                 document.body.classList.remove('hediyeler-tam');
-                if (yhBtn) yhBtn.style.display = 'none';
+                if (yhGrup) yhGrup.style.display = 'none';
             }
         });
     }, { threshold: 0 });
@@ -1838,16 +1838,25 @@ function sqYeniHediyeKriterineGit() {
 }
 </script>
 <!-- PARENT PAYLAS BUTONU: gercek sayfada oldugu icin dogru sekilde yuzer -->
-<!-- PARENT YENİ HEDİYE BUTONU: gercek sayfada oldugu icin dogru sekilde yuzer -->
-<button id="parent-yeni-hediye-btn" onclick="sqYeniHediyeKriterineGit()" style="
-  position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:9999;
-  background:#1e40af;color:#fff;border:none;border-radius:16px 0 0 16px;
-  padding:16px 10px;font-size:13px;font-weight:900;letter-spacing:0.08em;
-  writing-mode:vertical-rl;text-orientation:mixed;min-height:140px;
-  cursor:pointer;box-shadow:-4px 0 20px rgba(30,64,175,0.35);
-  display:none;align-items:center;justify-content:center;
-  font-family:-apple-system,sans-serif;
-">🎁 YENİ HEDİYE</button>
+<!-- PARENT YENİ HEDİYE + BAŞA DÖN BUTONLARI (grup) -->
+<div id="parent-yh-grup" style="position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:9999;display:none;flex-direction:column;align-items:flex-end;gap:6px;">
+  <button id="parent-yeni-hediye-btn" onclick="sqYeniHediyeKriterineGit()" style="
+    background:#1e40af;color:#fff;border:none;border-radius:16px 0 0 16px;
+    padding:16px 10px;font-size:13px;font-weight:900;letter-spacing:0.08em;
+    writing-mode:vertical-rl;text-orientation:mixed;min-height:140px;
+    cursor:pointer;box-shadow:-4px 0 20px rgba(30,64,175,0.35);
+    display:flex;align-items:center;justify-content:center;
+    font-family:-apple-system,sans-serif;
+  ">🎁 YENİ HEDİYE</button>
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})" style="
+    background:#475569;color:#fff;border:none;border-radius:12px 0 0 12px;
+    padding:10px 8px;font-size:11px;font-weight:800;letter-spacing:0.05em;
+    writing-mode:vertical-rl;text-orientation:mixed;min-height:64px;
+    cursor:pointer;box-shadow:-3px 0 14px rgba(0,0,0,0.25);
+    display:flex;align-items:center;justify-content:center;
+    font-family:-apple-system,sans-serif;
+  ">↑ BAŞA DÖN</button>
+</div>
 
 <button id="parent-paylas-btn" onclick="parentPaylasBaslat()" style="
   position:fixed;bottom:80px;right:16px;z-index:9999;
