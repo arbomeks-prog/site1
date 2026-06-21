@@ -1813,12 +1813,15 @@ window.addEventListener('message', function(e) {
 (function(){
     var hedBlok = document.getElementById('blok-hediyeler');
     if (!hedBlok) return;
+    var yhBtn = document.getElementById('parent-yeni-hediye-btn');
     var observer = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
             if (entry.isIntersecting) {
                 document.body.classList.add('hediyeler-tam');
+                if (yhBtn) yhBtn.style.display = 'flex';
             } else {
                 document.body.classList.remove('hediyeler-tam');
+                if (yhBtn) yhBtn.style.display = 'none';
             }
         });
     }, { threshold: 0 });
@@ -1826,6 +1829,17 @@ window.addEventListener('message', function(e) {
 })();
 </script>
 <!-- PARENT PAYLAS BUTONU: gercek sayfada oldugu icin dogru sekilde yuzer -->
+<!-- PARENT YENİ HEDİYE BUTONU: gercek sayfada oldugu icin dogru sekilde yuzer -->
+<button id="parent-yeni-hediye-btn" onclick="document.getElementById('blok-ozet').scrollIntoView({behavior:'smooth',block:'start'})" style="
+  position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:9999;
+  background:#1e40af;color:#fff;border:none;border-radius:16px 0 0 16px;
+  padding:16px 10px;font-size:13px;font-weight:900;letter-spacing:0.08em;
+  writing-mode:vertical-rl;text-orientation:mixed;min-height:140px;
+  cursor:pointer;box-shadow:-4px 0 20px rgba(30,64,175,0.35);
+  display:none;align-items:center;justify-content:center;
+  font-family:-apple-system,sans-serif;
+">🎁 YENİ HEDİYE</button>
+
 <button id="parent-paylas-btn" onclick="parentPaylasBaslat()" style="
   position:fixed;bottom:80px;right:16px;z-index:9999;
   background:linear-gradient(135deg,#e8a838,#f5c96a);
