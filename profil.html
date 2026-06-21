@@ -423,7 +423,18 @@ function profilStateYukle(k){
   localStorage.removeItem('budurBuldumButceEsnek');
   localStorage.removeItem('budurBuldumTiklananHediyeler');
 }
-function yeniHediye(idx){ profilStateYukle(window._kisiler[idx]); window.location.href='ozet.html'; }
+function yeniHediye(idx){
+  var k = window._kisiler[idx];
+  profilStateYukle(k);
+  // Ayraç kartlarının kullandığı aynı resume mekanizması: index.html'e (ana
+  // scroll-quiz) dön, eski standalone ozet.html'e ASLA gitme.
+  localStorage.setItem('budurBuldumSessionId', k.session_id);
+  localStorage.removeItem('budurBuldumTamamlandi');
+  localStorage.setItem('budurBuldumDevamEdiliyor', '1');
+  var cv = k.tum_cevaplar || {};
+  if (cv.kime) localStorage.setItem('budurBuldumBaslangicKime', cv.kime);
+  window.location.href = 'index.html?_r=' + Date.now();
+}
 
 /* ── SAYFA AÇILIŞ ── */
 window.onload=function(){
