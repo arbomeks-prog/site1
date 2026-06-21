@@ -507,6 +507,11 @@ document.querySelectorAll('.img-wrap').forEach(function(wrap) {
         loadingMsg.style.opacity = '1';
     }
 });
+document.querySelectorAll('.gift-name').forEach(function(el) { el.innerHTML = '&nbsp;'; el.classList.remove('loaded'); });
+document.querySelectorAll('.gift-price').forEach(function(el) { el.innerHTML = ''; el.classList.remove('loaded'); });
+document.querySelectorAll('.gift-reason').forEach(function(el) { el.textContent = ''; });
+document.querySelectorAll('.gift-desc').forEach(function(el) { el.textContent = ''; });
+document.querySelectorAll('.star-badge').forEach(function(el) { el.remove(); });
 const list = document.getElementById('gifts-list');
 const subtitle = document.getElementById('gifts-subtitle');
 const shareSection = document.getElementById('share-section');
