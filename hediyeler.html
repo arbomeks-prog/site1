@@ -453,7 +453,8 @@ if (kelimeler.length > 3) kelimeler = kelimeler.slice(-3);
 return kelimeler.join(' ');
 }
 function buildLinks(name) {
-name = sqAramaTermiSadelestir(name);
+// GEÇİCİ TEST: sadeleştirme devre dışı, Grok'un ürettiği kelimeler ham haliyle aranıyor
+// name = sqAramaTermiSadelestir(name);
 const q = encodeURIComponent(name);
 try {
 const _cv = (function() { try { if (typeof cevaplar !== 'undefined' && cevaplar) return cevaplar; if (typeof QuizHelper !== 'undefined' && QuizHelper) return QuizHelper.getCevaplar(); var raw = localStorage.getItem('budurBuldumCevaplar'); return raw ? JSON.parse(raw) : {}; } catch(e) { return {}; } })();

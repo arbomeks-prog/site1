@@ -33,10 +33,16 @@ export default async function handler(req, res) {
             },
             body: JSON.stringify({
                 model: 'grok-4.3',
+                search_parameters: {
+                    mode: 'on',
+                    sources: [{ type: 'web', country: 'TR' }],
+                    max_search_results: 8,
+                    return_citations: false
+                },
                 messages: [
                     {
                         role: 'system',
-                        content: 'Her hediye için searchQuery Türkçe tam hediye adını kullan (örn: "porselen çay seti", "deri cüzdan" — kısaltma, tam adı yaz). searchQueryEn İngilizce arama kelimesi olsun (Unsplash görsel araması için). KLİŞELERDEN KAÇIN: aksesuar/saat kriteri için mutlaka saat önerme; fotoğraf kriteri için albüm önerme; bunların yerine daha yaratıcı ve beklenmedik hediyeler bul. Aynı hediye kategorisini kesinlikle tekrar etme. Her hediye birbirinden tamamen farklı ve özgün olsun. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma.'
+                        content: 'Önce her hediye fikri için web\'de gerçekten satılan, bulunabilir ürün kategorilerini ARA ve sonuçları gör. Asla birbirine ilgisiz iki kriteri (örn. "deri" + "el bakımı") zorla tek bir üründe birleştirip hayali bir kategori uydurma — sadece gerçekten var olan, internette gerçekten satılan ürün kategorilerini öner. Her hediye için searchQuery Türkçe tam hediye adını kullan (örn: "porselen çay seti", "deri cüzdan" — kısaltma, tam adı yaz, ama mutlaka gerçek/aratılabilir bir kategori olsun). searchQueryEn İngilizce arama kelimesi olsun (Unsplash görsel araması için). KLİŞELERDEN KAÇIN: aksesuar/saat kriteri için mutlaka saat önerme; fotoğraf kriteri için albüm önerme; bunların yerine daha yaratıcı ve beklenmedik hediyeler bul, ama her zaman gerçekten var olan ürün kategorileri içinde kal. Aynı hediye kategorisini kesinlikle tekrar etme. Her hediye birbirinden tamamen farklı ve özgün olsun. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma.'
                     },
                     {
                         role: 'user',
