@@ -1762,12 +1762,15 @@ window.addEventListener('message', function(e) {
     var observer = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
             var yhGrup = document.getElementById('parent-yh-grup');
+            var paylasBtn = document.getElementById('parent-paylas-btn');
             if (entry.isIntersecting) {
                 document.body.classList.add('hediyeler-tam');
                 if (yhGrup) yhGrup.style.display = 'flex';
+                if (paylasBtn) paylasBtn.style.display = 'flex';
             } else {
                 document.body.classList.remove('hediyeler-tam');
                 if (yhGrup) yhGrup.style.display = 'none';
+                if (paylasBtn) paylasBtn.style.display = 'none';
             }
         });
     }, { threshold: 0 });
@@ -1810,7 +1813,7 @@ function sqYeniHediyeKriterineGit() {
   color:#1e293b;border:none;border-radius:50px;
   padding:12px 20px;font-size:13px;font-weight:700;
   cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.2);
-  display:flex;align-items:center;gap:6px;
+  display:none;align-items:center;gap:6px;
   font-family:-apple-system,sans-serif;
 ">📸 Paylaş</button>
 
