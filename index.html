@@ -1777,6 +1777,8 @@ function sqYeniHediyeKriterineGit() {
     try {
         var iframe = document.getElementById('iframe-ozet');
         var hedef = iframe && iframe.contentDocument ? iframe.contentDocument.getElementById('kriter-baslik') : null;
+        var fb = iframe && iframe.contentDocument ? iframe.contentDocument.getElementById('floating-kriter-btn') : null;
+        if (fb) delete fb.dataset.gizliKalsin;
         if (hedef) { hedef.scrollIntoView({behavior:'smooth', block:'start'}); return; }
     } catch(e) {}
     var ozetBlok = document.getElementById('blok-ozet');

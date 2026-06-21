@@ -11,7 +11,7 @@
     <style>
         * { box-sizing: border-box; }
         body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; font-family: -apple-system, sans-serif; }
-        #floating-kriter-btn { position:fixed; right:max(0px,calc((100vw - 620px) / 2)); top:30%; transform:translateY(-50%); z-index:100; background:#1e40af; color:white; border:none; border-radius:16px 0 0 16px; padding:16px 10px; box-shadow:-4px 0 20px rgba(30,64,175,0.35); cursor:default; font-size:13px; font-weight:900; letter-spacing:0.08em; writing-mode:vertical-rl; text-orientation:mixed; min-height:140px; transition:background 0.4s,box-shadow 0.4s; display:flex; align-items:center; justify-content:center; }
+        #floating-kriter-btn { position:fixed; right:max(0px,calc((100vw - 620px) / 2)); top:30%; transform:translateY(-50%); z-index:100; background:#1e40af; color:white; border:none; border-radius:12px 0 0 12px; padding:10px 5px; box-shadow:-3px 0 14px rgba(30,64,175,0.3); cursor:default; font-size:11px; font-weight:900; letter-spacing:0.05em; writing-mode:vertical-rl; text-orientation:mixed; min-height:90px; transition:background 0.4s,box-shadow 0.4s; display:flex; align-items:center; justify-content:center; }
         #floating-kriter-btn.complete { background:#16a34a; box-shadow:-4px 0 20px rgba(22,163,74,0.4); }
         #floating-count-badge { background:#ef4444; color:white; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; position:absolute; top:-8px; right:4px; border:2px solid white; writing-mode:horizontal-tb; }
         @keyframes pulse-sel { 0%{opacity:0.6} 100%{opacity:1} }
@@ -398,6 +398,21 @@
         }
     }
 
+    // Buton sadece kriter secim bolumu ekranda goruntulenirken belirsin
+    (function() {
+        var _kriterBlok = document.getElementById('selections-list');
+        if (!_kriterBlok) return;
+        function _kriterGorunurlukGuncelle() {
+            var rect = _kriterBlok.getBoundingClientRect();
+            var fb = document.getElementById('floating-kriter-btn');
+            if (!fb || fb.dataset.gizliKalsin === '1') return;
+            var goruntude = rect.bottom > 0 && rect.top < window.innerHeight;
+            fb.style.display = goruntude ? 'flex' : 'none';
+        }
+        window.addEventListener('scroll', _kriterGorunurlukGuncelle, { passive: true });
+        setTimeout(_kriterGorunurlukGuncelle, 300);
+    })();
+
     function afterSummaryReady() {
         const secilenItems = document.querySelectorAll('#selections-list .chip');
         const adet = secilenItems.length;
@@ -471,6 +486,8 @@
     }
 
     function showGifts() {
+        var _fb = document.getElementById('floating-kriter-btn');
+        if (_fb) { _fb.style.display = 'none'; _fb.dataset.gizliKalsin = '1'; }
         localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(selectedCriteria));
         localStorage.setItem('budurBuldumSecilenBurc', secilenBurc || '');
         const embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
