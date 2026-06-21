@@ -1588,6 +1588,13 @@ window.addEventListener('message', function(e) {
         return;
     }
 
+    // Hediyeler iframe'inden "Yeni Hediye" tıklandı → kriter seçim bölümüne (özet) kaydır
+    if (e.data.type === 'kriterlere_don') {
+        var _ozetGeri = document.getElementById('blok-ozet');
+        if (_ozetGeri) _ozetGeri.scrollIntoView({behavior:'smooth', block:'start'});
+        return;
+    }
+
     // Özet sayfasında "Hediyeleri Gör" + bütçe seçimi yapıldı → hediyeler iframe'ini başlat
     if (e.data.type === 'hediyeleri_goster') {
         var hediyelerIframe = document.getElementById('iframe-hediyeler');

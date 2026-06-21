@@ -60,6 +60,8 @@ body.hediye-embed #hediye-ust-bar, body.hediye-embed #hediye-buyuk-baslik { disp
 body.hediye-embed .min-h-screen { padding-top: 8px; }
 body.hediye-embed #paylas-btn { display:none !important; }
 body.hediye-embed #paylas-overlay, body.hediye-embed #iletisim-overlay { display:none !important; }
+#floating-yeni-hediye-btn { position:fixed; right:max(0px,calc((100vw - 620px) / 2)); top:60%; transform:translateY(-50%); z-index:100; background:#1e40af; color:white; border:none; border-radius:16px 0 0 16px; padding:16px 10px; box-shadow:-4px 0 20px rgba(30,64,175,0.35); cursor:pointer; font-size:13px; font-weight:900; letter-spacing:0.08em; writing-mode:vertical-rl; text-orientation:mixed; min-height:140px; transition:background 0.2s; display:flex; align-items:center; justify-content:center; }
+#floating-yeni-hediye-btn:active { background:#1e3a8a; }
 </style>
 <link rel="canonical" href="https://budurbuldum.com/hediyeler.html">
 <meta name="robots" content="index, follow">
@@ -90,6 +92,7 @@ if (new URLSearchParams(window.location.search).get('embed') === '1') {
     document.body.classList.add('hediye-embed');
 }
 </script>
+<div id="floating-yeni-hediye-btn" onclick="yeniHediyeKriterineDon()">🎁 YENİ HEDİYE</div>
 <div class="min-h-screen bg-[#F9F9F9] py-12 px-4">
 <div class="max-w-6xl mx-auto">
 <div id="hediye-ust-bar" class="flex justify-between items-center mb-8">
@@ -424,7 +427,32 @@ function trackAffiliate(platform, urun) {
   }
 }
 
+function yeniHediyeKriterineDon() {
+const embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
+if (embedMod && window.parent !== window) {
+window.parent.postMessage({ type: 'kriterlere_don' }, '*');
+} else {
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+}
+function sqAramaTermiSadelestir(metin) {
+if (!metin) return metin;
+// Grok'un urettigi yaratici ama platformlarda bulunamayan kelimeleri temizle.
+// Bunlar genelde sifat/susleyici niteliginde, gercek urun aramasinda zararli.
+var YASAKLI = ['özel','şık','kişiye','kişiselleştirilmiş','vintage','lüks','minimalist','el yapımı',
+'tasarım','tasarımlı','klasik','modern','retro','mini','premium','dekoratif','organik','doğal',
+'butik','seyahat','taşınabilir','kompakt','şahane','muhteşem','eşsiz','benzersiz','ferah','şıklığında'];
+var kelimeler = metin.split(' ').filter(function(k) {
+return k.length > 0 && YASAKLI.indexOf(k.toLowerCase()) === -1;
+});
+if (kelimeler.length === 0) kelimeler = metin.split(' ');
+// Yaraticiligi tasiyan en az 1 ozellikli kelimeyi koru (orn. "deri cay seti"),
+// sadece asiri uzun/karmasik tamlamalari kirp.
+if (kelimeler.length > 3) kelimeler = kelimeler.slice(-3);
+return kelimeler.join(' ');
+}
 function buildLinks(name) {
+name = sqAramaTermiSadelestir(name);
 const q = encodeURIComponent(name);
 try {
 const _cv = (function() { try { if (typeof cevaplar !== 'undefined' && cevaplar) return cevaplar; if (typeof QuizHelper !== 'undefined' && QuizHelper) return QuizHelper.getCevaplar(); var raw = localStorage.getItem('budurBuldumCevaplar'); return raw ? JSON.parse(raw) : {}; } catch(e) { return {}; } })();
