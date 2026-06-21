@@ -493,6 +493,20 @@ fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application
 
 async function baslatHediyeArama() {
     localStorage.setItem('budurBuldumTamamlandi', '1');
+// Yeni arama başlıyor: önceki aramadan kalan görsel/yazıları sıfırla,
+// spinner ve "aranıyor..." mesajları yeniden görünür olsun.
+document.querySelectorAll('.img-wrap').forEach(function(wrap) {
+    var img = wrap.querySelector('img');
+    var spinner = wrap.querySelector('.spinner');
+    var loadingMsg = wrap.querySelector('.loading-msg');
+    if (img) { img.classList.remove('loaded'); img.removeAttribute('src'); }
+    if (spinner) spinner.style.display = '';
+    if (loadingMsg) {
+        if (loadingMsg._interval) clearInterval(loadingMsg._interval);
+        loadingMsg.style.display = '';
+        loadingMsg.style.opacity = '1';
+    }
+});
 const list = document.getElementById('gifts-list');
 const subtitle = document.getElementById('gifts-subtitle');
 const shareSection = document.getElementById('share-section');
