@@ -1813,9 +1813,9 @@ window.addEventListener('message', function(e) {
 (function(){
     var hedBlok = document.getElementById('blok-hediyeler');
     if (!hedBlok) return;
-    var yhBtn = document.getElementById('parent-yeni-hediye-btn');
     var observer = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
+            var yhBtn = document.getElementById('parent-yeni-hediye-btn');
             if (entry.isIntersecting) {
                 document.body.classList.add('hediyeler-tam');
                 if (yhBtn) yhBtn.style.display = 'flex';
