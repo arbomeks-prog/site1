@@ -1037,8 +1037,10 @@ if (_baslangicKime) {
                             try {
                                 var _cvResume = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
                                 var _sira = aktifSoruSirasi();
+                                var _atlananResume = KIME_ATLAMA_HARITASI[_cvResume.kime] || [];
                                 var _hedefId = null;
                                 for (var _ri = 0; _ri < _sira.length; _ri++) {
+                                    if (_atlananResume.indexOf(_sira[_ri]) !== -1) continue; // bu kime için atlanması gereken soru, sayma
                                     if (_cvResume[_sira[_ri]] === undefined || _cvResume[_sira[_ri]] === '') { _hedefId = _sira[_ri]; break; }
                                 }
                                 if (_hedefId && _hedefId !== 'kime') {
