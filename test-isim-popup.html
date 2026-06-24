@@ -1508,6 +1508,12 @@ function _sqIsimKaydetVeKapat(isim) {
 }
 
 function quizSifirla(yeniKime) {
+    // Eski session_id'yi BİLEREK siliyoruz: kime aynı kalsa da (örn. ikinci bir
+    // "Sevgili" veya ikinci bir "Kardeş") bu YENİ bir arama. Eski sessionId'yi
+    // taşırsak, sqAyracSenkronEt() kime aynı olduğu için bunu "çatışma" saymaz
+    // ve eski (zaten kayıtlı) karta yeni cevapları yazıp onu BOZAR. Silince
+    // sqAyracSenkronEt() otomatik taze bir sessionId üretip yeni bir kart açar.
+    localStorage.removeItem('budurBuldumSessionId');
     localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
     window.location.href = window.location.pathname + '?_r=' + Date.now();
 }
@@ -1708,11 +1714,17 @@ window.addEventListener('message', function(e) {
                 }
             };
 
-            // Otomatik (resume/sıfırlama) seçimde popup açma — direkt devam et.
-            if (_sqOtomatikSecimAktif) {
+            // Otomatik kime seçimi sadece GERÇEK "Devam Et" (resume) durumunda
+            // popup'ı atlar. quizSifirla() ile kime'nin TEKRAR seçilmesi de aynı
+            // otomatik-doldurma mekanizmasını kullanır ama bu YENİ bir arama
+            // başlatmak demektir (örn. ikinci bir kardeş, başka bir sevgili) —
+            // bu durumda isim popup'ı yine açılmalı. _budurDevamEdiliyor SADECE
+            // kart üzerindeki "Devam Et" tıklamasında true olur, bu ikisini ayırt eder.
+            if (_sqOtomatikSecimAktif && _budurDevamEdiliyor) {
                 _sqOtomatikSecimAktif = false;
                 _sqKimeDevamEt();
             } else {
+                _sqOtomatikSecimAktif = false;
                 sqKimeIsimPopupAc(deger, _sqKimeDevamEt);
             }
             return;
