@@ -642,6 +642,21 @@ function nickDegistirIndex() {
   </div>
 </div>
 
+<script>
+// Hero kart rotasyonu: 3 set arasında 3 saniyede bir geçiş yapar
+// (eski hero-demo-v2 davranışı; tek-sayfaya taşıma sırasında kaybolmuştu).
+(function() {
+  var heroCurrent = 0;
+  var heroSets = document.querySelectorAll('.card-set');
+  function heroShowSet(idx) {
+    heroSets.forEach(function(s, i) { s.classList.toggle('active', i === idx); });
+    heroCurrent = idx;
+  }
+  if (heroSets.length > 1) {
+    setInterval(function() { heroShowSet((heroCurrent + 1) % heroSets.length); }, 3000);
+  }
+})();
+</script>
 
 <div class="sq-wrapper">
 <div class="sq-header">
