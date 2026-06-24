@@ -476,13 +476,27 @@ function sqAyraclarYenidenCiz() {
           };
           return;
         }
-        localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
-        if (ayrac.tamamlandi) {
+        // ÖNEMLİ: closure'daki "ayrac" objesi, kart son ÇİZİLDİĞİ andaki bir
+        // anlık görüntüdür (özellikle isim popup'ı kapanır kapanmaz kart hemen
+        // yeniden çizildiği için, henüz sadece "kime" cevaplıyken). Kullanıcı
+        // sayfa yenilenmeden devam soruları cevapladığında bu donmuş objeye
+        // YAZILMAZ. Bu yüzden tıklama anında localStorage'dan TAZE kaydı
+        // sessionId ile tekrar okuyup onu kullanıyoruz.
+        var _tazeAyrac = ayrac;
+        try {
+          var _tazeListe = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
+          for (var _ti = 0; _ti < _tazeListe.length; _ti++) {
+            if (_tazeListe[_ti].sessionId === ayrac.sessionId) { _tazeAyrac = _tazeListe[_ti]; break; }
+          }
+        } catch(exTaze) {}
+
+        localStorage.setItem('budurBuldumSessionId', _tazeAyrac.sessionId);
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(_tazeAyrac.cevaplar));
+        if (_tazeAyrac.tamamlandi) {
           localStorage.setItem('budurBuldumTamamlandi', '1');
-          localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
-          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
-          window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
+          localStorage.setItem('budurBuldumSessionId', _tazeAyrac.sessionId);
+          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(_tazeAyrac.cevaplar));
+          window.location.href = 'profil.html?kart=' + encodeURIComponent(_tazeAyrac.sessionId);
         } else {
           localStorage.removeItem('budurBuldumTamamlandi');
           // BU SAYFADA (index.html) kaldığı yere dön — eski standalone quiz
@@ -492,8 +506,8 @@ function sqAyraclarYenidenCiz() {
           // bloklarını doğru şekilde kurar), ardından resume-scroll ilk cevapsız
           // soruya kaydırır.
           localStorage.setItem('budurBuldumDevamEdiliyor', '1');
-          if (ayrac.cevaplar && ayrac.cevaplar.kime) {
-            localStorage.setItem('budurBuldumBaslangicKime', ayrac.cevaplar.kime);
+          if (_tazeAyrac.cevaplar && _tazeAyrac.cevaplar.kime) {
+            localStorage.setItem('budurBuldumBaslangicKime', _tazeAyrac.cevaplar.kime);
           }
           window.location.href = window.location.pathname + '?_r=' + Date.now();
         }
