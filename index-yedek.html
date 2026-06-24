@@ -476,27 +476,13 @@ function sqAyraclarYenidenCiz() {
           };
           return;
         }
-        // ÖNEMLİ: closure'daki "ayrac" objesi, kart son ÇİZİLDİĞİ andaki bir
-        // anlık görüntüdür (özellikle isim popup'ı kapanır kapanmaz kart hemen
-        // yeniden çizildiği için, henüz sadece "kime" cevaplıyken). Kullanıcı
-        // sayfa yenilenmeden devam soruları cevapladığında bu donmuş objeye
-        // YAZILMAZ. Bu yüzden tıklama anında localStorage'dan TAZE kaydı
-        // sessionId ile tekrar okuyup onu kullanıyoruz.
-        var _tazeAyrac = ayrac;
-        try {
-          var _tazeListe = JSON.parse(localStorage.getItem('budurBuldumAyraclar') || '[]');
-          for (var _ti = 0; _ti < _tazeListe.length; _ti++) {
-            if (_tazeListe[_ti].sessionId === ayrac.sessionId) { _tazeAyrac = _tazeListe[_ti]; break; }
-          }
-        } catch(exTaze) {}
-
-        localStorage.setItem('budurBuldumSessionId', _tazeAyrac.sessionId);
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(_tazeAyrac.cevaplar));
-        if (_tazeAyrac.tamamlandi) {
+        localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
+        if (ayrac.tamamlandi) {
           localStorage.setItem('budurBuldumTamamlandi', '1');
-          localStorage.setItem('budurBuldumSessionId', _tazeAyrac.sessionId);
-          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(_tazeAyrac.cevaplar));
-          window.location.href = 'profil.html?kart=' + encodeURIComponent(_tazeAyrac.sessionId);
+          localStorage.setItem('budurBuldumSessionId', ayrac.sessionId);
+          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ayrac.cevaplar));
+          window.location.href = 'profil.html?kart=' + encodeURIComponent(ayrac.sessionId);
         } else {
           localStorage.removeItem('budurBuldumTamamlandi');
           // BU SAYFADA (index.html) kaldığı yere dön — eski standalone quiz
@@ -506,8 +492,8 @@ function sqAyraclarYenidenCiz() {
           // bloklarını doğru şekilde kurar), ardından resume-scroll ilk cevapsız
           // soruya kaydırır.
           localStorage.setItem('budurBuldumDevamEdiliyor', '1');
-          if (_tazeAyrac.cevaplar && _tazeAyrac.cevaplar.kime) {
-            localStorage.setItem('budurBuldumBaslangicKime', _tazeAyrac.cevaplar.kime);
+          if (ayrac.cevaplar && ayrac.cevaplar.kime) {
+            localStorage.setItem('budurBuldumBaslangicKime', ayrac.cevaplar.kime);
           }
           window.location.href = window.location.pathname + '?_r=' + Date.now();
         }
@@ -1025,10 +1011,6 @@ if (_budurDevamEdiliyor) {
 // kime cevabı kaydedildiyse, kime iframe'i yüklenince otomatik olarak o cevabı
 // uygula — bu hem yeni kime'yi seçer hem de Bebek/Çocuk/Pet ise özel set
 // bloklarını doğru şekilde kurar.
-// Otomatik kime seçimi (resume / sıfırlama sonrası) sürdüğünde isim popup'ı
-// AÇILMASIN — popup sadece kullanıcı kime'yi elle tıkladığında açılmalı.
-var _sqOtomatikSecimAktif = false;
-
 var _baslangicKime = localStorage.getItem('budurBuldumBaslangicKime');
 if (_baslangicKime) {
     localStorage.removeItem('budurBuldumBaslangicKime');
@@ -1038,7 +1020,6 @@ if (_baslangicKime) {
             var kimeIframe = document.getElementById('kime-iframe');
             if (kimeIframe && kimeIframe.contentWindow) {
                 setTimeout(function() {
-                    _sqOtomatikSecimAktif = true;
                     kimeIframe.contentWindow.postMessage({
                         type: 'otomatik_secim',
                         deger: _baslangicKime
@@ -1051,10 +1032,8 @@ if (_baslangicKime) {
                             try {
                                 var _cvResume = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
                                 var _sira = aktifSoruSirasi();
-                                var _atlananResume = KIME_ATLAMA_HARITASI[_cvResume.kime] || [];
                                 var _hedefId = null;
                                 for (var _ri = 0; _ri < _sira.length; _ri++) {
-                                    if (_atlananResume.indexOf(_sira[_ri]) !== -1) continue; // bu kime için atlanması gereken soru, sayma
                                     if (_cvResume[_sira[_ri]] === undefined || _cvResume[_sira[_ri]] === '') { _hedefId = _sira[_ri]; break; }
                                 }
                                 if (_hedefId && _hedefId !== 'kime') {
@@ -1460,60 +1439,7 @@ function sqAyracSenkronEt() {
     } catch(eOuter) {}
 }
 
-// ============================================================
-// KİŞİ İSMİ POPUP — bir "kime" seçildiğinde (Kardeş, Anne, Arkadaş vs.)
-// kullanıcıya bu aramaya bir isim verme şansı sunar (örn. "Ahmet", "Selin").
-// Bu, aynı kime'den birden fazla arama olduğunda (3 kardeş gibi) kartları
-// birbirinden ayırt etmeyi sağlar. Otomatik (resume/sıfırlama) seçimlerde
-// AÇILMAZ — sadece kullanıcı elle tıkladığında açılır.
-// ============================================================
-var _sqKimeContinue = null;
-var _sqKimeDegeri = '';
-
-function sqKimeIsimPopupAc(kimeDegeri, devamFn) {
-    _sqKimeDegeri = kimeDegeri;
-    _sqKimeContinue = devamFn;
-    var inp = document.getElementById('kisi-ismi-input');
-    if (inp) inp.value = '';
-    var kimeLabel = document.getElementById('kisi-ismi-kime-label');
-    if (kimeLabel) kimeLabel.textContent = kimeDegeri;
-    var popup = document.getElementById('kisi-ismi-popup');
-    if (popup) popup.style.display = 'flex';
-    if (inp) setTimeout(function() { inp.focus(); }, 50);
-}
-
-function kisiIsmiKaydet() {
-    var inp = document.getElementById('kisi-ismi-input');
-    var isim = inp ? inp.value.trim() : '';
-    _sqIsimKaydetVeKapat(isim);
-}
-
-function kisiIsmiGec() {
-    _sqIsimKaydetVeKapat('');
-}
-
-function _sqIsimKaydetVeKapat(isim) {
-    var sid = localStorage.getItem('budurBuldumSessionId');
-    if (sid) localStorage.setItem('budurBuldumKisiAdi_' + sid, isim);
-    var popup = document.getElementById('kisi-ismi-popup');
-    if (popup) popup.style.display = 'none';
-    // Kart anlık görsel geri bildirim: ayraç kaydını isimle güncelle ve yeniden çiz
-    sqAyracSenkronEt();
-    if (typeof sqAyraclarYenidenCiz === 'function') sqAyraclarYenidenCiz();
-    if (typeof _sqKimeContinue === 'function') {
-        var fn = _sqKimeContinue;
-        _sqKimeContinue = null;
-        fn();
-    }
-}
-
 function quizSifirla(yeniKime) {
-    // Eski session_id'yi BİLEREK siliyoruz: kime aynı kalsa da (örn. ikinci bir
-    // "Sevgili" veya ikinci bir "Kardeş") bu YENİ bir arama. Eski sessionId'yi
-    // taşırsak, sqAyracSenkronEt() kime aynı olduğu için bunu "çatışma" saymaz
-    // ve eski (zaten kayıtlı) karta yeni cevapları yazıp onu BOZAR. Silince
-    // sqAyracSenkronEt() otomatik taze bir sessionId üretip yeni bir kart açar.
-    localStorage.removeItem('budurBuldumSessionId');
     localStorage.setItem('budurBuldumBaslangicKime', yeniKime);
     window.location.href = window.location.pathname + '?_r=' + Date.now();
 }
@@ -1690,42 +1616,26 @@ window.addEventListener('message', function(e) {
                 if (atlanacakBlok) atlanacakBlok.style.display = 'none';
             });
 
-            var _sqKimeDevamEt = function() {
-                if (KIME_SET_HARITASI[deger]) {
-                    // Bebek / Çocuk / Pet → özel set tüm soruları aç
-                    aktifOzelSet = KIME_SET_HARITASI[deger];
-                    ozelSetTumSorularEkle(aktifOzelSet);
-                    setTimeout(function() {
-                        var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
-                        if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
-                    }, 300);
-                } else {
-                    // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
-                    aktifOzelSet = null;
-                    var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
-                    var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
-                    if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
-                        var reloadGerekenKime = ['cinsiyet', 'yas'];
-                        if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
-                            setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
-                        }
-                        setTimeout(function() { sonrakiScroll(sonrakiSoruIdKime); }, 200);
-                    }
-                }
-            };
-
-            // Otomatik kime seçimi sadece GERÇEK "Devam Et" (resume) durumunda
-            // popup'ı atlar. quizSifirla() ile kime'nin TEKRAR seçilmesi de aynı
-            // otomatik-doldurma mekanizmasını kullanır ama bu YENİ bir arama
-            // başlatmak demektir (örn. ikinci bir kardeş, başka bir sevgili) —
-            // bu durumda isim popup'ı yine açılmalı. _budurDevamEdiliyor SADECE
-            // kart üzerindeki "Devam Et" tıklamasında true olur, bu ikisini ayırt eder.
-            if (_sqOtomatikSecimAktif && _budurDevamEdiliyor) {
-                _sqOtomatikSecimAktif = false;
-                _sqKimeDevamEt();
+            if (KIME_SET_HARITASI[deger]) {
+                // Bebek / Çocuk / Pet → özel set tüm soruları aç
+                aktifOzelSet = KIME_SET_HARITASI[deger];
+                ozelSetTumSorularEkle(aktifOzelSet);
+                setTimeout(function() {
+                    var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
+                    if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+                }, 300);
             } else {
-                _sqOtomatikSecimAktif = false;
-                sqKimeIsimPopupAc(deger, _sqKimeDevamEt);
+                // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
+                aktifOzelSet = null;
+                var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
+                var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
+                if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
+                    var reloadGerekenKime = ['cinsiyet', 'yas'];
+                    if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
+                        setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
+                    }
+                    setTimeout(function() { sonrakiScroll(sonrakiSoruIdKime); }, 200);
+                }
             }
             return;
         }
