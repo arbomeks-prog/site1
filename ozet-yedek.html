@@ -123,9 +123,6 @@
         <div class="px-1 mb-3">
             <div id="kriter-baslik" style="font-size:26px;font-weight:900;color:#1e293b;letter-spacing:0.01em;line-height:1.1;text-align:center;width:100%;">🎯 SADECE 6 TANE SEÇEBİLİRSİN</div>
             <span id="sel-count" class="text-sm font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex-shrink-0" style="display:none;">0/6</span>
-            <div style="text-align:center;margin-top:10px;">
-                <button type="button" id="inline-rastgele-btn" onclick="rastgeleSecimYap()" style="background:#e8a838;color:#1e293b;border:none;border-radius:12px;padding:12px 22px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15);">🎲 Rastgele Seç</button>
-            </div>
         </div>
 
         <!-- Kriter listesi — JS gelince dolar (chip grid) -->
@@ -178,13 +175,6 @@
 </div>
 
 <script>
-    window.onerror = function(msg, url, line) {
-        var b = document.createElement('div');
-        b.textContent = 'SAYFA HATASI: ' + msg + ' (satır ' + line + ')';
-        b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#ef4444;color:#fff;font-weight:900;text-align:center;padding:12px;font-size:13px;font-family:monospace;white-space:pre-wrap;';
-        document.body.appendChild(b);
-        setTimeout(function(){ b.remove(); }, 12000);
-    };
     function ozetVeriTamMi() {
         try {
             if (typeof QuizHelper === 'undefined') return false;
@@ -447,39 +437,6 @@
         const grid = document.getElementById('selections-list');
         if (grid) grid.classList.remove('limit-reached');
         updateSelCount();
-    }
-
-    // Önce mevcut seçimi temizler, sonra cevaplanmış sorulardan (chip'lerden)
-    // rastgele en fazla 6'sını seçer. Gerçek toggleSelection() mantığını
-    // tetiklemek için chip.click() kullanılır — sahte veri yazılmaz, kullanıcı
-    // elle tıklamış gibi aynı kod yolundan geçer.
-    function _teshisBanner(msg, renk) {
-        var b = document.createElement('div');
-        b.textContent = msg;
-        b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:' + (renk||'#22c55e') + ';color:#000;font-weight:900;text-align:center;padding:12px;font-size:13px;font-family:monospace;white-space:pre-wrap;';
-        document.body.appendChild(b);
-        setTimeout(function(){ b.remove(); }, 8000);
-    }
-    function rastgeleSecimYap() {
-        _teshisBanner('🎲 Buton tıklandı, fonksiyon çalışıyor...');
-        try {
-            kriterleriTemizle();
-            var allChips = Array.prototype.slice.call(document.querySelectorAll('#selections-list .chip'));
-            var maxSel = Math.min(6, allChips.length);
-            _teshisBanner('Bulunan chip sayısı: ' + allChips.length, '#3b82f6');
-            if (maxSel === 0) {
-                _teshisBanner('HATA: Hiç chip bulunamadı (allChips.length = 0)', '#ef4444');
-                return;
-            }
-            for (var i = allChips.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tmp = allChips[i]; allChips[i] = allChips[j]; allChips[j] = tmp;
-            }
-            allChips.slice(0, maxSel).forEach(function(chip) { chip.click(); });
-            _teshisBanner('Tamamlandı: ' + maxSel + ' chip seçildi', '#22c55e');
-        } catch (hata) {
-            _teshisBanner('HATA: ' + hata.message, '#ef4444');
-        }
     }
 
     function toggleSelection(el, soruId) {
