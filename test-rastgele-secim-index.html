@@ -1200,6 +1200,19 @@ if (_baslangicKime) {
         // Butonu seç
         document.querySelectorAll('#dogum-butonlar .sq-option-btn').forEach(function(b) { b.classList.remove('selected'); });
         btn.classList.add('selected');
+        // "Bilmiyorum" seçildiyse burç ızgarasındaki eski (varsa) görsel
+        // işaretlemeyi de sıfırla — aksi halde kullanıcı hem bir burç hem
+        // "Bilmiyorum" seçili görüp kafası karışıyor; gerçek veri zaten
+        // localStorage'da 'Bilmiyorum' olarak doğru yazılıyor, burada sadece
+        // görseli o veriyle uyumlu hale getiriyoruz.
+        if (deger === 'Bilmiyorum') {
+            var _burcGridTemizle = document.getElementById('dogum-burc-grid');
+            if (_burcGridTemizle) {
+                _burcGridTemizle.querySelectorAll('.burc-btn').forEach(function(x) {
+                    x.style.borderColor = '#e2e8f0'; x.style.background = 'white'; x.style.fontWeight = 'normal';
+                });
+            }
+        }
         if(typeof BudurSes!=='undefined') BudurSes.tik();
         // localStorage'a yaz
         try {
