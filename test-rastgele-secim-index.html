@@ -1604,11 +1604,28 @@ window.addEventListener('message', function(e) {
         return;
     }
 
-    // Özet sayfasında "Hediyeleri Gör" + bütçe seçimi yapıldı → hediyeler iframe'ini başlat
+    // Özet sayfasında "Hediyeleri Gör" + bütçe seçimi yapıldı → hediyeler iframe'ini
+    // YENİDEN YÜKLEYEREK başlat. ÖNEMLİ: iframe'i postMessage ile tekrar tetiklemek
+    // yetmez — hediyeler.html içindeki cevaplar/selectedCriteria/secilenBurc/butceEsnek
+    // değerleri SADECE iframe ilk yüklendiğinde (const olarak) okunuyor. İkinci bir
+    // arama yapıldığında (örn. kriterler veya burç değiştiyse) bu sabit değerler GÜNCEL
+    // localStorage'ı yansıtmaz, bayat veriyle çalışmaya devam eder (sonsuz "taranıyor"
+    // döngüsüne yol açabilir). Bu yüzden her tetiklemede src'yi tazeleyip iframe'in
+    // gerçekten sıfırdan yüklenmesini sağlıyoruz; yükleme bitince 'hediyeleri_baslat'
+    // mesajını göndeririz.
     if (e.data.type === 'hediyeleri_goster') {
         var hediyelerIframe = document.getElementById('iframe-hediyeler');
-        if (hediyelerIframe && hediyelerIframe.contentWindow) {
-            hediyelerIframe.contentWindow.postMessage({ type: 'hediyeleri_baslat' }, '*');
+        if (hediyelerIframe) {
+            var _hedBase = hediyelerIframe.src.split('?')[0];
+            var _hedYeniSrc = _hedBase + '?embed=1&t=' + Date.now();
+            var _hedYuklendi = function() {
+                hediyelerIframe.removeEventListener('load', _hedYuklendi);
+                if (hediyelerIframe.contentWindow) {
+                    hediyelerIframe.contentWindow.postMessage({ type: 'hediyeleri_baslat' }, '*');
+                }
+            };
+            hediyelerIframe.addEventListener('load', _hedYuklendi);
+            hediyelerIframe.src = _hedYeniSrc;
         }
         // Hediyeler görüldü: kart kalıcı bir profil kartına dönüşür (tamamlandi:true)
         try {
