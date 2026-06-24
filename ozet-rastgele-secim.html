@@ -178,6 +178,9 @@
 </div>
 
 <script>
+    window.onerror = function(msg, url, line) {
+        alert('SAYFA HATASI: ' + msg + ' (satır ' + line + ')');
+    };
     function ozetVeriTamMi() {
         try {
             if (typeof QuizHelper === 'undefined') return false;
@@ -449,16 +452,22 @@
     // tetiklemek için chip.click() kullanılır — sahte veri yazılmaz, kullanıcı
     // elle tıklamış gibi aynı kod yolundan geçer.
     function rastgeleSecimYap() {
-        kriterleriTemizle();
-        var allChips = Array.prototype.slice.call(document.querySelectorAll('#selections-list .chip'));
-        var maxSel = Math.min(6, allChips.length);
-        if (maxSel === 0) return;
-        // Fisher-Yates karıştırma
-        for (var i = allChips.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var tmp = allChips[i]; allChips[i] = allChips[j]; allChips[j] = tmp;
+        try {
+            kriterleriTemizle();
+            var allChips = Array.prototype.slice.call(document.querySelectorAll('#selections-list .chip'));
+            var maxSel = Math.min(6, allChips.length);
+            if (maxSel === 0) {
+                alert('Henüz seçilebilecek bir kriter (chip) yok. (allChips.length = 0)');
+                return;
+            }
+            for (var i = allChips.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = allChips[i]; allChips[i] = allChips[j]; allChips[j] = tmp;
+            }
+            allChips.slice(0, maxSel).forEach(function(chip) { chip.click(); });
+        } catch (hata) {
+            alert('HATA: ' + hata.message);
         }
-        allChips.slice(0, maxSel).forEach(function(chip) { chip.click(); });
     }
 
     function toggleSelection(el, soruId) {
