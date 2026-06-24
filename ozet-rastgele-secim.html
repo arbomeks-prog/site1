@@ -179,7 +179,11 @@
 
 <script>
     window.onerror = function(msg, url, line) {
-        alert('SAYFA HATASI: ' + msg + ' (satır ' + line + ')');
+        var b = document.createElement('div');
+        b.textContent = 'SAYFA HATASI: ' + msg + ' (satır ' + line + ')';
+        b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#ef4444;color:#fff;font-weight:900;text-align:center;padding:12px;font-size:13px;font-family:monospace;white-space:pre-wrap;';
+        document.body.appendChild(b);
+        setTimeout(function(){ b.remove(); }, 12000);
     };
     function ozetVeriTamMi() {
         try {
@@ -451,13 +455,22 @@
     // rastgele en fazla 6'sını seçer. Gerçek toggleSelection() mantığını
     // tetiklemek için chip.click() kullanılır — sahte veri yazılmaz, kullanıcı
     // elle tıklamış gibi aynı kod yolundan geçer.
+    function _teshisBanner(msg, renk) {
+        var b = document.createElement('div');
+        b.textContent = msg;
+        b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:' + (renk||'#22c55e') + ';color:#000;font-weight:900;text-align:center;padding:12px;font-size:13px;font-family:monospace;white-space:pre-wrap;';
+        document.body.appendChild(b);
+        setTimeout(function(){ b.remove(); }, 8000);
+    }
     function rastgeleSecimYap() {
+        _teshisBanner('🎲 Buton tıklandı, fonksiyon çalışıyor...');
         try {
             kriterleriTemizle();
             var allChips = Array.prototype.slice.call(document.querySelectorAll('#selections-list .chip'));
             var maxSel = Math.min(6, allChips.length);
+            _teshisBanner('Bulunan chip sayısı: ' + allChips.length, '#3b82f6');
             if (maxSel === 0) {
-                alert('Henüz seçilebilecek bir kriter (chip) yok. (allChips.length = 0)');
+                _teshisBanner('HATA: Hiç chip bulunamadı (allChips.length = 0)', '#ef4444');
                 return;
             }
             for (var i = allChips.length - 1; i > 0; i--) {
@@ -465,8 +478,9 @@
                 var tmp = allChips[i]; allChips[i] = allChips[j]; allChips[j] = tmp;
             }
             allChips.slice(0, maxSel).forEach(function(chip) { chip.click(); });
+            _teshisBanner('Tamamlandı: ' + maxSel + ' chip seçildi', '#22c55e');
         } catch (hata) {
-            alert('HATA: ' + hata.message);
+            _teshisBanner('HATA: ' + hata.message, '#ef4444');
         }
     }
 
