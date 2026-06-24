@@ -140,14 +140,6 @@
             </button>
         </div>
 
-        <!-- Burç paneli -->
-        <div class="bg-white rounded-2xl shadow-sm p-4 mb-6" id="burc-panel-wrapper">
-            <div class="flex items-center justify-between mb-3">
-                <div id="burc-baslik">⭐ Burcunu seç — şansını artır!</div>
-                <span id="burc-badge" class="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full font-bold hidden">+1</span>
-            </div>
-            <div id="burc-panel"></div>
-        </div>
         <!-- SEO içerik bloğu -->
         <div class="seo-block">
             <h2>📋 BudurBuldum Özet Sayfası Nedir?</h2>
@@ -350,50 +342,15 @@
         }
     }
 
+    // ARTIK GÖRSEL BİR PANEL YOK (kullanıcı yanlışlıkla eklendiğini belirtti,
+    // tasarımda hiç yoktu, kaldırıldı). Burç zaten 30. soruda (dogum) soruluyor;
+    // burada SADECE o cevaptan secilenBurc'u sessizce türetiyoruz, çünkü
+    // hediyeler.html kişiselleştirme için bu değeri kullanıyor.
     function renderBurcPanel(cevaplar) {
-        const wrapper = document.getElementById('burc-panel-wrapper');
-        if (cevaplar.dogum === 'Bilmiyorum') {
-            if (wrapper) wrapper.style.display = 'none';
-            secilenBurc = null;
-            return;
-        }
-        if (wrapper) wrapper.style.display = '';
-        const panel = document.getElementById('burc-panel');
-        panel.innerHTML = '';
         secilenBurc = null;
-        let mevcutBurc = null;
+        if (cevaplar.dogum === 'Bilmiyorum') return;
         const dc = cevaplar.dogum || '';
-        if (dc) { const m = dc.match(/([♈♉♊♋♌♍♎♏♐♑♒♓]) (\S+)/); if (m) mevcutBurc = m[0]; }
-        const burcBaslik = document.getElementById('burc-baslik');
-        if (mevcutBurc) {
-            secilenBurc = mevcutBurc;
-            burcBaslik.textContent = '⭐ Burç seçimi — ' + mevcutBurc + ' seçili';
-            document.getElementById('burc-badge').classList.remove('hidden');
-        }
-        const grid = document.createElement('div');
-        grid.className = 'grid grid-cols-4 gap-2 mt-2';
-        QUIZ_CONFIG.burclar.forEach(b => {
-            const bb = document.createElement('button');
-            bb.className = 'burc-btn';
-            bb.innerHTML = '<span class="burc-sembol">'+b.sembol+'</span><span class="burc-isim">'+b.isim+'</span>';
-            if (mevcutBurc && mevcutBurc.includes(b.isim)) bb.classList.add('selected');
-            bb.onclick = function() {
-                const zaten = bb.classList.contains('selected');
-                grid.querySelectorAll('.burc-btn').forEach(x => x.classList.remove('selected'));
-                if (!zaten) {
-                    bb.classList.add('selected');
-                    secilenBurc = b.sembol + ' ' + b.isim;
-                    burcBaslik.textContent = '⭐ Burç seçimi — ' + secilenBurc + ' seçili';
-                    document.getElementById('burc-badge').classList.remove('hidden');
-                } else {
-                    secilenBurc = null;
-                    burcBaslik.textContent = '⭐ Burcunu seç — şansını artır!';
-                    document.getElementById('burc-badge').classList.add('hidden');
-                }
-            };
-            grid.appendChild(bb);
-        });
-        panel.appendChild(grid);
+        if (dc) { const m = dc.match(/([♈♉♊♋♌♍♎♏♐♑♒♓]) (\S+)/); if (m) secilenBurc = m[0]; }
     }
 
     function updateFloatingBtn(selected, limit) {
