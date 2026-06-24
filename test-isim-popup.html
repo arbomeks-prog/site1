@@ -1057,14 +1057,6 @@ if (_baslangicKime) {
                                     if (_atlananResume.indexOf(_sira[_ri]) !== -1) continue; // bu kime için atlanması gereken soru, sayma
                                     if (_cvResume[_sira[_ri]] === undefined || _cvResume[_sira[_ri]] === '') { _hedefId = _sira[_ri]; break; }
                                 }
-                                // TEŞHİS BANNER (sadece test sayfasında): gerçek cevaplar nedir, hedef ne seçildi
-                                try {
-                                    var _tani = document.createElement('div');
-                                    _tani.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#22c55e;color:#000;font-weight:900;text-align:center;padding:10px;font-size:12px;font-family:monospace;white-space:pre-wrap;max-height:200px;overflow:auto;';
-                                    _tani.textContent = '🔍 TEŞHİS\nkime: ' + (_cvResume.kime||'(yok)') + '\ncevaplar: ' + JSON.stringify(_cvResume) + '\nhedefId: ' + (_hedefId || '(yok→özet)');
-                                    document.body.appendChild(_tani);
-                                    setTimeout(function(){ _tani.remove(); }, 15000);
-                                } catch(exTani) {}
                                 if (_hedefId && _hedefId !== 'kime') {
                                     var _hedefBlok = document.getElementById('blok-' + _hedefId);
                                     if (_hedefBlok) _hedefBlok.scrollIntoView({behavior:'smooth', block:'center'});
