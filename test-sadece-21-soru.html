@@ -1657,8 +1657,10 @@ window.addEventListener('message', function(e) {
                 } else {
                     // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
                     aktifOzelSet = null;
-                    var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
-                    var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
+                    // iframe'in kendi hesapladığı "sıradaki sayfa"ya değil, kendi
+                    // kısaltılmış SORU_SIRASI'mıza göre ilerliyoruz (bkz. NORMAL AKIŞ bloğu).
+                    var kimeIdx = SORU_SIRASI.indexOf('kime');
+                    var sonrakiSoruIdKime = (kimeIdx >= 0) ? SORU_SIRASI[kimeIdx + 1] : null;
                     if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
                         var reloadGerekenKime = ['cinsiyet', 'yas'];
                         if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
@@ -1761,19 +1763,20 @@ window.addEventListener('message', function(e) {
             }
         }
 
-        // --- NORMAL AKIŞ (aktifOzelSet yoksa, standart 30 soru) ---
+        // --- NORMAL AKIŞ (aktifOzelSet yoksa, standart sorular) ---
         cevaplananlar[soruId] = true;
         var idx = SORU_SIRASI.indexOf(soruId);
         if (idx >= 0) giftBoxGuncelle(idx);
 
-        // Sonraki soruyu bul
-        var dosyaAdi = sonrakiSayfa.split('/').pop().split('?')[0];
-        var sonrakiSoruId = SAYFA_SORU_MAP[dosyaAdi];
-
-        if (dosyaAdi === 'ozet.html') {
+        // iframe'in kendi hesapladığı "sıradaki sayfa"ya değil, kendi kısaltılmış
+        // SORU_SIRASI'mıza göre ilerliyoruz (standalone soru sayfaları hâlâ canlı
+        // config.js'in tam listesine göre kendi "sıradaki sayfa"sını hesaplıyor,
+        // bu bizim kısaltılmış akışımızla uyuşmuyor).
+        if (idx >= 0 && idx === SORU_SIRASI.length - 1) {
             setTimeout(function() { tamamlandi(); }, 250);
             return;
         }
+        var sonrakiSoruId = (idx >= 0) ? SORU_SIRASI[idx + 1] : null;
 
         if (sonrakiSoruId) {
             // Sadece filtreleme gerektiren sayfaları reload et
