@@ -690,7 +690,7 @@ setTimeout(function() {
 try {
 const prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
 const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
-const res = await fetch('/api/gifts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: prompt, session_id: sessionId }) });
+const res = await fetch('/api/gifts-test', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: prompt, session_id: sessionId }) });
 if (!res.ok) throw new Error('API hatası: ' + res.status);
 const data = await res.json();
 let sugg = [];
