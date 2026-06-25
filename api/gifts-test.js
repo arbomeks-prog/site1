@@ -25,7 +25,7 @@ function temaBaskinligiBul(sugg) {
         const benzersiz = Array.from(new Set(kelimeler));
         benzersiz.forEach(function(k) { sayac[k] = (sayac[k] || 0) + 1; });
     });
-    const tekrarEden = Object.keys(sayac).find(function(k) { return sayac[k] >= 2; });
+    const tekrarEden = Object.keys(sayac).find(function(k) { return sayac[k] >= 3; });
     return tekrarEden ? { kelime: tekrarEden, adet: sayac[tekrarEden] } : null;
 }
 
@@ -122,7 +122,7 @@ export default async function handler(req, res) {
         const klise = klisesBul(sugg);
         let geriBildirim = null;
         if (tekrar) {
-            geriBildirim = 'Listendeki hediyelerin ' + tekrar.adet + ' tanesinde "' + tekrar.kelime + '" kelimesi/teması tekrar ediyor — bu kabul edilemez, her hediye TAMAMEN farklı bir kategoriden olmalı. Aynı JSON array formatında, AYNI SAYIDA hediye ile TÜM listeyi yeniden ver; "' + tekrar.kelime + '" temasını EN FAZLA 1 hediyede kullan, diğerlerini tamamen başka ilgi alanlarına göre değiştir.';
+            geriBildirim = 'Listendeki hediyelerin ' + tekrar.adet + ' tanesinde "' + tekrar.kelime + '" kelimesi/teması tekrar ediyor — bu kabul edilemez, her hediye TAMAMEN farklı bir kategoriden olmalı. Aynı JSON array formatında, AYNI SAYIDA hediye ile TÜM listeyi yeniden ver; "' + tekrar.kelime + '" temasını EN FAZLA 2 hediyede kullan, diğerlerini tamamen başka ilgi alanlarına göre değiştir.';
         } else if (klise) {
             geriBildirim = 'Önerdiğin "' + (klise.gift.name || klise.terim) + '" hediyesini KABUL ETMİYORUM — çok klişe ve kişiye uygun değil. Aynı JSON array formatında, AYNI SAYIDA hediye ile TÜM listeyi yeniden ver; sadece bu hediyeyi (' + klise.terim + ' içeren) değiştir, diğerlerini aynen koru. Yeni hediye "' + klise.terim + '" veya benzer bir klişe İÇERMESİN.';
         }
