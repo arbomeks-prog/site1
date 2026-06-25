@@ -1639,6 +1639,22 @@ var KIME_ATLAMA_HARITASI = {
     "Baba": ["cinsiyet"]
 };
 
+// Bir soru cevaplandıktan sonra GERÇEK sıradaki soruyu bulur — kime'ye göre
+// atlanması gereken (görsel olarak gizli) soruları otomatik atlar.
+function siradakiGercekSoru(suankiSoruId) {
+    var sira = SORU_SIRASI;
+    var idx = sira.indexOf(suankiSoruId);
+    if (idx < 0) return null;
+    var atlananlar = KIME_ATLAMA_HARITASI[(budurBuldumCevaplarOku().kime)] || [];
+    for (var i = idx + 1; i < sira.length; i++) {
+        if (atlananlar.indexOf(sira[i]) === -1) return sira[i];
+    }
+    return null;
+}
+function budurBuldumCevaplarOku() {
+    try { return JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) { return {}; }
+}
+
 function disiplinKontrol(soruId, engellenenIframeId) {
     var sira = aktifSoruSirasi();
     var idx = sira.indexOf(soruId);
@@ -1821,8 +1837,7 @@ window.addEventListener('message', function(e) {
                     aktifOzelSet = null;
                     // Aynı sebepten (bkz. NORMAL AKIŞ bloğu): iframe'in kendi hesapladığı
                     // "sıradaki sayfa" bilgisine değil, kendi kısaltılmış SORU_SIRASI'mıza göre ilerliyoruz.
-                    var kimeIdx = SORU_SIRASI.indexOf('kime');
-                    var sonrakiSoruIdKime = (kimeIdx >= 0) ? SORU_SIRASI[kimeIdx + 1] : null;
+                    var sonrakiSoruIdKime = siradakiGercekSoru('kime');
                     if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
                         var reloadGerekenKime = ['cinsiyet', 'yas'];
                         if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
@@ -1941,7 +1956,11 @@ window.addEventListener('message', function(e) {
             setTimeout(function() { tamamlandi(); }, 250);
             return;
         }
-        var sonrakiSoruId = (idx >= 0) ? SORU_SIRASI[idx + 1] : null;
+        var sonrakiSoruId = (idx >= 0) ? siradakiGercekSoru(soruId) : null;
+        if (idx >= 0 && !sonrakiSoruId) {
+            setTimeout(function() { tamamlandi(); }, 250);
+            return;
+        }
 
         if (sonrakiSoruId) {
             // Sadece filtreleme gerektiren sayfaları reload et
