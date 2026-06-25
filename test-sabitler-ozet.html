@@ -182,8 +182,9 @@
             if (typeof QuizHelper === 'undefined') return false;
             const cevaplar = QuizHelper.getCevaplar();
             const sorular = QuizHelper.getAktifSorular();
+            const bonusIdSet = new Set(QUIZ_CONFIG.bonusSorular || []);
             return sorular.every(function(s) {
-                return !QuizHelper.soruGecerliMi(s.id) || !!cevaplar[s.id];
+                return bonusIdSet.has(s.id) || !QuizHelper.soruGecerliMi(s.id) || !!cevaplar[s.id];
             });
         } catch(e) { return false; }
     }
@@ -256,7 +257,15 @@
         if (isOzel) {
             profil = sorular.map(s => '<span class="lbl">'+s.soru.split('?')[0]+': </span><span class="val">'+(cevaplar[s.id] || '—')+'</span>').join(' &nbsp;·&nbsp; ');
         } else {
-            profil = QUIZ_CONFIG.profilSabitler.map(p => '<span class="lbl">'+p.etiket+': </span><span class="val">'+(cevaplar[p.id] || '—')+'</span>').join(' &nbsp;·&nbsp; ');
+            var parcalar = QUIZ_CONFIG.profilSabitler.map(p => '<span class="lbl">'+p.etiket+': </span><span class="val">'+(cevaplar[p.id] || '—')+'</span>');
+            // Bonus sorular: SADECE kullanıcı gerçekten cevapladıysa kutuya eklenir
+            // ("—" ile boş yer kaplamaz, AI'a da gönderilmez — bkz. bonusSorular notu).
+            (QUIZ_CONFIG.bonusProfilGosterim || []).forEach(function(p) {
+                if (cevaplar[p.id]) {
+                    parcalar.push('<span class="lbl">'+p.etiket+': </span><span class="val">'+cevaplar[p.id]+'</span>');
+                }
+            });
+            profil = parcalar.join(' &nbsp;·&nbsp; ');
         }
         document.getElementById('profil-bar').innerHTML = profil;
     }
@@ -308,6 +317,7 @@
         const list = document.getElementById('selections-list');
         list.innerHTML = '';
         const sabitIdler = QUIZ_CONFIG.profilSabitler.map(p => p.id);
+        const bonusIdler = QUIZ_CONFIG.bonusSorular || [];
         const negatifler = QUIZ_CONFIG.negatifler;
         // Kısa etiket map — soru id'sinden okunabilir kısa isim
         const labelMap = {
@@ -324,7 +334,7 @@
         };
         for (let i = 0; i < sorular.length; i++) {
             const s = sorular[i];
-            if (!isOzel && sabitIdler.includes(s.id)) continue;
+            if (!isOzel && (sabitIdler.includes(s.id) || bonusIdler.includes(s.id))) continue;
             const cevapVar = !!cevaplar[s.id];
             if (!vitrinModu) {
                 if (!cevapVar) continue;

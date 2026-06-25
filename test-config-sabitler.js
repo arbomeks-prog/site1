@@ -32,7 +32,27 @@ const QUIZ_CONFIG = {
         { id:"sanat",      soru:"Sanat eserlerine ilgisi var mı?",           secenekler:["Çok var","Orta","Yok"], sayfa:"sanat-sevene-hediye-bulma-testi.html" },
         { id:"foto",       soru:"Fotoğraf çekmeyi sever mi?",               secenekler:["Evet","Ara sıra","Hiç"], sayfa:"fotograf-cekmeyi-sevene-hediye-testi.html" },
         { id:"dogum",      soru:"Doğum tarihi hakkında ne biliyorsunuz?",    secenekler:["Tarihini biliyorum","Bilmiyorum","Burcunu biliyorum"], sayfa:"dogum-tarihine-gore-hediye-testi.html", ozelTip:"dogum" },
+        // BONUS SORULAR (24-25 Haz 2026): bunlar AI'a SABİT olarak gönderilmiyor
+        // (bkz. profilSabitler — sadece kime/cinsiyet/butce), 6-kriter listesine
+        // girmiyor, quiz akışını da BLOKLAMIYOR (zorunlu değil, atlanabilir).
+        // Sadece kullanıcı isteyip cevaplarsa profil kutusunda görünür —
+        // amaç tıklama sayısını azaltırken "özenli profil" hissini korumak.
+        { id:"yas",        soru:"Yaş aralığı yaklaşık olarak nedir?",        secenekler:["0-2 (Bebek)","3-6 (Küçük Çocuk)","7-12 (Çocuk)","13-17 (Genç)","18-25","26-35","36-45","46-60","61-75","76+"], sayfa:"yasa-gore-hediye-bulma-testi.html" },
+        { id:"tarz",       soru:"Tarzı nasıldır?",                           secenekler:["Minimalist","Renkli ve Eğlenceli","Klasik / Şık","Modern / Şık","Spor / Casual"], sayfa:"kisilik-tarzina-gore-hediye-testi.html" },
+        { id:"renk",       soru:"En çok sevdiği renk tonu hangisi?",         secenekler:["Pastel Tonlar","Koyu ve Şık Tonlar","Canlı ve Parlak Renkler","Doğal Tonlar"], sayfa:"sevdigi-renge-gore-hediye-testi.html" },
+        { id:"amac",       soru:"Hediyeyi ne için alıyorsun?",               secenekler:["Doğum Günü","Yıl Dönümü","Sevgililer Günü","Özel Bir Başarı","Sadece sürpriz","Noel / Yılbaşı"], sayfa:"ne-icin-hediye-alinacak-testi.html" },
+        { id:"ortam",      soru:"Kişi evde mi dışarıda mı zaman geçiriyor?", secenekler:["Daha çok evde","Daha çok dışarıda","İkisi de dengeli"], sayfa:"yasam-tarzina-gore-hediye-testi.html" },
+        { id:"mevsim",     soru:"Favori mevsimi hangisi?",                   secenekler:["İlkbahar","Yaz","Sonbahar","Kış"], sayfa:"mevsime-gore-hediye-secimi-testi.html" },
+        { id:"tatli",      soru:"En sevdiği tatlı türü nedir?",              secenekler:["Çikolata","Pasta","Dondurma","Şekerleme","Hiçbiri"], sayfa:"tatli-zevkine-gore-hediye-testi.html" },
+        { id:"kisilik",    soru:"Kişilik tipi nasıl?",                       secenekler:["İçedönük","Dışadönük","Dengeli"], sayfa:"kisilik-tipine-gore-hediye-testi.html" },
+        { id:"oncelik",    soru:"Hediye alırken en çok neye dikkat edersin?", secenekler:["Kullanışlı olsun","Güzel görünsün","Özel ve anlamlı olsun","Uygun fiyatlı olsun"], sayfa:"hediye-onceliklerine-gore-secim-testi.html" },
     ],
+
+    // Bonus soruların id listesi — bu id'ler: (1) profilSabitler'de YOK (AI'a
+    // zorla gönderilmez), (2) kriter seçim listesinde gösterilmez, (3) quiz
+    // akışını bloklamaz (SORU_SIRASI'nda yok), (4) sadece cevaplanırsa profil
+    // kutusunda görünür.
+    bonusSorular: ["yas","tarz","renk","amac","ortam","mevsim","tatli","kisilik","oncelik"],
 
     // ==========================================
     // ÖZEL SORU SETLERİ
@@ -117,6 +137,20 @@ const QUIZ_CONFIG = {
         { id:"kime",     etiket:"Kime" },
         { id:"cinsiyet", etiket:"Cinsiyet" },
         { id:"butce",    etiket:"Bütçe" },
+    ],
+
+    // SADECE profil kutusunda GÖRÜNTÜLEME için — AI'a gönderilmez (bkz. yukarıdaki
+    // not), profilSabitler'dan bilerek ayrı tutuldu ki AI mantığı bundan etkilenmesin.
+    bonusProfilGosterim: [
+        { id:"yas",      etiket:"Yaş" },
+        { id:"tarz",     etiket:"Tarz" },
+        { id:"renk",     etiket:"Renk" },
+        { id:"amac",     etiket:"Amaç" },
+        { id:"ortam",    etiket:"Ortam" },
+        { id:"mevsim",   etiket:"Mevsim" },
+        { id:"tatli",    etiket:"Tatlı" },
+        { id:"kisilik",  etiket:"Kişilik" },
+        { id:"oncelik",  etiket:"Öncelik" },
     ],
 
     // ==========================================
