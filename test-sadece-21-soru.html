@@ -1661,6 +1661,13 @@ window.addEventListener('message', function(e) {
                     // kısaltılmış SORU_SIRASI'mıza göre ilerliyoruz (bkz. NORMAL AKIŞ bloğu).
                     var kimeIdx = SORU_SIRASI.indexOf('kime');
                     var sonrakiSoruIdKime = (kimeIdx >= 0) ? SORU_SIRASI[kimeIdx + 1] : null;
+                    try {
+                        var _tb = document.createElement('div');
+                        _tb.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#22c55e;color:#000;font-weight:900;text-align:center;padding:10px;font-size:12px;font-family:monospace;';
+                        _tb.textContent = '🔍 kimeIdx=' + kimeIdx + ' sonrakiSoruIdKime=' + sonrakiSoruIdKime + ' _budurDevamEdiliyor=' + _budurDevamEdiliyor;
+                        document.body.appendChild(_tb);
+                        setTimeout(function(){ _tb.remove(); }, 10000);
+                    } catch(exTb) {}
                     if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
                         var reloadGerekenKime = ['cinsiyet', 'yas'];
                         if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
