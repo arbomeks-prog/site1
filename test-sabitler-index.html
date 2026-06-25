@@ -1819,8 +1819,10 @@ window.addEventListener('message', function(e) {
                 } else {
                     // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
                     aktifOzelSet = null;
-                    var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
-                    var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
+                    // Aynı sebepten (bkz. NORMAL AKIŞ bloğu): iframe'in kendi hesapladığı
+                    // "sıradaki sayfa" bilgisine değil, kendi kısaltılmış SORU_SIRASI'mıza göre ilerliyoruz.
+                    var kimeIdx = SORU_SIRASI.indexOf('kime');
+                    var sonrakiSoruIdKime = (kimeIdx >= 0) ? SORU_SIRASI[kimeIdx + 1] : null;
                     if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
                         var reloadGerekenKime = ['cinsiyet', 'yas'];
                         if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
@@ -1923,19 +1925,23 @@ window.addEventListener('message', function(e) {
             }
         }
 
-        // --- NORMAL AKIŞ (aktifOzelSet yoksa, standart 30 soru) ---
+        // --- NORMAL AKIŞ (aktifOzelSet yoksa, standart sorular) ---
         cevaplananlar[soruId] = true;
         var idx = SORU_SIRASI.indexOf(soruId);
         if (idx >= 0) giftBoxGuncelle(idx);
 
-        // Sonraki soruyu bul
-        var dosyaAdi = sonrakiSayfa.split('/').pop().split('?')[0];
-        var sonrakiSoruId = SAYFA_SORU_MAP[dosyaAdi];
-
-        if (dosyaAdi === 'ozet.html') {
+        // ÖNEMLİ: "sıradaki soru" bilgisini iframe'in kendi hesabına (e.data.sonrakiSayfa)
+        // GÜVENMİYORUZ — o, bonus sorular da dahil ORİJİNAL tam soru sırasına göre
+        // hesaplanıyor (config.js QUIZ_CONFIG.sorular). Bizim asıl akışımız (SORU_SIRASI)
+        // bonus soruları çıkarılmış kısaltılmış bir liste, bu yüzden kayma hedefini
+        // SADECE kendi SORU_SIRASI'mızdan hesaplıyoruz; iframe'in söylediği bonus
+        // sorulara (artık gizli accordion) kaymayı tamamen engelliyoruz.
+        if (idx >= 0 && idx === SORU_SIRASI.length - 1) {
+            // Ana akışın son sorusu cevaplandı → özete geç
             setTimeout(function() { tamamlandi(); }, 250);
             return;
         }
+        var sonrakiSoruId = (idx >= 0) ? SORU_SIRASI[idx + 1] : null;
 
         if (sonrakiSoruId) {
             // Sadece filtreleme gerektiren sayfaları reload et
