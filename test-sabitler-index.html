@@ -696,27 +696,35 @@ function nickDegistirIndex() {
     <iframe id="iframe-cinsiyet" src="kadin-erkek-hediye-secimi-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
 </div>
 
-<div class="soru-blok" id="blok-yas" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+<div class="soru-blok" id="blok-yas" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-yas" onclick="bonusSoruAc('yas')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Yaşını da eklemek ister misin?</span><span id="bonus-ok-yas" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-yas" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-yas-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-yas-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-yas-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">Yaş aralığı yaklaşık olarak nedir?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-yas" src="yasa-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">Yaş aralığı yaklaşık olarak nedir?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-yas" src="yasa-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
 
-<div class="soru-blok" id="blok-tarz" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+
+<div class="soru-blok" id="blok-tarz" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-tarz" onclick="bonusSoruAc('tarz')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Tarzını da eklemek ister misin?</span><span id="bonus-ok-tarz" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-tarz" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-tarz-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-tarz-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-tarz-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">Tarzı nasıldır?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-tarz" src="kisilik-tarzina-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">Tarzı nasıldır?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-tarz" src="kisilik-tarzina-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
+
 
 
 <div class="soru-blok" id="blok-hobiler">
@@ -729,16 +737,20 @@ function nickDegistirIndex() {
     <iframe id="iframe-hobiler" src="hobiye-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
 </div>
 
-<div class="soru-blok" id="blok-renk" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+<div class="soru-blok" id="blok-renk" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-renk" onclick="bonusSoruAc('renk')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Sevdiği rengi de eklemek ister misin?</span><span id="bonus-ok-renk" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-renk" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-renk-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-renk-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-renk-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">En çok sevdiği renk tonu hangisi?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-renk" src="sevdigi-renge-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">En çok sevdiği renk tonu hangisi?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-renk" src="sevdigi-renge-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
+
 
 
 <div class="soru-blok" id="blok-teknoloji">
@@ -761,27 +773,35 @@ function nickDegistirIndex() {
     <iframe id="iframe-butce" src="butceye-gore-hediye-bulma-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
 </div>
 
-<div class="soru-blok" id="blok-amac" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+<div class="soru-blok" id="blok-amac" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-amac" onclick="bonusSoruAc('amac')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Hediyenin amacını da eklemek ister misin?</span><span id="bonus-ok-amac" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-amac" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-amac-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-amac-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-amac-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">Hediyeyi ne için alıyorsun?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-amac" src="ne-icin-hediye-alinacak-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">Hediyeyi ne için alıyorsun?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-amac" src="ne-icin-hediye-alinacak-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
 
-<div class="soru-blok" id="blok-ortam" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+
+<div class="soru-blok" id="blok-ortam" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-ortam" onclick="bonusSoruAc('ortam')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Nerede vakit geçirdiğini de eklemek ister misin?</span><span id="bonus-ok-ortam" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-ortam" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-ortam-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-ortam-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-ortam-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">Kişi evde mi dışarıda mı zaman geçiriyor?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-ortam" src="yasam-tarzina-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">Kişi evde mi dışarıda mı zaman geçiriyor?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-ortam" src="yasam-tarzina-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
+
 
 
 <div class="soru-blok" id="blok-spor">
@@ -834,16 +854,20 @@ function nickDegistirIndex() {
     <iframe id="iframe-kitap" src="kitap-okuyucuya-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
 </div>
 
-<div class="soru-blok" id="blok-mevsim" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+<div class="soru-blok" id="blok-mevsim" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-mevsim" onclick="bonusSoruAc('mevsim')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Favori mevsimini de eklemek ister misin?</span><span id="bonus-ok-mevsim" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-mevsim" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-mevsim-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-mevsim-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-mevsim-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">Favori mevsimi hangisi?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-mevsim" src="mevsime-gore-hediye-secimi-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">Favori mevsimi hangisi?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-mevsim" src="mevsime-gore-hediye-secimi-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
+
 
 
 <div class="soru-blok" id="blok-kahve">
@@ -916,27 +940,35 @@ function nickDegistirIndex() {
     <iframe id="iframe-mutfak" src="yemek-icin-hediye-bulma-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
 </div>
 
-<div class="soru-blok" id="blok-tatli" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+<div class="soru-blok" id="blok-tatli" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-tatli" onclick="bonusSoruAc('tatli')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Tatlı zevkini de eklemek ister misin?</span><span id="bonus-ok-tatli" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-tatli" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-tatli-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-tatli-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-tatli-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">En sevdiği tatlı türü nedir?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-tatli" src="tatli-zevkine-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">En sevdiği tatlı türü nedir?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-tatli" src="tatli-zevkine-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
 
-<div class="soru-blok" id="blok-kisilik" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+
+<div class="soru-blok" id="blok-kisilik" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-kisilik" onclick="bonusSoruAc('kisilik')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Kişilik tipini de eklemek ister misin?</span><span id="bonus-ok-kisilik" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-kisilik" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-kisilik-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kisilik-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-kisilik-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">Kişilik tipi nasıl?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-kisilik" src="kisilik-tipine-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">Kişilik tipi nasıl?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-kisilik" src="kisilik-tipine-gore-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
+
 
 
 <div class="soru-blok" id="blok-doga">
@@ -969,16 +1001,20 @@ function nickDegistirIndex() {
     <iframe id="iframe-foto" src="fotograf-cekmeyi-sevene-hediye-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
 </div>
 
-<div class="soru-blok" id="blok-oncelik" style="border:2px solid #f59e0b;border-radius:16px;position:relative;background:linear-gradient(135deg,#fffbeb,#ffffff);margin:8px 0;">
-    <div style="position:absolute;top:-12px;left:16px;background:#f59e0b;color:#fff;font-size:11px;font-weight:900;padding:4px 12px;border-radius:8px;letter-spacing:0.05em;box-shadow:0 2px 6px rgba(245,158,11,0.4);">✨ BONUS SORU</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
+<div class="soru-blok" id="blok-oncelik" style="padding:10px 16px;border-bottom:2px dashed #e2e8f0;">
+    <button type="button" id="bonus-toggle-oncelik" onclick="bonusSoruAc('oncelik')" style="width:100%;text-align:left;background:linear-gradient(135deg,#fffbeb,#fff7e0);border:1.5px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:700;color:#92400e;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>✨ Hediyede önceliğini de eklemek ister misin?</span><span id="bonus-ok-oncelik" style="font-size:13px;color:#b45309;">Göster ↓</span></button>
+    <div id="bonus-icerik-oncelik" style="display:none;margin-top:14px;padding:14px;border:2px solid #f59e0b;border-radius:14px;background:linear-gradient(135deg,#fffbeb,#ffffff);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-top:10px;">
         <div class="soru-no" style="color:#f59e0b;">İsteğe Bağlı</div>
         <div style="display:flex;gap:10px;"><div id="pex-oncelik-0" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-oncelik-1" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div><div id="pex-oncelik-2" style="width:60px;height:60px;border-radius:10px;overflow:hidden;background:#e2e8f0;flex-shrink:0;"><img style="width:100%;height:100%;object-fit:cover;display:block;" src="" alt=""></div></div>
     </div>
-    <h2 class="soru-baslik">Hediye alırken en çok neye dikkat edersin?</h2>
-    <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
-    <iframe id="iframe-oncelik" src="hediye-onceliklerine-gore-secim-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    
+        <h2 class="soru-baslik">Hediye alırken en çok neye dikkat edersin?</h2>
+        <p class="soru-alt">👇 Cevaplarsan profilin daha da netleşir (atlayabilirsin)</p>
+        <iframe id="iframe-oncelik" src="hediye-onceliklerine-gore-secim-testi.html?embed=1" style="width:100%;height:400px;border:none;" scrolling="no" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+16)+\'px\'"></iframe>
+    </div>
 </div>
+
 
 
 <div class="soru-blok" id="blok-dogum">
@@ -1171,6 +1207,27 @@ if (_baslangicKime) {
             });
         });
     });
+
+    // Bonus sorular akordeon aç/kapa — kullanıcı istemezse hiç açmadan
+    // kaydırıp geçebilir, ana akışı hiç etkilemez.
+    function bonusSoruAc(bid) {
+        var icerik = document.getElementById('bonus-icerik-' + bid);
+        var ok = document.getElementById('bonus-ok-' + bid);
+        if (!icerik) return;
+        var aciliyor = icerik.style.display === 'none';
+        icerik.style.display = aciliyor ? 'block' : 'none';
+        if (ok) ok.textContent = aciliyor ? 'Gizle ↑' : 'Göster ↓';
+        if (aciliyor) {
+            // İframe gizliyken yüksekliği 0 ölçülmüştü, şimdi düzelt
+            var ifr = document.getElementById('iframe-' + bid);
+            if (ifr) {
+                setTimeout(function() {
+                    try { ifr.style.height = (ifr.contentWindow.document.body.scrollHeight + 16) + 'px'; } catch(e) {}
+                }, 50);
+            }
+            setTimeout(function() { icerik.scrollIntoView({behavior:'smooth', block:'center'}); }, 100);
+        }
+    }
 
     function giftBoxGuncelle(soruIndex) {
         var tamamlanan = soruIndex + 1;
