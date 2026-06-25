@@ -1477,6 +1477,23 @@ var KIME_ATLAMA_HARITASI = {
     "Baba": ["cinsiyet"]
 };
 
+// Bir soru cevaplandıktan sonra GERÇEK sıradaki soruyu bulur — kime'ye göre
+// atlanması gereken (görsel olarak gizli) soruları otomatik atlar. Yoksa
+// scrollIntoView görünmez bir bloğa kaydırmaya çalışır ve hiçbir şey olmaz.
+function siradakiGercekSoru(suankiSoruId) {
+    var sira = SORU_SIRASI;
+    var idx = sira.indexOf(suankiSoruId);
+    if (idx < 0) return null;
+    var atlananlar = KIME_ATLAMA_HARITASI[(budurBuldumCevaplarOku().kime)] || [];
+    for (var i = idx + 1; i < sira.length; i++) {
+        if (atlananlar.indexOf(sira[i]) === -1) return sira[i];
+    }
+    return null; // ana akışın sonu
+}
+function budurBuldumCevaplarOku() {
+    try { return JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) { return {}; }
+}
+
 function disiplinKontrol(soruId, engellenenIframeId) {
     var sira = aktifSoruSirasi();
     var idx = sira.indexOf(soruId);
@@ -1659,15 +1676,7 @@ window.addEventListener('message', function(e) {
                     aktifOzelSet = null;
                     // iframe'in kendi hesapladığı "sıradaki sayfa"ya değil, kendi
                     // kısaltılmış SORU_SIRASI'mıza göre ilerliyoruz (bkz. NORMAL AKIŞ bloğu).
-                    var kimeIdx = SORU_SIRASI.indexOf('kime');
-                    var sonrakiSoruIdKime = (kimeIdx >= 0) ? SORU_SIRASI[kimeIdx + 1] : null;
-                    try {
-                        var _tb = document.createElement('div');
-                        _tb.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#22c55e;color:#000;font-weight:900;text-align:center;padding:10px;font-size:12px;font-family:monospace;';
-                        _tb.textContent = '🔍 kimeIdx=' + kimeIdx + ' sonrakiSoruIdKime=' + sonrakiSoruIdKime + ' _budurDevamEdiliyor=' + _budurDevamEdiliyor;
-                        document.body.appendChild(_tb);
-                        setTimeout(function(){ _tb.remove(); }, 10000);
-                    } catch(exTb) {}
+                    var sonrakiSoruIdKime = siradakiGercekSoru('kime');
                     if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
                         var reloadGerekenKime = ['cinsiyet', 'yas'];
                         if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
@@ -1783,7 +1792,12 @@ window.addEventListener('message', function(e) {
             setTimeout(function() { tamamlandi(); }, 250);
             return;
         }
-        var sonrakiSoruId = (idx >= 0) ? SORU_SIRASI[idx + 1] : null;
+        var sonrakiSoruId = (idx >= 0) ? siradakiGercekSoru(soruId) : null;
+        if (idx >= 0 && !sonrakiSoruId) {
+            // SORU_SIRASI'nda soruId'den sonra kalan her şey bu kime için atlanmış
+            setTimeout(function() { tamamlandi(); }, 250);
+            return;
+        }
 
         if (sonrakiSoruId) {
             // Sadece filtreleme gerektiren sayfaları reload et
