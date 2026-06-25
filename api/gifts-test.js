@@ -9,6 +9,26 @@ const SISTEM_PROMPT = 'Önce her hediye fikri için web\'de gerçekten satılan,
 // çok daha güvenilir.
 const YASAKLI_TERIMLER = ['çay seti', 'çay takım', 'çay takımı', 'porselen çay', 'kahve makinesi', 'kahve seti', 'fincan seti', 'valiz', 'bavul', 'seyahat çantası', 'suşi', 'wok', 'kitap ayracı'];
 
+// Tek bir kelime/temanın listede TEKRAR TEKRAR çıkması da bir klişe biçimi —
+// "porselen çay seti" yasaklansa bile model "çay çeşitleri hediye paketi",
+// "özel demleme çay kutusu" gibi farklı kelimelerle AYNI temaya saplanabiliyor.
+// Bu yüzden anlamlı kelimeleri sayıp bir kelime 2+ hediyede geçiyorsa da
+// klişe/tema baskınlığı olarak işaretliyoruz.
+const ONEMSIZ_KELIMELER = new Set(['ve', 'ile', 'için', 'bir', 'set', 'seti', 'kutusu', 'kutu', 'paketi', 'paket', 'hediye', 'özel', 'kişiye', 'kişisel', 'gift']);
+
+function temaBaskinligiBul(sugg) {
+    if (!Array.isArray(sugg) || sugg.length < 2) return null;
+    const sayac = {};
+    sugg.forEach(function(g) {
+        const adSQ = ((g && g.name ? g.name : '') + ' ' + (g && g.searchQuery ? g.searchQuery : '')).toLowerCase();
+        const kelimeler = adSQ.split(/[^a-zçğıöşü0-9]+/i).filter(function(k) { return k.length > 3 && !ONEMSIZ_KELIMELER.has(k); });
+        const benzersiz = Array.from(new Set(kelimeler));
+        benzersiz.forEach(function(k) { sayac[k] = (sayac[k] || 0) + 1; });
+    });
+    const tekrarEden = Object.keys(sayac).find(function(k) { return sayac[k] >= 2; });
+    return tekrarEden ? { kelime: tekrarEden, adet: sayac[tekrarEden] } : null;
+}
+
 function klisesBul(sugg) {
     if (!Array.isArray(sugg)) return null;
     for (const g of sugg) {
@@ -92,14 +112,22 @@ export default async function handler(req, res) {
         let resultText = metniDizeyeAyikla(data);
         let sugg = metniDiziyeParseEt(resultText);
 
-        // Klişe terim bulunduysa, modele bunu söyleyip TEK SEFER tekrar deniyoruz.
+        // İki tür sorun ayrı ayrı kontrol edilir: (1) tek bir hediyede yasaklı
+        // klişe ifade, (2) listenin TAMAMINDA bir kelimenin/temanın (örn. "çay")
+        // 2+ hediyede tekrarlanması. İkincisi daha köklü bir sorun olduğu için
+        // önce o kontrol edilir; biri bulunursa modele net geri bildirimle
+        // TEK SEFER tekrar sorulur.
+        const tekrar = temaBaskinligiBul(sugg);
         const klise = klisesBul(sugg);
-        if (klise) {
+        let geriBildirim = null;
+        if (tekrar) {
+            geriBildirim = 'Listendeki hediyelerin ' + tekrar.adet + ' tanesinde "' + tekrar.kelime + '" kelimesi/teması tekrar ediyor — bu kabul edilemez, her hediye TAMAMEN farklı bir kategoriden olmalı. Aynı JSON array formatında, AYNI SAYIDA hediye ile TÜM listeyi yeniden ver; "' + tekrar.kelime + '" temasını EN FAZLA 1 hediyede kullan, diğerlerini tamamen başka ilgi alanlarına göre değiştir.';
+        } else if (klise) {
+            geriBildirim = 'Önerdiğin "' + (klise.gift.name || klise.terim) + '" hediyesini KABUL ETMİYORUM — çok klişe ve kişiye uygun değil. Aynı JSON array formatında, AYNI SAYIDA hediye ile TÜM listeyi yeniden ver; sadece bu hediyeyi (' + klise.terim + ' içeren) değiştir, diğerlerini aynen koru. Yeni hediye "' + klise.terim + '" veya benzer bir klişe İÇERMESİN.';
+        }
+        if (geriBildirim) {
             inputMesajlari.push({ role: 'assistant', content: resultText });
-            inputMesajlari.push({
-                role: 'user',
-                content: 'Önerdiğin "' + (klise.gift.name || klise.terim) + '" hediyesini KABUL ETMİYORUM — çok klişe ve kişiye uygun değil. Aynı JSON array formatında, AYNI SAYIDA hediye ile TÜM listeyi yeniden ver; sadece bu hediyeyi (' + klise.terim + ' içeren) değiştir, diğerlerini aynen koru. Yeni hediye "' + klise.terim + '" veya benzer bir klişe İÇERMESİN.'
-            });
+            inputMesajlari.push({ role: 'user', content: geriBildirim });
             response = await grokIstegiYap(apiKey, inputMesajlari, controller);
             if (response.ok) {
                 data = await response.json();
