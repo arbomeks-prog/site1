@@ -712,22 +712,6 @@ const priceEl = card.querySelector('.gift-price');
 const reasonEl = card.querySelector('.gift-reason');
 const descEl = card.querySelector('.gift-desc');
 if (nameEl) { nameEl.textContent = g.name; nameEl.classList.add('loaded'); }
-if (g.star && !g.isBurc) {
-    // Normal "Nokta Atışı" rozeti — sıfırlama sırasında silinmiş olabilir
-    // (bkz. document.querySelectorAll('.star-badge').forEach(el=>el.remove())),
-    // burç rozetiyle aynı mantıkla burada geri ekliyoruz.
-    var existingStarBadge = card.querySelector('.star-badge');
-    if (!existingStarBadge) {
-        var imgWrapStar = card.querySelector('.img-wrap');
-        if (imgWrapStar && imgWrapStar.parentElement) {
-            var nbStar = document.createElement('div');
-            nbStar.className = 'star-badge';
-            nbStar.textContent = '🎯 Nokta Atışı';
-            imgWrapStar.parentElement.style.position = 'relative';
-            imgWrapStar.parentElement.insertBefore(nbStar, imgWrapStar);
-        }
-    }
-}
 if (g.isBurc) {
 var _burcSembol = secilenBurc ? secilenBurc.split(' ')[0] : '⭐';
 var _burcIsimKisa = secilenBurc ? secilenBurc.split(' ').slice(1).join(' ') : 'Burç';
