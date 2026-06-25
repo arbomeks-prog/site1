@@ -55,20 +55,21 @@ function metniDiziyeParseEt(resultText) {
     return Array.isArray(sugg) ? sugg : [];
 }
 
-async function grokIstegiYap(apiKey, inputMesajlari, controller) {
+async function grokIstegiYap(apiKey, inputMesajlari, controller, aramaAktif) {
+    const body = {
+        model: 'grok-4.3',
+        input: inputMesajlari,
+        temperature: 1.1,
+        max_output_tokens: 3000
+    };
+    if (aramaAktif !== false) body.tools = [{ type: 'web_search' }];
     const response = await fetch('https://api.x.ai/v1/responses', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${apiKey}`
         },
-        body: JSON.stringify({
-            model: 'grok-4.3',
-            tools: [{ type: 'web_search' }],
-            input: inputMesajlari,
-            temperature: 1.1,
-            max_output_tokens: 3000
-        }),
+        body: JSON.stringify(body),
         signal: controller.signal
     });
     return response;
@@ -128,7 +129,7 @@ export default async function handler(req, res) {
         if (geriBildirim) {
             inputMesajlari.push({ role: 'assistant', content: resultText });
             inputMesajlari.push({ role: 'user', content: geriBildirim });
-            response = await grokIstegiYap(apiKey, inputMesajlari, controller);
+            response = await grokIstegiYap(apiKey, inputMesajlari, controller, false);
             if (response.ok) {
                 data = await response.json();
                 const ikinciDeneme = metniDizeyeAyikla(data);
