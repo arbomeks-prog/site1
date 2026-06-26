@@ -37,7 +37,31 @@ export default async function handler(req, res) {
                 input: [
                     {
                         role: 'system',
-                        content: 'Önce her hediye fikri için web\'de gerçekten satılan, bulunabilir ürün kategorilerini ARA ve sonuçları gör. Asla birbirine ilgisiz iki kriteri (örn. "deri" + "el bakımı") zorla tek bir üründe birleştirip hayali bir kategori uydurma — sadece gerçekten var olan, internette gerçekten satılan ürün kategorilerini öner. Her hediye için searchQuery Türkçe tam hediye adını kullan (örn: "porselen çay seti", "deri cüzdan" — kısaltma, tam adı yaz, ama mutlaka gerçek/aratılabilir bir kategori olsun). searchQueryEn İngilizce arama kelimesi olsun (Unsplash görsel araması için). KLİŞELERDEN KAÇIN: aksesuar/saat kriteri için mutlaka saat önerme; fotoğraf kriteri için albüm önerme; bunların yerine daha yaratıcı ve beklenmedik hediyeler bul, ama her zaman gerçekten var olan ürün kategorileri içinde kal. Aynı hediye kategorisini kesinlikle tekrar etme. Her hediye birbirinden tamamen farklı ve özgün olsun. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma.'
+                        content: `Önce her hediye fikri için web'de gerçekten satılan, bulunabilir ürün kategorilerini ARA ve sonuçları gör. Asla birbirine ilgisiz iki kriteri zorla tek bir üründe birleştirip hayali bir kategori uydurma — sadece gerçekten var olan, internette gerçekten satılan ürün kategorilerini öner. Aynı hediye kategorisini kesinlikle tekrar etme. Her hediye birbirinden tamamen farklı ve özgün olsun. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma.
+
+GENEL KURALLAR:
+- searchQuery: Türkçe tam hediye adı (örn: "porselen çay seti") — gerçek/aratılabilir kategori olsun, sıfat ve marka yasak.
+- searchQueryEn: İngilizce görsel araması (Unsplash için).
+- KLİŞELERDEN KAÇIN: aksesuar/saat kriteri → mutlaka saat önerme; fotoğraf kriteri → fotoğraf makinesi/albüm önerme zorunluluğu yok; müzik enstrümanı → illa gitar önerme. Her zaman daha yaratıcı ve beklenmedik hediyeler ara.
+- Türkiye'de satılan ürünler öner. Mevcut mevsimi (Haziran = yaz) arama kriterlerine ve açıklamalara yansıt.
+
+KİŞİYE GÖRE KURALLAR:
+- Çay/Kahve: Erkek için porselen çay seti, demlik, espresso makinesi gibi klişelerden uzak dur. Erkekte pratiklik, taşınabilirlik, kolay kullanım ön planda. Daha orijinal, niş alternatifler bul.
+- Doğa yürüyüşü: Sırt çantası önerme zorunluluğu yok. Çarpıcı, beklenmedik öneriler sun.
+- Teknoloji ilgisi: Fotoğraf makinesine takılma. Kişinin diğer özellikleriyle örtüşen teknolojik hediyeler bul.
+- Spor yapmıyor/ara sıra yapıyor: Sporu teşvik eden hediyeyi güzel yönlendirici bir mesajla sun — hediye alan kişinin hoşuna gider.
+- Müzik/Enstrüman: Gitar dışında kayıt cihazı, amfi, nota sehpası, müzik kitabı, poster gibi niş alternatifler düşün. Beklenmedik bir öneri yapıyorsan bunu description'da esprili, büyük harfli, samimi bir dille belirt.
+- Kişilik dışadönük: Şaşalı, gösterişli, paylaşılabilir hediyeler tercih et. İçedönük: Kişisel, anlamlı, hatırlanabilir hediyeler öne çıkar.
+- Burç hediyesi: Açıklamayı uzun ve kişisel tut — taşlar, yıldız haritası, burç sembolleri gibi detaylarla zenginleştir.
+- Erkekler için kişisel bakım: Çok niş bir alan, detaylı ve rehber niteliğinde öneriler sun, alternatif ürünleri çeşitlendir.
+- Sanat ilgisi: Müze kartı, sergi bileti, atölye hediye kartı, konser bileti gibi deneyim hediyelerine yönlen. Yönlendirici ol.
+- Mutfak/Yemek türü: Sadece İtalyan → pasta makinesi, Türk → çorba kasesi gibi klişelere düşme. Baharat setlerinden niş aletlere kadar geniş yelpazede bak.
+- Takı/Aksesuar ilgisi yüksekse ve bütçe de yüksekse: Takı/aksesuar önerilerini öne çıkar, niş ve kaliteli örnekler sun.
+- Makyaj/Bakım ürünleri: Çay/kahve tercihinden önce gelir, öne çıkar. Detaylı ve rehber niteliğinde öner.
+- Bitki bakımı + dışadönük + doğa yürüyüşü kombinasyonu: Dikey tarım, sulama ekipmanları, tohum seti, saksı standı gibi niş ürünler düşün.
+- Favori mevsim: Tekstil ve giyim önerilerinde bu mevsimi kullan, özellikle mevcut mevsimle uyumluysa vurgula.
+- Evde vakit geçiren + yaşlı/emekli profil: Bunu pozitif bir çerçevede değerlendir, ev konforu ve kişisel zevklere yönelik öneriler sun.
+- Gıda sektörü çok geniş: Malzemesinden aletlerine, baharatından mutfak ekipmanlarına kadar kullan.`
                     },
                     {
                         role: 'user',
