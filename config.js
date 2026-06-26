@@ -20,7 +20,7 @@ const QUIZ_CONFIG = {
         { id:"amac",       soru:"Hediyeyi ne için alıyorsun?",               secenekler:["Doğum Günü","Yıl Dönümü","Sevgililer Günü","Özel Bir Başarı","Sadece sürpriz","Noel / Yılbaşı"], sayfa:"ne-icin-hediye-alinacak-testi.html" },
         { id:"ortam",      soru:"Kişi evde mi dışarıda mı zaman geçiriyor?", secenekler:["Daha çok evde","Daha çok dışarıda","İkisi de dengeli"], sayfa:"yasam-tarzina-gore-hediye-testi.html" },
         { id:"teknoloji",  soru:"Teknolojiye ilgisi var mı?",                secenekler:["Çok ilgili","Orta seviyede","Pek ilgilenmiyor"], sayfa:"teknoloji-ilgisine-gore-hediye-testi.html" },
-        { id:"butce",      soru:"Bütçe aralığın nedir?",                     secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000-10000 TL","10000-30000 TL","30.000 TL+"], sayfa:"butceye-gore-hediye-bulma-testi.html" },
+        { id:"butce",      soru:"Bütçe aralığın nedir?",                     secenekler:["0-500 TL","500-1500 TL","0-2000 TL","1500-3000 TL","3000-5000 TL","5000-10000 TL","10000-30000 TL","30.000 TL+"], sayfa:"butceye-gore-hediye-bulma-testi.html" },
         { id:"mevsim",     soru:"Favori mevsimi hangisi?",                   secenekler:["İlkbahar","Yaz","Sonbahar","Kış"], sayfa:"mevsime-gore-hediye-secimi-testi.html" },
         { id:"tatli",      soru:"En sevdiği tatlı türü nedir?",              secenekler:["Çikolata","Pasta","Dondurma","Şekerleme","Hiçbiri"], sayfa:"tatli-zevkine-gore-hediye-testi.html" },
         { id:"spor",       soru:"Spor yapıyor mu?",                          secenekler:["Evet düzenli","Ara sıra","Hiç yapmıyor"], sayfa:"sporcu-icin-hediye-bulma-testi.html" },
@@ -52,7 +52,7 @@ const QUIZ_CONFIG = {
         { id:"bebek_amac",     soru:"Hediyeyi ne için alıyorsun?",        secenekler:["Yeni doğdu 🎀","Doğum günü 🎂","Baby shower 🛁","Sünnet 🌙","Sadece sürpriz 🎁"], sayfa:"bebek-hediyesi-ne-icin-alinacak-testi.html" },
         { id:"bebek_tarz",     soru:"Anne-baba tarzı nasıl?",             secenekler:["Minimalist / Sade","Renkli ve Neşeli","Organik / Doğal","Modern / Şık"], sayfa:"anne-baba-tarzina-gore-bebek-hediyesi-testi.html" },
         { id:"bebek_tur",      soru:"Ne tür hediye tercih edersin?",      secenekler:["Eğitici / Gelişim","Oyuncak / Eğlence","Giyim / Aksesuar","Pratik / Kullanışlı","Anı / Özel"], sayfa:"bebege-ne-tur-hediye-alinacak-testi.html" },
-        { id:"bebek_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"butceye-gore-bebek-hediyesi-testi.html" },
+        { id:"bebek_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","0-2000 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"butceye-gore-bebek-hediyesi-testi.html" },
     ],
 
     soruCocuklar: [
@@ -63,7 +63,7 @@ const QUIZ_CONFIG = {
         { id:"cocuk_tema",     soru:"Favori tema / karakter kategorisi?",  secenekler:["Oyun / Minecraft / Roblox","Disney / Pixar / Prenses","Süper Kahraman / Marvel / DC","Anime / Manga","Spor / Futbol Takımı","Hayvanlar / Doğa","Müzik / Pop Yıldızı","Tema yok / Bilmiyorum"], sayfa:"cocugun-sevdigi-temaya-gore-hediye-testi.html" },
         { id:"cocuk_ortam",    soru:"Daha çok nerede vakit geçiriyor?",   secenekler:["Evde / İç mekan","Dışarıda / Aktif","İkisi de"], sayfa:"cocugun-yasam-alanina-gore-hediye-testi.html" },
         { id:"cocuk_tur",      soru:"Ne tür hediye tercih edersin?",      secenekler:["Oyuncak / Oyun","Eğitici / Kitap","Spor / Aktivite","Teknoloji / Gadget","Giyim / Aksesuar","Deneyim / Etkinlik"], sayfa:"cocuga-ne-tur-hediye-alinacak-testi.html" },
-        { id:"cocuk_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"butceye-gore-cocuk-hediyesi-testi.html" },
+        { id:"cocuk_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","0-2000 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"butceye-gore-cocuk-hediyesi-testi.html" },
     ],
 
     // Pet türü seçimi - ilk soru hep bu, sonra türe göre farklı set
