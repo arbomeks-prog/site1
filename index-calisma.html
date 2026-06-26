@@ -1864,6 +1864,29 @@ window.addEventListener('message', function(e) {
             return;
         }
 
+        // POPUP TETİKLEYİCİLER
+        if (soruId === 'oyun' && deger === 'Evet sık sık') {
+            var _oyunPopup = document.getElementById('oyun-platform-popup');
+            if (_oyunPopup) { _oyunPopup.style.display = 'flex'; }
+            // popup kapanınca scroll devam eder - popup fonksiyonu halleder
+            return;
+        }
+        if (soruId === 'hayvan' && (deger === 'Evet çok sever' || deger === 'Orta')) {
+            var _hayvanPopup = document.getElementById('hayvan-sahip-popup');
+            if (_hayvanPopup) { _hayvanPopup.style.display = 'flex'; }
+            return;
+        }
+        if (soruId === 'film') {
+            var _filmPopup = document.getElementById('film-tur-popup');
+            if (_filmPopup) { _filmPopup.style.display = 'flex'; }
+            return;
+        }
+        if (soruId === 'tatli' && deger !== 'Hiçbiri') {
+            var _tatliPopup = document.getElementById('tatli-tur-popup');
+            if (_tatliPopup) { _tatliPopup.style.display = 'flex'; }
+            return;
+        }
+
         if (sonrakiSoruId) {
             // Sadece filtreleme gerektiren sayfaları reload et
             var reloadGereken = ['cinsiyet', 'yas'];
@@ -1875,6 +1898,76 @@ window.addEventListener('message', function(e) {
         }
     }
 });
+
+// POPUP FONKSİYONLARI
+var _popupSonrakiSoruId = null; // popup kapanınca scroll için
+
+function _popupKapat(popupId, sonrakiId) {
+    var pop = document.getElementById(popupId);
+    if (pop) pop.style.display = 'none';
+    if (sonrakiId) {
+        var reloadGereken = ['cinsiyet', 'yas'];
+        if (reloadGereken.indexOf(sonrakiId) !== -1) {
+            setTimeout(function() { iframeYenile(sonrakiId); }, 100);
+        }
+        setTimeout(function() { sonrakiScroll(sonrakiId); }, 200);
+    }
+}
+
+function _getSonrakiSoruId(soruId) {
+    // mevcut sorudan sonrakini bul
+    var idx = SORU_SIRASI.indexOf(soruId);
+    if (idx < 0) return null;
+    for (var i = idx + 1; i < SORU_SIRASI.length; i++) {
+        var sid = SORU_SIRASI[i];
+        if (!cevaplananlar[sid]) return sid;
+    }
+    return null;
+}
+
+function oyunPlatformSec(platform) {
+    if (platform) {
+        var ls = {};
+        try { ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+        ls['oyun_platform'] = platform;
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
+    }
+    var sonraki = _getSonrakiSoruId('oyun');
+    _popupKapat('oyun-platform-popup', sonraki);
+}
+
+function hayvanSahipSec(sahiplik) {
+    if (sahiplik) {
+        var ls = {};
+        try { ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+        ls['hayvan_sahip'] = sahiplik;
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
+    }
+    var sonraki = _getSonrakiSoruId('hayvan');
+    _popupKapat('hayvan-sahip-popup', sonraki);
+}
+
+function filmTurSec(tur) {
+    if (tur) {
+        var ls = {};
+        try { ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+        ls['film_tur'] = tur;
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
+    }
+    var sonraki = _getSonrakiSoruId('film');
+    _popupKapat('film-tur-popup', sonraki);
+}
+
+function tatliTurSec(tur) {
+    if (tur) {
+        var ls = {};
+        try { ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
+        ls['tatli_tur'] = tur;
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
+    }
+    var sonraki = _getSonrakiSoruId('tatli');
+    _popupKapat('tatli-tur-popup', sonraki);
+}
 </script>
 <script>
 (function(){
@@ -1953,6 +2046,65 @@ function sqYeniHediyeKriterineGit() {
 ">📸 Paylaş</button>
 
 <!-- PARENT PAYLAS ONIZLEME -->
+<!-- OYUN PLATFORM POPUP -->
+<div id="oyun-platform-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:10005;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="font-size:28px;margin-bottom:8px;">🎮</div>
+    <div style="font-size:17px;font-weight:800;color:#1e293b;margin-bottom:6px;">Peki nerede oynuyor?</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:20px;">Bu bilgi hediye önerilerini kişiselleştirmemize yardımcı olur.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="oyunPlatformSec('Bilgisayar')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;transition:all 0.2s;">🖥️ Bilgisayar</button>
+      <button onclick="oyunPlatformSec('Tablet')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;transition:all 0.2s;">📟 Tablet</button>
+      <button onclick="oyunPlatformSec('Telefon')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;transition:all 0.2s;">📱 Telefon</button>
+      <button onclick="oyunPlatformSec(null)" style="padding:10px;border-radius:12px;border:none;background:none;font-size:13px;color:#94a3b8;cursor:pointer;">Geç</button>
+    </div>
+  </div>
+</div>
+
+<!-- HAYVAN SAHIPLIK POPUP -->
+<div id="hayvan-sahip-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:10005;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="font-size:28px;margin-bottom:8px;">🐾</div>
+    <div style="font-size:17px;font-weight:800;color:#1e293b;margin-bottom:6px;">Evinde hayvan besliyor mu?</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:20px;">Bu bilgi daha uygun hediyeler bulmamızı sağlar.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="hayvanSahipSec('Evet evinde besliyor')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">🏠 Evet, evinde besliyor</button>
+      <button onclick="hayvanSahipSec('Sever ama beslemiyor')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">❤️ Sever ama beslemiyor</button>
+      <button onclick="hayvanSahipSec(null)" style="padding:10px;border-radius:12px;border:none;background:none;font-size:13px;color:#94a3b8;cursor:pointer;">Geç</button>
+    </div>
+  </div>
+</div>
+
+<!-- FİLM/DİZİ POPUP -->
+<div id="film-tur-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:10005;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="font-size:28px;margin-bottom:8px;">📺</div>
+    <div style="font-size:17px;font-weight:800;color:#1e293b;margin-bottom:6px;">En çok ne izler?</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:20px;">İzleme alışkanlığı hediye seçimini etkiler.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="filmTurSec('Dizi')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">📱 Dizi</button>
+      <button onclick="filmTurSec('Film')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">🎬 Film</button>
+      <button onclick="filmTurSec('Haber / Program')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">📡 Haber / Program</button>
+      <button onclick="filmTurSec('Spor yayınları')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">⚽ Spor yayınları</button>
+      <button onclick="filmTurSec(null)" style="padding:10px;border-radius:12px;border:none;background:none;font-size:13px;color:#94a3b8;cursor:pointer;">Geç</button>
+    </div>
+  </div>
+</div>
+
+<!-- TATLI TÜR POPUP -->
+<div id="tatli-tur-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:10005;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="font-size:28px;margin-bottom:8px;">🍰</div>
+    <div style="font-size:17px;font-weight:800;color:#1e293b;margin-bottom:6px;">Ev yapımı mı yoksa hazır mı sever?</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:20px;">Tatlı tercihine göre farklı hediyeler önerebiliriz.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="tatliTurSec('Ev yapımı tatlılar')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">👩‍🍳 Ev yapımı tatlılar</button>
+      <button onclick="tatliTurSec('Hazır / dışarıdan tatlılar')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">🛍️ Hazır / dışarıdan</button>
+      <button onclick="tatliTurSec(null)" style="padding:10px;border-radius:12px;border:none;background:none;font-size:13px;color:#94a3b8;cursor:pointer;">Geç</button>
+    </div>
+  </div>
+</div>
+
 <div id="parent-paylas-overlay" onclick="if(event.target===this)this.style.display='none'" style="
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,0.75);z-index:10000;
