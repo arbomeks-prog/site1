@@ -44,6 +44,7 @@ GENEL KURALLAR:
 - searchQueryEn: İngilizce görsel araması (Unsplash için).
 - KLİŞELERDEN KAÇIN: aksesuar/saat kriteri → mutlaka saat önerme; fotoğraf kriteri → fotoğraf makinesi/albüm önerme zorunluluğu yok; müzik enstrümanı → illa gitar önerme. Her zaman daha yaratıcı ve beklenmedik hediyeler ara.
 - Türkiye'de satılan ürünler öner. Mevcut mevsimi (Haziran = yaz) arama kriterlerine ve açıklamalara yansıt.
+- BÜTÇE KURALI: Belirtilen bütçe bir üst sınırdır ("X TL'ye kadar" anlamına gelir). Önerilen ürünlerin fiyatı bu üst sınırı ASLA aşmamalı. Bütçenin %80-100'ü arasında ürünler öner — çok altında kalma ama sınırı da geçme. Örnek: 0-1000 TL bütçede 950 TL ürün öner, 1200 TL ürün önerme.
 
 KİŞİYE GÖRE KURALLAR:
 - Çay/Kahve: Erkek için porselen çay seti, demlik, espresso makinesi gibi klişelerden uzak dur. Erkekte pratiklik, taşınabilirlik, kolay kullanım ön planda. Daha orijinal, niş alternatifler bul.
