@@ -1640,7 +1640,19 @@ window.addEventListener('message', function(e) {
     // döngüsüne yol açabilir). Bu yüzden her tetiklemede src'yi tazeleyip iframe'in
     // gerçekten sıfırdan yüklenmesini sağlıyoruz; yükleme bitince 'hediyeleri_baslat'
     // mesajını göndeririz.
+    if (e.data.type === 'quiz_tamamlandi_bildir') {
+        // GA4: ozet.html iframe'den güvenilir bildirim geldi
+        if (typeof gtag === 'function') {
+            gtag('event', 'quiz_tamamlandi');
+        }
+        return;
+    }
+
     if (e.data.type === 'hediyeleri_goster') {
+        // GA4: hediyeler sayfası görüntülendi
+        if (typeof gtag === 'function') {
+            gtag('event', 'hediyeler_goruntulendi');
+        }
         var hediyelerIframe = document.getElementById('iframe-hediyeler');
         if (hediyelerIframe) {
             var _hedBase = hediyelerIframe.src.split('?')[0];
