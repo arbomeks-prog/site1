@@ -1270,6 +1270,10 @@ if (_baslangicKime) {
             var base = ozetIframe.src.split('?')[0];
             ozetIframe.src = base + '?embed=1&t=' + Date.now();
         }
+        // GA4: ozet sayfası yüklendi (hem ana hem dallanma akışı için)
+        if (typeof gtag === 'function') {
+            gtag('event', 'ozet_goruntulendi');
+        }
         setTimeout(function(){
             document.getElementById('blok-ozet').scrollIntoView({behavior:'smooth',block:'center'});
         },250);
