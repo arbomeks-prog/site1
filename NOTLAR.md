@@ -274,3 +274,72 @@ Budur Buldum, akıllı bir hediye bulma, seçme ve satın alma platformudur. Haz
 - Makalenin konusundan farklı ürün görselleri seç
 - Merak uyandıran, çeşitli kategorilerden görseller
 - Pexels API ile dinamik çekilir
+
+---
+
+## 🏗️ SİSTEM MİMARİSİ (28 Haziran 2026 itibarıyla)
+
+### Genel Akış
+
+```
+index.html  (tek sayfalık ana uygulama)
+    └── 31 iframe (her biri ayrı HTML quiz sayfası, ?embed=1 ile yüklenir)
+         └── config.js  (her iframe bu dosyayı okur — soru metni, seçenekler, yönlendirmeler)
+              └── localStorage: budurBuldumCevaplar (tüm cevaplar burada birikir)
+                   └── ozet.html (cevap özeti, bütçe widget'ı config'den beslenir)
+                        └── hediyeler.html (Grok API → hediye önerileri)
+```
+
+### index.html — Ne Yapar?
+
+- 31 iframe'i sırayla içerir, her iframe bir quiz sorusu.
+- Dallanma mantığını kendisi yönetir: `kime` cevabına göre hangi ek iframe'lerin görüneceğine karar verir.
+- `SAYFA_SORU_MAP` objesi: hangi HTML dosyasının hangi SORU_ID'ye karşılık geldiğini tutar.
+- İçinde **ayrı bir dallanma seti** var: bebek/çocuk/pet seçilince o türün özel soruları dinamik eklenir.
+- **DOKUNULMAZ** — değişiklik için önce `index-calisma.html` kopyası alınır.
+
+### config.js — Soru Setleri
+
+- `sorular` → Normal akış, 30 soru (kime→cinsiyet→yas→tarz→hobiler→renk→amac→ortam→teknoloji→butce→mevsim→tatli→spor→muzik→hayvan→seyahat→kitap→kahve→film→bitki→oyun→makyaj→aksesuar→mutfak→doga→sanat→foto→kisilik→oncelik→dogum)
+- `soruBebekler` → Bebek ❤️: bebek_cinsiyet, bebek_yas, bebek_amac, bebek_tarz, bebek_tur, bebek_butce
+- `soruCocuklar` → Çocuk 🧒: cocuk_cinsiyet, cocuk_yas, cocuk_amac, cocuk_aktivite, cocuk_tema, cocuk_ortam, cocuk_tur, cocuk_butce
+- `soruPetler` → Pet ❤️ ilk adım: sadece pet_tur sorusu
+- `soruKedi` → Kedi: pet_tur, kedi_yas, kedi_karakter, kedi_ortam, kedi_tur, kedi_butce
+- `soruKopek` → Köpek: pet_tur, kopek_yas, kopek_irk, kopek_karakter, kopek_tur, kopek_butce
+- `soruKus` → Kuş: pet_tur, kus_tur, kus_kafes, kus_hediye, kus_butce
+- `soruBalik` → Balık: pet_tur, balik_tur, balik_boyut, balik_hediye, balik_butce
+- `soruKucukPet` → Tavşan/Hamster/Egzotik: pet_tur, kucukpet_yas, kucukpet_yuva, kucukpet_hediye, kucukpet_butce
+
+### config.js — QuizHelper Metodları
+
+Her quiz sayfası QuizHelper'ı kullanır:
+- `getAktifSorular(soruId)` → hangi sette olduğunu bulur, o seti döner
+- `getSonrakiSayfa(soruId)` → bir sonraki HTML dosyasını döner
+- `getOncekiSayfa(soruId)` → geri butonu için
+- `setCevap(soruId, deger)` → localStorage'a yazar
+- `getFiltrelenmisSecenekler(soruId)` → önceki cevaba göre seçenekleri filtreler
+- `setAktifSet(set)` → 'normal' / 'bebekler' / 'cocuklar' / 'petler' / 'kedi' / 'kopek' / 'kus' / 'balik' / 'kucukpet'
+
+### Bütçe Widget'ı — İki Yerde, Aynı Kaynak
+
+1. **10. soru (quiz akışı):** `butceye-gore-hediye-bulma-testi.html` → config.js `butce` seçenekleri
+2. **Özet sayfası:** "BÜTÇEYİ DEĞİŞTİREBİLİRSİNİZ" → config.js `butceSoru.secenekler` dinamik render
+→ İkisi de config.js'ten beslenir, **aynı seçenekler.**
+
+### Önemli Dosyalar
+
+| Dosya | Görevi |
+|---|---|
+| `index.html` | Ana uygulama, 31 iframe, dallanma |
+| `config.js` | Tüm soru setleri + QuizHelper |
+| `ozet.html` | Cevap özeti + bütçe değiştirme |
+| `hediyeler.html` | Grok API, hediye kartları, paylaş |
+| `api/gifts.js` | Grok API backend (xAI, web search aktif) |
+| `NOTLAR.md` | Sistem dokümantasyonu — bu dosya |
+
+### Bilinen Tuzaklar
+
+- `butceye-gore-evcil-hayvan-hediyesi-testi.html` → SORU_ID="pet_butce" ama config'de bu id yok. Hiçbir akışta kullanılmıyor, ölü sayfa.
+- index.html dallanması ile config.js dallanması **ayrı ama uyumlu** — birini değiştirince diğerini de kontrol et.
+- Toplu script çalıştırmadan önce `hobiye-gore-hediye-bulma-testi.html` içinde `bb-hakkinda` var mı kontrol et. Yoksa dur.
+
