@@ -52,7 +52,7 @@ const QUIZ_CONFIG = {
         { id:"bebek_amac",     soru:"Hediyeyi ne için alıyorsun?",        secenekler:["Yeni doğdu 🎀","Doğum günü 🎂","Baby shower 🛁","Sünnet 🌙","Sadece sürpriz 🎁"], sayfa:"bebek-hediyesi-ne-icin-alinacak-testi.html" },
         { id:"bebek_tarz",     soru:"Anne-baba tarzı nasıl?",             secenekler:["Minimalist / Sade","Renkli ve Neşeli","Organik / Doğal","Modern / Şık"], sayfa:"anne-baba-tarzina-gore-bebek-hediyesi-testi.html" },
         { id:"bebek_tur",      soru:"Ne tür hediye tercih edersin?",      secenekler:["Eğitici / Gelişim","Oyuncak / Eğlence","Giyim / Aksesuar","Pratik / Kullanışlı","Anı / Özel"], sayfa:"bebege-ne-tur-hediye-alinacak-testi.html" },
-        { id:"bebek_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","0-2000 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"butceye-gore-bebek-hediyesi-testi.html" },
+        { id:"bebek_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","0-1000 TL","0-2000 TL","0-3000 TL","0-4000 TL","0-5000 TL","5001-10000 TL","10001-30000 TL","30001+ TL"], sayfa:"butceye-gore-bebek-hediyesi-testi.html" },
     ],
 
     soruCocuklar: [
@@ -63,7 +63,7 @@ const QUIZ_CONFIG = {
         { id:"cocuk_tema",     soru:"Favori tema / karakter kategorisi?",  secenekler:["Oyun / Minecraft / Roblox","Disney / Pixar / Prenses","Süper Kahraman / Marvel / DC","Anime / Manga","Spor / Futbol Takımı","Hayvanlar / Doğa","Müzik / Pop Yıldızı","Tema yok / Bilmiyorum"], sayfa:"cocugun-sevdigi-temaya-gore-hediye-testi.html" },
         { id:"cocuk_ortam",    soru:"Daha çok nerede vakit geçiriyor?",   secenekler:["Evde / İç mekan","Dışarıda / Aktif","İkisi de"], sayfa:"cocugun-yasam-alanina-gore-hediye-testi.html" },
         { id:"cocuk_tur",      soru:"Ne tür hediye tercih edersin?",      secenekler:["Oyuncak / Oyun","Eğitici / Kitap","Spor / Aktivite","Teknoloji / Gadget","Giyim / Aksesuar","Deneyim / Etkinlik"], sayfa:"cocuga-ne-tur-hediye-alinacak-testi.html" },
-        { id:"cocuk_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","500-1500 TL","0-2000 TL","1500-3000 TL","3000-5000 TL","5000+ TL"], sayfa:"butceye-gore-cocuk-hediyesi-testi.html" },
+        { id:"cocuk_butce",    soru:"Bütçe aralığın nedir?",              secenekler:["0-500 TL","0-1000 TL","0-2000 TL","0-3000 TL","0-4000 TL","0-5000 TL","5001-10000 TL","10001-30000 TL","30001+ TL"], sayfa:"butceye-gore-cocuk-hediyesi-testi.html" },
     ],
 
     // Pet türü seçimi - ilk soru hep bu, sonra türe göre farklı set
