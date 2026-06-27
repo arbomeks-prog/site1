@@ -3159,18 +3159,19 @@ window.addEventListener('message', function(e) {
 
 
 <!-- KİŞİ İSMİ POPUP -->
-<div id="kisi-ismi-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;">
-  <div style="background:#1e293b;border-radius:20px;padding:26px 22px;margin:20px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-    <p style="font-size:18px;font-weight:800;color:#fff;margin:0 0 12px;">Bu aramaya isim ver 🏷️</p>
-    <div style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:12px 14px;margin-bottom:10px;">
+<div id="kisi-ismi-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:flex-start;justify-content:center;padding-top:60px;">
+  <div style="background:#1e293b;border-radius:20px;padding:20px 22px;margin:0 20px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    <p style="font-size:17px;font-weight:800;color:#fff;margin:0 0 10px;">Bu aramaya isim ver 🏷️</p>
+    <div style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 14px;margin-bottom:10px;">
       <p style="font-size:11px;color:#64748b;margin:0 0 2px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;">Kime alınıyor</p>
       <p id="kisi-ismi-kime-label" style="font-size:16px;font-weight:700;color:#e2e8f0;margin:0;"></p>
     </div>
     <input id="kisi-ismi-input" type="text" placeholder="Kişiye isim ver... (opsiyonel)" maxlength="30"
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
       onkeydown="if(event.key==='Enter') kisiIsmiKaydet()"
-      style="width:100%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:13px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box;margin-bottom:12px;" />
-    <button onclick="kisiIsmiKaydet()" style="width:100%;background:#e8a838;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;color:#412402;cursor:pointer;margin-bottom:10px;">Devam Et →</button>
-    <button onclick="kisiIsmiGec()" style="width:100%;background:transparent;border:1.5px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:15px;font-weight:600;color:#cbd5e1;cursor:pointer;">İsimsiz devam et</button>
+      style="width:100%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box;margin-bottom:10px;" />
+    <button onclick="kisiIsmiKaydet()" style="width:100%;background:#e8a838;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:700;color:#412402;cursor:pointer;margin-bottom:8px;">Devam Et →</button>
+    <button onclick="kisiIsmiGec()" style="width:100%;background:transparent;border:1.5px solid rgba(255,255,255,0.3);border-radius:12px;padding:11px;font-size:15px;font-weight:600;color:#cbd5e1;cursor:pointer;">İsimsiz devam et</button>
   </div>
 </div>
 
