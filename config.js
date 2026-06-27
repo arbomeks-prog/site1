@@ -20,7 +20,7 @@ const QUIZ_CONFIG = {
         { id:"amac",       soru:"Hediyeyi ne için alıyorsun?",               secenekler:["Doğum Günü","Yıl Dönümü","Sevgililer Günü","Özel Bir Başarı","Sadece sürpriz","Noel / Yılbaşı"], sayfa:"ne-icin-hediye-alinacak-testi.html" },
         { id:"ortam",      soru:"Kişi evde mi dışarıda mı zaman geçiriyor?", secenekler:["Daha çok evde","Daha çok dışarıda","İkisi de dengeli"], sayfa:"yasam-tarzina-gore-hediye-testi.html" },
         { id:"teknoloji",  soru:"Teknolojiye ilgisi var mı?",                secenekler:["Çok ilgili","Orta seviyede","Pek ilgilenmiyor"], sayfa:"teknoloji-ilgisine-gore-hediye-testi.html" },
-        { id:"butce",      soru:"Bütçe aralığın nedir?",                     secenekler:["0-500 TL","500-1500 TL","0-2000 TL","1500-3000 TL","3000-5000 TL","5000-10000 TL","10000-30000 TL","30.000 TL+"], sayfa:"butceye-gore-hediye-bulma-testi.html" },
+        { id:"butce",      soru:"Bütçe aralığın nedir?",                     secenekler:["0-500 TL","0-1000 TL","0-2000 TL","0-3000 TL","0-4000 TL","0-5000 TL","5001-10000 TL","10001-30000 TL","30001+ TL"], sayfa:"butceye-gore-hediye-bulma-testi.html" },
         { id:"mevsim",     soru:"Favori mevsimi hangisi?",                   secenekler:["İlkbahar","Yaz","Sonbahar","Kış"], sayfa:"mevsime-gore-hediye-secimi-testi.html" },
         { id:"tatli",      soru:"En sevdiği tatlı türü nedir?",              secenekler:["Çikolata","Pasta","Dondurma","Şekerleme","Hiçbiri"], sayfa:"tatli-zevkine-gore-hediye-testi.html" },
         { id:"spor",       soru:"Spor yapıyor mu?",                          secenekler:["Evet düzenli","Ara sıra","Hiç yapmıyor"], sayfa:"sporcu-icin-hediye-bulma-testi.html" },
