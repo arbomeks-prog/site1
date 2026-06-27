@@ -392,3 +392,40 @@ Her quiz sayfası (örn. `butceye-gore-hediye-bulma-testi.html`) **iki ayrı bö
 
 Makale içerikleri şimdiye kadar 4 kez toplu script'lerle silindi (GA4 ekleme, espri notu kaldırma gibi operasyonlarda). Her seferinde 61 quiz sayfası restore edilmek zorunda kalındı. Referans commit: `abc257d664`
 
+
+
+---
+
+## 🟡 AKTİF DURUM — 28 Haziran 2026
+
+### Bugün Yapılanlar
+
+1. **Pet bütçe seçenekleri güncellendi** (config.js)
+   - `kedi_butce`, `kopek_butce`, `kus_butce`, `balik_butce`, `kucukpet_butce` seçenekleri "X TL'ye kadar" formatına getirildi
+   - Yeni format: `500 TL'ye kadar`, `1000 TL'ye kadar`, `2000 TL'ye kadar`, `3000 TL'ye kadar`, `4000 TL'ye kadar`
+   - Commit: `b3f3f8ebd330d95da5f66360d9b8e47680c174a7`
+   - **Geri dönüş:** `bab5ff104b75af68e10d1957530245a3b13cad75`
+
+2. **NOTLAR.md güncellendi**
+   - Sistem mimarisi bölümü eklendi
+   - Quiz sayfası yapısı ve dokunma kuralları eklendi
+   - ANA ÇALIŞMA KURALLARI hafızaya eklendi
+
+### Yarım Kalan / Sonraki Oturumda Devam
+
+- `butceye-gore-evcil-hayvan-hediyesi-testi.html` → SORU_ID="pet_butce" ama config'de bu id yok. Ölü sayfa, akışta kullanılmıyor. Silinebilir veya öylece bırakılabilir — karar verilmedi.
+- Ana `butce` seçenekleri hâlâ eski format (`0-500 TL`, `0-1000 TL`...). Pet bütçeleri "X TL'ye kadar" oldu ama ana akış farklı kaldı — **tutarsızlık var, karar verilmedi.**
+- Bebek bütçesi (`bebek_butce`) ve çocuk bütçesi (`cocuk_butce`) seçenekleri de eski format — ona da dokunulmadı.
+
+### Konuşulan Ama Henüz Yapılmayan
+
+- Sistemin genel mimarisi ve büyüme vizyonu konuşuldu (arama motoru, profil sistemi, makale→quiz linkleri, SEO ağı)
+- Quiz sayfalarının bağımsız sayfa olarak da çalışması gerektiği konuşuldu
+- Her quiz sayfasının URL'inde "testi" yazıyor ama Google'ın gördüğü quiz deneyimi yetersiz — bu konu açıldı, çözüm konuşulmadı
+
+### Bir Sonraki Oturuma Girmeden Önce Oku
+
+1. Bu AKTİF DURUM bölümü
+2. SİSTEM MİMARİSİ bölümü
+3. `config.js` (soru setleri ve bütçe seçenekleri)
+
