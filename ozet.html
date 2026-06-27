@@ -210,6 +210,8 @@
             if (typeof gtag === 'function') {
                 gtag('event', 'quiz_tamamlandi');
             }
+            // Parent index.html'e de bildir (iframe timing güvencesi)
+            window.parent.postMessage({ type: 'quiz_tamamlandi_bildir' }, '*');
             setTimeout(function() {
                 const target = document.getElementById('butce-baslik-wrapper');
                 if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
