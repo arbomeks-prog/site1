@@ -343,3 +343,52 @@ Her quiz sayfası QuizHelper'ı kullanır:
 - index.html dallanması ile config.js dallanması **ayrı ama uyumlu** — birini değiştirince diğerini de kontrol et.
 - Toplu script çalıştırmadan önce `hobiye-gore-hediye-bulma-testi.html` içinde `bb-hakkinda` var mı kontrol et. Yoksa dur.
 
+
+
+---
+
+## ⚠️ QUIZ SAYFASI YAPISI — DOKUNMA KURALLARI
+
+Her quiz sayfası (örn. `butceye-gore-hediye-bulma-testi.html`) **iki ayrı bölümden** oluşur. Bunlar aynı HTML dosyasında iç içedir. Herhangi bir değişiklik yaparken hangisine dokunduğunu bil.
+
+### Bölüm 1: QUIZ KISMI (üst) — index.html iframe'inde çalışır
+
+```html
+<!-- DOKUNULABILIR: sadece makale kartı içindeki kısa özet metin -->
+<article>  ← küçük özet metin kartı (scroll'lu, 110px yükseklik)
+    <h2>...</h2>
+    <p>...</p>
+</article>
+
+<!-- DOKUNMA: JS tarafından yönetilir -->
+<div id="options-container">  ← SEO için sabit HTML şıklar (onclick="return false;")
+    <button>0-500 TL</button>   ← Google bunları görür
+    ...
+</div>
+<!-- Sayfa yüklenince JS bu container'ı tamamen yeniden render eder -->
+<!-- Gerçek şıklar config.js'ten gelir: QuizHelper.getFiltrelenmisSecenekler(SORU_ID) -->
+```
+
+### Bölüm 2: MAKALE KISMI (alt) — SEO içeriği
+
+```html
+<div id="makale-icerik">  ← BURAYA DOKUNMA (toplu script tehlikesi)
+    <h2>...</h2>
+    <p>...</p>
+    ...
+    <div class="bb-hakkinda">...</div>  ← KESİNLİKLE DOKUNMA
+</div>
+```
+
+### Altın Kural
+
+**Toplu script çalıştırmadan önce:** `hobiye-gore-hediye-bulma-testi.html` içinde `bb-hakkinda` kelimesi var mı kontrol et. Yoksa dur.
+
+**Tek bir sayfada değişiklik yaparken:** Hangi bölüme dokunuyorsun? Quiz kısmı mı, makale kısmı mı? İkisi aynı dosyada — birini değiştirirken diğerini silme.
+
+**Config.js'teki seçenekler değişince** HTML'e dokunmana gerek yok — JS zaten config'den okuyor. Sabit HTML şıklar (`onclick="return false;"`) sadece Google için, onlara dokunma.
+
+### Bu Hatanın Geçmişi
+
+Makale içerikleri şimdiye kadar 4 kez toplu script'lerle silindi (GA4 ekleme, espri notu kaldırma gibi operasyonlarda). Her seferinde 61 quiz sayfası restore edilmek zorunda kalındı. Referans commit: `abc257d664`
+
