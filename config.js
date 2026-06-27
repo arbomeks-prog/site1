@@ -78,7 +78,7 @@ const QUIZ_CONFIG = {
         { id:"kedi_karakter", soru:"Karakteri nasıl?",             secenekler:["Çok aktif ve oyuncu 🎯","Orta enerjili","Sakin ve uysal 😴","Biraz vahşi / yabani 🐯"], sayfa:"kedinin-karakterine-gore-hediye-testi.html" },
         { id:"kedi_ortam",    soru:"Nerede yaşıyor?",              secenekler:["Sadece iç mekanda","Hem ev hem dışarı","Dış mekan / bahçe"], sayfa:"kedinin-yasam-alanina-gore-hediye-testi.html" },
         { id:"kedi_tur",      soru:"Ne tür hediye düşünüyorsun?", secenekler:["Oyuncak / Eğlence 🎾","Kedi maması / ödül mama 🍖","Yatak / Kedi evi / Çizme","Aksesuar / Tasarım tasma","Sağlık / Bakım ürünleri","Kedi tırmalama aparatı"], sayfa:"kediye-ne-tur-hediye-alinacak-testi.html" },
-        { id:"kedi_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"butceye-gore-kedi-hediyesi-testi.html" },
+        { id:"kedi_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["500 TL'ye kadar","1000 TL'ye kadar","2000 TL'ye kadar","3000 TL'ye kadar","4000 TL'ye kadar"], sayfa:"butceye-gore-kedi-hediyesi-testi.html" },
     ],
 
     // Köpek soruları
@@ -88,7 +88,7 @@ const QUIZ_CONFIG = {
         { id:"kopek_irk",      soru:"Irk büyüklüğü nasıl?",        secenekler:["Küçük ırk (Chihuahua, Pomeranian vb.)","Orta ırk (Beagle, Cocker vb.)","Büyük ırk (Labrador, Golden vb.)","Çok büyük ırk (Kangal, Rottweiler vb.)"], sayfa:"kopegin-irkina-gore-hediye-testi.html" },
         { id:"kopek_karakter", soru:"Karakteri nasıl?",             secenekler:["Çok enerjik / Oyuncu 🎾","Orta enerjili","Sakin / Uysal 😌","Koruyucu / Bekçi 🛡️"], sayfa:"kopegin-karakterine-gore-hediye-testi.html" },
         { id:"kopek_tur",      soru:"Ne tür hediye düşünüyorsun?", secenekler:["Oyuncak / Çiğneme oyuncağı 🦴","Köpek maması / ödül mama 🍖","Yatak / Köşk / Yatacak yer","Tasma / Gezdirme seti / GPS","Giysi / Köpek kıyafeti 👕","Sağlık / Bakım / Bakım seti"], sayfa:"kopege-ne-tur-hediye-alinacak-testi.html" },
-        { id:"kopek_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-300 TL","300-750 TL","750-1500 TL","1500-3000 TL","3000+ TL"], sayfa:"butceye-gore-kopek-hediyesi-testi.html" },
+        { id:"kopek_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["500 TL'ye kadar","1000 TL'ye kadar","2000 TL'ye kadar","3000 TL'ye kadar","4000 TL'ye kadar"], sayfa:"butceye-gore-kopek-hediyesi-testi.html" },
     ],
 
     // Kuş soruları
@@ -97,7 +97,7 @@ const QUIZ_CONFIG = {
         { id:"kus_tur",      soru:"Kuş türü nedir?",             secenekler:["Muhabbet kuşu 💚","Kanarya 🟡","Papağan (büyük) 🦜","Cennet papağanı / Sultan papağanı","Hint bülbülü / Sığırcık","Diğer / Bilmiyorum"], sayfa:"kus-turune-gore-hediye-testi.html" },
         { id:"kus_kafes",    soru:"Kafes durumu nasıl?",          secenekler:["Küçük kafes var","Orta kafes var","Büyük uçuş kafesi var","Kafes yok / Yeni alındı"], sayfa:"kus-kafesine-gore-hediye-testi.html" },
         { id:"kus_hediye",   soru:"Ne tür hediye düşünüyorsun?", secenekler:["Kuş yemi / Vitamin takviyesi 🌾","Kafes oyuncağı / Tünek","Kafes aksesuarı / Suluk-Yemlik","Yeni veya büyük kafes","Sağlık / Bakım / Tüy bakımı"], sayfa:"kusa-ne-tur-hediye-alinacak-testi.html" },
-        { id:"kus_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"butceye-gore-kus-hediyesi-testi.html" },
+        { id:"kus_butce",    soru:"Bütçe aralığın nedir?",       secenekler:["500 TL'ye kadar","1000 TL'ye kadar","2000 TL'ye kadar","3000 TL'ye kadar","4000 TL'ye kadar"], sayfa:"butceye-gore-kus-hediyesi-testi.html" },
     ],
 
     // Balık soruları
@@ -106,7 +106,7 @@ const QUIZ_CONFIG = {
         { id:"balik_tip",     soru:"Akvaryum türü nedir?",        secenekler:["Tropikal / Sıcak su 🌊","Soğuk su (Japon balığı vb.) ❄️","Deniz akvaryumu 🐠","Yeni başlıyorum / Henüz yok"], sayfa:"balik-tipine-gore-hediye-testi.html" },
         { id:"balik_boyut",   soru:"Akvaryum boyutu?",            secenekler:["Mini (30 litre altı) 🫙","Orta (30-100 litre) 🐟","Büyük (100-300 litre) 🌊","Çok büyük (300+ litre) 🦈"], sayfa:"balik-boyutuna-gore-hediye-testi.html" },
         { id:"balik_hediye",  soru:"Ne tür hediye düşünüyorsun?", secenekler:["Balık yemi / Özel besin 🌾","Akvaryum dekoru / Bitki / Taş","Filtre / Pompa / Teknik ekipman","Aydınlatma / LED ışık sistemi","İlaç / Sağlık / Su düzenleyici","Yeni akvaryum seti"], sayfa:"baliga-ne-tur-hediye-alinacak-testi.html" },
-        { id:"balik_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"butceye-gore-balik-hediyesi-testi.html" },
+        { id:"balik_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["500 TL'ye kadar","1000 TL'ye kadar","2000 TL'ye kadar","3000 TL'ye kadar","4000 TL'ye kadar"], sayfa:"butceye-gore-balik-hediyesi-testi.html" },
     ],
 
     // Tavşan / Hamster / Egzotik soruları
@@ -115,7 +115,7 @@ const QUIZ_CONFIG = {
         { id:"kucukpet_yas",     soru:"Yaşı ne kadar?",              secenekler:["Yavru (0-6 ay)","Genç (6 ay - 2 yaş)","Yetişkin (2+ yaş)"], sayfa:"kucuk-evcil-hayvanin-yasina-gore-hediye-testi.html" },
         { id:"kucukpet_yuva",    soru:"Kafes / yuva durumu?",        secenekler:["Küçük kafes var","Büyük kafes var","Serbest dolaşıyor (tavşan vb.)","Kafes yok / Yeni alındı"], sayfa:"kucuk-evcil-hayvanin-yuvasina-gore-hediye-testi.html" },
         { id:"kucukpet_hediye",  soru:"Ne tür hediye düşünüyorsun?", secenekler:["Yem / Özel besin 🥕","Oyuncak / Aktivite 🎠","Kafes / Yuva aksesuarı","Sağlık / Bakım ürünü","Yeni kafes / Büyük yaşam alanı"], sayfa:"kucuk-evcil-hayvana-ne-tur-hediye-testi.html" },
-        { id:"kucukpet_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["0-200 TL","200-500 TL","500-1000 TL","1000-2500 TL","2500+ TL"], sayfa:"butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html" },
+        { id:"kucukpet_butce",   soru:"Bütçe aralığın nedir?",       secenekler:["500 TL'ye kadar","1000 TL'ye kadar","2000 TL'ye kadar","3000 TL'ye kadar","4000 TL'ye kadar"], sayfa:"butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html" },
     ],
 
     // ==========================================
@@ -749,3 +749,4 @@ var BudurSes = (function() {
         enabled: function() { return enabled; }
     };
 })();
+
