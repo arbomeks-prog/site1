@@ -1512,6 +1512,25 @@ function sqKimeIsimPopupAc(kimeDegeri, devamFn) {
     var popup = document.getElementById('kisi-ismi-popup');
     if (popup) popup.style.display = 'flex';
     if (inp) setTimeout(function() { inp.focus(); }, 50);
+    // Klavye açılınca popup'ı klavyenin 36px üstünde tut
+    if (window.visualViewport) {
+        function _vpGuncelle() {
+            var klavyeYuksekligi = window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop;
+            var bosluk = Math.max(12, klavyeYuksekligi > 50 ? klavyeYuksekligi + 36 : 12);
+            var p = document.getElementById('kisi-ismi-popup');
+            if (p && p.style.display !== 'none') p.style.paddingBottom = bosluk + 'px';
+        }
+        window.visualViewport.addEventListener('resize', _vpGuncelle);
+        window.visualViewport.addEventListener('scroll', _vpGuncelle);
+        // Popup kapanınca listener'ı temizle
+        var _vpTemizle = function() {
+            window.visualViewport.removeEventListener('resize', _vpGuncelle);
+            window.visualViewport.removeEventListener('scroll', _vpGuncelle);
+            var p = document.getElementById('kisi-ismi-popup');
+            if (p) p.style.paddingBottom = '12px';
+        };
+        document.getElementById('kisi-ismi-popup')._vpTemizle = _vpTemizle;
+    }
 }
 
 function kisiIsmiKaydet() {
@@ -1528,7 +1547,10 @@ function _sqIsimKaydetVeKapat(isim) {
     var sid = localStorage.getItem('budurBuldumSessionId');
     if (sid) localStorage.setItem('budurBuldumKisiAdi_' + sid, isim);
     var popup = document.getElementById('kisi-ismi-popup');
-    if (popup) popup.style.display = 'none';
+    if (popup) {
+        if (popup._vpTemizle) { popup._vpTemizle(); popup._vpTemizle = null; }
+        popup.style.display = 'none';
+    }
     // Kart anlık görsel geri bildirim: ayraç kaydını isimle güncelle ve yeniden çiz
     sqAyracSenkronEt();
     if (typeof sqAyraclarYenidenCiz === 'function') sqAyraclarYenidenCiz();
@@ -3160,7 +3182,7 @@ window.addEventListener('message', function(e) {
 
 <!-- KİŞİ İSMİ POPUP -->
 <div id="kisi-ismi-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:flex-end;justify-content:center;padding-bottom:12px;">
-  <div style="background:#1e293b;border-radius:24px;padding:20px 22px 24px;width:calc(100% - 24px);box-shadow:0 -8px 40px rgba(0,0,0,0.5);">
+  <div id="kisi-ismi-kart" style="background:#1e293b;border-radius:24px;padding:20px 22px 24px;width:calc(100% - 24px);box-shadow:0 -8px 40px rgba(0,0,0,0.5);">
     <p style="font-size:17px;font-weight:800;color:#fff;margin:0 0 10px;">Bu aramaya isim ver 🏷️</p>
     <div style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 14px;margin-bottom:10px;">
       <p style="font-size:11px;color:#64748b;margin:0 0 2px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;">Kime alınıyor</p>
