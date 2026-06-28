@@ -183,74 +183,147 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 /* HERO */
 .bb-hero {
   display: grid;
-  grid-template-columns: 1fr 1.35fr 1fr;
-  gap: 28px;
-  padding: 56px 40px;
-  background: radial-gradient(circle at top, #25345f, #070b18 70%);
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 0;
+  background: #0f172a;
   color: white;
-  border-radius: 0 0 28px 28px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  overflow: hidden;
   position: relative;
   z-index: 60;
+  min-height: 520px;
 }
-.hero-left, .hero-center, .hero-right { min-width: 0; }
-.hero-left h1 {
-  font-size: clamp(28px, 4vw, 52px);
-  line-height: 1.05;
-  margin: 0 0 22px;
-  color: #ffd166;
-  font-weight: 900;
-}
-.hero-left p {
-  font-size: 16px;
-  line-height: 1.55;
-  color: #d9e2ff;
-  margin-bottom: 28px;
-}
-.hero-btn {
-  border: none;
-  background: #ffd166;
-  color: #10131f;
-  font-weight: 800;
-  padding: 15px 22px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 15px;
-}
-.hero-steps {
+/* SÜTUN AYIRICI ÇİZGİLER */
+.hero-left {
+  min-width: 0;
+  padding: 40px 32px;
+  border-right: 1px solid rgba(255,255,255,0.07);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hero-center {
+  min-width: 0;
+  padding: 32px 24px 24px;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-right {
+  min-width: 0;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+}
+/* SOL SÜTUN */
+.hero-left-top h1 {
+  font-size: 32px;
+  line-height: 1.1;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 6px;
+}
+.hero-left-top h1 span { color: #e8a838; display: block; }
+.hero-left-divider {
+  display: flex;
+  align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  opacity: 0.55;
+  margin: 14px 0 20px;
+  color: #e8a838;
+  font-size: 18px;
 }
-.hero-steps div {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 6px 11px;
-  border-radius: 999px;
-  font-size: 11px;
-  color: #edf2ff;
+.hero-left-divider::before, .hero-left-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(232,168,56,0.3);
 }
-.hero-steps strong { color: #e8a838; margin-right: 4px; }
+.hero-left-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #94a3b8;
+  margin: 0 0 24px;
+}
+.hero-left-desc em { color: #e8a838; font-style: normal; font-weight: 700; }
+.hero-madde {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.hero-madde-ikon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.hero-madde-metin strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin-bottom: 2px;
+}
+.hero-madde-metin span {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+.hero-left-bottom {
+  border: 1px solid #e8a838;
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.hero-left-bottom:hover { background: rgba(232,168,56,0.06); }
+.hero-left-bottom .bb-ikon { font-size: 28px; }
+.hero-left-bottom p { margin: 0; font-size: 13px; color: #94a3b8; line-height: 1.5; }
+.hero-left-bottom p strong { color: #ffffff; font-size: 14px; display: block; }
+.hero-left-bottom p em { color: #e8a838; font-style: normal; font-weight: 800; }
+/* ORTA SÜTUN */
+.hero-center-baslik {
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.hero-center-baslik-alt {
+  width: 24px;
+  height: 2px;
+  background: #e8a838;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
 .profile-carousel {
   display: grid;
-  grid-template-columns: 0.62fr 1fr 0.62fr;
+  grid-template-columns: 0.6fr 1fr 0.6fr;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
-/* ANA KART — ayraç sistemiyle aynı dil */
+/* KART ORTAK */
 .profile-card {
   border-radius: 14px;
   background: #1e293b;
-  transition: all 0.45s ease;
+  transition: all 0.4s ease;
 }
+/* ANA KART — ayraç sistemiyle birebir aynı dil */
 .profile-card.main-card {
   border: 2px solid #e8a838;
-  padding: 22px 20px 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  padding: 18px 16px 16px;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
   position: relative;
   z-index: 2;
 }
@@ -261,31 +334,42 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .main-card-kime {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 900;
   color: #ffffff;
-  margin: 0 0 8px;
-  line-height: 1.1;
+  margin: 0 0 4px;
+}
+.main-card-amac {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0 0 4px;
+}
+.main-card-butce {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e8a838;
+  margin: 0 0 12px;
 }
 .main-card-ozellikler {
-  font-size: 13px;
-  color: #94a3b8;
-  line-height: 1.6;
-  margin: 0 0 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-bottom: 14px;
 }
 .main-card-ozellikler span {
-  display: inline-block;
-  background: rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.06);
   border-radius: 6px;
-  padding: 2px 8px;
-  margin: 2px 3px 2px 0;
+  padding: 5px 7px;
   color: #cbd5e1;
-  font-size: 12px;
+  font-size: 11px;
 }
 .main-card-btn {
   width: 100%;
@@ -304,68 +388,186 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   color: #e8a838;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: block;
 }
 /* YAN KARTLAR */
 .profile-card.side-card {
   border: 2px solid #334155;
-  padding: 16px 14px;
-  opacity: 0.45;
-  transform: scale(0.9);
+  padding: 14px 12px;
+  opacity: 0.5;
+  transform: scale(0.88);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 120px;
 }
 .side-card-avatar {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.side-card-kime { font-size: 14px; font-weight: 800; color: #e2e8f0; margin-bottom: 2px; }
+.side-card-amac { font-size: 10px; color: #64748b; margin-bottom: 2px; }
+.side-card-butce { font-size: 10px; font-weight: 700; color: #e8a838; margin-bottom: 10px; }
+.side-card-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #e8a838;
+  border-radius: 6px;
+  padding: 6px;
   font-size: 10px;
   font-weight: 700;
-  margin-bottom: 8px;
+  color: #e8a838;
+  cursor: pointer;
+  text-align: center;
 }
-.side-card-kime {
-  font-size: 16px;
-  font-weight: 800;
-  color: #e2e8f0;
+/* ORTA ALT: ok + nokta + adımlar */
+.hero-carousel-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 14px 0 18px;
 }
-.hero-right {
+.hero-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.hero-nav-btn:hover { background: rgba(232,168,56,0.2); }
+.hero-dots { display: flex; gap: 6px; }
+.hero-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #334155;
+  transition: background 0.3s;
+}
+.hero-dot.active { background: #e8a838; }
+.hero-steps-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+.hero-step-item {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  text-align: center;
 }
+.hero-step-num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: #e8a838;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.hero-step-ikon { font-size: 18px; margin-bottom: 4px; }
+.hero-step-baslik { font-size: 11px; font-weight: 800; color: #f1f5f9; margin-bottom: 2px; }
+.hero-step-acik { font-size: 10px; color: #64748b; line-height: 1.4; }
+/* SAĞ SÜTUN */
+.hero-right-baslik {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.hero-right-baslik .bb-ikon { font-size: 22px; }
+.hero-right-baslik h2 {
+  font-size: 16px;
+  font-weight: 900;
+  color: #f1f5f9;
+  margin: 0 0 2px;
+  line-height: 1.2;
+}
+.hero-right-baslik h2 span { color: #e8a838; }
 .hero-gift-card {
-  background: rgba(255,255,255,0.95);
-  color: #111827;
-  border-radius: 20px;
-  padding: 13px;
-  box-shadow: 0 18px 60px rgba(0,0,0,0.32);
-  transition: all 0.55s ease;
-}
-.hero-gift-card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
+  background: #1e293b;
+  border: 1px solid #334155;
   border-radius: 14px;
-  background: #e5e7eb;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+  transition: border-color 0.4s;
 }
-.hero-gift-card h3 { font-size: 15px; margin: 10px 0 5px; font-weight: 700; }
-.hero-gift-card p { margin: 0; font-weight: 900; color: #7c3aed; font-size: 15px; }
+.hero-gift-card:hover { border-color: #e8a838; }
+.hero-gift-card img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: #334155;
+}
+.hero-gift-card-body { flex: 1; min-width: 0; }
+.hero-gift-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+.badge-populer { background: #ef4444; color: #fff; }
+.badge-yeni    { background: #22c55e; color: #fff; }
+.hero-gift-card h3 { font-size: 13px; font-weight: 700; color: #f1f5f9; margin: 0 0 4px; }
+.hero-gift-price { font-size: 16px; font-weight: 900; color: #e8a838; margin: 0 0 5px; }
+.hero-gift-plats { display: flex; gap: 4px; flex-wrap: wrap; }
+.hero-gift-plats span {
+  font-size: 9px; font-weight: 700; padding: 2px 6px;
+  border-radius: 4px; color: white;
+}
+.plt-t { background: #f97316; }
+.plt-a { background: #232f3e; }
+.plt-c { background: #e91e63; }
+.plt-h { background: #ff6b00; }
+.hero-right-guven {
+  display: flex;
+  justify-content: space-around;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.hero-guven-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #64748b;
+  text-align: center;
+}
+.hero-guven-item span { font-size: 18px; }
 @media (max-width: 900px) {
   .bb-hero {
     grid-template-columns: 1fr;
-    padding: 28px 16px 32px;
-    border-radius: 0 0 20px 20px;
+    min-height: unset;
   }
+  .hero-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .hero-center { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
   .hero-right { display: none; }
   .profile-carousel { grid-template-columns: 0.55fr 1fr 0.55fr; }
-  .main-card-kime { font-size: 22px; }
-  .profile-card.main-card { padding: 18px 16px 16px; }
 }
 
 /* QUIZ */
@@ -672,31 +874,66 @@ function nickDegistirIndex() {
 
   <!-- SOL SÜTUN -->
   <div class="hero-left">
-    <h1>Hediyeyi unut.<br>Bana insanı anlat.</h1>
-    <p>Sevdiğin kişiye bir hediye kartı aç.<br>Özelliklerini işaretle.<br>Ona uygun hediyeleri tek sayfada gör.</p>
-    <button class="hero-btn" onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">Hediye Kartı Oluştur</button>
+    <div class="hero-left-top">
+      <h1>Hediyeyi unut.<br><span>Bana insanı anlat.</span></h1>
+      <div class="hero-left-divider">♡</div>
+      <p class="hero-left-desc">
+        Sevdiğin kişiyi anlat, ona özel kartını açalım.<br>
+        Binlerce hediyeyi senin yerine tarayalım,<br>
+        en uygunları <em>tek sayfada</em> sunalım.
+      </p>
+      <div class="hero-madde">
+        <div class="hero-madde-ikon" style="background:#FBEAF0;">👤</div>
+        <div class="hero-madde-metin">
+          <strong>Kişiye özel kart açıyoruz.</strong>
+          <span>Sevdiğin kişi için bir kart oluştur,<br>tüm bilgilerini bir kez kaydet.</span>
+        </div>
+      </div>
+      <div class="hero-madde">
+        <div class="hero-madde-ikon" style="background:#E6F1FB;">🔍</div>
+        <div class="hero-madde-metin">
+          <strong>Özelliklerini işaretle.</strong>
+          <span>Tarzı, hobileri, ilgi alanları...<br>30 kısa seçimle bize anlat.</span>
+        </div>
+      </div>
+      <div class="hero-madde">
+        <div class="hero-madde-ikon" style="background:#EAF3DE;">🎁</div>
+        <div class="hero-madde-metin">
+          <strong>En uygun hediyeleri bulalım.</strong>
+          <span>Binlerce seçenek arasından<br>en doğru hediyeleri tek sayfada gösterelim.</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-left-bottom" onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">
+      <span class="bb-ikon">🎁</span>
+      <p><strong>Bir kez bilgileri gir,</strong> <em>ömür boyu hediye bul!</em></p>
+    </div>
   </div>
 
   <!-- ORTA SÜTUN -->
   <div class="hero-center">
-    <div class="hero-steps">
-      <div><strong>1</strong> Kartını seç</div>
-      <div><strong>2</strong> Özelliklerini işaretle</div>
-      <div><strong>3</strong> Hediyeleri bul</div>
-    </div>
+    <div class="hero-center-baslik">Nasıl çalışır?</div>
+    <div class="hero-center-baslik-alt"></div>
     <div class="profile-carousel">
       <!-- ÖNCEKİ KART -->
       <div class="profile-card side-card" id="heroPrevCard">
-        <div class="side-card-avatar" id="heroPrevAvatar" style="background:#FBEAF0;color:#993556;">BA</div>
+        <div class="side-card-avatar" id="heroPrevAvatar" style="background:#FAEEDA;color:#854F0B;">BA</div>
         <div class="side-card-kime" id="heroPrevKime">Baba</div>
+        <div class="side-card-amac" id="heroPrevAmac">Doğum Günü 🎂</div>
+        <div class="side-card-butce" id="heroPrevButce">Bütçe: 1000-3000 TL</div>
+        <div class="side-card-btn">Bu karta hediye bul</div>
       </div>
       <!-- ANA KART -->
       <div class="profile-card main-card" id="heroMainCard">
         <span class="card-label">Hediye Kartı</span>
         <div class="main-card-avatar" id="heroMainAvatar" style="background:#FBEAF0;color:#993556;">AN</div>
         <div class="main-card-kime" id="heroPersonName">Anne</div>
+        <div class="main-card-amac" id="heroPersonAmac">Yıl Dönümü 🎂</div>
+        <div class="main-card-butce" id="heroPersonButce">Bütçe: 0-1000 TL</div>
         <div class="main-card-ozellikler" id="heroPersonInfo">
-          <span>Kahve sever</span><span>Evde vakit sever</span><span>Kitap okur</span>
+          <span>🏠 Evde vakit sever</span><span>☕ Çay sever</span>
+          <span>📖 Kitap okur</span><span>🎨 Sanatı sever</span>
+          <span>🌿 Doğayı sever</span><span>💛 Duygusal</span>
         </div>
         <button class="main-card-btn" onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">Bu karta hediye bul →</button>
       </div>
@@ -704,21 +941,76 @@ function nickDegistirIndex() {
       <div class="profile-card side-card" id="heroNextCard">
         <div class="side-card-avatar" id="heroNextAvatar" style="background:#EEEDFE;color:#534AB7;">SE</div>
         <div class="side-card-kime" id="heroNextKime">Sevgili</div>
+        <div class="side-card-amac" id="heroNextAmac">Yıl Dönümü 🎂</div>
+        <div class="side-card-butce" id="heroNextButce">Bütçe: 1000-3000 TL</div>
+        <div class="side-card-btn">Bu karta hediye bul</div>
+      </div>
+    </div>
+    <!-- OK + NOKTA -->
+    <div class="hero-carousel-nav">
+      <button class="hero-nav-btn" onclick="heroManuelGec(-1)">←</button>
+      <div class="hero-dots">
+        <div class="hero-dot active" id="heroDot0"></div>
+        <div class="hero-dot" id="heroDot1"></div>
+        <div class="hero-dot" id="heroDot2"></div>
+      </div>
+      <button class="hero-nav-btn" onclick="heroManuelGec(1)">→</button>
+    </div>
+    <!-- 3 ADIM -->
+    <div class="hero-steps-row">
+      <div class="hero-step-item">
+        <div class="hero-step-num">1</div>
+        <div class="hero-step-ikon">🪪</div>
+        <div class="hero-step-baslik">Kartını seç</div>
+        <div class="hero-step-acik">Hediye alacağın kişiyi seç ve kartını oluştur.</div>
+      </div>
+      <div class="hero-step-item">
+        <div class="hero-step-num">2</div>
+        <div class="hero-step-ikon">✅</div>
+        <div class="hero-step-baslik">Özelliklerini işaretle</div>
+        <div class="hero-step-acik">Tarzı, hobileri, ilgi alanlarını 30 kısa seçimle bize anlat.</div>
+      </div>
+      <div class="hero-step-item">
+        <div class="hero-step-num">3</div>
+        <div class="hero-step-ikon">🎁</div>
+        <div class="hero-step-baslik">Hediyeleri bul</div>
+        <div class="hero-step-acik">Sana özel en uygun hediyeleri tek sayfada keşfet.</div>
       </div>
     </div>
   </div>
 
   <!-- SAĞ SÜTUN -->
   <div class="hero-right">
-    <div class="hero-gift-card">
-      <img id="heroGiftImage1" src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&w=400" alt="">
-      <h3 id="heroGiftTitle1">Anneye Özel Kahve Seti</h3>
-      <p id="heroGiftPrice1">₺749</p>
+    <div class="hero-right-baslik">
+      <span class="bb-ikon">🎁</span>
+      <h2>Sana özel hediyeler,<br><span>tek sayfada!</span></h2>
     </div>
     <div class="hero-gift-card">
-      <img id="heroGiftImage2" src="https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg?auto=compress&w=400" alt="">
-      <h3 id="heroGiftTitle2">Şık Kitap Lambası</h3>
-      <p id="heroGiftPrice2">₺399</p>
+      <img id="heroGiftImage1" src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&w=200" alt="">
+      <div class="hero-gift-card-body">
+        <div class="hero-gift-badge badge-populer" id="heroGiftBadge1">Popüler</div>
+        <h3 id="heroGiftTitle1">Rose Gold Kol Saati</h3>
+        <div class="hero-gift-price" id="heroGiftPrice1">₺2.499</div>
+        <div class="hero-gift-plats" id="heroGiftPlats1">
+          <span class="plt-t">Trendyol</span><span class="plt-a">Amazon</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-gift-card">
+      <img id="heroGiftImage2" src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&w=200" alt="">
+      <div class="hero-gift-card-body">
+        <div class="hero-gift-badge badge-yeni" id="heroGiftBadge2">Yeni</div>
+        <h3 id="heroGiftTitle2">Aromaterapi Hediye Seti</h3>
+        <div class="hero-gift-price" id="heroGiftPrice2">₺1.199</div>
+        <div class="hero-gift-plats" id="heroGiftPlats2">
+          <span class="plt-c">Çiçeksepeti</span><span class="plt-t">Trendyol</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right-guven">
+      <div class="hero-guven-item"><span>🔒</span>Bilgiler güvende</div>
+      <div class="hero-guven-item"><span>🔄</span>Her zaman güncelle</div>
+      <div class="hero-guven-item"><span>🔖</span>Tek kartta sakla</div>
     </div>
   </div>
 
@@ -728,76 +1020,96 @@ function nickDegistirIndex() {
 (function() {
   var heroData = [
     {
-      person: "Anne",
-      initials: "AN",
-      avatar: {bg:"#FBEAF0", text:"#993556"},
-      prev: "Baba",       prevInitials: "BA", prevAvatar: {bg:"#FAEEDA", text:"#854F0B"},
-      next: "Sevgili",    nextInitials: "SE", nextAvatar: {bg:"#EEEDFE", text:"#534AB7"},
-      ozellikler: ["Kahve sever", "Evde vakit sever", "Kitap okur"],
+      person: "Anne",        initials: "AN", avatar: {bg:"#FBEAF0",text:"#993556"},
+      amac: "Yıl Dönümü 🎂", butce: "Bütçe: 0-1000 TL",
+      prev: "Baba",          prevInitials:"BA", prevAvatar:{bg:"#FAEEDA",text:"#854F0B"}, prevAmac:"Doğum Günü 🎂", prevButce:"Bütçe: 1000-3000 TL",
+      next: "Sevgili",       nextInitials:"SE", nextAvatar:{bg:"#EEEDFE",text:"#534AB7"}, nextAmac:"Yıl Dönümü 🎂", nextButce:"Bütçe: 1000-3000 TL",
+      ozellikler: [["🏠","Evde vakit sever"],["☕","Çay sever"],["📖","Kitap okur"],["🎨","Sanatı sever"],["🌿","Doğayı sever"],["💛","Duygusal"]],
       gifts: [
-        { title: "Anneye Özel Kahve Seti", price: "₺749", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&w=400" },
-        { title: "Şık Kitap Lambası",       price: "₺399", image: "https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg?auto=compress&w=400" }
+        { title:"Rose Gold Kol Saati",    price:"₺2.499", badge:"Popüler", badgeCls:"badge-populer", image:"https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&w=200",  plats:'<span class="plt-t">Trendyol</span><span class="plt-a">Amazon</span>' },
+        { title:"Aromaterapi Hediye Seti", price:"₺1.199", badge:"Yeni",    badgeCls:"badge-yeni",    image:"https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&w=200", plats:'<span class="plt-c">Çiçeksepeti</span><span class="plt-t">Trendyol</span>' }
       ]
     },
     {
-      person: "Baba",
-      initials: "BA",
-      avatar: {bg:"#FAEEDA", text:"#854F0B"},
-      prev: "Sevgili",    prevInitials: "SE", prevAvatar: {bg:"#EEEDFE", text:"#534AB7"},
-      next: "Anne",       nextInitials: "AN", nextAvatar: {bg:"#FBEAF0", text:"#993556"},
-      ozellikler: ["Tamir sever", "Arabalara meraklı", "Klasik tarz"],
+      person: "Baba",        initials: "BA", avatar: {bg:"#FAEEDA",text:"#854F0B"},
+      amac: "Doğum Günü 🎂", butce: "Bütçe: 1000-3000 TL",
+      prev: "Sevgili",       prevInitials:"SE", prevAvatar:{bg:"#EEEDFE",text:"#534AB7"}, prevAmac:"Yıl Dönümü 🎂", prevButce:"Bütçe: 1000-3000 TL",
+      next: "Anne",          nextInitials:"AN", nextAvatar:{bg:"#FBEAF0",text:"#993556"}, nextAmac:"Yıl Dönümü 🎂", nextButce:"Bütçe: 0-1000 TL",
+      ozellikler: [["🔧","Teknoloji sever"],["🏋️","Spor yapar"],["☕","Kahve sever"],["🚗","Arabalara meraklı"],["📐","Pratik çözümler"],["👔","Klasik tarz"]],
       gifts: [
-        { title: "Premium Alet Seti", price: "₺1.290", image: "https://images.pexels.com/photos/2536965/pexels-photo-2536965.jpeg?auto=compress&w=400" },
-        { title: "Deri Kartlık",      price: "₺549",   image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&w=400" }
+        { title:"Premium Alet Seti", price:"₺1.290", badge:"Popüler", badgeCls:"badge-populer", image:"https://images.pexels.com/photos/2536965/pexels-photo-2536965.jpeg?auto=compress&w=200", plats:'<span class="plt-t">Trendyol</span><span class="plt-a">Amazon</span>' },
+        { title:"Deri Kartlık",      price:"₺549",   badge:"Yeni",    badgeCls:"badge-yeni",    image:"https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&w=200", plats:'<span class="plt-t">Trendyol</span><span class="plt-h">Hepsiburada</span>' }
       ]
     },
     {
-      person: "Sevgili",
-      initials: "SE",
-      avatar: {bg:"#EEEDFE", text:"#534AB7"},
-      prev: "Anne",       prevInitials: "AN", prevAvatar: {bg:"#FBEAF0", text:"#993556"},
-      next: "Baba",       nextInitials: "BA", nextAvatar: {bg:"#FAEEDA", text:"#854F0B"},
-      ozellikler: ["Romantik", "Müzik sever", "Şık detayları sever"],
+      person: "Sevgili",     initials: "SE", avatar: {bg:"#EEEDFE",text:"#534AB7"},
+      amac: "Yıl Dönümü 🎂", butce: "Bütçe: 1000-3000 TL",
+      prev: "Anne",          prevInitials:"AN", prevAvatar:{bg:"#FBEAF0",text:"#993556"}, prevAmac:"Yıl Dönümü 🎂", prevButce:"Bütçe: 0-1000 TL",
+      next: "Baba",          nextInitials:"BA", nextAvatar:{bg:"#FAEEDA",text:"#854F0B"}, nextAmac:"Doğum Günü 🎂", nextButce:"Bütçe: 1000-3000 TL",
+      ozellikler: [["❤️","Romantik"],["✈️","Seyahat sever"],["🎵","Müzik dinler"],["🎨","Sanatı sever"],["🏔️","Macera sever"],["💫","Duygusal"]],
       gifts: [
-        { title: "Minimal Kolye",        price: "₺899",   image: "https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&w=400" },
-        { title: "Bluetooth Hoparlör",   price: "₺1.450", image: "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&w=400" }
+        { title:"Minimal Kolye",       price:"₺899",   badge:"Popüler", badgeCls:"badge-populer", image:"https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&w=200", plats:'<span class="plt-t">Trendyol</span><span class="plt-c">Çiçeksepeti</span>' },
+        { title:"Bluetooth Hoparlör",  price:"₺1.450", badge:"Yeni",    badgeCls:"badge-yeni",    image:"https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&w=200",  plats:'<span class="plt-t">Trendyol</span><span class="plt-a">Amazon</span>' }
       ]
     }
   ];
   var heroCurrent = 0;
-  function heroUpdate() {
-    var d = heroData[heroCurrent];
+  var heroTimer = null;
+
+  function heroGoster(idx) {
+    var d = heroData[idx];
     // Ana kart
-    var mainAvEl = document.getElementById("heroMainAvatar");
-    mainAvEl.textContent = d.initials;
-    mainAvEl.style.background = d.avatar.bg;
-    mainAvEl.style.color = d.avatar.text;
+    var av = document.getElementById("heroMainAvatar");
+    av.textContent = d.initials; av.style.background = d.avatar.bg; av.style.color = d.avatar.text;
     document.getElementById("heroPersonName").textContent = d.person;
-    var ozEl = document.getElementById("heroPersonInfo");
-    ozEl.innerHTML = d.ozellikler.map(function(o){ return '<span>'+o+'</span>'; }).join('');
+    document.getElementById("heroPersonAmac").textContent = d.amac;
+    document.getElementById("heroPersonButce").textContent = d.butce;
+    document.getElementById("heroPersonInfo").innerHTML = d.ozellikler.map(function(o){ return '<span>'+o[0]+' '+o[1]+'</span>'; }).join('');
     // Önceki kart
-    var prevAvEl = document.getElementById("heroPrevAvatar");
-    prevAvEl.textContent = d.prevInitials;
-    prevAvEl.style.background = d.prevAvatar.bg;
-    prevAvEl.style.color = d.prevAvatar.text;
+    var pav = document.getElementById("heroPrevAvatar");
+    pav.textContent = d.prevInitials; pav.style.background = d.prevAvatar.bg; pav.style.color = d.prevAvatar.text;
     document.getElementById("heroPrevKime").textContent = d.prev;
+    document.getElementById("heroPrevAmac").textContent = d.prevAmac;
+    document.getElementById("heroPrevButce").textContent = d.prevButce;
     // Sonraki kart
-    var nextAvEl = document.getElementById("heroNextAvatar");
-    nextAvEl.textContent = d.nextInitials;
-    nextAvEl.style.background = d.nextAvatar.bg;
-    nextAvEl.style.color = d.nextAvatar.text;
+    var nav = document.getElementById("heroNextAvatar");
+    nav.textContent = d.nextInitials; nav.style.background = d.nextAvatar.bg; nav.style.color = d.nextAvatar.text;
     document.getElementById("heroNextKime").textContent = d.next;
-    // Sağ sütun hediyeler — senkron
+    document.getElementById("heroNextAmac").textContent = d.nextAmac;
+    document.getElementById("heroNextButce").textContent = d.nextButce;
+    // Sağ sütun — senkron
+    document.getElementById("heroGiftImage1").src = d.gifts[0].image;
+    document.getElementById("heroGiftBadge1").textContent = d.gifts[0].badge;
+    document.getElementById("heroGiftBadge1").className = "hero-gift-badge " + d.gifts[0].badgeCls;
     document.getElementById("heroGiftTitle1").textContent = d.gifts[0].title;
     document.getElementById("heroGiftPrice1").textContent = d.gifts[0].price;
-    document.getElementById("heroGiftImage1").src = d.gifts[0].image;
+    document.getElementById("heroGiftPlats1").innerHTML = d.gifts[0].plats;
+    document.getElementById("heroGiftImage2").src = d.gifts[1].image;
+    document.getElementById("heroGiftBadge2").textContent = d.gifts[1].badge;
+    document.getElementById("heroGiftBadge2").className = "hero-gift-badge " + d.gifts[1].badgeCls;
     document.getElementById("heroGiftTitle2").textContent = d.gifts[1].title;
     document.getElementById("heroGiftPrice2").textContent = d.gifts[1].price;
-    document.getElementById("heroGiftImage2").src = d.gifts[1].image;
-    heroCurrent = (heroCurrent + 1) % heroData.length;
+    document.getElementById("heroGiftPlats2").innerHTML = d.gifts[1].plats;
+    // Noktalar
+    for (var i=0; i<3; i++) {
+      var dot = document.getElementById("heroDot"+i);
+      if (dot) dot.className = "hero-dot" + (i===idx ? " active" : "");
+    }
+    heroCurrent = idx;
   }
-  heroUpdate();
-  setInterval(heroUpdate, 2800);
+
+  function heroSonraki() {
+    heroGoster((heroCurrent + 1) % heroData.length);
+  }
+
+  window.heroManuelGec = function(yon) {
+    clearInterval(heroTimer);
+    heroGoster((heroCurrent + yon + heroData.length) % heroData.length);
+    heroTimer = setInterval(heroSonraki, 3000);
+  };
+
+  heroGoster(0);
+  heroTimer = setInterval(heroSonraki, 3000);
 })();
 </script>
 
