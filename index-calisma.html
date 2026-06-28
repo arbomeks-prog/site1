@@ -181,56 +181,38 @@
 body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 /* HERO */
+/* ═══════════════════════════════════════════════
+   HERO — MOBİL ÖNCELİKLİ
+   Tek sütun, dikey akış. Taşma yok.
+═══════════════════════════════════════════════ */
 .bb-hero {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 0;
   background: #0f172a;
   color: white;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   position: relative;
   z-index: 60;
-  min-height: 520px;
+  overflow: hidden;
 }
-/* SÜTUN AYIRICI ÇİZGİLER */
-.hero-left {
-  min-width: 0;
-  padding: 40px 32px;
-  border-right: 1px solid rgba(255,255,255,0.07);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
+/* ── BÖLÜM 1: SLOGAN ── */
+.hero-slogan {
+  padding: 28px 20px 0;
 }
-.hero-center {
-  min-width: 0;
-  padding: 32px 24px 24px;
-  border-right: 1px solid rgba(255,255,255,0.07);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.hero-right {
-  min-width: 0;
-  padding: 32px 28px;
-  display: flex;
-  flex-direction: column;
-}
-/* SOL SÜTUN */
-.hero-left-top h1 {
-  font-size: 32px;
-  line-height: 1.1;
+.hero-slogan h1 {
+  font-size: 36px;
+  line-height: 1.05;
   font-weight: 900;
   color: #ffffff;
-  margin: 0 0 6px;
+  margin: 0 0 4px;
 }
-.hero-left-top h1 span { color: #e8a838; display: block; }
+.hero-slogan h1 span { color: #e8a838; display: block; }
 .hero-left-divider {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 14px 0 20px;
+  margin: 16px 0;
   color: #e8a838;
-  font-size: 18px;
+  font-size: 16px;
 }
 .hero-left-divider::before, .hero-left-divider::after {
   content: '';
@@ -240,25 +222,30 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 }
 .hero-left-desc {
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
   color: #94a3b8;
-  margin: 0 0 24px;
+  margin: 0 0 20px;
 }
 .hero-left-desc em { color: #e8a838; font-style: normal; font-weight: 700; }
+
+/* ── BÖLÜM 2: 3 MADDE ── */
+.hero-maddeler {
+  padding: 0 20px;
+}
 .hero-madde {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .hero-madde-ikon {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 18px;
   flex-shrink: 0;
 }
 .hero-madde-metin strong {
@@ -273,30 +260,36 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   color: #64748b;
   line-height: 1.4;
 }
+
+/* ── BÖLÜM 3: ALT KUTU ── */
 .hero-left-bottom {
+  margin: 4px 20px 24px;
   border: 1px solid #e8a838;
   border-radius: 12px;
-  padding: 16px 18px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 8px;
   cursor: pointer;
-  transition: background 0.2s;
 }
-.hero-left-bottom:hover { background: rgba(232,168,56,0.06); }
-.hero-left-bottom .bb-ikon { font-size: 28px; }
+.hero-left-bottom .bb-ikon { font-size: 26px; flex-shrink: 0; }
 .hero-left-bottom p { margin: 0; font-size: 13px; color: #94a3b8; line-height: 1.5; }
 .hero-left-bottom p strong { color: #ffffff; font-size: 14px; display: block; }
 .hero-left-bottom p em { color: #e8a838; font-style: normal; font-weight: 800; }
-/* ORTA SÜTUN */
+
+/* ── BÖLÜM 4: KART CAROUSEL ── */
+.hero-center {
+  padding: 0 20px 20px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
 .hero-center-baslik {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
   color: #64748b;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
+  padding-top: 20px;
   margin-bottom: 4px;
 }
 .hero-center-baslik-alt {
@@ -304,13 +297,13 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   height: 2px;
   background: #e8a838;
   border-radius: 2px;
-  margin: 0 auto 20px;
+  margin: 0 auto 16px;
 }
 .profile-carousel {
   display: grid;
-  grid-template-columns: 0.6fr 1fr 0.6fr;
+  grid-template-columns: 72px 1fr 72px;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
 }
 /* KART ORTAK */
@@ -322,8 +315,8 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 /* ANA KART — ayraç sistemiyle birebir aynı dil */
 .profile-card.main-card {
   border: 2px solid #e8a838;
-  padding: 18px 16px 16px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  padding: 16px 14px 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
   position: relative;
   z-index: 2;
 }
@@ -342,12 +335,12 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   font-size: 22px;
   font-weight: 900;
   color: #ffffff;
-  margin: 0 0 4px;
+  margin: 0 0 3px;
 }
 .main-card-amac {
   font-size: 12px;
   color: #94a3b8;
-  margin: 0 0 4px;
+  margin: 0 0 3px;
 }
 .main-card-butce {
   font-size: 12px;
@@ -370,13 +363,15 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   padding: 5px 7px;
   color: #cbd5e1;
   font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .main-card-btn {
   width: 100%;
   background: #e8a838;
   border: none;
   border-radius: 8px;
-  padding: 10px;
+  padding: 11px;
   font-size: 13px;
   font-weight: 700;
   color: #000;
@@ -394,45 +389,36 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 /* YAN KARTLAR */
 .profile-card.side-card {
   border: 2px solid #334155;
-  padding: 14px 12px;
+  padding: 10px 8px;
   opacity: 0.5;
-  transform: scale(0.88);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: flex-start;
+  min-height: 100px;
 }
 .side-card-avatar {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
-.side-card-kime { font-size: 14px; font-weight: 800; color: #e2e8f0; margin-bottom: 2px; }
-.side-card-amac { font-size: 10px; color: #64748b; margin-bottom: 2px; }
-.side-card-butce { font-size: 10px; font-weight: 700; color: #e8a838; margin-bottom: 10px; }
-.side-card-btn {
-  width: 100%;
-  background: transparent;
-  border: 1px solid #e8a838;
-  border-radius: 6px;
-  padding: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #e8a838;
-  cursor: pointer;
-  text-align: center;
-}
-/* ORTA ALT: ok + nokta + adımlar */
+.side-card-kime { font-size: 12px; font-weight: 800; color: #e2e8f0; margin-bottom: 2px; }
+.side-card-amac { font-size: 9px; color: #64748b; margin-bottom: 2px; display: none; }
+.side-card-butce { font-size: 9px; font-weight: 700; color: #e8a838; display: none; }
+.side-card-btn { display: none; }
+
+/* OK + NOKTA */
 .hero-carousel-nav {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin: 14px 0 18px;
+  justify-content: center;
+  gap: 16px;
+  margin: 14px 0 0;
 }
 .hero-nav-btn {
   width: 32px;
@@ -446,9 +432,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
 }
-.hero-nav-btn:hover { background: rgba(232,168,56,0.2); }
 .hero-dots { display: flex; gap: 6px; }
 .hero-dot {
   width: 7px; height: 7px;
@@ -457,11 +441,16 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   transition: background 0.3s;
 }
 .hero-dot.active { background: #e8a838; }
+
+/* ── BÖLÜM 5: 3 ADIM ── */
+.hero-steps-wrap {
+  padding: 20px 20px 0;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
 .hero-steps-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  width: 100%;
+  gap: 10px;
 }
 .hero-step-item {
   display: flex;
@@ -470,33 +459,38 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   text-align: center;
 }
 .hero-step-num {
-  width: 30px; height: 30px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   background: #e8a838;
   color: #0f172a;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
-.hero-step-ikon { font-size: 18px; margin-bottom: 4px; }
+.hero-step-ikon { font-size: 16px; margin-bottom: 3px; }
 .hero-step-baslik { font-size: 11px; font-weight: 800; color: #f1f5f9; margin-bottom: 2px; }
 .hero-step-acik { font-size: 10px; color: #64748b; line-height: 1.4; }
-/* SAĞ SÜTUN */
+
+/* ── BÖLÜM 6: HEDİYELER ── */
+.hero-right {
+  padding: 20px 20px 0;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
 .hero-right-baslik {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 16px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
 }
-.hero-right-baslik .bb-ikon { font-size: 22px; }
+.hero-right-baslik .bb-ikon { font-size: 20px; }
 .hero-right-baslik h2 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 900;
   color: #f1f5f9;
-  margin: 0 0 2px;
+  margin: 0;
   line-height: 1.2;
 }
 .hero-right-baslik h2 span { color: #e8a838; }
@@ -511,10 +505,9 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   margin-bottom: 10px;
   transition: border-color 0.4s;
 }
-.hero-gift-card:hover { border-color: #e8a838; }
 .hero-gift-card img {
-  width: 72px;
-  height: 72px;
+  width: 68px;
+  height: 68px;
   object-fit: cover;
   border-radius: 10px;
   flex-shrink: 0;
@@ -526,13 +519,13 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   font-weight: 800;
   padding: 2px 7px;
   border-radius: 4px;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   display: inline-block;
 }
 .badge-populer { background: #ef4444; color: #fff; }
 .badge-yeni    { background: #22c55e; color: #fff; }
-.hero-gift-card h3 { font-size: 13px; font-weight: 700; color: #f1f5f9; margin: 0 0 4px; }
-.hero-gift-price { font-size: 16px; font-weight: 900; color: #e8a838; margin: 0 0 5px; }
+.hero-gift-card h3 { font-size: 13px; font-weight: 700; color: #f1f5f9; margin: 0 0 3px; }
+.hero-gift-price { font-size: 15px; font-weight: 900; color: #e8a838; margin: 0 0 4px; }
 .hero-gift-plats { display: flex; gap: 4px; flex-wrap: wrap; }
 .hero-gift-plats span {
   font-size: 9px; font-weight: 700; padding: 2px 6px;
@@ -542,12 +535,14 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 .plt-a { background: #232f3e; }
 .plt-c { background: #e91e63; }
 .plt-h { background: #ff6b00; }
+
+/* ── BÖLÜM 7: GÜVEN ── */
 .hero-right-guven {
   display: flex;
   justify-content: space-around;
-  margin-top: auto;
-  padding-top: 14px;
+  padding: 16px 0 24px;
   border-top: 1px solid rgba(255,255,255,0.07);
+  margin-top: 4px;
 }
 .hero-guven-item {
   display: flex;
@@ -559,15 +554,38 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   text-align: center;
 }
 .hero-guven-item span { font-size: 18px; }
-@media (max-width: 900px) {
+
+/* ── MASAÜSTÜ: 3 KOLON ── */
+@media (min-width: 900px) {
   .bb-hero {
-    grid-template-columns: 1fr;
-    min-height: unset;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 1fr;
   }
-  .hero-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
-  .hero-center { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
-  .hero-right { display: none; }
-  .profile-carousel { grid-template-columns: 0.55fr 1fr 0.55fr; }
+  .hero-slogan, .hero-maddeler, .hero-left-bottom { padding-left: 32px; padding-right: 32px; }
+  .hero-slogan { padding-top: 36px; }
+  .hero-left-bottom { margin-left: 32px; margin-right: 32px; }
+  .hero-center {
+    border-top: none;
+    border-left: 1px solid rgba(255,255,255,0.07);
+    border-right: 1px solid rgba(255,255,255,0.07);
+    padding: 32px 24px 24px;
+  }
+  .hero-center-baslik { padding-top: 0; }
+  .hero-right {
+    border-top: none;
+    padding: 32px 28px 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-right-guven { margin-top: auto; }
+  .hero-steps-wrap {
+    border-top: none;
+    padding: 0;
+    margin-top: 16px;
+  }
+  .side-card-amac, .side-card-butce { display: block; }
+  .profile-carousel { grid-template-columns: 0.6fr 1fr 0.6fr; }
+  .profile-card.side-card { padding: 14px 12px; min-height: unset; }
 }
 
 /* QUIZ */
@@ -872,45 +890,49 @@ function nickDegistirIndex() {
 <!-- HERO -->
 <section class="bb-hero">
 
-  <!-- SOL SÜTUN -->
-  <div class="hero-left">
-    <div class="hero-left-top">
-      <h1>Hediyeyi unut.<br><span>Bana insanı anlat.</span></h1>
-      <div class="hero-left-divider">♡</div>
-      <p class="hero-left-desc">
-        Sevdiğin kişiyi anlat, ona özel kartını açalım.<br>
-        Binlerce hediyeyi senin yerine tarayalım,<br>
-        en uygunları <em>tek sayfada</em> sunalım.
-      </p>
-      <div class="hero-madde">
-        <div class="hero-madde-ikon" style="background:#FBEAF0;">👤</div>
-        <div class="hero-madde-metin">
-          <strong>Kişiye özel kart açıyoruz.</strong>
-          <span>Sevdiğin kişi için bir kart oluştur,<br>tüm bilgilerini bir kez kaydet.</span>
-        </div>
-      </div>
-      <div class="hero-madde">
-        <div class="hero-madde-ikon" style="background:#E6F1FB;">🔍</div>
-        <div class="hero-madde-metin">
-          <strong>Özelliklerini işaretle.</strong>
-          <span>Tarzı, hobileri, ilgi alanları...<br>30 kısa seçimle bize anlat.</span>
-        </div>
-      </div>
-      <div class="hero-madde">
-        <div class="hero-madde-ikon" style="background:#EAF3DE;">🎁</div>
-        <div class="hero-madde-metin">
-          <strong>En uygun hediyeleri bulalım.</strong>
-          <span>Binlerce seçenek arasından<br>en doğru hediyeleri tek sayfada gösterelim.</span>
-        </div>
+  <!-- BÖLÜM 1: SLOGAN -->
+  <div class="hero-slogan">
+    <h1>Hediyeyi unut.<br><span>Bana insanı anlat.</span></h1>
+    <div class="hero-left-divider">♡</div>
+    <p class="hero-left-desc">
+      Sevdiğin kişiyi anlat, ona özel kartını açalım.<br>
+      Binlerce hediyeyi senin yerine tarayalım,<br>
+      en uygunları <em>tek sayfada</em> sunalım.
+    </p>
+  </div>
+
+  <!-- BÖLÜM 2: 3 MADDE -->
+  <div class="hero-maddeler">
+    <div class="hero-madde">
+      <div class="hero-madde-ikon" style="background:#FBEAF0;">👤</div>
+      <div class="hero-madde-metin">
+        <strong>Kişiye özel kart açıyoruz.</strong>
+        <span>Sevdiğin kişi için bir kart oluştur,<br>tüm bilgilerini bir kez kaydet.</span>
       </div>
     </div>
-    <div class="hero-left-bottom" onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">
-      <span class="bb-ikon">🎁</span>
-      <p><strong>Bir kez bilgileri gir,</strong> <em>ömür boyu hediye bul!</em></p>
+    <div class="hero-madde">
+      <div class="hero-madde-ikon" style="background:#E6F1FB;">🔍</div>
+      <div class="hero-madde-metin">
+        <strong>Özelliklerini işaretle.</strong>
+        <span>Tarzı, hobileri, ilgi alanları...<br>30 kısa seçimle bize anlat.</span>
+      </div>
+    </div>
+    <div class="hero-madde">
+      <div class="hero-madde-ikon" style="background:#EAF3DE;">🎁</div>
+      <div class="hero-madde-metin">
+        <strong>En uygun hediyeleri bulalım.</strong>
+        <span>Binlerce seçenek arasından<br>en doğru hediyeleri tek sayfada gösterelim.</span>
+      </div>
     </div>
   </div>
 
-  <!-- ORTA SÜTUN -->
+  <!-- BÖLÜM 3: ALT KUTU -->
+  <div class="hero-left-bottom" onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">
+    <span class="bb-ikon">🎁</span>
+    <p><strong>Bir kez bilgileri gir,</strong> <em>ömür boyu hediye bul!</em></p>
+  </div>
+
+  <!-- BÖLÜM 4: KART CAROUSEL -->
   <div class="hero-center">
     <div class="hero-center-baslik">Nasıl çalışır?</div>
     <div class="hero-center-baslik-alt"></div>
@@ -956,7 +978,10 @@ function nickDegistirIndex() {
       </div>
       <button class="hero-nav-btn" onclick="heroManuelGec(1)">→</button>
     </div>
-    <!-- 3 ADIM -->
+  </div>
+
+  <!-- BÖLÜM 5: 3 ADIM -->
+  <div class="hero-steps-wrap">
     <div class="hero-steps-row">
       <div class="hero-step-item">
         <div class="hero-step-num">1</div>
