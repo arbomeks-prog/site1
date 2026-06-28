@@ -13,6 +13,28 @@ Yeni bir konuşmaya başlarken Claude bu dosyayı okumalı.
 - Canlıya almak için açık onay şart
 - Bu kural her oturumda geçerlidir, istisnası yoktur
 
+## ⚠️ KRİTİK ÇALIŞMA KURALI — LAYOUT/KUTU YERLEŞİMİ
+
+**Önce kaba ama garanti iskelet, sonra estetik. Sıra asla ters çevrilmez.**
+
+Birden fazla kutu/div yan yana (veya art arda) duracaksa:
+1. Önce SABİT ölçü ver (width/height fix, `box-sizing:border-box`, gerekirse `flex-shrink:0`).
+   Amaç: içerik ne olursa olsun (uzun yazı, büyük görsel, kod kayması) o kutular
+   YERİNDEN OYNAMAZ, TAŞMAZ, birbirini BOZMAZ. Bu iskelet bir kere kurulur ve
+   bir daha bu yüzden uğraşılmaz.
+2. "Daha akıllı/responsive/esnek" çözümler (auto-grow flex, grid minmax, vs.)
+   bu ilk adımdan SONRA, isteğe bağlı bir incelik olarak denenir — eğer hiç
+   denenmeyecekse de sorun değil, kaba iskelet zaten görevi yapar.
+3. İçindeki hizalama/sıralama (yana kaysın, kendini düzeltsin, ortalansın vs.)
+   ayrı bir konudur, kutuların kendisinin SABİT DURMASIYLA karıştırılmaz.
+
+**Neden bu kural var:** Flexbox/grid'in "akıllı" responsive özellikleri ilk
+denemede genelde taşma/bozulma yaratıyor, saatlerce debug'a yol açıyor.
+Kaba sabit-ölçü çözümü ilk denemede çalışıyor ve bir şablon haline geliyor
+(örnek: index.html'deki makale kutuları böyle çözüldü — önce sabit div
+iskeleti kuruldu, "her koyduğumuz diğerini sıkıştırsın" kuralı netleşti,
+sonra üstüne estetik eklendi, bir daha o kutulara dönülmedi).
+
 ## Repo Yapısı
 
 - `index.html` → `quiz-kime.html` → quiz adımları → `ozet.html` → `hediyeler.html`
