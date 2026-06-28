@@ -429,3 +429,62 @@ Makale içerikleri şimdiye kadar 4 kez toplu script'lerle silindi (GA4 ekleme, 
 2. SİSTEM MİMARİSİ bölümü
 3. `config.js` (soru setleri ve bütçe seçenekleri)
 
+
+
+---
+
+## 🟡 AKTİF DURUM — 28 Haziran 2026 (Gece Oturumu)
+
+### Bugün Yapılanlar
+
+**index.html HERO bölümü yenilendi** (`index-calisma.html` üzerinde çalışıldı, `index.html` dokunulmadı)
+
+#### Çalışma sırası:
+1. `index-calisma.html` oluşturuldu — `index.html`'in birebir kopyası (commit `050d75b`)
+2. Hero CSS + HTML + JS üç aşamada güncellendi
+3. Son push: commit `aaf79a5`
+
+#### Yeni hero yapısı (3 sütun, `section.bb-hero`):
+
+**Sol sütun (`hero-left`):**
+- Slogan: "Hediyeyi unut." + sarı "Bana insanı anlat."
+- Kalp çizgisi ayırıcı (`hero-left-divider`)
+- Açıklama paragrafı ("tek sayfada" sarı vurgulu)
+- 3 renkli daireli madde: Kişiye özel kart / Özelliklerini işaretle / En uygun hediyeleri bul
+- Alt: sarı çerçeveli tıklanabilir kutu → `#blok-kime`'ye scroll
+
+**Orta sütun (`hero-center`):**
+- "Nasıl çalışır?" başlık + sarı çizgi
+- 3'lü carousel: sol yan kart ← ana kart → sağ yan kart
+- **KART YAPISI DOKUNULMADI** — ayraç sistemiyle birebir aynı dil:
+  - `#1e293b` koyu arka plan
+  - `#e8a838` sarı border (ana kart) / `#334155` gri border (yan kartlar)
+  - Renkli avatar dairesi (AN/BA/SE, her kişi farklı renk)
+  - kime + amac (Yıl Dönümü 🎂) + bütçe (sarı) + 2-kolonlu özellik tagları + sarı buton
+  - Yan kartlar: aynı dil, küçük, soluk, amac+bütçe gösteriyor
+- Ok butonları (manuel geçiş) + 3 nokta indikatör
+- 3 adım: ikonlu, numaralı, açıklamalı (`hero-steps-row`)
+
+**Sağ sütun (`hero-right`):**
+- "Sana özel hediyeler, tek sayfada!" başlık + 🎁
+- Yatay hediye kartları: fotoğraf (72×72) sol + isim/fiyat/badge/platform sağ
+- "Popüler" (kırmızı) / "Yeni" (yeşil) badge
+- Platform etiketleri: Trendyol/Amazon/Çiçeksepeti/Hepsiburada
+- Alt: 3 güven ikonu (🔒 Bilgiler güvende / 🔄 Her zaman güncelle / 🔖 Tek kartta sakla)
+
+**Senkron animasyon:**
+- Kartlar 3 saniyede bir otomatik dönüyor (`setInterval 3000ms`)
+- Manuel ok butonları da çalışıyor (`heroManuelGec`)
+- Kart değişince sağdaki hediyeler + badge + platformlar aynı anda değişiyor
+- Nokta indikatör aktif karta göre güncelleniyor
+
+**Veriler (heroData):**
+- Anne: Yıl Dönümü, 0-1000 TL, 6 özellik → Rose Gold Kol Saati + Aromaterapi Seti
+- Baba: Doğum Günü, 1000-3000 TL, 6 özellik → Premium Alet Seti + Deri Kartlık
+- Sevgili: Yıl Dönümü, 1000-3000 TL, 6 özellik → Minimal Kolye + Bluetooth Hoparlör
+
+**Mobil:** Sağ sütun gizleniyor, tek kolon layout, sütun ayırıcılar border-bottom'a dönüşüyor.
+
+#### Sonraki adım:
+- `index-calisma.html` hanım onayından geçince `index.html` ile takas yapılacak
+- Takas öncesi: `index-yedek-28haziran2026.html` yedeği alınacak
