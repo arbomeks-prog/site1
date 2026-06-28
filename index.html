@@ -1667,10 +1667,9 @@ window.addEventListener('message', function(e) {
     // gerçekten sıfırdan yüklenmesini sağlıyoruz; yükleme bitince 'hediyeleri_baslat'
     // mesajını göndeririz.
     if (e.data.type === 'quiz_tamamlandi_bildir') {
-        // GA4: ozet.html iframe'den güvenilir bildirim geldi
-        if (typeof gtag === 'function') {
-            gtag('event', 'quiz_tamamlandi');
-        }
+        // NOT: GA4 quiz_tamamlandi event'i artık burada GÖNDERİLMİYOR.
+        // ozet.html zaten kendi GA4 client'ından (aynı G-HWPN7VD4VX) bu event'i
+        // gönderiyor; burada tekrar göndermek aynı tamamlanmayı 2 kez saydırıyordu.
         return;
     }
 
