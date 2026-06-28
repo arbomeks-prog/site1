@@ -9,24 +9,27 @@ export default async function handler(req, res) {
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
-    const { sifre } = req.query;
+    const { sifre, tarih } = req.query;
     if (!sifre || sifre.trim() !== PANEL_SIFRE) return res.status(401).json({ error: 'Yetkisiz' });
+
+    // Seçili gün — verilmezse bugün (sunucu UTC tarihi)
+    const seciliTarih = (tarih && /^\d{4}-\d{2}-\d{2}$/.test(tarih)) ? tarih : new Date().toISOString().slice(0, 10);
 
     try {
         const sql = neon(process.env.POSTGRES_URL);
 
-        // Bugün toplam giren (tamamlayan + yarıda bırakan)
-        const bugun_toplam = await sql`
+        // Seçili gün toplam giren (tamamlayan + yarıda bırakan)
+        const gun_toplam = await sql`
             SELECT COUNT(DISTINCT session_id) as sayi
             FROM quiz_logs
-            WHERE DATE(created_at) = CURRENT_DATE
+            WHERE DATE(created_at) = ${seciliTarih}
         `;
 
-        // Bugün tamamlayan
-        const bugun_tamamlayan = await sql`
+        // Seçili gün tamamlayan
+        const gun_tamamlayan = await sql`
             SELECT COUNT(DISTINCT session_id) as sayi
             FROM quiz_logs
-            WHERE DATE(created_at) = CURRENT_DATE
+            WHERE DATE(created_at) = ${seciliTarih}
             AND quiz_tamamlandi = true
         `;
 
@@ -84,6 +87,68 @@ export default async function handler(req, res) {
             ORDER BY updated_at DESC
             LIMIT 50
         `;
+
+        // Seçili gün — kime dağılımı (tamamlayan)
+        const gun_kime_dagilim = await sql`
+            SELECT iliski_durumu, COUNT(*) as sayi
+            FROM quiz_logs
+            WHERE DATE(created_at) = ${seciliTarih}
+            AND quiz_tamamlandi = true
+            AND iliski_durumu IS NOT NULL AND iliski_durumu != ''
+            GROUP BY iliski_durumu
+            ORDER BY sayi DESC
+            LIMIT 10
+        `;
+
+        // Seçili gün — bütçe dağılımı
+        const gun_butce_dagilim = await sql`
+            SELECT butce, COUNT(*) as sayi
+            FROM quiz_logs
+            WHERE DATE(created_at) = ${seciliTarih}
+            AND quiz_tamamlandi = true
+            AND butce IS NOT NULL AND butce != ''
+            GROUP BY butce
+            ORDER BY sayi DESC
+            LIMIT 8
+        `;
+
+        // Seçili gün — puan ortalaması (updated_at: puanın verildiği an)
+        const gun_puan = await sql`
+            SELECT ROUND(AVG(puan)::numeric, 1) as ortalama, COUNT(*) as adet
+            FROM quiz_logs
+            WHERE puan IS NOT NULL
+            AND DATE(updated_at) = ${seciliTarih}
+        `;
+
+        // Tıklanan hediyeler — her tıklamanın kendi "zaman" damgası var, seçili güne göre filtrelenir
+        const tum_tiklanan_raw = await sql`
+            SELECT tiklanan_hediyeler
+            FROM quiz_logs
+            WHERE tiklanan_hediyeler IS NOT NULL
+        `;
+        var gun_hediye_sayim = {};
+        var gun_platform_sayim = {};
+        var gun_toplam_tiklama = 0;
+        tum_tiklanan_raw.forEach(function(r) {
+            try {
+                var liste = typeof r.tiklanan_hediyeler === 'string' ? JSON.parse(r.tiklanan_hediyeler) : r.tiklanan_hediyeler;
+                if (!Array.isArray(liste)) return;
+                liste.forEach(function(t) {
+                    if (!t || !t.ad || !t.zaman) return;
+                    if (String(t.zaman).slice(0, 10) !== seciliTarih) return;
+                    gun_hediye_sayim[t.ad] = (gun_hediye_sayim[t.ad] || 0) + 1;
+                    if (t.platform) gun_platform_sayim[t.platform] = (gun_platform_sayim[t.platform] || 0) + 1;
+                    gun_toplam_tiklama++;
+                });
+            } catch(e) {}
+        });
+        var gun_en_cok_tiklanan = Object.keys(gun_hediye_sayim)
+            .map(function(ad){ return { ad: ad, sayi: gun_hediye_sayim[ad] }; })
+            .sort(function(a,b){ return b.sayi - a.sayi; })
+            .slice(0, 15);
+        var gun_platform_dagilim = Object.keys(gun_platform_sayim)
+            .map(function(p){ return { platform: p, sayi: gun_platform_sayim[p] }; })
+            .sort(function(a,b){ return b.sayi - a.sayi; });
 
         // Kaçıncı soruda çıkmışlar
         const yarim_raw = await sql`
@@ -150,8 +215,16 @@ export default async function handler(req, res) {
 
         res.status(200).json({
             success: true,
-            bugun_toplam: parseInt(bugun_toplam[0]?.sayi || 0),
-            bugun_tamamlayan: parseInt(bugun_tamamlayan[0]?.sayi || 0),
+            secili_tarih: seciliTarih,
+            gun_toplam: parseInt(gun_toplam[0]?.sayi || 0),
+            gun_tamamlayan: parseInt(gun_tamamlayan[0]?.sayi || 0),
+            gun_kime_dagilim,
+            gun_butce_dagilim,
+            gun_puan_ortalama: gun_puan[0]?.ortalama || null,
+            gun_puan_adet: parseInt(gun_puan[0]?.adet || 0),
+            gun_en_cok_tiklanan,
+            gun_platform_dagilim,
+            gun_toplam_tiklama,
             toplam_tamamlayan: parseInt(toplam_tamamlayan[0]?.sayi || 0),
             toplam_giren: parseInt(toplam_giren[0]?.sayi || 0),
             kime_dagilim,

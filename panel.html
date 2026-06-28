@@ -46,6 +46,11 @@ body{background:#0f172a;font-family:-apple-system,sans-serif;color:#e2e8f0;min-h
 .gun-sayi{font-size:11px;color:#94a3b8;}
 .admin-btn{width:100%;margin-top:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px;font-size:12px;color:#475569;cursor:pointer;}
 .loading{text-align:center;padding:40px;color:#475569;font-size:14px;}
+.tarih-nav{display:flex;align-items:center;justify-content:space-between;background:#1e293b;border-radius:14px;padding:10px 14px;margin-bottom:16px;margin-top:16px;}
+.tarih-nav-btn{background:rgba(255,255,255,0.06);border:none;border-radius:8px;width:34px;height:34px;color:#e2e8f0;font-size:16px;cursor:pointer;flex-shrink:0;}
+.tarih-nav-btn:disabled{opacity:0.3;cursor:default;}
+.tarih-nav-text{font-size:13px;font-weight:700;color:#fff;text-align:center;flex:1;}
+.section-title-seg{font-size:13px;font-weight:700;color:#e8a838;text-transform:uppercase;letter-spacing:0.05em;margin:20px 0 10px;}
 </style>
 </head>
 <body>
@@ -66,13 +71,36 @@ body{background:#0f172a;font-family:-apple-system,sans-serif;color:#e2e8f0;min-h
     <button class="nav-right" onclick="cikisYap()">Çıkış</button>
   </nav>
   <div class="wrap">
-    <p class="tarih" id="tarih-yazisi" style="margin-top:16px;"></p>
+    <div class="tarih-nav">
+      <button class="tarih-nav-btn" onclick="gunDegistir(-1)">‹</button>
+      <span class="tarih-nav-text" id="tarih-yazisi">Yükleniyor...</span>
+      <button class="tarih-nav-btn" id="ileri-btn" onclick="gunDegistir(1)">›</button>
+    </div>
     <div id="panel-icerik" class="loading">Yükleniyor...</div>
   </div>
 </div>
 
 <script>
 var SIFRE = '';
+var SECILI_TARIH = bugunTarihStr();
+
+function bugunTarihStr() {
+  var d = new Date();
+  var yyyy = d.getFullYear();
+  var mm = String(d.getMonth() + 1).padStart(2, '0');
+  var dd = String(d.getDate()).padStart(2, '0');
+  return yyyy + '-' + mm + '-' + dd;
+}
+
+function gunDegistir(fark) {
+  var parcalar = SECILI_TARIH.split('-').map(Number);
+  var d = new Date(parcalar[0], parcalar[1] - 1, parcalar[2]);
+  d.setDate(d.getDate() + fark);
+  var yeniTarih = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  if (yeniTarih > bugunTarihStr()) return; // bugünden ileri gidilmez
+  SECILI_TARIH = yeniTarih;
+  panelYukle();
+}
 
 function girisYap() {
   var s = document.getElementById('sifre-input').value.trim();
@@ -107,15 +135,17 @@ function gecmisiSifirla() {
 }
 
 function panelYukle() {
-  fetch('/api/panel?sifre=' + encodeURIComponent(SIFRE))
+  document.getElementById('panel-icerik').innerHTML = '<div class="loading">Yükleniyor...</div>';
+  fetch('/api/panel?sifre=' + encodeURIComponent(SIFRE) + '&tarih=' + encodeURIComponent(SECILI_TARIH))
     .then(function(r) { return r.json().then(function(d){ return {status:r.status,data:d}; }); })
     .then(function(obj) {
       if (obj.status === 401) { document.getElementById('giris-hata').textContent = 'Şifre yanlış.'; return; }
       if (!obj.data.success) { document.getElementById('giris-hata').textContent = 'Hata: ' + (obj.data.error||'bilinmiyor'); return; }
       document.getElementById('giris-ekrani').style.display = 'none';
       document.getElementById('panel-ekrani').style.display = 'block';
-      var d = new Date();
-      document.getElementById('tarih-yazisi').textContent = d.toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      var d2 = new Date(SECILI_TARIH + 'T00:00:00');
+      document.getElementById('tarih-yazisi').textContent = d2.toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      document.getElementById('ileri-btn').disabled = (SECILI_TARIH >= bugunTarihStr());
       render(obj.data);
     })
     .catch(function(e) { document.getElementById('giris-hata').textContent = 'Bağlantı hatası.'; });
@@ -123,15 +153,64 @@ function panelYukle() {
 
 function render(d) {
   var tamamlama_orani = d.toplam_giren > 0 ? Math.round(d.toplam_tamamlayan / d.toplam_giren * 100) : 0;
-  var bugun_oran = d.bugun_toplam > 0 ? Math.round(d.bugun_tamamlayan / d.bugun_toplam * 100) : 0;
+  var gun_oran = d.gun_toplam > 0 ? Math.round(d.gun_tamamlayan / d.gun_toplam * 100) : 0;
 
   var html = '';
 
-  // Bugün
+  // Seçili gün
   html += '<div class="metrics">';
-  html += '<div class="metric"><div class="metric-label">Bugün quiz başlatan</div><div class="metric-val">' + d.bugun_toplam + '</div></div>';
-  html += '<div class="metric"><div class="metric-label">Bugün tamamlayan</div><div class="metric-val">' + d.bugun_tamamlayan + '</div><div class="metric-sub">%' + bugun_oran + ' tamamlama</div></div>';
+  html += '<div class="metric"><div class="metric-label">Quiz başlatan</div><div class="metric-val">' + d.gun_toplam + '</div></div>';
+  html += '<div class="metric"><div class="metric-label">Tamamlayan</div><div class="metric-val">' + d.gun_tamamlayan + '</div><div class="metric-sub">%' + gun_oran + ' tamamlama</div></div>';
   html += '</div>';
+
+  if (d.gun_puan_adet > 0 || d.gun_toplam_tiklama > 0) {
+    html += '<div class="metrics">';
+    html += '<div class="metric"><div class="metric-label">Ortalama puan</div><div class="metric-val">' + (d.gun_puan_adet > 0 ? d.gun_puan_ortalama + '/10' : '—') + '</div><div class="metric-sub">' + d.gun_puan_adet + ' puanlama</div></div>';
+    html += '<div class="metric"><div class="metric-label">Hediye linki tıklama</div><div class="metric-val">' + (d.gun_toplam_tiklama||0) + '</div></div>';
+    html += '</div>';
+  }
+
+  if (d.gun_kime_dagilim && d.gun_kime_dagilim.length > 0) {
+    var maxGK = Math.max.apply(null, d.gun_kime_dagilim.map(function(k){ return parseInt(k.sayi); }));
+    html += '<div class="section"><div class="section-title">Bu gün — kime hediye aranıyor</div>';
+    d.gun_kime_dagilim.forEach(function(k) {
+      var pct = maxGK > 0 ? Math.round(parseInt(k.sayi) / maxGK * 100) : 0;
+      html += '<div class="bar-row"><span class="bar-label">' + (k.iliski_durumu||'—') + '</span><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + k.sayi + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  if (d.gun_butce_dagilim && d.gun_butce_dagilim.length > 0) {
+    var maxGB = Math.max.apply(null, d.gun_butce_dagilim.map(function(b){ return parseInt(b.sayi); }));
+    html += '<div class="section"><div class="section-title">Bu gün — bütçe dağılımı</div>';
+    d.gun_butce_dagilim.forEach(function(b) {
+      var pct = maxGB > 0 ? Math.round(parseInt(b.sayi) / maxGB * 100) : 0;
+      html += '<div class="bar-row"><span class="bar-label">' + (b.butce||'—') + '</span><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + b.sayi + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  if (d.gun_en_cok_tiklanan && d.gun_en_cok_tiklanan.length > 0) {
+    var maxGH = Math.max.apply(null, d.gun_en_cok_tiklanan.map(function(h){ return parseInt(h.sayi); }));
+    html += '<div class="section"><div class="section-title">Bu gün — en çok tıklanan hediyeler</div>';
+    d.gun_en_cok_tiklanan.forEach(function(h) {
+      var pct = maxGH > 0 ? Math.round(parseInt(h.sayi) / maxGH * 100) : 0;
+      html += '<div class="bar-row"><span class="bar-label" style="min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (h.ad||'—') + '</span><div class="bar-track" style="flex:0.6;"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + h.sayi + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  if (d.gun_platform_dagilim && d.gun_platform_dagilim.length > 0) {
+    var maxGP = Math.max.apply(null, d.gun_platform_dagilim.map(function(p){ return parseInt(p.sayi); }));
+    html += '<div class="section"><div class="section-title">Bu gün — platform dağılımı</div>';
+    d.gun_platform_dagilim.forEach(function(p) {
+      var pct = maxGP > 0 ? Math.round(parseInt(p.sayi) / maxGP * 100) : 0;
+      html += '<div class="bar-row"><span class="bar-label">' + (p.platform||'—') + '</span><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + p.sayi + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  html += '<div class="section-title-seg">— Tüm Zamanlar —</div>';
 
   // Huni
   html += '<div class="section"><div class="section-title">Tüm zamanlar</div><div class="huni">';
