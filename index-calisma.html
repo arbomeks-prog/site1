@@ -221,66 +221,118 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 .hero-steps {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 24px;
+  gap: 8px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
+  opacity: 0.55;
 }
 .hero-steps div {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  padding: 9px 13px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 11px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 11px;
   color: #edf2ff;
 }
-.hero-steps strong { color: #ffd166; margin-right: 5px; }
+.hero-steps strong { color: #e8a838; margin-right: 4px; }
 .profile-carousel {
   display: grid;
-  grid-template-columns: 0.75fr 1.35fr 0.75fr;
+  grid-template-columns: 0.62fr 1fr 0.62fr;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
+/* ANA KART — ayraç sistemiyle aynı dil */
 .profile-card {
-  border-radius: 22px;
-  background: linear-gradient(180deg, #fff, #eef2ff);
-  color: #111827;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.35);
-  transition: all 0.55s ease;
+  border-radius: 14px;
+  background: #1e293b;
+  transition: all 0.45s ease;
 }
 .profile-card.main-card {
-  min-height: 300px;
-  padding: 26px;
-  transform: scale(1);
+  border: 2px solid #e8a838;
+  padding: 22px 20px 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  position: relative;
   z-index: 2;
 }
-.main-card h2 { font-size: 40px; margin: 12px 0 8px; font-weight: 900; }
-.main-card p { color: #4b5563; line-height: 1.45; font-size: 14px; }
-.main-card button {
-  margin-top: 20px;
-  border: none;
-  background: #111827;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 999px;
+.main-card-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
   font-weight: 700;
+  margin-bottom: 12px;
+}
+.main-card-kime {
+  font-size: 26px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+.main-card-ozellikler {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+.main-card-ozellikler span {
+  display: inline-block;
+  background: rgba(255,255,255,0.07);
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin: 2px 3px 2px 0;
+  color: #cbd5e1;
+  font-size: 12px;
+}
+.main-card-btn {
+  width: 100%;
+  background: #e8a838;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #000;
   cursor: pointer;
-  font-size: 14px;
 }
 .card-label {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 800;
-  color: #7c3aed;
+  color: #e8a838;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  display: block;
 }
+/* YAN KARTLAR */
 .profile-card.side-card {
-  min-height: 170px;
-  display: grid;
-  place-items: center;
-  font-size: 22px;
-  font-weight: 900;
-  opacity: 0.42;
+  border: 2px solid #334155;
+  padding: 16px 14px;
+  opacity: 0.45;
   transform: scale(0.9);
-  filter: blur(0.2px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 120px;
+}
+.side-card-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.side-card-kime {
+  font-size: 16px;
+  font-weight: 800;
+  color: #e2e8f0;
 }
 .hero-right {
   display: flex;
@@ -311,9 +363,9 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
     border-radius: 0 0 20px 20px;
   }
   .hero-right { display: none; }
-  .profile-carousel { grid-template-columns: 0.65fr 1.4fr 0.65fr; }
-  .main-card h2 { font-size: 34px; }
-  .profile-card.main-card { min-height: 240px; padding: 22px; }
+  .profile-carousel { grid-template-columns: 0.55fr 1fr 0.55fr; }
+  .main-card-kime { font-size: 22px; }
+  .profile-card.main-card { padding: 18px 16px 16px; }
 }
 
 /* QUIZ */
@@ -633,14 +685,26 @@ function nickDegistirIndex() {
       <div><strong>3</strong> Hediyeleri bul</div>
     </div>
     <div class="profile-carousel">
-      <div class="profile-card side-card" id="heroPrevCard">Baba</div>
+      <!-- ÖNCEKİ KART -->
+      <div class="profile-card side-card" id="heroPrevCard">
+        <div class="side-card-avatar" id="heroPrevAvatar" style="background:#FBEAF0;color:#993556;">BA</div>
+        <div class="side-card-kime" id="heroPrevKime">Baba</div>
+      </div>
+      <!-- ANA KART -->
       <div class="profile-card main-card" id="heroMainCard">
         <span class="card-label">Hediye Kartı</span>
-        <h2 id="heroPersonName">Anne</h2>
-        <p id="heroPersonInfo">Kahve sever · Evde vakit sever · Kitap okur</p>
-        <button onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">Bu karta hediye bul</button>
+        <div class="main-card-avatar" id="heroMainAvatar" style="background:#FBEAF0;color:#993556;">AN</div>
+        <div class="main-card-kime" id="heroPersonName">Anne</div>
+        <div class="main-card-ozellikler" id="heroPersonInfo">
+          <span>Kahve sever</span><span>Evde vakit sever</span><span>Kitap okur</span>
+        </div>
+        <button class="main-card-btn" onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">Bu karta hediye bul →</button>
       </div>
-      <div class="profile-card side-card" id="heroNextCard">Sevgili</div>
+      <!-- SONRAKİ KART -->
+      <div class="profile-card side-card" id="heroNextCard">
+        <div class="side-card-avatar" id="heroNextAvatar" style="background:#EEEDFE;color:#534AB7;">SE</div>
+        <div class="side-card-kime" id="heroNextKime">Sevgili</div>
+      </div>
     </div>
   </div>
 
@@ -665,42 +729,65 @@ function nickDegistirIndex() {
   var heroData = [
     {
       person: "Anne",
-      prev: "Baba",
-      next: "Sevgili",
-      info: "Kahve sever · Evde vakit sever · Kitap okur",
+      initials: "AN",
+      avatar: {bg:"#FBEAF0", text:"#993556"},
+      prev: "Baba",       prevInitials: "BA", prevAvatar: {bg:"#FAEEDA", text:"#854F0B"},
+      next: "Sevgili",    nextInitials: "SE", nextAvatar: {bg:"#EEEDFE", text:"#534AB7"},
+      ozellikler: ["Kahve sever", "Evde vakit sever", "Kitap okur"],
       gifts: [
         { title: "Anneye Özel Kahve Seti", price: "₺749", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&w=400" },
-        { title: "Şık Kitap Lambası", price: "₺399", image: "https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg?auto=compress&w=400" }
+        { title: "Şık Kitap Lambası",       price: "₺399", image: "https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg?auto=compress&w=400" }
       ]
     },
     {
       person: "Baba",
-      prev: "Sevgili",
-      next: "Anne",
-      info: "Tamir sever · Arabalara meraklı · Klasik tarz",
+      initials: "BA",
+      avatar: {bg:"#FAEEDA", text:"#854F0B"},
+      prev: "Sevgili",    prevInitials: "SE", prevAvatar: {bg:"#EEEDFE", text:"#534AB7"},
+      next: "Anne",       nextInitials: "AN", nextAvatar: {bg:"#FBEAF0", text:"#993556"},
+      ozellikler: ["Tamir sever", "Arabalara meraklı", "Klasik tarz"],
       gifts: [
         { title: "Premium Alet Seti", price: "₺1.290", image: "https://images.pexels.com/photos/2536965/pexels-photo-2536965.jpeg?auto=compress&w=400" },
-        { title: "Deri Kartlık", price: "₺549", image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&w=400" }
+        { title: "Deri Kartlık",      price: "₺549",   image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&w=400" }
       ]
     },
     {
       person: "Sevgili",
-      prev: "Anne",
-      next: "Baba",
-      info: "Romantik · Müzik sever · Şık detayları sever",
+      initials: "SE",
+      avatar: {bg:"#EEEDFE", text:"#534AB7"},
+      prev: "Anne",       prevInitials: "AN", prevAvatar: {bg:"#FBEAF0", text:"#993556"},
+      next: "Baba",       nextInitials: "BA", nextAvatar: {bg:"#FAEEDA", text:"#854F0B"},
+      ozellikler: ["Romantik", "Müzik sever", "Şık detayları sever"],
       gifts: [
-        { title: "Minimal Kolye", price: "₺899", image: "https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&w=400" },
-        { title: "Bluetooth Hoparlör", price: "₺1.450", image: "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&w=400" }
+        { title: "Minimal Kolye",        price: "₺899",   image: "https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&w=400" },
+        { title: "Bluetooth Hoparlör",   price: "₺1.450", image: "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&w=400" }
       ]
     }
   ];
   var heroCurrent = 0;
   function heroUpdate() {
     var d = heroData[heroCurrent];
-    document.getElementById("heroPrevCard").textContent = d.prev;
+    // Ana kart
+    var mainAvEl = document.getElementById("heroMainAvatar");
+    mainAvEl.textContent = d.initials;
+    mainAvEl.style.background = d.avatar.bg;
+    mainAvEl.style.color = d.avatar.text;
     document.getElementById("heroPersonName").textContent = d.person;
-    document.getElementById("heroPersonInfo").textContent = d.info;
-    document.getElementById("heroNextCard").textContent = d.next;
+    var ozEl = document.getElementById("heroPersonInfo");
+    ozEl.innerHTML = d.ozellikler.map(function(o){ return '<span>'+o+'</span>'; }).join('');
+    // Önceki kart
+    var prevAvEl = document.getElementById("heroPrevAvatar");
+    prevAvEl.textContent = d.prevInitials;
+    prevAvEl.style.background = d.prevAvatar.bg;
+    prevAvEl.style.color = d.prevAvatar.text;
+    document.getElementById("heroPrevKime").textContent = d.prev;
+    // Sonraki kart
+    var nextAvEl = document.getElementById("heroNextAvatar");
+    nextAvEl.textContent = d.nextInitials;
+    nextAvEl.style.background = d.nextAvatar.bg;
+    nextAvEl.style.color = d.nextAvatar.text;
+    document.getElementById("heroNextKime").textContent = d.next;
+    // Sağ sütun hediyeler — senkron
     document.getElementById("heroGiftTitle1").textContent = d.gifts[0].title;
     document.getElementById("heroGiftPrice1").textContent = d.gifts[0].price;
     document.getElementById("heroGiftImage1").src = d.gifts[0].image;
@@ -710,7 +797,7 @@ function nickDegistirIndex() {
     heroCurrent = (heroCurrent + 1) % heroData.length;
   }
   heroUpdate();
-  setInterval(heroUpdate, 2600);
+  setInterval(heroUpdate, 2800);
 })();
 </script>
 
