@@ -21,7 +21,8 @@ export default async function handler(req, res) {
             ilgi_alanlari,
             ozel_not = '',
             tiklanan_hediyeler = null,
-            quiz_tamamlandi = false
+            quiz_tamamlandi = false,
+            puan = null
         } = req.body;
 
         if (!session_id) {
@@ -32,6 +33,9 @@ export default async function handler(req, res) {
         const ilgiAlanlariStr = Array.isArray(ilgi_alanlari) 
             ? ilgi_alanlari.join(',') 
             : (ilgi_alanlari || '');
+
+        // Kolon yoksa ekle (eski tablo yapısıyla uyumluluk için)
+        await sql`ALTER TABLE quiz_logs ADD COLUMN IF NOT EXISTS puan INTEGER`;
 
         // Aynı session varsa güncelle, yoksa yeni kayıt
         const existing = await sql`
@@ -49,6 +53,7 @@ export default async function handler(req, res) {
                     ilgi_alanlari = COALESCE(${ilgiAlanlariStr}, ilgi_alanlari),
                     ozel_not = COALESCE(${ozel_not}, ozel_not),
                     tiklanan_hediyeler = COALESCE(${tiklanan_hediyeler ? JSON.stringify(tiklanan_hediyeler) : null}, tiklanan_hediyeler),
+                    puan = COALESCE(${puan}, puan),
                     quiz_tamamlandi = ${quiz_tamamlandi},
                     updated_at = NOW()
                 WHERE session_id = ${session_id}
@@ -57,11 +62,12 @@ export default async function handler(req, res) {
             await sql`
                 INSERT INTO quiz_logs (
                     session_id, cinsiyet, yas, iliski_durumu, butce, 
-                    ilgi_alanlari, ozel_not, quiz_tamamlandi, tiklanan_hediyeler
+                    ilgi_alanlari, ozel_not, quiz_tamamlandi, tiklanan_hediyeler, puan
                 ) VALUES (
                     ${session_id}, ${cinsiyet}, ${yas}, ${iliski_durumu}, ${butce},
                     ${ilgiAlanlariStr}, ${ozel_not}, ${quiz_tamamlandi}, 
-                    ${tiklanan_hediyeler ? JSON.stringify(tiklanan_hediyeler) : null}
+                    ${tiklanan_hediyeler ? JSON.stringify(tiklanan_hediyeler) : null},
+                    ${puan}
                 )
             `;
         }

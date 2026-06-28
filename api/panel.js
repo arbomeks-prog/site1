@@ -105,6 +105,49 @@ export default async function handler(req, res) {
             } catch(e) {}
         });
 
+        // Puan ortalaması ve dağılımı
+        const puan_ortalama = await sql`
+            SELECT ROUND(AVG(puan)::numeric, 1) as ortalama, COUNT(*) as adet
+            FROM quiz_logs
+            WHERE puan IS NOT NULL
+        `;
+        const puan_dagilim = await sql`
+            SELECT puan, COUNT(*) as sayi
+            FROM quiz_logs
+            WHERE puan IS NOT NULL
+            GROUP BY puan
+            ORDER BY puan DESC
+        `;
+
+        // Tıklanan hediyeler — tiklanan_hediyeler JSON kolonundan topla
+        const tiklanan_raw = await sql`
+            SELECT tiklanan_hediyeler
+            FROM quiz_logs
+            WHERE tiklanan_hediyeler IS NOT NULL
+        `;
+        var hediye_tiklama_sayim = {};
+        var platform_tiklama_sayim = {};
+        var toplam_hediye_tiklama = 0;
+        tiklanan_raw.forEach(function(r) {
+            try {
+                var liste = typeof r.tiklanan_hediyeler === 'string' ? JSON.parse(r.tiklanan_hediyeler) : r.tiklanan_hediyeler;
+                if (!Array.isArray(liste)) return;
+                liste.forEach(function(t) {
+                    if (!t || !t.ad) return;
+                    hediye_tiklama_sayim[t.ad] = (hediye_tiklama_sayim[t.ad] || 0) + 1;
+                    if (t.platform) platform_tiklama_sayim[t.platform] = (platform_tiklama_sayim[t.platform] || 0) + 1;
+                    toplam_hediye_tiklama++;
+                });
+            } catch(e) {}
+        });
+        var en_cok_tiklanan_hediyeler = Object.keys(hediye_tiklama_sayim)
+            .map(function(ad){ return { ad: ad, sayi: hediye_tiklama_sayim[ad] }; })
+            .sort(function(a,b){ return b.sayi - a.sayi; })
+            .slice(0, 15);
+        var platform_tiklama_dagilim = Object.keys(platform_tiklama_sayim)
+            .map(function(p){ return { platform: p, sayi: platform_tiklama_sayim[p] }; })
+            .sort(function(a,b){ return b.sayi - a.sayi; });
+
         res.status(200).json({
             success: true,
             bugun_toplam: parseInt(bugun_toplam[0]?.sayi || 0),
@@ -115,7 +158,13 @@ export default async function handler(req, res) {
             butce_dagilim,
             son_7_gun,
             yarim_detay,
-            soru_dagilim: soru_dagilim
+            soru_dagilim: soru_dagilim,
+            puan_ortalama: puan_ortalama[0]?.ortalama || null,
+            puan_adet: parseInt(puan_ortalama[0]?.adet || 0),
+            puan_dagilim,
+            en_cok_tiklanan_hediyeler,
+            platform_tiklama_dagilim,
+            toplam_hediye_tiklama
         });
 
     } catch (error) {

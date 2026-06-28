@@ -94,6 +94,18 @@ function adminIsaretle() {
   alert('Bu cihaz admin olarak işaretlendi. Artık senin girişlerin sayılmayacak.');
 }
 
+function gecmisiSifirla() {
+  if (!confirm('Bugüne kadarki TÜM quiz verisi (tamamlananlar, puanlar, tıklanan hediyeler) silinecek. Bu işlem GERİ ALINAMAZ. Devam edilsin mi?')) return;
+  if (!confirm('Kesin emin misin? Bir daha geri gelmez.')) return;
+  fetch('/api/sifirla-gecmis', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sifre: SIFRE }) })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.success) { alert('Sıfırlandı. Bugünden itibaren yeni veriler birikecek.'); panelYukle(); }
+      else { alert('Hata: ' + (d.error || 'bilinmiyor')); }
+    })
+    .catch(function(e) { alert('Bağlantı hatası.'); });
+}
+
 function panelYukle() {
   fetch('/api/panel?sifre=' + encodeURIComponent(SIFRE))
     .then(function(r) { return r.json().then(function(d){ return {status:r.status,data:d}; }); })
@@ -163,6 +175,47 @@ function render(d) {
     html += '</div>';
   }
 
+  // Puan ortalaması
+  if (d.puan_adet > 0) {
+    html += '<div class="metrics">';
+    html += '<div class="metric"><div class="metric-label">Ortalama puan</div><div class="metric-val">' + d.puan_ortalama + '/10</div><div class="metric-sub">' + d.puan_adet + ' puanlama</div></div>';
+    html += '<div class="metric"><div class="metric-label">Hediye linki tıklama</div><div class="metric-val">' + (d.toplam_hediye_tiklama||0) + '</div></div>';
+    html += '</div>';
+  }
+
+  // Puan dağılımı
+  if (d.puan_dagilim && d.puan_dagilim.length > 0) {
+    var maxP = Math.max.apply(null, d.puan_dagilim.map(function(p){ return parseInt(p.sayi); }));
+    html += '<div class="section"><div class="section-title">Puan dağılımı</div>';
+    d.puan_dagilim.forEach(function(p) {
+      var pct = maxP > 0 ? Math.round(parseInt(p.sayi) / maxP * 100) : 0;
+      html += '<div class="bar-row"><span class="bar-label">' + p.puan + '/10</span><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + p.sayi + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  // En çok tıklanan hediyeler
+  if (d.en_cok_tiklanan_hediyeler && d.en_cok_tiklanan_hediyeler.length > 0) {
+    var maxH = Math.max.apply(null, d.en_cok_tiklanan_hediyeler.map(function(h){ return parseInt(h.sayi); }));
+    html += '<div class="section"><div class="section-title">En çok tıklanan hediyeler</div>';
+    d.en_cok_tiklanan_hediyeler.forEach(function(h) {
+      var pct = maxH > 0 ? Math.round(parseInt(h.sayi) / maxH * 100) : 0;
+      html += '<div class="bar-row"><span class="bar-label" style="min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (h.ad||'—') + '</span><div class="bar-track" style="flex:0.6;"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + h.sayi + '</span></div>';
+    });
+    html += '</div>';
+  }
+
+  // Platform dağılımı (tıklanan hediyeler hangi siteye gitti)
+  if (d.platform_tiklama_dagilim && d.platform_tiklama_dagilim.length > 0) {
+    var maxPl = Math.max.apply(null, d.platform_tiklama_dagilim.map(function(p){ return parseInt(p.sayi); }));
+    html += '<div class="section"><div class="section-title">Platform tıklama dağılımı</div>';
+    d.platform_tiklama_dagilim.forEach(function(p) {
+      var pct = maxPl > 0 ? Math.round(parseInt(p.sayi) / maxPl * 100) : 0;
+      html += '<div class="bar-row"><span class="bar-label">' + (p.platform||'—') + '</span><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;"></div></div><span class="bar-count">' + p.sayi + '</span></div>';
+    });
+    html += '</div>';
+  }
+
   // Kaçıncı soruda çıkmış
   var sirali = ['1-3','4-7','8-14','15-20','21+'];
   var maxS = Math.max.apply(null, sirali.map(function(k){ return (d.soru_dagilim&&d.soru_dagilim[k])||0; }));
@@ -215,6 +268,7 @@ function render(d) {
   }
 
   html += '<button class="admin-btn" onclick="adminIsaretle()">🔧 Bu cihazı admin olarak işaretle</button>';
+  html += '<button class="admin-btn" style="color:#f87171;margin-top:8px;" onclick="gecmisiSifirla()">🗑️ Geçmiş veriyi sıfırla (bugünden başla)</button>';
 
   document.getElementById('panel-icerik').innerHTML = html;
 }

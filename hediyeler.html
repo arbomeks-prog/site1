@@ -357,6 +357,13 @@ function puanSec(n) {
   }
   // GA4
   if(typeof gtag==='function') gtag('event','puan_verildi',{puan:n});
+  // Veritabanına kaydet (panelde görünmesi için)
+  try {
+    var _puanSid = localStorage.getItem('budurBuldumSessionId');
+    if (_puanSid) {
+      fetch('/api/log-quiz', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ session_id: _puanSid, puan: n }) }).catch(function(e){});
+    }
+  } catch(e) {}
   // Mesaj
   setTimeout(function(){
     document.getElementById('puan-panel').style.display='none';
@@ -1412,6 +1419,13 @@ function puanSecKart(btn, n) {
   });
   btn.style.background = '#e8a838'; btn.style.color = '#412402'; btn.style.borderColor = '#e8a838';
   if (typeof gtag === 'function') gtag('event', 'puan_verildi', { puan: n });
+  // Veritabanına kaydet (panelde görünmesi için)
+  try {
+    var _puanSid = localStorage.getItem('budurBuldumSessionId');
+    if (_puanSid) {
+      fetch('/api/log-quiz', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ session_id: _puanSid, puan: n }) }).catch(function(e){});
+    }
+  } catch(e) {}
   setTimeout(function() {
     panel.style.display = 'none';
     var t = panel.querySelector('.puan-tesekkur');
