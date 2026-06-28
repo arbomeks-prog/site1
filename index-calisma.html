@@ -198,7 +198,13 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 }
 .hero-left, .hero-center, .hero-right {
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
+.hero-left { grid-column: 1; grid-row: 1; }
+.hero-center { grid-column: 2; grid-row: 1; }
+.hero-right { grid-column: 3; grid-row: 1; }
+.hero-right * { max-width: 100%; box-sizing: border-box; }
 /* SÜTUN AYIRICI ÇİZGİLER */
 .hero-left {
   padding: 9px 6px 8px;
