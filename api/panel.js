@@ -18,6 +18,9 @@ export default async function handler(req, res) {
     try {
         const sql = neon(process.env.POSTGRES_URL);
 
+        // Kolon henüz oluşmamış olabilir (sadece log-quiz.js cagrildiginda olusuyordu) — garantiye al
+        await sql`ALTER TABLE quiz_logs ADD COLUMN IF NOT EXISTS puan INTEGER`;
+
         // Seçili gün toplam giren (tamamlayan + yarıda bırakan)
         const gun_toplam = await sql`
             SELECT COUNT(DISTINCT session_id) as sayi
