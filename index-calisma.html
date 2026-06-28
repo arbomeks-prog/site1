@@ -181,71 +181,140 @@
 body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 /* HERO */
-.hero {
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
-  padding: 16px 16px 12px;
-  text-align: center;
+.bb-hero {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr 1fr;
+  gap: 28px;
+  padding: 56px 40px;
+  background: radial-gradient(circle at top, #25345f, #070b18 70%);
+  color: white;
+  border-radius: 0 0 28px 28px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow: hidden;
   position: relative;
   z-index: 60;
 }
-.hero-title {
-  font-size: 18px;
+.hero-left, .hero-center, .hero-right { min-width: 0; }
+.hero-left h1 {
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.05;
+  margin: 0 0 22px;
+  color: #ffd166;
   font-weight: 900;
-  color: #fff;
-  margin-bottom: 12px;
-  white-space: nowrap;
-  overflow: visible;
 }
-.hero-title span { color: #fbbf24; }
-
-/* KART GRİD */
-.cards-section { padding: 0 12px; }
-.card-set {
-  display: none;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+.hero-left p {
+  font-size: 16px;
+  line-height: 1.55;
+  color: #d9e2ff;
+  margin-bottom: 28px;
 }
-.card-set.active {
-  display: grid;
-  animation: fadeSet 0.5s ease;
-}
-@keyframes fadeSet {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.gift-card-mini {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  position: relative;
-}
-.gift-card-mini.star { border: 2px solid #f59e0b; }
-.mini-badge {
-  position: absolute;
-  top: 5px; left: 50%;
-  transform: translateX(-50%);
-  background: #f59e0b;
-  color: white;
-  font-size: 8px;
+.hero-btn {
+  border: none;
+  background: #ffd166;
+  color: #10131f;
   font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 50px;
-  white-space: nowrap;
+  padding: 15px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.hero-steps {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.hero-steps div {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 9px 13px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #edf2ff;
+}
+.hero-steps strong { color: #ffd166; margin-right: 5px; }
+.profile-carousel {
+  display: grid;
+  grid-template-columns: 0.75fr 1.35fr 0.75fr;
+  align-items: center;
+  gap: 12px;
+}
+.profile-card {
+  border-radius: 22px;
+  background: linear-gradient(180deg, #fff, #eef2ff);
+  color: #111827;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+  transition: all 0.55s ease;
+}
+.profile-card.main-card {
+  min-height: 300px;
+  padding: 26px;
+  transform: scale(1);
   z-index: 2;
 }
-.mini-img { width: 100%; height: 65px; object-fit: cover; display: block; }
-.mini-body { padding: 6px; }
-.mini-name { font-size: 10px; font-weight: 800; color: #1e293b; margin-bottom: 3px; line-height: 1.3; min-height: 26px; }
-.mini-price { font-size: 12px; font-weight: 900; color: #d97706; margin-bottom: 4px; }
-.mini-platforms { display: flex; gap: 2px; flex-wrap: wrap; }
-.mini-plt { font-size: 7px; font-weight: 700; padding: 2px 4px; border-radius: 4px; color: white; }
-.plt-t { background: #f97316; }
-.plt-h { background: #ff6b00; }
-.plt-a { background: #232f3e; }
-.plt-c { background: #e91e63; }
-.plt-n { background: #1976d2; }
+.main-card h2 { font-size: 40px; margin: 12px 0 8px; font-weight: 900; }
+.main-card p { color: #4b5563; line-height: 1.45; font-size: 14px; }
+.main-card button {
+  margin-top: 20px;
+  border: none;
+  background: #111827;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+.card-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #7c3aed;
+  text-transform: uppercase;
+}
+.profile-card.side-card {
+  min-height: 170px;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 900;
+  opacity: 0.42;
+  transform: scale(0.9);
+  filter: blur(0.2px);
+}
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.hero-gift-card {
+  background: rgba(255,255,255,0.95);
+  color: #111827;
+  border-radius: 20px;
+  padding: 13px;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.32);
+  transition: all 0.55s ease;
+}
+.hero-gift-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 14px;
+  background: #e5e7eb;
+}
+.hero-gift-card h3 { font-size: 15px; margin: 10px 0 5px; font-weight: 700; }
+.hero-gift-card p { margin: 0; font-weight: 900; color: #7c3aed; font-size: 15px; }
+@media (max-width: 900px) {
+  .bb-hero {
+    grid-template-columns: 1fr;
+    padding: 28px 16px 32px;
+    border-radius: 0 0 20px 20px;
+  }
+  .hero-right { display: none; }
+  .profile-carousel { grid-template-columns: 0.65fr 1.4fr 0.65fr; }
+  .main-card h2 { font-size: 34px; }
+  .profile-card.main-card { min-height: 240px; padding: 22px; }
+}
 
 /* QUIZ */
 .quiz-section {
@@ -546,116 +615,102 @@ function nickDegistirIndex() {
 }
 </script>
 
-<!-- HERO + KİME -->
-<div class="hero">
-  <h1 class="hero-title">Bir kez bilgileri gir, <span>ömür boyu hediye bul</span></h1>
-  <div class="cards-section">
+<!-- HERO -->
+<section class="bb-hero">
 
-    <!-- SET 1 -->
-    <div class="card-set active" id="set-0">
-      <div class="gift-card-mini star">
-        <div class="mini-badge">🎯 Nokta Atışı</div>
-        <img class="mini-img" src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Akıllı Saat</div><div class="mini-price">₺2.499</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-a">Amazon</span></div></div>
-      </div>
-      <div class="gift-card-mini star">
-        <div class="mini-badge">🎯 Nokta Atışı</div>
-        <img class="mini-img" src="https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Parfüm Seti</div><div class="mini-price">₺1.299</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-c">Çiçek</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Kablosuz Kulaklık</div><div class="mini-price">₺1.899</div><div class="mini-platforms"><span class="mini-plt plt-a">Amazon</span><span class="mini-plt plt-n">N11</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Deri Cüzdan</div><div class="mini-price">₺849</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-h">Hepsi</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Çay & Kahve Seti</div><div class="mini-price">₺650</div><div class="mini-platforms"><span class="mini-plt plt-c">Çiçek</span><span class="mini-plt plt-t">Trendyol</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Kitap Seti</div><div class="mini-price">₺420</div><div class="mini-platforms"><span class="mini-plt plt-a">Amazon</span><span class="mini-plt plt-h">Hepsi</span></div></div>
-      </div>
+  <!-- SOL SÜTUN -->
+  <div class="hero-left">
+    <h1>Hediyeyi unut.<br>Bana insanı anlat.</h1>
+    <p>Sevdiğin kişiye bir hediye kartı aç.<br>Özelliklerini işaretle.<br>Ona uygun hediyeleri tek sayfada gör.</p>
+    <button class="hero-btn" onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">Hediye Kartı Oluştur</button>
+  </div>
+
+  <!-- ORTA SÜTUN -->
+  <div class="hero-center">
+    <div class="hero-steps">
+      <div><strong>1</strong> Kartını seç</div>
+      <div><strong>2</strong> Özelliklerini işaretle</div>
+      <div><strong>3</strong> Hediyeleri bul</div>
     </div>
-
-    <!-- SET 2 -->
-    <div class="card-set" id="set-1">
-      <div class="gift-card-mini star">
-        <div class="mini-badge">🎯 Nokta Atışı</div>
-        <img class="mini-img" src="https://images.pexels.com/photos/2536965/pexels-photo-2536965.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Premium Alet Seti</div><div class="mini-price">₺3.200</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-a">Amazon</span></div></div>
+    <div class="profile-carousel">
+      <div class="profile-card side-card" id="heroPrevCard">Baba</div>
+      <div class="profile-card main-card" id="heroMainCard">
+        <span class="card-label">Hediye Kartı</span>
+        <h2 id="heroPersonName">Anne</h2>
+        <p id="heroPersonInfo">Kahve sever · Evde vakit sever · Kitap okur</p>
+        <button onclick="window.scrollTo({top: document.getElementById('blok-kime') ? document.getElementById('blok-kime').getBoundingClientRect().top + window.scrollY - 20 : 0, behavior:'smooth'})">Bu karta hediye bul</button>
       </div>
-      <div class="gift-card-mini star">
-        <div class="mini-badge">🎯 Nokta Atışı</div>
-        <img class="mini-img" src="https://images.pexels.com/photos/3852577/pexels-photo-3852577.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Yoga Matı & Set</div><div class="mini-price">₺890</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-h">Hepsi</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/1350560/pexels-photo-1350560.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Termos & Kamp</div><div class="mini-price">₺1.100</div><div class="mini-platforms"><span class="mini-plt plt-a">Amazon</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/1927259/pexels-photo-1927259.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Fotoğraf Baskı</div><div class="mini-price">₺550</div><div class="mini-platforms"><span class="mini-plt plt-c">Çiçek</span><span class="mini-plt plt-t">Trendyol</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Satranç Takımı</div><div class="mini-price">₺750</div><div class="mini-platforms"><span class="mini-plt plt-n">N11</span><span class="mini-plt plt-h">Hepsi</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Masaj Aleti</div><div class="mini-price">₺1.650</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-a">Amazon</span></div></div>
-      </div>
-    </div>
-
-    <!-- SET 3 -->
-    <div class="card-set" id="set-2">
-      <div class="gift-card-mini star">
-        <div class="mini-badge">🎯 Nokta Atışı</div>
-        <img class="mini-img" src="https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Çiçek Buketi</div><div class="mini-price">₺480</div><div class="mini-platforms"><span class="mini-plt plt-c">Çiçek</span></div></div>
-      </div>
-      <div class="gift-card-mini star">
-        <div class="mini-badge">🎯 Nokta Atışı</div>
-        <img class="mini-img" src="https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Bluetooth Hoparlör</div><div class="mini-price">₺1.450</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-a">Amazon</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/3755760/pexels-photo-3755760.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Cilt Bakım Seti</div><div class="mini-price">₺920</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-h">Hepsi</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Gurme Sepeti</div><div class="mini-price">₺1.200</div><div class="mini-platforms"><span class="mini-plt plt-c">Çiçek</span><span class="mini-plt plt-t">Trendyol</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/3178938/pexels-photo-3178938.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Puzzle 1000</div><div class="mini-price">₺380</div><div class="mini-platforms"><span class="mini-plt plt-n">N11</span><span class="mini-plt plt-h">Hepsi</span></div></div>
-      </div>
-      <div class="gift-card-mini">
-        <img class="mini-img" src="https://images.pexels.com/photos/1460838/pexels-photo-1460838.jpeg?auto=compress&w=300">
-        <div class="mini-body"><div class="mini-name">Dijital Çerçeve</div><div class="mini-price">₺1.850</div><div class="mini-platforms"><span class="mini-plt plt-a">Amazon</span><span class="mini-plt plt-t">Trendyol</span></div></div>
-      </div>
+      <div class="profile-card side-card" id="heroNextCard">Sevgili</div>
     </div>
   </div>
-</div>
+
+  <!-- SAĞ SÜTUN -->
+  <div class="hero-right">
+    <div class="hero-gift-card">
+      <img id="heroGiftImage1" src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&w=400" alt="">
+      <h3 id="heroGiftTitle1">Anneye Özel Kahve Seti</h3>
+      <p id="heroGiftPrice1">₺749</p>
+    </div>
+    <div class="hero-gift-card">
+      <img id="heroGiftImage2" src="https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg?auto=compress&w=400" alt="">
+      <h3 id="heroGiftTitle2">Şık Kitap Lambası</h3>
+      <p id="heroGiftPrice2">₺399</p>
+    </div>
+  </div>
+
+</section>
 
 <script>
-// Hero kart rotasyonu: 3 set arasında 3 saniyede bir geçiş yapar
-// (eski hero-demo-v2 davranışı; tek-sayfaya taşıma sırasında kaybolmuştu).
 (function() {
+  var heroData = [
+    {
+      person: "Anne",
+      prev: "Baba",
+      next: "Sevgili",
+      info: "Kahve sever · Evde vakit sever · Kitap okur",
+      gifts: [
+        { title: "Anneye Özel Kahve Seti", price: "₺749", image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&w=400" },
+        { title: "Şık Kitap Lambası", price: "₺399", image: "https://images.pexels.com/photos/267301/pexels-photo-267301.jpeg?auto=compress&w=400" }
+      ]
+    },
+    {
+      person: "Baba",
+      prev: "Sevgili",
+      next: "Anne",
+      info: "Tamir sever · Arabalara meraklı · Klasik tarz",
+      gifts: [
+        { title: "Premium Alet Seti", price: "₺1.290", image: "https://images.pexels.com/photos/2536965/pexels-photo-2536965.jpeg?auto=compress&w=400" },
+        { title: "Deri Kartlık", price: "₺549", image: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&w=400" }
+      ]
+    },
+    {
+      person: "Sevgili",
+      prev: "Anne",
+      next: "Baba",
+      info: "Romantik · Müzik sever · Şık detayları sever",
+      gifts: [
+        { title: "Minimal Kolye", price: "₺899", image: "https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg?auto=compress&w=400" },
+        { title: "Bluetooth Hoparlör", price: "₺1.450", image: "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&w=400" }
+      ]
+    }
+  ];
   var heroCurrent = 0;
-  var heroSets = document.querySelectorAll('.card-set');
-  function heroShowSet(idx) {
-    heroSets.forEach(function(s, i) { s.classList.toggle('active', i === idx); });
-    heroCurrent = idx;
+  function heroUpdate() {
+    var d = heroData[heroCurrent];
+    document.getElementById("heroPrevCard").textContent = d.prev;
+    document.getElementById("heroPersonName").textContent = d.person;
+    document.getElementById("heroPersonInfo").textContent = d.info;
+    document.getElementById("heroNextCard").textContent = d.next;
+    document.getElementById("heroGiftTitle1").textContent = d.gifts[0].title;
+    document.getElementById("heroGiftPrice1").textContent = d.gifts[0].price;
+    document.getElementById("heroGiftImage1").src = d.gifts[0].image;
+    document.getElementById("heroGiftTitle2").textContent = d.gifts[1].title;
+    document.getElementById("heroGiftPrice2").textContent = d.gifts[1].price;
+    document.getElementById("heroGiftImage2").src = d.gifts[1].image;
+    heroCurrent = (heroCurrent + 1) % heroData.length;
   }
-  if (heroSets.length > 1) {
-    setInterval(function() { heroShowSet((heroCurrent + 1) % heroSets.length); }, 3000);
-  }
+  heroUpdate();
+  setInterval(heroUpdate, 2600);
 })();
 </script>
 
