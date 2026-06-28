@@ -187,23 +187,26 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
    900px üstünde (masaüstü) boşluk/font büyütülür.
 ═══════════════════════════════════════════════ */
 .bb-hero {
-  display: grid;
-  grid-template-columns: 1fr 1.05fr 1fr;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
   background: #0f172a;
   color: white;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   position: relative;
   z-index: 60;
   overflow: hidden;
+  box-sizing: border-box;
 }
 .hero-left, .hero-center, .hero-right {
+  flex: 1 1 0;
+  width: 33.33%;
   min-width: 0;
-  max-width: 100%;
+  max-width: 33.33%;
+  box-sizing: border-box;
   overflow: hidden;
 }
-.hero-left { grid-column: 1; grid-row: 1; }
-.hero-center { grid-column: 2; grid-row: 1; }
-.hero-right { grid-column: 3; grid-row: 1; }
 .hero-right * { max-width: 100%; box-sizing: border-box; }
 /* SÜTUN AYIRICI ÇİZGİLER */
 .hero-left {
@@ -539,9 +542,10 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 /* ── 900PX ÜSTÜ: MASAÜSTÜ — büyüt + yan kartlar geri gelsin ── */
 @media (min-width: 900px) {
   .bb-hero {
-    grid-template-columns: 1fr 1.2fr 1fr;
     overflow: visible;
   }
+  .hero-left, .hero-center, .hero-right { max-width: none; overflow: visible; }
+  .hero-center { flex: 1.2 1 0; }
   .hero-left { padding: 40px 32px; }
   .hero-center { padding: 32px 24px 24px; }
   .hero-right { padding: 32px 28px; }
