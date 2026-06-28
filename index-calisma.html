@@ -1,3 +1,4 @@
+---
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -1270,6 +1271,10 @@ if (_baslangicKime) {
             var base = ozetIframe.src.split('?')[0];
             ozetIframe.src = base + '?embed=1&t=' + Date.now();
         }
+        // GA4: ozet sayfası yüklendi (hem ana hem dallanma akışı için)
+        if (typeof gtag === 'function') {
+            gtag('event', 'ozet_goruntulendi');
+        }
         setTimeout(function(){
             document.getElementById('blok-ozet').scrollIntoView({behavior:'smooth',block:'center'});
         },250);
@@ -1508,6 +1513,25 @@ function sqKimeIsimPopupAc(kimeDegeri, devamFn) {
     var popup = document.getElementById('kisi-ismi-popup');
     if (popup) popup.style.display = 'flex';
     if (inp) setTimeout(function() { inp.focus(); }, 50);
+    // Klavye açılınca popup'ı klavyenin 36px üstünde tut
+    if (window.visualViewport) {
+        function _vpGuncelle() {
+            var klavyeYuksekligi = window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop;
+            var bosluk = Math.max(12, klavyeYuksekligi > 50 ? klavyeYuksekligi + 36 : 12);
+            var p = document.getElementById('kisi-ismi-popup');
+            if (p && p.style.display !== 'none') p.style.paddingBottom = bosluk + 'px';
+        }
+        window.visualViewport.addEventListener('resize', _vpGuncelle);
+        window.visualViewport.addEventListener('scroll', _vpGuncelle);
+        // Popup kapanınca listener'ı temizle
+        var _vpTemizle = function() {
+            window.visualViewport.removeEventListener('resize', _vpGuncelle);
+            window.visualViewport.removeEventListener('scroll', _vpGuncelle);
+            var p = document.getElementById('kisi-ismi-popup');
+            if (p) p.style.paddingBottom = '12px';
+        };
+        document.getElementById('kisi-ismi-popup')._vpTemizle = _vpTemizle;
+    }
 }
 
 function kisiIsmiKaydet() {
@@ -1524,7 +1548,10 @@ function _sqIsimKaydetVeKapat(isim) {
     var sid = localStorage.getItem('budurBuldumSessionId');
     if (sid) localStorage.setItem('budurBuldumKisiAdi_' + sid, isim);
     var popup = document.getElementById('kisi-ismi-popup');
-    if (popup) popup.style.display = 'none';
+    if (popup) {
+        if (popup._vpTemizle) { popup._vpTemizle(); popup._vpTemizle = null; }
+        popup.style.display = 'none';
+    }
     // Kart anlık görsel geri bildirim: ayraç kaydını isimle güncelle ve yeniden çiz
     sqAyracSenkronEt();
     if (typeof sqAyraclarYenidenCiz === 'function') sqAyraclarYenidenCiz();
@@ -1640,7 +1667,19 @@ window.addEventListener('message', function(e) {
     // döngüsüne yol açabilir). Bu yüzden her tetiklemede src'yi tazeleyip iframe'in
     // gerçekten sıfırdan yüklenmesini sağlıyoruz; yükleme bitince 'hediyeleri_baslat'
     // mesajını göndeririz.
+    if (e.data.type === 'quiz_tamamlandi_bildir') {
+        // GA4: ozet.html iframe'den güvenilir bildirim geldi
+        if (typeof gtag === 'function') {
+            gtag('event', 'quiz_tamamlandi');
+        }
+        return;
+    }
+
     if (e.data.type === 'hediyeleri_goster') {
+        // GA4: hediyeler sayfası görüntülendi
+        if (typeof gtag === 'function') {
+            gtag('event', 'hediyeler_goruntulendi');
+        }
         var hediyelerIframe = document.getElementById('iframe-hediyeler');
         if (hediyelerIframe) {
             var _hedBase = hediyelerIframe.src.split('?')[0];
@@ -1692,6 +1731,13 @@ window.addEventListener('message', function(e) {
         // DİSİPLİN KONTROLÜ: önceki sorular cevaplanmadan bu soru işlenmesin
         if (soruId !== 'kime' && disiplinKontrol(soruId, soruId)) {
             return;
+        }
+
+        // GA4: hangi soruyu, kaçıncı adımda cevapladı
+        if (typeof gtag === 'function') {
+            var _adimNo = SORU_SIRASI.indexOf(soruId) + 1;
+            if (_adimNo <= 0) _adimNo = null; // özel akış soruları (bebek/çocuk/pet)
+            gtag('event', 'quiz_adim', { soru_id: soruId, adim_no: _adimNo });
         }
 
         // localStorage'a yaz
@@ -1864,29 +1910,6 @@ window.addEventListener('message', function(e) {
             return;
         }
 
-        // POPUP TETİKLEYİCİLER
-        if (soruId === 'oyun' && deger === 'Evet sık sık') {
-            var _oyunPopup = document.getElementById('oyun-platform-popup');
-            if (_oyunPopup) { _oyunPopup.style.display = 'flex'; }
-            // popup kapanınca scroll devam eder - popup fonksiyonu halleder
-            return;
-        }
-        if (soruId === 'hayvan' && (deger === 'Evet çok sever' || deger === 'Orta')) {
-            var _hayvanPopup = document.getElementById('hayvan-sahip-popup');
-            if (_hayvanPopup) { _hayvanPopup.style.display = 'flex'; }
-            return;
-        }
-        if (soruId === 'film') {
-            var _filmPopup = document.getElementById('film-tur-popup');
-            if (_filmPopup) { _filmPopup.style.display = 'flex'; }
-            return;
-        }
-        if (soruId === 'tatli' && deger !== 'Hiçbiri') {
-            var _tatliPopup = document.getElementById('tatli-tur-popup');
-            if (_tatliPopup) { _tatliPopup.style.display = 'flex'; }
-            return;
-        }
-
         if (sonrakiSoruId) {
             // Sadece filtreleme gerektiren sayfaları reload et
             var reloadGereken = ['cinsiyet', 'yas'];
@@ -1898,76 +1921,6 @@ window.addEventListener('message', function(e) {
         }
     }
 });
-
-// POPUP FONKSİYONLARI
-var _popupSonrakiSoruId = null; // popup kapanınca scroll için
-
-function _popupKapat(popupId, sonrakiId) {
-    var pop = document.getElementById(popupId);
-    if (pop) pop.style.display = 'none';
-    if (sonrakiId) {
-        var reloadGereken = ['cinsiyet', 'yas'];
-        if (reloadGereken.indexOf(sonrakiId) !== -1) {
-            setTimeout(function() { iframeYenile(sonrakiId); }, 100);
-        }
-        setTimeout(function() { sonrakiScroll(sonrakiId); }, 200);
-    }
-}
-
-function _getSonrakiSoruId(soruId) {
-    // mevcut sorudan sonrakini bul
-    var idx = SORU_SIRASI.indexOf(soruId);
-    if (idx < 0) return null;
-    for (var i = idx + 1; i < SORU_SIRASI.length; i++) {
-        var sid = SORU_SIRASI[i];
-        if (!cevaplananlar[sid]) return sid;
-    }
-    return null;
-}
-
-function oyunPlatformSec(platform) {
-    if (platform) {
-        var ls = {};
-        try { ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
-        ls['oyun_platform'] = platform;
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
-    }
-    var sonraki = _getSonrakiSoruId('oyun');
-    _popupKapat('oyun-platform-popup', sonraki);
-}
-
-function hayvanSahipSec(sahiplik) {
-    if (sahiplik) {
-        var ls = {};
-        try { ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
-        ls['hayvan_sahip'] = sahiplik;
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
-    }
-    var sonraki = _getSonrakiSoruId('hayvan');
-    _popupKapat('hayvan-sahip-popup', sonraki);
-}
-
-function filmTurSec(tur) {
-    if (tur) {
-        var ls = {};
-        try { ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
-        ls['film_tur'] = tur;
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
-    }
-    var sonraki = _getSonrakiSoruId('film');
-    _popupKapat('film-tur-popup', sonraki);
-}
-
-function tatliTurSec(tur) {
-    if (tur) {
-        var ls = {};
-        try { ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}'); } catch(e) {}
-        ls['tatli_tur'] = tur;
-        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
-    }
-    var sonraki = _getSonrakiSoruId('tatli');
-    _popupKapat('tatli-tur-popup', sonraki);
-}
 </script>
 <script>
 (function(){
@@ -2046,65 +1999,6 @@ function sqYeniHediyeKriterineGit() {
 ">📸 Paylaş</button>
 
 <!-- PARENT PAYLAS ONIZLEME -->
-<!-- OYUN PLATFORM POPUP -->
-<div id="oyun-platform-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:10005;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-    <div style="font-size:28px;margin-bottom:8px;">🎮</div>
-    <div style="font-size:17px;font-weight:800;color:#1e293b;margin-bottom:6px;">Peki nerede oynuyor?</div>
-    <div style="font-size:13px;color:#64748b;margin-bottom:20px;">Bu bilgi hediye önerilerini kişiselleştirmemize yardımcı olur.</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button onclick="oyunPlatformSec('Bilgisayar')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;transition:all 0.2s;">🖥️ Bilgisayar</button>
-      <button onclick="oyunPlatformSec('Tablet')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;transition:all 0.2s;">📟 Tablet</button>
-      <button onclick="oyunPlatformSec('Telefon')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;transition:all 0.2s;">📱 Telefon</button>
-      <button onclick="oyunPlatformSec(null)" style="padding:10px;border-radius:12px;border:none;background:none;font-size:13px;color:#94a3b8;cursor:pointer;">Geç</button>
-    </div>
-  </div>
-</div>
-
-<!-- HAYVAN SAHIPLIK POPUP -->
-<div id="hayvan-sahip-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:10005;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-    <div style="font-size:28px;margin-bottom:8px;">🐾</div>
-    <div style="font-size:17px;font-weight:800;color:#1e293b;margin-bottom:6px;">Evinde hayvan besliyor mu?</div>
-    <div style="font-size:13px;color:#64748b;margin-bottom:20px;">Bu bilgi daha uygun hediyeler bulmamızı sağlar.</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button onclick="hayvanSahipSec('Evet evinde besliyor')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">🏠 Evet, evinde besliyor</button>
-      <button onclick="hayvanSahipSec('Sever ama beslemiyor')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">❤️ Sever ama beslemiyor</button>
-      <button onclick="hayvanSahipSec(null)" style="padding:10px;border-radius:12px;border:none;background:none;font-size:13px;color:#94a3b8;cursor:pointer;">Geç</button>
-    </div>
-  </div>
-</div>
-
-<!-- FİLM/DİZİ POPUP -->
-<div id="film-tur-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:10005;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-    <div style="font-size:28px;margin-bottom:8px;">📺</div>
-    <div style="font-size:17px;font-weight:800;color:#1e293b;margin-bottom:6px;">En çok ne izler?</div>
-    <div style="font-size:13px;color:#64748b;margin-bottom:20px;">İzleme alışkanlığı hediye seçimini etkiler.</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button onclick="filmTurSec('Dizi')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">📱 Dizi</button>
-      <button onclick="filmTurSec('Film')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">🎬 Film</button>
-      <button onclick="filmTurSec('Haber / Program')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">📡 Haber / Program</button>
-      <button onclick="filmTurSec('Spor yayınları')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">⚽ Spor yayınları</button>
-      <button onclick="filmTurSec(null)" style="padding:10px;border-radius:12px;border:none;background:none;font-size:13px;color:#94a3b8;cursor:pointer;">Geç</button>
-    </div>
-  </div>
-</div>
-
-<!-- TATLI TÜR POPUP -->
-<div id="tatli-tur-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:10005;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:20px;padding:28px 24px;width:90%;max-width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-    <div style="font-size:28px;margin-bottom:8px;">🍰</div>
-    <div style="font-size:17px;font-weight:800;color:#1e293b;margin-bottom:6px;">Ev yapımı mı yoksa hazır mı sever?</div>
-    <div style="font-size:13px;color:#64748b;margin-bottom:20px;">Tatlı tercihine göre farklı hediyeler önerebiliriz.</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button onclick="tatliTurSec('Ev yapımı tatlılar')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">👩‍🍳 Ev yapımı tatlılar</button>
-      <button onclick="tatliTurSec('Hazır / dışarıdan tatlılar')" style="padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:15px;font-weight:700;color:#1e293b;cursor:pointer;">🛍️ Hazır / dışarıdan</button>
-      <button onclick="tatliTurSec(null)" style="padding:10px;border-radius:12px;border:none;background:none;font-size:13px;color:#94a3b8;cursor:pointer;">Geç</button>
-    </div>
-  </div>
-</div>
-
 <div id="parent-paylas-overlay" onclick="if(event.target===this)this.style.display='none'" style="
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,0.75);z-index:10000;
@@ -3288,18 +3182,19 @@ window.addEventListener('message', function(e) {
 
 
 <!-- KİŞİ İSMİ POPUP -->
-<div id="kisi-ismi-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;">
-  <div style="background:#1e293b;border-radius:20px;padding:26px 22px;margin:20px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-    <p style="font-size:18px;font-weight:800;color:#fff;margin:0 0 12px;">Bu aramaya isim ver 🏷️</p>
-    <div style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:12px 14px;margin-bottom:10px;">
+<div id="kisi-ismi-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:flex-end;justify-content:center;padding-bottom:12px;">
+  <div id="kisi-ismi-kart" style="background:#1e293b;border-radius:24px;padding:20px 22px 24px;width:calc(100% - 24px);box-shadow:0 -8px 40px rgba(0,0,0,0.5);">
+    <p style="font-size:17px;font-weight:800;color:#fff;margin:0 0 10px;">Bu aramaya isim ver 🏷️</p>
+    <div style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:10px 14px;margin-bottom:10px;">
       <p style="font-size:11px;color:#64748b;margin:0 0 2px;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;">Kime alınıyor</p>
       <p id="kisi-ismi-kime-label" style="font-size:16px;font-weight:700;color:#e2e8f0;margin:0;"></p>
     </div>
     <input id="kisi-ismi-input" type="text" placeholder="Kişiye isim ver... (opsiyonel)" maxlength="30"
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
       onkeydown="if(event.key==='Enter') kisiIsmiKaydet()"
-      style="width:100%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:13px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box;margin-bottom:12px;" />
-    <button onclick="kisiIsmiKaydet()" style="width:100%;background:#e8a838;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;color:#412402;cursor:pointer;margin-bottom:10px;">Devam Et →</button>
-    <button onclick="kisiIsmiGec()" style="width:100%;background:transparent;border:1.5px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;font-size:15px;font-weight:600;color:#cbd5e1;cursor:pointer;">İsimsiz devam et</button>
+      style="width:100%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;color:#fff;font-size:15px;outline:none;box-sizing:border-box;margin-bottom:10px;" />
+    <button onclick="kisiIsmiKaydet()" style="width:100%;background:#e8a838;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:700;color:#412402;cursor:pointer;margin-bottom:8px;">Devam Et →</button>
+    <button onclick="kisiIsmiGec()" style="width:100%;background:transparent;border:1.5px solid rgba(255,255,255,0.3);border-radius:12px;padding:11px;font-size:15px;font-weight:600;color:#cbd5e1;cursor:pointer;">İsimsiz devam et</button>
   </div>
 </div>
 
@@ -3382,6 +3277,7 @@ window.addEventListener('message', function(e) {
     updateThumb();
 </script>
 </html>
+
 
 
 
