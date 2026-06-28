@@ -187,61 +187,54 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
    900px üstünde (masaüstü) boşluk/font büyütülür.
 ═══════════════════════════════════════════════ */
 .bb-hero {
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  -webkit-overflow-scrolling: touch;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr 1fr;
   background: #0f172a;
   color: white;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   position: relative;
   z-index: 60;
-  scrollbar-width: none;
+  overflow: hidden;
 }
-.bb-hero::-webkit-scrollbar { display: none; }
 .hero-left, .hero-center, .hero-right {
-  flex: 0 0 86vw;
-  max-width: 380px;
-  scroll-snap-align: center;
   min-width: 0;
 }
 /* SÜTUN AYIRICI ÇİZGİLER */
 .hero-left {
-  padding: 28px 24px 24px;
+  padding: 9px 6px 8px;
   border-right: 1px solid rgba(255,255,255,0.07);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 .hero-center {
-  padding: 24px 18px 20px;
+  padding: 9px 4px 8px;
   border-right: 1px solid rgba(255,255,255,0.07);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .hero-right {
-  padding: 24px 20px;
+  padding: 9px 5px 8px;
   display: flex;
   flex-direction: column;
 }
 /* SOL SÜTUN */
 .hero-slogan h1 {
-  font-size: 26px;
-  line-height: 1.1;
+  font-size: 13px;
+  line-height: 1.12;
   font-weight: 900;
   color: #ffffff;
-  margin: 0 0 6px;
+  margin: 0 0 2px;
 }
 .hero-slogan h1 span { color: #e8a838; display: block; }
 .hero-left-divider {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 14px 0 18px;
+  gap: 4px;
+  margin: 5px 0;
   color: #e8a838;
-  font-size: 16px;
+  font-size: 8px;
 }
 .hero-left-divider::before, .hero-left-divider::after {
   content: '';
@@ -250,170 +243,94 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   background: rgba(232,168,56,0.3);
 }
 .hero-left-desc {
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 7px;
+  line-height: 1.35;
   color: #94a3b8;
-  margin: 0 0 20px;
+  margin: 0 0 7px;
 }
 .hero-left-desc em { color: #e8a838; font-style: normal; font-weight: 700; }
-.hero-maddeler { }
 .hero-madde {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 4px;
+  margin-bottom: 5px;
 }
 .hero-madde-ikon {
-  width: 34px;
-  height: 34px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 8px;
   flex-shrink: 0;
 }
 .hero-madde-metin strong {
   display: block;
-  font-size: 13px;
+  font-size: 7px;
   font-weight: 800;
   color: #f1f5f9;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
+  line-height: 1.2;
 }
 .hero-madde-metin span {
-  font-size: 11px;
+  font-size: 5.5px;
   color: #64748b;
-  line-height: 1.4;
+  line-height: 1.2;
 }
 .hero-left-bottom {
   border: 1px solid #e8a838;
-  border-radius: 12px;
-  padding: 14px 16px;
+  border-radius: 7px;
+  padding: 5px 6px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 6px;
+  gap: 4px;
+  margin-top: 4px;
   cursor: pointer;
 }
-.hero-left-bottom .bb-ikon { font-size: 24px; }
-.hero-left-bottom p { margin: 0; font-size: 12px; color: #94a3b8; line-height: 1.45; }
-.hero-left-bottom p strong { color: #ffffff; font-size: 13px; display: block; }
+.hero-left-bottom .bb-ikon { font-size: 12px; }
+.hero-left-bottom p { margin: 0; font-size: 5.5px; color: #94a3b8; line-height: 1.25; }
+.hero-left-bottom p strong { color: #ffffff; font-size: 6px; display: block; }
 .hero-left-bottom p em { color: #e8a838; font-style: normal; font-weight: 800; }
 /* ORTA SÜTUN */
 .hero-center-baslik {
-  font-size: 12px;
+  font-size: 6px;
   font-weight: 700;
   color: #64748b;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 4px;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
 }
 .hero-center-baslik-alt {
-  width: 22px;
-  height: 2px;
+  width: 11px;
+  height: 1px;
   background: #e8a838;
   border-radius: 2px;
-  margin: 0 auto 18px;
+  margin: 0 auto 5px;
 }
 .profile-carousel {
   display: grid;
-  grid-template-columns: 0.55fr 1fr 0.55fr;
+  grid-template-columns: 1fr;
   align-items: center;
-  gap: 8px;
+  gap: 0;
   width: 100%;
 }
 /* KART ORTAK */
 .profile-card {
-  border-radius: 14px;
+  border-radius: 7px;
   background: #1e293b;
   transition: all 0.4s ease;
 }
 /* ANA KART — ayraç sistemiyle birebir aynı dil */
 .profile-card.main-card {
-  border: 2px solid #e8a838;
-  padding: 16px 14px 14px;
-  box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+  border: 1.5px solid #e8a838;
+  padding: 7px 5px 6px;
+  box-shadow: 0 5px 16px rgba(0,0,0,0.6);
   position: relative;
   z-index: 2;
 }
 .main-card-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 9px;
-}
-.main-card-kime {
-  font-size: 19px;
-  font-weight: 900;
-  color: #ffffff;
-  margin: 0 0 3px;
-}
-.main-card-amac {
-  font-size: 11px;
-  color: #94a3b8;
-  margin: 0 0 3px;
-}
-.main-card-butce {
-  font-size: 11px;
-  font-weight: 700;
-  color: #e8a838;
-  margin: 0 0 11px;
-}
-.main-card-ozellikler {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  margin-bottom: 12px;
-}
-.main-card-ozellikler span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 6px;
-  padding: 4px 6px;
-  color: #cbd5e1;
-  font-size: 9.5px;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.main-card-btn {
-  width: 100%;
-  background: #e8a838;
-  border: none;
-  border-radius: 8px;
-  padding: 9px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #000;
-  cursor: pointer;
-}
-.card-label {
-  font-size: 9px;
-  font-weight: 800;
-  color: #e8a838;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  margin-bottom: 7px;
-  display: block;
-}
-/* YAN KARTLAR */
-.profile-card.side-card {
-  border: 2px solid #334155;
-  padding: 10px 8px;
-  opacity: 0.5;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-height: 90px;
-}
-.side-card-avatar {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -424,44 +341,97 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   font-weight: 700;
   margin-bottom: 4px;
 }
-.side-card-kime { font-size: 11px; font-weight: 800; color: #e2e8f0; margin-bottom: 2px; }
-.side-card-amac { font-size: 8px; color: #64748b; margin-bottom: 2px; display: none; }
-.side-card-butce { font-size: 8px; font-weight: 700; color: #e8a838; display: none; }
-.side-card-btn { display: none; }
+.main-card-kime {
+  font-size: 10px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 1px;
+}
+.main-card-amac {
+  font-size: 6px;
+  color: #94a3b8;
+  margin: 0 0 1px;
+}
+.main-card-butce {
+  font-size: 6px;
+  font-weight: 700;
+  color: #e8a838;
+  margin: 0 0 5px;
+}
+.main-card-ozellikler {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+.main-card-ozellikler span {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 2px 3px;
+  color: #cbd5e1;
+  font-size: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.main-card-btn {
+  width: 100%;
+  background: #e8a838;
+  border: none;
+  border-radius: 5px;
+  padding: 4px;
+  font-size: 6.5px;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+}
+.card-label {
+  font-size: 5px;
+  font-weight: 800;
+  color: #e8a838;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+  display: block;
+}
+/* YAN KARTLAR — mobilde gizli, sadece ortadaki kart görünür */
+.profile-card.side-card { display: none; }
 /* ORTA ALT: ok + nokta + adımlar */
 .hero-carousel-nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin: 14px 0 16px;
+  gap: 6px;
+  margin: 5px 0 0;
 }
 .hero-nav-btn {
-  width: 30px;
-  height: 30px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.12);
   color: #fff;
-  font-size: 13px;
+  font-size: 7px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.hero-dots { display: flex; gap: 6px; }
+.hero-dots { display: flex; gap: 3px; }
 .hero-dot {
-  width: 6px; height: 6px;
+  width: 3.5px; height: 3.5px;
   border-radius: 50%;
   background: #334155;
   transition: background 0.3s;
 }
 .hero-dot.active { background: #e8a838; }
-.hero-steps-wrap { width: 100%; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.07); margin-top: 4px; }
+.hero-steps-wrap { width: 100%; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.07); margin-top: 4px; }
 .hero-steps-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 6px;
+  gap: 2px;
   width: 100%;
 }
 .hero-step-item {
@@ -471,72 +441,72 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   text-align: center;
 }
 .hero-step-num {
-  width: 26px; height: 26px;
+  width: 11px; height: 11px;
   border-radius: 50%;
   background: #e8a838;
   color: #0f172a;
-  font-size: 11px;
+  font-size: 5px;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 5px;
+  margin-bottom: 1px;
 }
-.hero-step-ikon { font-size: 15px; margin-bottom: 3px; }
-.hero-step-baslik { font-size: 9.5px; font-weight: 800; color: #f1f5f9; margin-bottom: 2px; line-height: 1.25; }
-.hero-step-acik { font-size: 8.5px; color: #64748b; line-height: 1.35; }
+.hero-step-ikon { font-size: 7px; margin-bottom: 1px; }
+.hero-step-baslik { font-size: 4.5px; font-weight: 800; color: #f1f5f9; margin-bottom: 1px; line-height: 1.15; }
+.hero-step-acik { display: none; }
 /* SAĞ SÜTUN */
 .hero-right-baslik {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 3px;
+  margin-bottom: 5px;
 }
-.hero-right-baslik .bb-ikon { font-size: 19px; }
+.hero-right-baslik .bb-ikon { font-size: 8px; }
 .hero-right-baslik h2 {
-  font-size: 14px;
+  font-size: 6px;
   font-weight: 900;
   color: #f1f5f9;
-  margin: 0 0 2px;
-  line-height: 1.2;
+  margin: 0 0 1px;
+  line-height: 1.15;
 }
 .hero-right-baslik h2 span { color: #e8a838; }
 .hero-gift-card {
   background: #1e293b;
   border: 1px solid #334155;
-  border-radius: 14px;
-  padding: 11px;
+  border-radius: 7px;
+  padding: 4px;
   display: flex;
-  gap: 10px;
+  gap: 4px;
   align-items: center;
-  margin-bottom: 9px;
+  margin-bottom: 4px;
   transition: border-color 0.4s;
 }
 .hero-gift-card img {
-  width: 60px;
-  height: 60px;
+  width: 24px;
+  height: 24px;
   object-fit: cover;
-  border-radius: 9px;
+  border-radius: 4px;
   flex-shrink: 0;
   background: #334155;
 }
 .hero-gift-card-body { flex: 1; min-width: 0; }
 .hero-gift-badge {
-  font-size: 8.5px;
+  font-size: 4px;
   font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-bottom: 4px;
+  padding: 1px 2px;
+  border-radius: 2px;
+  margin-bottom: 1px;
   display: inline-block;
 }
 .badge-populer { background: #ef4444; color: #fff; }
 .badge-yeni    { background: #22c55e; color: #fff; }
-.hero-gift-card h3 { font-size: 12px; font-weight: 700; color: #f1f5f9; margin: 0 0 3px; }
-.hero-gift-price { font-size: 14px; font-weight: 900; color: #e8a838; margin: 0 0 4px; }
-.hero-gift-plats { display: flex; gap: 4px; flex-wrap: wrap; }
+.hero-gift-card h3 { font-size: 5.5px; font-weight: 700; color: #f1f5f9; margin: 0 0 1px; line-height: 1.1; }
+.hero-gift-price { font-size: 6.5px; font-weight: 900; color: #e8a838; margin: 0 0 1px; }
+.hero-gift-plats { display: flex; gap: 1px; flex-wrap: wrap; }
 .hero-gift-plats span {
-  font-size: 8.5px; font-weight: 700; padding: 2px 6px;
-  border-radius: 4px; color: white;
+  font-size: 4px; font-weight: 700; padding: 1px 2px;
+  border-radius: 2px; color: white;
 }
 .plt-t { background: #f97316; }
 .plt-a { background: #232f3e; }
@@ -546,32 +516,25 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   display: flex;
   justify-content: space-around;
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 5px;
   border-top: 1px solid rgba(255,255,255,0.07);
 }
 .hero-guven-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  font-size: 9px;
+  gap: 1px;
+  font-size: 4px;
   color: #64748b;
   text-align: center;
 }
-.hero-guven-item span { font-size: 16px; }
+.hero-guven-item span { font-size: 7.5px; }
 
-/* ── 900PX ÜSTÜ: SABİT 3 KOLON, KAYDIRMA YOK ── */
+/* ── 900PX ÜSTÜ: MASAÜSTÜ — büyüt + yan kartlar geri gelsin ── */
 @media (min-width: 900px) {
   .bb-hero {
-    display: grid;
     grid-template-columns: 1fr 1.2fr 1fr;
-    overflow-x: visible;
-    scroll-snap-type: none;
-  }
-  .hero-left, .hero-center, .hero-right {
-    flex: unset;
-    max-width: none;
-    scroll-snap-align: none;
+    overflow: visible;
   }
   .hero-left { padding: 40px 32px; }
   .hero-center { padding: 32px 24px 24px; }
@@ -589,7 +552,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   .hero-left-bottom p strong { font-size: 14px; }
   .hero-center-baslik { font-size: 13px; margin-bottom: 4px; }
   .hero-center-baslik-alt { width: 24px; margin: 0 auto 20px; }
-  .profile-carousel { gap: 10px; }
+  .profile-carousel { grid-template-columns: 0.6fr 1fr 0.6fr; gap: 10px; }
   .profile-card.main-card { padding: 18px 16px 16px; box-shadow: 0 16px 48px rgba(0,0,0,0.6); }
   .main-card-avatar { width: 44px; height: 44px; font-size: 15px; margin-bottom: 10px; }
   .main-card-kime { font-size: 22px; margin: 0 0 4px; }
@@ -599,7 +562,19 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   .main-card-ozellikler span { padding: 5px 7px; font-size: 11px; }
   .main-card-btn { padding: 10px; font-size: 13px; }
   .card-label { font-size: 10px; margin-bottom: 8px; }
-  .profile-card.side-card { padding: 14px 12px; transform: scale(0.88); min-height: unset; justify-content: flex-start; }
+  .profile-card.side-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border: 2px solid #334155;
+    border-radius: 14px;
+    background: #1e293b;
+    opacity: 0.5;
+    padding: 14px 12px;
+    transform: scale(0.88);
+    min-height: unset;
+  }
   .side-card-avatar { width: 26px; height: 26px; font-size: 9px; margin-bottom: 6px; }
   .side-card-kime { font-size: 14px; margin-bottom: 2px; }
   .side-card-amac, .side-card-butce { display: block; font-size: 10px; margin-bottom: 2px; }
@@ -611,7 +586,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
   .hero-step-num { width: 30px; height: 30px; font-size: 13px; margin-bottom: 6px; }
   .hero-step-ikon { font-size: 18px; margin-bottom: 4px; }
   .hero-step-baslik { font-size: 11px; }
-  .hero-step-acik { font-size: 10px; }
+  .hero-step-acik { display: block; font-size: 10px; color: #64748b; line-height: 1.4; }
   .hero-right-baslik { gap: 10px; margin-bottom: 16px; }
   .hero-right-baslik .bb-ikon { font-size: 22px; }
   .hero-right-baslik h2 { font-size: 16px; }
