@@ -189,23 +189,16 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 .bb-hero {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
-  width: 100%;
   background: #0f172a;
   color: white;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   position: relative;
   z-index: 60;
-  overflow: hidden;
-  box-sizing: border-box;
 }
 .hero-left, .hero-center, .hero-right {
-  flex: 1 1 0;
-  width: 33.33%;
-  min-width: 0;
-  max-width: 33.33%;
-  box-sizing: border-box;
+  width: 128px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 .hero-right * { max-width: 100%; box-sizing: border-box; }
 /* SÜTUN AYIRICI ÇİZGİLER */
@@ -541,11 +534,8 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 /* ── 900PX ÜSTÜ: MASAÜSTÜ — büyüt + yan kartlar geri gelsin ── */
 @media (min-width: 900px) {
-  .bb-hero {
-    overflow: visible;
-  }
-  .hero-left, .hero-center, .hero-right { max-width: none; overflow: visible; }
-  .hero-center { flex: 1.2 1 0; }
+  .hero-left, .hero-center, .hero-right { width: 380px; overflow: visible; }
+  .hero-center { width: 420px; }
   .hero-left { padding: 40px 32px; }
   .hero-center { padding: 32px 24px 24px; }
   .hero-right { padding: 32px 28px; }
