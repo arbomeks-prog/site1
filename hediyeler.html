@@ -614,12 +614,12 @@ if (nickname || kisiAdiOnce) {
 const kime = cevaplar.kime || '';
 const yas = cevaplar.yas || '';
 const butce = cevaplar.butce || '';
-const cinsiyet = cevaplar.cinsiyet || cevaplar.cocuk_cinsiyet || cevaplar.bebek_cinsiyet || '';
+const cinsiyet = (kime.indexOf('Çocuk') === 0) ? (cevaplar.cocuk_cinsiyet || '') : (kime.indexOf('Bebek') === 0) ? (cevaplar.bebek_cinsiyet || '') : (cevaplar.cinsiyet || '');
 const tarz = cevaplar.tarz || cevaplar.bebek_tarz || '';
-const amac = cevaplar.amac || cevaplar.cocuk_amac || cevaplar.bebek_amac || '';
+const amac = (kime.indexOf('Çocuk') === 0) ? (cevaplar.cocuk_amac || '') : (kime.indexOf('Bebek') === 0) ? (cevaplar.bebek_amac || '') : (cevaplar.amac || '');
 const hobiler = Array.isArray(cevaplar.hobiler) ? cevaplar.hobiler.join(', ') : (cevaplar.hobiler || '');
-const cocukYas = cevaplar.cocuk_yas || '';
-const bebekYas = cevaplar.bebek_yas || '';
+const cocukYas = (kime.indexOf('Çocuk') === 0) ? (cevaplar.cocuk_yas || '') : '';
+const bebekYas = (kime.indexOf('Bebek') === 0) ? (cevaplar.bebek_yas || '') : '';
 const kimeMap = { 'anne': 'anneniz', 'baba': 'babanız', 'sevgili': 'sevgiliniz', 'es': 'eşiniz', 'eş': 'eşiniz', 'kardes': 'kardeşiniz', 'kardeş': 'kardeşiniz', 'arkadas': 'arkadaşınız', 'arkadaş': 'arkadaşınız', 'cocuk': 'çocuğunuz', 'çocuk': 'çocuğunuz', 'dost': 'dostunuz', 'patron': 'patronunuz', 'bebek': 'bebek', 'kendime': 'kendiniz' };
 const kimeStr = kimeMap[kime.toLowerCase()] || (kime ? kime : 'kişi');
 const yasGosterim = cocukYas ? cocukYas + ' çocuğunuz' : bebekYas ? bebekYas + ' bebeğiniz' : yas ? yas + ' yaşındaki ' + kimeStr : kimeStr;

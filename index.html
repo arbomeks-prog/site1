@@ -1781,6 +1781,31 @@ window.addEventListener('message', function(e) {
         try {
             var ls = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
             ls[soruId] = deger;
+            // FIX: "kime" her seçildiğinde, AİT OLMADIĞI kategorilerin alanlarını
+            // (örn. Pet seçilirken eski bir Çocuk denemesinden kalma cocuk_yas,
+            // cocuk_amac, cinsiyet gibi alanlar) temizle. Bu alanlar temizlenmeden
+            // kalırsa, hediyeler.html'deki "X yaş çocuğunuz için aranıyor" gibi
+            // mesajlar ve profil kartındaki amaç/bütçe bilgileri YANLIŞ kategoriden
+            // sızabiliyordu (örn. Pet kartında "Yılbaşı/Bayram" gibi çocuk amacı
+            // görünmesi).
+            if (soruId === 'kime') {
+                var _hepsiKategoriAlanlari = [
+                    'cinsiyet','yas','tarz','renk','ortam','butce','amac','mevsim','kisilik','oncelik',
+                    'hobiler','teknoloji','muzik','film','foto','kitap','tatli','spor','seyahat','doga',
+                    'sanat','oyun','kahve','bitki','aksesuar','dogum','hayvan','makyaj','mutfak',
+                    'cocuk_cinsiyet','cocuk_yas','cocuk_amac','cocuk_aktivite','cocuk_tema','cocuk_ortam','cocuk_tur','cocuk_butce',
+                    'bebek_cinsiyet','bebek_yas','bebek_amac','bebek_tarz','bebek_tur','bebek_butce',
+                    'pet_tur','pet_butce','kedi_yas','kedi_karakter','kedi_ortam','kedi_tur','kedi_butce',
+                    'kopek_yas','kopek_irk','kopek_karakter','kopek_tur','kopek_butce',
+                    'kus_tur','kus_kafes','kus_hediye','kus_butce',
+                    'balik_tip','balik_boyut','balik_hediye','balik_butce',
+                    'kucukpet_yas','kucukpet_yuva','kucukpet_hediye','kucukpet_butce'
+                ];
+                var _korunacaklar = KIME_SET_HARITASI[deger] ? OZEL_SETLER[KIME_SET_HARITASI[deger]].map(function(s){return s.id;}) : SORU_SIRASI;
+                _hepsiKategoriAlanlari.forEach(function(_alanId) {
+                    if (_korunacaklar.indexOf(_alanId) === -1) delete ls[_alanId];
+                });
+            }
             localStorage.setItem('budurBuldumCevaplar', JSON.stringify(ls));
         } catch(ex) {}
 
