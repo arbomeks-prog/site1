@@ -164,6 +164,16 @@ function tarihFarki(isoStr) {
   var d = Math.floor((Date.now()-new Date(isoStr))/86400000);
   if (d===0) return 'Bugün'; if (d===1) return 'Dün'; return d+' gün önce';
 }
+// index.html'deki DALLANMA NOKTASI 2 ile aynı mantık (Pet iki kademeli
+// dallanıyor: önce "Pet ❤️" → sonra hangi hayvan). profil.html'in kendi
+// kopyası, çünkü index.html'in petAltSetiBul'u burada erişilebilir değil.
+function petAltSetiBul(petTurDegeri) {
+  if (petTurDegeri.indexOf('Kedi') !== -1) return 'kedi';
+  if (petTurDegeri.indexOf('Köpek') !== -1) return 'kopek';
+  if (petTurDegeri.indexOf('Kuş') !== -1) return 'kus';
+  if (petTurDegeri.indexOf('Balık') !== -1) return 'balik';
+  return 'kucukpet'; // Tavşan, Hamster, Egzotik/Diğer
+}
 function getAktifSet(cv, iliski) {
   var s = cv._aktifSet || 'normal';
   if (s === 'normal') {
@@ -175,6 +185,14 @@ function getAktifSet(cv, iliski) {
     if (k.indexOf('Bebek') === 0) s='bebekler';
     else if (k.indexOf('Çocuk') === 0) s='cocuklar';
     else if (k.indexOf('Pet') === 0) s='petler';
+  }
+  // KOK FIX: 'petler' kaba bir yer tutucu (Pet'in İLK kademesi) — gerçek
+  // alt-set (kedi/köpek/kuş/balık/kucukpet) burada bilinmiyordu. Bu yüzden
+  // "Hediye Tercihi" kutusu (turKey haritası 'petler' diye bir anahtar hiç
+  // tanımıyor) hep boş kalıyordu. pet_tur cevaplanmışsa gerçek alt-seti
+  // çöz, aynı mantık index.html'in DALLANMA NOKTASI 2'sinde de var.
+  if (s === 'petler' && cv.pet_tur) {
+    s = petAltSetiBul(cv.pet_tur);
   }
   return s;
 }
