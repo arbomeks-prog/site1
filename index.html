@@ -1079,6 +1079,14 @@ if (_baslangicKime) {
                                 if (_cvResume.kime && KIME_SET_HARITASI[_cvResume.kime] === 'petler' && _cvResume.pet_tur) {
                                     var _altSetResume = petAltSetiBul(_cvResume.pet_tur);
                                     aktifOzelSet = _altSetResume;
+                                    // FIX 2: aktifOzelSet sadece index.html'in kendi JS scope'unda bir
+                                    // değişken — ozet.html (ayrı bir iframe, ayrı JS context) bunu HİÇ
+                                    // göremiyor. ozet.html, QuizHelper.getAktifSet() üzerinden
+                                    // localStorage'daki 'budurBuldumAktifSet' anahtarını okuyor. Bu
+                                    // yazılmazsa ozet.html eski/yanlış set'i (örn. sadece 'petler' →
+                                    // tek soru: pet_tur) kullanır, kriter seçim ekranında derin pet
+                                    // sorularının (yaş/bütçe vs.) HİÇBİRİ chip olarak görünmez.
+                                    localStorage.setItem('budurBuldumAktifSet', _altSetResume);
                                     cevaplananlar['pet_tur'] = true;
                                     var _altSorulariResume = OZEL_SETLER[_altSetResume];
                                     for (var _pri = 1; _pri < _altSorulariResume.length; _pri++) {
@@ -1109,12 +1117,12 @@ if (_baslangicKime) {
                         // gecikmeyle) tekrar çalıştırılıyor; içerik yerleştikten
                         // sonraki son çağrı doğru konumda kalır.
                         setTimeout(_sqResumeHedefHesaplaVeKaydir, 50);
-                        setTimeout(_sqResumeHedefHesaplaVeKaydir, 500);
+                        setTimeout(_sqResumeHedefHesaplaVeKaydir, 600);
                         setTimeout(function() {
                             _sqResumeHedefHesaplaVeKaydir();
                             var _rb = document.getElementById('sq-resume-banner');
                             if (_rb) _rb.remove();
-                        }, 1100);
+                        }, 1600);
                     }
                 }, 300);
             }
