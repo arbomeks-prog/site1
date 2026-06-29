@@ -35,6 +35,57 @@ Kaba sabit-ölçü çözümü ilk denemede çalışıyor ve bir şablon haline g
 iskeleti kuruldu, "her koyduğumuz diğerini sıkıştırsın" kuralı netleşti,
 sonra üstüne estetik eklendi, bir daha o kutulara dönülmedi).
 
+## ✅ ÇÖZÜLDÜ — Pet Resume/Kart Bozulması: Kök Neden Bulundu (29 Haziran 2026)
+
+**Durum: ÇALIŞIYOR, kullanıcı tarafından canlıda doğrulandı.**
+Güvenli nokta: `guvenli-nokta-PET-CALISIYOR-DOGRULANMIS-29haziran2026` (tag + `index-yedek-PET-CALISIYOR-29haziran2026.html`).
+
+**Neydi:** Pet'te "Devam Et" ile resume yapıldığında scroll kaldığı yere
+gitmiyordu; ayrıca her Pet denemesinde kart derin cevapları (hayvan türü,
+yaş, bütçe vb.) kaybediyor/sabitleniyor gibi görünüyordu. Kullanıcı bunu
+"kronik, kanser gibi" olarak tanımladı çünkü görünüşte tekrar tekrar
+çıkıyordu.
+
+**Kök neden (asıl suçlu):** `index.html`'deki kategori-arası-veri-sızıntısı
+temizleme kodu (commit `5611137`, "kime" cevabı her işlendiğinde
+ait-olmadığı kategori alanlarını silen kod). Bu kod, Pet'in **iki kademeli**
+dallanmasını (önce "Pet ❤️" seç → sonra "Kedi/Köpek/Kuş/Balık/Küçükpet" seç)
+bilmiyordu: `KIME_SET_HARITASI['Pet ❤️']` sadece `'petler'` döner, ve
+`OZEL_SETLER.petler` SADECE `[pet_tur]` — tek soru. Yani "kime" cevabı HER
+yeniden işlendiğinde (resume'da otomatik tekrar-gönderim dahil), bu kod
+`pet_tur` zaten cevaplanmış olsa bile `kedi_yas`, `kedi_karakter`,
+`kedi_butce` gibi DERİN Pet cevaplarını "bu kategoriye ait değil" sanıp
+**siliyordu**. Resume-scroll bu silinen alanları "cevapsız" bulup yanlış
+yere gidiyordu; kart da bu temizlenmiş veriyle kaydedildiği için derin
+bilgilerini kaybediyordu.
+
+**Nasıl bulundu:** Kullanıcının net hatırlaması sayesinde — "Pet kartına
+hayvan/hediye-tercihi detayı eklenmesini istedim, ondan SONRA bozuldu."
+Bu işaret, bugünün commit geçmişinde tam o noktayı (`d07e408` hemen
+ardından gelen `5611137`) gösterdi. Ders: kullanıcının "şu istekten sonra
+bozuldu" hatırlaması, kod okumaktan daha hızlı ve daha güvenilir bir
+teşhis aracı — sıradaki oturumda da benzer bir regresyon şüphesinde önce
+bu soruyu sormak ("hangi istekten/değişiklikten sonra başladı?") zaman
+kazandırır.
+
+**Çözüm (commit `002b485`):** Kategori-temizleme kodu artık, kime Pet ise
+ve `pet_tur` zaten cevaplanmışsa, `petAltSetiBul()` ile gerçek alt-seti
+hesaplayıp onu koruyor (DALLANMA NOKTASI 2 ve resume-scroll'da zaten
+kullanılan aynı fonksiyon). Bebek/Çocuk/normal akış etkilenmedi —
+onların `OZEL_SETLER` girdileri zaten tüm alt-soruları tek seviyede
+listeliyor, iki-kademeli sorun sadece Pet'e özgüydü.
+
+**Genel ders — kategori-temizleme kodu yazılırken:** Eğer bir kategori
+İKİ KADEMELİ dallanıyorsa (kime → ön-seçim → asıl alt-set), "hangi
+alanları koru" hesabı SADECE ilk kademeye (`KIME_SET_HARITASI`) bakarak
+yapılmamalı; ikinci kademe cevabı (`pet_tur` gibi) varsa gerçek aktif
+alt-seti bulan fonksiyon (`petAltSetiBul`) çağrılmalı. Bu üç ayrı yerde
+(DALLANMA NOKTASI 2, resume-scroll, kategori-temizleme) aynı mantığın
+tekrarlanması gerektiğini unutmamak gerekiyor — yeni bir özel set
+eklenirse bu üç yerin hepsi güncellenmeli.
+
+---
+
 ## 🔶 BEKLEYEN İŞ — Özet Sayfası Bütçe Popup'ı → Gerçek Profil Kartına Dönüşecek
 **(Bu konuşmada onaylandı, henüz canlıya UYGULANMADI — sadece demo/mockup aşamasında kaldı)**
 
