@@ -1819,7 +1819,25 @@ window.addEventListener('message', function(e) {
                     'balik_tip','balik_boyut','balik_hediye','balik_butce',
                     'kucukpet_yas','kucukpet_yuva','kucukpet_hediye','kucukpet_butce'
                 ];
-                var _korunacaklar = KIME_SET_HARITASI[deger] ? OZEL_SETLER[KIME_SET_HARITASI[deger]].map(function(s){return s.id;}) : SORU_SIRASI;
+                // KOK FIX: KIME_SET_HARITASI['Pet ❤️'] sadece 'petler' (tek soru:
+                // pet_tur) döner — Pet'in iki-kademeli dallanması burada bilinmiyor.
+                // "kime" cevabı HER yeniden işlendiğinde (resume'da otomatik
+                // tekrar-gönderim dahil) bu kod çalışıyordu ve pet_tur zaten
+                // cevaplanmış olsa bile kedi_yas/kedi_butce gibi DERİN pet
+                // cevaplarını "ait olmayan kategori" sanıp SİLİYORDU — Pet resume
+                // scroll'unun yanlış yere gitmesinin ve kartın derin cevapları
+                // kaybetmesinin gerçek kök nedeni buydu. Eğer kime Pet ise ve
+                // pet_tur zaten cevaplanmışsa, gerçek alt-seti (petAltSetiBul) ile
+                // genişletip onu koru — DALLANMA NOKTASI 2 ve resume-scroll'daki
+                // aynı mantığın üçüncü tekrarı.
+                var _korunacaklar;
+                if (KIME_SET_HARITASI[deger] === 'petler' && ls.pet_tur) {
+                    _korunacaklar = OZEL_SETLER[petAltSetiBul(ls.pet_tur)].map(function(s){return s.id;});
+                } else if (KIME_SET_HARITASI[deger]) {
+                    _korunacaklar = OZEL_SETLER[KIME_SET_HARITASI[deger]].map(function(s){return s.id;});
+                } else {
+                    _korunacaklar = SORU_SIRASI;
+                }
                 _hepsiKategoriAlanlari.forEach(function(_alanId) {
                     if (_korunacaklar.indexOf(_alanId) === -1) delete ls[_alanId];
                 });
