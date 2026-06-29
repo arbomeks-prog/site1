@@ -1110,19 +1110,26 @@ if (_baslangicKime) {
                                 }
                             } catch(exResume) {}
                         };
+                        window._sqResumeFn = _sqResumeHedefHesaplaVeKaydir;
+                        window._sqResumeAktif = true;
                         // FIX: Pet alt-soruları yeni eklenen iframe'ler olduğu için
                         // gerçek yükseklikleri ancak yüklenince netleşiyor — sayfa
                         // o anda büyüyüp özeti aşağı kaydırabiliyor. Bu yüzden
                         // hesaplama+kaydırma tek seferlik değil, birkaç kez (artan
                         // gecikmeyle) tekrar çalıştırılıyor; içerik yerleştikten
-                        // sonraki son çağrı doğru konumda kalır.
+                        // sonraki son çağrı doğru konumda kalır. EK OLARAK: özet
+                        // iframe'inin kendi 'iframe_height' bildirimi geldiğinde
+                        // (gerçek olay, tahmini gecikme değil) de tekrar çalışır —
+                        // bkz. aşağıdaki genel iframe_height handler'ı.
                         setTimeout(_sqResumeHedefHesaplaVeKaydir, 50);
                         setTimeout(_sqResumeHedefHesaplaVeKaydir, 600);
+                        setTimeout(_sqResumeHedefHesaplaVeKaydir, 1600);
                         setTimeout(function() {
                             _sqResumeHedefHesaplaVeKaydir();
+                            window._sqResumeAktif = false;
                             var _rb = document.getElementById('sq-resume-banner');
                             if (_rb) _rb.remove();
-                        }, 1600);
+                        }, 3500);
                     }
                 }, 300);
             }
@@ -1686,6 +1693,13 @@ window.addEventListener('message', function(e) {
     if (e.data.type === 'iframe_height') {
         var iframe = document.getElementById('iframe-' + e.data.soruId) || document.getElementById('kime-iframe');
         if (iframe) iframe.style.height = (e.data.height + 8) + 'px';
+        // FIX: özet.html kendi gerçek yüksekliğini bildirdiğinde, resume hâlâ
+        // aktifse hedef-kaydırmayı bir kez daha (gerçek olaya dayalı, tahmini
+        // gecikme değil) tekrar çalıştır — içerik tam yerleşmeden yapılan
+        // kaydırmalar yetersiz kalabiliyordu.
+        if (e.data.soruId === 'ozet' && window._sqResumeAktif && typeof window._sqResumeFn === 'function') {
+            setTimeout(window._sqResumeFn, 80);
+        }
         return;
     }
 
