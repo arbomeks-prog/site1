@@ -1065,6 +1065,22 @@ if (_baslangicKime) {
                         setTimeout(function() {
                             try {
                                 var _cvResume = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+                                // FIX: Pet iki-kademeli dallanma — kime='Pet' otomatik seçimi
+                                // sadece pet_tur sorusunu ekler (OZEL_SETLER.petler = [pet_tur]
+                                // tek elemanlı). Eğer pet_tur de zaten cevaplanmışsa, asıl alt
+                                // pet setini (kedi/köpek/kuş/balık/kucukpet) burada DALLANMA
+                                // NOKTASI 2 ile birebir aynı mantıkla yeniden kurmamız gerekiyor,
+                                // yoksa aktifSoruSirasi() sadece ['pet_tur'] döner ve derin
+                                // sorular (kedi_yas, kedi_butce vs.) hiç DOM'a eklenmez.
+                                if (_cvResume.kime && KIME_SET_HARITASI[_cvResume.kime] === 'petler' && _cvResume.pet_tur) {
+                                    var _altSetResume = petAltSetiBul(_cvResume.pet_tur);
+                                    aktifOzelSet = _altSetResume;
+                                    cevaplananlar['pet_tur'] = true;
+                                    var _altSorulariResume = OZEL_SETLER[_altSetResume];
+                                    for (var _pri = 1; _pri < _altSorulariResume.length; _pri++) {
+                                        ozelSetSoruEkle(_altSetResume, _pri);
+                                    }
+                                }
                                 var _sira = aktifSoruSirasi();
                                 var _atlananResume = KIME_ATLAMA_HARITASI[_cvResume.kime] || [];
                                 var _hedefId = null;
