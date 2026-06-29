@@ -221,6 +221,28 @@
         }
 
         const cevaplar = QuizHelper.getCevaplar();
+        // FIX: aktifSet'i index.html'in (ayrı bir iframe) localStorage'a YAZMASINI
+        // beklemek yarış durumu (race condition) yaratıyordu — bu statik iframe
+        // (özet) bazen index.html'in kendi yazma işleminden ÖNCE çalışıp eski/
+        // yanlış değeri (örn. 'normal' veya 'petler') okuyabiliyordu. Artık
+        // özet.html, sahip olduğu gerçek cevaplardan (kime + pet_tur) doğru seti
+        // KENDİSİ türetip yazıyor — başka bir sayfanın zamanlamasına bağımlı değil.
+        (function() {
+            var _kime = cevaplar.kime || '';
+            var _dogruSet = null;
+            if (_kime === 'Bebek ❤️' || _kime === 'Bebek') _dogruSet = 'bebekler';
+            else if (_kime === 'Çocuk 🧒' || _kime === 'Çocuk') _dogruSet = 'cocuklar';
+            else if (_kime === 'Pet ❤️' || _kime === 'Pet') {
+                var _pt = cevaplar.pet_tur || '';
+                if (_pt.indexOf('Kedi') !== -1) _dogruSet = 'kedi';
+                else if (_pt.indexOf('Köpek') !== -1) _dogruSet = 'kopek';
+                else if (_pt.indexOf('Kuş') !== -1) _dogruSet = 'kus';
+                else if (_pt.indexOf('Balık') !== -1) _dogruSet = 'balik';
+                else if (_pt) _dogruSet = 'kucukpet';
+                else _dogruSet = 'petler'; // pet_tur henüz cevaplanmamış
+            }
+            if (_dogruSet) QuizHelper.setAktifSet(_dogruSet);
+        })();
         const aktifSet = QuizHelper.getAktifSet();
         const sorular = QuizHelper.getAktifSorular();
         const isOzel = aktifSet !== 'normal';
