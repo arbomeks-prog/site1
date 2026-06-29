@@ -1048,6 +1048,72 @@ if (_budurDevamEdiliyor) {
 // AÇILMASIN — popup sadece kullanıcı kime'yi elle tıkladığında açılmalı.
 var _sqOtomatikSecimAktif = false;
 
+// RESUME-SCROLL bayrağı: "Devam Et" ile geri dönüldüğünde true olur. Gerçek
+// kaydırma artık sabit zamanlayıcıyla değil, _sqKimeDevamEt() özel seti
+// kurduktan SONRA (olaya bağlı) tetiklenir. Bkz. _sqResumeKaydirTetikle().
+var _sqResumeBekliyor = false;
+
+// "Devam Et" sonrası kullanıcıyı kaldığı (ilk cevapsız) soruya kaydıran fonksiyon.
+// _sqKimeDevamEt() içinden, özel set / normal akış blokları DOM'a eklendikten
+// sonra çağrılır — böylece kime iframe'inin cevap gecikmesinden BAĞIMSIZ olarak
+// bloklar her zaman önce kurulmuş olur.
+function _sqResumeHedefHesaplaVeKaydir() {
+    try {
+        var _cvResume = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+        // Pet iki-kademeli dallanma — kime='Pet' otomatik seçimi sadece pet_tur
+        // sorusunu ekler (OZEL_SETLER.petler = [pet_tur] tek elemanlı). pet_tur de
+        // zaten cevaplanmışsa, asıl alt pet setini (kedi/köpek/kuş/balık/kucukpet)
+        // DALLANMA NOKTASI 2 ile birebir aynı mantıkla yeniden kuruyoruz; yoksa
+        // aktifSoruSirasi() sadece ['pet_tur'] döner ve derin sorular (kedi_yas,
+        // kedi_butce vs.) hiç DOM'a eklenmez.
+        if (_cvResume.kime && KIME_SET_HARITASI[_cvResume.kime] === 'petler' && _cvResume.pet_tur) {
+            var _altSetResume = petAltSetiBul(_cvResume.pet_tur);
+            aktifOzelSet = _altSetResume;
+            // aktifOzelSet sadece index.html'in JS scope'unda; ozet.html (ayrı iframe)
+            // bunu görmez, QuizHelper.getAktifSet() ile localStorage'daki
+            // 'budurBuldumAktifSet'i okur. Yazılmazsa ozet.html eski/yanlış seti
+            // (sadece 'petler' → tek soru pet_tur) kullanır, kriter ekranında derin
+            // pet sorularının hiçbiri chip olarak görünmez.
+            localStorage.setItem('budurBuldumAktifSet', _altSetResume);
+            cevaplananlar['pet_tur'] = true;
+            var _altSorulariResume = OZEL_SETLER[_altSetResume];
+            for (var _pri = 1; _pri < _altSorulariResume.length; _pri++) {
+                ozelSetSoruEkle(_altSetResume, _pri);
+            }
+        }
+        var _sira = aktifSoruSirasi();
+        var _atlananResume = KIME_ATLAMA_HARITASI[_cvResume.kime] || [];
+        var _hedefId = null;
+        for (var _ri = 0; _ri < _sira.length; _ri++) {
+            if (_atlananResume.indexOf(_sira[_ri]) !== -1) continue; // bu kime için atlanan soru, sayma
+            if (_cvResume[_sira[_ri]] === undefined || _cvResume[_sira[_ri]] === '') { _hedefId = _sira[_ri]; break; }
+        }
+        if (_hedefId && _hedefId !== 'kime') {
+            var _hedefBlok = document.getElementById('blok-' + _hedefId);
+            if (_hedefBlok) _hedefBlok.scrollIntoView({behavior:'smooth', block:'center'});
+        } else if (!_hedefId) {
+            // Tüm sorular cevaplı: özete kaydır
+            var _ozetBlok = document.getElementById('blok-ozet');
+            if (_ozetBlok) _ozetBlok.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+    } catch(exResume) {}
+}
+
+// Resume kaydırmayı tetikler. Yeni eklenen pet alt-iframe'leri yüklendikçe sayfa
+// yüksekliği değiştiğinden, hesaplama+kaydırma birkaç kez (artan gecikmeyle)
+// tekrarlanır; içerik yerleştikten sonraki son çağrı doğru konumda kalır. Bu
+// gecikmeler artık message-post anına değil, _sqKimeDevamEt()'in çalıştığı ANA
+// (bloklar kurulduktan sonra) göre verildiğinden iframe yavaşlığına dayanıklıdır.
+function _sqResumeKaydirTetikle() {
+    setTimeout(_sqResumeHedefHesaplaVeKaydir, 50);
+    setTimeout(_sqResumeHedefHesaplaVeKaydir, 600);
+    setTimeout(function() {
+        _sqResumeHedefHesaplaVeKaydir();
+        var _rb = document.getElementById('sq-resume-banner');
+        if (_rb) _rb.remove();
+    }, 1600);
+}
+
 var _baslangicKime = localStorage.getItem('budurBuldumBaslangicKime');
 if (_baslangicKime) {
     localStorage.removeItem('budurBuldumBaslangicKime');
@@ -1062,67 +1128,19 @@ if (_baslangicKime) {
                         type: 'otomatik_secim',
                         deger: _baslangicKime
                     }, '*');
-                    // RESUME-SCROLL: "Devam Et" ile geri dönüldüyse, özel set
-                    // blokları kurulduktan sonra kullanıcıyı kaldığı (ilk cevapsız)
-                    // soruya kaydır — sayfanın en başında bırakma.
+                    // RESUME-SCROLL: "Devam Et" ile geri dönüldüyse, kaldığı (ilk
+                    // cevapsız) soruya kaydırılacak. ESKİ YÖNTEM (sabit 50/600/1600ms
+                    // zamanlayıcı) KALDIRILDI: kime iframe'inin otomatik_secim'e cevap
+                    // verip _sqKimeDevamEt()'i (özel set bloklarını kuran fonksiyon)
+                    // çalıştırması mobilde 1600ms'yi aşabiliyordu; o zaman geç gelen
+                    // _sqKimeDevamEt sayfayı yeniden akıtıp scroll'u bozuyordu (Pet
+                    // dallanmasındaki "kaldığı yere gitmiyor" bugunun kökü buydu).
+                    // YENİ YÖNTEM: sadece bir bayrak set ediyoruz; gerçek kaydırma,
+                    // _sqKimeDevamEt() özel seti kurduktan SONRA oradan tetikleniyor
+                    // (olaya bağlı sıralama — iframe ne kadar geç cevap verirse versin
+                    // bloklar önce kurulur, scroll sonra yapılır).
                     if (_budurDevamEdiliyor) {
-                        var _sqResumeHedefHesaplaVeKaydir = function() {
-                            try {
-                                var _cvResume = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
-                                // FIX: Pet iki-kademeli dallanma — kime='Pet' otomatik seçimi
-                                // sadece pet_tur sorusunu ekler (OZEL_SETLER.petler = [pet_tur]
-                                // tek elemanlı). Eğer pet_tur de zaten cevaplanmışsa, asıl alt
-                                // pet setini (kedi/köpek/kuş/balık/kucukpet) burada DALLANMA
-                                // NOKTASI 2 ile birebir aynı mantıkla yeniden kurmamız gerekiyor,
-                                // yoksa aktifSoruSirasi() sadece ['pet_tur'] döner ve derin
-                                // sorular (kedi_yas, kedi_butce vs.) hiç DOM'a eklenmez.
-                                if (_cvResume.kime && KIME_SET_HARITASI[_cvResume.kime] === 'petler' && _cvResume.pet_tur) {
-                                    var _altSetResume = petAltSetiBul(_cvResume.pet_tur);
-                                    aktifOzelSet = _altSetResume;
-                                    // FIX 2: aktifOzelSet sadece index.html'in kendi JS scope'unda bir
-                                    // değişken — ozet.html (ayrı bir iframe, ayrı JS context) bunu HİÇ
-                                    // göremiyor. ozet.html, QuizHelper.getAktifSet() üzerinden
-                                    // localStorage'daki 'budurBuldumAktifSet' anahtarını okuyor. Bu
-                                    // yazılmazsa ozet.html eski/yanlış set'i (örn. sadece 'petler' →
-                                    // tek soru: pet_tur) kullanır, kriter seçim ekranında derin pet
-                                    // sorularının (yaş/bütçe vs.) HİÇBİRİ chip olarak görünmez.
-                                    localStorage.setItem('budurBuldumAktifSet', _altSetResume);
-                                    cevaplananlar['pet_tur'] = true;
-                                    var _altSorulariResume = OZEL_SETLER[_altSetResume];
-                                    for (var _pri = 1; _pri < _altSorulariResume.length; _pri++) {
-                                        ozelSetSoruEkle(_altSetResume, _pri);
-                                    }
-                                }
-                                var _sira = aktifSoruSirasi();
-                                var _atlananResume = KIME_ATLAMA_HARITASI[_cvResume.kime] || [];
-                                var _hedefId = null;
-                                for (var _ri = 0; _ri < _sira.length; _ri++) {
-                                    if (_atlananResume.indexOf(_sira[_ri]) !== -1) continue; // bu kime için atlanması gereken soru, sayma
-                                    if (_cvResume[_sira[_ri]] === undefined || _cvResume[_sira[_ri]] === '') { _hedefId = _sira[_ri]; break; }
-                                }
-                                if (_hedefId && _hedefId !== 'kime') {
-                                    var _hedefBlok = document.getElementById('blok-' + _hedefId);
-                                    if (_hedefBlok) _hedefBlok.scrollIntoView({behavior:'smooth', block:'center'});
-                                } else if (!_hedefId) {
-                                    // Tüm sorular cevaplı: özete kaydır
-                                    var _ozetBlok = document.getElementById('blok-ozet');
-                                    if (_ozetBlok) _ozetBlok.scrollIntoView({behavior:'smooth', block:'start'});
-                                }
-                            } catch(exResume) {}
-                        };
-                        // FIX: Pet alt-soruları yeni eklenen iframe'ler olduğu için
-                        // gerçek yükseklikleri ancak yüklenince netleşiyor — sayfa
-                        // o anda büyüyüp özeti aşağı kaydırabiliyor. Bu yüzden
-                        // hesaplama+kaydırma tek seferlik değil, birkaç kez (artan
-                        // gecikmeyle) tekrar çalıştırılıyor; içerik yerleştikten
-                        // sonraki son çağrı doğru konumda kalır.
-                        setTimeout(_sqResumeHedefHesaplaVeKaydir, 50);
-                        setTimeout(_sqResumeHedefHesaplaVeKaydir, 600);
-                        setTimeout(function() {
-                            _sqResumeHedefHesaplaVeKaydir();
-                            var _rb = document.getElementById('sq-resume-banner');
-                            if (_rb) _rb.remove();
-                        }, 1600);
+                        _sqResumeBekliyor = true;
                     }
                 }, 300);
             }
@@ -1847,21 +1865,37 @@ window.addEventListener('message', function(e) {
                     // Bebek / Çocuk / Pet → özel set tüm soruları aç
                     aktifOzelSet = KIME_SET_HARITASI[deger];
                     ozelSetTumSorularEkle(aktifOzelSet);
-                    setTimeout(function() {
-                        var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
-                        if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
-                    }, 300);
+                    if (_sqResumeBekliyor) {
+                        // RESUME: özel setin ilk sorusuna scroll ETME (çakışmaya yol
+                        // açıyordu). Bloklar kurulduğuna göre artık olaya bağlı
+                        // resume-scroll'u tetikle; o, Pet alt-setini de kurup kaldığı
+                        // gerçek soruya kaydırır.
+                        _sqResumeBekliyor = false;
+                        _sqResumeKaydirTetikle();
+                    } else {
+                        setTimeout(function() {
+                            var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
+                            if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+                        }, 300);
+                    }
                 } else {
                     // Normal akış (Sevgili / Arkadaş / Anne / Baba / Kardeş / İş arkadaşı / Kendime)
                     aktifOzelSet = null;
-                    var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
-                    var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
-                    if (sonrakiSoruIdKime && !_budurDevamEdiliyor) {
-                        var reloadGerekenKime = ['cinsiyet', 'yas'];
-                        if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
-                            setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
+                    if (_sqResumeBekliyor) {
+                        // RESUME (normal akış): normal blok'lar zaten sayfada mevcut,
+                        // ekleme gerekmiyor; doğrudan kaldığı soruya kaydır.
+                        _sqResumeBekliyor = false;
+                        _sqResumeKaydirTetikle();
+                    } else {
+                        var dosyaAdiKime = (e.data.sonrakiSayfa || '').split('/').pop().split('?')[0];
+                        var sonrakiSoruIdKime = SAYFA_SORU_MAP[dosyaAdiKime];
+                        if (sonrakiSoruIdKime) {
+                            var reloadGerekenKime = ['cinsiyet', 'yas'];
+                            if (reloadGerekenKime.indexOf(sonrakiSoruIdKime) !== -1) {
+                                setTimeout(function() { iframeYenile(sonrakiSoruIdKime); }, 100);
+                            }
+                            setTimeout(function() { sonrakiScroll(sonrakiSoruIdKime); }, 200);
                         }
-                        setTimeout(function() { sonrakiScroll(sonrakiSoruIdKime); }, 200);
                     }
                 }
             };
