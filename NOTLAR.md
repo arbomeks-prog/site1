@@ -86,13 +86,62 @@ eklenirse bu üç yerin hepsi güncellenmeli.
 
 ---
 
-## 🔶 BEKLEYEN İŞ — Özet Sayfası Bütçe Popup'ı → Gerçek Profil Kartına Dönüşecek
-**(Bu konuşmada onaylandı, henüz canlıya UYGULANMADI — sadece demo/mockup aşamasında kaldı)**
+## ✅ ÇÖZÜLDÜ — Profil Kartları (profil.html VE özet sayfası popup'ı) Pet/Bebek'te Eksik Bilgi Gösteriyordu (29 Haziran 2026, devam)
 
-**Karar:** Şu an "Hediyeleri Gör" tıklandığında çıkan sade "Bütçe Sabit/Esnek"
-popup'ı (parent-butce-overlay, index.html ~satır 2107) kaldırılıp yerine
-**profil.html'deki GERÇEK kartın aynısı** (renk kodlu border-left, avatar,
-kart-header, kart-detaylar: Bütçe/Amaç/Öncelik) gösterilecek.
+**Durum: ÇALIŞIYOR, kullanıcı tarafından canlıda doğrulandı.**
+Güvenli nokta: `guvenli-nokta-PET-VE-PKB-TAMAMI-CALISIYOR-29haziran2026`
+(tag + `index-yedek-PKB-VE-PET-RESUME-CALISIYOR-29haziran2026.html` +
+`profil-yedek-CALISIYOR-29haziran2026.html`).
+
+Yukarıdaki kategori-sızıntı kök-fix'i canlıya alındıktan sonra kullanıcı
+**iki ayrı yerde** aynı görsel sorunu fark etti: Pet kartlarında "Amaç"
+kutusu hep "—" gösteriyordu, "Hediye Tercihi" hiç görünmüyordu.
+
+**Yer 1 — `profil.html`:** `getAktifSet()` Pet'i her zaman kaba `'petler'`
+döndürüyordu (gerçek alt-tür kedi/köpek/kuş/balık/küçükpet hiç çözülmüyordu),
+bu yüzden "Hediye Tercihi" kutusunun okuduğu `turKey` haritası `'petler'`
+diye bir anahtar bulamıyordu. Ayrıca "Amaç" kutusu Pet'te zaten anlamsız
+bir alan olduğu için koşulsuz gösteriliyordu. **Çözüm (commit `01c761a`,
+`0b7aaa0`):** `getAktifSet()`'e `petAltSetiBul()` eklendi (pet_tur'dan
+gerçek alt-seti çözer), Amaç kutusu Pet'te (kart + düzenle paneli) gizlendi.
+
+**Yer 2 — Özet sayfasındaki "Hediyeleri Gör" → Bütçe Sabit/Esnek popup'ı
+(`index.html` içinde, `pkb` ön-ekli kod):** Bu, profil.html'in **TAMAMEN
+AYRI bir kopyası** — aynı hatayı ayrıca taşıyordu, hatta daha kötü: kendi
+`pkbGetAktifSet()`'i kime değerini emoji'siz tam eşleşme (`k==='Pet'`) ile
+arıyordu, gerçek değer `'Pet ❤️'` olduğu için bu HİÇBİR ZAMAN eşleşmiyordu
+— Pet/Bebek/Çocuk hep "normal" sanılıyordu. Ayrıca kart HTML şablonunda
+Hayvan/Hediye Tercihi kutuları baştan hiç yoktu, sadece Bütçe/Amaç/Öncelik
+sabit kodluydu. **Çözüm (commit `eaa7186`):** `pkbGetAktifSet()` aynı
+emoji-toleranslı + `petAltSetiBul()` mantığına getirildi, karta Hayvan ve
+Hediye Tercihi kutuları eklendi, Amaç Pet'te gizlendi.
+
+**Genel ders — kopya kod tehlikesi:** Bu proje, AYNI kart mantığının
+(profil.html'deki `renderKartlar`) **iki yerde elle kopyalanmış** halini
+barındırıyor: `profil.html`'in kendisi ve `index.html`'in `pkb` ön-ekli
+kodu. Bu yüzden profil.html'de bir hata düzeltildiğinde, ozet sayfası
+popup'ındaki kopyanın AYNI hatayı hâlâ taşıdığını unutmak çok kolay —
+tam da bugün olan buydu. **Eğer kart görüntüleme mantığında ileride
+yeni bir değişiklik gerekirse, ikisi de (profil.html VE index.html'in
+pkb kodu) güncellenmeli; biri unutulursa kullanıcı "düzelttik ama hâlâ
+bozuk" deneyimi yaşar.** Uzun vadede bu iki kopyayı tek bir paylaşılan
+fonksiyona indirmek (örn. bir `kart.js` dosyası, ikisi de import etsin)
+düşünülebilir — şimdilik bilinçli bir borç olarak not ediliyor.
+
+---
+
+
+
+## ✅ TAMAMLANDI — Özet Sayfası Bütçe Popup'ı → Gerçek Profil Kartına Dönüştü
+**(Bu konuşmada karar verildi, AYNI gün canlıya alındı — ec34fa3. Pet'teki
+eksik bilgi sorunu ise birkaç saat sonra ayrı bir oturumda ortaya çıktı,
+yukarıdaki "Profil Kartları... Eksik Bilgi Gösteriyordu" notunda anlatılan
+şekilde çözüldü.)**
+
+Eski sade "Bütçe Sabit/Esnek" popup'ı (parent-butce-overlay, index.html
+~satır 2107) kaldırılıp yerine **profil.html'deki GERÇEK kartın aynısı**
+(renk kodlu border-left, avatar, kart-header, kart-detaylar: Bütçe/Amaç/
+Öncelik) gösterildi.
 
 **Kesinleşen tasarım kuralı (defalarca yanlış anlaşıldı, dikkat):**
 - Kartın HİÇBİR mevcut elemanı (Yeni hediye bul / Düzenle / Bu kişiyi sil
@@ -126,9 +175,8 @@ notu). O yüzden kart, o anki ham `localStorage.budurBuldumCevaplar` verisinden
   - "Bütçe Sabit/Esnek" ile "Yeni hediye bul" ikisi de sonunda hediyeler.html'e
     gittiği için davranış çakışması yok, hangisine basılırsa basılsın fark etmiyor.
 
-**Sıradaki adım:** Bu mantığı `index.html` (popup gösterimi) ve `ozet.html`
-(`butceSecimYapVeGit` fonksiyonu) içine gerçek kodla işlemek, test edip onay
-alınca push etmek.
+**Sıradaki adım (TAMAMLANDI):** Bu mantık `index.html`'in `pkb` ön-ekli
+koduna (`parentKartButcePopupGoster`) işlendi, test edilip canlıya alındı.
 
 
 
