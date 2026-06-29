@@ -1034,6 +1034,10 @@ if (_budurDevamEdiliyor) {
     })();
 } else {
     localStorage.removeItem('budurBuldumCevaplar');
+    // FIX: kriter seçimi (özet sayfasındaki "Kendin Seç" kutuları) önceden
+    // bu temizlenmiyordu — taze bir arama başlatıldığında eski kişinin
+    // seçtiği kriterler localStorage'da kalıp yeni aramaya sızabiliyordu.
+    localStorage.removeItem('budurBuldumSelectedCriteria');
 }
 
 // Eğer önceki oturumdan sıfırlama (kime değişti) VEYA "Devam Et" (resume) sonrası

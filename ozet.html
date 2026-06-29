@@ -234,6 +234,20 @@
         renderProfilBar(cevaplar, sorular, isOzel);
         renderButceButonlar(cevaplar, sorular, isOzel);
         renderKriterListesi(cevaplar, sorular, isOzel, !veriTam);
+        // FIX: "Yeni hediye bul" / "Devam Et" ile geri dönüldüğünde, önceden
+        // seçilmiş kriterler (budurBuldumSelectedCriteria) varsa otomatik
+        // olarak yeniden işaretle. Gerçek toggleSelection() yolunu tetiklemek
+        // için chip.click() kullanılır (rastgeleSecimYap()'taki gibi),
+        // sahte/elle state yazılmaz.
+        try {
+            var _oncekiKriterler = JSON.parse(localStorage.getItem('budurBuldumSelectedCriteria') || '[]');
+            if (Array.isArray(_oncekiKriterler) && _oncekiKriterler.length > 0) {
+                _oncekiKriterler.forEach(function(_k) {
+                    var _chip = document.querySelector('#selections-list .chip[data-soru-id="' + _k.id + '"]');
+                    if (_chip && !_chip.classList.contains('selected')) _chip.click();
+                });
+            }
+        } catch (eKriterResume) {}
         renderBurcPanel(cevaplar);
         afterSummaryReady();
 
