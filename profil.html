@@ -168,7 +168,13 @@ function getAktifSet(cv, iliski) {
   var s = cv._aktifSet || 'normal';
   if (s === 'normal') {
     var k = cv.kime || iliski || '';
-    if (k==='Bebek') s='bebekler'; else if (k==='Çocuk') s='cocuklar'; else if (k==='Pet') s='petler';
+    // FIX: gerçek kayıtlı değer emoji içeriyor ("Çocuk 🧒","Bebek ❤️","Pet ❤️"),
+    // sadece emojisiz tam eşleşme arıyorduk — bu yüzden çocuk/bebek/pet
+    // profillerinde bu set hiç tanınmıyor, kart "normal" sanılıp cv.amac/
+    // cv.butce (boş) okunuyor, kutular bomboş görünüyordu.
+    if (k.indexOf('Bebek') === 0) s='bebekler';
+    else if (k.indexOf('Çocuk') === 0) s='cocuklar';
+    else if (k.indexOf('Pet') === 0) s='petler';
   }
   return s;
 }
@@ -292,6 +298,13 @@ function renderKartlar(kisiler) {
     var amacKey = aktifSet==='bebekler'?'bebek_amac':aktifSet==='cocuklar'?'cocuk_amac':'amac';
 
     var amac = cv[amacKey]||cv.amac||'—';
+    // YENİ: pet/bebek/çocuk için "ne tür hediye tercih edersin" sorusu —
+    // şu ana kadar hiç gösterilmiyordu. Pet'te ayrıca hangi hayvan olduğunu
+    // da (pet_tur) ayrı bir kutuda gösteriyoruz.
+    var turKey = {bebekler:'bebek_tur', cocuklar:'cocuk_tur', kedi:'kedi_tur', kopek:'kopek_tur',
+                  kus:'kus_hediye', balik:'balik_hediye', kucukpet:'kucukpet_hediye'}[aktifSet];
+    var hediyeTuru = turKey ? (cv[turKey] || '') : '';
+    var hayvanTuru = (aktifSet==='petler'||['kedi','kopek','kus','balik','kucukpet'].indexOf(aktifSet)!==-1) ? (cv.pet_tur || '') : '';
     var oncelik = cv.oncelik||'—';
     var tikSayisi=0;
     try{tikSayisi=(JSON.parse(k.tiklanan_hediyeler||'[]')).length;}catch(e){}
@@ -325,8 +338,10 @@ function renderKartlar(kisiler) {
         '</div>'+
       '</div>'+
       '<div class="kart-detaylar">'+
+        (hayvanTuru ? '<div class="detay"><p class="detay-label">Hayvan</p><p class="detay-val">'+hayvanTuru+'</p></div>' : '') +
         '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">'+butce+'</p></div>'+
         '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val" id="amac-val-'+idx+'">'+amac+'</p></div>'+
+        (hediyeTuru ? '<div class="detay"><p class="detay-label">Hediye Tercihi</p><p class="detay-val">'+hediyeTuru+'</p></div>' : '') +
         '<div class="detay" style="grid-column:1/-1;"><p class="detay-label">Öncelik</p><p class="detay-val" id="oncelik-val-'+idx+'">'+oncelik+'</p></div>'+
       '</div>'+
       '<div class="dp" id="dp-'+idx+'">'+
