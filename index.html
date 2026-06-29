@@ -2307,11 +2307,26 @@ function pkbGetButceSet(butceKey) {
   var m = {'bebek_butce':'bebekler','cocuk_butce':'cocuklar','kedi_butce':'kedi','kopek_butce':'kopek','kus_butce':'kus','balik_butce':'balik','kucukpet_butce':'kucukpet'};
   return m[butceKey] || 'normal';
 }
+// index.html'deki petAltSetiBul ile aynı (Pet iki kademeli dallanıyor:
+// önce "Pet ❤️" → sonra hangi hayvan). Bu fonksiyon zaten yukarıda
+// (DALLANMA NOKTASI 2 için) tanımlı, burada tekrar tanımlamaya gerek yok.
 function pkbGetAktifSet(cv) {
   var s = cv._aktifSet || 'normal';
   if (s === 'normal') {
     var k = cv.kime || '';
-    if (k==='Bebek') s='bebekler'; else if (k==='Çocuk') s='cocuklar'; else if (k==='Pet') s='petler';
+    // FIX: gerçek kayıtlı değer emoji içeriyor ("Çocuk 🧒","Bebek ❤️","Pet ❤️"),
+    // önceden SADECE emojisiz tam eşleşme (k==='Pet') aranıyordu — bu hiçbir
+    // zaman eşleşmiyordu, Pet/Bebek/Çocuk hep "normal" sanılıp kart boş
+    // çıkıyordu (Amaç kutusu hep "—", Hayvan/Hediye Tercihi hiç gösterilmiyordu).
+    if (k.indexOf('Bebek') === 0) s='bebekler';
+    else if (k.indexOf('Çocuk') === 0) s='cocuklar';
+    else if (k.indexOf('Pet') === 0) s='petler';
+  }
+  // KOK FIX: 'petler' kaba bir yer tutucu (Pet'in İLK kademesi) — gerçek
+  // alt-set (kedi/köpek/kuş/balık/kucukpet) pet_tur cevaplanmışsa çözülmeli,
+  // aynı mantık profil.html'de ve index.html'in DALLANMA NOKTASI 2'sinde var.
+  if (s === 'petler' && cv.pet_tur) {
+    s = petAltSetiBul(cv.pet_tur);
   }
   return s;
 }
@@ -2348,6 +2363,16 @@ function parentKartButcePopupGoster() {
   var amacKey = aktifSet==='bebekler'?'bebek_amac':aktifSet==='cocuklar'?'cocuk_amac':'amac';
   var amac = cv[amacKey]||cv.amac||'—';
   var oncelik = cv.oncelik||'—';
+  // profil.html'deki renderKartlar ile birebir aynı mantık: Pet ve alt-
+  // türlerinde (kedi/köpek/kuş/balık/küçükpet) "amac" diye bir soru yok —
+  // bu kutu hep "—" basıyordu. SADECE Bebek/Çocuk/normal akışta göster;
+  // Pet'te yerini Hayvan + Hediye Tercihi kutuları alıyor.
+  var petSetleriPKB = ['petler','kedi','kopek','kus','balik','kucukpet'];
+  var amacGosterilsinMiPKB = petSetleriPKB.indexOf(aktifSet) === -1;
+  var turKeyPKB = {bebekler:'bebek_tur', cocuklar:'cocuk_tur', kedi:'kedi_tur', kopek:'kopek_tur',
+                   kus:'kus_hediye', balik:'balik_hediye', kucukpet:'kucukpet_hediye'}[aktifSet];
+  var hediyeTuruPKB = turKeyPKB ? (cv[turKeyPKB] || '') : '';
+  var hayvanTuruPKB = petSetleriPKB.indexOf(aktifSet) !== -1 ? (cv.pet_tur || '') : '';
 
   var html =
     '<div class="kart" style="background:#1e293b;border:1px solid #334155;border-left:4px solid '+renk.text+';border-radius:16px;padding:18px;position:relative;">'+
@@ -2360,13 +2385,15 @@ function parentKartButcePopupGoster() {
         '</div>'+
       '</div>'+
       '<div id="pkb-detaylar" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">'+
+        (hayvanTuruPKB ? '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Hayvan</p><p style="font-size:13px;font-weight:600;color:#e2e8f0;">'+hayvanTuruPKB+'</p></div>' : '') +
         '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Bütçe</p><p id="pkb-val-butce" style="font-size:13px;font-weight:600;color:#e2e8f0;">'+butce+'</p></div>'+
-        '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Amaç</p><p id="pkb-val-amac" style="font-size:13px;font-weight:600;color:#e2e8f0;">'+amac+'</p></div>'+
+        (amacGosterilsinMiPKB ? '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Amaç</p><p id="pkb-val-amac" style="font-size:13px;font-weight:600;color:#e2e8f0;">'+amac+'</p></div>' : '') +
+        (hediyeTuruPKB ? '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Hediye Tercihi</p><p style="font-size:13px;font-weight:600;color:#e2e8f0;">'+hediyeTuruPKB+'</p></div>' : '') +
         '<div style="grid-column:1/-1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Öncelik</p><p id="pkb-val-oncelik" style="font-size:13px;font-weight:600;color:#e2e8f0;">'+oncelik+'</p></div>'+
       '</div>'+
       '<div id="pkb-dp" style="display:none;margin-top:8px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;">'+
         '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px;">Bütçe</p><div>'+pkbBtnler(PKB_BUTCE_OPT[pkbGetButceSet(butceKey)]||PKB_BUTCE_OPT.normal, butce, 'butce')+'</div>'+
-        '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:12px 0 6px;">Amaç</p><div>'+pkbBtnler(PKB_AMAC_OPT[aktifSet]||PKB_AMAC_OPT.normal, amac, 'amac')+'</div>'+
+        (amacGosterilsinMiPKB ? '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:12px 0 6px;">Amaç</p><div>'+pkbBtnler(PKB_AMAC_OPT[aktifSet]||PKB_AMAC_OPT.normal, amac, 'amac')+'</div>' : '') +
         '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:12px 0 6px;">Öncelik</p><div>'+pkbBtnler(PKB_ONCELIK_OPT, oncelik, 'oncelik')+'</div>'+
         '<button onclick="pkbKaydet(\''+butceKey+'\',\''+amacKey+'\')" style="width:100%;margin-top:14px;background:#e8a838;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kaydet ✓</button>'+
         '<button onclick="document.getElementById(\'pkb-dp\').style.display=\'none\';document.getElementById(\'pkb-btns\').style.display=\'grid\';" style="width:100%;margin-top:6px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:9px;font-size:13px;color:#64748b;cursor:pointer;">İptal</button>'+
@@ -2390,7 +2417,7 @@ function pkbKaydet(butceKey, amacKey) {
   var sel = window._pkbSecim || {};
   var cv = {}; try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}'); } catch(e){}
   if (sel.butce) { cv[butceKey] = sel.butce; document.getElementById('pkb-val-butce').textContent = sel.butce; }
-  if (sel.amac)  { cv[amacKey]  = sel.amac;  document.getElementById('pkb-val-amac').textContent = sel.amac; }
+  if (sel.amac)  { cv[amacKey]  = sel.amac;  var _pkbAmacEl=document.getElementById('pkb-val-amac'); if(_pkbAmacEl)_pkbAmacEl.textContent = sel.amac; }
   if (sel.oncelik) { cv.oncelik = sel.oncelik; document.getElementById('pkb-val-oncelik').textContent = sel.oncelik; }
   localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
   window._pkbSecim = {};
