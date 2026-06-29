@@ -1066,7 +1066,7 @@ if (_baslangicKime) {
                     // blokları kurulduktan sonra kullanıcıyı kaldığı (ilk cevapsız)
                     // soruya kaydır — sayfanın en başında bırakma.
                     if (_budurDevamEdiliyor) {
-                        setTimeout(function() {
+                        var _sqResumeHedefHesaplaVeKaydir = function() {
                             try {
                                 var _cvResume = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
                                 // FIX: Pet iki-kademeli dallanma — kime='Pet' otomatik seçimi
@@ -1101,9 +1101,20 @@ if (_baslangicKime) {
                                     if (_ozetBlok) _ozetBlok.scrollIntoView({behavior:'smooth', block:'start'});
                                 }
                             } catch(exResume) {}
+                        };
+                        // FIX: Pet alt-soruları yeni eklenen iframe'ler olduğu için
+                        // gerçek yükseklikleri ancak yüklenince netleşiyor — sayfa
+                        // o anda büyüyüp özeti aşağı kaydırabiliyor. Bu yüzden
+                        // hesaplama+kaydırma tek seferlik değil, birkaç kez (artan
+                        // gecikmeyle) tekrar çalıştırılıyor; içerik yerleştikten
+                        // sonraki son çağrı doğru konumda kalır.
+                        setTimeout(_sqResumeHedefHesaplaVeKaydir, 50);
+                        setTimeout(_sqResumeHedefHesaplaVeKaydir, 500);
+                        setTimeout(function() {
+                            _sqResumeHedefHesaplaVeKaydir();
                             var _rb = document.getElementById('sq-resume-banner');
                             if (_rb) _rb.remove();
-                        }, 50);
+                        }, 1100);
                     }
                 }, 300);
             }
