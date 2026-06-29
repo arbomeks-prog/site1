@@ -305,6 +305,13 @@ function renderKartlar(kisiler) {
                   kus:'kus_hediye', balik:'balik_hediye', kucukpet:'kucukpet_hediye'}[aktifSet];
     var hediyeTuru = turKey ? (cv[turKey] || '') : '';
     var hayvanTuru = (aktifSet==='petler'||['kedi','kopek','kus','balik','kucukpet'].indexOf(aktifSet)!==-1) ? (cv.pet_tur || '') : '';
+    // Amaç, Pet ve Pet alt-türlerinde (kedi/köpek/kuş/balık/küçükpet) hiç
+    // var olmayan bir alan — orada her zaman "—" basıyordu. Bebek/Çocuk/
+    // normal akışta gerçek bir karşılığı var (doğum günü, yeni doğum vb.),
+    // SADECE onlarda gösterilsin. Pet'te bu kutunun yerini "Hediye Tercihi"
+    // alıyor (zaten aşağıda var, hediyeTuru ile).
+    var petSetleri = ['petler','kedi','kopek','kus','balik','kucukpet'];
+    var amacGosterilsinMi = petSetleri.indexOf(aktifSet) === -1;
     var oncelik = cv.oncelik||'—';
     var tikSayisi=0;
     try{tikSayisi=(JSON.parse(k.tiklanan_hediyeler||'[]')).length;}catch(e){}
@@ -340,7 +347,7 @@ function renderKartlar(kisiler) {
       '<div class="kart-detaylar">'+
         (hayvanTuru ? '<div class="detay"><p class="detay-label">Hayvan</p><p class="detay-val">'+hayvanTuru+'</p></div>' : '') +
         '<div class="detay"><p class="detay-label">Bütçe</p><p class="detay-val">'+butce+'</p></div>'+
-        '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val" id="amac-val-'+idx+'">'+amac+'</p></div>'+
+        (amacGosterilsinMi ? '<div class="detay"><p class="detay-label">Amaç</p><p class="detay-val" id="amac-val-'+idx+'">'+amac+'</p></div>' : '') +
         (hediyeTuru ? '<div class="detay"><p class="detay-label">Hediye Tercihi</p><p class="detay-val">'+hediyeTuru+'</p></div>' : '') +
         '<div class="detay" style="grid-column:1/-1;"><p class="detay-label">Öncelik</p><p class="detay-val" id="oncelik-val-'+idx+'">'+oncelik+'</p></div>'+
       '</div>'+
@@ -349,8 +356,7 @@ function renderKartlar(kisiler) {
         '<input id="dp-isim-'+idx+'" type="text" value="'+encodeHTML(isim)+'" maxlength="30" placeholder="Ahmet, Selin, Annem..." style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);border-radius:10px;padding:10px 12px;color:#fff;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:4px;"/>'+
         '<p class="dp-label dp-margin">Bütçe</p>'+
         '<div>'+btnler(BUTCE_OPT[butceSet]||BUTCE_OPT.normal,butce,idx,'butce')+'</div>'+
-        '<p class="dp-label dp-margin">Amaç</p>'+
-        '<div>'+btnler(AMAC_OPT[aktifSet]||AMAC_OPT.normal,amac,idx,'amac')+'</div>'+
+        (amacGosterilsinMi ? '<p class="dp-label dp-margin">Amaç</p><div>'+btnler(AMAC_OPT[aktifSet]||AMAC_OPT.normal,amac,idx,'amac')+'</div>' : '') +
         '<p class="dp-label dp-margin">Öncelik</p>'+
         '<div>'+btnler(ONCELIK_OPT,oncelik,idx,'oncelik')+'</div>'+
         '<button onclick="kaydetDP('+idx+')" style="width:100%;margin-top:14px;background:#e8a838;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kaydet ✓</button>'+
@@ -390,7 +396,7 @@ function kaydetDP(idx){
   var yeniIsim=document.getElementById('dp-isim-'+idx);
   if(yeniIsim&&yeniIsim.value.trim()){k.kisi_adi=yeniIsim.value.trim();var kartIsimEl=document.querySelector('#kart-'+idx+' .kart-isim');if(kartIsimEl)kartIsimEl.textContent=k.kisi_adi;}
   if(k._eb){cv[k._ebKey||'butce']=k._eb;k.butce=k._eb;}
-  if(k._ea){cv[k._eaKey||'amac']=k._ea;document.getElementById('amac-val-'+idx).textContent=k._ea;}
+  if(k._ea){cv[k._eaKey||'amac']=k._ea;var _amacValEl=document.getElementById('amac-val-'+idx);if(_amacValEl)_amacValEl.textContent=k._ea;}
   if(k._eo){cv.oncelik=k._eo;document.getElementById('oncelik-val-'+idx).textContent=k._eo;}
   k.tum_cevaplar=cv;
   var nick=localStorage.getItem('budurBuldumNickname');
