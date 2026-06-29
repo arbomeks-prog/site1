@@ -35,7 +35,51 @@ Kaba sabit-ölçü çözümü ilk denemede çalışıyor ve bir şablon haline g
 iskeleti kuruldu, "her koyduğumuz diğerini sıkıştırsın" kuralı netleşti,
 sonra üstüne estetik eklendi, bir daha o kutulara dönülmedi).
 
-## Repo Yapısı
+## 🔶 BEKLEYEN İŞ — Özet Sayfası Bütçe Popup'ı → Gerçek Profil Kartına Dönüşecek
+**(Bu konuşmada onaylandı, henüz canlıya UYGULANMADI — sadece demo/mockup aşamasında kaldı)**
+
+**Karar:** Şu an "Hediyeleri Gör" tıklandığında çıkan sade "Bütçe Sabit/Esnek"
+popup'ı (parent-butce-overlay, index.html ~satır 2107) kaldırılıp yerine
+**profil.html'deki GERÇEK kartın aynısı** (renk kodlu border-left, avatar,
+kart-header, kart-detaylar: Bütçe/Amaç/Öncelik) gösterilecek.
+
+**Kesinleşen tasarım kuralı (defalarca yanlış anlaşıldı, dikkat):**
+- Kartın HİÇBİR mevcut elemanı (Yeni hediye bul / Düzenle / Bu kişiyi sil
+  butonları, renkler, layout) DEĞİŞTİRİLMEYECEK veya KALDIRILMAYACAK.
+- SADECE 2 ekleme yapılacak: (1) tarih ("🕐 ...") kartın en altından sağ üst
+  köşeye taşınacak, (2) mevcut butonların ALTINA, ayrı bir blok olarak,
+  yan yana 2 yeni buton eklenecek: "Bütçe Sabit" / "Bütçe Esnek".
+- Onaylanan demo dosyası: `kart-akis-demo-v4-DUZELTILMIS.html` (outputs'ta).
+  Yeni bir oturumda işe başlamadan önce bu dosyanın mantığı referans alınmalı.
+
+**Veri kaynağı (kritik, mockup/demo veri KULLANILMAYACAK):**
+Bu popup, "Hediyeleri Gör" tıklandığı an açılır — bu noktada henüz resmi bir
+`budurBuldumAyraclar` kaydı YOKTUR (o kayıt ancak hediyeler.html yüklenip
+geri mesaj gönderince oluşur, bkz. yukarıdaki "Profil Kartı Nasıl Oluşuyor"
+notu). O yüzden kart, o anki ham `localStorage.budurBuldumCevaplar` verisinden
+(gerçek `getButceKey`/`getAktifSet` fonksiyonlarıyla) anlık üretilecek.
+
+**Butonların davranışı:**
+- "Bütçe Sabit" / "Bütçe Esnek" → `budurBuldumButceEsnek` flag'i yazılır,
+  AYNI ANDA `budurBuldumAyraclar`'a `tamamlandi:true` kaydı eklenir (yani
+  kayıt artık burada, butona basılınca oluşur), sonra `hediyeler.html`'e
+  yönlendirilir — şu anki `butceSecimYapVeGit()` mantığıyla aynı, sadece
+  tetikleyici UI değişiyor.
+- **Mevcut butonların bu popup'taki davranışı (NETLEŞTİ):**
+  - "Yeni hediye bul" → AKTİF, normal işlevini yapar (zaten hediyeler.html'e gider)
+  - "Düzenle" → AKTİF, normal işlevini yapar (cevapları değiştirebilir) —
+    kullanıcı merak edip basarsa kendisi için hazırlanan kartı görsün/değiştirsin
+  - "🗑️ Bu kişiyi sil" → SADECE bu popup'ta PASİF/tıklanamaz (disabled).
+    Sebep: ilk kullanımda kullanıcı yanlışlıkla basıp kartını silebilir.
+    Silme işlevi SADECE `profil.html`'de aktif kalacak.
+  - "Bütçe Sabit/Esnek" ile "Yeni hediye bul" ikisi de sonunda hediyeler.html'e
+    gittiği için davranış çakışması yok, hangisine basılırsa basılsın fark etmiyor.
+
+**Sıradaki adım:** Bu mantığı `index.html` (popup gösterimi) ve `ozet.html`
+(`butceSecimYapVeGit` fonksiyonu) içine gerçek kodla işlemek, test edip onay
+alınca push etmek.
+
+
 
 - `index.html` → `quiz-kime.html` → quiz adımları → `ozet.html` → `hediyeler.html`
 - `config.js` — ortak JS ve quiz branching mantığı
@@ -43,6 +87,30 @@ sonra üstüne estetik eklendi, bir daha o kutulara dönülmedi).
 - `api/log-quiz.js` — quiz log
 - `vercel.json` — redirect'ler ve Vercel config
 - `_video-sablon.html` — video animasyonu şablonu (play butonu, ses, kayıt hazır)
+
+## ⚠️ MİMARİ NOT — Profil Kartı NASIL Oluşuyor (İsim Şartı YOK)
+
+**Profil kartı, isim verilmese de oluşur.** İki ayrı, birbirinden bağımsız
+profil mekanizması var, ikisini birbirine karıştırmamak gerekiyor:
+
+1. **Yerel (localStorage) ayraç sistemi — isim şartı YOK:**
+   `hediyeler.html` yüklendiğinde, `hediyeler_goruntulendi` mesajı parent'a
+   (`index.html`) gidince, `index.html` (satır ~1694-1712) `budurBuldumAyraclar`
+   listesine `{ sessionId, kime, kisiAdi, cevaplar, tamamlandi:true }` kaydı
+   ekler — `kisiAdi` boş string olsa BİLE bu kayıt eklenir. `profil.html`'deki
+   `profilYukleSession()` aynı cihazda, nickname yokken, bu listeden okuyup
+   kartları gösterir. **Yani aynı cihazda kart görmek için isim şartı yoktur.**
+
+2. **Sunucu (Neon/quiz_logs) tarafındaki `save-profile` API'si — isim/nickname
+   ŞART:** `hediyeler.html` satır ~600-610'da, SADECE `nickname` ya da
+   `kisiAdi` varsa `/api/save-profile` çağrılır. Bu, kartın **farklı cihazdan
+   da görülebilmesi** (nickname ile) veya kalıcı sunucu kaydı için gereken yol.
+   İsimsiz geçilirse bu adım atlanır — ama kart yine de aynı cihazda (1.
+   maddedeki yerel sistem sayesinde) görünür durmaya devam eder.
+
+**Özet:** Aynı cihaz → isim şartı yok, kart her zaman oluşur (yerel).
+Farklı cihaz / kalıcı sunucu kaydı → isim veya nickname şart.
+Bu davranış DOĞRU ve KASITLIDIR, değiştirilmeyecek.
 
 ---
 

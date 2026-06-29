@@ -2139,6 +2139,159 @@ function parentButceSecimYap(esnek) {
 }
 </script>
 
+<!-- ════════════════════════════════════════════════════════════════
+     YENİ: Gerçek profil kartlı bütçe popup'ı (eski parent-butce-overlay
+     YUKARIDA AYNEN KORUNDU, devre dışı bırakıldı, kullanılmıyor ama
+     SİLİNMEDİ — bir sorun çıkarsa aşağıdaki butce_popup_goster
+     listener'ında tek satır değiştirip eski sisteme dönülebilir.)
+     ════════════════════════════════════════════════════════════════ -->
+<div id="parent-kart-butce-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:flex-end;justify-content:center;padding:0;">
+  <div style="background:#0f172a;border-radius:24px 24px 0 0;padding:18px 16px 26px;max-width:480px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(0,0,0,0.3);">
+    <div style="text-align:right;margin-bottom:4px;">
+      <button onclick="document.getElementById('parent-kart-butce-overlay').style.display='none'" style="background:none;border:none;font-size:20px;color:#64748b;cursor:pointer;padding:4px 8px;">✕</button>
+    </div>
+    <div id="parent-kart-butce-icerik"></div>
+  </div>
+</div>
+
+<script>
+/* ── profil.html'den birebir taşınan yardımcı fonksiyonlar/veri ── */
+var PKB_AVATAR_RENKLER = [
+  {bg:'#FBEAF0',text:'#993556'},{bg:'#FAEEDA',text:'#854F0B'},
+  {bg:'#EAF3DE',text:'#3B6D11'},{bg:'#E6F1FB',text:'#185FA5'},{bg:'#EEEDFE',text:'#534AB7'}
+];
+var PKB_AMAC_OPT = {
+  normal:   ['Doğum Günü','Yıl Dönümü','Sevgililer Günü','Özel Bir Başarı','Sadece sürpriz','Noel / Yılbaşı'],
+  bebekler: ['Yeni doğdu 🎀','Doğum günü 🎂','Baby shower 🛁','Sünnet 🌙','Sadece sürpriz 🎁'],
+  cocuklar: ['Doğum Günü','Yılbaşı / Bayram','Başarı Ödülü','Sürpriz'],
+  petler:   ['Doğum Günü','Bayram','Sadece sürpriz']
+};
+var PKB_ONCELIK_OPT = ['Kullanışlı olsun','Güzel görünsün','Özel ve anlamlı olsun','Uygun fiyatlı olsun'];
+var PKB_BUTCE_OPT = {
+  normal:    ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'],
+  bebekler:  ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL'],
+  cocuklar:  ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL'],
+  kedi:      ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL'],
+  kopek:     ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL'],
+  kus:       ['0-500 TL','0-1000 TL','0-2000 TL'],
+  balik:     ['0-500 TL','0-1000 TL','0-2000 TL'],
+  kucukpet:  ['0-500 TL','0-1000 TL','0-2000 TL']
+};
+function pkbGetButceKey(cv) {
+  if (cv.bebek_butce !== undefined) return 'bebek_butce';
+  if (cv.cocuk_butce !== undefined) return 'cocuk_butce';
+  if (cv.kedi_butce  !== undefined) return 'kedi_butce';
+  if (cv.kopek_butce !== undefined) return 'kopek_butce';
+  if (cv.kus_butce   !== undefined) return 'kus_butce';
+  if (cv.balik_butce !== undefined) return 'balik_butce';
+  if (cv.kucukpet_butce !== undefined) return 'kucukpet_butce';
+  return 'butce';
+}
+function pkbGetButceSet(butceKey) {
+  var m = {'bebek_butce':'bebekler','cocuk_butce':'cocuklar','kedi_butce':'kedi','kopek_butce':'kopek','kus_butce':'kus','balik_butce':'balik','kucukpet_butce':'kucukpet'};
+  return m[butceKey] || 'normal';
+}
+function pkbGetAktifSet(cv) {
+  var s = cv._aktifSet || 'normal';
+  if (s === 'normal') {
+    var k = cv.kime || '';
+    if (k==='Bebek') s='bebekler'; else if (k==='Çocuk') s='cocuklar'; else if (k==='Pet') s='petler';
+  }
+  return s;
+}
+function pkbGetInitials(isim) {
+  if (!isim) return '??';
+  var temiz = isim.replace(/\p{Emoji}/gu, '').trim();
+  if (!temiz) return '??';
+  var p = temiz.split(' ').filter(function(x){return x.length>0;});
+  return p.length >= 2 ? (p[0][0]+p[1][0]).toUpperCase() : temiz.substring(0,2).toUpperCase();
+}
+function pkbBtnler(secenekler, secili, tip) {
+  return secenekler.map(function(s) {
+    var sel = s===secili;
+    return '<button onclick="pkbSec(this,\''+tip+'\')" style="background:'+(sel?'#e8a838':'rgba(255,255,255,0.07)')+';color:'+(sel?'#412402':'#e2e8f0')+';border:1px solid '+(sel?'#e8a838':'rgba(255,255,255,0.15)')+';border-radius:8px;padding:7px 11px;font-size:12px;font-weight:'+(sel?'700':'400')+';cursor:pointer;margin:3px 3px 0 0;">'+s+'</button>';
+  }).join('');
+}
+function pkbSec(btn, tip) {
+  btn.parentNode.querySelectorAll('button').forEach(function(b){b.style.background='rgba(255,255,255,0.07)';b.style.color='#e2e8f0';b.style.fontWeight='400';b.style.borderColor='rgba(255,255,255,0.15)';});
+  btn.style.background='#e8a838';btn.style.color='#412402';btn.style.fontWeight='700';btn.style.borderColor='#e8a838';
+  window._pkbSecim = window._pkbSecim || {};
+  window._pkbSecim[tip] = btn.textContent;
+}
+
+/* ── Kartı (gerçek renderKartlar mantığıyla) çiz ── */
+function parentKartButcePopupGoster() {
+  var sid = localStorage.getItem('budurBuldumSessionId') || '';
+  var cv = {}; try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}'); } catch(e){}
+  var kisiAdi = localStorage.getItem('budurBuldumKisiAdi_'+sid) || '';
+  var isim = kisiAdi || cv.kime || 'Kişi';
+  var renk = PKB_AVATAR_RENKLER[0];
+  var aktifSet = pkbGetAktifSet(cv);
+  var butceKey = pkbGetButceKey(cv);
+  var butce = cv[butceKey] || '—';
+  var amacKey = aktifSet==='bebekler'?'bebek_amac':aktifSet==='cocuklar'?'cocuk_amac':'amac';
+  var amac = cv[amacKey]||cv.amac||'—';
+  var oncelik = cv.oncelik||'—';
+
+  var html =
+    '<div class="kart" style="background:#1e293b;border:1px solid #334155;border-left:4px solid '+renk.text+';border-radius:16px;padding:18px;position:relative;">'+
+      '<div style="position:absolute;top:18px;right:18px;font-size:10.5px;color:#64748b;font-weight:600;">🕐 Şimdi</div>'+
+      '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">'+
+        '<div style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;background:'+renk.bg+';color:'+renk.text+';">'+pkbGetInitials(cv.kime||isim)+'</div>'+
+        '<div style="flex:1;min-width:0;">'+
+          '<p style="font-size:16px;font-weight:600;color:#fff;margin-bottom:2px;">'+(cv.kime||isim)+'</p>'+
+          '<p style="font-size:12px;color:#94a3b8;">'+[isim!==(cv.kime)?isim:'',cv.cinsiyet,cv.yas].filter(function(x){return x&&x.trim();}).join(' · ')+'</p>'+
+        '</div>'+
+      '</div>'+
+      '<div id="pkb-detaylar" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">'+
+        '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Bütçe</p><p id="pkb-val-butce" style="font-size:13px;font-weight:600;color:#e2e8f0;">'+butce+'</p></div>'+
+        '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Amaç</p><p id="pkb-val-amac" style="font-size:13px;font-weight:600;color:#e2e8f0;">'+amac+'</p></div>'+
+        '<div style="grid-column:1/-1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;"><p style="font-size:10px;color:#64748b;margin-bottom:3px;text-transform:uppercase;">Öncelik</p><p id="pkb-val-oncelik" style="font-size:13px;font-weight:600;color:#e2e8f0;">'+oncelik+'</p></div>'+
+      '</div>'+
+      '<div id="pkb-dp" style="display:none;margin-top:8px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;">'+
+        '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px;">Bütçe</p><div>'+pkbBtnler(PKB_BUTCE_OPT[pkbGetButceSet(butceKey)]||PKB_BUTCE_OPT.normal, butce, 'butce')+'</div>'+
+        '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:12px 0 6px;">Amaç</p><div>'+pkbBtnler(PKB_AMAC_OPT[aktifSet]||PKB_AMAC_OPT.normal, amac, 'amac')+'</div>'+
+        '<p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:12px 0 6px;">Öncelik</p><div>'+pkbBtnler(PKB_ONCELIK_OPT, oncelik, 'oncelik')+'</div>'+
+        '<button onclick="pkbKaydet(\''+butceKey+'\',\''+amacKey+'\')" style="width:100%;margin-top:14px;background:#e8a838;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kaydet ✓</button>'+
+        '<button onclick="document.getElementById(\'pkb-dp\').style.display=\'none\';document.getElementById(\'pkb-btns\').style.display=\'grid\';" style="width:100%;margin-top:6px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:9px;font-size:13px;color:#64748b;cursor:pointer;">İptal</button>'+
+      '</div>'+
+      '<div id="pkb-btns" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">'+
+        '<button onclick="parentKartButceSec(false)" style="background:#e8a838;border:none;border-radius:10px;padding:11px 8px;font-size:13px;font-weight:700;color:#412402;cursor:pointer;">Yeni hediye bul</button>'+
+        '<button onclick="document.getElementById(\'pkb-dp\').style.display=\'block\';document.getElementById(\'pkb-btns\').style.display=\'none\';" style="background:transparent;border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:11px 8px;font-size:13px;font-weight:500;color:#94a3b8;cursor:pointer;">✏️ Düzenle</button>'+
+      '</div>'+
+      '<button disabled style="width:100%;margin-top:8px;background:transparent;border:1px solid rgba(239,68,68,0.15);border-radius:10px;padding:8px;font-size:12px;color:rgba(239,68,68,0.4);cursor:not-allowed;">🗑️ Bu kişiyi sil</button>'+
+      '<div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);display:grid;grid-template-columns:1fr 1fr;gap:8px;">'+
+        '<button onclick="parentKartButceSec(false)" style="background:#1e40af;border:none;border-radius:10px;padding:13px 8px;font-size:13.5px;font-weight:700;color:#fff;cursor:pointer;">🔒 Bütçe Sabit</button>'+
+        '<button onclick="parentKartButceSec(true)" style="background:transparent;border:1.5px solid #1e40af;border-radius:10px;padding:13px 8px;font-size:13.5px;font-weight:700;color:#93c5fd;cursor:pointer;">↔️ Bütçe Esnek</button>'+
+      '</div>'+
+    '</div>';
+
+  document.getElementById('parent-kart-butce-icerik').innerHTML = html;
+  document.getElementById('parent-kart-butce-overlay').style.display = 'flex';
+}
+
+function pkbKaydet(butceKey, amacKey) {
+  var sel = window._pkbSecim || {};
+  var cv = {}; try { cv = JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}'); } catch(e){}
+  if (sel.butce) { cv[butceKey] = sel.butce; document.getElementById('pkb-val-butce').textContent = sel.butce; }
+  if (sel.amac)  { cv[amacKey]  = sel.amac;  document.getElementById('pkb-val-amac').textContent = sel.amac; }
+  if (sel.oncelik) { cv.oncelik = sel.oncelik; document.getElementById('pkb-val-oncelik').textContent = sel.oncelik; }
+  localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cv));
+  window._pkbSecim = {};
+  document.getElementById('pkb-dp').style.display = 'none';
+  document.getElementById('pkb-btns').style.display = 'grid';
+}
+
+function parentKartButceSec(esnek) {
+  document.getElementById('parent-kart-butce-overlay').style.display = 'none';
+  var ozetIframe = document.getElementById('iframe-ozet');
+  if (ozetIframe && ozetIframe.contentWindow) {
+    ozetIframe.contentWindow.postMessage({ type: 'butce_secimi', esnek: esnek }, '*');
+  }
+}
+</script>
+
+
 <div id="parent-kismi-secim-popup" style="display:none;position:fixed;bottom:24px;left:20px;right:20px;z-index:9999;background:#1e293b;border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.3);opacity:0;transition:opacity 0.3s;text-align:center;">
     <div style="color:#fff;font-size:15px;font-weight:700;" id="parent-kismi-secim-metin"></div>
 </div>
@@ -2210,7 +2363,11 @@ window.addEventListener('message', function(e) {
         parentKayitPopupGoster(e.data);
     }
     if (e.data.type === 'butce_popup_goster') {
-        document.getElementById('parent-butce-overlay').style.display = 'flex';
+        // YENİ (gerçek profil kartlı popup) — aktif:
+        parentKartButcePopupGoster();
+        // ESKİ (sade Sabit/Esnek kutusu) — sorun çıkarsa üstteki satırı silip
+        // aşağıdaki satırın başındaki "// " işaretini kaldırarak anında geri dönülür:
+        // document.getElementById('parent-butce-overlay').style.display = 'flex';
     }
     if (e.data.type === 'kismi_secim_bekleme') {
         parentKismiSecimUyariGoster(e.data.secilen, e.data.gereken);
