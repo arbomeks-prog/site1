@@ -97,16 +97,17 @@
             font-size:11px; font-weight:900; color:white; border-radius:50%; width:16px; height:16px;
         }
         .sq-mini-kart {
-            display:none; width:64px; margin-bottom:8px;
+            display:none; flex-direction:column; width:64px; margin-bottom:8px; max-height:30vh;
             background:#1e293b; border-left:3px solid #e8a838; border-radius:8px;
             padding:6px 5px; box-shadow:0 3px 10px rgba(0,0,0,0.3); color:#fff;
         }
         .sq-mini-kart-baslik {
+            flex-shrink:0;
             font-size:10px; font-weight:800; color:#fbbf24; text-align:center;
             white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:4px;
         }
         .sq-mini-kart-liste {
-            max-height:170px; overflow-y:auto; display:flex; flex-direction:column; gap:3px;
+            flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:3px;
         }
         .sq-mini-kart-satir {
             font-size:9px; line-height:1.25; color:#e2e8f0; text-align:center;
@@ -1249,7 +1250,7 @@ if (_baslangicKime) {
         if (!kart || !baslik || !liste) return;
         baslik.textContent = (kimeDegeri || '').replace(/[❤️🧒]/g, '').trim();
         liste.innerHTML = '';
-        kart.style.display = 'block';
+        kart.style.display = 'flex';
     }
     function sqMiniKartEkle(deger) {
         var liste = document.getElementById('sq-mini-kart-liste');
