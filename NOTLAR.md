@@ -677,3 +677,70 @@ Makale içerikleri şimdiye kadar 4 kez toplu script'lerle silindi (GA4 ekleme, 
 #### Sonraki adım:
 - `index-calisma.html` hanım onayından geçince `index.html` ile takas yapılacak
 - Takas öncesi: `index-yedek-28haziran2026.html` yedeği alınacak
+
+---
+
+## 30 Haziran 2026 — Grok Prompt Orijinal Metin + searchQuery Düzeltmesi + Instagram Görseli
+
+### 1. Grok Prompt — Orijinal Metin Testi
+
+Sistem promptu daha önce özetlenerek yazılmıştı. Demirci'nin kendi yazdığı detaylı, uzun metnin hiç değiştirilmeden Grok'a gönderilmesi test edildi.
+
+**Test süreci:**
+- Ayrı demo API: `api/gifts-demo.js`
+- Demo sayfaları: `demo-orijinal-prompt.html`, sonra tam quiz akışıyla `index-demo-prompt-testi.html` + `hediyeler-demo-prompt.html`
+- Canlı site bozulmadan paralel test ortamı kuruldu
+- Demirci hem Grok'a (X/Twitter) iki versiyonu karşılaştırarak danıştı, hem ~1 saat kendisi aynı profilleri hem canlı hem demo'da test etti
+- Sonuç: Orijinal (uzun, insan dilinde) metin çok daha yaratıcı/beklenmedik hediyeler üretti (hap kutusu, katlanabilir şemsiye, katlanabilir baston). Grok da kendi görüşünde orijinal metinle "daha rahat ettiğini" belirtti.
+
+**Canlıya alındı:**
+- `api/gifts.js` içindeki "KİŞİYE GÖRE KURALLAR" bölümü Demirci'nin orijinal metniyle (özetlenmeden) değiştirildi.
+- Genel kurallar ve bütçe kuralı (sert/sınırlayıcı versiyon) aynen korundu.
+- **Yedek:** `api/gifts-yedek-30haziran2026.js`
+- Commit: `d0edf9f`
+
+### 2. searchQuery / name Uyumsuzluğu
+
+**Tespit:** Grok hediye kartında (`name`/`description`) "hayvan figürlü yastık" gibi spesifik yazıyor ama `searchQuery`'de sadeleştirip "hayvan yastığı" yazıyor — kullanıcı linke tıklayınca tamamen farklı ürün (örn. evcil hayvan yatağı) çıkıyor.
+
+**Kanıt:** "Fast food kolye" hediyesi gerçekten Hepsiburada'da bulunmuş (Tedz Collection Fast Food Arkadaşlık Kolyesi) — searchQuery'nin yaratıcı/spesifik olması çalışıyor, sorun sadece name-searchQuery tutarsızlığı.
+
+**Çözüm (canlıya alındı):**
+> searchQuery, name ile birebir kelime uyumlu olmalı. Kendi önerdiği hediyeyi önce aynen aramalı. Sonuç yoksa sırasıyla: figürlü → desenli → resimli → işlemeli → sembollü dene. Hiçbiri olmazsa en yakın genel alternatife geç.
+
+Commit: `6f75b88`
+
+### 3. Beyin Fırtınası — Karar Verilmedi, Not Olarak Duruyor
+
+**A) 6 seçili kriterin kullanımı:**
+- Şu an: 6 seçili kriter ikişerli gruplanıp sadece HEDİYE 1-2-3'e (nokta atışı) yansıyor, kalan 6 hediye seçilmeyen kriterlerden besleniyor.
+- Sorun: Kullanıcının "önemli" diye seçtiği 6 kriter, üretilen 9 hediyenin 6'sında hiç görünmüyor.
+- Tartışılan alternatif: 6 seçili kriterin her biri ayrı bir hediyeye tekli yansısın (6 hediye), kalan 12 şıktan 3'erli gruplanarak 4 hediye daha üretilsin.
+- Risk: Tekli eşleme güvenli ama sığ olabilir (örn. "spor seviyor→spor hediyesi"). İkili eşlemenin değeri yaratıcı kombinasyondu (film+dondurma→dondurma kasesi).
+- Demirci'nin gözlemi: Bazı ikili kombinasyonlar (dondurma kasesi gibi) mantık doğru ama "hediyelik değer" taşımıyor, sıradan ev eşyası gibi kalıyor.
+- **Karar: Şimdilik dokunulmuyor.**
+
+**B) Description'ların "satış dili" ile güçlendirilmesi** — tartışıldı, önceliklendirilmedi.
+
+### 4. Bilinen Açık Bug — Tekrar Görülürse İncelenecek
+
+Özet sayfasında (ozet.html) hediyelere bakarken sayfa kendiliğinden sıfırlanıp baştan başlama davranışı bir kez daha görüldü. Önceki gece benzer şey rapor edilmişti, ec34fa3'e geri dönülmüştü. Demirci'nin yanlışlıkla dokunma ihtimali var, kesin değil. **Sonraki görülmede ekran görüntüsü + hangi adımda olduğu not edilecek.**
+
+### 5. Instagram Tanıtım Görseli
+
+"En detaylı hediye bulma testi" — Demirci'nin orijinal metni (kısaltılmadan) kullanılarak hazırlandı.
+- 4:5 oranı (1080x1350), gerçek PNG — Playwright ile render edildi, ekran görüntüsü/kırpma gerektirmiyor.
+- Tasarım: koyu arka plan, turuncu/kırmızı vurgular, madde işaretli liste + kapanış + büyük "budurbuldum.com" + "👆 Linki bio'da".
+- Not: Bebas Neue offline ortamda yüklenemedi (sandbox'ta fonts.googleapis.com erişimi yok), Arial Black ile değiştirildi.
+
+### Git Commit Geçmişi (Bugün)
+```
+04c15d0 Demo: orijinal prompt testi - tam quiz akisiyla
+d0edf9f Grok prompt: orijinal metin canli sisteme alindi (yedek: gifts-yedek-30haziran2026.js)
+6f75b88 Prompt: searchQuery-name uyumu ve figürlu/desenli/resimli fallback kurali
+```
+
+### Geri Dönüş Noktaları
+- `api/gifts-yedek-30haziran2026.js` — bugünkü değişiklikler öncesi gifts.js
+- `index-demo-prompt-testi.html` + `hediyeler-demo-prompt.html` — orijinal prompt test ortamı (canlıyı etkilemez)
+- `api/gifts-demo.js` — demo API (canlıyı etkilemez)
