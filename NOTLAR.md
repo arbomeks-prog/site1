@@ -796,3 +796,46 @@ Bu ortamda **internet erişimi sınırlı** (sadece belirli domainler: github, n
 5. İçerik taşıyor mu kontrol et (gerekirse 4. adımdan önce font/spacing ayarla).
 6. PNG'yi `/mnt/user-data/outputs/`'a koy, present_files ile göster.
 7. Demirci'ye direkt galeriden Instagram'a yükleyebileceğini söyle — ekran görüntüsü veya kırpma gerekmiyor.
+
+---
+
+## ✅ CANLI — Hediye Kutuları Alta Yaslandı + Mini Profil Kartı (30 Haziran 2026)
+
+**Durum: CANLI.** Commit: `1c34402`. Geri dönüş: `index-yedek-mini-kart-oncesi-30haziran2026.html`.
+Demo dosyası referans için repoda duruyor: `index-demo-mini-kart.html` (artık index.html ile aynı içerikte, ayrıca dokunulmadı).
+
+**Süreç:** Önce `index-demo-mini-kart.html` adıyla ayrı bir demo kopyasında geliştirildi,
+birkaç tur ekran görüntüsüyle test edilip onaylandıktan sonra (üst boşluk ayarı dahil
+birkaç ince ayar turu) doğrudan `index.html` üzerine kopyalanarak canlıya alındı.
+
+**Ne değişti:**
+- `.gift-col` (sağdaki hediye kutuları + "↑ BAŞA DÖN") artık `top:50%` ile dikeyde
+  ortalanmıyor, `bottom:10px` ile ekranın altına, adres çubuğunun çıktığı yere kadar
+  yaslı duruyor. Bu, üstte boş bir alan açtı.
+- O boş alanda, "kime" sorusu cevaplandığı anda **mini bir profil kartı** beliriyor
+  (`#sq-mini-kart`, gift-col içinde hediye kutularının üstünde, ilk eleman olarak).
+  Başlıkta kime değeri yazıyor (örn. "Anne", "Baba" — emoji temizlenmiş hali).
+- Kullanıcı her soruyu cevapladıkça (kime hariç, kime zaten başlığa yazılıyor), o
+  cevabın değeri kartın içindeki listeye (`#sq-mini-kart-liste`) ekleniyor — kullanıcı
+  cevaplarının kartta biriktiğini canlı görüyor. Liste otomatik en alta scroll oluyor
+  ki en son cevap hep görünür kalsın.
+- Kartın TAMAMI (başlık + liste) `max-height:21vh` ile sınırlı — cihaz ekranına göre
+  orantılı büyüyor ama asla ekran dışına taşıp başlığı (örn. "Baba") kesmiyor. Başlık
+  `flex-shrink:0` ile sabit, sadece liste kısmı kendi içinde scroll oluyor (`flex:1`).
+  21vh değeri birkaç ekran görüntüsü turu sonrası netleşti (önce 90px → 170px → 30vh →
+  24vh → 21vh, hep "başlık ekranın dışına taşmasın" dengesini ararken).
+
+**Teknik fonksiyonlar (index.html içinde):**
+- `sqMiniKartBaslat(kimeDegeri)` — kime cevaplanınca kartı açar, başlığı yazar.
+- `sqMiniKartEkle(deger)` — her cevaptan sonra listeye yeni satır ekler, en alta kaydırır.
+- Çağrı noktaları: kime dallanmasında (`cevaplananlar['kime']=true` sonrası),
+  ana `soru_cevaplandi` postMessage handler'ında (kime hariç tüm sorular, tek merkezi
+  nokta: localStorage yazımından hemen sonra), ve `dogumSec()` fonksiyonunda (burç
+  sorusu ayrı bir fonksiyon olduğu için orada da ayrıca çağrılıyor).
+
+**Genel ders:** Bu özellik önce izole bir demo dosyasında geliştirilip onaylandı, SONRA
+canlıya kopyalandı. Demo dosyası ile canlı index.html arasındaki fark `git diff` ile
+kontrol edilip sadece istenen eklemelerin olduğu doğrulandıktan sonra kopyalama yapıldı
+— bu sıra (demo → onay → fark kontrolü → canlıya kopyalama) güvenli ve hızlı çalıştı,
+gelecekte benzer büyük UI değişikliklerinde tekrar kullanılabilir bir model.
+
