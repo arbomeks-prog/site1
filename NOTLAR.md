@@ -984,3 +984,36 @@ Değişiklik sadece şu 3 CSS satırı:
 .plt-link:active { transform: translateY(2px); border-bottom-width: 2px; box-shadow: 1px 1px 3px rgba(0,0,0,0.15); }
 ```
 Onaylanırsa `hediyeler.html`'deki eski 2 satır bu 3 satırla değiştirilecek, başka hiçbir şeye dokunulmayacak.
+
+---
+
+## 🟡 AKTİF DURUM — 1 Temmuz 2026 (Gece Oturumu)
+
+### Bugün Yapılanlar
+
+**1. Platform butonları güncellendi (hediyeler.html)**
+- `.plt-link` stiline 3D efekt eklendi: `border-bottom`, `border-right`, `box-shadow`, hover/active animasyonu.
+- `::after` ile buton boyutu değiştirmeden altına "tıkla · seç" yazısı eklendi (CSS only, HTML'e dokunulmadı).
+- Commit: `3e1f9a8`
+
+**2. Alışveriş platformu URL parametreleri eklendi (hediyeler.html)**
+- Trendyol: `&st=SEARCH` — organik sıralama ağırlıklı, reklamlar aşağıya iniyor.
+- Hepsiburada: `&listing=1` — benzer etki.
+- Amazon: `&s=relevancerank` — alaka sıralaması.
+- Test süreci: önce `hediyeler-calisma.html` + `index-calisma.html` ikilisiyle denendi, onaylanınca canlıya alındı.
+- Commit: `5aa8a4f`
+
+**3. Grok prompt kuralları güncellendi (api/gifts.js)**
+- "projektör" yerine "projeksiyon cihazı" kullan.
+- Cinsiyet ayrımı olan ürünlerde searchQuery'e "erkek"/"kadın" ekle.
+- Kitap aramalarında searchQuery'e "yetişkin" ekle.
+- Burç aramasında "burç kolyesi" değil doğrudan burç adını kullan (örn. "Oğlak kolye").
+- Müze kartı/konser bileti/etkinlik girişi önerme — bunlar alışveriş sitelerinde yok. Bunların yerine: Netflix/Spotify/YouTube Premium hediye kartı, Steam/Xbox/PlayStation kodu, Adobe/Canva Pro aboneliği, sanat temalı fiziksel ürünler öner. searchQuery'de "hediye kartı" veya "dijital kod" olarak ara.
+- Commit: `5aa8a4f`, `d437bd9`
+
+### Test Dosyaları (repoda duruyor)
+- `hediyeler-calisma.html` — URL parametre test ortamı (canlıya alındı, dosya silinmedi)
+- `index-calisma.html` — hediyeler-calisma.html'e yönlendiriyor (test bitti, geri alınmadı)
+
+### Bir Sonraki Oturuma Not
+- `index-calisma.html` hâlâ `hediyeler-calisma.html`'e yönlendiriyor — gerekirse `hediyeler.html`'e geri alınabilir.
