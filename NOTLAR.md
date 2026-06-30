@@ -917,3 +917,70 @@ bu ikisi (sürpriz üretimi + reklam üretimi) birbirini besleyen, paralel ilerl
 iş olarak düşünülmeli, ayrı ayrı değil.
 
 
+
+---
+
+## 1 Temmuz 2026 — Affiliate / API Araştırması + Platform Buton Demosu
+
+### Affiliate Ağı Araştırması
+
+Uzun bir araştırma oturumu yapıldı. Özet:
+
+**GelirOrtakları:**
+- Türkiye'nin en köklü affiliate ağı, 500+ yerli marka (Trendyol, Hepsiburada, Çiçeksepeti, N11 dahil)
+- Ürün verisi XML/GoFeed sistemiyle sunuluyor — modern REST API değil, günlük güncellenen XML feed
+- Yayıncı başvurusu ücretsiz, kriterler esnek (çalışan site + dürüst içerik yeterli)
+- Trendyol gibi markalar GelirOrtakları paneli üzerinden ayrıca onaylanıyor
+- Sonuç: Türk pazarı için doğru yer ama API değil XML — kendi Neon DB'ye günlük çekip indeksleme gerekir
+
+**Admitad:**
+- Modern REST API var (OAuth token, JSON), `api.admitad.com` üzerinden
+- "products" endpoint'i mevcut ama canlı arama mı, feed mi — net doğrulanamadı (JS render sorunu)
+- Türkiye sayfasında 196 reklamveren var ama hepsi global markalar (Trip.com, iHerb, AliExpress vs.)
+- Trendyol / Hepsiburada Admitad'de bulunamadı — bunlar GelirOrtakları'nda
+- Sonuç: API teknik altyapısı daha iyi ama bizim hedef markalar orada yok
+
+**Trendyol direkt API:**
+- Trendyol'un kendi API'si sadece pazaryerinde mağazası olan satıcılara (seller) açık
+- Affiliate'lere özel ürün arama API'si yok — manuel link oluşturma paneli var
+- Trendyol affiliate programı şu an sadece sosyal medya kanallarından başvuru kabul ediyor
+
+**Amazon US Affiliate:**
+- Türkiye'den başvuru yapılabilir
+- Şart: 180 gün içinde 3 nitelikli satış — Türk kullanıcıyla zor
+- Amazon TR ise davet bazlı, self-servis başvuru yok (GelirOrtakları üzerinden başvurulabiliyor)
+
+**Sonuç:** Şu an için GelirOrtakları en mantıklı seçenek. Trafik gelince başvuru yapılacak.
+
+---
+
+### İngilizce Site Fikri — Önemli Vizyon Notu
+
+Pazar araştırması yapıldı. Tüm İngilizce AI hediye bulma rakipleri (Pickify, GiftX, SmartGiftAI, Giftruly, Gift Goat, Finder of Gifts, GiftList Genie) **5-7 soruluk, 30 saniyelik** yüzeysel araçlar.
+
+**Bizim gerçek farkımız iki şey:**
+1. **Derinlik:** 21+ soru, kategoriye özel dallanan quiz sistemi — bu pazarda yok
+2. **Kalıcı profil + sınırsız yeniden üretim döngüsü:** Profili bir kere oluştur, istediğin kadar "Yeni Hediye Bul"a bas, her seferinde farklı öneriler al — bu da pazarda yok (GiftX "öneriyi kaydet/paylaş" yapıyor, ama "aynı profilden sınırsız yeni öneri" değil)
+3. **Yarım kalan aramaya dön / profil sayfası** — bu da pazarda yok
+4. **Sürpriz havuzu / eğlence katmanı** — bu da pazarda yok
+
+Freudly (71 soru) hediye bulucu değil, psikoloji/kişilik testi formatında — kategori karışıklığı yapılmamalı.
+
+**Karar:** İngilizce versiyon ileride güçlü bir seçenek, ama önce Türkçe site oturmalı. Gelecek için not olarak duruyor.
+
+---
+
+### Platform Buton Demo (hediyeler.html)
+
+**Sorun:** Hediye kartlarındaki platform etiketleri (Trendyol, Hepsiburada, Amazon, Çiçeksepeti, N11) küçük/flat görünüyor, kullanıcı tıklanabilir olduğunu anlamıyor.
+
+**Çözüm önerisi:** `.plt-link` stilini quiz `option-btn`'e benzer — 3D görünümlü, alt border + gölge + hover/active efektli — düğme haline getir.
+
+**Demo:** `hediyeler-demo-plt-btn.html` outputs'a konuldu, onay bekleniyor.
+Değişiklik sadece şu 3 CSS satırı:
+```css
+.plt-link { font-size: 13px; font-weight: 700; padding: 9px 16px; border-radius: 12px; text-decoration: none; transition: all 0.15s ease; display: inline-block; border-bottom: 4px solid rgba(0,0,0,0.25); border-right: 3px solid rgba(0,0,0,0.15); box-shadow: 2px 3px 6px rgba(0,0,0,0.18); cursor: pointer; }
+.plt-link:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 2px 4px 10px rgba(0,0,0,0.22); }
+.plt-link:active { transform: translateY(2px); border-bottom-width: 2px; box-shadow: 1px 1px 3px rgba(0,0,0,0.15); }
+```
+Onaylanırsa `hediyeler.html`'deki eski 2 satır bu 3 satırla değiştirilecek, başka hiçbir şeye dokunulmayacak.
