@@ -1209,9 +1209,12 @@ if (_baslangicKime) {
         var keys=Object.keys(pexelsMap);
         keys.forEach(function(sid,si){
             pexelsMap[sid].forEach(function(q,idx){
+                if (sid==='cinsiyet' && idx===0) return; // sabit foto kullanılıyor, Pexels aramasını atla
                 setTimeout(function(){yukleGorsel(sid,idx,q);}, (si*4+idx)*100);
             });
         });
+        var sabitFoto = document.getElementById('pex-cinsiyet-0');
+        if (sabitFoto) sabitFoto.querySelector('img').src = 'cinsiyet-kadin-sabit.png';
     });
 
     function giftBoxGuncelle(soruIndex) {
