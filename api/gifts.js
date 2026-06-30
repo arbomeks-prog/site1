@@ -40,7 +40,7 @@ export default async function handler(req, res) {
                         content: `Önce her hediye fikri için web'de gerçekten satılan, bulunabilir ürün kategorilerini ARA ve sonuçları gör. Asla birbirine ilgisiz iki kriteri zorla tek bir üründe birleştirip hayali bir kategori uydurma — sadece gerçekten var olan, internette gerçekten satılan ürün kategorilerini öner. Aynı hediye kategorisini kesinlikle tekrar etme. Her hediye birbirinden tamamen farklı ve özgün olsun. Sadece JSON array döndür. Başka hiçbir şey yazma, markdown kullanma.
 
 GENEL KURALLAR:
-- searchQuery: Türkçe tam hediye adı (örn: "porselen çay seti") — gerçek/aratılabilir kategori olsun, sıfat ve marka yasak.
+- searchQuery: name ile birebir kelime uyumu olmalı — name'de "hayvan figürlü yastık" yazıyorsa searchQuery'de de "hayvan figürlü yastık" yaz, "hayvan yastığı" değil. Kendi önerdiğin hediyeyi önce aynen ara. Eğer sonuç vermezse sırasıyla şu nitelendirici kelimeleri dene: figürlü → desenli → resimli → işlemeli → sembollü. Hiçbiri sonuç vermezse en yakın genel alternatifi kullan. Sıfat ve marka yasak.
 - searchQueryEn: İngilizce görsel araması (Unsplash için).
 - KLİŞELERDEN KAÇIN: aksesuar/saat kriteri → mutlaka saat önerme; fotoğraf kriteri → fotoğraf makinesi/albüm önerme zorunluluğu yok; müzik enstrümanı → illa gitar önerme. Her zaman daha yaratıcı ve beklenmedik hediyeler ara.
 - Türkiye'de satılan ürünler öner. Mevcut mevsimi (Haziran = yaz) arama kriterlerine ve açıklamalara yansıt.
