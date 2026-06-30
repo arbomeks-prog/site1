@@ -744,3 +744,55 @@ d0edf9f Grok prompt: orijinal metin canli sisteme alindi (yedek: gifts-yedek-30h
 - `api/gifts-yedek-30haziran2026.js` — bugünkü değişiklikler öncesi gifts.js
 - `index-demo-prompt-testi.html` + `hediyeler-demo-prompt.html` — orijinal prompt test ortamı (canlıyı etkilemez)
 - `api/gifts-demo.js` — demo API (canlıyı etkilemez)
+
+---
+
+## Instagram Gönderileri Nasıl Yapılacak (Yöntem Notu — 30 Haziran 2026)
+
+### Format kuralı
+- **Story / Reels** → 9:16 oranı (1080x1920) — geçici içerik
+- **Feed gönderisi (post)** → 4:5 oranı (1080x1350) — kalıcı, profilde duran içerik
+- İkisi karıştırılmamalı, hangisi istenirse net belirtilmeli.
+
+### Metin kuralı — ÇOK ÖNEMLİ
+Demirci'nin yazdığı reklam/tanıtım metni **hiçbir kelimesi değiştirilmeden, kısaltılmadan, özetlenmeden** kullanılacak. Görsele konacak başlık dahil — örn. "EN DETAYLI TEST" gibi kısaltma YASAK, "EN DETAYLI HEDİYE BULMA TESTİ" gibi Demirci'nin yazdığı tam hali kullanılacak. Tasarımda (renk, kutu, boşluk) değişiklik yapılabilir ama metin asla kısaltılmaz.
+
+### Üretim yöntemi — DOĞRU OLAN YOL
+**HTML dosyası verip ekran görüntüsü aldırmak YANLIŞ** — tarayıcı arayüzü (adres çubuğu, sekmeler) görüntüye karışıyor, oranlar telefon ekranına göre bozuluyor, Demirci'nin kendi kırpması gerekiyor. Bu çok vakit kaybettirdi, bir daha yapılmayacak.
+
+**DOĞRU YÖNTEM:** Playwright ile doğrudan PNG dosyası üretilecek:
+```python
+from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    browser = p.chromium.launch()
+    page = browser.new_page(viewport={"width": 1080, "height": 1350})  # 4:5 için
+    page.goto("file:///tam/yol/dosya.html")
+    page.wait_for_timeout(300)
+    page.screenshot(path="cikti.png")
+    browser.close()
+```
+- Feed için viewport: 1080x1350 (4:5)
+- Story için viewport: 1080x1920 (9:16)
+- Çıktı doğrudan PNG — Demirci galeriye indirip kırpmadan, ekran görüntüsü almadan direkt Instagram'a yükleyebiliyor.
+
+### Font kısıtı (sandbox ortamı)
+Bu ortamda **internet erişimi sınırlı** (sadece belirli domainler: github, npm, pypi vb.), `fonts.googleapis.com` erişilemiyor. Yani Google Fonts (Bebas Neue, Nunito vb.) `<link>` ile çağrılırsa **yüklenmiyor**, tarayıcı sessizce varsayılan fonta düşüyor ve tasarım bambaşka görünüyor. Bu yüzden:
+- Google Fonts linki KULLANILMAYACAK.
+- Yerine sistemde hazır bulunan kalın/iddialı fontlar kullanılacak: `'Arial Black', Arial, sans-serif` (başlıklar için), `'Helvetica Neue', Arial, sans-serif` (gövde metni için).
+- Görsel olarak Bebas Neue'nin yerini tam tutmaz ama kalın/dikkat çekici görünüm sağlıyor, kabul edilebilir seviyede.
+
+### Boyut/taşma kontrolü
+İçerik tasarlarken önce normal boyutlarla yazılıp sonra hedef kutuya (1350px ya da 1920px yüksekliğe) sığıp sığmadığı kontrol edilmeli. Eğer içerik kutudan daha uzunsa:
+- **Çözüm 1:** Yazı boyutlarını küçültüp kutuya sığdırmak (genelde tercih edilen, okunabilirlik bozulmuyorsa sorun değil).
+- **Çözüm 2:** Format değiştirip Story'ye (9:16, daha uzun kutu) geçmek — bu durumda orijinal yazı boyutları hiç küçültülmeden sığabilir.
+- **YANLIŞ olan:** "Boşluk ekleyerek küçültmeden sığdırmak" — bu sadece içerik kutudan KISA olduğunda işe yarar. İçerik kutudan UZUNSA boşluk eklemek matematiksel olarak çözüm olmaz (boşluk sadece kutuyu büyütür, küçültmez). Bu konuda bir oturumda yanlış anlama olmuştu, not edildi.
+
+### Genel akış (bundan sonra hep böyle yapılacak)
+1. Demirci'nin tam/kısaltılmamış metnini al.
+2. Format sor/teyit et (Story 9:16 mı, Feed 4:5 mü).
+3. HTML+CSS ile tasarımı yap (Google Fonts kullanmadan, sistem fontlarıyla).
+4. Playwright ile doğru viewport boyutunda PNG üret.
+5. İçerik taşıyor mu kontrol et (gerekirse 4. adımdan önce font/spacing ayarla).
+6. PNG'yi `/mnt/user-data/outputs/`'a koy, present_files ile göster.
+7. Demirci'ye direkt galeriden Instagram'a yükleyebileceğini söyle — ekran görüntüsü veya kırpma gerekmiyor.
