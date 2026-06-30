@@ -907,4 +907,13 @@ ritimde sırayla), her biri ÖNCE ayrı bir demo dosyasında yapılıp test edil
 alınınca (mini kart örneğindeki gibi) canlıya kopyalanacak. Hiçbiri tek oturumda hepsi
 birden yapılmaya çalışılmayacak — küçük adımlarla, düzenli ritimde ilerlenecek.
 
+**Önemli ek fikir — sürpriz = reklam materyali:** Her sürpriz canlıya alınıp
+oturduktan sonra, kendi reklam/tanıtım hook'u haline gelebilir. Örnek: paraşütçü
+özelliği oturunca, Instagram reklamında "Hiç paraşütçüden hediye aldın mı?" gibi bir
+başlık kullanılabilir — meraklı kişi tıklayıp siteye girdiğinde gerçekten o paraşütçüyü
+görür, reklam ile ürün arasında nadir bir tutarlılık/şaşırtma kombinasyonu oluşur. Yani
+sürpriz havuzundaki her yeni özellik aynı zamanda potansiyel bir reklam materyali —
+bu ikisi (sürpriz üretimi + reklam üretimi) birbirini besleyen, paralel ilerleyen iki
+iş olarak düşünülmeli, ayrı ayrı değil.
+
 
