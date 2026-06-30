@@ -839,3 +839,72 @@ kontrol edilip sadece istenen eklemelerin olduğu doğrulandıktan sonra kopyala
 — bu sıra (demo → onay → fark kontrolü → canlıya kopyalama) güvenli ve hızlı çalıştı,
 gelecekte benzer büyük UI değişikliklerinde tekrar kullanılabilir bir model.
 
+---
+
+## 💡 BİRİKEN İŞ LİSTESİ — "Sürpriz Havuzu" (30 Haziran 2026, sohbet sonrası)
+
+**Vizyon (Demirci'nin kendi cümleleriyle, ÖNEMLİ — sapılmayacak ana fikir):**
+Site sıradan bir "30 soruluk hediye testi" gibi hissettirmemeli. Statik quiz algısını
+kıracak, kullanıcının her seferinde farklı, tahmin edilemez (Demirci'nin kendisinin bile
+"bu sefer ne çıkacak" diye merak edeceği kadar rastgele) küçük sürprizlerle karşılaşacağı
+**bir formata** dönüşmeli. Amaç: kullanıcı "hediye bulma sitesine giriyorum" değil,
+"eğlenceli bir siteye giriyorum, hediye de buluyorum" hissiyle gelsin. Hediye bulmak bu
+eğlencenin bir yan etkisi haline gelmeli. Mini profil kartı (yukarıdaki bölüm) bu
+vizyonun ilk somut adımıydı ve çok beğenildi — "statik quiz algısını kırdı" dendi.
+
+**Üretim ritmi kararı:** Her şeyi bir oturumda bitirmeye çalışmayacağız. Günlük/düzenli
+küçük üretim ritmiyle (reklam/tanıtım materyali üretimiyle aynı mantık — günde 2 tane
+gibi) bu listeden parça parça alıp demo'da test edip onaylanınca canlıya alacağız.
+Zamanla büyüyen bir havuz — 1 ay sonra 60 farklı sürpriz olsa az değil, çok bile sayılmaz,
+çünkü çeşitlilik arttıkça tahmin edilemezlik gücü artıyor.
+
+**Tasarım prensipleri (her yeni sürpriz fikri eklenirken bunlara uysun):**
+- Tamamen rastgele, öngörülemez — sabit bir maskot/karakter kimliği ZORUNLU DEĞİL,
+  kaotik çeşitlilik bilinçli tercih (Disney karakterinden konuşan kutuya, Clippy tarzı
+  düşünce balonundan klişe-küstah pop-up'a kadar her şey aynı havuzda olabilir).
+- Çok sık olmasın — sıklık arttıkça sürpriz olmaktan çıkar, rutine döner. Kaba kural:
+  30 sorulu ana akışta toplam 4-6 tetiklenme (rastgele dağılmış, art arda gelmesin).
+- Görsel ağırlıklı, CSS animasyonlu (transform/opacity) — canvas/parçacık kütüphanesi
+  gibi ağır şeylerden kaçın, mobil performans riski (NOTLAR'daki video/ses uyumluluk
+  sorunları örnek alınmalı, agresif olmayalım).
+- Sadece quiz soruları değil, SİTENİN HER KÖŞESİNE yayılabilir: butonlar (Devam Et,
+  Başa Dön, Yeni hediye bul), popup'lar, loading anları — her tıklama potansiyel bir
+  sürpriz anı.
+- Zorunlu bekleme anları (loading/spinner gibi) sürprize çevrilebilir — zaten kullanıcı
+  bekliyor, ekstra zaman kaybı yaratmadan eğlenceye dönüştürülebilir.
+
+**Havuz için biriken somut fikirler (henüz YAPILMADI, sırayla denenecek):**
+
+1. **Paraşütçü** — ekranın üst köşesinden çapraz süzülerek geçen bir figür (emoji ya da
+   basit SVG), ortada kısa bir düşünce balonu beliriyor, alt köşeden çıkıp kayboluyor.
+   Mesaj havuzu karışık: bazen bilgilendirici ("X soru kaldı"), bazen tamamen alakasız/
+   gündelik ("naber, nasılsın" gibi) — amaç ciddi quiz modunu birden bozan bir samimiyet.
+2. **Geçip giden diğer karakterler** (aynı paraşütçü kalıbı, farklı yüzler) — uçan kuş
+   ("ben de hediye arıyorum" gibi bir laf), sessizce geçen kedi (sadece "miyav" sesi),
+   sürüklenen bulut (içinde "az kaldı" yazısı), zıplayan kargo kutusu ("ben de geliyorum
+   birazdan" — ürünle ilgili gönderme).
+3. **Clippy-tarzı düşünce balonu asistanı** — belirli davranışlarda tetiklenir: kullanıcı
+   bir soruda uzun süre cevap vermeden duruyorsa, geri gidip cevap değiştiriyorsa, ya da
+   çok hızlı art arda cevap veriyorsa, küçük bir karakter belirip şakacı bir laf ediyor.
+4. **Karşılama/yönlendirme pop-up'ı** — siteye ilk girişte (ya da rastgele), küstah-şakacı
+   tonda bir pop-up çıkıp kullanıcıyı doğru yere yönlendiriyor (örnek replik: "kime
+   alınıyor onu bilmiyorsan niye bizi meşgul ediyorsun" gibi), işaret oku basılacak yeri
+   gösteriyor, sonra kayboluyor. Rastgele havuzdan farklı küstah/tatlı repliklerle.
+5. **Mikro-tepkiler her tıklamada** — örnek: profil kartında "Devam Et"e basınca "ay yyyy
+   yavaş ol, gidiyoruz aşağıya" gibi anlık, beklenmedik bir tepki (yazı + belki kısa ses
+   efekti, konuşma sentezi DEĞİL, kayıtlı kısa ses dosyaları olabilir).
+6. **"Geçmişe dönüş" hipnoz sahnesi** — şu an küçük/sessiz duran "10 HEDİYE HAZIRLANIYOR"
+   yükleme anı (kart popup'ında, ayraç/resume akışında), tüm ekranı kaplayan, ortada
+   büyük dönen hipnotize edici bir göz/spiral + altında büyüyüp küçülen "Geçmişe
+   dönüyoruz... dönüyoruz... dönüyoruz..." yazısı, ~3 saniye sürüp normal akışa geçiyor.
+   NOT: bu özel an (geçmişe dönüş) için sabit mi olacak yoksa o da rastgele havuzdan biri
+   mi olacak — karar verilmedi, sırası gelince konuşulacak.
+7. **Konfeti/parçacık patlaması, kartın parlaması, beklenmedik emoji animasyonları** —
+   daha önce konuşulan, henüz detaylandırılmamış genel fikirler, havuza dahil.
+
+**Sıradaki adım:** Bu listeden Demirci hangisini önce denemek isterse (ya da günlük
+ritimde sırayla), her biri ÖNCE ayrı bir demo dosyasında yapılıp test edilecek, onay
+alınınca (mini kart örneğindeki gibi) canlıya kopyalanacak. Hiçbiri tek oturumda hepsi
+birden yapılmaya çalışılmayacak — küçük adımlarla, düzenli ritimde ilerlenecek.
+
+
