@@ -110,6 +110,7 @@ h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
 var AVATAR_RENKLER = [
   {bg:'#FBEAF0',text:'#993556'},
@@ -125,15 +126,20 @@ var AMAC_OPT = {
   petler:   ['Doğum Günü','Bayram','Sadece sürpriz']
 };
 var ONCELIK_OPT = ['Kullanışlı olsun','Güzel görünsün','Özel ve anlamlı olsun','Uygun fiyatlı olsun'];
+// BUTCE_OPT config.js'den dinamik oluşturuluyor — elle güncellemeye gerek yok
+var _butceSecenekler = (function() {
+  var q = QUIZ_CONFIG && QUIZ_CONFIG.sorular ? QUIZ_CONFIG.sorular.find(function(s){ return s.id === 'butce'; }) : null;
+  return q ? q.secenekler : ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'];
+})();
 var BUTCE_OPT = {
-  normal:    ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'],
-  bebekler:  ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'],
-  cocuklar:  ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'],
-  kedi:      ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'],
-  kopek:     ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'],
-  kus:       ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'],
-  balik:     ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL'],
-  kucukpet:  ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL']
+  normal:    _butceSecenekler,
+  bebekler:  _butceSecenekler,
+  cocuklar:  _butceSecenekler,
+  kedi:      _butceSecenekler,
+  kopek:     _butceSecenekler,
+  kus:       _butceSecenekler,
+  balik:     _butceSecenekler,
+  kucukpet:  _butceSecenekler
 };
 function getButceKey(cv, iliski) {
   var pt = cv.pet_tur || cv.kedi_tur || cv.kopek_tur || '';
