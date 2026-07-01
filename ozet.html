@@ -498,25 +498,52 @@
         document.body.appendChild(b);
         setTimeout(function(){ b.remove(); }, 8000);
     }
+    // Döngüsel tur havuzu
+    var _rastgeleTurHavuzu = [];
+
+    function _shuffle(arr) {
+        for (var i = arr.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+        }
+        return arr;
+    }
+
     function rastgeleSecimYap() {
-        _teshisBanner('🎲 Buton tıklandı, fonksiyon çalışıyor...');
         try {
-            kriterleriTemizle();
             var allChips = Array.prototype.slice.call(document.querySelectorAll('#selections-list .chip'));
+            if (allChips.length === 0) return;
             var maxSel = Math.min(6, allChips.length);
-            _teshisBanner('Bulunan chip sayısı: ' + allChips.length, '#3b82f6');
-            if (maxSel === 0) {
-                _teshisBanner('HATA: Hiç chip bulunamadı (allChips.length = 0)', '#ef4444');
-                return;
+
+            // chip id'lerini al
+            var tumIdler = allChips.map(function(c) {
+                return c.getAttribute('data-soru-id') || c.id || '';
+            });
+
+            // Havuz yetmiyorsa yenile
+            if (_rastgeleTurHavuzu.length < maxSel) {
+                var kalanlar = _rastgeleTurHavuzu.slice();
+                var kalanSet = new Set(kalanlar);
+                var geri = _shuffle(tumIdler.filter(function(id) { return !kalanSet.has(id); }));
+                var birlesmis = kalanlar.concat(geri);
+                if (birlesmis.length < maxSel) {
+                    _rastgeleTurHavuzu = _shuffle(tumIdler.slice());
+                } else {
+                    _rastgeleTurHavuzu = birlesmis;
+                }
             }
-            for (var i = allChips.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tmp = allChips[i]; allChips[i] = allChips[j]; allChips[j] = tmp;
-            }
-            allChips.slice(0, maxSel).forEach(function(chip) { chip.click(); });
-            _teshisBanner('Tamamlandı: ' + maxSel + ' chip seçildi', '#22c55e');
+
+            var secilecekIdler = _rastgeleTurHavuzu.splice(0, maxSel);
+            var secilecekSet = new Set(secilecekIdler);
+
+            kriterleriTemizle();
+
+            allChips.forEach(function(chip) {
+                var chipId = chip.getAttribute('data-soru-id') || chip.id || '';
+                if (secilecekSet.has(chipId)) chip.click();
+            });
         } catch (hata) {
-            _teshisBanner('HATA: ' + hata.message, '#ef4444');
+            console.error('rastgeleSecimYap hata:', hata);
         }
     }
 
