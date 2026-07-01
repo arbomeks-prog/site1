@@ -121,23 +121,23 @@
 
 
         <div class="px-1 mb-3">
-            <div id="kriter-baslik" style="display:none;" style="font-size:26px;font-weight:900;color:#1e293b;letter-spacing:0.01em;line-height:1.1;text-align:center;width:100%;">🎯 SADECE 6 TANE SEÇEBİLİRSİN</div>
+            <div id="kriter-baslik" style="font-size:26px;font-weight:900;color:#1e293b;letter-spacing:0.01em;line-height:1.1;text-align:center;width:100%;">🎯 SADECE 6 TANE SEÇEBİLİRSİN</div>
             <span id="sel-count" class="text-sm font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex-shrink-0" style="display:none;">0/6</span>
             <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px;">
                 <div style="font-size:17px;font-weight:900;color:#1e293b;text-align:center;">🎯 KENDİN SEÇ 👍</div>
-                <button type="button" id="inline-rastgele-btn" style="display:none;" onclick="rastgeleSecimYap()" style="background:#e8a838;color:#1e293b;border:none;border-radius:12px;padding:12px 22px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15);">🎲 Rastgele Seç</button>
+                <button type="button" id="inline-rastgele-btn" onclick="rastgeleSecimYap()" style="background:#e8a838;color:#1e293b;border:none;border-radius:12px;padding:12px 22px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15);">🎲 Rastgele Seç</button>
             </div>
         </div>
 
         <!-- Kriter listesi — JS gelince dolar (chip grid) -->
-        <div class="chip-grid" id="selections-list" style="display:none;">
+        <div class="chip-grid" id="selections-list">
         </div>
 
         <div class="px-1 mb-4" id="hediye-btn-wrapper">
-            <button onclick="showGifts()" id="show-gifts-btn"
+            <button onclick="showGifts()" id="show-gifts-btn" disabled
                 class="w-full bg-[#1e40af] text-white font-semibold text-xl px-10 py-5 rounded-3xl shadow-2xl flex items-center justify-center gap-3 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed">
                 <i class="fas fa-gift"></i>
-                <span id="show-gifts-label">Hediyeleri Gör ✨</span>
+                <span id="show-gifts-label">6 kriter seç → Hediyeleri Gör ✨</span>
             </button>
         </div>
 
@@ -162,11 +162,11 @@
             <div style="font-size:11px;color:#cbd5e1;margin-top:4px;">© 2026 BudurBuldum · Kişiye özel hediye önerileri</div>
         </footer>
 
-    <div id="floating-kriter-btn" style="display:none;">
+    <div id="floating-kriter-btn">
     <span id="floating-count-badge" style="display:none;">0</span>
     6 KRİTER SEÇ
 </div>
-    <button id="floating-temizle-btn" style="display:none;" onclick="kriterleriTemizle()" style="display:flex;position:fixed;right:max(0px,calc((100vw - 620px) / 2));z-index:100;background:#64748b;color:white;border:none;border-radius:12px 0 0 12px;padding:10px 5px;box-shadow:-3px 0 14px rgba(0,0,0,0.25);cursor:pointer;font-size:11px;font-weight:900;letter-spacing:0.05em;writing-mode:vertical-rl;text-orientation:mixed;min-height:90px;align-items:center;justify-content:center;">🔄 TEMİZLE</button>
+    <button id="floating-temizle-btn" onclick="kriterleriTemizle()" style="display:flex;position:fixed;right:max(0px,calc((100vw - 620px) / 2));z-index:100;background:#64748b;color:white;border:none;border-radius:12px 0 0 12px;padding:10px 5px;box-shadow:-3px 0 14px rgba(0,0,0,0.25);cursor:pointer;font-size:11px;font-weight:900;letter-spacing:0.05em;writing-mode:vertical-rl;text-orientation:mixed;min-height:90px;align-items:center;justify-content:center;">🔄 TEMİZLE</button>
     </div>
 </div>
 
@@ -473,8 +473,8 @@
             const limit = Math.min(6, adet);
             if (baslik) baslik.textContent = '🎯 SADECE ' + limit + ' TANE SEÇEBİLİRSİN';
             document.getElementById('sel-count').textContent = '0/' + limit;
-            btn.disabled = false;
-            lbl.textContent = 'Hediyeleri Gör ✨';
+            btn.disabled = true;
+            lbl.textContent = limit + ' kriter seç → Hediyeleri Gör ✨';
             updateFloatingBtn(0, limit);
         }
     }
@@ -498,52 +498,25 @@
         document.body.appendChild(b);
         setTimeout(function(){ b.remove(); }, 8000);
     }
-    // Döngüsel tur havuzu
-    var _rastgeleTurHavuzu = [];
-
-    function _shuffle(arr) {
-        for (var i = arr.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
-        }
-        return arr;
-    }
-
     function rastgeleSecimYap() {
+        _teshisBanner('🎲 Buton tıklandı, fonksiyon çalışıyor...');
         try {
-            var allChips = Array.prototype.slice.call(document.querySelectorAll('#selections-list .chip'));
-            if (allChips.length === 0) return;
-            var maxSel = Math.min(6, allChips.length);
-
-            // chip id'lerini al
-            var tumIdler = allChips.map(function(c) {
-                return c.getAttribute('data-soru-id') || c.id || '';
-            });
-
-            // Havuz yetmiyorsa yenile
-            if (_rastgeleTurHavuzu.length < maxSel) {
-                var kalanlar = _rastgeleTurHavuzu.slice();
-                var kalanSet = new Set(kalanlar);
-                var geri = _shuffle(tumIdler.filter(function(id) { return !kalanSet.has(id); }));
-                var birlesmis = kalanlar.concat(geri);
-                if (birlesmis.length < maxSel) {
-                    _rastgeleTurHavuzu = _shuffle(tumIdler.slice());
-                } else {
-                    _rastgeleTurHavuzu = birlesmis;
-                }
-            }
-
-            var secilecekIdler = _rastgeleTurHavuzu.splice(0, maxSel);
-            var secilecekSet = new Set(secilecekIdler);
-
             kriterleriTemizle();
-
-            allChips.forEach(function(chip) {
-                var chipId = chip.getAttribute('data-soru-id') || chip.id || '';
-                if (secilecekSet.has(chipId)) chip.click();
-            });
+            var allChips = Array.prototype.slice.call(document.querySelectorAll('#selections-list .chip'));
+            var maxSel = Math.min(6, allChips.length);
+            _teshisBanner('Bulunan chip sayısı: ' + allChips.length, '#3b82f6');
+            if (maxSel === 0) {
+                _teshisBanner('HATA: Hiç chip bulunamadı (allChips.length = 0)', '#ef4444');
+                return;
+            }
+            for (var i = allChips.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = allChips[i]; allChips[i] = allChips[j]; allChips[j] = tmp;
+            }
+            allChips.slice(0, maxSel).forEach(function(chip) { chip.click(); });
+            _teshisBanner('Tamamlandı: ' + maxSel + ' chip seçildi', '#22c55e');
         } catch (hata) {
-            console.error('rastgeleSecimYap hata:', hata);
+            _teshisBanner('HATA: ' + hata.message, '#ef4444');
         }
     }
 
@@ -585,8 +558,8 @@
             if (wrapper) wrapper.style.display = 'block';
             setTimeout(function() { btn.scrollIntoView({ behavior:'smooth', block:'center' }); }, 300);
         } else {
-            btn.disabled = false;
-            lbl.textContent = 'Hediyeleri Gör ✨';
+            btn.disabled = true;
+            lbl.textContent = (limit - t) + ' tane daha seç ✨';
         }
     }
 
