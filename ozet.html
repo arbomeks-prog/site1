@@ -473,8 +473,8 @@
             const limit = Math.min(6, adet);
             if (baslik) baslik.textContent = '🎯 SADECE ' + limit + ' TANE SEÇEBİLİRSİN';
             document.getElementById('sel-count').textContent = '0/' + limit;
-            btn.disabled = true;
-            lbl.textContent = limit + ' kriter seç → Hediyeleri Gör ✨';
+            btn.disabled = false;
+            lbl.textContent = 'Hediyeleri Gör ✨';
             updateFloatingBtn(0, limit);
         }
     }
@@ -585,8 +585,8 @@
             if (wrapper) wrapper.style.display = 'block';
             setTimeout(function() { btn.scrollIntoView({ behavior:'smooth', block:'center' }); }, 300);
         } else {
-            btn.disabled = true;
-            lbl.textContent = (limit - t) + ' tane daha seç ✨';
+            btn.disabled = false;
+            lbl.textContent = 'Hediyeleri Gör ✨';
         }
     }
 
