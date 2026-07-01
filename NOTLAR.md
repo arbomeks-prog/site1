@@ -1043,3 +1043,30 @@ Onaylanırsa `hediyeler.html`'deki eski 2 satır bu 3 satırla değiştirilecek,
 - Grok bazen hediyeyi doğru buluyor ama searchQuery'yi standartlaştırıp tarzı düşürüyor — kural var ama dinlemiyor, sürekli takip gerekiyor.
 - 9 hediye × 5 platform = 45 seçenek sunuluyor, biri tutmasa diğeri tutuyor. API olmadan mevcut en iyi çözüm bu.
 - N11 mobilde siyah ekrana düşme sorunu bizimle ilgili değil, N11'in kendi yükleme davranışı.
+
+---
+
+## 🟡 AKTİF DURUM — 1 Temmuz 2026 (Sabah Oturumu Devamı)
+
+### Dijital Saat + Fotoğraf Zemin Demosu (index-saat-demo.html)
+
+**Saat animasyonu:**
+- `soru-no` yazıları (`1. SORU`, `2. SORU` vb.) kaldırıldı, yerine sol üste dijital saat eklendi.
+- Saat 02:00'dan geri sayıyor. Altında 30'dan başlayan soru sayacı var.
+- Her `soru_cevaplandi` mesajında sayaç 1 azalıyor.
+- Quiz'in ilk sorusu görününce (IntersectionObserver) saat başlıyor.
+- Demo: `index-saat-demo.html`. Onay bekleniyor.
+
+**Fotoğraf zemin:**
+- Her sorunun üçerli fotoğraf grubundaki her fotoğraf ayrı ayrı `box-shadow:0 4px 14px rgba(0,0,0,0.45)` zeminine oturtu.
+- `overflow:hidden` sorunu nedeniyle shadow dışarı çıkmıyordu — her fotoğraf `div`'i dış wrapper ile sarıldı, shadow o wrapper'da.
+- Demo'da uygulandı, onay bekleniyor. Commit: `a08417f`
+
+### Bütçe Listesi Senkronizasyonu
+
+- `profil.html` artık `config.js`'i import ediyor — `BUTCE_OPT` dinamik olarak config'den okunuyor, elle güncellemeye gerek yok.
+- `index.html` pkb bütçe listeleri de config ile eşitlendi.
+- Commit: `42de3c0`
+
+### Bekleyen (onay alınmadı)
+- Dijital saat + fotoğraf zemin → index.html'e taşımak için onay bekleniyor.
