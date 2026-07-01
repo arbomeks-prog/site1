@@ -1017,3 +1017,29 @@ Onaylanırsa `hediyeler.html`'deki eski 2 satır bu 3 satırla değiştirilecek,
 
 ### Bir Sonraki Oturuma Not
 - `index-calisma.html` hâlâ `hediyeler-calisma.html`'e yönlendiriyor — gerekirse `hediyeler.html`'e geri alınabilir.
+
+---
+
+## 🟡 AKTİF DURUM — 1 Temmuz 2026 (Gece Oturumu Devamı)
+
+### Prompt İnce Ayarları (api/gifts.js)
+
+**Sorun → Çözüm sırası:**
+
+1. **Backtick syntax hatası** — prompt içinde `name` kelimesi backtick ile yazılmıştı, JS'i patlattı. Düzeltildi. Commit: `bb0e75c`
+
+2. **Hayali ürün yasağı güçlendirildi** — "Dijital Yemek Tarifi Cihazı" gibi birleşik hayali kategoriler örnek verilerek yasaklandı. Commit: `fba8be4`
+
+3. **Cinsiyet bilgisi name/description'a yazılmasın** — "erkek dışı kadın cilt bakım seti" gibi garip ifadeler çıkıyordu. name ve description alanlarına cinsiyet bilgisi yazma kuralı eklendi. Commit: `5c1e5c2`
+
+4. **Türkçe kelime sırası** — "cilt seti" değil "cilt bakım seti" yazılsın kuralı eklendi. Commit: `5c1e5c2`
+
+5. **"Yetişkin" kelimesi daraltıldı** — sadece roman/hikaye/edebiyat aramalarında kullanılsın, yemek kitabı/hobi kitabı gibi kategorilerde kullanılmasın. Commit: `af0ed0f`
+
+6. **Tarz/tema kelimeleri yasak değil** — "Sıfat ve marka yasak" kuralı Grok'un "rap" gibi tarz kelimelerini de atmasına yol açıyordu. Kural netleştirildi: renk/boyut sıfatları ve marka adları yasak, rap/rock/vintage gibi tarz kelimeleri searchQuery'de mutlaka korunmalı. Commit: `7898cfa`
+
+### Genel Gözlemler (bu oturumdan)
+
+- Grok bazen hediyeyi doğru buluyor ama searchQuery'yi standartlaştırıp tarzı düşürüyor — kural var ama dinlemiyor, sürekli takip gerekiyor.
+- 9 hediye × 5 platform = 45 seçenek sunuluyor, biri tutmasa diğeri tutuyor. API olmadan mevcut en iyi çözüm bu.
+- N11 mobilde siyah ekrana düşme sorunu bizimle ilgili değil, N11'in kendi yükleme davranışı.
