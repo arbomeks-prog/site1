@@ -1362,17 +1362,18 @@ if (_baslangicKime) {
         if(el) sqHizliKaydir(el, 180);
     }
     function tamamlandi() {
-        var ozetIframe = document.getElementById('iframe-ozet');
-        if (ozetIframe) {
-            var base = ozetIframe.src.split('?')[0];
-            ozetIframe.src = base + '?embed=1&t=' + Date.now();
+        // OZGUR MOD: ozeti atla, direkt hediyelere git
+        var hediyelerIframe = document.getElementById('iframe-hediyeler');
+        if (hediyelerIframe) {
+            var base = hediyelerIframe.src.split('?')[0];
+            hediyelerIframe.src = base + '?embed=1&t=' + Date.now();
         }
-        // GA4: ozet sayfası yüklendi (hem ana hem dallanma akışı için)
         if (typeof gtag === 'function') {
             gtag('event', 'ozet_goruntulendi');
         }
         setTimeout(function(){
-            document.getElementById('blok-ozet').scrollIntoView({behavior:'smooth',block:'center'});
+            var blok = document.getElementById('blok-hediyeler');
+            if (blok) blok.scrollIntoView({behavior:'smooth',block:'center'});
         },250);
     }
 </script>
