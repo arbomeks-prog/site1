@@ -523,9 +523,7 @@ if (kelimeler.length === 0) kelimeler = metin.split(' ');
 if (kelimeler.length > 3) kelimeler = kelimeler.slice(-3);
 return kelimeler.join(' ');
 }
-function buildLinks(name, productUrl) {
-// productUrl varsa Trendyol butonu direkt o URL'e gitsin
-const trendyolHref = (productUrl && productUrl.startsWith('http')) ? productUrl : null;
+function buildLinks(name) {
 // GEÇİCİ TEST: sadeleştirme devre dışı, Grok'un ürettiği kelimeler ham haliyle aranıyor
 // name = sqAramaTermiSadelestir(name);
 const q = encodeURIComponent(name);
@@ -537,7 +535,7 @@ const prc = aralik ? ('&prc=' + aralik.min + '-' + (aralik.max || 999999)) : '';
 const amzMin = aralik ? ('&rh=p_36%3A' + (aralik.min * 100) + '-' + ((aralik.max || 999999) * 100)) : '';
 var csePrc = aralik ? ('&minPrice=' + aralik.min + '&maxPrice=' + (aralik.max || 999999)) : '';
 return '<div class="platform-links">' +
-'<a href="' + (trendyolHref || ('https://www.trendyol.com/sr?q=' + q + prc + '&st=SEARCH')) + '" target="_blank" class="plt-link plt-trendyol" onclick="trackAffiliate(\'Trendyol\',\'' + name.replace(/'/g,"\\'") + '\')">Trendyol</a>' +
+'<a href="https://www.trendyol.com/sr?q=' + q + prc + '&st=SEARCH" target="_blank" class="plt-link plt-trendyol" onclick="trackAffiliate(\'Trendyol\',\'' + name.replace(/'/g,"\\'") + '\')">Trendyol</a>' +
 '<a href="https://www.hepsiburada.com/ara?q=' + q + (aralik ? ('&minPrice=' + aralik.min + '&maxPrice=' + (aralik.max || 999999)) : '') + '&listing=1" target="_blank" class="plt-link plt-hepsiburada" onclick="trackAffiliate(\'Hepsiburada\',\'' + name.replace(/'/g,"\\'") + '\')">Hepsiburada</a>' +
 '<a href="https://www.amazon.com.tr/s?k=' + q + amzMin + '&s=relevancerank" target="_blank" class="plt-link plt-amazon" onclick="trackAffiliate(\'Amazon\',\'' + name.replace(/'/g,"\\'") + '\')">Amazon</a>' +
 '<a href="https://www.ciceksepeti.com/arama?query=' + q + csePrc + '" target="_blank" class="plt-link plt-ciceksepeti" onclick="trackAffiliate(\'Ciceksepeti\',\'' + name.replace(/'/g,"\\'") + '\')">Çiçeksepeti</a>' +
@@ -835,7 +833,7 @@ const descLabel = card.querySelector('.gift-desc-label');
 if (descLabel) { descLabel.textContent = 'Hediye Konsepti'; descLabel.classList.add('konsept'); }
 }
 const platformDiv = card.querySelector('.platform-links');
-if (platformDiv) platformDiv.outerHTML = buildLinks(g.searchQuery || g.name, g.productUrl);
+if (platformDiv) platformDiv.outerHTML = buildLinks(g.searchQuery || g.name);
 const imgWrap = card.querySelector('.img-wrap');
 const img = card.querySelector('.img-wrap img');
 const loadingMsg = card.querySelector('.loading-msg');

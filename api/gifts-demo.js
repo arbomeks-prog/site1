@@ -19,11 +19,9 @@ export default async function handler(req, res) {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 55000);
 
-        const sistemPrompt = `Sen bir hediye uzmanısın ve aynı zamanda bir e-ticaret araştırmacısısın. Sana bir kişinin profili verilecek. Bu profile en uygun 11 hediye öner. Her hediye birbirinden farklı kategoriden olsun.
+        const sistemPrompt = `Sen bir hediye uzmanısın. Sana bir kişinin profili verilecek. Bu profile en uygun 11 hediye öner. Her hediye birbirinden farklı kategoriden olsun. Sadece JSON array döndür, başka hiçbir şey yazma, markdown kullanma.
 
-Her hediye için önce Trendyol.com'da web araması yap, gerçekten satılan bir ürün bul, o ürünün direkt linkini al.
-
-Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, Trendyol'daki gerçek fiyat), star (ilk 3 true diğerleri false), isBurc (sadece burçla ilgili hediyede true), productUrl (Trendyol'da bulduğun o ürünün direkt URL'i, trendyol.com ile başlamalı), searchQuery (Türkçe 2-3 kelime), searchQueryEn (İngilizce görsel araması). Sadece JSON array döndür, başka hiçbir şey yazma, markdown kullanma.`;
+Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında), star (ilk 3 true diğerleri false), isBurc (sadece burçla ilgili hediyede true), searchQuery (Türkçe 2-3 kelime), searchQueryEn (İngilizce görsel araması). Sadece JSON array döndür.`;
 
         const response = await fetch('https://api.x.ai/v1/responses', {
             method: 'POST',
@@ -33,7 +31,7 @@ Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reas
             },
             body: JSON.stringify({
                 model: 'grok-4.3',
-                
+                tools: [{ type: 'web_search' }],
                 input: [
                     { role: 'system', content: sistemPrompt },
                     { role: 'user', content: prompt }
