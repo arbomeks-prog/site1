@@ -534,7 +534,12 @@
         var metin = document.getElementById('kisilik-tahlil-metin');
         if (!metin || !metin.textContent) return;
         localStorage.setItem('budurBuldumKisilikTahlil', metin.textContent);
-        window.location.href = 'hediyeler-ozgur.html';
+        var hedef = 'hediyeler-ozgur.html';
+        if (window.parent && window.parent !== window) {
+            window.parent.location.href = hedef;
+        } else {
+            window.location.href = hedef;
+        }
     }
 
     function kisilikTahliliUret(cevaplar) {
