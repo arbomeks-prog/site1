@@ -1003,7 +1003,7 @@ function kisilikTahliliJs(cevaplar) {
     return metin + ' ve ' + son + ' biri.';
 }
 
-const tahlil = kisilikTahliliJs(cevaplar);
+const tahlil = localStorage.getItem('budurBuldumKisilikTahlil') || kisilikTahliliJs(cevaplar);
 const kime = cevaplar.kime || '';
 const butce = cevaplar.butce || '';
 const burc = secilenBurc ? ('Burcu: ' + secilenBurc + '.') : '';

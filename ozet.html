@@ -124,6 +124,7 @@
         <div id="kisilik-tahlil-wrapper" style="display:none;margin:0 4px 16px;padding:14px 16px;background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:16px;border-left:4px solid #e8a838;">
             <div style="font-size:11px;font-weight:800;color:#e8a838;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">🧠 Kişilik Profili</div>
             <p id="kisilik-tahlil-metin" style="font-size:14px;line-height:1.7;color:#e2e8f0;margin:0;font-style:italic;"></p>
+            <button onclick="tahlileGoreHediyeBul()" style="margin-top:14px;width:100%;padding:13px;background:#e8a838;color:#1e293b;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:0.02em;">🎁 Bu profile göre hediye bul</button>
         </div>
 
         <div class="px-1 mb-3">
@@ -527,6 +528,14 @@
         }
     }
 
+
+
+    function tahlileGoreHediyeBul() {
+        var metin = document.getElementById('kisilik-tahlil-metin');
+        if (!metin || !metin.textContent) return;
+        localStorage.setItem('budurBuldumKisilikTahlil', metin.textContent);
+        window.location.href = 'hediyeler-ozgur.html';
+    }
 
     function kisilikTahliliUret(cevaplar) {
         if (!cevaplar || !cevaplar.kime) return;
