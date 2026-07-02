@@ -31,7 +31,6 @@ Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reas
             },
             body: JSON.stringify({
                 model: 'grok-4.3',
-                tools: [{ type: 'web_search' }],
                 input: [
                     { role: 'system', content: sistemPrompt },
                     { role: 'user', content: prompt }
