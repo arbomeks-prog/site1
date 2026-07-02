@@ -120,13 +120,6 @@
         </div>
 
 
-        <!-- KİŞİLİK TAHLİLİ -->
-        <div id="kisilik-tahlil-wrapper" style="display:none;margin:0 4px 16px;padding:14px 16px;background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:16px;border-left:4px solid #e8a838;">
-            <div style="font-size:11px;font-weight:800;color:#e8a838;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">🧠 Kişilik Profili</div>
-            <p id="kisilik-tahlil-metin" style="font-size:14px;line-height:1.7;color:#e2e8f0;margin:0;font-style:italic;"></p>
-            <button onclick="tahlileGoreHediyeBul()" style="margin-top:14px;width:100%;padding:13px;background:#e8a838;color:#1e293b;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:0.02em;">🎁 Bu profile göre hediye bul</button>
-        </div>
-
         <div class="px-1 mb-3">
             <div id="kriter-baslik" style="font-size:26px;font-weight:900;color:#1e293b;letter-spacing:0.01em;line-height:1.1;text-align:center;width:100%;">🎯 SADECE 6 TANE SEÇEBİLİRSİN</div>
             <span id="sel-count" class="text-sm font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full flex-shrink-0" style="display:none;">0/6</span>
@@ -281,7 +274,6 @@
             }
         } catch (eKriterResume) {}
         renderBurcPanel(cevaplar);
-        kisilikTahliliUret(cevaplar);
         afterSummaryReady();
 
         // Embed modu: parent'a gerçek yüksekliği bildir (render bittikten sonra, ve içerik değiştiğinde)
@@ -525,115 +517,6 @@
             _teshisBanner('Tamamlandı: ' + maxSel + ' chip seçildi', '#22c55e');
         } catch (hata) {
             _teshisBanner('HATA: ' + hata.message, '#ef4444');
-        }
-    }
-
-
-
-    function tahlileGoreHediyeBul() {
-        var metin = document.getElementById('kisilik-tahlil-metin');
-        if (!metin || !metin.textContent) return;
-        localStorage.setItem('budurBuldumKisilikTahlil', metin.textContent);
-        var hedef = 'hediyeler-ozgur.html';
-        if (window.parent && window.parent !== window) {
-            window.parent.location.href = hedef;
-        } else {
-            window.location.href = hedef;
-        }
-    }
-
-    function kisilikTahliliUret(cevaplar) {
-        if (!cevaplar || !cevaplar.kime) return;
-
-        var parcalar = [];
-
-        // ENERJİ / HAYAT TARZI
-        var kisilik = cevaplar.kisilik || '';
-        var tarz = cevaplar.tarz || '';
-        var spor = cevaplar.spor || '';
-        var doga = cevaplar.doga || '';
-
-        if (kisilik.includes('Dışa')) {
-            if (tarz.includes('Renkli') || tarz.includes('Sportif')) {
-                parcalar.push('Enerjisi yüksek, hayata renkli bakan');
-            } else {
-                parcalar.push('Dışa dönük, sosyal ortamlarda kendini iyi hisseden');
-            }
-        } else if (kisilik.includes('İçe')) {
-            parcalar.push('Sessiz ama derinlikli');
-        }
-
-        // TARZ / ESTETİK
-        if (tarz.includes('Klasik') || tarz.includes('Şık') || tarz.includes('Minimalist')) {
-            parcalar.push('kendi tarzını ve estetiğini çok iyi bilen');
-        } else if (tarz.includes('Renkli') || tarz.includes('Eğlenceli')) {
-            parcalar.push('hayata neşeyle bakan, tarzından ödün vermeyen');
-        }
-
-        // EL İŞİ / PRATİK
-        var hobiler = cevaplar.hobiler || '';
-        var mutfak = cevaplar.mutfak || '';
-        if (hobiler.includes('Yemek') || hobiler.includes('Bahçe') || hobiler.includes('El sanat') || hobiler.includes('Ahşap')) {
-            parcalar.push('elleri iş tutan ve somut şeyler yaratmaktan zevk alan');
-        }
-
-        // ESTETİK DUYGU
-        var sanat = cevaplar.sanat || '';
-        var film = cevaplar.film || '';
-        if (sanat.includes('Çok') || sanat.includes('var')) {
-            parcalar.push('estetik duygusu güçlü');
-        }
-
-        // DUYGUSAL DERİNLİK
-        if (film.includes('Dram') || film.includes('Belgesel')) {
-            if (kisilik.includes('İçe')) {
-                parcalar.push('duygusal derinliği olan ama bunu dışarıya pek yansıtmayan');
-            } else {
-                parcalar.push('duygusal derinliği olan');
-            }
-        }
-
-        // MÜZİK / KİŞİLİK
-        var muzik = cevaplar.muzik || '';
-        if (muzik.includes('Rock') || muzik.includes('Jazz') || muzik.includes('Metal')) {
-            parcalar.push('müziğe ve ritme olan tutkusu yaşıyla yarışan');
-        } else if (muzik.includes('Klasik') || muzik.includes('Sanat')) {
-            parcalar.push('müziği bir kültür olarak yaşayan');
-        }
-
-        // HAYVAN SEVGİSİ
-        var hayvan = cevaplar.hayvan || '';
-        if (hayvan.includes('çok') || hayvan.includes('Çok')) {
-            parcalar.push('canlılara karşı yüreği geniş');
-        }
-
-        // YAŞ ÖZEL DOKUNUŞ
-        var yas = cevaplar.yas || '';
-        if (yas.includes('76') || yas.includes('61') || yas.includes('45')) {
-            // Yaşlı ama enerjik ise
-            if (kisilik.includes('Dışa') || spor.includes('Düzenli') || doga.includes('Sever')) {
-                parcalar[0] = 'Yaşına rağmen enerjisi dinç';
-            }
-        }
-
-        if (parcalar.length === 0) return;
-
-        // Cümle kur
-        var metin = '';
-        if (parcalar.length === 1) {
-            metin = parcalar[0].charAt(0).toUpperCase() + parcalar[0].slice(1) + ' biri.';
-        } else {
-            var son = parcalar.pop();
-            metin = parcalar.join(', ');
-            metin = metin.charAt(0).toUpperCase() + metin.slice(1);
-            metin += ' ve ' + son + ' biri.';
-        }
-
-        var wrapper = document.getElementById('kisilik-tahlil-wrapper');
-        var metin_el = document.getElementById('kisilik-tahlil-metin');
-        if (wrapper && metin_el) {
-            metin_el.textContent = metin;
-            wrapper.style.display = 'block';
         }
     }
 
