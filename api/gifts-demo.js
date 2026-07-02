@@ -30,7 +30,7 @@ Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reas
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: 'grok-4.3',
+                model: 'grok-3-fast',
                 input: [
                     { role: 'system', content: sistemPrompt },
                     { role: 'user', content: prompt }
