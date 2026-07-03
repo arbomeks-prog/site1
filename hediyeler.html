@@ -977,15 +977,46 @@ const sdGrup1 = secilenDisiMetinler.slice(0,3).join('\n') || '-';
 const sdGrup2 = secilenDisiMetinler.slice(3,6).join('\n') || '-';
 const sdGrup3 = secilenDisiMetinler.slice(6,9).join('\n') || '-';
 const sdGrup4 = secilenDisiMetinler.slice(9).join('\n') || '-';
-// Seçilen 6 kriter — 3 grup
+/*
+KALDIRILDI — 3 Temmuz 2026
+Eski sabit gruplama kodu:
+
 const sec1 = secilenMetinler.slice(0,2).join('\n') || '-';
 const sec2 = secilenMetinler.slice(2,4).join('\n') || '-';
 const sec3 = secilenMetinler.slice(4,6).join('\n') || '-';
+
+HEDİYE 1: sec1 (seçim 1+2)
+HEDİYE 2: sec2 (seçim 3+4)
+HEDİYE 3: sec3 (seçim 5+6)
+
+NEDEN KALDIRILDI — KOMBİNASYON HESAPLARI:
+Sistem 422.820 farklı hediye üretebilecek kapasitede.
+Ama bu kod sadece 3 kombinasyon kullanıyordu: 1+2, 3+4, 5+6.
+Kapasitenin binde biri kullanılıyordu.
+
+ADIM 1 — Sadece 6 seçimden:
+P(6,2) = 6x5 = 30 kombinasyon → 90 farklı hediye
+
+ADIM 2 — 18 cevapla:
+P(18,2) = 18x17 = 306 kombinasyon → 918 farklı hediye
+
+ADIM 3 — 30 kriter (12 sabit + 18 seçilebilir):
+P(30,2) = 30x29 = 870 kombinasyon → 2.610 farklı hediye
+
+ADIM 4 — 9 farklı bütçe eklince:
+870 × 9 = 7.830 senaryo → 70.470 farklı hediye
+
+ADIM 5 — 6 farklı özel gün/amaç eklince:
+870 × 9 × 6 = 46.980 senaryo → 422.820 farklı hediye
+
+ÇÖZÜM: Kombinasyonları biz değil Grok seçmeli.
+Her "Yeni Hediye Bul"da farklı ikililer denemeli.
+*/
+const secilenListesi = secilenMetinler.map((m, i) => (i+1) + '. ' + m).join('\n') || '-';
 return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sabitText + '\n\n' + butceKural + '\n\n' +
-'GÖREV: Aşağıdaki algoritmaya göre tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı.\n\n' +
-'HEDİYE 1 — NOKTA ATIŞI 1 (star:true):\nSeçilen kriterlerin ilk 2\'si:\n' + sec1 + '\nBu kriterleri birbiriyle en uyumlu şekilde birleştir. Sabit değerlerle uyumlu TEK hediye öner.\n\n' +
-'HEDİYE 2 — NOKTA ATIŞI 2 (star:true):\nSeçilen kriterlerin 3. ve 4.\'ü:\n' + sec2 + '\nBu kriterleri birbiriyle en uyumlu şekilde birleştir. Hediye 1\'den FARKLI kategori.\n\n' +
-'HEDİYE 3 — NOKTA ATIŞI 3 (star:true):\nSeçilen kriterlerin 5. ve 6.\'sı:\n' + sec3 + '\nBu kriterleri birbiriyle en uyumlu şekilde birleştir. Öncekilerden FARKLI kategori.\n\n' +
+'GÖREV: Tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı.\n\n' +
+'NOKTA ATIŞI KRİTERLERİ (kullanıcının seçtiği 6 önemli kriter):\n' + secilenListesi + '\n\n' +
+'HEDİYE 1-2-3 — NOKTA ATIŞI (star:true):\nYukarıdaki 6 kriter arasından sen en anlamlı 3 ikili kombinasyon seç. Hangi iki kriteri birleştirince en ilginç, en beklenmedik, en kişiye özel hediye çıkar diye düşün — o kombinasyonu seç. Her kombinasyonda bir kriteri ağırlıklı al, diğerini tamamlayıcı. 3 kombinasyonun birbirinden tamamen farklı olsun.\n\n' +
 'HEDİYE 4 (star:false):\nSeçilmemiş kriterler grup 1:\n' + sdGrup1 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
 'HEDİYE 5 (star:false):\nSeçilmemiş kriterler grup 2:\n' + sdGrup2 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
 'HEDİYE 6 (star:false):\nSeçilmemiş kriterler grup 3:\n' + sdGrup3 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
