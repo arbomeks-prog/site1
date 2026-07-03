@@ -1061,7 +1061,7 @@ const secilenListesi = secilenMetinler.map((m, i) => (i+1) + '. ' + m).join('\n'
 return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sabitText + '\n\n' + butceKural + '\n\n' +
 'GÖREV: Tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı.\n\n' +
 'NOKTA ATIŞI KRİTERLERİ (kullanıcının seçtiği 6 önemli kriter):\n' + secilenListesi + '\n\n' +
-'HEDİYE 1-2-3 — NOKTA ATIŞI (star:true):\nYukarıdaki 6 kriter arasından sen en anlamlı 3 ikili kombinasyon seç. Hangi iki kriteri birleştirince en ilginç, en beklenmedik, en kişiye özel hediye çıkar diye düşün — o kombinasyonu seç. Her kombinasyonda bir kriteri ağırlıklı al, diğerini tamamlayıcı. 3 kombinasyonun birbirinden tamamen farklı olsun.\n\n' +
+'HEDİYE 1-2-3 — NOKTA ATIŞI (star:true):\nYukarıdaki 6 kriter arasından 3 ikili kombinasyon seç. Daha önce kullandığın ikililer prompt sonunda listelendi — önce hiç kullanılmamış ikililer seç. Hepsi kullanıldıysa en az kullanılanlardan başla. Her kombinasyonda bir kriteri ağırlıklı al, diğerini tamamlayıcı. 3 kombinasyonun birbirinden tamamen farklı olsun.\n\n' +
 'HEDİYE 4 (star:false):\nSeçilmemiş kriterler grup 1:\n' + sdGrup1 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
 'HEDİYE 5 (star:false):\nSeçilmemiş kriterler grup 2:\n' + sdGrup2 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
 'HEDİYE 6 (star:false):\nSeçilmemiş kriterler grup 3:\n' + sdGrup3 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
