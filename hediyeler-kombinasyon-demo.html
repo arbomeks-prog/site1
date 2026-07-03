@@ -966,8 +966,63 @@ return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n
 }
 const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
 const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
+// PUAN SİSTEMİ — pozitif cevaplara göre otomatik 6 kriter seç
+const _puanTablosu = {
+    // 3 puan: kesin pozitif
+    'Evet düzenli': 3, 'Evet çok sever': 3, 'Çok sever': 3, 'Evet çok': 3,
+    'Çok ilgili': 3, 'Çok var': 3, 'Evet sık sık': 3, 'Evet sever': 3, 'Evet': 3,
+    // 1 puan: ara sıra
+    'Ara sıra': 1, 'Orta': 1, 'Orta seviyede': 1, 'Deniyor': 1
+};
+// Kategori yakınlık haritası — eşit puanlı kriterlerde öncelik
+const _kategoriYakinlik = {
+    muzik: ['hobiler', 'sanat', 'film', 'kahve'],
+    doga: ['spor', 'seyahat', 'foto'],
+    kitap: ['sanat', 'film', 'kahve'],
+    spor: ['doga', 'seyahat'],
+    seyahat: ['doga', 'spor', 'kahve'],
+    teknoloji: ['oyun', 'foto'],
+    sanat: ['kitap', 'foto', 'muzik'],
+    foto: ['sanat', 'doga', 'teknoloji'],
+    oyun: ['teknoloji', 'film'],
+    mutfak: ['kahve', 'tatli', 'seyahat'],
+    kahve: ['mutfak', 'kitap'],
+    film: ['muzik', 'kitap', 'oyun'],
+    bitki: ['doga', 'sanat'],
+    hayvan: ['doga'],
+    makyaj: ['aksesuar'],
+    aksesuar: ['makyaj']
+};
+const _profilIdSet2 = new Set(QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; }));
+// Puanlanabilir sorular (sabit değerler hariç)
+const _puanliSorular = sorular.filter(function(s) {
+    return !_profilIdSet2.has(s.id) && cevaplar[s.id] && _puanTablosu[cevaplar[s.id]] !== undefined;
+}).map(function(s) {
+    return { id: s.id, puan: _puanTablosu[cevaplar[s.id]] || 0 };
+}).sort(function(a, b) { return b.puan - a.puan; });
+// İlk 6 en yüksek puanliyi al, eşit puanlılarda kategori yakınlığına bak
+const _secilen6 = [];
+const _eklendi = new Set();
+// Önce 3 puanlıları ekle
+_puanliSorular.filter(function(x) { return x.puan === 3; }).forEach(function(x) {
+    if (_secilen6.length < 6) { _secilen6.push(x); _eklendi.add(x.id); }
+});
+// Yetmezse 1 puanlıları ekle — mevcut seçilenlere yakın olanlar önce
+if (_secilen6.length < 6) {
+    const _birPuanlilar = _puanliSorular.filter(function(x) { return x.puan === 1 && !_eklendi.has(x.id); });
+    // Yakınlık skoru hesapla
+    const _seciliIdler = _secilen6.map(function(x) { return x.id; });
+    _birPuanlilar.sort(function(a, b) {
+        const yakA = (_kategoriYakinlik[a.id] || []).filter(function(k) { return _seciliIdler.includes(k); }).length;
+        const yakB = (_kategoriYakinlik[b.id] || []).filter(function(k) { return _seciliIdler.includes(k); }).length;
+        return yakB - yakA;
+    });
+    _birPuanlilar.forEach(function(x) {
+        if (_secilen6.length < 6) { _secilen6.push(x); _eklendi.add(x.id); }
+    });
+}
 // Seçilen 6 kriter → metne çevir
-const secilenMetinler = selectedCriteria.map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean);
+const secilenMetinler = _secilen6.map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean);
 // Seçilmeyen kriterler → metne çevir
 const profilIdSet = new Set(profilIds);
 const secilenIdSet = new Set(selectedCriteria.map(function(c){ return c.id; }));
