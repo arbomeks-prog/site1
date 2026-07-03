@@ -134,10 +134,10 @@
         </div>
 
         <div class="px-1 mb-4" id="hediye-btn-wrapper">
-            <button onclick="showGifts()" id="show-gifts-btn" disabled
+            <button onclick="showGifts()" id="show-gifts-btn"
                 class="w-full bg-[#1e40af] text-white font-semibold text-xl px-10 py-5 rounded-3xl shadow-2xl flex items-center justify-center gap-3 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed">
                 <i class="fas fa-gift"></i>
-                <span id="show-gifts-label">6 kriter seç → Hediyeleri Gör ✨</span>
+                <span id="show-gifts-label">Hediyeleri Gör ✨</span>
             </button>
         </div>
 
@@ -473,7 +473,7 @@
             const limit = Math.min(6, adet);
             if (baslik) baslik.textContent = '🎯 SADECE ' + limit + ' TANE SEÇEBİLİRSİN';
             document.getElementById('sel-count').textContent = '0/' + limit;
-            btn.disabled = true;
+            btn.disabled = false;
             lbl.textContent = limit + ' kriter seç → Hediyeleri Gör ✨';
             updateFloatingBtn(0, limit);
         }
@@ -558,7 +558,7 @@
             if (wrapper) wrapper.style.display = 'block';
             setTimeout(function() { btn.scrollIntoView({ behavior:'smooth', block:'center' }); }, 300);
         } else {
-            btn.disabled = true;
+            btn.disabled = false;
             lbl.textContent = (limit - t) + ' tane daha seç ✨';
         }
     }
