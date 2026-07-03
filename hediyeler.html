@@ -564,6 +564,16 @@ fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application
 
 async function baslatHediyeArama() {
     localStorage.setItem('budurBuldumTamamlandi', '1');
+// Eğer sessionId değiştiyse (yeni kişi), önceki hediye listesini temizle
+(function() {
+  const _aktifSid = localStorage.getItem('budurBuldumSessionId') || '';
+  const _kayitliSid = sessionStorage.getItem('bb_onceki_hediyeler_sid') || '';
+  if (_aktifSid !== _kayitliSid) {
+    sessionStorage.removeItem('bb_onceki_hediyeler');
+    sessionStorage.removeItem('bb_onceki_kombinasyonlar');
+    sessionStorage.setItem('bb_onceki_hediyeler_sid', _aktifSid);
+  }
+})();
 // Yeni arama başlıyor: önceki aramadan kalan görsel/yazıları sıfırla,
 // spinner ve "aranıyor..." mesajları yeniden görünür olsun.
 document.querySelectorAll('.img-wrap').forEach(function(wrap) {
@@ -759,7 +769,25 @@ setTimeout(function() {
 }, 1000);
 
 try {
-const prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
+let prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
+const _oncekiListeRaw = sessionStorage.getItem('bb_onceki_hediyeler');
+if (_oncekiListeRaw) {
+  const _oncekiListe = JSON.parse(_oncekiListeRaw);
+  if (_oncekiListe.length > 0) {
+    prompt += '\n\nKESİNLİKLE ÖNERME — daha önce bu oturumda önerilen hediyeler (kategori veya isim olarak tekrar etme):\n' + _oncekiListe.map(function(n,i){ return (i+1)+'. '+n; }).join('\n');
+  }
+}
+const _oncekiKombRaw = sessionStorage.getItem('bb_onceki_kombinasyonlar');
+if (_oncekiKombRaw) {
+  const _oncekiKomb = JSON.parse(_oncekiKombRaw);
+  if (_oncekiKomb.length > 0) {
+    prompt += '
+
+KULLANILAN İKİLİ KOMBİNASYONLAR — bunları tekrar kullanma. Hiç kullanılmamış ikililer varsa önce onları seç. Tümü kullanıldıysa en az kullanılanlardan başla:
+' + _oncekiKomb.map(function(k,i){ return (i+1)+'. '+k.ikili+' ('+k.sayi+' kez)'; }).join('
+');
+  }
+}
 const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
 const res = await fetch('/api/gifts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: prompt, session_id: sessionId }) });
 if (!res.ok) throw new Error('API hatası: ' + res.status);
@@ -880,6 +908,23 @@ if (animWrap && animIc) {
   });
 }
 shareSection.style.display = 'block';
+
+// Önerilen hediye isimlerini sessionStorage'a biriktir
+const simdikiIsimler = sugg.filter(function(g){ return g.name; }).map(function(g){ return g.name; });
+const oncekiListeRaw = sessionStorage.getItem('bb_onceki_hediyeler');
+const oncekiListe = oncekiListeRaw ? JSON.parse(oncekiListeRaw) : [];
+sessionStorage.setItem('bb_onceki_hediyeler', JSON.stringify(oncekiListe.concat(simdikiIsimler)));
+
+// Kullanılan ikili kombinasyonları say ve kaydet
+const oncekiKombRaw = sessionStorage.getItem('bb_onceki_kombinasyonlar');
+const oncekiKomb = oncekiKombRaw ? JSON.parse(oncekiKombRaw) : [];
+sugg.filter(function(g){ return g.combination; }).forEach(function(g) {
+  const ikili = g.combination;
+  const mevcut = oncekiKomb.find(function(k){ return k.ikili === ikili; });
+  if (mevcut) { mevcut.sayi++; } else { oncekiKomb.push({ ikili: ikili, sayi: 1 }); }
+});
+sessionStorage.setItem('bb_onceki_kombinasyonlar', JSON.stringify(oncekiKomb));
+
 } catch(err) {
 clearInterval(mesajInterval);
 subtitle.textContent = '❌ Bir hata oluştu: ' + err.message;
@@ -1024,7 +1069,7 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
 'HEDİYE 8 (star:false):\nTüm profil ve sabit değerleri göz önüne alarak en yaratıcı, beklenmedik hediyeyi öner. Öncekilerden FARKLI.\n\n' +
 'HEDİYE 9 (star:false):\nTüm profil ve sabit değerleri göz önüne alarak ikinci yaratıcı, niş hediyeyi öner. Öncekilerden FARKLI.\n\n' +
 (burcIsim ? 'HEDİYE 10 — BURÇ HEDİYESİ (star:false, isBurc:true):\n' + burcEk + '\nTüm kriterler ve burç özelliklerini birleştir. Öncekilerden FARKLI.\n\n' : '') +
-'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\nSadece JSON array döndür. Başka hiçbir şey yazma.';
+'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), combination (star:true hediyeler için hangi iki kriteri birleştirdiğini yaz, örnek: "müzik+seyahat" — star:false hediyeler için boş string yaz)\nSadece JSON array döndür. Başka hiçbir şey yazma.';
 }
 </script>
 <script>
