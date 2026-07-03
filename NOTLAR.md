@@ -1163,3 +1163,35 @@ Grok'un prompta nasıl yanıt verdiği değişmedi — kombinasyonlar farklı ge
 **Test sayfası (test-kombinasyon.html) güzel oldu** — dropdown formlu, puan gösterir, sakla. İleride başka testlerde kullanılabilir.
 
 **Bugün kesinleşen:** Kombinasyon matematiği doğru (422.820 potansiyel hediye), ama Grok bu potansiyeli kullanamıyor. Çözüm Grok'un nasıl kullanıldığında değil, sisteme nasıl veri gittiğinde.
+
+---
+
+## 🟡 AKTİF DURUM — 4 Temmuz 2026
+
+### Bugün Yapılanlar
+
+**1. "Farklı Hediye" sorunu teşhis edildi ve çözüldü (demo)**
+
+Kök neden: Her "Yeni Hediye Bul" isteği Grok'a bağımsız yeni bir API çağrısı — Grok önceki turda ne önerdiğini bilmiyor. "Farklı öner" demek havada kalıyor çünkü neyi önerdiğini hatırlamıyor.
+
+Çözüm (demo — hediyeler-kombinasyon-demo.html, test-kombinasyon.html):
+- Grok'tan dönen hediye isimleri `sessionStorage`'a (`bb_onceki_hediyeler`) biriktirildi.
+- Grok'tan dönen kombinasyonlar (`combination` yeni JSON alanı) `sessionStorage`'a (`bb_onceki_kombinasyonlar`) biriktirildi.
+- Her yeni istekte prompt'un sonuna "KESİNLİKLE ÖNERME" ve "KULLANILAN KOMBİNASYONLAR" listeleri ekleniyor.
+- Yeni kişi/session gelince liste temizleniyor (`bb_onceki_hediyeler_sid` ile kontrol).
+- Commit: `903a7c3`, `3141329`
+
+Test linki: https://budurbuldum.com/test-kombinasyon.html
+Canlıya alınmadı — onay bekleniyor.
+
+**2. "6 kriter" sisteminin temeli konuşuldu**
+
+Mevcut durum: buildPrompt 6 kriteri düz liste olarak Grok'a gönderiyor, nasıl kullanacağına dair sistem promptunda hiçbir şey yok. Grok en kolay/yüzeysel çıkarımı yapıyor (rock → rock albüm, müzik → gitar).
+
+Teşhis: 6 madde Grok'a "bu kişinin profili" olarak değil, "işte liste, ikişer eşleştir" olarak sunuluyor. Profili anlamadan hediye üretiyor.
+
+Çözüm yönü (henüz uygulanmadı): Grok'a önce bu 6 maddeden bir kişilik çıkarımı yaptır ("bu verilerden bu kişi hakkında ne anlıyorsun?"), sonra o çıkarımdan hediye üret. Tek çağrıda "önce profili yorumla, sonra hediye üret" veya iki ayrı API çağrısı.
+
+### Bir Sonraki Oturuma Not
+- Farklı hediye fix'i (kombinasyon hafızası) onaylanırsa hediyeler.html'e de uygulanacak, push edilecek.
+- 6 kriter → kişilik çıkarımı → hediye mantığı konuşulacak ve koda dökülecek.
