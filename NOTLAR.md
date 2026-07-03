@@ -1153,3 +1153,13 @@ Demirci'nin tespiti: aynı 6 seçimle hep aynı hediyeler çıkıyor. Kök neden
 ### Henüz Çözülmeyen
 - Seçilmemiş kriterlerin 3'erli gruplarındaki tekrar sorunu
 - Kombinasyon demosunun canlıya alınması (onay bekleniyor)
+
+### Puan Sistemi Deneyi Sonucu (3 Temmuz 2026 Akşam)
+
+Puan tablosu yazıldı ama işe yaramadı — neredeyse tüm seçenekler 3 puan alıyor, eşitlik bozulmuyor, anlamlı bir filtreleme olmuyor. Asıl sorun puanlama değil.
+
+Grok'un prompta nasıl yanıt verdiği değişmedi — kombinasyonlar farklı gelse bile çıktı benzer kalıyor. Sorunun kökü Grok'un arama kalitesi ve hediye kategorisi derinliği.
+
+**Test sayfası (test-kombinasyon.html) güzel oldu** — dropdown formlu, puan gösterir, sakla. İleride başka testlerde kullanılabilir.
+
+**Bugün kesinleşen:** Kombinasyon matematiği doğru (422.820 potansiyel hediye), ama Grok bu potansiyeli kullanamıyor. Çözüm Grok'un nasıl kullanıldığında değil, sisteme nasıl veri gittiğinde.
