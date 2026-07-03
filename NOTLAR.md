@@ -1107,3 +1107,49 @@ Onaylanırsa `hediyeler.html`'deki eski 2 satır bu 3 satırla değiştirilecek,
 ### Konuşulan Ama Yapılmayan
 - Doga sorusu "doğa yürüyüşü yapar mı" yerine daha geniş kapsamlı bir soruya dönüştürülmesi — soru başlığı netleşmedi, ertelendi.
 - Chip listesini temizleme (güçlü kriterler vs. arka plan bağlamı) — trafik gelince kullanıcı verisiyle karar verilecek.
+
+---
+
+## 🟡 AKTİF DURUM — 3 Temmuz 2026 (Akşam Oturumu Devamı)
+
+### Kombinasyon Keşfi ve Matematik
+
+Demirci'nin tespiti: aynı 6 seçimle hep aynı hediyeler çıkıyor. Kök neden: buildPrompt'ta gruplama sabit — 1+2, 3+4, 5+6. Grok bu grupları hazır alıyor, kendi seçmiyor.
+
+**Matematiksel kapasite:**
+- 6 seçimden P(6,2) = 30 kombinasyon → 90 farklı hediye
+- 18 cevaptan P(18,2) = 306 kombinasyon → 918 farklı hediye
+- 30 kriter (12 sabit + 18 seçilebilir) P(30,2) = 870 kombinasyon → 2.610 farklı hediye
+- × 9 bütçe = 70.470 farklı hediye
+- × 6 amaç = **422.820 farklı hediye** — aynı profil, sonsuz çeşitlilik
+
+Şu an bu kapasitenin binde biri kullanılıyor.
+
+**Çözüm yönü:** Kombinasyonları Grok kendisi seçmeli. 6 seçimi liste olarak ver, "en anlamlı 3 ikili kombinasyonu sen belirle, her seferinde farklı dene" de.
+
+### Yapılan Değişiklikler
+
+**api/gifts.js — 3 güncelleme:**
+1. Kombinasyon mantığı metni sisteme eklendi (P(6,2)=30 açıklaması, Grok'a "kombinasyonları kendin seç" talimatı)
+2. Twitter Grok gibi davran — her ilgi alanının derinliklerine in
+3. Burç searchQuery: "Oğlak kolye" değil "Oğlak burcu kolye" (daha önce yapılmıştı, korundu)
+
+**hediyeler-kombinasyon-demo.html:** buildPrompt'ta sabit gruplama kaldırıldı, 6 kriter liste halinde Grok'a gönderiliyor, Grok kombinasyonları kendisi seçiyor.
+
+**test-kombinasyon.html:** Sabit test profili (rock/doğa/kitap/Asya/seyahat/müzik), tek butonla direkt hediyelere gider. Quiz doldurmaya gerek yok.
+
+**grok-sor.html + api/grok-sor.js:** Grok API'ye serbest soru sorma sayfası. 4 hazır soru var.
+
+### Test Linkleri
+- https://budurbuldum.com/test-kombinasyon.html — kombinasyon demo testi
+- https://budurbuldum.com/grok-sor.html — Grok'a serbest soru
+
+### Önemli Öğrenmeler
+- Seçilmemiş kriterler 3'erli gruplarında da aynı sorun var (hayvan+bitki+sanat hep aynı gruba düşüyor)
+- Grok hediye bilgisine sahip ama tek konuya odaklandırılmadıkça yüzeysel kalıyor
+- Twitter Grok ile API Grok aynı model, fark sadece web_search tool'unun verilip verilmediği
+- Sistemin kendisi çok verimli, sorun sadece kombinasyon kısıtı
+
+### Henüz Çözülmeyen
+- Seçilmemiş kriterlerin 3'erli gruplarındaki tekrar sorunu
+- Kombinasyon demosunun canlıya alınması (onay bekleniyor)
