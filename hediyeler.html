@@ -1060,7 +1060,7 @@ Her "Yeni Hediye Bul"da farklı ikililer denemeli.
 const secilenListesi = secilenMetinler.map((m, i) => (i+1) + '. ' + m).join('\n') || '-';
 return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sabitText + '\n\n' + butceKural + '\n\n' +
 'GÖREV: Tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı.\n\n' +
-'HEDİYE 1-2-3 — NOKTA ATIŞI (star:true):\nKullanıcının seçtiği 6 kriter şunlar: ' + secilenListesi + '\nBu 6 kriter arasından 3 ikili kombinasyon seç. Daha önce kullandığın ikililer prompt sonunda listelendi — önce hiç kullanılmamış ikililer seç. Hepsi kullanıldıysa en az kullanılanlardan başla. Her kombinasyonda bir kriteri ağırlıklı al, diğerini tamamlayıcı. 3 kombinasyonun birbirinden tamamen farklı olsun.\n\n' +
+'HEDİYE 1-2-3 — NOKTA ATIŞI (star:true):\nDaha önce kullandığın ikili kombinasyonlar prompt sonunda listelendi. Önce hiç kullanılmamış ikililer seç, hepsi kullanıldıysa en az kullanılanlardan başla. Her kombinasyonda bir kriteri ağırlıklı al, diğerini tamamlayıcı. 3 kombinasyonun birbirinden tamamen farklı olsun.\n\n' +
 'HEDİYE 4 (star:false):\nSeçilmemiş kriterler grup 1:\n' + sdGrup1 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
 'HEDİYE 5 (star:false):\nSeçilmemiş kriterler grup 2:\n' + sdGrup2 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
 'HEDİYE 6 (star:false):\nSeçilmemiş kriterler grup 3:\n' + sdGrup3 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
