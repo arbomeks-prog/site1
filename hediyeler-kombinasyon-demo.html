@@ -564,6 +564,15 @@ fetch('/api/log-quiz', { method: 'POST', headers: { 'Content-Type': 'application
 
 async function baslatHediyeArama() {
     localStorage.setItem('budurBuldumTamamlandi', '1');
+// Yeni kişi gelince önceki hediye listesini temizle
+(function() {
+  const _aktifSid = localStorage.getItem('budurBuldumSessionId') || '';
+  const _kayitliSid = sessionStorage.getItem('bb_onceki_hediyeler_sid') || '';
+  if (_aktifSid !== _kayitliSid) {
+    sessionStorage.removeItem('bb_onceki_hediyeler');
+    sessionStorage.setItem('bb_onceki_hediyeler_sid', _aktifSid);
+  }
+})();
 // Yeni arama başlıyor: önceki aramadan kalan görsel/yazıları sıfırla,
 // spinner ve "aranıyor..." mesajları yeniden görünür olsun.
 document.querySelectorAll('.img-wrap').forEach(function(wrap) {
@@ -759,7 +768,14 @@ setTimeout(function() {
 }, 1000);
 
 try {
-const prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
+let prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
+const _oncekiListeRaw = sessionStorage.getItem('bb_onceki_hediyeler');
+if (_oncekiListeRaw) {
+  const _oncekiListe = JSON.parse(_oncekiListeRaw);
+  if (_oncekiListe.length > 0) {
+    prompt += '\n\nKESİNLİKLE ÖNERME — daha önce bu oturumda önerilen hediyeler (kategori veya isim olarak tekrar etme):\n' + _oncekiListe.map(function(n,i){ return (i+1)+'. '+n; }).join('\n');
+  }
+}
 const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
 const res = await fetch('/api/gifts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: prompt, session_id: sessionId }) });
 if (!res.ok) throw new Error('API hatası: ' + res.status);
@@ -880,6 +896,13 @@ if (animWrap && animIc) {
   });
 }
 shareSection.style.display = 'block';
+
+// Önerilen hediye isimlerini sessionStorage'a biriktir
+const simdikiIsimler = sugg.filter(function(g){ return g.name; }).map(function(g){ return g.name; });
+const oncekiListeRaw = sessionStorage.getItem('bb_onceki_hediyeler');
+const oncekiListe = oncekiListeRaw ? JSON.parse(oncekiListeRaw) : [];
+sessionStorage.setItem('bb_onceki_hediyeler', JSON.stringify(oncekiListe.concat(simdikiIsimler)));
+
 } catch(err) {
 clearInterval(mesajInterval);
 subtitle.textContent = '❌ Bir hata oluştu: ' + err.message;
