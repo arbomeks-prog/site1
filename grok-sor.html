@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grok'a Sor</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, sans-serif; background: #0f172a; color: #f1f5f9; min-height: 100vh; padding: 20px; max-width: 620px; margin: 0 auto; }
+h1 { font-size: 17px; font-weight: 900; color: #e8a838; margin-bottom: 16px; }
+textarea { width: 100%; background: #1e293b; border: 2px solid #334155; border-radius: 12px; padding: 14px; color: #f1f5f9; font-size: 14px; resize: vertical; min-height: 100px; outline: none; font-family: inherit; margin-bottom: 12px; }
+textarea:focus { border-color: #e8a838; }
+button { background: #e8a838; color: #1e293b; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 900; cursor: pointer; width: 100%; margin-bottom: 16px; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.sonuc { background: #1e293b; border-radius: 12px; padding: 16px; font-size: 13px; line-height: 1.9; color: #cbd5e1; white-space: pre-wrap; min-height: 60px; }
+.sure { font-size: 11px; color: #64748b; margin-top: 8px; }
+.hazir-sorular { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.hazir-btn { background: #1e293b; border: 1.5px solid #334155; border-radius: 10px; padding: 10px 14px; color: #94a3b8; font-size: 12px; cursor: pointer; text-align: left; }
+.hazir-btn:hover { border-color: #e8a838; color: #e8a838; }
+.label { font-size: 11px; color: #64748b; margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+</style>
+</head>
+<body>
+<h1>🤖 Grok API'ye Sor</h1>
+
+<div class="label">Hazır Sorular</div>
+<div class="hazir-sorular">
+    <button class="hazir-btn" onclick="soruSec(this)">Film seven birine hediye seçerken neleri kriter olarak alıyorsun?</button>
+    <button class="hazir-btn" onclick="soruSec(this)">Kitap seven birine Trendyol'da bulunabilecek beklenmedik hediye kategorileri neler?</button>
+    <button class="hazir-btn" onclick="soruSec(this)">Doğa yürüyüşü yapan birine sırt çantası ve bot dışında ne önerirsin?</button>
+    <button class="hazir-btn" onclick="soruSec(this)">Rock müzik seven birine kulaklık ve gitar dışında ne önerirsin?</button>
+</div>
+
+<div class="label">Kendi Sorun</div>
+<textarea id="soru" placeholder="Grok'a sormak istediğin şeyi yaz..."></textarea>
+<button id="btn" onclick="sor()">▶ Grok'a Sor</button>
+
+<div class="sonuc" id="sonuc">Bir soru seç veya yaz, "Grok'a Sor"a bas.</div>
+<div class="sure" id="sure"></div>
+
+<script>
+function soruSec(el) {
+    document.getElementById('soru').value = el.textContent.trim();
+}
+
+async function sor() {
+    const soru = document.getElementById('soru').value.trim();
+    if (!soru) return;
+    const btn = document.getElementById('btn');
+    const sonuc = document.getElementById('sonuc');
+    const sure = document.getElementById('sure');
+    btn.disabled = true;
+    btn.textContent = '⏳ Grok düşünüyor...';
+    sonuc.textContent = 'Grok web\'de arıyor, bekle...';
+    sonuc.style.color = '#e8a838';
+    sure.textContent = '';
+    const t = Date.now();
+
+    try {
+        const res = await fetch('/api/grok-sor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ soru })
+        });
+        const data = await res.json();
+        sonuc.textContent = data.cevap || data.error || 'Cevap alınamadı';
+        sonuc.style.color = '#cbd5e1';
+        sure.textContent = '⏱ ' + ((Date.now() - t) / 1000).toFixed(1) + ' saniyede geldi';
+    } catch (e) {
+        sonuc.textContent = 'Hata: ' + e.message;
+        sonuc.style.color = '#ef4444';
+    }
+
+    btn.disabled = false;
+    btn.textContent = '▶ Grok\'a Sor';
+}
+</script>
+</body>
+</html>
