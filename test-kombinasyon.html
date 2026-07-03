@@ -3,69 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kombinasyon Testi</title>
+<title>Puan Sistemi Testi</title>
 <style>
-body { font-family: -apple-system, sans-serif; background: #0f172a; color: #f1f5f9; padding: 30px 20px; max-width: 500px; margin: 0 auto; text-align: center; }
-h1 { color: #e8a838; font-size: 20px; margin-bottom: 10px; }
-p { color: #94a3b8; font-size: 13px; margin-bottom: 30px; line-height: 1.7; }
-.profil { background: #1e293b; border-radius: 14px; padding: 16px; margin-bottom: 24px; text-align: left; }
-.profil-baslik { font-size: 11px; font-weight: 900; color: #e8a838; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
-.profil-satir { font-size: 13px; color: #cbd5e1; line-height: 1.9; }
-button { background: #e8a838; color: #1e293b; border: none; border-radius: 14px; padding: 16px; font-size: 16px; font-weight: 900; cursor: pointer; width: 100%; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, sans-serif; background: #0f172a; color: #f1f5f9; padding: 16px; max-width: 500px; margin: 0 auto; }
+h1 { color: #e8a838; font-size: 17px; font-weight: 900; margin-bottom: 4px; }
+.alt { color: #64748b; font-size: 12px; margin-bottom: 16px; }
+.grup { background: #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+.grup-baslik { font-size: 10px; font-weight: 900; color: #e8a838; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+.satir { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.satir:last-child { margin-bottom: 0; }
+.soru-adi { font-size: 12px; color: #94a3b8; flex: 1; }
+select { background: #0f172a; border: 1.5px solid #334155; border-radius: 8px; padding: 6px 10px; color: #f1f5f9; font-size: 12px; max-width: 180px; }
+select:focus { outline: none; border-color: #e8a838; }
+.btn { background: #e8a838; color: #1e293b; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 900; cursor: pointer; width: 100%; margin-top: 14px; }
+.btn:hover { background: #f59e0b; }
+.puan-ozet { background: #1e293b; border-radius: 12px; padding: 14px; margin-top: 10px; display: none; }
+.puan-baslik { font-size: 11px; font-weight: 900; color: #22c55e; text-transform: uppercase; margin-bottom: 8px; }
+.puan-satir { display: flex; justify-content: space-between; font-size: 12px; color: #cbd5e1; padding: 3px 0; border-bottom: 1px solid #334155; }
+.puan-satir:last-child { border-bottom: none; }
+.puan-3 { color: #22c55e; font-weight: 900; }
+.puan-1 { color: #e8a838; }
+.puan-0 { color: #475569; }
+.secilen-badge { background: #22c55e; color: #0f172a; font-size: 9px; font-weight: 900; padding: 2px 5px; border-radius: 4px; margin-left: 6px; }
 </style>
 </head>
 <body>
-<h1>🎁 Kombinasyon Testi</h1>
-<p>Aşağıdaki profille Grok'un kombinasyonları kendisi seçip seçmediğini test ediyoruz.</p>
+<h1>🎯 Puan Sistemi Testi</h1>
+<p class="alt">Cevapları değiştir, puanlamayı gör, hediyelere git.</p>
 
-<div class="profil">
-  <div class="profil-baslik">Test Profili</div>
-  <div class="profil-satir">
-    👤 Arkadaş · Erkek · 26-35<br>
-    🎂 Doğum Günü · 0-1000 TL<br>
-    🎸 Rock müzik · 🥾 Doğa yürüyüşü<br>
-    📚 Kitap okur · 🍜 Asya mutfağı<br>
-    ☕ Kahve · 🎬 Aksiyon<br>
-    🌍 Seyahat sever · Dışadönük
-  </div>
+<div class="grup">
+  <div class="grup-baslik">👤 Sabit Değerler</div>
+  <div class="satir"><span class="soru-adi">Kime</span><select id="kime"><option>Arkadaş</option><option>Sevgili</option><option>Anne</option><option>Baba</option><option>Kardeş</option><option>İş arkadaşı</option></select></div>
+  <div class="satir"><span class="soru-adi">Cinsiyet</span><select id="cinsiyet"><option>Erkek</option><option>Kadın</option></select></div>
+  <div class="satir"><span class="soru-adi">Yaş</span><select id="yas"><option>18-25</option><option selected>26-35</option><option>36-45</option><option>46-60</option><option>61-75</option></select></div>
+  <div class="satir"><span class="soru-adi">Amaç</span><select id="amac"><option>Doğum Günü</option><option>Yıl Dönümü</option><option>Sevgililer Günü</option><option>Özel Bir Başarı</option><option>Sadece sürpriz</option></select></div>
+  <div class="satir"><span class="soru-adi">Bütçe</span><select id="butce"><option>0-500 TL</option><option selected>0-1000 TL</option><option>0-2000 TL</option><option>0-3000 TL</option><option>0-5000 TL</option></select></div>
+  <div class="satir"><span class="soru-adi">Burç</span><select id="dogum"><option value="">Yok</option><option>♈ Koç</option><option>♉ Boğa</option><option>♊ İkizler</option><option>♋ Yengeç</option><option>♌ Aslan</option><option>♍ Başak</option><option>♎ Terazi</option><option>♏ Akrep</option><option>♐ Yay</option><option>♑ Oğlak</option><option>♒ Kova</option><option>♓ Balık</option></select></div>
 </div>
 
-<button onclick="baslat()">▶ Hediyeleri Gör</button>
+<div class="grup">
+  <div class="grup-baslik">⭐ Puanlanan Kriterler</div>
+  <div class="satir"><span class="soru-adi">Hobileri</span><select id="hobiler"><option value="">Seçilmedi</option><option>Okumak</option><option>Spor yapmak</option><option selected>Müzik / Enstrüman</option><option>Seyahat</option><option>Yemek yapmak</option><option>Teknoloji</option><option>Sanat ve el işi</option><option>Bahçe / Bitki bakımı</option></select></div>
+  <div class="satir"><span class="soru-adi">Müzik türü</span><select id="muzik"><option value="">Seçilmedi</option><option selected>Rock</option><option>Pop</option><option>Klasik</option><option>Rap / Hip-Hop</option><option>Türk Sanat Müziği</option><option>Diğer</option></select></div>
+  <div class="satir"><span class="soru-adi">Spor</span><select id="spor"><option value="">Seçilmedi</option><option>Evet düzenli</option><option selected>Ara sıra</option><option>Hiç yapmıyor</option></select></div>
+  <div class="satir"><span class="soru-adi">Teknoloji</span><select id="teknoloji"><option value="">Seçilmedi</option><option>Çok ilgili</option><option selected>Orta seviyede</option><option>Pek ilgilenmiyor</option></select></div>
+  <div class="satir"><span class="soru-adi">Hayvan sever mi</span><select id="hayvan"><option value="">Seçilmedi</option><option>Evet çok sever</option><option>Orta</option><option selected>Pek sevmez</option></select></div>
+  <div class="satir"><span class="soru-adi">Seyahat</span><select id="seyahat"><option value="">Seçilmedi</option><option selected>Çok sever</option><option>Ara sıra</option><option>Pek sevmez</option></select></div>
+  <div class="satir"><span class="soru-adi">Kitap</span><select id="kitap"><option value="">Seçilmedi</option><option>Evet çok</option><option selected>Ara sıra</option><option>Hiç okumaz</option></select></div>
+  <div class="satir"><span class="soru-adi">Kahve / Çay</span><select id="kahve"><option value="">Seçilmedi</option><option selected>Kahve</option><option>Çay</option><option>İkisi de</option><option>Hiçbiri</option></select></div>
+  <div class="satir"><span class="soru-adi">Film türü</span><select id="film"><option value="">Seçilmedi</option><option>Romantik</option><option>Komedi</option><option>Bilim Kurgu</option><option>Dram</option><option selected>Aksiyon</option></select></div>
+  <div class="satir"><span class="soru-adi">Bitki bakımı</span><select id="bitki"><option value="">Seçilmedi</option><option>Evet</option><option selected>Hayır</option><option>Deniyor</option></select></div>
+  <div class="satir"><span class="soru-adi">Oyun</span><select id="oyun"><option value="">Seçilmedi</option><option>Evet sık sık</option><option selected>Ara sıra</option><option>Hiç oynamaz</option></select></div>
+  <div class="satir"><span class="soru-adi">Makyaj / bakım</span><select id="makyaj"><option value="">Seçilmedi</option><option>Çok var</option><option>Orta</option><option selected>Yok</option></select></div>
+  <div class="satir"><span class="soru-adi">Aksesuar</span><select id="aksesuar"><option value="">Seçilmedi</option><option>Evet</option><option selected>Ara sıra</option><option>Hiç sevmez</option></select></div>
+  <div class="satir"><span class="soru-adi">Favori mutfak</span><select id="mutfak"><option value="">Seçilmedi</option><option>Türk</option><option>İtalyan</option><option selected>Asya</option><option>Fast Food</option><option>Sağlıklı</option></select></div>
+  <div class="satir"><span class="soru-adi">Doğa yürüyüşü</span><select id="doga"><option value="">Seçilmedi</option><option selected>Evet sever</option><option>Ara sıra</option><option>Hiç yapmaz</option></select></div>
+  <div class="satir"><span class="soru-adi">Sanat</span><select id="sanat"><option value="">Seçilmedi</option><option>Çok var</option><option selected>Orta</option><option>Yok</option></select></div>
+  <div class="satir"><span class="soru-adi">Fotoğraf</span><select id="foto"><option value="">Seçilmedi</option><option>Evet</option><option selected>Ara sıra</option><option>Hiç</option></select></div>
+  <div class="satir"><span class="soru-adi">Tatlı</span><select id="tatli"><option value="">Seçilmedi</option><option>Çikolata</option><option>Pasta</option><option>Dondurma</option><option>Şekerleme</option><option>Hiçbiri</option></select></div>
+</div>
+
+<div class="puan-ozet" id="puan-ozet">
+  <div class="puan-baslik">🎯 Seçilen 6 Kriter (Puana Göre)</div>
+  <div id="puan-listesi"></div>
+</div>
+
+<button class="btn" onclick="baslat()">▶ Puanla ve Hediyeleri Gör</button>
 
 <script>
-function baslat() {
-    var cevaplar = {
-        kime: 'Arkadaş', cinsiyet: 'Erkek', yas: '26-35',
-        tarz: 'Minimalist', renk: 'Doğal Tonlar', amac: 'Doğum Günü',
-        ortam: 'Daha çok dışarıda', butce: '0-1000 TL',
-        mevsim: 'Sonbahar', kisilik: 'Dışadönük',
-        oncelik: 'Özel ve anlamlı olsun',
-        hobiler: 'Müzik / Enstrüman, Seyahat',
-        muzik: 'Rock', doga: 'Evet sever',
-        kitap: 'Ara sıra', mutfak: 'Asya',
-        spor: 'Ara sıra', kahve: 'Kahve',
-        film: 'Aksiyon', teknoloji: 'Orta seviyede',
-        seyahat: 'Çok sever', sanat: 'Orta',
-        foto: 'Ara sıra', dogum: '♏ Akrep'
+const puanTablosu = {
+    'Evet düzenli': 3, 'Evet çok sever': 3, 'Çok sever': 3, 'Evet çok': 3,
+    'Çok ilgili': 3, 'Çok var': 3, 'Evet sık sık': 3, 'Evet sever': 3, 'Evet': 3,
+    'Ara sıra': 1, 'Orta': 1, 'Orta seviyede': 1, 'Deniyor': 1,
+    // Kategori seçimleri — seçilmişse 3 puan
+    'Rock': 3, 'Pop': 3, 'Klasik': 3, 'Rap / Hip-Hop': 3, 'Türk Sanat Müziği': 3, 'Diğer': 2,
+    'Türk': 2, 'İtalyan': 3, 'Asya': 3, 'Fast Food': 1, 'Sağlıklı': 3,
+    'Romantik': 2, 'Komedi': 2, 'Bilim Kurgu': 3, 'Dram': 2, 'Aksiyon': 2,
+    'Kahve': 2, 'Çay': 2, 'İkisi de': 1,
+    'Çikolata': 2, 'Pasta': 2, 'Dondurma': 2, 'Şekerleme': 2,
+    'Okumak': 3, 'Spor yapmak': 3, 'Müzik / Enstrüman': 3, 'Seyahat': 3,
+    'Yemek yapmak': 3, 'Teknoloji': 3, 'Sanat ve el işi': 3, 'Bahçe / Bitki bakımı': 3
+};
+const negatifler = ['Hiç yapmıyor','Hiç okumaz','Hiç oynamaz','Hiç sevmez','Hiç','Hayır','Yok','Pek sevmez','Pek ilgilenmiyor','Hiçbiri'];
+const puanliIds = ['hobiler','muzik','spor','teknoloji','hayvan','seyahat','kitap','kahve','film','bitki','oyun','makyaj','aksesuar','mutfak','doga','sanat','foto','tatli'];
+
+function getCevaplar() {
+    return {
+        kime: document.getElementById('kime').value,
+        cinsiyet: document.getElementById('cinsiyet').value,
+        yas: document.getElementById('yas').value,
+        amac: document.getElementById('amac').value,
+        butce: document.getElementById('butce').value,
+        dogum: document.getElementById('dogum').value,
+        hobiler: document.getElementById('hobiler').value,
+        muzik: document.getElementById('muzik').value,
+        spor: document.getElementById('spor').value,
+        teknoloji: document.getElementById('teknoloji').value,
+        hayvan: document.getElementById('hayvan').value,
+        seyahat: document.getElementById('seyahat').value,
+        kitap: document.getElementById('kitap').value,
+        kahve: document.getElementById('kahve').value,
+        film: document.getElementById('film').value,
+        bitki: document.getElementById('bitki').value,
+        oyun: document.getElementById('oyun').value,
+        makyaj: document.getElementById('makyaj').value,
+        aksesuar: document.getElementById('aksesuar').value,
+        mutfak: document.getElementById('mutfak').value,
+        doga: document.getElementById('doga').value,
+        sanat: document.getElementById('sanat').value,
+        foto: document.getElementById('foto').value,
+        tatli: document.getElementById('tatli').value
     };
+}
 
-    var secilen = [
-        {id:'muzik', grup:'A'},
-        {id:'doga', grup:'A'},
-        {id:'hobiler', grup:'A'},
-        {id:'mutfak', grup:'B'},
-        {id:'seyahat', grup:'B'},
-        {id:'kitap', grup:'B'}
-    ];
+function hesaplaPuan(cevaplar) {
+    return puanliIds.map(function(id) {
+        const cevap = cevaplar[id];
+        if (!cevap || negatifler.includes(cevap)) return { id, cevap, puan: 0 };
+        return { id, cevap, puan: puanTablosu[cevap] || 0 };
+    }).filter(function(x) { return x.puan > 0; })
+      .sort(function(a, b) { return b.puan - a.puan; })
+      .slice(0, 6);
+}
 
+function baslat() {
+    const cevaplar = getCevaplar();
+    const secilen6 = hesaplaPuan(cevaplar);
+    
+    // Puan özetini göster
+    const ozet = document.getElementById('puan-ozet');
+    const liste = document.getElementById('puan-listesi');
+    ozet.style.display = 'block';
+    liste.innerHTML = secilen6.map(function(x) {
+        const sinif = x.puan === 3 ? 'puan-3' : x.puan === 1 ? 'puan-1' : 'puan-0';
+        return '<div class="puan-satir"><span>' + x.id + ': ' + x.cevap + '</span><span class="' + sinif + '">' + x.puan + ' puan</span></div>';
+    }).join('');
+
+    // localStorage'a yaz
     localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cevaplar));
     localStorage.setItem('budurBuldumAktifSet', 'normal');
     localStorage.setItem('budurBuldumTamamlandi', '1');
-    localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(secilen));
     localStorage.setItem('budurBuldumButceEsnek', '0');
-    localStorage.setItem('budurBuldumSecilenBurc', '♏ Akrep');
+    localStorage.setItem('budurBuldumSecilenBurc', cevaplar.dogum || '');
+    
+    // Seçilen 6'yı selectedCriteria formatına çevir
+    const selectedCriteria = secilen6.map(function(x) { return { id: x.id, grup: 'A' }; });
+    localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(selectedCriteria));
 
-    window.location.href = 'hediyeler-kombinasyon-demo.html';
+    setTimeout(function() {
+        window.location.href = 'hediyeler-kombinasyon-demo.html';
+    }, 1200);
 }
 </script>
 </body>
