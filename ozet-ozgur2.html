@@ -76,6 +76,40 @@
     <meta name="theme-color" content="#e8a838">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HWPN7VD4VX"></script>
     <script>
+// Demo için sabit cevaplar
+(function() {
+    var cevaplar = {
+        kime: 'Arkadaş',
+        cinsiyet: 'Erkek',
+        yas: '26-35',
+        tarz: 'Minimalist',
+        renk: 'Doğal Tonlar',
+        amac: 'Doğum Günü',
+        ortam: 'Daha çok dışarıda',
+        butce: '0-1000 TL',
+        mevsim: 'Sonbahar',
+        kisilik: 'Dışadönük',
+        oncelik: 'Özel ve anlamlı olsun',
+        hobiler: 'Müzik / Enstrüman, Seyahat',
+        muzik: 'Rock',
+        doga: 'Evet sever',
+        kitap: 'Ara sıra',
+        mutfak: 'Asya',
+        spor: 'Ara sıra',
+        kahve: 'Kahve',
+        film: 'Aksiyon',
+        teknoloji: 'Orta seviyede',
+        seyahat: 'Çok sever',
+        sanat: 'Orta',
+        foto: 'Ara sıra',
+        dogum: '♏ Akrep'
+    };
+    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cevaplar));
+    localStorage.setItem('budurBuldumAktifSet', 'normal');
+    localStorage.setItem('budurBuldumTamamlandi', '1');
+})();
+</script>
+<script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
