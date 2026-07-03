@@ -1070,3 +1070,40 @@ Onaylanırsa `hediyeler.html`'deki eski 2 satır bu 3 satırla değiştirilecek,
 
 ### Bekleyen (onay alınmadı)
 - Dijital saat + fotoğraf zemin → index.html'e taşımak için onay bekleniyor.
+
+---
+
+## 🟡 AKTİF DURUM — 3 Temmuz 2026
+
+### Bugün Yapılanlar
+
+**1. Burç searchQuery kuralı düzeltildi (api/gifts.js)**
+- Eski kural yanlıştı: "Oğlak burcu kolye" değil "Oğlak kolye" yaz diyordu.
+- Doğrusu tam tersi — burç adı + "burcu" + ürün formatı Trendyol'da doğru sonuç veriyor.
+- Yeni kural: "Oğlak kolye" değil "Oğlak burcu kolye", "Terazi duvar saati" değil "Terazi burcu duvar saati" yaz.
+- Commit: `5966064` (yedek geri yüklenirken bu düzeltme de içinde kaldı)
+
+**2. Sistem promptu boşaltma deneyi yapıldı**
+- Tüm sistem promptu kaldırılıp sadece "Sadece JSON array döndür" bırakıldı.
+- Sonuç: Grok kendi başına çok kötü hediye üretiyor — "dram filmleri seti" searchQuery ile Trendyol'da bıçak ve bikini çıktı.
+- "Önce web'de gerçekten satılan ürünleri ARA" komutu olmayınca Grok kafadan üretiyor.
+- Yedek: `gifts-yedek-prompt-oncesi-3temmuz2026.js` (repo kökünde)
+- Prompt orijinal haline geri yüklendi. Commit: `5966064`
+
+**3. Grok'un kendi seçim yapması deneyi (ozet-ozgur2 + hediyeler-ozgur2)**
+- buildPrompt tamamen basitleştirildi — 6 kriter seçimi/gruplama kaldırıldı, tüm quiz cevapları düz metin olarak Grok'a gönderildi.
+- ozet-ozgur2.html'de kriter seçim zorunluluğu kaldırıldı, buton her zaman aktif.
+- Sonuç: Kötü. Grok yine aynı sorunları yaşadı — searchQuery kalitesi düştü, yanlış ürünler çıktı.
+- Demo dosyaları repoda duruyor (hediyeler-ozgur2.html, ozet-ozgur2.html) — canlıya alınmadı.
+
+### Önemli Öğrenme
+
+- Grok sistem promptu olmadan çalışamıyor — her kural acı deneyimden çıkmış, gerekli.
+- Grok kendi başına cevaplar arasındaki bağlantıyı kuramıyor (doğa+dışarıda+dışadönük → outdoor profili gibi).
+- Kişiselleştirme ile çeşitlilik birbiriyle çelişiyor — ne kadar kişiselleştirirsen o kadar tek yöne gidiyor.
+- Soruların tek boyutlu (evet/hayır seviyesi) olması bir kısıt ama daha derin soru = daha az kullanıcı tradeoff'u var.
+- Scraping 5 site için imkansız; kısa vadede en doğru yol GelirOrtakları affiliate (trafik gelince).
+
+### Konuşulan Ama Yapılmayan
+- Doga sorusu "doğa yürüyüşü yapar mı" yerine daha geniş kapsamlı bir soruya dönüştürülmesi — soru başlığı netleşmedi, ertelendi.
+- Chip listesini temizleme (güçlü kriterler vs. arka plan bağlamı) — trafik gelince kullanıcı verisiyle karar verilecek.
