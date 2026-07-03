@@ -570,6 +570,7 @@ async function baslatHediyeArama() {
   const _kayitliSid = sessionStorage.getItem('bb_onceki_hediyeler_sid') || '';
   if (_aktifSid !== _kayitliSid) {
     sessionStorage.removeItem('bb_onceki_hediyeler');
+    sessionStorage.removeItem('bb_onceki_kombinasyonlar');
     sessionStorage.setItem('bb_onceki_hediyeler_sid', _aktifSid);
   }
 })();
@@ -770,10 +771,17 @@ setTimeout(function() {
 try {
 let prompt = buildPrompt(cevaplar, sorular, isOzel, selectedCriteria, secilenBurc, butceEsnek);
 const _oncekiListeRaw = sessionStorage.getItem('bb_onceki_hediyeler');
+const _oncekiKombRaw = sessionStorage.getItem('bb_onceki_kombinasyonlar');
 if (_oncekiListeRaw) {
   const _oncekiListe = JSON.parse(_oncekiListeRaw);
   if (_oncekiListe.length > 0) {
     prompt += '\n\nKESİNLİKLE ÖNERME — daha önce bu oturumda önerilen hediyeler (kategori veya isim olarak tekrar etme):\n' + _oncekiListe.map(function(n,i){ return (i+1)+'. '+n; }).join('\n');
+  }
+}
+if (_oncekiKombRaw) {
+  const _oncekiKomb = JSON.parse(_oncekiKombRaw);
+  if (_oncekiKomb.length > 0) {
+    prompt += '\n\nKULLANILAN KOMBİNASYONLAR — bunları tekrar kullanma, farklı ikili eşleştirmeler seç:\n' + _oncekiKomb.map(function(k,i){ return (i+1)+'. '+k; }).join('\n');
   }
 }
 const sessionId = localStorage.getItem('budurBuldumSessionId') || '';
@@ -897,11 +905,16 @@ if (animWrap && animIc) {
 }
 shareSection.style.display = 'block';
 
-// Önerilen hediye isimlerini sessionStorage'a biriktir
+// Önerilen hediye isimlerini ve kombinasyonları sessionStorage'a biriktir
 const simdikiIsimler = sugg.filter(function(g){ return g.name; }).map(function(g){ return g.name; });
 const oncekiListeRaw = sessionStorage.getItem('bb_onceki_hediyeler');
 const oncekiListe = oncekiListeRaw ? JSON.parse(oncekiListeRaw) : [];
 sessionStorage.setItem('bb_onceki_hediyeler', JSON.stringify(oncekiListe.concat(simdikiIsimler)));
+
+const simdikiKomblar = sugg.filter(function(g){ return g.combination; }).map(function(g){ return g.combination; });
+const oncekiKombRaw = sessionStorage.getItem('bb_onceki_kombinasyonlar');
+const oncekiKomb = oncekiKombRaw ? JSON.parse(oncekiKombRaw) : [];
+sessionStorage.setItem('bb_onceki_kombinasyonlar', JSON.stringify(oncekiKomb.concat(simdikiKomblar)));
 
 } catch(err) {
 clearInterval(mesajInterval);
@@ -1076,7 +1089,7 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
 'HEDİYE 8 (star:false):\nTüm profil ve sabit değerleri göz önüne alarak en yaratıcı, beklenmedik hediyeyi öner. Öncekilerden FARKLI.\n\n' +
 'HEDİYE 9 (star:false):\nTüm profil ve sabit değerleri göz önüne alarak ikinci yaratıcı, niş hediyeyi öner. Öncekilerden FARKLI.\n\n' +
 (burcIsim ? 'HEDİYE 10 — BURÇ HEDİYESİ (star:false, isBurc:true):\n' + burcEk + '\nTüm kriterler ve burç özelliklerini birleştir. Öncekilerden FARKLI.\n\n' : '') +
-'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\nSadece JSON array döndür. Başka hiçbir şey yazma.';
+'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), combination (star:true hediyeler için hangi iki kriteri birleştirdiğini yaz, örnek: "müzik+seyahat" — star:false hediyeler için boş string yaz)\nSadece JSON array döndür. Başka hiçbir şey yazma.';
 }
 </script>
 <script>
