@@ -1235,3 +1235,45 @@ teknoloji → "teknoloji" tek başına çok geniş, yeniden çerçevelenmesi laz
 ### Sıradaki Oturumda Yapılacak
 - film ve mutfak sorularını kaldıran, teknoloji sorusunu yeniden çerçeveleyen demo (hediyeler-soru-testi.html)
 - Bu demoyu Demirci test edecek, fark görürse canlıya alınacak
+
+---
+
+## 🔬 QUIZ SORU ANALİZİ — Trendyol/Platform Testi (4 Temmuz 2026 Akşam)
+
+Her sorunun cevabının alışveriş sitelerinde anlamlı bir arama karşılığı olup olmadığı test edildi.
+
+### KESİN GİDER (5 soru)
+Platform aramasında hiçbir karşılığı yok:
+- **film** — "dram seven" → Trendyol'da anlamlı kategori yok
+- **mutfak** — "İtalyan mutfağı seven" → Trendyol'da karşılık yok
+- **renk** — "pastel tonlar hediye" → hiçbir platformda çalışmıyor. Ayrıca tarz sorusundan zaten çıkarılabilir (minimalist → sade renkler, renkli ve eğlenceli → canlı renkler)
+- **mevsim** — "kış mevsimi hediye" → platformda kategori yok. Mevcut mevsim zaten sistem promptunda belirtiliyor
+- **doga** — ortam + spor + hobiler sorularının alt kırılımı, ayrı sormak gereksiz
+
+### ÇIKARIM OLARAK GİDER (3 soru)
+Kullanıcıya sorulmaz, diğer cevaplardan otomatik üretilir:
+- **kişilik** (içe/dışa dönük) → tarz + hobiler + ortam cevaplarından çıkarılır
+- **öncelik** (kalite/fiyat/özgünlük) → bütçe + tarz cevaplarından çıkarılır
+- **ortam** (evde/dışarıda) → hobiler + tarz cevaplarından büyük ölçüde çıkarılır. Grok'a çıkarım olarak gönderilir, searchQuery'de kullanılmaz
+
+### GENİŞLETİLECEK (1 soru)
+- **hobiler** — şu an 8 seçenek, max 2 seçim. Ayrı soru olarak sorulan şeyleri buraya ekle, max seçimi 3-4'e çıkar:
+  - Mevcut: Okumak, Spor, Müzik, Seyahat, Yemek, Teknoloji, Sanat, Bahçe
+  - Eklenecek: Fotoğraf, Oyun, Film/Dizi, Makyaj/Bakım, Doğa/Yürüyüş
+  - Böylece 5 ayrı soru tek soruda birleşiyor
+
+### ÇIKARIM MANTIĞI (henüz koda dökülmedi)
+Kullanıcı tarz sorusuna "Minimalist" dedi → sistem Grok'a şunu gönderir:
+"Tarz: Minimalist → sade, fonksiyonel, gereksiz detaysız ürünler tercih eder. Renk: nötr/toprak tonlar. Kişilik: büyük ihtimalle içe dönük eğilim."
+
+Kullanıcı "Renkli ve Eğlenceli" dedi → sistem Grok'a:
+"Tarz: Renkli ve Eğlenceli → canlı renkler, dikkat çekici ürünler, dışa dönük eğilim."
+
+NOT: İstisnalar her zaman olabilir (minimalist ressam bar geziyor gibi), bu yüzden çıkarım tek başına değil diğer cevaplarla birleşerek değerlendirilmeli.
+
+### KALIR (değişmeden devam eder)
+hobiler (genişletilmiş haliyle), spor, muzik, hayvan, kitap, bitki, oyun, makyaj, aksesuar, sanat, teknoloji (yeniden çerçevelenmiş)
+
+### BEKLEYEN
+- Hobiler sorusunu genişletmek → "yap" komutu bekliyor
+- Çıkarım katmanını buildPrompt'a eklemek → "yap" komutu bekliyor
