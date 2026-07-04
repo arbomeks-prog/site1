@@ -1279,6 +1279,14 @@ hobiler → genişletilmiş haliyle kalır (muzik, foto, oyun, makyaj, doğa/yü
 kişilik, öncelik, ortam, teknoloji — 4 soru
 teknoloji özelinde: "Çok ilgili" veya "Orta" ise Grok'a "teknoloji meraklısı, gadget/akıllı ürün kategorisinden bak" diye çıkarım gider. "Pek ilgilenmiyor" ise hiç gönderilmez.
 
+### YAPILDI (4 Temmuz 2026 Akşam)
+- hobiye-gore-hediye-bulma-testi-16.html — 13 seçenek, max 3 seçim
+- config-16.js — 9 gereksiz soru kaldırıldı, hobiler genişletildi
+- index-16soru-demo.html — tam çalışan 16 soruluk demo
+- Demo linki: https://budurbuldum.com/index-16soru-demo.html
+- Commit: 3eaa8ea
+
 ### BEKLEYEN
-- Hobiler sorusunu genişletmek → "yap" komutu bekliyor
-- Çıkarım katmanını buildPrompt'a eklemek → "yap" komutu bekliyor
+- Çıkarım katmanını buildPrompt'a eklemek — tarz → Grok otomatik kişilik notu
+- Tatli, seyahat, kahve, muzik soruları demoda hâlâ var — kaldırılacak mı karar verilecek
+- Demo onaylanırsa canlıya alma
