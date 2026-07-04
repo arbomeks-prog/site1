@@ -1207,3 +1207,31 @@ Teşhis: 6 madde Grok'a "bu kişinin profili" olarak değil, "işte liste, ikiş
 ### Bir Sonraki Oturuma Not
 - Farklı hediye fix'i (kombinasyon hafızası) onaylanırsa hediyeler.html'e de uygulanacak, push edilecek.
 - 6 kriter → kişilik çıkarımı → hediye mantığı konuşulacak ve koda dökülecek.
+
+---
+
+## 🟡 AKTİF DURUM — 4 Temmuz 2026 (Akşam Oturumu)
+
+### Bugün Yapılanlar
+
+**1. Dosya temizliği**
+- 26 demo/test/ozgur/kombinasyon dosyası silindi ve push edildi (commit `249dd2f`).
+- Korunanlar: test-sadece-21-soru.html, test-kahve-alt-soru.html, test-kahve-alt-index.html, scroll-quiz-demo-28.html, scroll-quiz-demo-28-YEDEK-49d0d0f.html, sahne-demo.html, budurbuldum-canli-demo-1.html
+
+**2. Quiz soruları Trendyol testi**
+18 seçilebilir sorunun Trendyol'da arama karşılığı olup olmadığı değerlendirildi:
+
+KALIR (11): hobiler, spor, muzik, hayvan, kitap, bitki, oyun, makyaj, aksesuar, sanat, foto
+BONUS olur (5): tatli, seyahat, kahve, doga, foto(koşullu)
+GİDER (2): film, mutfak — Trendyol'da anlamlı arama karşılığı yok
+teknoloji → "teknoloji" tek başına çok geniş, yeniden çerçevelenmesi lazım
+
+**3. Konuşulan ama yapılmayan**
+- Hediye kalitesi sorunu: Grok sıradan öneriyor (çay seti, katlanır valiz). Kök neden: "kategori → en bilinen ürün" yapıyor, derinliğe inmiyor.
+- Yaş + hayat evresi mantığı: 18 yaş → evinde valiz olmayabilir, 35 yaş → üç tane var. Bu system prompt'a eklenmeli.
+- Geri dönen kullanıcı sorunu: aynı profil her seferinde aynı hediyeyi görüyor. Çözüm: önceki hediyeleri Neon'a kaydet, geri gelince Grok'a "bunları önerme" de.
+- GelirOrtakları başvurusu: affiliate başvurusu henüz yapılmadı. Mevcut site başvuru için yeterli, trafik şartı yok.
+
+### Sıradaki Oturumda Yapılacak
+- film ve mutfak sorularını kaldıran, teknoloji sorusunu yeniden çerçeveleyen demo (hediyeler-soru-testi.html)
+- Bu demoyu Demirci test edecek, fark görürse canlıya alınacak
