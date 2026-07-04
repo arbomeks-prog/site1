@@ -1272,7 +1272,12 @@ Kullanıcı "Renkli ve Eğlenceli" dedi → sistem Grok'a:
 NOT: İstisnalar her zaman olabilir (minimalist ressam bar geziyor gibi), bu yüzden çıkarım tek başına değil diğer cevaplarla birleşerek değerlendirilmeli.
 
 ### KALIR (değişmeden devam eder)
-hobiler (genişletilmiş haliyle), spor, muzik, hayvan, kitap, bitki, oyun, makyaj, aksesuar, sanat, teknoloji (yeniden çerçevelenmiş)
+spor, hayvan, kitap, bitki, oyun, makyaj, aksesuar, sanat — 8 soru
+hobiler → genişletilmiş haliyle kalır (muzik, foto, oyun, makyaj, doğa/yürüyüş eklenir, max seçim 3-4'e çıkar)
+
+### ÇIKARIM OLUR (kullanıcıya sorulmaz, diğer cevaplardan üretilir)
+kişilik, öncelik, ortam, teknoloji — 4 soru
+teknoloji özelinde: "Çok ilgili" veya "Orta" ise Grok'a "teknoloji meraklısı, gadget/akıllı ürün kategorisinden bak" diye çıkarım gider. "Pek ilgilenmiyor" ise hiç gönderilmez.
 
 ### BEKLEYEN
 - Hobiler sorusunu genişletmek → "yap" komutu bekliyor
