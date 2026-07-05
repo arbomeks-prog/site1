@@ -1306,3 +1306,37 @@ Bugün ilk kez pizza fırın taşı, şarap karafı, kokteyl shaker, elektrikli 
 **buildPrompt:** Seçilen kriterler liste olarak gönderiliyor, gruplama yok
 
 **KURAL: Bu hali koru. Hiçbir şey ekleme, örnek verme, ürün adı yazma.**
+
+---
+
+## 5 Temmuz 2026 — Akşam Oturumu
+
+### Yapılanlar
+
+**Platform düğmeleri — mevcutPlatformlar sistemi:**
+- Grok'a her hediye için `mevcutPlatformlar` alanı eklendi — hangi platformda ürünü gördüyse yazar
+- hediyeler.html'de bu alana göre düğmeler aktif/soluk gösteriliyor
+- Grok 5 platformu tarıyor ama tutarsız — bazen doğru, bazen yanlış pozitif veriyor
+- Şu an "emin olmadığını da ekle" komutuyla çalışıyor — açık sorun: Trendyol'da olmayan ürünü bazen aktif gösteriyor
+- Güvenli nokta: `guvenli-nokta-platform-dugme-oncesi`
+
+**Prompt temizliği:**
+- "vinil" kelimesi yasaklandı — yerine "plak" yazılacak
+- Müzik searchQuery formatı: tür + ürün adı ("rap plak", "rock plak seti") — "albüm" kelimesi yasak
+
+**Grok arama terimleri — aramalar.html:**
+- gifts.js API'den `aramalar` alanı döndürüyor
+- hediyeler.html iframe'den postMessage ile index.html'e gönderiyor
+- index.html localStorage'a kaydediyor
+- aramalar.html bu veriyi gösteriyor
+- Sorun: `web_search_call` item yapısı netleşmedi, veri tam gelmiyor olabilir
+
+**Kırılım noktası (bugün):**
+- Pizza fırın taşı, şarap karafı, kokteyl shaker, elektrikli battaniye ilk kez çıktı
+- Sebep: uzun KİŞİYE GÖRE KURALLAR bloğu silindi + sec1/sec2/sec3 gruplama kaldırıldı + safe choice komutu
+
+### Açık Sorunlar
+
+- Trendyol bütçe filtresi: URL'deki fiyat parametresi yüzünden "ürün bulunamadı" diyor — bütçe parametresi kaldırılacak mı genişletilecek mi karar verilecek
+- mevcutPlatformlar yanlış pozitif — Grok olmayan platformu bazen aktif gösteriyor
+- aramalar.html veri gelmiyor — web_search_call yapısı doğrulanmadı
