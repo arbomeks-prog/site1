@@ -34,7 +34,11 @@ export default async function handler(req, res) {
         const data = await response.json();
         const msgItem = (data.output || []).find(item => item.type === 'message');
         const textPart = msgItem?.content?.find(c => c.type === 'output_text');
-        return res.status(200).json({ cevap: textPart?.text || 'Cevap alınamadı' });
+        // Grok'un web arama terimlerini de al
+        const aramalar = (data.output || [])
+            .filter(item => item.type === 'web_search_call')
+            .map(item => item.query || JSON.stringify(item));
+        return res.status(200).json({ cevap: textPart?.text || 'Cevap alınamadı', aramalar });
     } catch (e) {
         return res.status(500).json({ error: e.message });
     }

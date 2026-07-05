@@ -63,7 +63,14 @@ async function sor() {
             body: JSON.stringify({ soru })
         });
         const data = await res.json();
-        sonuc.textContent = data.cevap || data.error || 'Cevap alınamadı';
+        let gosterim = '';
+        if (data.aramalar && data.aramalar.length > 0) {
+            gosterim += '🔍 Grok şunları aradı:\n';
+            data.aramalar.forEach(a => gosterim += '  → ' + a + '\n');
+            gosterim += '\n';
+        }
+        gosterim += data.cevap || data.error || 'Cevap alınamadı';
+        sonuc.textContent = gosterim;
         sonuc.style.color = '#cbd5e1';
         sure.textContent = '⏱ ' + ((Date.now() - t) / 1000).toFixed(1) + ' saniyede geldi';
     } catch (e) {
