@@ -48,7 +48,7 @@ GENEL KURALLAR:
 - name ve description alanlarına cinsiyet bilgisi yazma. Yiyecek, içecek, elektronik, spor ekipmanı gibi ürünlere cinsiyet ekleme.
 - Emin olmadığın ürünlere seti ekleme — gerçekten set olarak satılıyorsa kullan.
 - searchQuery tüm platformlara aynı anda gönderilir — tek bir searchQuery belirle. searchQueryEn alanına İngilizce görsel araması yaz.
-- mevcutPlatformlar alanı için şu 5 platformu kontrol et: trendyol.com, hepsiburada.com, amazon.com.tr, ciceksepeti.com, n11.com. Sadece gerçekten ürün sayfası gördüğün platformları listeye ekle. Emin olmadığın platformu listeye ekleme.
+- mevcutPlatformlar alanı için mutlaka şu 5 platformun hepsini kontrol et: trendyol.com, hepsiburada.com, amazon.com.tr, ciceksepeti.com, n11.com. Hangi platformda ürün sonucu çıkıyorsa onu listeye ekle. Emin olmadığın platformu da listeye ekle — sadece kesinlikle olmadığından emin olduğunu çıkar.
 - Her kriter için o kriterin en klişe ve akla ilk gelen karşılığını önerme. Daha az bilinen, daha özgün alternatifler ara.
 - "vinil" kelimesini name, searchQuery veya description alanlarında kullanma — bunun yerine "plak" yaz.
 - Safe choice yapma. Risk al, cesur ve yaratıcı ol. İlk aklına geleni değil, ikinci ve üçüncü aklına geleni öner.
