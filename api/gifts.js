@@ -77,7 +77,14 @@ GENEL KURALLAR:
         const resultText = textPart ? textPart.text : '';
         const aramalar = (data.output || [])
             .filter(item => item.type === 'web_search_call')
-            .map(item => item.query || '');
+            .map(item => {
+                // xAI API'de arama terimi farklı alanlarda gelebiliyor
+                if (item.query) return item.query;
+                if (item.input) return item.input;
+                if (item.arguments) { try { return JSON.parse(item.arguments).query || JSON.stringify(item.arguments); } catch(e) {} }
+                return JSON.stringify(item);
+            })
+            .filter(Boolean);
         return res.status(200).json({ result: resultText, aramalar });
 
     } catch (error) {
