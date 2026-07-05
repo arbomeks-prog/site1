@@ -119,6 +119,7 @@ const QUIZ_CONFIG = {
         { id:"dogum",    etiket:"Doğum" },
         { id:"yas",      etiket:"Yaş" },
         { id:"tarz",     etiket:"Tarz" },
+        { id:"hobiler",  etiket:"İlgi Alanları" },
         { id:"amac",     etiket:"Amaç" },
         { id:"butce",    etiket:"Bütçe" },
     ],
@@ -131,7 +132,7 @@ const QUIZ_CONFIG = {
     // ==========================================
     // ZORUNLU SORULAR: "Emin değilim" seçeneği gösterilmez
     // ==========================================
-    zorunluSorular: ["kime","cinsiyet","dogum","amac","butce","oncelik","cocuk_cinsiyet","cocuk_amac","cocuk_butce","bebek_cinsiyet","bebek_amac","bebek_butce","pet_tur","pet_butce","kedi_butce","kedi_tur","kopek_butce","kopek_tur","kus_butce","kus_hediye","balik_butce","balik_hediye","kucukpet_butce","kucukpet_hediye"],
+    zorunluSorular: ["kime","cinsiyet","dogum","amac","butce","cocuk_cinsiyet","cocuk_amac","cocuk_butce","bebek_cinsiyet","bebek_amac","bebek_butce","pet_tur","pet_butce","kedi_butce","kedi_tur","kopek_butce","kopek_tur","kus_butce","kus_hediye","balik_butce","balik_hediye","kucukpet_butce","kucukpet_hediye"],
 
     // ==========================================
     // DALLANMA KURALLARI
