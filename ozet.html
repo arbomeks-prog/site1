@@ -367,6 +367,7 @@
         for (let i = 0; i < sorular.length; i++) {
             const s = sorular[i];
             if (!isOzel && sabitIdler.includes(s.id)) continue;
+            if (['tatli','muzik','film','hobiler'].includes(s.id)) continue;
             const cevapVar = !!cevaplar[s.id];
             if (!vitrinModu) {
                 if (!cevapVar) continue;
