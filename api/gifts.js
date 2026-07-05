@@ -51,6 +51,7 @@ GENEL KURALLAR:
 - mevcutPlatformlar alanı için mutlaka şu 5 platformun hepsini kontrol et: trendyol.com, hepsiburada.com, amazon.com.tr, ciceksepeti.com, n11.com. Hangi platformda ürün sonucu çıkıyorsa onu listeye ekle. Emin olmadığın platformu da listeye ekle — sadece kesinlikle olmadığından emin olduğunu çıkar.
 - Her kriter için o kriterin en klişe ve akla ilk gelen karşılığını önerme. Daha az bilinen, daha özgün alternatifler ara.
 - "vinil" kelimesini name, searchQuery veya description alanlarında kullanma — bunun yerine "plak" yaz.
+- Müzik türüyle ilgili searchQuery yazarken format şu olacak: tür + ürün adı. Örnek format: "rap plak", "rock plak seti", "jazz plak". Araya "albüm" kelimesi girmesin.
 - Safe choice yapma. Risk al, cesur ve yaratıcı ol. İlk aklına geleni değil, ikinci ve üçüncü aklına geleni öner.
 - Türkiye'de satılan ürünler öner. Mevcut mevsimi yaz olarak aramalara yansıt.
 - BÜTÇE KURALI: Belirtilen bütçe üst sınırdır. Bütçenin yüzde seksen ile yüzde yüzü arasında öner, sınırı geçme.`
