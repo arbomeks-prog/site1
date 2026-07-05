@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grok Arama Terimleri</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,sans-serif; background:#0f172a; color:#f1f5f9; padding:16px; }
+h1 { font-size:18px; font-weight:800; color:#e8a838; margin-bottom:4px; }
+.alt { font-size:12px; color:#64748b; margin-bottom:16px; }
+.temizle { background:#ef4444; color:white; border:none; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; margin-bottom:16px; }
+.kayit { background:#1e293b; border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+.tarih { font-size:11px; color:#64748b; margin-bottom:8px; }
+.arama { font-size:13px; color:#94a3b8; padding:4px 0; border-bottom:1px solid #334155; display:flex; gap:8px; align-items:flex-start; }
+.arama:last-child { border-bottom:none; }
+.no { color:#e8a838; font-weight:700; font-size:11px; flex-shrink:0; }
+.bos { text-align:center; color:#475569; padding:40px; font-size:14px; }
+</style>
+</head>
+<body>
+<h1>🔍 Grok Arama Terimleri</h1>
+<div class="alt">Her hediye aramasında Grok'un internete yazdığı terimler</div>
+<button class="temizle" onclick="temizle()">Tümünü Temizle</button>
+<div id="liste"></div>
+
+<script>
+function yukle() {
+    var liste = document.getElementById('liste');
+    try {
+        var kayitlar = JSON.parse(localStorage.getItem('bb_grok_aramalar') || '[]');
+        if (kayitlar.length === 0) {
+            liste.innerHTML = '<div class="bos">Henüz kayıt yok.<br>Hediyeler sayfasında bir arama yap.</div>';
+            return;
+        }
+        liste.innerHTML = kayitlar.map(function(k, i) {
+            var aramalarHTML = (k.aramalar || []).map(function(a, j) {
+                return '<div class="arama"><span class="no">' + (j+1) + '</span><span>' + a + '</span></div>';
+            }).join('');
+            return '<div class="kayit"><div class="tarih">📅 ' + k.tarih + ' — Arama #' + (i+1) + '</div>' + aramalarHTML + '</div>';
+        }).join('');
+    } catch(e) {
+        liste.innerHTML = '<div class="bos">Hata: ' + e.message + '</div>';
+    }
+}
+
+function temizle() {
+    localStorage.removeItem('bb_grok_aramalar');
+    yukle();
+}
+
+yukle();
+</script>
+</body>
+</html>

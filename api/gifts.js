@@ -75,7 +75,10 @@ GENEL KURALLAR:
         const msgItem = (data.output || []).find(item => item.type === 'message');
         const textPart = msgItem && msgItem.content ? msgItem.content.find(c => c.type === 'output_text') : null;
         const resultText = textPart ? textPart.text : '';
-        return res.status(200).json({ result: resultText });
+        const aramalar = (data.output || [])
+            .filter(item => item.type === 'web_search_call')
+            .map(item => item.query || '');
+        return res.status(200).json({ result: resultText, aramalar });
 
     } catch (error) {
         if (error.name === 'AbortError') {
