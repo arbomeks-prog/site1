@@ -1763,6 +1763,16 @@ window.addEventListener('message', function(e) {
     // döngüsüne yol açabilir). Bu yüzden her tetiklemede src'yi tazeleyip iframe'in
     // gerçekten sıfırdan yüklenmesini sağlıyoruz; yükleme bitince 'hediyeleri_baslat'
     // mesajını göndeririz.
+    // Grok arama terimlerini kaydet
+    if (e.data.type === 'grok_aramalar' && e.data.kayit) {
+        try {
+            var mevcutAramalar = JSON.parse(localStorage.getItem('bb_grok_aramalar') || '[]');
+            mevcutAramalar.unshift(e.data.kayit);
+            if (mevcutAramalar.length > 50) mevcutAramalar = mevcutAramalar.slice(0, 50);
+            localStorage.setItem('bb_grok_aramalar', JSON.stringify(mevcutAramalar));
+        } catch(ex) {}
+    }
+
     if (e.data.type === 'quiz_tamamlandi_bildir') {
         // NOT: GA4 quiz_tamamlandi event'i artık burada GÖNDERİLMİYOR.
         // ozet.html zaten kendi GA4 client'ından (aynı G-HWPN7VD4VX) bu event'i

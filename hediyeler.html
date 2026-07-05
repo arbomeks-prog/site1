@@ -766,14 +766,19 @@ if (!res.ok) throw new Error('API hatası: ' + res.status);
 const data = await res.json();
 let sugg = [];
 try { sugg = JSON.parse(data.result); } catch(e) { const m = data.result.match(/\[[\s\S]*\]/); if (m) sugg = JSON.parse(m[0]); }
-// Grok arama terimlerini localStorage'a kaydet
+// Grok arama terimlerini ana sayfaya gönder (iframe scope sorunu)
 if (data.aramalar && data.aramalar.length > 0) {
     try {
-        var mevcutAramalar = JSON.parse(localStorage.getItem('bb_grok_aramalar') || '[]');
         var yeniKayit = { tarih: new Date().toLocaleString('tr-TR'), aramalar: data.aramalar };
+        // Önce kendi localStorage'ına yaz
+        var mevcutAramalar = JSON.parse(localStorage.getItem('bb_grok_aramalar') || '[]');
         mevcutAramalar.unshift(yeniKayit);
         if (mevcutAramalar.length > 50) mevcutAramalar = mevcutAramalar.slice(0, 50);
         localStorage.setItem('bb_grok_aramalar', JSON.stringify(mevcutAramalar));
+        // Ana sayfaya da postMessage gönder
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'grok_aramalar', kayit: yeniKayit }, '*');
+        }
     } catch(e) {}
 }
 if (!Array.isArray(sugg)) sugg = [sugg];
