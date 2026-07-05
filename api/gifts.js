@@ -75,6 +75,9 @@ GENEL KURALLAR:
         const msgItem = (data.output || []).find(item => item.type === 'message');
         const textPart = msgItem && msgItem.content ? msgItem.content.find(c => c.type === 'output_text') : null;
         const resultText = textPart ? textPart.text : '';
+        // DEBUG: tüm output item tiplerini logla
+        console.log('OUTPUT TYPES:', (data.output||[]).map(i=>i.type).join(','));
+        console.log('WEB_SEARCH_CALLS:', JSON.stringify((data.output||[]).filter(i=>i.type==='web_search_call')));
         const aramalar = (data.output || [])
             .filter(item => item.type === 'web_search_call')
             .map(item => {
