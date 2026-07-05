@@ -49,6 +49,7 @@
         .sq-option-btn { width:100%; text-align:left; padding:12px 10px; font-size:14px; -webkit-tap-highlight-color:transparent !important; }
         .sq-option-btn:focus, .sq-option-btn:focus-visible, .sq-option-btn:active { outline:none !important; border:none !important; box-shadow:0 0 0 2px #ced4da, 0 0 0 3px #adb5bd, 2px 3px 6px rgba(0,0,0,0.15) !important; transform:none !important; background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%) !important; }
         .sq-option-btn.selected:focus, .sq-option-btn.selected:active { background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%) !important; border:none !important; box-shadow:0 0 0 2px #10b981, inset 0 2px 4px rgba(0,0,0,0.1) !important; }
+        .sq-option-btn:focus:not(.selected), .sq-option-btn:active:not(.selected) { -webkit-tap-highlight-color: transparent !important; }
         .sq-option-btn { width:100%; text-align:left; padding:12px 10px; font-size:14px;
             transition:all 0.15s ease;
             background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%);
@@ -192,6 +193,13 @@
       gtag('config', 'G-HWPN7VD4VX');
     </script>
     <script src="config-16.js"></script>
+<script>
+// Demo sayfası: her açılışta localStorage sıfırla
+(function(){
+  var keys = ['budurBuldumCevaplar','budurBuldumDevamEdiliyor','budurBuldumBaslangicKime','budurAktifOzelSet','budurProfilAdi'];
+  keys.forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+})();
+</script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
@@ -1127,7 +1135,11 @@ if (_baslangicKime) {
             }
         }).catch(function(){});
     }
-    // Samsung browser focus fix - tüm butonlara touch blur ekle
+    // Samsung browser focus fix - delegation ile tüm butonlar için
+    document.addEventListener('touchend', function(e) {
+        var btn = e.target.closest('.sq-option-btn');
+        if (btn) { setTimeout(function() { btn.blur(); document.activeElement && document.activeElement.blur(); }, 30); }
+    }, {passive: true});
     document.querySelectorAll('.sq-option-btn').forEach(function(btn) {
         btn.addEventListener('touchstart', function() {
             var self = this;
@@ -1181,7 +1193,7 @@ if (_baslangicKime) {
 
         // Önceki soruya cevap verilmiş mi kontrol et
         if (soruIndex > 0) {
-            var oncekiSorular = ['kime', 'cinsiyet', 'yas', 'tarz', 'hobiler', 'renk', 'amac', 'ortam', 'teknoloji', 'butce', 'mevsim', 'tatli', 'spor', 'muzik', 'hayvan', 'seyahat', 'kitap', 'kahve', 'film', 'bitki', 'oyun', 'makyaj', 'aksesuar', 'mutfak', 'doga', 'sanat', 'foto', 'kisilik', 'oncelik', 'dogum'];
+            var oncekiSorular = ['kime', 'cinsiyet', 'yas', 'tarz', 'hobiler', 'amac', 'butce', 'tatli', 'spor', 'muzik', 'hayvan', 'seyahat', 'kitap', 'kahve', 'bitki', 'oyun', 'makyaj', 'aksesuar', 'sanat', 'foto', 'dogum'];
             var oncekiId = oncekiSorular[soruIndex - 1];
             if (!cevaplananlar[oncekiId]) {
                 var oncekiBlok = document.getElementById('blok-' + oncekiId);
