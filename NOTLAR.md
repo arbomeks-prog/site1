@@ -1290,3 +1290,19 @@ teknoloji özelinde: "Çok ilgili" veya "Orta" ise Grok'a "teknoloji meraklısı
 - Çıkarım katmanını buildPrompt'a eklemek — tarz → Grok otomatik kişilik notu
 - Tatli, seyahat, kahve, muzik soruları demoda hâlâ var — kaldırılacak mı karar verilecek
 - Demo onaylanırsa canlıya alma
+
+---
+
+## 🟢 KIRILIM NOKTASI — 5 Temmuz 2026
+
+Bugün ilk kez pizza fırın taşı, şarap karafı, kokteyl shaker, elektrikli battaniye gibi beklenmedik ve özgün hediyeler çıktı. 4 ayda hiç görülmemişti.
+
+**Ne değişti:**
+1. Demirci'nin yazdığı uzun "KİŞİYE GÖRE KURALLAR" bloğu silindi — içindeki spesifik ürün adları Grok'u o ürünlere yönlendiriyordu
+2. sec1/sec2/sec3 gruplama kaldırıldı — Grok artık kriterleri kendisi kombine ediyor
+3. "Safe choice yapma, risk al, cesur ve yaratıcı ol" komutu eklendi
+
+**Mevcut sistem promptu:** Kısa, soyut kurallar — ürün adı yok, örnek yok
+**buildPrompt:** Seçilen kriterler liste olarak gönderiliyor, gruplama yok
+
+**KURAL: Bu hali koru. Hiçbir şey ekleme, örnek verme, ürün adı yazma.**
