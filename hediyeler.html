@@ -982,16 +982,9 @@ const sec1 = secilenMetinler.slice(0,2).join('\n') || '-';
 const sec2 = secilenMetinler.slice(2,4).join('\n') || '-';
 const sec3 = secilenMetinler.slice(4,6).join('\n') || '-';
 return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sabitText + '\n\n' + butceKural + '\n\n' +
-'GÖREV: Aşağıdaki algoritmaya göre tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı.\n\n' +
-'HEDİYE 1 — NOKTA ATIŞI 1 (star:true):\nSeçilen kriterlerin ilk 2\'si:\n' + sec1 + '\nBu kriterleri birbiriyle en uyumlu şekilde birleştir. Sabit değerlerle uyumlu TEK hediye öner.\n\n' +
-'HEDİYE 2 — NOKTA ATIŞI 2 (star:true):\nSeçilen kriterlerin 3. ve 4.\'ü:\n' + sec2 + '\nBu kriterleri birbiriyle en uyumlu şekilde birleştir. Hediye 1\'den FARKLI kategori.\n\n' +
-'HEDİYE 3 — NOKTA ATIŞI 3 (star:true):\nSeçilen kriterlerin 5. ve 6.\'sı:\n' + sec3 + '\nBu kriterleri birbiriyle en uyumlu şekilde birleştir. Öncekilerden FARKLI kategori.\n\n' +
-'HEDİYE 4 (star:false):\nSeçilmemiş kriterler grup 1:\n' + sdGrup1 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
-'HEDİYE 5 (star:false):\nSeçilmemiş kriterler grup 2:\n' + sdGrup2 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
-'HEDİYE 6 (star:false):\nSeçilmemiş kriterler grup 3:\n' + sdGrup3 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
-'HEDİYE 7 (star:false):\nSeçilmemiş kriterler grup 4:\n' + sdGrup4 + '\nBu kriterler ve sabit değerlerle uyumlu TEK hediye. Öncekilerden FARKLI.\n\n' +
-'HEDİYE 8 (star:false):\nTüm profil ve sabit değerleri göz önüne alarak en yaratıcı, beklenmedik hediyeyi öner. Öncekilerden FARKLI.\n\n' +
-'HEDİYE 9 (star:false):\nTüm profil ve sabit değerleri göz önüne alarak ikinci yaratıcı, niş hediyeyi öner. Öncekilerden FARKLI.\n\n' +
+'GÖREV: Tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı. İlk 3 hediye star:true, diğerleri star:false.\n\n' +
+'Seçilen kriterler:\n' + secilenMetinler.join('\\n') + '\n\n' +
+'Seçilmemiş kriterler:\n' + secilenDisiMetinler.join('\\n') + '\n\n' +
 (burcIsim ? 'HEDİYE 10 — BURÇ HEDİYESİ (star:false, isBurc:true):\n' + burcEk + '\nTüm kriterler ve burç özelliklerini birleştir. Öncekilerden FARKLI.\n\n' : '') +
 'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması)\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür. Başka hiçbir şey yazma.';
 }
