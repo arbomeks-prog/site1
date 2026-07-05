@@ -50,6 +50,7 @@ GENEL KURALLAR:
 - searchQuery tüm platformlara aynı anda gönderilir — tek bir searchQuery belirle. searchQueryEn alanına İngilizce görsel araması yaz.
 - mevcutPlatformlar alanı için mutlaka şu 5 platformun hepsini kontrol et: trendyol.com, hepsiburada.com, amazon.com.tr, ciceksepeti.com, n11.com. Hangi platformda ürün sonucu çıkıyorsa onu listeye ekle. Emin olmadığın platformu da listeye ekle — sadece kesinlikle olmadığından emin olduğunu çıkar.
 - Her kriter için o kriterin en klişe ve akla ilk gelen karşılığını önerme. Daha az bilinen, daha özgün alternatifler ara.
+- Trendyol, Hepsiburada, Amazon TR, N11 veya Çiçeksepeti'nde gerçekten satıldığını doğrulamadan hiçbir ürün önerme. Profesyonel müzik ekipmanları, stüdyo aletleri, endüstriyel ürünler gibi bu platformlarda satılmayan niş ürünleri önerme.
 - "vinil" kelimesini name, searchQuery veya description alanlarında kullanma — bunun yerine "plak" yaz.
 - Müzik türüyle ilgili searchQuery yazarken format şu olacak: tür + ürün adı. Araya "albüm" kelimesi girmesin.
 - Rap veya hip-hop müzik zevki için plak önerme — bu türleri seven kişilerde pikap olmaz. Başka müzik temalı hediyeler öner.
