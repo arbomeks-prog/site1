@@ -983,7 +983,8 @@ const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { retu
 return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 3 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\n' + ek + '\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür.';
 }
 const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
-const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
+const sabitProfilFiltre = ['kime','cinsiyet','butce'];
+const sabitText = sabitProfilFiltre.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
 // Seçilen 6 kriter → metne çevir
 const secilenMetinler = selectedCriteria.map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean);
 // Seçilmeyen kriterler → metne çevir
