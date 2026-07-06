@@ -509,11 +509,36 @@
                 _teshisBanner('HATA: Hiç chip bulunamadı (allChips.length = 0)', '#ef4444');
                 return;
             }
-            for (var i = allChips.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tmp = allChips[i]; allChips[i] = allChips[j]; allChips[j] = tmp;
+            // Kullanım sayılarını sessionStorage'dan al
+            var kullanimKey = 'bb_rastgele_kullanim';
+            var kullanim = {};
+            try { kullanim = JSON.parse(sessionStorage.getItem(kullanimKey) || '{}'); } catch(e) { kullanim = {}; }
+            // Her chip için kullanım sayısını al
+            var chipBilgi = allChips.map(function(chip) {
+                var id = chip.dataset.soruId || '';
+                return { chip: chip, id: id, sayi: kullanim[id] || 0 };
+            });
+            // Minimum kullanım sayısını bul
+            var minSayi = Math.min.apply(null, chipBilgi.map(function(c) { return c.sayi; }));
+            // Önce hiç/az kullanılanları, sonra diğerlerini karıştır
+            function shuffle(arr) {
+                for (var i = arr.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+                }
+                return arr;
             }
-            allChips.slice(0, maxSel).forEach(function(chip) { chip.click(); });
+            var dusuk = shuffle(chipBilgi.filter(function(c) { return c.sayi === minSayi; }));
+            var yuksek = shuffle(chipBilgi.filter(function(c) { return c.sayi > minSayi; }));
+            var sirali = dusuk.concat(yuksek);
+            var secilecekler = sirali.slice(0, maxSel);
+            // Kullanım sayılarını güncelle
+            secilecekler.forEach(function(c) {
+                kullanim[c.id] = (kullanim[c.id] || 0) + 1;
+            });
+            try { sessionStorage.setItem(kullanimKey, JSON.stringify(kullanim)); } catch(e) {}
+            // Chip'leri seç
+            secilecekler.forEach(function(c) { c.chip.click(); });
             _teshisBanner('Tamamlandı: ' + maxSel + ' chip seçildi', '#22c55e');
         } catch (hata) {
             _teshisBanner('HATA: ' + hata.message, '#ef4444');
