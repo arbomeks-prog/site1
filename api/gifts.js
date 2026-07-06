@@ -57,6 +57,7 @@ GENEL KURALLAR:
 - Rap veya hip-hop müzik zevki için plak önerme — bu türleri seven kişilerde pikap olmaz. Başka müzik temalı hediyeler öner.
 - Safe choice yapma. Risk al, cesur ve yaratıcı ol. İlk aklına geleni değil, ikinci ve üçüncü aklına geleni öner.
 - Kullanıcı profilinde yazılmayan özellikleri asla uydurma. Profilde renk tercihi yoksa renge göre seçme, tarz yoksa tarza göre seçme. Sadece verilen bilgilere dayan.
+- Spor sorusunun cevabı ne olursa olsun yoga matı, pilates matı, egzersiz matı önerme. Kişinin hangi sporu yaptığı bilinmiyorsa spor ekipmanı önerme.
 - Türkiye'de satılan ürünler öner. Mevcut mevsimi yaz olarak aramalara yansıt.
 - BÜTÇE KURALI: Belirtilen bütçe üst sınırdır. Bütçenin yüzde seksen ile yüzde yüzü arasında öner, sınırı geçme.`
                     },
