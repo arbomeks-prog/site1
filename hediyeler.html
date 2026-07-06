@@ -980,17 +980,16 @@ if (isPet) ek = 'searchQuery\'de MUTLAKA "evcil", "akvaryum", "pet" gibi netleş
 else if (isBebek) ek = 'searchQuery\'de MUTLAKA "bebek" kelimesi olmalı.';
 else if (isCocuk) ek = 'searchQuery\'de MUTLAKA "çocuk" + yaş aralığı olmalı.';
 const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { return cevaplar[s.id] ? s.soru + ' → ' + cevaplar[s.id] : ''; }).filter(Boolean).join('\n');
-return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 3 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\n' + ek + '\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür.';
+return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 3 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\n' + ek + '\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür.';
 }
 const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
 const sabitText = profilIds.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
 // Seçilen 6 kriter → metne çevir
-const gizliIdSet = new Set(['tatli','muzik','film','hobiler']);
-const secilenMetinler = selectedCriteria.filter(function(c){ return !gizliIdSet.has(c.id); }).map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean);
+const secilenMetinler = selectedCriteria.map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean);
 // Seçilmeyen kriterler → metne çevir
 const profilIdSet = new Set(profilIds);
 const secilenIdSet = new Set(selectedCriteria.map(function(c){ return c.id; }));
-const secilenDisiMetinler = sorular.filter(function(s){ return !profilIdSet.has(s.id) && !secilenIdSet.has(s.id) && !gizliIdSet.has(s.id) && cevaplar[s.id]; }).map(function(s){ return s.soru + ' → ' + cevaplar[s.id]; });
+const secilenDisiMetinler = sorular.filter(function(s){ return !profilIdSet.has(s.id) && !secilenIdSet.has(s.id) && cevaplar[s.id]; }).map(function(s){ return s.soru + ' → ' + cevaplar[s.id]; });
 // Seçilmeyen kriter grupları (3'erli)
 const sdGrup1 = secilenDisiMetinler.slice(0,3).join('\n') || '-';
 const sdGrup2 = secilenDisiMetinler.slice(3,6).join('\n') || '-';
@@ -1005,7 +1004,7 @@ return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sab
 'Seçilen kriterler:\n' + secilenMetinler.join('\\n') + '\n\n' +
 'Seçilmemiş kriterler:\n' + secilenDisiMetinler.join('\\n') + '\n\n' +
 (burcIsim ? 'HEDİYE 10 — BURÇ HEDİYESİ (star:false, isBurc:true):\n' + burcEk + '\nTüm kriterler ve burç özelliklerini birleştir. Öncekilerden FARKLI.\n\n' : '') +
-'Her hediye için şu alanları doldur: name, emoji, price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür. Başka hiçbir şey yazma.';
+'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür. Başka hiçbir şey yazma.';
 }
 </script>
 <script>
