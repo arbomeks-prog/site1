@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hediyeler V2 | BudurBuldum Test</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #F9F9F9; font-family: -apple-system, sans-serif; padding: 16px 16px 80px; }
+        .max { max-width: 560px; margin: 0 auto; }
+
+        .logo { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+        .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg,#e8a838,#f5c96a); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .logo-text { font-family: Georgia, serif; font-size: 18px; font-weight: 900; color: #1e293b; }
+        .logo-text span { color: #e8a838; }
+        .test-badge { background: #ef4444; color: white; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
+
+        #baslik { font-size: 20px; font-weight: 900; color: #1e293b; text-align: center; margin-bottom: 6px; }
+        #altyazi { font-size: 13px; color: #64748b; text-align: center; margin-bottom: 20px; }
+
+        /* Loading */
+        #yukleniyor { text-align: center; padding: 40px 20px; }
+        .spinner { width: 48px; height: 48px; border: 4px solid #e2e8f0; border-top-color: #e8a838; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #yukleniyor-mesaj { font-size: 15px; font-weight: 700; color: #475569; min-height: 24px; transition: opacity 0.3s; }
+        #sure-sayac { font-size: 12px; color: #94a3b8; margin-top: 8px; }
+
+        /* Hediye kartları */
+        .gift-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 14px; border: 2px solid #f1f5f9; position: relative; overflow: hidden; }
+        .gift-card.nokta-atisi { border-color: #fbbf24; background: linear-gradient(135deg, #fffbeb, #ffffff); }
+        .star-badge { position: absolute; top: 14px; right: 14px; background: linear-gradient(135deg,#f59e0b,#fbbf24); color: #1e293b; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px; }
+        .gift-emoji { font-size: 36px; margin-bottom: 10px; }
+        .gift-name { font-size: 20px; font-weight: 900; color: #1e293b; margin-bottom: 6px; line-height: 1.3; }
+        .gift-reason-label { font-size: 10px; font-weight: 800; color: #e8a838; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+        .gift-reason { font-size: 13px; font-style: italic; color: #475569; margin-bottom: 10px; line-height: 1.5; }
+        .gift-desc-label { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+        .gift-desc { font-size: 13px; color: #64748b; margin-bottom: 14px; line-height: 1.6; }
+        .gift-price { font-size: 22px; font-weight: 900; color: #e8a838; margin-bottom: 12px; }
+        .gift-price span { font-size: 12px; font-weight: 600; color: #94a3b8; margin-left: 6px; }
+
+        .platform-links { display: flex; flex-wrap: wrap; gap: 6px; }
+        .plt-link { font-size: 12px; font-weight: 700; padding: 7px 14px; border-radius: 10px; text-decoration: none; color: white; display: inline-block; }
+        .plt-trendyol { background: #f27a1a; }
+        .plt-hepsiburada { background: #ff6000; }
+        .plt-amazon { background: #ff9900; color: #1e293b; }
+        .plt-ciceksepeti { background: #e91e8c; }
+        .plt-n11 { background: #6c3483; }
+
+        /* Yeni hediye butonu */
+        #yeni-btn-wrap { text-align: center; margin-top: 20px; }
+        .yeni-btn { background: linear-gradient(135deg,#1e40af,#3b82f6); color: white; border: none; border-radius: 20px; padding: 16px 32px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 16px rgba(30,64,175,0.3); }
+        .geri-btn { background: white; color: #475569; border: 2px solid #e2e8f0; border-radius: 20px; padding: 12px 24px; font-size: 14px; font-weight: 700; cursor: pointer; margin-right: 10px; }
+
+        #hata { background: #fef2f2; border: 2px solid #fecaca; border-radius: 16px; padding: 20px; text-align: center; color: #dc2626; font-weight: 700; display: none; margin-bottom: 16px; }
+
+        /* Debug kutusu */
+        #debug-wrap { background: #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 16px; display: none; }
+        #debug-wrap summary { color: #94a3b8; font-size: 12px; font-weight: 700; cursor: pointer; }
+        #debug-prompt { color: #e2e8f0; font-size: 11px; font-family: monospace; white-space: pre-wrap; margin-top: 8px; line-height: 1.6; }
+        .debug-toggle { background: #334155; color: #94a3b8; border: none; border-radius: 8px; padding: 6px 12px; font-size: 11px; font-weight: 700; cursor: pointer; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<div class="max">
+    <div class="logo">
+        <div class="logo-icon">🎁</div>
+        <div class="logo-text">budur<span>buldum</span></div>
+        <span class="test-badge" style="background:#7c3aed">V2</span>
+    </div>
+
+    <div id="baslik">🎁 Hediyeler Hazırlanıyor...</div>
+    <div id="altyazi"></div>
+
+    <div id="yukleniyor">
+        <div class="spinner"></div>
+        <div id="yukleniyor-mesaj">Profil analiz ediliyor...</div>
+        <div id="sure-sayac"></div>
+    </div>
+
+    <div id="hata"></div>
+
+    <button class="debug-toggle" onclick="toggleDebug()" style="display:none;" id="debug-btn">🔧 Prompt'u Gör</button>
+    <div id="debug-wrap">
+        <details>
+            <summary>Grok'a gönderilen prompt</summary>
+            <pre id="debug-prompt"></pre>
+        </details>
+    </div>
+
+    <div id="gifts-list"></div>
+
+    <div id="yeni-btn-wrap" style="display:none;">
+        <button class="geri-btn" onclick="window.location.href='test-yeni-sorular-ozet.html'">← Özete Dön</button>
+        <button class="yeni-btn" onclick="yeniHediye()">🔄 Yeni Hediye Bul</button>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// ETIKET MAP — soru id → okunabilir soru metni (prompt için)
+// ============================================================
+const ETIKET_MAP = {
+    kime: 'Hediye kime gidiyor',
+    cinsiyet: 'Cinsiyeti',
+    yas: 'Yaş aralığı',
+    butce: 'Bütçe',
+    dis_gorunus: 'Dış görünüşüne önem verme',
+    giyim_tarzi: 'Giyim tarzı',
+    renk_ilgi: 'Renklerle arası',
+    esya_tercihi: 'Eşyalarda tercihi',
+    cevre: 'Çevrecilik ve geri dönüşüm',
+    meslek: 'Mesleği',
+    yemek: 'Yemek yapma durumu',
+    dekorasyon: 'Ev dekorasyonuna ilgisi',
+    spor: 'Spor durumu',
+    seyahat: 'Seyahat tarzı',
+    hayvan: 'Hayvanlara tutumu',
+    arac: 'Araç kullanımı',
+    hayat_bakis: 'Hayata genel bakışı',
+    ihtiyac: 'Şu an en çok ihtiyacı olan',
+    ugur_burc: 'Uğur / burç / enerji taşları ilgisi',
+    inanc: 'İnanç ve spiritüel tarafı',
+    dogal: 'Doğal ve şifalı ürünlere ilgisi',
+    mevsim: 'Mevsim tercihi',
+    tamir: 'Tamir ve bakım işleri',
+    saglik: 'Sağlığa yaklaşımı',
+    teknoloji: 'Teknoloji ve klasik araç tercihi',
+    yayin: 'Dizi / film izleme tercihi',
+    kucuk_esya: 'Küçük eşya tercihi',
+    olmazsa_olmaz: 'Hayatında olmazsa olmazı'
+};
+
+const BUTCE_ARALIK = {
+    '0-500 TL': { min: 0, max: 500 },
+    '501-1500 TL': { min: 501, max: 1500 },
+    '1501-3000 TL': { min: 1501, max: 3000 },
+    '3001-6000 TL': { min: 3001, max: 6000 },
+    '6001 TL ve üstü': { min: 6001, max: null }
+};
+
+// localStorage'dan oku
+let cevaplar = {};
+let selectedCriteria = [];
+let butceEsnek = false;
+
+try { cevaplar = JSON.parse(localStorage.getItem('budurV2Cevaplar') || '{}'); } catch(e) {}
+try { selectedCriteria = JSON.parse(localStorage.getItem('budurV2SelectedCriteria') || '[]'); } catch(e) {}
+butceEsnek = localStorage.getItem('budurV2ButceEsnek') === '1';
+
+if (!cevaplar || !cevaplar.kime) {
+    window.location.href = 'test-v2-sorular.html';
+}
+
+// ============================================================
+// PROMPT BUILDER
+// ============================================================
+function buildPrompt() {
+    const aralik = BUTCE_ARALIK[cevaplar.butce] || null;
+    const bMin = aralik ? aralik.min : null;
+    const bMax = aralik ? aralik.max : null;
+    const bStr = aralik ? (bMax ? bMin + ' TL - ' + bMax + ' TL' : bMin + ' TL ve üzeri') : (cevaplar.butce || '');
+
+    const butceKural = butceEsnek
+        ? ('Bütçe esnektir. Seçilen aralık: ' + bStr + '. Fiyatlar bu aralığın en fazla %30 üstünde olabilir' + (bMax ? ', yani maksimum ' + Math.round(bMax * 1.3) + ' TL' : '') + '. Aralığın %70 altına düşme.')
+        : ('Bütçe KESİNLİKLE sabit: ' + bStr + '. Tüm hediyeler bu fiyat aralığında olmalı.' + (bMin && bMin > 0 ? ' ' + bMin + " TL'nin altında fiyat YASAK." : '') + (bMax ? ' ' + bMax + " TL'nin üstünde fiyat YASAK." : '') + ' Tek istisna kabul edilmez.');
+
+    // Sabit profil satırları (her zaman gönderilir)
+    const PROFIL_SABIT = ['kime','cinsiyet','yas','butce'];
+    const profilSatirlari = PROFIL_SABIT
+        .filter(function(id) { return !!cevaplar[id]; })
+        .map(function(id) { return (ETIKET_MAP[id] || id) + ': ' + cevaplar[id]; })
+        .join('\n');
+
+    // Seçilen 6 kriter (id listesi)
+    const secilenIdler = selectedCriteria.map(function(c) { return c.id; });
+
+    // Seçilen kriter metinleri
+    const secilenMetinler = secilenIdler
+        .filter(function(id) { return !!cevaplar[id]; })
+        .map(function(id) { return (ETIKET_MAP[id] || id) + ': ' + cevaplar[id]; });
+
+    // Seçilmeyen ama cevaplanmış kriterler
+    const secilenDisiMetinler = Object.keys(cevaplar)
+        .filter(function(id) { return PROFIL_SABIT.indexOf(id) === -1 && secilenIdler.indexOf(id) === -1 && !!cevaplar[id]; })
+        .map(function(id) { return (ETIKET_MAP[id] || id) + ': ' + cevaplar[id]; });
+
+    return 'KİŞİ PROFİLİ (sabit değerler):\n' + profilSatirlari + '\n\n' +
+        butceKural + '\n\n' +
+        'GÖREV: Tam olarak 9 hediye öner. Her hediye FARKLI bir kategoriden olmalı. İlk 3 hediye star:true (nokta atışı), diğerleri star:false.\n\n' +
+        'Seçilen kriterler (bu kriterlerden ilham al, birbirine benzemeyen hediyeler öner):\n' + secilenMetinler.join('\n') + '\n\n' +
+        'Ek profil bilgileri (referans olarak kullan):\n' + secilenDisiMetinler.join('\n') + '\n\n' +
+        'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star (true/false), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (array: trendyol/hepsiburada/amazon/ciceksepeti/n11)\n' +
+        'Safe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\n' +
+        'Sadece JSON array döndür. Başka hiçbir şey yazma.';
+}
+
+// ============================================================
+// PLATFORM LİNKLERİ
+// ============================================================
+function platformLinki(name, searchQuery, butce, mevcutPlatformlar) {
+    const q = encodeURIComponent(searchQuery || name);
+    const aralik = BUTCE_ARALIK[butce] || null;
+    const prc = aralik ? '&prc=' + aralik.min + '-' + (aralik.max || 999999) : '';
+    const amzPrc = aralik ? '&rh=p_36%3A' + (aralik.min * 100) + '-' + ((aralik.max || 999999) * 100) : '';
+    const hbPrc = aralik ? '&minPrice=' + aralik.min + '&maxPrice=' + (aralik.max || 999999) : '';
+    const n11Prc = aralik ? '&minp=' + aralik.min + '&maxp=' + (aralik.max || 999999) : '';
+    const csePrc = aralik ? '&minPrice=' + aralik.min + '&maxPrice=' + (aralik.max || 999999) : '';
+
+    const platformlar = {
+        trendyol: { url: 'https://www.trendyol.com/sr?q=' + q + prc + '&st=SEARCH', label: 'Trendyol', cls: 'plt-trendyol' },
+        hepsiburada: { url: 'https://www.hepsiburada.com/ara?q=' + q + hbPrc + '&listing=1', label: 'Hepsiburada', cls: 'plt-hepsiburada' },
+        amazon: { url: 'https://www.amazon.com.tr/s?k=' + q + amzPrc + '&s=relevancerank', label: 'Amazon', cls: 'plt-amazon' },
+        ciceksepeti: { url: 'https://www.ciceksepeti.com/arama?query=' + q + csePrc, label: 'Çiçeksepeti', cls: 'plt-ciceksepeti' },
+        n11: { url: 'https://www.n11.com/arama?q=' + q + n11Prc, label: 'N11', cls: 'plt-n11' }
+    };
+
+    const goster = Array.isArray(mevcutPlatformlar) && mevcutPlatformlar.length > 0
+        ? mevcutPlatformlar
+        : ['trendyol', 'hepsiburada', 'amazon'];
+
+    return goster
+        .filter(function(p) { return platformlar[p]; })
+        .map(function(p) {
+            var plt = platformlar[p];
+            return '<a href="' + plt.url + '" target="_blank" class="plt-link ' + plt.cls + '">' + plt.label + '</a>';
+        })
+        .join('');
+}
+
+// ============================================================
+// KART RENDER
+// ============================================================
+function renderKartlar(hediyeler) {
+    const list = document.getElementById('gifts-list');
+    list.innerHTML = '';
+    hediyeler.forEach(function(h) {
+        const kart = document.createElement('div');
+        kart.className = 'gift-card' + (h.star ? ' nokta-atisi' : '');
+        const pltHtml = platformLinki(h.name, h.searchQuery, cevaplar.butce, h.mevcutPlatformlar);
+        kart.innerHTML =
+            (h.star ? '<div class="star-badge">🎯 Nokta Atışı</div>' : '') +
+            '<div class="gift-emoji">' + (h.emoji || '🎁') + '</div>' +
+            '<div class="gift-name">' + h.name + '</div>' +
+            '<div class="gift-reason-label">NEDEN BU HEDİYE?</div>' +
+            '<div class="gift-reason">"' + h.reason + '"</div>' +
+            '<div class="gift-desc-label">HEDİYE KONSEPTİ</div>' +
+            '<div class="gift-desc">' + h.description + '</div>' +
+            '<div class="gift-price">' + h.price + ' <span>ORTALAMA FİYAT</span></div>' +
+            '<div class="platform-links">' + pltHtml + '</div>';
+        list.appendChild(kart);
+    });
+}
+
+// ============================================================
+// LOADING ANİMASYONU
+// ============================================================
+let loadingInterval = null;
+let saniye = 0;
+let saniyeInterval = null;
+
+function startLoading() {
+    const mesajlar = [
+        '🔍 Profil analiz ediliyor...',
+        '🎯 Seçilen kriterler işleniyor...',
+        '🎁 ' + (cevaplar.kime || 'Kişi') + ' için hediyeler aranıyor...',
+        '💡 Özgün seçimler yapılıyor...',
+        '💰 Bütçeye uygun ürünler belirleniyor...',
+        '✨ Son dokunuşlar yapılıyor...'
+    ];
+    let i = 0;
+    const mesajEl = document.getElementById('yukleniyor-mesaj');
+    loadingInterval = setInterval(function() {
+        mesajEl.style.opacity = '0';
+        setTimeout(function() {
+            i = (i + 1) % mesajlar.length;
+            mesajEl.textContent = mesajlar[i];
+            mesajEl.style.opacity = '1';
+        }, 300);
+    }, 2500);
+
+    saniye = 0;
+    const sayacEl = document.getElementById('sure-sayac');
+    saniyeInterval = setInterval(function() {
+        saniye++;
+        sayacEl.textContent = saniye + ' saniye...';
+    }, 1000);
+}
+
+function stopLoading() {
+    if (loadingInterval) clearInterval(loadingInterval);
+    if (saniyeInterval) clearInterval(saniyeInterval);
+    document.getElementById('yukleniyor').style.display = 'none';
+}
+
+// ============================================================
+// ANA AKIŞ
+// ============================================================
+async function hediyeAra() {
+    startLoading();
+
+    const prompt = buildPrompt();
+
+    // Debug prompt'u yaz
+    document.getElementById('debug-prompt').textContent = prompt;
+    document.getElementById('debug-btn').style.display = 'inline-block';
+
+    try {
+        const res = await fetch('/api/gifts-test', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt })
+        });
+
+        stopLoading();
+
+        if (!res.ok) {
+            const err = await res.json();
+            gosterHata('API hatası: ' + (err.error || res.status));
+            return;
+        }
+
+        const data = await res.json();
+        let hediyeler = [];
+        try {
+            hediyeler = JSON.parse(data.result);
+        } catch(e) {
+            const m = data.result.match(/\[[\s\S]*\]/);
+            if (m) { try { hediyeler = JSON.parse(m[0]); } catch(e2) {} }
+        }
+
+        if (!hediyeler || hediyeler.length === 0) {
+            gosterHata('Hediye listesi boş geldi. Tekrar dene.');
+            return;
+        }
+
+        const nokta = hediyeler.filter(function(h) { return h.star; }).length;
+        const toplam = hediyeler.length;
+        document.getElementById('baslik').textContent = '🎯 ' + nokta + ' nokta atışı + ' + (toplam - nokta) + ' kişiye özel hediye';
+        document.getElementById('altyazi').textContent = cevaplar.kime + ' için ' + toplam + ' hediye önerisi';
+
+        renderKartlar(hediyeler);
+        document.getElementById('yeni-btn-wrap').style.display = 'block';
+
+    } catch(e) {
+        stopLoading();
+        gosterHata('Bağlantı hatası: ' + e.message);
+    }
+}
+
+function gosterHata(msg) {
+    const el = document.getElementById('hata');
+    el.textContent = '⚠️ ' + msg;
+    el.style.display = 'block';
+    document.getElementById('yeni-btn-wrap').style.display = 'block';
+}
+
+function yeniHediye() {
+    document.getElementById('gifts-list').innerHTML = '';
+    document.getElementById('hata').style.display = 'none';
+    document.getElementById('yeni-btn-wrap').style.display = 'none';
+    document.getElementById('baslik').textContent = '🎁 Hediyeler Hazırlanıyor...';
+    document.getElementById('altyazi').textContent = '';
+    document.getElementById('yukleniyor').style.display = 'block';
+    document.getElementById('debug-wrap').style.display = 'none';
+    hediyeAra();
+}
+
+function toggleDebug() {
+    const wrap = document.getElementById('debug-wrap');
+    wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
+}
+
+// Başlat
+hediyeAra();
+</script>
+</body>
+</html>
