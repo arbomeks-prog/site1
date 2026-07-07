@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Sorular Testi | BudurBuldum</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #F9F9F9; font-family: -apple-system, sans-serif; padding: 20px 16px 60px; }
+        .max { max-width: 560px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+        .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg,#e8a838,#f5c96a); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .logo-text { font-family: Georgia, serif; font-size: 18px; font-weight: 900; color: #1e293b; }
+        .logo-text span { color: #e8a838; }
+        .test-badge { background: #ef4444; color: white; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
+        h1 { font-size: 22px; font-weight: 900; color: #1e293b; margin-bottom: 6px; }
+        .subtitle { font-size: 13px; color: #64748b; margin-bottom: 28px; }
+
+        .soru-blok { background: white; border-radius: 16px; padding: 18px; margin-bottom: 14px; border: 2px solid #f1f5f9; transition: border-color 0.2s; }
+        .soru-blok.cevaplandi { border-color: #bbf7d0; }
+        .soru-no { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+        .soru-metin { font-size: 15px; font-weight: 800; color: #1e293b; margin-bottom: 14px; line-height: 1.4; }
+        .secenekler { display: flex; flex-direction: column; gap: 7px; }
+        .secenek-btn { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 10px 14px; font-size: 14px; font-weight: 600; color: #475569; cursor: pointer; text-align: left; transition: all 0.15s; }
+        .secenek-btn:active { transform: scale(0.98); }
+        .secenek-btn.secili { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-color: #16a34a; color: #14532d; }
+        .ilerleme { position: sticky; bottom: 16px; z-index: 10; }
+        .ilerleme-ic { background: white; border-radius: 20px; padding: 14px 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); display: flex; align-items: center; gap: 14px; }
+        .ilerleme-bar-wrap { flex: 1; background: #f1f5f9; border-radius: 8px; height: 8px; }
+        .ilerleme-bar { background: #16a34a; border-radius: 8px; height: 8px; transition: width 0.3s; }
+        .ilerleme-yazi { font-size: 13px; font-weight: 700; color: #475569; white-space: nowrap; }
+        .devam-btn { background: #1e40af; color: white; border: none; border-radius: 14px; padding: 12px 22px; font-size: 14px; font-weight: 800; cursor: pointer; white-space: nowrap; opacity: 0.4; pointer-events: none; transition: all 0.2s; }
+        .devam-btn.aktif { opacity: 1; pointer-events: auto; }
+    </style>
+</head>
+<body>
+<div class="max">
+    <div class="logo">
+        <div class="logo-icon">🎁</div>
+        <div class="logo-text">budur<span>buldum</span></div>
+        <span class="test-badge">TEST</span>
+    </div>
+    <h1>Yeni Soru Seti</h1>
+    <p class="subtitle">24 soru · Cevapla, özet sayfasına geç, hediyeleri gör</p>
+
+    <div id="sorular-container"></div>
+
+    <div class="ilerleme">
+        <div class="ilerleme-ic">
+            <div class="ilerleme-bar-wrap">
+                <div class="ilerleme-bar" id="ilerleme-bar" style="width:0%"></div>
+            </div>
+            <span class="ilerleme-yazi" id="ilerleme-yazi">0 / 24</span>
+            <button class="devam-btn" id="devam-btn" onclick="devamEt()">Özete Git →</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const SORULAR = [
+    {
+        id: 'kime',
+        soru: 'Hediye kime gidiyor?',
+        secenekler: ['Annem','Babam','Sevgilim (Erkek)','Sevgilim (Kadın)','Kardeşim (Erkek)','Kardeşim (Kadın)','Arkadaşım (Erkek)','Arkadaşım (Kadın)','İş arkadaşı','Tanıdık / Uzaktan akraba','Kendime']
+    },
+    {
+        id: 'cinsiyet',
+        soru: 'Cinsiyeti?',
+        secenekler: ['Erkek','Kadın']
+    },
+    {
+        id: 'yas',
+        soru: 'Kaç yaşlarında gibi duruyor?',
+        secenekler: ['18-24','25-34','35-44','45-54','55 ve üstü']
+    },
+    {
+        id: 'butce',
+        soru: 'Bütçen ne kadar?',
+        secenekler: ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-4000 TL','0-5000 TL','5001-10000 TL','10001-30000 TL','30001+ TL']
+    },
+    {
+        id: 'dis_gorunus',
+        soru: 'Dış görünüşüne önem verir mi?',
+        secenekler: ['Bakımlı ve şık görünmeye özen gösteriyor','Normal, orta düzeyde','Rahat ve doğal duruyor, pek takmıyor gibi']
+    },
+    {
+        id: 'giyim_tarzi',
+        soru: 'Giyim tarzı genellikle nasıl?',
+        secenekler: ['Klasik ve düzgün','Minimalist ve sade','Sportif ve casual','Renkli ve dikkat çekici','Modern / Şık']
+    },
+    {
+        id: 'urun_secim',
+        soru: 'Eşya ve ürün seçiminde neye önem veriyor gibi?',
+        secenekler: ['Marka ve kalite önemli','Fiyatına göre performansına bakıyor','Özgün ve farklı şeyler hoşuna gidiyor','Dayanıklı ve uzun ömürlü olanları tercih ediyor','Pratik ve kullanışlı olanları seviyor']
+    },
+    {
+        id: 'meslek',
+        soru: 'Ne iş yapıyor gibi duruyor?',
+        secenekler: ['Ofis / Kurumsal','Yaratıcı / Tasarım / Sanat','Teknik / Mühendislik','Eğitim sektörü','Kendi işi / Esnaf','Emekli','Öğrenci']
+    },
+    {
+        id: 'calisma_tarzi',
+        soru: 'Çalışma tarzı nasıl?',
+        secenekler: ['Düzenli tam zamanlı çalışıyor','Serbest / Esnek çalışıyor','Kendi işini yönetiyor','Emekli','Öğrenci']
+    },
+    {
+        id: 'yemek',
+        soru: 'Yemek ve mutfakla arası nasıl?',
+        secenekler: ['Yemek yapmayı seviyor gibi','Ara sıra yapıyor','Pek ilgilenmiyor, pratik çözümleri tercih ediyor']
+    },
+    {
+        id: 'dekorasyon',
+        soru: 'Evine / Dekorasyona meraklı mı?',
+        secenekler: ['Ev düzenine ve dekorasyona önem veriyor gibi','Orta düzeyde','Pek ilgilenmiyor gibi']
+    },
+    {
+        id: 'spor',
+        soru: 'Spor ve hareket durumu nasıl?',
+        secenekler: ['Düzenli spor yapıyor gibi','Ara sıra yürüyüş veya hafif spor','Sporla pek ilgilenmiyor','Doğa yürüyüşü yapıyor gibi']
+    },
+    {
+        id: 'seyahat',
+        soru: 'Seyahat ve gezi tarzı nasıl?',
+        secenekler: ['Seyahat etmeyi seviyor, fırsat buldukça gidiyor','Kendi aracıyla (araba, motor) gezmeyi seviyor','Tekne / Deniz aktivitelerine ilgi duyuyor','Karavan tarzı gezilere açık','Kamp ve outdoor aktivitelerini seviyor','Tur ile seyahat etmeyi tercih ediyor','Seyahat etmeyi pek sevmiyor gibi']
+    },
+    {
+        id: 'hayvan',
+        soru: 'Hayvanlara karşı tutumu nasıl?',
+        secenekler: ['Hayvanları seviyor gibi','Hayvan besliyor izlenimi var','Sever ama mesafeli duruyor']
+    },
+    {
+        id: 'hayat_bakis',
+        soru: 'Genel duruşu ve hayata bakışı nasıl?',
+        secenekler: ['Disiplinli ve planlı görünüyor','Başarı ve kazanca odaklı','Keyif ve rahatlığa önem veriyor','Huzur arayan bir duruşu var','Pratik ve mantıklı çözümleri seviyor']
+    },
+    {
+        id: 'ihtiyac',
+        soru: 'Şu aralar en çok neye ihtiyacı var gibi duruyor?',
+        secenekler: ['Zaman','Rahatlık ve konfor','Motivasyon','Dinlenme ve rahatlama','Takdir edilme','Eğlence','İstikrar']
+    },
+    {
+        id: 'manevi',
+        soru: 'Manevi / spiritüel tarafı nasıl?',
+        secenekler: ['İnançlı ve önem veriyor gibi','Manevi konulara açık','Uğur, enerji, burç gibi şeylere ilgi duyuyor','Pek ilgilenmiyor']
+    },
+    {
+        id: 'dogal',
+        soru: 'Doğal ve organik ürünlere ilgisi nasıl?',
+        secenekler: ['Doğal ürünlere ilgi duyuyor gibi','Orta düzeyde','Pek dikkat etmiyor']
+    },
+    {
+        id: 'mevsim',
+        soru: 'En sevdiği mevsim hangisi gibi?',
+        secenekler: ['Yaz','Kış','İlkbahar','Sonbahar','Belirli bir favorisi yok']
+    },
+    {
+        id: 'renk',
+        soru: 'En çok hangi renk tonlarını tercih ediyor gibi?',
+        secenekler: ['Siyah, gri, koyu tonlar','Mavi tonları','Yeşil ve doğal renkler','Canlı renkler (kırmızı, turuncu)','Pastel tonlar','Renkli karışık']
+    },
+    {
+        id: 'saglik',
+        soru: 'Sağlığına ve fiziksel haline yaklaşımı nasıl?',
+        secenekler: ['Formda kalmaya özen gösteriyor','Sağlıklı beslenmeye dikkat ediyor gibi','Zevkine düşkün','Hastalanmamaya özen gösteriyor']
+    },
+    {
+        id: 'teknoloji',
+        soru: 'Teknoloji ve klasik eşyalar konusunda tercihi?',
+        secenekler: ['Teknolojiyi seviyor','Klasik tarzı (el aleti, defter vs.) tercih ediyor','İkisini dengeli kullanıyor']
+    },
+    {
+        id: 'kucuk_esya',
+        soru: 'Küçük eşyalar konusundaki tercihi nasıl?',
+        secenekler: ['Pratik ve kullanışlı olanları tercih ediyor','Şık ve kaliteli olanları seviyor','Klasik tarzı','Modern teknolojik olanları']
+    },
+    {
+        id: 'oncelik',
+        soru: 'Genel olarak en çok önem verdiği şey nedir?',
+        secenekler: ['Düzen ve temizlik','Zaman yönetimi','Verimlilik','Disiplin','Beğenilmek']
+    }
+];
+
+const cevaplar = {};
+
+function render() {
+    const container = document.getElementById('sorular-container');
+    container.innerHTML = '';
+    SORULAR.forEach(function(s, i) {
+        const blok = document.createElement('div');
+        blok.className = 'soru-blok' + (cevaplar[s.id] ? ' cevaplandi' : '');
+        blok.id = 'soru-' + s.id;
+        let html = '<div class="soru-no">Soru ' + (i+1) + '</div>';
+        html += '<div class="soru-metin">' + s.soru + '</div>';
+        html += '<div class="secenekler">';
+        s.secenekler.forEach(function(opt) {
+            const secili = cevaplar[s.id] === opt ? ' secili' : '';
+            html += '<button class="secenek-btn' + secili + '" onclick="sec(\'' + s.id + '\', this)">' + opt + '</button>';
+        });
+        html += '</div>';
+        blok.innerHTML = html;
+        container.appendChild(blok);
+    });
+    guncelle();
+}
+
+function sec(id, btn) {
+    const blok = document.getElementById('soru-' + id);
+    blok.querySelectorAll('.secenek-btn').forEach(function(b) { b.classList.remove('secili'); });
+    btn.classList.add('secili');
+    cevaplar[id] = btn.textContent;
+    blok.classList.add('cevaplandi');
+    guncelle();
+}
+
+function guncelle() {
+    const toplam = SORULAR.length;
+    const cevaplanan = Object.keys(cevaplar).length;
+    document.getElementById('ilerleme-bar').style.width = Math.round(cevaplanan / toplam * 100) + '%';
+    document.getElementById('ilerleme-yazi').textContent = cevaplanan + ' / ' + toplam;
+    const devamBtn = document.getElementById('devam-btn');
+    // En az ilk 4 soru (kime, cinsiyet, yas, butce) cevaplandıysa devam aktif
+    const zorunlu = ['kime','cinsiyet','yas','butce'];
+    const zorunluTam = zorunlu.every(function(id) { return !!cevaplar[id]; });
+    if (zorunluTam) {
+        devamBtn.classList.add('aktif');
+    } else {
+        devamBtn.classList.remove('aktif');
+    }
+}
+
+function devamEt() {
+    // cevapları localStorage'a yaz — hediyeler.html'in beklediği format
+    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(cevaplar));
+    localStorage.setItem('budurBuldumAktifSet', 'normal');
+    localStorage.setItem('budurBuldumTamamlandi', '1');
+    var sid = 'test_' + Date.now();
+    localStorage.setItem('budurBuldumSessionId', sid);
+    // Önceki kriter seçimini temizle
+    localStorage.removeItem('budurBuldumSelectedCriteria');
+    localStorage.removeItem('budurBuldumSecilenBurc');
+    window.location.href = 'test-yeni-sorular-ozet.html';
+}
+
+render();
+</script>
+</body>
+</html>
