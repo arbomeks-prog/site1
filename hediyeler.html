@@ -525,9 +525,8 @@ return kelimeler.join(' ');
 }
 function buildLinks(name, mevcutPlatformlar) {
 // mevcutPlatformlar: Grok'un gördüğü platformlar — yoksa hepsini göster
-// mevcutPlatformlar devre dışı — web search kapalıyken Grok'un platform tahmini güvenilmez
-// tüm platformlar her zaman aktif gösterilir
-function pltStyle(key) { return ''; }
+const aktifPlatformlar = (mevcutPlatformlar && Array.isArray(mevcutPlatformlar) && mevcutPlatformlar.length > 0) ? mevcutPlatformlar.map(function(p){ return p.toLowerCase(); }) : null;
+function pltStyle(key) { return aktifPlatformlar && !aktifPlatformlar.includes(key) ? ' style="opacity:0.3;pointer-events:none;"' : ''; }
 // GEÇİCİ TEST: sadeleştirme devre dışı, Grok'un ürettiği kelimeler ham haliyle aranıyor
 // name = sqAramaTermiSadelestir(name);
 const q = encodeURIComponent(name);
