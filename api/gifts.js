@@ -48,7 +48,7 @@ GENEL KURALLAR:
 - name ve description alanlarına cinsiyet bilgisi yazma. Yiyecek, içecek, elektronik, spor ekipmanı gibi ürünlere cinsiyet ekleme.
 - Emin olmadığın ürünlere seti ekleme — gerçekten set olarak satılıyorsa kullan.
 - searchQuery tüm platformlara aynı anda gönderilir — tek bir searchQuery belirle. searchQueryEn alanına İngilizce görsel araması yaz.
-- mevcutPlatformlar alanı için mutlaka şu 5 platformun hepsini kontrol et: trendyol.com, hepsiburada.com, amazon.com.tr, ciceksepeti.com, n11.com. Hangi platformda ürün sonucu çıkıyorsa onu listeye ekle. Emin olmadığın platformu da listeye ekle — sadece kesinlikle olmadığından emin olduğunu çıkar.
+- mevcutPlatformlar alanı için şu 5 platformu değerlendir: trendyol/hepsiburada/amazon/ciceksepeti/n11. Genel tüketim ürünlerinde hepsini yaz. Sadece o platforma özgü olmayan, Türkiye'de yaygın satılan ürünlerde hepsini ekle. Kesinlikle satılmadığından emin olduğun platformu çıkar, emin değilsen ekle.
 - Her kriter için o kriterin en klişe ve akla ilk gelen karşılığını önerme. Daha az bilinen, daha özgün alternatifler ara.
 - Trendyol, Hepsiburada, Amazon TR, N11 veya Çiçeksepeti'nde gerçekten satıldığını doğrulamadan hiçbir ürün önerme. Profesyonel müzik ekipmanları, stüdyo aletleri, endüstriyel ürünler gibi bu platformlarda satılmayan niş ürünleri önerme.
 - Her hediyeyi önermeden önce Trendyol veya Hepsiburada'da ara, o ürün kategorisinin gerçek fiyat aralığını gör. Kullanıcının bütçesi dışında kalan ürünleri kesinlikle önerme — fiyat bilgisini web'den doğrula, tahmin etme.
