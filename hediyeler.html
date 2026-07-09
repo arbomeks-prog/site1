@@ -15,7 +15,7 @@ body { background-color: #F9F9F9; overflow-x: hidden; margin: 0; font-family: -a
 .gift-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px -15px rgba(0,0,0,0.2); }
 .gift-card.star { border: 2px solid #f59e0b; position: relative; }
 .star-badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #f59e0b; color: white; font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 9999px; z-index: 10; white-space: nowrap; }
-.kime-strip { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.72)); color: #fff; font-size: 13px; font-weight: 800; padding: 22px 14px 9px; z-index: 10; letter-spacing: 0.02em; border-radius: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+.kime-strip { display: none; position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.72)); color: #fff; font-size: 13px; font-weight: 800; padding: 22px 14px 9px; z-index: 10; letter-spacing: 0.08em; text-align: center; text-transform: uppercase; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
 .img-wrap { height: 200px; width: 100%; border-radius: 20px 20px 0 0; background: #f1f5f9; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; position: relative; gap: 12px; }
 .img-wrap img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 20px 20px 0 0; opacity: 0; transition: opacity 0.5s; }
 .img-wrap img.loaded { opacity: 1; }
@@ -862,20 +862,28 @@ if (img) {
 img.onload = function() {
 img.classList.add('loaded');
 if (loadingMsg) { clearInterval(loadingMsg._interval); loadingMsg.style.display = 'none'; }
+var _ks = card.querySelector('.kime-strip');
+if (_ks && _ks.textContent) _ks.style.display = 'block';
 };
 img.onerror = function() {
 img.src = 'https://picsum.photos/id/96/600/400';
 img.classList.add('loaded');
 if (loadingMsg) { clearInterval(loadingMsg._interval); loadingMsg.style.display = 'none'; }
+var _ks = card.querySelector('.kime-strip');
+if (_ks && _ks.textContent) _ks.style.display = 'block';
 };
 getGiftImage(g.searchQueryEn || g.searchQuery || g.name).then(function(url) { img.src = url; });
 }
-// Kime şeridi: resmin alt kısmına kime bilgisini yaz
+// Kime şeridi: resmin alt kısmına kime bilgisini yaz (resim yüklenince görünür)
 var kimeStripEl = card.querySelector('.kime-strip');
 if (kimeStripEl && kimeStr) {
-  var kisiAdiGoster = localStorage.getItem('budurBuldumKisiAdi_' + (localStorage.getItem('budurBuldumSessionId') || '')) || '';
-  var stripText = kisiAdiGoster ? ('👤 ' + kisiAdiGoster + ' · ' + kimeStr + ' için') : ('👤 ' + kimeStr + ' için');
+  var _sid2 = localStorage.getItem('budurBuldumSessionId') || '';
+  var kisiAdiGoster = _sid2 ? (localStorage.getItem('budurBuldumKisiAdi_' + _sid2) || '') : '';
+  // kisiAdi çok kısaysa veya sayısal ise (session id leak) gösterme
+  if (kisiAdiGoster && (kisiAdiGoster.length < 2 || /^\d+$/.test(kisiAdiGoster))) kisiAdiGoster = '';
+  var stripText = kisiAdiGoster ? (kisiAdiGoster.toUpperCase() + ' · ' + kimeStr.toUpperCase() + ' İÇİN') : (kimeStr.toUpperCase() + ' İÇİN');
   kimeStripEl.textContent = stripText;
+  kimeStripEl.style.display = 'none'; // resim yüklenince açılacak
 }
 const links = card.querySelectorAll('.plt-link');
 links.forEach(function(link) { link.addEventListener('click', function() { try { logHediyeTiklama(g, link.textContent.trim()); } catch(e) {} }); });
