@@ -544,8 +544,6 @@ function sqYukleniyorGoster(mesaj, sonra) {
   document.body.appendChild(ov);
   if (typeof sonra === 'function') setTimeout(sonra, 0);
 }
-sqAyraclarYenidenCiz();
-
 function nickDegistirIndex() {
   if (!confirm('Farklı bir hesaba geçmek istiyorsun.\n\nMevcut kayıtların silinmez — tekrar aynı takma isimle girince geri gelir.\n\nDevam etmek istiyor musun?')) return;
   localStorage.removeItem('budurBuldumNickname');
@@ -676,6 +674,7 @@ function nickDegistirIndex() {
   <p style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">🔖 Aramalarım</p>
   <div id="arayaclar-konteyner" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;"></div>
 </div>
+<script>sqAyraclarYenidenCiz();</script>
 
 <div class="sq-wrapper">
 <div class="gift-col">
