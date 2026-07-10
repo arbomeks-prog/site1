@@ -1651,7 +1651,7 @@ function _sqIsimKaydetVeKapat(isim) {
     if (typeof _sqKimeContinue === 'function') {
         var fn = _sqKimeContinue;
         _sqKimeContinue = null;
-        fn();
+        setTimeout(fn, 2000);
     }
 }
 
