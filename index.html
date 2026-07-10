@@ -382,19 +382,7 @@ body { font-family: 'Nunito', sans-serif; background: #f8fafc; }
 
 
 
-<!-- AYRAÇLAR — tüm aramalar burada kartlar halinde çıkar -->
-<div id="arayaclar-sarici" style="display:none;background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 16px;position:relative;z-index:60;">
-  <div id="nick-satir" style="display:none;align-items:center;justify-content:space-between;margin-bottom:8px;">
-    <p style="font-size:13px;color:#94a3b8;margin:0;">👋 Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;font-weight:700;"></span>!</p>
-    <button onclick="nickDegistirIndex()" style="font-size:11px;color:#64748b;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:4px 8px;cursor:pointer;">Hesabı Değiştir</button>
-  </div>
-  <p style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">🔖 Aramalarım</p>
-  <div id="arayaclar-konteyner" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;"></div>
-  <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08);">
-    <div style="font-size:16px;">🎁</div>
-    <div style="font-family:Georgia,serif;font-size:16px;font-weight:900;color:#f1f5f9;">budur<span style="color:#e8a838;">buldum</span></div>
-  </div>
-</div>
+
 
 <script>
 function sqAyraclarYenidenCiz() {
@@ -678,6 +666,16 @@ function nickDegistirIndex() {
   }
 })();
 </script>
+
+<!-- AYRAÇLAR — tüm aramalar burada kartlar halinde çıkar -->
+<div id="arayaclar-sarici" style="display:none;background:#1e293b;border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 16px;position:relative;z-index:60;">
+  <div id="nick-satir" style="display:none;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <p style="font-size:13px;color:#94a3b8;margin:0;">👋 Tekrar hoş geldin, <span id="nick-goster" style="color:#e8a838;font-weight:700;"></span>!</p>
+    <button onclick="nickDegistirIndex()" style="font-size:11px;color:#64748b;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:4px 8px;cursor:pointer;">Hesabı Değiştir</button>
+  </div>
+  <p style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">🔖 Aramalarım</p>
+  <div id="arayaclar-konteyner" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;"></div>
+</div>
 
 <div class="sq-wrapper">
 <div class="gift-col">
