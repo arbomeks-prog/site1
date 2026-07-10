@@ -1341,6 +1341,7 @@ if (_baslangicKime) {
     }
     function sqHizliKaydir(el, sure) {
         if (!el) return;
+        if (window._sqYavasKaydir) { sure = 900; window._sqYavasKaydir = false; }
         var hedefTop = el.getBoundingClientRect().top + window.pageYOffset - (window.innerHeight/2) + (el.offsetHeight/2);
         var baslangic = window.pageYOffset;
         var fark = hedefTop - baslangic;
@@ -1651,7 +1652,7 @@ function _sqIsimKaydetVeKapat(isim) {
     if (typeof _sqKimeContinue === 'function') {
         var fn = _sqKimeContinue;
         _sqKimeContinue = null;
-        setTimeout(fn, 2000);
+        setTimeout(function() { window._sqYavasKaydir = true; fn(); }, 2000);
     }
 }
 
@@ -1943,7 +1944,7 @@ window.addEventListener('message', function(e) {
                     } else {
                         setTimeout(function() {
                             var el = document.getElementById('blok-' + OZEL_SETLER[aktifOzelSet][0].id);
-                            if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+                            if (el) { if (window._sqYavasKaydir) { window._sqYavasKaydir = false; sqHizliKaydir(el, 900); } else { el.scrollIntoView({behavior:'smooth', block:'center'}); } }
                         }, 300);
                     }
                 } else {
