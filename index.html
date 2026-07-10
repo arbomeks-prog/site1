@@ -1897,9 +1897,9 @@ window.addEventListener('message', function(e) {
 
         if (soruId !== 'kime') { sqMiniKartEkle(deger); }
 
-        // Ayraç senkronu: kart, sadece AYNI aramaya devam edildiğinde güncellenir;
-        // kime değişmişse (çatışma) eski karta dokunulmaz, otomatik yeni sid'e geçilir.
-        sqAyracSenkronEt();
+        // Ayraç senkronu: kime sorusu için popup kapanınca yapılır (_sqIsimKaydetVeKapat içinde)
+        // Diğer sorular için burada yapılır.
+        if (soruId !== 'kime') { sqAyracSenkronEt(); }
 
         // ses çal (hem normal hem özel akış soruları için)
         try {
