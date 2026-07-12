@@ -342,7 +342,7 @@
   </url>
   <url>
     <loc>https://budurbuldum.com/makale-dogum-gunu-hediye.html</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
@@ -358,6 +358,14 @@
   <url>
     <loc>https://budurbuldum.com/makale-yilbasi.html</loc>
     <lastmod>2026-05-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://budurbuldum.com/makale-yildonumu-hediye.html</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
