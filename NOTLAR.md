@@ -60,11 +60,15 @@ Her yeni makale yazılırken bu listeye göre çalış. Push etmeden önce kontr
 7. "BudurBuldum ile fark" bölümü
 8. Kapanış: BudurBuldum'a yönlendiren güçlü son paragraf + slogan
 
-### Resimler
-- Ücretsiz stok (Unsplash) veya özgün görseller
-- Alt text: konu + BudurBuldum içermeli
-- `loading="lazy"` zorunlu
-- `figcaption`: BudurBuldum'u içeren açıklama cümlesi
+### Resimler — Gazete Formatı (Zorunlu)
+- **Pexels API** kullanılır — makale-babalar-gunu.html'deki JS yapısı referans alınır
+- API key: `A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB`
+- Her H2 bölümüne bir resim — soldan-sağdan dönüşümlü (float:left / float:right)
+- Resim genişliği: **180px**, yükseklik: **130px**, `object-fit:cover`, `border-radius:10px`
+- Her section sonunda `<div style="clear:both;"></div>` ile float temizlenir
+- **Resim CSS:** `.makale-resim img { width:100%; max-width:100%; height:auto; }` — mobilde taşma engellemek için zorunlu
+- **Pexels sorgu kuralı:** Kutlayan, gülen, sarılan, hediye veren GERÇEK İNSAN görselleri seç. Paket/kutu fotoğrafı seçme. İyi sorgular: `birthday party celebration confetti happy people`, `couple birthday surprise romantic happy`, `mother daughter hug birthday love`
+- figcaption: Emoji + coşkulu kısa cümle (örnek: "🎉 Doğum günü coşkusu tam burada başlıyor!")
 
 ### Push etmeden önce kontrol listesi
 - [ ] Kelime sayısı 2000+
@@ -73,11 +77,32 @@ Her yeni makale yazılırken bu listeye göre çalış. Push etmeden önce kontr
 - [ ] Title arama niyetiyle örtüşüyor mu
 - [ ] Description 150-160 karakter arasında mı
 - [ ] Keywords yazıldı mı
-- [ ] Resimler akışa yerleştirildi mi, alt textler var mı
+- [ ] Her H2'ye gazete formatında Pexels resmi eklendi mi
+- [ ] Resim sorguları gerçek insan/kutlama içeriyor mu (paket/kutu değil)
+- [ ] Mobilde resim taşmıyor mu (max-width:100% CSS var mı)
 - [ ] CTA butonu var mı, doğru sayfaya link veriyor mu
 - [ ] Kırık link yok mu
 - [ ] Canonical doğru mu
 - [ ] Slogan geçiyor mu
+
+---
+
+## 📅 12 Temmuz 2026 — SEO Düzeltmeleri & Makale Yeniden Yazımı
+
+### Yapılanlar
+
+**Toplu SEO düzeltmeleri:**
+- 73 sayfaya H1 tag eklendi
+- 32 sayfada duplicate meta description düzeltildi
+- 54 kırık internal link düzeltildi — var olmayan makale linkleri doğru quiz sayfalarına yönlendirildi
+
+**Doğum günü makalesi komple yeniden yazıldı:**
+- 2147 kelime, BudurBuldum 75+ kez geçiyor
+- Google "diğer sorular" ve "kullanıcıların yaptığı diğer aramalar" sorguları H2 olarak eklendi
+- H1, title, description, keywords güncellendi
+- N11 ve Çiçeksepeti platform listesine eklendi
+- 11 bölüme Pexels API ile gazete formatında inline resimler eklendi
+- Resim sorguları coşkulu doğum günü görselleri için optimize edildi
 
 ---
 
