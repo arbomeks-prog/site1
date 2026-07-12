@@ -126,3 +126,17 @@ Her yeni makale yazılırken bu listeye göre çalış. Push etmeden önce kontr
 ### Kritik not
 - `sqAyracSenkronEt()` kime sorusu için sadece popup kapanınca (`_sqIsimKaydetVeKapat`) çağrılmalı
 - Diğer tüm sorular için normal akışta çağrılıyor
+
+---
+
+## ⛔ MAKALE DİL KURALI
+
+**"Yapay zeka" kelimesini makalelerde ASLA kullanma.**
+
+Bazı kullanıcılar bu kelimeye olumsuz tepki veriyor. Bunun yerine şunları kullan:
+- akıllı algoritma
+- akıllı öneri algoritması
+- akıllı sistem
+- öneri motoru
+
+Bu kural tüm makale sayfaları için geçerlidir. Push etmeden önce `grep -n "yapay zeka"` ile kontrol et.
