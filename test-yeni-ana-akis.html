@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BudurBuldum — Yeni Ana Akış Test</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  color: #1e293b;
+}
+
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+/* ── HEADER ── */
+.header {
+  background: #0f172a;
+  padding: 16px 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.logo {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #f1f5f9;
+  letter-spacing: -0.5px;
+}
+.logo span { color: #e8a838; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 100%);
+  padding: 28px 20px 24px;
+  text-align: center;
+}
+.hero-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #e8a838;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.hero-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: #f1f5f9;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.hero-title span { color: #e8a838; }
+.hero-sub {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* ── PROGRESS ── */
+.progress-bar {
+  background: #1e293b;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.progress-track {
+  flex: 1;
+  height: 4px;
+  background: #334155;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #e8a838;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.progress-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+/* ── SORU KARTI ── */
+.soru-kart {
+  background: #fff;
+  margin: 0;
+  padding: 24px 20px 20px;
+  border-bottom: 2px dashed #e2e8f0;
+  display: none;
+}
+.soru-kart.aktif { display: block; }
+.soru-kart.tamamlandi { display: block; }
+
+.soru-no-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e8a838;
+  background: #fef3c7;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.soru-baslik {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.soru-alt {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 14px;
+}
+
+/* ── SEÇENEK BUTONLARI ── */
+.secenekler {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sec-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  border-bottom: 4px solid #cbd5e1;
+  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.sec-btn:active { transform: translateY(2px); }
+.sec-btn.secildi {
+  background: linear-gradient(180deg, #d1fae5 0%, #a7f3d0 100%);
+  border-color: #10b981;
+  border-bottom-color: #059669;
+  color: #065f46;
+  font-weight: 700;
+}
+.sec-check {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.sec-btn.secildi .sec-check {
+  background: #10b981;
+  border-color: #10b981;
+  color: white;
+}
+.sec-btn.secildi .sec-check::after { content: "✔"; }
+
+/* Cevap özet satırı (tamamlanan sorular) */
+.cevap-ozet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+.cevap-ozet-sol { display: flex; align-items: center; gap: 10px; }
+.cevap-ozet-ikon {
+  width: 32px; height: 32px;
+  background: #d1fae5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.cevap-ozet-label { font-size: 11px; color: #64748b; font-weight: 600; }
+.cevap-ozet-deger { font-size: 14px; color: #1e293b; font-weight: 700; margin-top: 1px; }
+.cevap-degistir {
+  font-size: 11px;
+  color: #6366f1;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #e0e7ff;
+  background: #f0f0ff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── PİLL BÖLÜMÜ ── */
+.pill-bolum {
+  display: none;
+  background: #fff;
+  padding: 24px 20px;
+  border-bottom: 2px dashed #e2e8f0;
+}
+.pill-bolum.gorune { display: block; }
+
+.pill-baslik {
+  font-size: 13px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.pill-aciklama {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+.pill-alt {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}
+
+.pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 24px;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.pill-btn:active { transform: scale(0.96); }
+.pill-btn.secildi {
+  background: #e8a838;
+  border-color: #e8a838;
+  color: #1e293b;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(232,168,56,0.35);
+}
+.pill-emoji { font-size: 16px; }
+.pill-label { line-height: 1; }
+.pill-cevap {
+  font-size: 10px;
+  font-weight: 700;
+  color: #1e293b;
+  opacity: 0.7;
+  display: none;
+}
+.pill-btn.secildi .pill-cevap { display: inline; }
+
+/* ── HEDİYE BUL BUTONU ── */
+.hediye-bul-wrap {
+  display: none;
+  background: #fff;
+  padding: 20px;
+}
+.hediye-bul-wrap.gorune { display: block; }
+
+.hediye-bul-btn {
+  width: 100%;
+  padding: 18px;
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(30,64,175,0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.02em;
+}
+.hediye-bul-btn:active { transform: scale(0.97); }
+.hediye-bul-btn:hover { box-shadow: 0 6px 28px rgba(30,64,175,0.5); transform: translateY(-1px); }
+
+.hediye-bul-alt {
+  text-align: center;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 8px;
+}
+
+/* ── MODAL (Popup) ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  align-items: flex-end;
+  justify-content: center;
+}
+.modal-overlay.acik { display: flex; }
+
+.modal-kutu {
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px 20px 40px;
+  animation: slideUp 0.28s cubic-bezier(0.34,1.2,0.64,1);
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.modal-tuts {
+  width: 40px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+.modal-baslik {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.modal-alt {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 18px;
+}
+.modal-secenekler {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── ÖZET ŞERIDI ── */
+.ozet-serit {
+  display: none;
+  background: #0f172a;
+  padding: 12px 20px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ozet-serit.gorune { display: flex; }
+.ozet-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: #94a3b8;
+}
+.ozet-chip strong { color: #f1f5f9; font-weight: 700; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 420px) {
+  .hero-title { font-size: 22px; }
+  .pill-btn { font-size: 12px; padding: 9px 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">Budur<span>Buldum</span></div>
+    <div style="font-size:11px;color:#64748b;font-weight:600;">BETA TEST</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">🎁 Kişiye Özel Hediye Bulucu</div>
+    <h1 class="hero-title">5 soruda doğru<br><span>hediyeyi bul</span></h1>
+    <p class="hero-sub">Ne alacağını bil, sonra git al.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-text" id="progress-text">0 / 5</div>
+  </div>
+
+  <!-- ÖZET ŞERİDİ -->
+  <div class="ozet-serit" id="ozet-serit"></div>
+
+  <!-- ── SORU 1: KİME ── -->
+  <div class="soru-kart aktif" id="soru-kime">
+    <div class="soru-no-badge">1. Soru</div>
+    <div class="soru-baslik">Hediye kime alınıyor?</div>
+    <div class="soru-alt">👇 Bir seçenek seç</div>
+    <div class="secenekler" id="sec-kime">
+      <button class="sec-btn" onclick="secimYap('kime', 'Sevgili', '💑', this)">
+        <div class="sec-check"></div> 💑 Sevgili
+      </button>
+      <button class="sec-btn" onclick="secimYap('kime', 'Arkadaş', '🤝', this)">
+        <div class="sec-check"></div> 🤝 Arkadaş
+      </button>
+      <button class="sec-btn" onclick="secimYap('kime', 'Anne', '👩', this)">
+        <div class="sec-check"></div> 👩 Anne
+      </button>
+      <button class="sec-btn" onclick="secimYap('kime', 'Baba', '👨', this)">
+        <div class="sec-check"></div> 👨 Baba
+      </button>
+      <button class="sec-btn" onclick="secimYap('kime', 'Kardeş', '👫', this)">
+        <div class="sec-check"></div> 👫 Kardeş
+      </button>
+      <button class="sec-btn" onclick="secimYap('kime', 'İş arkadaşı', '💼', this)">
+        <div class="sec-check"></div> 💼 İş arkadaşı
+      </button>
+      <button class="sec-btn" onclick="secimYap('kime', 'Kendime', '🪞', this)">
+        <div class="sec-check"></div> 🪞 Kendime
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SORU 2: CİNSİYET ── -->
+  <div class="soru-kart" id="soru-cinsiyet">
+    <div class="soru-no-badge">2. Soru</div>
+    <div class="soru-baslik">Cinsiyeti nedir?</div>
+    <div class="soru-alt">👇 Bir seçenek seç</div>
+    <div class="secenekler">
+      <button class="sec-btn" onclick="secimYap('cinsiyet', 'Kadın', '👩', this)">
+        <div class="sec-check"></div> 👩 Kadın
+      </button>
+      <button class="sec-btn" onclick="secimYap('cinsiyet', 'Erkek', '👨', this)">
+        <div class="sec-check"></div> 👨 Erkek
+      </button>
+      <button class="sec-btn" onclick="secimYap('cinsiyet', 'Belirtmek istemiyorum', '🤍', this)">
+        <div class="sec-check"></div> 🤍 Belirtmek istemiyorum
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SORU 3: YAŞ ── -->
+  <div class="soru-kart" id="soru-yas">
+    <div class="soru-no-badge">3. Soru</div>
+    <div class="soru-baslik">Yaş aralığı nedir?</div>
+    <div class="soru-alt">👇 Bir seçenek seç</div>
+    <div class="secenekler">
+      <button class="sec-btn" onclick="secimYap('yas', '13–17', '🧒', this)">
+        <div class="sec-check"></div> 🧒 13–17
+      </button>
+      <button class="sec-btn" onclick="secimYap('yas', '18–25', '🎓', this)">
+        <div class="sec-check"></div> 🎓 18–25
+      </button>
+      <button class="sec-btn" onclick="secimYap('yas', '26–35', '☕', this)">
+        <div class="sec-check"></div> ☕ 26–35
+      </button>
+      <button class="sec-btn" onclick="secimYap('yas', '36–45', '🏡', this)">
+        <div class="sec-check"></div> 🏡 36–45
+      </button>
+      <button class="sec-btn" onclick="secimYap('yas', '46–60', '🌿', this)">
+        <div class="sec-check"></div> 🌿 46–60
+      </button>
+      <button class="sec-btn" onclick="secimYap('yas', '61+', '🍵', this)">
+        <div class="sec-check"></div> 🍵 61+
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SORU 4: BÜTÇE ── -->
+  <div class="soru-kart" id="soru-butce">
+    <div class="soru-no-badge">4. Soru</div>
+    <div class="soru-baslik">Bütçen ne kadar?</div>
+    <div class="soru-alt">👇 Bir seçenek seç</div>
+    <div class="secenekler">
+      <button class="sec-btn" onclick="secimYap('butce', '0–500 TL', '💛', this)">
+        <div class="sec-check"></div> 💛 0–500 TL
+      </button>
+      <button class="sec-btn" onclick="secimYap('butce', '0–1.000 TL', '💚', this)">
+        <div class="sec-check"></div> 💚 0–1.000 TL
+      </button>
+      <button class="sec-btn" onclick="secimYap('butce', '0–2.000 TL', '💙', this)">
+        <div class="sec-check"></div> 💙 0–2.000 TL
+      </button>
+      <button class="sec-btn" onclick="secimYap('butce', '0–3.000 TL', '💜', this)">
+        <div class="sec-check"></div> 💜 0–3.000 TL
+      </button>
+      <button class="sec-btn" onclick="secimYap('butce', '0–5.000 TL', '🖤', this)">
+        <div class="sec-check"></div> 🖤 0–5.000 TL
+      </button>
+      <button class="sec-btn" onclick="secimYap('butce', '5.000+ TL', '💎', this)">
+        <div class="sec-check"></div> 💎 5.000+ TL
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SORU 5: AMAÇ ── -->
+  <div class="soru-kart" id="soru-amac">
+    <div class="soru-no-badge">5. Soru</div>
+    <div class="soru-baslik">Hediyeyi ne için alıyorsun?</div>
+    <div class="soru-alt">👇 Bir seçenek seç</div>
+    <div class="secenekler">
+      <button class="sec-btn" onclick="secimYap('amac', 'Doğum Günü', '🎂', this)">
+        <div class="sec-check"></div> 🎂 Doğum Günü
+      </button>
+      <button class="sec-btn" onclick="secimYap('amac', 'Yıl Dönümü', '💐', this)">
+        <div class="sec-check"></div> 💐 Yıl Dönümü
+      </button>
+      <button class="sec-btn" onclick="secimYap('amac', 'Sevgililer Günü', '❤️', this)">
+        <div class="sec-check"></div> ❤️ Sevgililer Günü
+      </button>
+      <button class="sec-btn" onclick="secimYap('amac', 'Özel Bir Başarı', '🏆', this)">
+        <div class="sec-check"></div> 🏆 Özel Bir Başarı
+      </button>
+      <button class="sec-btn" onclick="secimYap('amac', 'Sadece Sürpriz', '🎁', this)">
+        <div class="sec-check"></div> 🎁 Sadece Sürpriz
+      </button>
+      <button class="sec-btn" onclick="secimYap('amac', 'Yılbaşı / Bayram', '🎊', this)">
+        <div class="sec-check"></div> 🎊 Yılbaşı / Bayram
+      </button>
+    </div>
+  </div>
+
+  <!-- ── PİLL KATEGORİ BÖLÜMÜ ── -->
+  <div class="pill-bolum" id="pill-bolum">
+    <div class="pill-baslik">Opsiyonel</div>
+    <div class="pill-aciklama">Spesifik bir kategori ekle</div>
+    <div class="pill-alt">Tıkla → bir detay seç → 4 nokta atışı hediye gelsin</div>
+    <div class="pill-grid" id="pill-grid">
+      <button class="pill-btn" data-kategori="spor" onclick="pillAc('spor', this)">
+        <span class="pill-emoji">🏃</span>
+        <span class="pill-label">Spor</span>
+        <span class="pill-cevap" id="pill-cevap-spor"></span>
+      </button>
+      <button class="pill-btn" data-kategori="muzik" onclick="pillAc('muzik', this)">
+        <span class="pill-emoji">🎵</span>
+        <span class="pill-label">Müzik</span>
+        <span class="pill-cevap" id="pill-cevap-muzik"></span>
+      </button>
+      <button class="pill-btn" data-kategori="kitap" onclick="pillAc('kitap', this)">
+        <span class="pill-emoji">📚</span>
+        <span class="pill-label">Kitap</span>
+        <span class="pill-cevap" id="pill-cevap-kitap"></span>
+      </button>
+      <button class="pill-btn" data-kategori="kahve" onclick="pillAc('kahve', this)">
+        <span class="pill-emoji">☕</span>
+        <span class="pill-label">Kahve & Çay</span>
+        <span class="pill-cevap" id="pill-cevap-kahve"></span>
+      </button>
+      <button class="pill-btn" data-kategori="teknoloji" onclick="pillAc('teknoloji', this)">
+        <span class="pill-emoji">💻</span>
+        <span class="pill-label">Teknoloji</span>
+        <span class="pill-cevap" id="pill-cevap-teknoloji"></span>
+      </button>
+      <button class="pill-btn" data-kategori="yemek" onclick="pillAc('yemek', this)">
+        <span class="pill-emoji">🍳</span>
+        <span class="pill-label">Yemek</span>
+        <span class="pill-cevap" id="pill-cevap-yemek"></span>
+      </button>
+      <button class="pill-btn" data-kategori="seyahat" onclick="pillAc('seyahat', this)">
+        <span class="pill-emoji">✈️</span>
+        <span class="pill-label">Seyahat</span>
+        <span class="pill-cevap" id="pill-cevap-seyahat"></span>
+      </button>
+      <button class="pill-btn" data-kategori="sanat" onclick="pillAc('sanat', this)">
+        <span class="pill-emoji">🎨</span>
+        <span class="pill-label">Sanat</span>
+        <span class="pill-cevap" id="pill-cevap-sanat"></span>
+      </button>
+      <button class="pill-btn" data-kategori="oyun" onclick="pillAc('oyun', this)">
+        <span class="pill-emoji">🎮</span>
+        <span class="pill-label">Oyun</span>
+        <span class="pill-cevap" id="pill-cevap-oyun"></span>
+      </button>
+      <button class="pill-btn" data-kategori="foto" onclick="pillAc('foto', this)">
+        <span class="pill-emoji">📷</span>
+        <span class="pill-label">Fotoğraf</span>
+        <span class="pill-cevap" id="pill-cevap-foto"></span>
+      </button>
+      <button class="pill-btn" data-kategori="bitki" onclick="pillAc('bitki', this)">
+        <span class="pill-emoji">🌱</span>
+        <span class="pill-label">Bitki & Doğa</span>
+        <span class="pill-cevap" id="pill-cevap-bitki"></span>
+      </button>
+      <button class="pill-btn" data-kategori="makyaj" onclick="pillAc('makyaj', this)">
+        <span class="pill-emoji">💄</span>
+        <span class="pill-label">Makyaj</span>
+        <span class="pill-cevap" id="pill-cevap-makyaj"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── HEDİYE BUL BUTONU ── -->
+  <div class="hediye-bul-wrap" id="hediye-bul-wrap">
+    <button class="hediye-bul-btn" onclick="hediyeBul()">
+      🎁 Hediye Bul
+    </button>
+    <div class="hediye-bul-alt" id="hediye-bul-alt">5 temel bilgi ile 9 hediye önerisi</div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modal" onclick="modalKapat(event)">
+  <div class="modal-kutu" id="modal-kutu">
+    <div class="modal-tuts"></div>
+    <div class="modal-baslik" id="modal-baslik">Başlık</div>
+    <div class="modal-alt" id="modal-alt">Seç</div>
+    <div class="modal-secenekler" id="modal-secenekler"></div>
+  </div>
+</div>
+
+<script>
+// ── VERİ ──
+var cevaplar = {};
+var aktifPill = null;
+
+var SORU_SIRASI = ['kime','cinsiyet','yas','butce','amac'];
+var tamamlananSayisi = 0;
+
+var PILL_SORULAR = {
+  spor:      { soru: 'Hangi sporu yapıyor?', secenekler: ['Koşu / Yürüyüş','Fitness / Spor salonu','Futbol / Basketbol','Yüzme','Bisiklet','Yoga / Pilates','Outdoor / Dağcılık'] },
+  muzik:     { soru: 'Müzik zevki nasıl?',   secenekler: ['Pop','Rock / Metal','Klasik / Caz','Rap / Hip-Hop','Türk Sanat Müziği','Enstrüman çalıyor'] },
+  kitap:     { soru: 'Hangi türü sever?',    secenekler: ['Roman','Bilim Kurgu / Fantastik','Kişisel Gelişim','Tarih / Biyografi','Polisiye / Gerilim','Şiir / Deneme'] },
+  kahve:     { soru: 'Kahve mi çay mı?',     secenekler: ['Kahve delisi','Çay tiryakisi','İkisi de sever'] },
+  teknoloji: { soru: 'Teknoloji ilgisi?',    secenekler: ['Akıllı ev & gadget','PC / Gaming','Mobil & aksesuarlar','Fotoğraf ekipmanı','Ses & müzik teknolojisi'] },
+  yemek:     { soru: 'Mutfakta ne yapar?',   secenekler: ['Ev yemekleri pişirir','Fırın & pastacılık','Kahvaltı ritüeli var','Sağlıklı beslenme','Dünya mutfakları dener'] },
+  seyahat:   { soru: 'Nasıl seyahat eder?',  secenekler: ['Şehir & kültür gezisi','Doğa & kamp','Plaj & deniz','Gurme & yemek turu','Backpacker'] },
+  sanat:     { soru: 'Hangi sanat dalı?',    secenekler: ['Resim & çizim','El işi & seramik','Heykel & tasarım','Fotoğraf sanatı','Müzik & dans'] },
+  oyun:      { soru: 'Ne tür oyun sever?',   secenekler: ['Video oyunları','Masa oyunları','Kart oyunları','Bulmaca & strateji','Açık hava oyunları'] },
+  foto:      { soru: 'Fotoğraf tarzı?',      secenekler: ['Portre & insan','Doğa & manzara','Sokak fotoğrafçılığı','Ürün & yaratıcı','Video & içerik üretimi'] },
+  bitki:     { soru: 'Bitki ilgisi?',        secenekler: ['İç mekan bitkileri','Bahçe & dış mekan','Otlar & şifalı bitkiler','Sukulent & kaktüs','Bonsai & nadir bitkiler'] },
+  makyaj:    { soru: 'Bakım tarzı?',         secenekler: ['Doğal & minimal','Renkli & bold','Cilt bakımı odaklı','Parfüm & esans','Saç bakımı'] }
+};
+
+var PILL_IKONLAR = {
+  spor:'🏃', muzik:'🎵', kitap:'📚', kahve:'☕', teknoloji:'💻',
+  yemek:'🍳', seyahat:'✈️', sanat:'🎨', oyun:'🎮', foto:'📷',
+  bitki:'🌱', makyaj:'💄'
+};
+
+var SORU_IKONLAR = { kime:'👤', cinsiyet:'⚧', yas:'🎂', butce:'💰', amac:'🎁' };
+var SORU_ETIKETLER = { kime:'Kime', cinsiyet:'Cinsiyet', yas:'Yaş', butce:'Bütçe', amac:'Amaç' };
+
+// ── SORU AKIŞI ──
+function secimYap(soruId, deger, ikon, btn) {
+  // Önceki seçimi temizle
+  var parent = btn.closest('.secenekler');
+  parent.querySelectorAll('.sec-btn').forEach(function(b) { b.classList.remove('secildi'); });
+  btn.classList.add('secildi');
+
+  cevaplar[soruId] = deger;
+  cevaplar[soruId + '_ikon'] = ikon;
+
+  // Kısa gecikme sonra bir sonraki soruya geç
+  setTimeout(function() {
+    soruTamamla(soruId);
+  }, 220);
+}
+
+function soruTamamla(soruId) {
+  var idx = SORU_SIRASI.indexOf(soruId);
+  var soruKart = document.getElementById('soru-' + soruId);
+
+  // Mevcut soruyu özet görünümüne çevir
+  soruKart.innerHTML =
+    '<div class="cevap-ozet">' +
+      '<div class="cevap-ozet-sol">' +
+        '<div class="cevap-ozet-ikon">' + cevaplar[soruId + '_ikon'] + '</div>' +
+        '<div>' +
+          '<div class="cevap-ozet-label">' + SORU_ETIKETLER[soruId] + '</div>' +
+          '<div class="cevap-ozet-deger">' + cevaplar[soruId] + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cevap-degistir" onclick="soruGeriAl(\'' + soruId + '\')">Değiştir</div>' +
+    '</div>';
+  soruKart.classList.remove('aktif');
+  soruKart.classList.add('tamamlandi');
+
+  tamamlananSayisi = Math.max(tamamlananSayisi, idx + 1);
+  progressGuncelle();
+  ozetSeritGuncelle();
+
+  // Sonraki soruyu aç
+  var sonrakiIdx = idx + 1;
+  if (sonrakiIdx < SORU_SIRASI.length) {
+    var sonrakiId = SORU_SIRASI[sonrakiIdx];
+    var sonrakiKart = document.getElementById('soru-' + sonrakiId);
+    sonrakiKart.classList.add('aktif');
+    setTimeout(function() {
+      sonrakiKart.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  } else {
+    // 5 soru bitti → pill ve buton görünsün
+    pillGoster();
+  }
+}
+
+function soruGeriAl(soruId) {
+  // Özet görünümünü tekrar soru haline getir — sayfayı yenile değil, soruyu yeniden render et
+  var soruKart = document.getElementById('soru-' + soruId);
+  var mevcutCevap = cevaplar[soruId];
+  soruKart.innerHTML = soruKartHTML(soruId, mevcutCevap);
+  soruKart.classList.remove('tamamlandi');
+  soruKart.classList.add('aktif');
+  setTimeout(function() {
+    soruKart.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 80);
+}
+
+// Soru HTML'ini yeniden üret (değiştir için)
+var SORU_ICERIK = {
+  kime: {
+    baslik: 'Hediye kime alınıyor?',
+    secenekler: [
+      ['Sevgili','💑'],['Arkadaş','🤝'],['Anne','👩'],['Baba','👨'],
+      ['Kardeş','👫'],['İş arkadaşı','💼'],['Kendime','🪞']
+    ]
+  },
+  cinsiyet: {
+    baslik: 'Cinsiyeti nedir?',
+    secenekler: [
+      ['Kadın','👩'],['Erkek','👨'],['Belirtmek istemiyorum','🤍']
+    ]
+  },
+  yas: {
+    baslik: 'Yaş aralığı nedir?',
+    secenekler: [
+      ['13–17','🧒'],['18–25','🎓'],['26–35','☕'],
+      ['36–45','🏡'],['46–60','🌿'],['61+','🍵']
+    ]
+  },
+  butce: {
+    baslik: 'Bütçen ne kadar?',
+    secenekler: [
+      ['0–500 TL','💛'],['0–1.000 TL','💚'],['0–2.000 TL','💙'],
+      ['0–3.000 TL','💜'],['0–5.000 TL','🖤'],['5.000+ TL','💎']
+    ]
+  },
+  amac: {
+    baslik: 'Hediyeyi ne için alıyorsun?',
+    secenekler: [
+      ['Doğum Günü','🎂'],['Yıl Dönümü','💐'],['Sevgililer Günü','❤️'],
+      ['Özel Bir Başarı','🏆'],['Sadece Sürpriz','🎁'],['Yılbaşı / Bayram','🎊']
+    ]
+  }
+};
+
+function soruKartHTML(soruId, seciliDeger) {
+  var idx = SORU_SIRASI.indexOf(soruId) + 1;
+  var icerik = SORU_ICERIK[soruId];
+  var html = '<div class="soru-no-badge">' + idx + '. Soru</div>' +
+    '<div class="soru-baslik">' + icerik.baslik + '</div>' +
+    '<div class="soru-alt">👇 Bir seçenek seç</div>' +
+    '<div class="secenekler">';
+  icerik.secenekler.forEach(function(s) {
+    var secildi = s[0] === seciliDeger ? ' secildi' : '';
+    html += '<button class="sec-btn' + secildi + '" onclick="secimYap(\'' + soruId + '\', \'' + s[0].replace(/'/g, "\\'") + '\', \'' + s[1] + '\', this)">' +
+      '<div class="sec-check">' + (secildi ? '✔' : '') + '</div> ' + s[1] + ' ' + s[0] +
+      '</button>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// ── PROGRESS ──
+function progressGuncelle() {
+  var dolu = Object.keys(cevaplar).filter(function(k) { return SORU_SIRASI.indexOf(k) > -1; }).length;
+  var yuzde = Math.min((dolu / 5) * 100, 100);
+  document.getElementById('progress-fill').style.width = yuzde + '%';
+  document.getElementById('progress-text').textContent = dolu + ' / 5';
+}
+
+// ── ÖZET ŞERİDİ ──
+function ozetSeritGuncelle() {
+  var serit = document.getElementById('ozet-serit');
+  var dolu = SORU_SIRASI.filter(function(id) { return cevaplar[id]; });
+  if (dolu.length === 0) { serit.classList.remove('gorune'); return; }
+  serit.classList.add('gorune');
+  serit.innerHTML = dolu.map(function(id) {
+    return '<div class="ozet-chip">' + cevaplar[id + '_ikon'] + ' <strong>' + cevaplar[id] + '</strong></div>';
+  }).join('');
+}
+
+// ── PİLL GÖSTER ──
+function pillGoster() {
+  var pillBolum = document.getElementById('pill-bolum');
+  var hediyeWrap = document.getElementById('hediye-bul-wrap');
+  pillBolum.classList.add('gorune');
+  hediyeWrap.classList.add('gorune');
+  setTimeout(function() {
+    pillBolum.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 120);
+}
+
+// ── PİLL MODAL ──
+function pillAc(kategori, btn) {
+  // Eğer zaten bu pill seçiliyse → seçimi kaldır
+  if (aktifPill === kategori && btn.classList.contains('secildi')) {
+    btn.classList.remove('secildi');
+    document.getElementById('pill-cevap-' + kategori).textContent = '';
+    aktifPill = null;
+    delete cevaplar['pill'];
+    delete cevaplar['pill_kategori'];
+    delete cevaplar['pill_cevap'];
+    hediyeBulAltMetinGuncelle();
+    return;
+  }
+
+  var data = PILL_SORULAR[kategori];
+  document.getElementById('modal-baslik').textContent = data.soru;
+  document.getElementById('modal-alt').textContent = PILL_IKONLAR[kategori] + ' ' + kategoriAdi(kategori);
+
+  var seceneklerEl = document.getElementById('modal-secenekler');
+  seceneklerEl.innerHTML = '';
+  data.secenekler.forEach(function(s) {
+    var b = document.createElement('button');
+    b.className = 'sec-btn';
+    b.innerHTML = '<div class="sec-check"></div> ' + s;
+    b.onclick = function() { pillCevapSec(kategori, s, btn); };
+    seceneklerEl.appendChild(b);
+  });
+
+  document.getElementById('modal').classList.add('acik');
+  aktifPill = kategori;
+}
+
+function pillCevapSec(kategori, cevap, pillBtn) {
+  // Tüm pill'leri temizle
+  document.querySelectorAll('.pill-btn').forEach(function(b) {
+    b.classList.remove('secildi');
+  });
+  document.querySelectorAll('[id^="pill-cevap-"]').forEach(function(el) {
+    el.textContent = '';
+  });
+
+  // Seçilen pill'i işaretle
+  pillBtn.classList.add('secildi');
+  var cevapEl = document.getElementById('pill-cevap-' + kategori);
+  if (cevapEl) cevapEl.textContent = '· ' + cevap;
+
+  // Kaydet
+  cevaplar['pill'] = true;
+  cevaplar['pill_kategori'] = kategori;
+  cevaplar['pill_cevap'] = cevap;
+  aktifPill = kategori;
+
+  hediyeBulAltMetinGuncelle();
+  modalKapat();
+}
+
+function hediyeBulAltMetinGuncelle() {
+  var el = document.getElementById('hediye-bul-alt');
+  if (cevaplar['pill']) {
+    el.textContent = '4 nokta atışı ' + kategoriAdi(cevaplar['pill_kategori']).toLowerCase() + ' hediyesi + 6 kişiye özel';
+  } else {
+    el.textContent = '5 temel bilgi ile 9 hediye önerisi';
+  }
+}
+
+function kategoriAdi(k) {
+  var adlar = {
+    spor:'Spor', muzik:'Müzik', kitap:'Kitap', kahve:'Kahve & Çay',
+    teknoloji:'Teknoloji', yemek:'Yemek', seyahat:'Seyahat',
+    sanat:'Sanat', oyun:'Oyun', foto:'Fotoğraf', bitki:'Bitki & Doğa', makyaj:'Makyaj'
+  };
+  return adlar[k] || k;
+}
+
+function modalKapat(e) {
+  if (e && e.target !== document.getElementById('modal')) return;
+  document.getElementById('modal').classList.remove('acik');
+}
+
+// ── HEDİYE BUL ──
+function hediyeBul() {
+  // Tüm 5 soru dolu mu kontrol et
+  var eksik = SORU_SIRASI.filter(function(id) { return !cevaplar[id]; });
+  if (eksik.length > 0) {
+    var ilkEksik = document.getElementById('soru-' + eksik[0]);
+    if (ilkEksik) ilkEksik.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // Prompt verilerini localStorage'a yaz (gerçek entegrasyonda hediyeler.html'e taşınır)
+  localStorage.setItem('bb_yeni_akis_cevaplar', JSON.stringify(cevaplar));
+
+  // Şimdilik konsola yaz (test aşaması)
+  console.log('=== HEDİYE BUL ===');
+  console.log('Profil:', {
+    kime: cevaplar.kime,
+    cinsiyet: cevaplar.cinsiyet,
+    yas: cevaplar.yas,
+    butce: cevaplar.butce,
+    amac: cevaplar.amac
+  });
+  if (cevaplar.pill) {
+    console.log('Pill:', cevaplar.pill_kategori, '→', cevaplar.pill_cevap);
+    console.log('Prompt notu: İlk 4 hediye ' + cevaplar.pill_kategori + ' kategorisinden olsun (star:true). Kişi ' + cevaplar.pill_cevap + ' yapıyor/seviyor.');
+  }
+
+  // Görsel feedback
+  var btn = document.querySelector('.hediye-bul-btn');
+  btn.textContent = '⏳ Hazırlanıyor...';
+  btn.disabled = true;
+
+  setTimeout(function() {
+    btn.innerHTML = '✅ Veri hazır — hediyeler.html entegrasyonu yapılacak';
+    btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+  }, 800);
+}
+
+// ── BAŞLANGIÇ ──
+progressGuncelle();
+</script>
+</body>
+</html>
