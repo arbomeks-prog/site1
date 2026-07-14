@@ -562,7 +562,7 @@ body {
   <div class="pill-bolum" id="pill-bolum">
     <div class="pill-baslik">Opsiyonel</div>
     <div class="pill-aciklama">Spesifik bir kategori ekle</div>
-    <div class="pill-alt">Tıkla → bir detay seç → 4 nokta atışı hediye gelsin</div>
+    <div class="pill-alt">Seçersen ilk 4 hediye o kategoriye özel 🎯 nokta atışı olur</div>
     <div class="pill-grid" id="pill-grid">
       <button class="pill-btn" data-kategori="spor" onclick="pillAc('spor', this)">
         <span class="pill-emoji">🏃</span>
@@ -889,9 +889,9 @@ function pillCevapSec(kategori, cevap, pillBtn) {
 function hediyeBulAltMetinGuncelle() {
   var el = document.getElementById('hediye-bul-alt');
   if (cevaplar['pill']) {
-    el.textContent = '4 nokta atışı ' + kategoriAdi(cevaplar['pill_kategori']).toLowerCase() + ' hediyesi + 6 kişiye özel';
+    el.textContent = '🎯 4 nokta atışı ' + kategoriAdi(cevaplar['pill_kategori']).toLowerCase() + ' hediyesi + 5 kişiye özel';
   } else {
-    el.textContent = '5 temel bilgi ile 9 hediye önerisi';
+    el.textContent = '9 kişiye özel hediye önerisi';
   }
 }
 

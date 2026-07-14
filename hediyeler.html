@@ -1001,29 +1001,41 @@ const sabitText = 'Hediye kime: ' + kime + '\n' + sorular.map(function(s) { retu
 return 'Kullanıcı profili:\n' + sabitText + burcEk + '\n\n' + butceKural + '\n\nGörev: Profile uygun ' + toplamHediye + ' hediye öner. İlk 3 nokta atışı (star:true), diğerleri normal (star:false).\nHer hediye: name, emoji, description (2 cümle), reason (1 cümle), price (rakam + " TL" formatında, örnek: "450 TL" veya "1.200 TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\n' + ek + '\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür.';
 }
 const profilIds = QUIZ_CONFIG.profilSabitler.map(function(p) { return p.id; });
-const sabitProfilFiltre = ['kime','cinsiyet','butce'];
-const sabitText = sabitProfilFiltre.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : ''; }).filter(Boolean).join('\n');
-// Seçilen 6 kriter → metne çevir
+const sabitProfilFiltre = ['kime','cinsiyet','butce','yas','amac'];
+const sabitText = sabitProfilFiltre.filter(function(id) { return cevaplar[id]; }).map(function(id) { const s = sorular.find(function(s) { return s.id === id; }); return s ? s.soru + ' → ' + cevaplar[id] : id + ' → ' + cevaplar[id]; }).filter(Boolean).join('\n');
+
+// ── YENİ AKIŞ: pill (kategori seçimi) kontrolü ──
+const pillVeri = (function() { try { var r = localStorage.getItem('bb_yeni_akis_pill'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
+const pillKategoriAdi = pillVeri ? pillVeri.kategori : null;
+const pillCevap = pillVeri ? pillVeri.cevap : null;
+
+const hediyeAlanlari = 'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür. Başka hiçbir şey yazma.';
+
+if (pillKategoriAdi && pillCevap) {
+  // Pill seçili: ilk 4 o kategoriden (star:true), kalan 5/6 genel (star:false)
+  const pillToplamHediye = burcIsim ? 10 : 9;
+  return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sabitText + '\n\n' + butceKural + '\n\n' +
+'GÖREV: Tam olarak ' + pillToplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı.\n\n' +
+'İLK 4 HEDİYE — NOKTA ATIŞI (star:true):\n' +
+'Kategori: ' + pillKategoriAdi + ' / ' + pillCevap + '\n' +
+'Bu 4 hediyenin TAMAMI kesinlikle ' + pillKategoriAdi + ' kategorisinden olsun. Kişi ' + pillCevap + ' yapıyor/seviyor. Birbirinden tamamen farklı 4 hediye öner, aynı kategoriyi tekrar etme.\n\n' +
+'KALAN ' + (pillToplamHediye - 4) + ' HEDİYE — KİŞİYE ÖZEL (star:false):\n' +
+'Profil bilgilerine dayanarak farklı kategorilerden öner. ' + pillKategoriAdi + ' kategorisini tekrar kullanma.\n\n' +
+(burcIsim ? 'SON HEDİYE — BURÇ (star:false, isBurc:true):\n' + burcEk + '\nÖncekilerden FARKLI.\n\n' : '') +
+hediyeAlanlari;
+}
+
+// Pill seçilmemiş: 9 hediye, hepsi star:false, genel kişiye özel
 const secilenMetinler = selectedCriteria.map(function(c) { const s = sorular.find(function(s) { return s.id === c.id; }); return s ? s.soru + ' → ' + cevaplar[c.id] : ''; }).filter(Boolean);
-// Seçilmeyen kriterler → metne çevir
 const profilIdSet = new Set(profilIds);
 const secilenIdSet = new Set(selectedCriteria.map(function(c){ return c.id; }));
 const secilenDisiMetinler = sorular.filter(function(s){ return !profilIdSet.has(s.id) && !secilenIdSet.has(s.id) && cevaplar[s.id]; }).map(function(s){ return s.soru + ' → ' + cevaplar[s.id]; });
-// Seçilmeyen kriter grupları (3'erli)
-const sdGrup1 = secilenDisiMetinler.slice(0,3).join('\n') || '-';
-const sdGrup2 = secilenDisiMetinler.slice(3,6).join('\n') || '-';
-const sdGrup3 = secilenDisiMetinler.slice(6,9).join('\n') || '-';
-const sdGrup4 = secilenDisiMetinler.slice(9).join('\n') || '-';
-// Seçilen 6 kriter — 3 grup
-const sec1 = secilenMetinler.slice(0,2).join('\n') || '-';
-const sec2 = secilenMetinler.slice(2,4).join('\n') || '-';
-const sec3 = secilenMetinler.slice(4,6).join('\n') || '-';
 return 'KİŞİ PROFİLİ (her hediyede kullanılacak sabit değerler):\n' + sabitText + '\n\n' + butceKural + '\n\n' +
-'GÖREV: Tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı. İlk 3 hediye star:true, diğerleri star:false.\n\n' +
-'Seçilen kriterler (her biri için ayrı bir hediye bul — bu kriterlerden ilham alan, birbirine benzemeyen hediyeler öner):\n' + secilenMetinler.join('\\n') + '\n\n' +
-'Seçilmemiş kriterler:\n' + secilenDisiMetinler.join('\\n') + '\n\n' +
-(burcIsim ? 'HEDİYE 10 — BURÇ HEDİYESİ (star:false, isBurc:true):\n' + burcEk + '\nTüm kriterler ve burç özelliklerini birleştir. Öncekilerden FARKLI.\n\n' : '') +
-'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür. Başka hiçbir şey yazma.';
+'GÖREV: Tam olarak ' + toplamHediye + ' hediye öner. Her hediye FARKLI bir kategoriden olmalı. Tüm hediyeler star:false.\n\n' +
+(secilenMetinler.length > 0 ? 'Ek kriterler:\n' + secilenMetinler.join('\n') + '\n\n' : '') +
+(secilenDisiMetinler.length > 0 ? 'Diğer bilgiler:\n' + secilenDisiMetinler.join('\n') + '\n\n' : '') +
+(burcIsim ? 'BURÇ HEDİYESİ (star:false, isBurc:true):\n' + burcEk + '\nÖncekilerden FARKLI.\n\n' : '') +
+hediyeAlanlari;
 }
 </script>
 <script>
