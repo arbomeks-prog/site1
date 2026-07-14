@@ -910,6 +910,16 @@ function modalKapat(e) {
 }
 
 // ── HEDİYE BUL ──
+// Bütçe formatını hediyeler.html'in tanıdığı formata çevir
+var BUTCE_MAP = {
+  '0–500 TL':    '0-500 TL',
+  '0–1.000 TL':  '0-1000 TL',
+  '0–2.000 TL':  '0-2000 TL',
+  '0–3.000 TL':  '0-3000 TL',
+  '0–5.000 TL':  '0-5000 TL',
+  '5.000+ TL':   '5001-10000 TL'
+};
+
 function hediyeBul() {
   // Tüm 5 soru dolu mu kontrol et
   var eksik = SORU_SIRASI.filter(function(id) { return !cevaplar[id]; });
@@ -919,30 +929,53 @@ function hediyeBul() {
     return;
   }
 
-  // Prompt verilerini localStorage'a yaz (gerçek entegrasyonda hediyeler.html'e taşınır)
-  localStorage.setItem('bb_yeni_akis_cevaplar', JSON.stringify(cevaplar));
-
-  // Şimdilik konsola yaz (test aşaması)
-  console.log('=== HEDİYE BUL ===');
-  console.log('Profil:', {
-    kime: cevaplar.kime,
-    cinsiyet: cevaplar.cinsiyet,
-    yas: cevaplar.yas,
-    butce: cevaplar.butce,
-    amac: cevaplar.amac
-  });
-  if (cevaplar.pill) {
-    console.log('Pill:', cevaplar.pill_kategori, '→', cevaplar.pill_cevap);
-    console.log('Prompt notu: İlk 4 hediye ' + cevaplar.pill_kategori + ' kategorisinden olsun (star:true). Kişi ' + cevaplar.pill_cevap + ' yapıyor/seviyor.');
-  }
-
   // Görsel feedback
   var btn = document.querySelector('.hediye-bul-btn');
   btn.textContent = '⏳ Hazırlanıyor...';
   btn.disabled = true;
 
+  // ── budurBuldumCevaplar'a yaz ──
+  // hediyeler.html şunu bekliyor: kime, cinsiyet, yas, butce, amac (ve pill varsa selectedCriteria)
+  var bbCevaplar = {
+    kime:     cevaplar.kime,
+    cinsiyet: cevaplar.cinsiyet,
+    yas:      cevaplar.yas,
+    butce:    BUTCE_MAP[cevaplar.butce] || cevaplar.butce,
+    amac:     cevaplar.amac
+  };
+
+  // Pill seçimi varsa selectedCriteria'ya ekle
+  // hediyeler.html formatı: [{id: 'spor', value: 'Koşu / Yürüyüş'}]
+  var selectedCriteria = [];
+  if (cevaplar.pill && cevaplar.pill_kategori && cevaplar.pill_cevap) {
+    // cevaplar objesine de yaz ki prompt'a gitsin
+    bbCevaplar[cevaplar.pill_kategori] = cevaplar.pill_cevap;
+    selectedCriteria = [{ id: cevaplar.pill_kategori, value: cevaplar.pill_cevap }];
+  }
+
+  // Session ID oluştur
+  var sessionId = 'yeni-akis-' + Date.now();
+
+  // localStorage'a yaz
+  localStorage.setItem('budurBuldumCevaplar', JSON.stringify(bbCevaplar));
+  localStorage.setItem('budurBuldumSelectedCriteria', JSON.stringify(selectedCriteria));
+  localStorage.setItem('budurBuldumSecilenBurc', '');
+  localStorage.setItem('budurBuldumButceEsnek', '0');
+  localStorage.setItem('budurBuldumSessionId', sessionId);
+  localStorage.setItem('budurBuldumAktifSet', 'normal');
+
+  // pill varsa 4 star isteyeceğiz — bunu hediyeler.html okuyabilsin diye işaret koy
+  if (cevaplar.pill) {
+    localStorage.setItem('bb_yeni_akis_pill', JSON.stringify({
+      kategori: cevaplar.pill_kategori,
+      cevap: cevaplar.pill_cevap
+    }));
+  } else {
+    localStorage.removeItem('bb_yeni_akis_pill');
+  }
+
   setTimeout(function() {
-    btn.innerHTML = '✅ Veri hazır — hediyeler.html entegrasyonu yapılacak';
+    window.location.href = 'hediyeler.html';
     btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
   }, 800);
 }
