@@ -140,3 +140,74 @@ Bazı kullanıcılar bu kelimeye olumsuz tepki veriyor. Bunun yerine şunları k
 - öneri motoru
 
 Bu kural tüm makale sayfaları için geçerlidir. Push etmeden önce `grep -n "yapay zeka"` ile kontrol et.
+
+---
+
+## 📅 16 Temmuz 2026 — Yeni Ana Akış (test-yeni-ana-akis.html)
+
+### Vizyon & Karar
+Mevcut 30 sorulu iframe akışından vazgeçilmedi ama yanına yeni bir sistem inşa edildi. iframe'lerin Google sıralamasına katkısı olmadığı netleşti (GA4 eventleri de düzgün çalışmıyordu). Yeni sistem daha temiz, daha hızlı, makale içine gömülebilir.
+
+### Yeni Akış Mimarisi
+- **Tek sayfa:** `test-yeni-ana-akis.html` — sorular + hediyeler aynı sayfada, iframe yok
+- **6 zorunlu soru:** Kime, Cinsiyet, Yaş, Bütçe, Amaç, Burç
+- **Pill kategorileri (opsiyonel):** 12 kategori + Bütçeyi Değiştir pill'i
+- **Pill seçilince:** 4 Nokta Atışı (star:true) + 5 kişiye özel (star:false) = 9 hediye
+- **Pill seçilmeyince:** 9 kişiye özel hediye, tümü star:false — "Nokta Atışı" etiketi yok
+- **Burç seçilince:** +1 burç hediyesi (isBurc:true) = toplam 10 hediye
+- **Hediye sayfası:** `hediyeler-yeni.html` ayrı dosyadan kaldırıldı, tek sayfaya entegre
+
+### Pill Sistemi Kararları
+- Pill = "hediye kategorisi" seçimi, değil "kişilik özelliği"
+- Pill şıkları genel ve önü açık — "Okumaya meraklı" gibi, "Roman sever" değil
+- Prompt'a giden kategori adı insan okunur: "kitap" → "Okumak / Yazmak"
+- Bütçe pill'i: aynı grid'de ama mavi kenarlıkla görsel ayrışım
+- Max 1 pill seçilebilir
+
+### Tur Sayacı & Hafıza Sistemi
+- **3 tur hakkı** — 3 kutucuk (1,2,3), her turda ✔
+- **3. tur dolunca popup** — kategori seçmek zorunlu, "devam et" yok
+- **Global hafıza:** `oncekiHediyeler` array'i — seans boyunca hiç sıfırlanmıyor
+- Ana soru değişince sadece sayaç sıfırlanır, hafıza korunur
+- Pill/bütçe değişince de sadece sayaç sıfırlanır, hafıza korunur
+- **100 hediye sınırı** — sınır ekranı çıkar (mesaj henüz yazılmadı, sonra karar verilecek)
+- Sayfa yenilenince her şey sıfırlanır (sessionStorage değil JS değişkeni)
+
+### Platform Linkleri
+- 5 platform her zaman görünür (Trendyol, Hepsiburada, Amazon, Çiçeksepeti, N11)
+- Grok'un `mevcutPlatformlar` array'indeki sıraya göre: bulunanlar sola aktif, bulunmayanlar sağa soluk+tıklanamaz
+- **api/gifts.js'e eklenen kural:** Grok her platformda arama yapıp gördüğü ürün görsellerini hediyeyle karşılaştırıyor — görseller örtüşüyorsa yazıyor, örtüşmüyorsa çıkarıyor. En iyi eşleşen platform ilk sıraya geliyor.
+
+### Prompt Kuralları (hediyeler-yeni.html buildPrompt)
+- "yapay zeka" yasak (sitewide kural)
+- Profilde yazılmayan özellik uydurma yasak
+- Bütçe kural: sabit fiyat aralığı, aşım yasak
+- Hafıza: "DAHA ÖNCE ÖNERDİKLERİN (tekrar önerme)" başlığıyla liste gönderiliyor
+
+### Makale Entegrasyon Vizyonu
+- Bu quiz her makaleye iframe veya inline olarak gömülebilir
+- URL parametresiyle pill otomatik seçilebilir: `?pill=spor`
+- URL parametresiyle amaç otomatik doldurulabilir: `?pill=spor&amac=Doğum Günü`
+- Makale 1.5 paragraf + quiz bloğu formatı hedefleniyor
+- Her makale hem SEO trafik çekiyor hem dönüşüm yapıyor
+
+### Maliyet Analizi
+- Model: grok-4.3 — $1.25/M input, $2.50/M output
+- Per tur: ~$0.01 (input+output+web search)
+- Per kullanıcı (2 tur ortalama): ~$0.02
+- 50.000 kullanıcı/ay = ~$1.000/ay Grok maliyeti
+- 50.000 kullanıcıda affiliate gelir tahmini: ~$1.700/ay → kârlı
+- Strateji: Grok'un kalite+ucuzluk avantajını sonuna kadar kullan
+
+### Aktif Dosyalar
+- `test-yeni-ana-akis.html` — tek sayfa yeni akış (DEMO, canlı değil)
+- `hediyeler-yeni.html` — artık kullanılmıyor, entegre edildi
+- `api/gifts.js` — platform görsel eşleşme kuralı eklendi (canlıyı etkiliyor)
+- Orijinal akış (index.html, ozet.html, hediyeler.html) — dokunulmadı, canlıda çalışıyor
+
+### Yapılacaklar (öncelik sırasıyla)
+- [ ] 100 hediye sınırı ekran mesajı yazılacak (Demirci ile birlikte)
+- [ ] Pill kategorilerinin şıkları tek tek yeniden yazılacak (Okumak/Yazmak gibi)
+- [ ] Quiz embed sistemi — makale içine gömme, URL parametreleri
+- [ ] Rate limiting — IP başına günlük max istek (bot koruması)
+- [ ] Affiliate linkleri gerçek hale getirilecek
