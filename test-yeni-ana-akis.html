@@ -394,11 +394,20 @@ var SORU_ICERIK = {
 
 // ── SORU AKIŞI ──
 function secimYap(soruId, deger, ikon, btn) {
+  var eskiDeger = cevaplar[soruId];
   var parent = btn.closest('.secenekler');
   parent.querySelectorAll('.sec-btn').forEach(function(b){b.classList.remove('secildi');});
   btn.classList.add('secildi');
   cevaplar[soruId] = deger;
   cevaplar[soruId+'_ikon'] = ikon;
+
+  // Mevcut bir cevap değiştirildiyse sayaç ve hafızayı sıfırla
+  if (eskiDeger && eskiDeger !== deger) {
+    turSayaci = 0;
+    oncekiHediyeler = [];
+    turSayaciGuncelle();
+  }
+
   setTimeout(function(){ soruTamamla(soruId); }, 220);
 }
 
