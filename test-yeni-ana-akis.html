@@ -118,6 +118,25 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 /* YENİDEN BAŞLA */
 .yeniden-btn { width:100%;margin-top:20px;padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:700;color:#475569;cursor:pointer;-webkit-tap-highlight-color:transparent; }
 
+/* TUR SAYACI */
+.tur-sayac { display:flex;align-items:center;gap:8px;justify-content:center;margin-top:12px; }
+.tur-kutu { width:28px;height:28px;border-radius:8px;border:2px solid #e2e8f0;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#94a3b8;transition:all 0.3s ease; }
+.tur-kutu.dolu { background:#10b981;border-color:#059669;color:white; }
+.tur-kutu.aktif { border-color:#1e40af;background:#eff6ff;color:#1e40af; }
+.tur-label { font-size:11px;color:#94a3b8;font-weight:600; }
+
+/* BÜTÇE PİLL */
+.pill-btn.butce-pill { border-color:#3b82f6;background:#eff6ff;color:#1e40af; }
+.pill-btn.butce-pill.secildi { background:#e8a838;border-color:#e8a838;color:#1e293b; }
+
+/* POPUP */
+.popup-overlay { display:none;position:fixed;inset:0;background:rgba(15,23,42,0.8);backdrop-filter:blur(4px);z-index:600;align-items:flex-end;justify-content:center; }
+.popup-overlay.acik { display:flex; }
+.popup-kutu { background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:28px 20px 44px;animation:slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1); }
+.popup-baslik { font-size:20px;font-weight:900;color:#1e293b;margin-bottom:6px;line-height:1.3; }
+.popup-alt { font-size:13px;color:#64748b;margin-bottom:20px; }
+.popup-pill-grid { display:flex;flex-wrap:wrap;gap:8px; }
+
 /* MODAL */
 .modal-overlay { display:none;position:fixed;inset:0;background:rgba(15,23,42,0.7);backdrop-filter:blur(4px);z-index:500;align-items:flex-end;justify-content:center; }
 .modal-overlay.acik { display:flex; }
@@ -258,6 +277,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   <div class="pill-aciklama">Spesifik bir kategori ekle</div>
   <div class="pill-alt">Seçersen ilk 4 hediye o kategoriye özel 🎯 nokta atışı olur</div>
   <div class="pill-grid" id="pill-grid">
+    <button class="pill-btn butce-pill" data-kategori="butce" onclick="pillAc('butce',this)"><span class="pill-emoji">💰</span><span class="pill-label">Bütçeyi Değiştir</span><span class="pill-cevap" id="pill-cevap-butce"></span></button>
     <button class="pill-btn" data-kategori="spor" onclick="pillAc('spor',this)"><span class="pill-emoji">🏃</span><span class="pill-label">Spor</span><span class="pill-cevap" id="pill-cevap-spor"></span></button>
     <button class="pill-btn" data-kategori="muzik" onclick="pillAc('muzik',this)"><span class="pill-emoji">🎵</span><span class="pill-label">Müzik</span><span class="pill-cevap" id="pill-cevap-muzik"></span></button>
     <button class="pill-btn" data-kategori="kitap" onclick="pillAc('kitap',this)"><span class="pill-emoji">📚</span><span class="pill-label">Okumak / Yazmak</span><span class="pill-cevap" id="pill-cevap-kitap"></span></button>
@@ -277,6 +297,12 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 <div class="hediye-bul-wrap" id="hediye-bul-wrap">
   <button class="hediye-bul-btn" onclick="hediyeBul()" id="hediye-bul-btn">🎁 Hediye Bul</button>
   <div class="hediye-bul-alt" id="hediye-bul-alt">9 kişiye özel hediye önerisi</div>
+  <div class="tur-sayac" id="tur-sayac" style="display:none;">
+    <div class="tur-kutu aktif" id="tur-1">1</div>
+    <div class="tur-kutu" id="tur-2">2</div>
+    <div class="tur-kutu" id="tur-3">3</div>
+    <span class="tur-label">tur hakkı</span>
+  </div>
 </div>
 
 <!-- HEDİYELER -->
@@ -303,6 +329,17 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   </div>
 </div>
 
+<!-- POPUP -->
+<div class="popup-overlay" id="tur-popup">
+  <div class="popup-kutu">
+    <div style="width:40px;height:4px;background:#e2e8f0;border-radius:2px;margin:0 auto 20px;"></div>
+    <div style="font-size:32px;margin-bottom:12px;">🎯</div>
+    <div class="popup-baslik">3 tur tamamlandı!</div>
+    <div class="popup-alt">Farklı hediyeler görmek için bir kategori seç:</div>
+    <div class="popup-pill-grid" id="popup-pill-grid"></div>
+  </div>
+</div>
+
 <script>
 var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
 var BURC_OZELLIK = {
@@ -321,11 +358,14 @@ var BURC_OZELLIK = {
 };
 var cevaplar = {};
 var aktifPill = null;
+var turSayaci = 0;
+var oncekiHediyeler = [];
 
 var SORU_SIRASI = ['kime','cinsiyet','yas','butce','amac','burc'];
 var SORU_ETIKETLER = {kime:'Kime',cinsiyet:'Cinsiyet',yas:'Yaş',butce:'Bütçe',amac:'Amaç',burc:'Burç'};
 
 var PILL_SORULAR = {
+  butce:     { soru:'Bütçeni güncelle', secenekler:['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-5000 TL','5001-10000 TL'] },
   spor:      { soru:'Spor alışkanlığı?', secenekler:['Spor yapar','Sporu sever ama ara sıra yapar','Seyirci olarak takip eder'] },
   muzik:     { soru:'Müzikle ilişkisi?', secenekler:['Müzik dinlemeyi çok sever','Enstrüman çalar','Müzik hayatının vazgeçilmezi'] },
   kitap:     { soru:'Okuma yazma ilgisi?', secenekler:['Okumaya meraklı','Yazmaya düşkün','Hem okur hem yazar'] },
@@ -340,8 +380,8 @@ var PILL_SORULAR = {
   makyaj:    { soru:'Bakım alışkanlığı?',secenekler:['Makyaj ve bakıma önem verir','Doğal ve sade bakım tercih eder','Kendine iyi bakımı sever'] }
 };
 
-var PILL_IKONLAR = {spor:'🏃',muzik:'🎵',kitap:'📚',kahve:'☕',teknoloji:'💻',yemek:'🍳',seyahat:'✈️',sanat:'🎨',oyun:'🎮',foto:'📷',bitki:'🌱',makyaj:'💄'};
-var PILL_KATEGORI_ADI = {spor:'Spor / Hareket',muzik:'Müzik / Enstrüman',kitap:'Okumak / Yazmak',kahve:'Kahve & Çay',teknoloji:'Teknoloji / Dijital',yemek:'Yemek / Mutfak',seyahat:'Seyahat / Keşif',sanat:'Sanat / El işi',oyun:'Oyun / Eğlence',foto:'Fotoğraf / Video',bitki:'Doğa / Bahçe',makyaj:'Güzellik / Bakım'};
+var PILL_IKONLAR = {butce:'💰',spor:'🏃',muzik:'🎵',kitap:'📚',kahve:'☕',teknoloji:'💻',yemek:'🍳',seyahat:'✈️',sanat:'🎨',oyun:'🎮',foto:'📷',bitki:'🌱',makyaj:'💄'};
+var PILL_KATEGORI_ADI = {butce:'Bütçe',spor:'Spor / Hareket',muzik:'Müzik / Enstrüman',kitap:'Okumak / Yazmak',kahve:'Kahve & Çay',teknoloji:'Teknoloji / Dijital',yemek:'Yemek / Mutfak',seyahat:'Seyahat / Keşif',sanat:'Sanat / El işi',oyun:'Oyun / Eğlence',foto:'Fotoğraf / Video',bitki:'Doğa / Bahçe',makyaj:'Güzellik / Bakım'};
 
 var SORU_ICERIK = {
   kime:{baslik:'Hediye kime alınıyor?',secenekler:[['Sevgili','💑'],['Arkadaş','🤝'],['Anne','👩'],['Baba','👨'],['Kardeş','👫'],['İş arkadaşı','💼'],['Kendime','🪞']]},
@@ -452,15 +492,66 @@ function pillAc(kategori, btn) {
 }
 
 function pillCevapSec(kategori, cevap, pillBtn) {
+  var eskiBütçe = cevaplar.butce;
   document.querySelectorAll('.pill-btn').forEach(function(b){b.classList.remove('secildi');});
   document.querySelectorAll('[id^="pill-cevap-"]').forEach(function(el){el.textContent='';});
   pillBtn.classList.add('secildi');
   var cevapEl = document.getElementById('pill-cevap-'+kategori);
   if (cevapEl) cevapEl.textContent='· '+cevap;
-  cevaplar.pill=true; cevaplar.pill_kategori=kategori; cevaplar.pill_cevap=cevap;
-  aktifPill=kategori;
+
+  // Bütçe pill mi?
+  if (kategori === 'butce') {
+    cevaplar.butce = cevap;
+    turSayaciSifirla();
+    oncekiHediyeler = [];
+    // popup içinden seçildiyse popup'ı kapat
+    document.getElementById('tur-popup').classList.remove('acik');
+  } else {
+    cevaplar.pill=true; cevaplar.pill_kategori=kategori; cevaplar.pill_cevap=cevap;
+    aktifPill=kategori;
+    turSayaciSifirla();
+    oncekiHediyeler = [];
+    // popup içinden seçildiyse popup'ı kapat
+    document.getElementById('tur-popup').classList.remove('acik');
+  }
   hediyeBulAltMetinGuncelle();
   modalKapat();
+}
+
+function turSayaciGuncelle() {
+  var sayac = document.getElementById('tur-sayac');
+  if (sayac) sayac.style.display='flex';
+  for (var i=1;i<=3;i++) {
+    var kutu = document.getElementById('tur-'+i);
+    if (!kutu) continue;
+    if (i < turSayaci) { kutu.className='tur-kutu dolu'; kutu.textContent='✔'; }
+    else if (i === turSayaci) { kutu.className='tur-kutu aktif'; kutu.textContent=i; }
+    else { kutu.className='tur-kutu'; kutu.textContent=i; }
+  }
+}
+
+function turSayaciSifirla() {
+  turSayaci = 0;
+  turSayaciGuncelle();
+}
+
+function popupAc() {
+  // Popup pill grid'ini doldur (bütçe + tüm kategoriler)
+  var grid = document.getElementById('popup-pill-grid');
+  grid.innerHTML='';
+  var tumKategoriler = ['butce','spor','muzik','kitap','kahve','teknoloji','yemek','seyahat','sanat','oyun','foto','bitki','makyaj'];
+  tumKategoriler.forEach(function(k){
+    var btn = document.createElement('button');
+    btn.className = 'pill-btn'+(k==='butce'?' butce-pill':'');
+    btn.innerHTML = '<span class="pill-emoji">'+PILL_IKONLAR[k]+'</span><span>'+PILL_KATEGORI_ADI[k]+'</span>';
+    btn.onclick = function(){
+      // Ana pill grid'deki ilgili butonu bul
+      var anaBtn = document.querySelector('.pill-btn[data-kategori="'+k+'"]');
+      pillAc(k, anaBtn||btn);
+    };
+    grid.appendChild(btn);
+  });
+  document.getElementById('tur-popup').classList.add('acik');
 }
 
 function hediyeBulAltMetinGuncelle() {
@@ -503,7 +594,13 @@ function buildPrompt() {
   var burcEk = burcIsim ? 'Kişinin burcu: '+secilenBurc+'. Burç özellikleri: '+burcOzellik+'. Burca uygun 1 özgün hediye ekle (star:false, isBurc:true). Bu hediyenin name alanına başında "'+( secilenBurc.split(' ')[0]||'⭐')+' " sembolünü ekle.' : '';
   var toplamHediye = burcIsim ? 10 : 9;
 
-  var hediyeAlanlari = 'Her hediye için: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (trendyol/hepsiburada/amazon/ciceksepeti/n11 array).\nSafe choice yapma, yaratıcı ol. Sadece JSON array döndür.';
+  // Hafıza sistemi - önceki hediyeleri ekle
+  var hafizaEk = '';
+  if (oncekiHediyeler.length > 0) {
+    hafizaEk = 'DAHA ÖNCE ÖNERDİKLERİN (tekrar önerme, bunlardan farklı ol):\n'+oncekiHediyeler.join('\n')+'\n\n';
+  }
+
+  var hediyeAlanlari = hafizaEk+'Her hediye için: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (trendyol/hepsiburada/amazon/ciceksepeti/n11 array).\nSafe choice yapma, yaratıcı ol. Sadece JSON array döndür.';
 
   if (cevaplar.pill && cevaplar.pill_kategori && cevaplar.pill_cevap) {
     var pillAdi = PILL_KATEGORI_ADI[cevaplar.pill_kategori]||cevaplar.pill_kategori;
@@ -584,6 +681,15 @@ async function hediyeBul() {
     return;
   }
 
+  // Tur sayacı kontrolü
+  turSayaci++;
+  if (turSayaci > 3) {
+    popupAc();
+    turSayaci = 3; // 3'te tut
+    return;
+  }
+  turSayaciGuncelle();
+
   var btn = document.getElementById('hediye-bul-btn');
   btn.textContent='⏳ Hazırlanıyor...';
   btn.disabled=true;
@@ -629,6 +735,11 @@ async function hediyeBul() {
     document.getElementById('hediyeler-alt').textContent =
       starCount>0 ? starCount+' nokta atışı + '+normCount+' kişiye özel hediye hazırlandı!' : normCount+' kişiye özel hediye hazırlandı!';
 
+    // Hediyeleri hafızaya ekle
+    sugg.forEach(function(g){
+      if (g.name) oncekiHediyeler.push(g.name);
+    });
+
     document.getElementById('yeniden-btn').style.display='block';
     grid.scrollIntoView({behavior:'smooth',block:'start'});
 
@@ -643,6 +754,8 @@ async function hediyeBul() {
 function yenidenBasla() {
   cevaplar={};
   aktifPill=null;
+  turSayaci=0;
+  oncekiHediyeler=[];
   localStorage.removeItem('bb_yeni_akis_pill');
   window.scrollTo({top:0,behavior:'smooth'});
   setTimeout(function(){ location.reload(); },300);
