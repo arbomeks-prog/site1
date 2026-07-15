@@ -319,10 +319,10 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
       <div style="font-size:48px;margin-bottom:16px;">🎁</div>
       <div id="sinir-baslik" style="font-size:18px;font-weight:900;color:#1e293b;margin-bottom:8px;"></div>
       <div id="sinir-alt" style="font-size:13px;color:#64748b;margin-bottom:20px;"></div>
-      <button class="yeniden-btn" onclick="yenidenBasla()">🔄 Yeni Arama Yap</button>
+      <button class="yeniden-btn" onclick="yenidenBasla()">⬆️ Yukarı Çık, Değiştir</button>
     </div>
   </div>
-  <button class="yeniden-btn" onclick="yenidenBasla()" id="yeniden-btn" style="display:none;">🔄 Yeni Arama Yap</button>
+  <button class="yeniden-btn" onclick="yenidenBasla()" id="yeniden-btn" style="display:none;">⬆️ Yukarı Çık, Değiştir</button>
 </div>
 
 </div><!-- /page -->
@@ -823,14 +823,11 @@ async function hediyeBul() {
 }
 
 function yenidenBasla() {
-  cevaplar={};
-  aktifPill=null;
-  turSayaci=0;
-  oncekiHediyeler=[];
-  // Sayfa yenilenince tüm hafıza sıfırlanır
-  localStorage.removeItem('bb_yeni_akis_pill');
+  // Sadece yukarı scroll - sıfırlamıyor, kullanıcı istediğini değiştirir
   window.scrollTo({top:0,behavior:'smooth'});
-  setTimeout(function(){ location.reload(); },300);
+  // Hediye bul butonunu tekrar aktif et
+  var btn = document.getElementById('hediye-bul-btn');
+  if (btn) { btn.innerHTML='🎁 Hediye Bul'; btn.disabled=false; }
 }
 
 // ── BAŞLANGIÇ ──
