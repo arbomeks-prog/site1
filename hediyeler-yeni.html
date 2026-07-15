@@ -1007,7 +1007,13 @@ const sabitText = sabitProfilFiltre.filter(function(id) { return cevaplar[id]; }
 
 // ── YENİ AKIŞ: pill (kategori seçimi) kontrolü ──
 const pillVeri = (function() { try { var r = localStorage.getItem('bb_yeni_akis_pill'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
-const pillKategoriAdi = pillVeri ? pillVeri.kategori : null;
+const _pillKategoriMap = {
+  spor:'Spor / Hareket', muzik:'Müzik / Enstrüman', kitap:'Okumak / Yazmak',
+  kahve:'Kahve & Çay', teknoloji:'Teknoloji / Dijital', yemek:'Yemek / Mutfak',
+  seyahat:'Seyahat / Keşif', sanat:'Sanat / El işi', oyun:'Oyun / Eğlence',
+  foto:'Fotoğraf / Video', bitki:'Doğa / Bahçe', makyaj:'Güzellik / Bakım'
+};
+const pillKategoriAdi = pillVeri ? (_pillKategoriMap[pillVeri.kategori] || pillVeri.kategori) : null;
 const pillCevap = pillVeri ? pillVeri.cevap : null;
 
 const hediyeAlanlari = 'Her hediye için şu alanları doldur: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL", örnek: "450 TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün kategorisi, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (web aramasinda bu urunu hangi Turk platformlarda gorduysen array olarak yaz: trendyol/hepsiburada/amazon/ciceksepeti/n11)\nSafe choice yapma, risk al, cesur ve yaratıcı ol — sıkıcı klasikleri değil ikinci üçüncü aklına geleni öner.\nSadece JSON array döndür. Başka hiçbir şey yazma.';
