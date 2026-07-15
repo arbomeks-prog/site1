@@ -315,10 +315,12 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   </div>
   <div class="hediyeler-grid" id="hediyeler-grid" style="display:none;"></div>
   <div id="sinir-mesaj" style="display:none;text-align:center;padding:40px 20px;">
-    <div style="font-size:48px;margin-bottom:16px;">🎁</div>
-    <div style="font-size:18px;font-weight:900;color:#1e293b;margin-bottom:8px;"></div>
-    <div style="font-size:13px;color:#64748b;margin-bottom:20px;"></div>
-    <button class="yeniden-btn" onclick="yenidenBasla()">🔄 Yeni Arama Yap</button>
+    <div id="sinir-icerik" style="display:none;">
+      <div style="font-size:48px;margin-bottom:16px;">🎁</div>
+      <div id="sinir-baslik" style="font-size:18px;font-weight:900;color:#1e293b;margin-bottom:8px;"></div>
+      <div id="sinir-alt" style="font-size:13px;color:#64748b;margin-bottom:20px;"></div>
+      <button class="yeniden-btn" onclick="yenidenBasla()">🔄 Yeni Arama Yap</button>
+    </div>
   </div>
   <button class="yeniden-btn" onclick="yenidenBasla()" id="yeniden-btn" style="display:none;">🔄 Yeni Arama Yap</button>
 </div>
@@ -743,7 +745,9 @@ async function hediyeBul() {
     sinirEl.classList.add('gorune');
     document.getElementById('yukleme-wrap').style.display='none';
     document.getElementById('hediyeler-grid').style.display='none';
+    document.getElementById('yeniden-btn').style.display='none';
     document.getElementById('sinir-mesaj').style.display='block';
+    document.getElementById('sinir-icerik').style.display='block';
     sinirEl.scrollIntoView({behavior:'smooth',block:'start'});
     return;
   }
