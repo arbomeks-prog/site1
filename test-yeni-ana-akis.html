@@ -314,6 +314,12 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
     <div class="yukleme-metin" id="yukleme-metin">Hediyeler hazırlanıyor...</div>
   </div>
   <div class="hediyeler-grid" id="hediyeler-grid" style="display:none;"></div>
+  <div id="sinir-mesaj" style="display:none;text-align:center;padding:40px 20px;">
+    <div style="font-size:48px;margin-bottom:16px;">🎁</div>
+    <div style="font-size:18px;font-weight:900;color:#1e293b;margin-bottom:8px;"></div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:20px;"></div>
+    <button class="yeniden-btn" onclick="yenidenBasla()">🔄 Yeni Arama Yap</button>
+  </div>
   <button class="yeniden-btn" onclick="yenidenBasla()" id="yeniden-btn" style="display:none;">🔄 Yeni Arama Yap</button>
 </div>
 
@@ -401,10 +407,9 @@ function secimYap(soruId, deger, ikon, btn) {
   cevaplar[soruId] = deger;
   cevaplar[soruId+'_ikon'] = ikon;
 
-  // Mevcut bir cevap değiştirildiyse sayaç ve hafızayı sıfırla
+  // Ana soru değişince sadece sayaç sıfırlanır, hafıza korunur
   if (eskiDeger && eskiDeger !== deger) {
     turSayaci = 0;
-    oncekiHediyeler = [];
     turSayaciGuncelle();
   }
 
@@ -512,15 +517,11 @@ function pillCevapSec(kategori, cevap, pillBtn) {
   if (kategori === 'butce') {
     cevaplar.butce = cevap;
     turSayaciSifirla();
-    oncekiHediyeler = [];
-    // popup içinden seçildiyse popup'ı kapat
     document.getElementById('tur-popup').classList.remove('acik');
   } else {
     cevaplar.pill=true; cevaplar.pill_kategori=kategori; cevaplar.pill_cevap=cevap;
     aktifPill=kategori;
     turSayaciSifirla();
-    oncekiHediyeler = [];
-    // popup içinden seçildiyse popup'ı kapat
     document.getElementById('tur-popup').classList.remove('acik');
   }
   hediyeBulAltMetinGuncelle();
@@ -736,11 +737,22 @@ async function hediyeBul() {
     return;
   }
 
+  // 100 hediye sınırı kontrolü
+  if (oncekiHediyeler.length >= 100) {
+    var sinirEl = document.getElementById('hediyeler-bolum');
+    sinirEl.classList.add('gorune');
+    document.getElementById('yukleme-wrap').style.display='none';
+    document.getElementById('hediyeler-grid').style.display='none';
+    document.getElementById('sinir-mesaj').style.display='block';
+    sinirEl.scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+
   // Tur sayacı kontrolü
   turSayaci++;
   if (turSayaci > 3) {
     popupAc();
-    turSayaci = 3; // 3'te tut
+    turSayaci = 3;
     return;
   }
   turSayaciGuncelle();
@@ -811,6 +823,7 @@ function yenidenBasla() {
   aktifPill=null;
   turSayaci=0;
   oncekiHediyeler=[];
+  // Sayfa yenilenince tüm hafıza sıfırlanır
   localStorage.removeItem('bb_yeni_akis_pill');
   window.scrollTo({top:0,behavior:'smooth'});
   setTimeout(function(){ location.reload(); },300);
