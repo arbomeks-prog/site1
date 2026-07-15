@@ -576,7 +576,7 @@ body {
       </button>
       <button class="pill-btn" data-kategori="kitap" onclick="pillAc('kitap', this)">
         <span class="pill-emoji">📚</span>
-        <span class="pill-label">Kitap</span>
+        <span class="pill-label">Okumak / Yazmak</span>
         <span class="pill-cevap" id="pill-cevap-kitap"></span>
       </button>
       <button class="pill-btn" data-kategori="kahve" onclick="pillAc('kahve', this)">
@@ -658,7 +658,7 @@ var tamamlananSayisi = 0;
 var PILL_SORULAR = {
   spor:      { soru: 'Hangi sporu yapıyor?', secenekler: ['Koşu / Yürüyüş','Fitness / Spor salonu','Futbol / Basketbol','Yüzme','Bisiklet','Yoga / Pilates','Outdoor / Dağcılık'] },
   muzik:     { soru: 'Müzik zevki nasıl?',   secenekler: ['Pop','Rock / Metal','Klasik / Caz','Rap / Hip-Hop','Türk Sanat Müziği','Enstrüman çalıyor'] },
-  kitap:     { soru: 'Hangi türü sever?',    secenekler: ['Roman','Bilim Kurgu / Fantastik','Kişisel Gelişim','Tarih / Biyografi','Polisiye / Gerilim','Şiir / Deneme'] },
+  kitap:     { soru: 'Okuma yazma ilgisi?',  secenekler: ['Okumaya meraklı','Yazmaya düşkün','Hem okur hem yazar'] },
   kahve:     { soru: 'Kahve mi çay mı?',     secenekler: ['Kahve delisi','Çay tiryakisi','İkisi de sever'] },
   teknoloji: { soru: 'Teknoloji ilgisi?',    secenekler: ['Akıllı ev & gadget','PC / Gaming','Mobil & aksesuarlar','Fotoğraf ekipmanı','Ses & müzik teknolojisi'] },
   yemek:     { soru: 'Mutfakta ne yapar?',   secenekler: ['Ev yemekleri pişirir','Fırın & pastacılık','Kahvaltı ritüeli var','Sağlıklı beslenme','Dünya mutfakları dener'] },
@@ -897,7 +897,7 @@ function hediyeBulAltMetinGuncelle() {
 
 function kategoriAdi(k) {
   var adlar = {
-    spor:'Spor', muzik:'Müzik', kitap:'Kitap', kahve:'Kahve & Çay',
+    spor:'Spor', muzik:'Müzik', kitap:'Okumak / Yazmak', kahve:'Kahve & Çay',
     teknoloji:'Teknoloji', yemek:'Yemek', seyahat:'Seyahat',
     sanat:'Sanat', oyun:'Oyun', foto:'Fotoğraf', bitki:'Bitki & Doğa', makyaj:'Makyaj'
   };
