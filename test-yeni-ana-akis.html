@@ -130,7 +130,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .pill-btn.butce-pill.secildi { background:#e8a838;border-color:#e8a838;color:#1e293b; }
 
 /* POPUP */
-.popup-overlay { display:none;position:fixed;inset:0;background:rgba(15,23,42,0.8);backdrop-filter:blur(4px);z-index:600;align-items:flex-end;justify-content:center; }
+.popup-overlay { display:none;position:fixed;inset:0;background:rgba(15,23,42,0.8);backdrop-filter:blur(4px);z-index:700;align-items:flex-end;justify-content:center; }
 .popup-overlay.acik { display:flex; }
 .popup-kutu { background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:28px 20px 44px;animation:slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1); }
 .popup-baslik { font-size:20px;font-weight:900;color:#1e293b;margin-bottom:6px;line-height:1.3; }
@@ -530,6 +530,54 @@ function turSayaciGuncelle() {
   }
 }
 
+function pillPopupSec(kategori) {
+  // Popup'ı kapat
+  document.getElementById('tur-popup').classList.remove('acik');
+
+  // Bütçe mi?
+  if (kategori === 'butce') {
+    // Modal aç - bütçe seçenekleri
+    document.getElementById('modal-baslik').textContent = 'Bütçeni güncelle';
+    document.getElementById('modal-alt').textContent = '💰 Yeni bütçe seç';
+    var el = document.getElementById('modal-secenekler');
+    el.innerHTML='';
+    var seçenekler = ['0-500 TL','0-1000 TL','0-2000 TL','0-3000 TL','0-5000 TL','5001-10000 TL'];
+    var gorunum = {'0-500 TL':'0–500 TL','0-1000 TL':'0–1.000 TL','0-2000 TL':'0–2.000 TL','0-3000 TL':'0–3.000 TL','0-5000 TL':'0–5.000 TL','5001-10000 TL':'5.000+ TL'};
+    seçenekler.forEach(function(s){
+      var b = document.createElement('button');
+      b.className='sec-btn';
+      b.innerHTML='<div class="sec-check"></div> '+gorunum[s];
+      var anaBtn = document.querySelector('.pill-btn[data-kategori="butce"]');
+      b.onclick=function(){ pillCevapSec('butce', s, anaBtn||b); };
+      el.appendChild(b);
+    });
+    document.getElementById('modal').classList.add('acik');
+    return;
+  }
+
+  // Normal kategori - modal aç
+  var anaBtn = document.querySelector('.pill-btn[data-kategori="'+kategori+'"]');
+  if (anaBtn) {
+    pillAc(kategori, anaBtn);
+  } else {
+    // Ana pill grid'de buton yoksa direkt modal aç
+    var data = PILL_SORULAR[kategori];
+    document.getElementById('modal-baslik').textContent = data.soru;
+    document.getElementById('modal-alt').textContent = PILL_IKONLAR[kategori]+' '+PILL_KATEGORI_ADI[kategori];
+    var el = document.getElementById('modal-secenekler');
+    el.innerHTML='';
+    data.secenekler.forEach(function(s){
+      var b = document.createElement('button');
+      b.className='sec-btn';
+      b.innerHTML='<div class="sec-check"></div> '+s;
+      b.onclick=function(){ pillCevapSec(kategori, s, b); };
+      el.appendChild(b);
+    });
+    document.getElementById('modal').classList.add('acik');
+    aktifPill=kategori;
+  }
+}
+
 function turSayaciSifirla() {
   turSayaci = 0;
   turSayaciGuncelle();
@@ -545,9 +593,7 @@ function popupAc() {
     btn.className = 'pill-btn'+(k==='butce'?' butce-pill':'');
     btn.innerHTML = '<span class="pill-emoji">'+PILL_IKONLAR[k]+'</span><span>'+PILL_KATEGORI_ADI[k]+'</span>';
     btn.onclick = function(){
-      // Ana pill grid'deki ilgili butonu bul
-      var anaBtn = document.querySelector('.pill-btn[data-kategori="'+k+'"]');
-      pillAc(k, anaBtn||btn);
+      pillPopupSec(k);
     };
     grid.appendChild(btn);
   });
