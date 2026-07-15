@@ -230,6 +230,28 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   </div>
 </div>
 
+<!-- SORU 6: BURÇ -->
+<div class="soru-kart" id="soru-burc">
+  <div class="soru-no-badge">6. Soru</div>
+  <div class="soru-baslik">Burcunu biliyor musun?</div>
+  <div class="soru-alt">👇 Bir seçenek seç</div>
+  <div class="secenekler" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <button class="sec-btn" onclick="secimYap('burc','♈ Koç','♈',this)"><div class="sec-check"></div> ♈ Koç</button>
+    <button class="sec-btn" onclick="secimYap('burc','♉ Boğa','♉',this)"><div class="sec-check"></div> ♉ Boğa</button>
+    <button class="sec-btn" onclick="secimYap('burc','♊ İkizler','♊',this)"><div class="sec-check"></div> ♊ İkizler</button>
+    <button class="sec-btn" onclick="secimYap('burc','♋ Yengeç','♋',this)"><div class="sec-check"></div> ♋ Yengeç</button>
+    <button class="sec-btn" onclick="secimYap('burc','♌ Aslan','♌',this)"><div class="sec-check"></div> ♌ Aslan</button>
+    <button class="sec-btn" onclick="secimYap('burc','♍ Başak','♍',this)"><div class="sec-check"></div> ♍ Başak</button>
+    <button class="sec-btn" onclick="secimYap('burc','♎ Terazi','♎',this)"><div class="sec-check"></div> ♎ Terazi</button>
+    <button class="sec-btn" onclick="secimYap('burc','♏ Akrep','♏',this)"><div class="sec-check"></div> ♏ Akrep</button>
+    <button class="sec-btn" onclick="secimYap('burc','♐ Yay','♐',this)"><div class="sec-check"></div> ♐ Yay</button>
+    <button class="sec-btn" onclick="secimYap('burc','♑ Oğlak','♑',this)"><div class="sec-check"></div> ♑ Oğlak</button>
+    <button class="sec-btn" onclick="secimYap('burc','♒ Kova','♒',this)"><div class="sec-check"></div> ♒ Kova</button>
+    <button class="sec-btn" onclick="secimYap('burc','♓ Balık','♓',this)"><div class="sec-check"></div> ♓ Balık</button>
+    <button class="sec-btn" style="grid-column:1/-1;" onclick="secimYap('burc','Bilmiyorum','🤷',this)"><div class="sec-check"></div> 🤷 Bilmiyorum</button>
+  </div>
+</div>
+
 <!-- PİLL -->
 <div class="pill-bolum" id="pill-bolum">
   <div class="pill-baslik">Opsiyonel</div>
@@ -283,11 +305,25 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <script>
 var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
+var BURC_OZELLIK = {
+  'Koç':'enerjik, cesur, lider ruhlu, maceraperest; spor, macera, liderlik, yenilik temalı hediyeler',
+  'Boğa':'konfor sever, estetik, lüks, doğayla bağlantılı; ev konforu, gurme, sanat, kaliteli el işi',
+  'İkizler':'meraklı, sosyal, çok yönlü; kitap, oyun, teknoloji, eğlenceli gadget, kurslar',
+  'Yengeç':'duygusal, ev sever, nostaljik; ev dekor, anlamlı anı, fotoğraf, sıcak & rahatlatıcı',
+  'Aslan':'gösteriş sever, yaratıcı, lider; premium, göz alıcı, kişisel marka',
+  'Başak':'düzenli, analitik, pratik; organizasyon, sağlık, verimlilik, kaliteli & işlevsel',
+  'Terazi':'estetik, denge arayan, güzellik sever; sanat, tasarım, güzellik, sosyal deneyim',
+  'Akrep':'yoğun, gizemli, tutkulu; mistik, kişisel gelişim, güç, gizem temalı',
+  'Yay':'özgür ruhlu, seyahat sever, iyimser; seyahat, açık hava, felsefi, eğitim',
+  'Oğlak':'hırslı, disiplinli, kariyer odaklı; profesyonel, prestijli, uzun ömürlü kaliteli ürünler',
+  'Kova':'yenilikçi, özgün, teknoloji sever; teknoloji, sürdürülebilir, yaratıcı, sosyal proje',
+  'Balık':'hayalci, sanatçı ruhlu, empatik; sanat, müzik, meditasyon, yaratıcı & romantik'
+};
 var cevaplar = {};
 var aktifPill = null;
 
-var SORU_SIRASI = ['kime','cinsiyet','yas','butce','amac'];
-var SORU_ETIKETLER = {kime:'Kime',cinsiyet:'Cinsiyet',yas:'Yaş',butce:'Bütçe',amac:'Amaç'};
+var SORU_SIRASI = ['kime','cinsiyet','yas','butce','amac','burc'];
+var SORU_ETIKETLER = {kime:'Kime',cinsiyet:'Cinsiyet',yas:'Yaş',butce:'Bütçe',amac:'Amaç',burc:'Burç'};
 
 var PILL_SORULAR = {
   spor:      { soru:'Spor alışkanlığı?', secenekler:['Spor yapar','Sporu sever ama ara sıra yapar','Seyirci olarak takip eder'] },
@@ -312,7 +348,8 @@ var SORU_ICERIK = {
   cinsiyet:{baslik:'Cinsiyeti nedir?',secenekler:[['Kadın','👩'],['Erkek','👨'],['Belirtmek istemiyorum','🤍']]},
   yas:{baslik:'Yaş aralığı nedir?',secenekler:[['13–17','🧒'],['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']]},
   butce:{baslik:'Bütçen ne kadar?',secenekler:[['0-500 TL','💛'],['0-1000 TL','💚'],['0-2000 TL','💙'],['0-3000 TL','💜'],['0-5000 TL','🖤'],['5001-10000 TL','💎']]},
-  amac:{baslik:'Hediyeyi ne için alıyorsun?',secenekler:[['Doğum Günü','🎂'],['Yıl Dönümü','💐'],['Sevgililer Günü','❤️'],['Özel Bir Başarı','🏆'],['Sadece Sürpriz','🎁'],['Yılbaşı / Bayram','🎊']]}
+  amac:{baslik:'Hediyeyi ne için alıyorsun?',secenekler:[['Doğum Günü','🎂'],['Yıl Dönümü','💐'],['Sevgililer Günü','❤️'],['Özel Bir Başarı','🏆'],['Sadece Sürpriz','🎁'],['Yılbaşı / Bayram','🎊']]},
+  burc:{baslik:'Burcunu biliyor musun?',secenekler:[['♈ Koç','♈'],['♉ Boğa','♉'],['♊ İkizler','♊'],['♋ Yengeç','♋'],['♌ Aslan','♌'],['♍ Başak','♍'],['♎ Terazi','♎'],['♏ Akrep','♏'],['♐ Yay','♐'],['♑ Oğlak','♑'],['♒ Kova','♒'],['♓ Balık','♓'],['Bilmiyorum','🤷']]}
 };
 
 // ── SORU AKIŞI ──
@@ -372,8 +409,8 @@ function soruGeriAl(soruId) {
 
 function progressGuncelle() {
   var dolu = SORU_SIRASI.filter(function(id){return cevaplar[id];}).length;
-  document.getElementById('progress-fill').style.width = Math.min((dolu/5)*100,100)+'%';
-  document.getElementById('progress-text').textContent = dolu+' / 5';
+  document.getElementById('progress-fill').style.width = Math.min((dolu/6)*100,100)+'%';
+  document.getElementById('progress-text').textContent = dolu+' / 6';
 }
 
 function ozetSeritGuncelle() {
@@ -458,22 +495,32 @@ function buildPrompt() {
     'Amaç: '+(cevaplar.amac||'')
   ].filter(function(s){return s.split(': ')[1];}).join('\n');
 
-  var hediyeAlanlari = 'Her hediye için: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL"), star, searchQuery (Türkçe 2-3 kelime jenerik ürün, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (trendyol/hepsiburada/amazon/ciceksepeti/n11 array).\nSafe choice yapma, yaratıcı ol. Sadece JSON array döndür.';
+  // Burç mantığı
+  var secilenBurc = (cevaplar.burc && cevaplar.burc !== 'Bilmiyorum') ? cevaplar.burc : '';
+  var burcIsim = '';
+  if (secilenBurc) { var _parts = secilenBurc.split(' '); burcIsim = _parts.length>1 ? _parts.slice(1).join(' ') : _parts[0]; }
+  var burcOzellik = burcIsim && BURC_OZELLIK[burcIsim] ? BURC_OZELLIK[burcIsim] : '';
+  var burcEk = burcIsim ? 'Kişinin burcu: '+secilenBurc+'. Burç özellikleri: '+burcOzellik+'. Burca uygun 1 özgün hediye ekle (star:false, isBurc:true). Bu hediyenin name alanına başında "'+( secilenBurc.split(' ')[0]||'⭐')+' " sembolünü ekle.' : '';
+  var toplamHediye = burcIsim ? 10 : 9;
+
+  var hediyeAlanlari = 'Her hediye için: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (trendyol/hepsiburada/amazon/ciceksepeti/n11 array).\nSafe choice yapma, yaratıcı ol. Sadece JSON array döndür.';
 
   if (cevaplar.pill && cevaplar.pill_kategori && cevaplar.pill_cevap) {
     var pillAdi = PILL_KATEGORI_ADI[cevaplar.pill_kategori]||cevaplar.pill_kategori;
     return 'KİŞİ PROFİLİ:\n'+sabitText+'\n\n'+butceKural+'\n\n'+
-      'GÖREV: Tam olarak 9 hediye öner. Her hediye FARKLI kategoriden.\n\n'+
+      'GÖREV: Tam olarak '+toplamHediye+' hediye öner. Her hediye FARKLI kategoriden.\n\n'+
       'İLK 4 HEDİYE — NOKTA ATIŞI (star:true):\n'+
       'Kategori: '+pillAdi+' / '+cevaplar.pill_cevap+'\n'+
       'Bu 4 hediyenin TAMAMI kesinlikle '+pillAdi+' kategorisinden olsun. Birbirinden tamamen farklı 4 hediye öner.\n\n'+
-      'KALAN 5 HEDİYE — KİŞİYE ÖZEL (star:false):\n'+
+      'KALAN '+(toplamHediye-4-(burcIsim?1:0))+' HEDİYE — KİŞİYE ÖZEL (star:false):\n'+
       'Profil bilgilerine dayanarak farklı kategorilerden öner. '+pillAdi+' kategorisini tekrar kullanma.\n\n'+
+      (burcIsim ? 'SON HEDİYE — BURÇ (star:false, isBurc:true):\n'+burcEk+'\nÖncekilerden FARKLI.\n\n' : '')+
       hediyeAlanlari;
   }
 
   return 'KİŞİ PROFİLİ:\n'+sabitText+'\n\n'+butceKural+'\n\n'+
-    'GÖREV: Tam olarak 9 hediye öner. Her hediye FARKLI kategoriden. Tüm hediyeler star:false.\n\n'+
+    'GÖREV: Tam olarak '+toplamHediye+' hediye öner. Her hediye FARKLI kategoriden. Tüm hediyeler star:false.\n\n'+
+    (burcIsim ? 'SON HEDİYE — BURÇ (star:false, isBurc:true):\n'+burcEk+'\nÖncekilerden FARKLI.\n\n' : '')+
     hediyeAlanlari;
 }
 
@@ -510,8 +557,14 @@ function buildLinks(name, mevcutPlatformlar) {
 // ── KART ──
 function kartOlustur(g, idx) {
   var isNokta = g.star && !g.isBurc;
+  var isBurc = g.isBurc;
   var html = '<div class="gift-card'+(isNokta?' star':'')+'" id="kart-'+idx+'">';
   if (isNokta) html += '<div class="star-badge">🎯 Nokta Atışı</div>';
+  if (isBurc) {
+    var _burcSembol = cevaplar.burc ? cevaplar.burc.split(' ')[0] : '⭐';
+    var _burcIsim = cevaplar.burc ? cevaplar.burc.split(' ').slice(1).join(' ') : 'Burç';
+    html += '<div class="star-badge" style="background:#6366f1;">'+_burcSembol+' '+_burcIsim+' Burcu Hediyesi</div>';
+  }
   html += '<div class="img-wrap"><div class="img-spinner" id="spin-'+idx+'"></div><img id="img-'+idx+'" src="" alt="'+g.name+'"></div>';
   html += '<div class="kart-icerik">';
   html += '<div class="gift-name">'+g.emoji+' '+g.name+'</div>';
