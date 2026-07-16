@@ -57,18 +57,25 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .cevap-degistir { font-size:11px;color:#6366f1;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:6px;border:1px solid #e0e7ff;background:#f0f0ff;-webkit-tap-highlight-color:transparent; }
 
 /* PİLL BÖLÜMÜ */
-.pill-bolum { display:none;background:#fff;padding:24px 20px;border-bottom:2px dashed #e2e8f0; }
+.pill-bolum { display:none;background:#fff;padding:24px 20px 20px;border-bottom:2px dashed #e2e8f0; }
 .pill-bolum.gorune { display:block; }
-.pill-baslik { font-size:13px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px; }
-.pill-aciklama { font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px; }
+.pill-baslik { font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#e8a838;background:#fef3c7;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:10px; }
+.pill-aciklama { font-size:18px;font-weight:800;color:#1e293b;margin-bottom:4px;line-height:1.3; }
 .pill-alt { font-size:12px;color:#94a3b8;margin-bottom:16px; }
-.pill-grid { display:flex;flex-wrap:wrap;gap:8px; }
-.pill-btn { display:flex;align-items:center;gap:6px;padding:10px 14px;border-radius:24px;border:2px solid #e2e8f0;background:#f8fafc;font-size:13px;font-weight:600;color:#475569;cursor:pointer;transition:all 0.15s ease;-webkit-tap-highlight-color:transparent; }
-.pill-btn:active { transform:scale(0.96); }
-.pill-btn.secildi { background:#e8a838;border-color:#e8a838;color:#1e293b;font-weight:800;box-shadow:0 2px 8px rgba(232,168,56,0.35); }
-.pill-emoji { font-size:16px; }
-.pill-cevap { font-size:10px;font-weight:700;color:#1e293b;opacity:0.7;display:none; }
-.pill-btn.secildi .pill-cevap { display:inline; }
+.pill-grid { display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px; }
+.pill-grid .butce-pill-wrap { grid-column:1/-1; }
+.pill-btn { display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 8px;border-radius:12px;border:2px solid #e2e8f0;border-bottom:4px solid #cbd5e1;background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%);font-size:12px;font-weight:600;color:#1e293b;cursor:pointer;transition:all 0.15s ease;-webkit-tap-highlight-color:transparent;text-align:center;min-height:70px; }
+.pill-btn:active { transform:translateY(2px); }
+.pill-btn.secildi { background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%);border-color:#10b981;border-bottom-color:#059669;color:#065f46;font-weight:700; }
+.pill-btn.butce-pill { border-color:#3b82f6;background:linear-gradient(180deg,#eff6ff 0%,#dbeafe 100%);border-bottom-color:#2563eb; }
+.pill-btn.butce-pill.secildi { background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%);border-color:#10b981;border-bottom-color:#059669; }
+.pill-emoji { font-size:22px; }
+.pill-label { font-size:11px;font-weight:700;line-height:1.2; }
+.pill-cevap { font-size:9px;font-weight:700;color:#065f46;display:none;margin-top:2px; }
+.pill-btn.secildi .pill-cevap { display:block; }
+.bilmiyorum-btn { grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:12px;border:2px dashed #e2e8f0;background:#f8fafc;font-size:13px;font-weight:600;color:#94a3b8;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s ease; }
+.bilmiyorum-btn:active { transform:scale(0.98); }
+.bilmiyorum-btn.secildi { border-color:#94a3b8;background:#f1f5f9;color:#64748b; }
 
 /* HEDİYE BUL BUTONU */
 .hediye-bul-wrap { display:none;background:#fff;padding:20px; }
@@ -273,11 +280,10 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- PİLL -->
 <div class="pill-bolum" id="pill-bolum">
-  <div class="pill-baslik">Opsiyonel</div>
-  <div class="pill-aciklama">Spesifik bir kategori ekle</div>
+  <div class="pill-baslik">Kişiye Özel Sorular</div>
+  <div class="pill-aciklama">Daha isabetli hediye bulmak için bir kategori seç</div>
   <div class="pill-alt">Seçersen ilk 4 hediye o kategoriye özel 🎯 nokta atışı olur</div>
   <div class="pill-grid" id="pill-grid">
-    <button class="pill-btn butce-pill" data-kategori="butce" onclick="pillAc('butce',this)"><span class="pill-emoji">💰</span><span class="pill-label">Bütçeyi Değiştir</span><span class="pill-cevap" id="pill-cevap-butce"></span></button>
     <button class="pill-btn" data-kategori="spor" onclick="pillAc('spor',this)"><span class="pill-emoji">🏃</span><span class="pill-label">Spor</span><span class="pill-cevap" id="pill-cevap-spor"></span></button>
     <button class="pill-btn" data-kategori="muzik" onclick="pillAc('muzik',this)"><span class="pill-emoji">🎵</span><span class="pill-label">Müzik</span><span class="pill-cevap" id="pill-cevap-muzik"></span></button>
     <button class="pill-btn" data-kategori="kitap" onclick="pillAc('kitap',this)"><span class="pill-emoji">📚</span><span class="pill-label">Okumak / Yazmak</span><span class="pill-cevap" id="pill-cevap-kitap"></span></button>
@@ -290,6 +296,8 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
     <button class="pill-btn" data-kategori="foto" onclick="pillAc('foto',this)"><span class="pill-emoji">📷</span><span class="pill-label">Fotoğraf</span><span class="pill-cevap" id="pill-cevap-foto"></span></button>
     <button class="pill-btn" data-kategori="bitki" onclick="pillAc('bitki',this)"><span class="pill-emoji">🌱</span><span class="pill-label">Bitki & Doğa</span><span class="pill-cevap" id="pill-cevap-bitki"></span></button>
     <button class="pill-btn" data-kategori="makyaj" onclick="pillAc('makyaj',this)"><span class="pill-emoji">💄</span><span class="pill-label">Makyaj</span><span class="pill-cevap" id="pill-cevap-makyaj"></span></button>
+    <button class="pill-btn butce-pill" data-kategori="butce" onclick="pillAc('butce',this)"><span class="pill-emoji">💰</span><span class="pill-label">Bütçeyi Değiştir</span><span class="pill-cevap" id="pill-cevap-butce"></span></button>
+    <button class="bilmiyorum-btn" id="bilmiyorum-btn" onclick="pillBilmiyorum()">🤷 Bilmiyorum / İstemiyorum</button>
   </div>
 </div>
 
@@ -484,6 +492,21 @@ function pillGoster() {
 }
 
 // ── PİLL ──
+function pillBilmiyorum() {
+  // Tüm pill seçimlerini temizle
+  document.querySelectorAll('.pill-btn').forEach(function(b){b.classList.remove('secildi');});
+  document.querySelectorAll('[id^="pill-cevap-"]').forEach(function(el){el.textContent='';});
+  var bilmEl = document.getElementById('bilmiyorum-btn');
+  if (bilmEl) bilmEl.classList.remove('secildi');
+  document.getElementById('bilmiyorum-btn').classList.add('secildi');
+  aktifPill = null;
+  delete cevaplar.pill;
+  delete cevaplar.pill_kategori;
+  delete cevaplar.pill_cevap;
+  turSayaciSifirla();
+  hediyeBulAltMetinGuncelle();
+}
+
 function pillAc(kategori, btn) {
   if (aktifPill===kategori && btn.classList.contains('secildi')) {
     btn.classList.remove('secildi');
