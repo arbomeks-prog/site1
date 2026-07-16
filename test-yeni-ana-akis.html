@@ -281,23 +281,26 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 <!-- PİLL -->
 <div class="pill-bolum" id="pill-bolum">
   <div class="pill-baslik">Kişiye Özel Sorular</div>
-  <div class="pill-aciklama">Daha isabetli hediye bulmak için bir kategori seç</div>
+  <div class="pill-aciklama">Bir kategori seç</div>
   <div class="pill-alt">Seçersen ilk 4 hediye o kategoriye özel 🎯 nokta atışı olur</div>
+  <button class="bilmiyorum-btn" id="bilmiyorum-btn" onclick="pillBilmiyorum()" style="width:100%;margin-bottom:12px;padding:16px 20px;font-size:15px;font-weight:800;border-radius:12px;border:2px dashed #cbd5e1;border-bottom:4px solid #cbd5e1;background:#f8fafc;display:flex;align-items:center;gap:12px;cursor:pointer;-webkit-tap-highlight-color:transparent;">
+    <div id="bilmiyorum-check" style="width:22px;height:22px;border:2px solid #cbd5e1;border-radius:4px;background:white;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;"></div>
+    <span style="color:#475569;font-size:15px;font-weight:800;">🤷 Bilmiyorum / İstemiyorum</span>
+  </button>
   <div class="pill-grid" id="pill-grid">
-    <button class="pill-btn" data-kategori="spor" onclick="pillAc('spor',this)"><span class="pill-emoji">🏃</span><span class="pill-label">Spor</span><span class="pill-cevap" id="pill-cevap-spor"></span></button>
-    <button class="pill-btn" data-kategori="muzik" onclick="pillAc('muzik',this)"><span class="pill-emoji">🎵</span><span class="pill-label">Müzik</span><span class="pill-cevap" id="pill-cevap-muzik"></span></button>
-    <button class="pill-btn" data-kategori="kitap" onclick="pillAc('kitap',this)"><span class="pill-emoji">📚</span><span class="pill-label">Okumak / Yazmak</span><span class="pill-cevap" id="pill-cevap-kitap"></span></button>
-    <button class="pill-btn" data-kategori="kahve" onclick="pillAc('kahve',this)"><span class="pill-emoji">☕</span><span class="pill-label">Kahve & Çay</span><span class="pill-cevap" id="pill-cevap-kahve"></span></button>
-    <button class="pill-btn" data-kategori="teknoloji" onclick="pillAc('teknoloji',this)"><span class="pill-emoji">💻</span><span class="pill-label">Teknoloji</span><span class="pill-cevap" id="pill-cevap-teknoloji"></span></button>
-    <button class="pill-btn" data-kategori="yemek" onclick="pillAc('yemek',this)"><span class="pill-emoji">🍳</span><span class="pill-label">Yemek</span><span class="pill-cevap" id="pill-cevap-yemek"></span></button>
-    <button class="pill-btn" data-kategori="seyahat" onclick="pillAc('seyahat',this)"><span class="pill-emoji">✈️</span><span class="pill-label">Seyahat</span><span class="pill-cevap" id="pill-cevap-seyahat"></span></button>
-    <button class="pill-btn" data-kategori="sanat" onclick="pillAc('sanat',this)"><span class="pill-emoji">🎨</span><span class="pill-label">Sanat</span><span class="pill-cevap" id="pill-cevap-sanat"></span></button>
-    <button class="pill-btn" data-kategori="oyun" onclick="pillAc('oyun',this)"><span class="pill-emoji">🎮</span><span class="pill-label">Oyun</span><span class="pill-cevap" id="pill-cevap-oyun"></span></button>
-    <button class="pill-btn" data-kategori="foto" onclick="pillAc('foto',this)"><span class="pill-emoji">📷</span><span class="pill-label">Fotoğraf</span><span class="pill-cevap" id="pill-cevap-foto"></span></button>
-    <button class="pill-btn" data-kategori="bitki" onclick="pillAc('bitki',this)"><span class="pill-emoji">🌱</span><span class="pill-label">Bitki & Doğa</span><span class="pill-cevap" id="pill-cevap-bitki"></span></button>
-    <button class="pill-btn" data-kategori="makyaj" onclick="pillAc('makyaj',this)"><span class="pill-emoji">💄</span><span class="pill-label">Makyaj</span><span class="pill-cevap" id="pill-cevap-makyaj"></span></button>
+    <button class="pill-btn" data-kategori="spor" onclick="pillAc('spor',this)"><div id="pill-check-spor" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">🏃</span><span class="pill-label">Spor</span><span class="pill-cevap" id="pill-cevap-spor"></span></button>
+    <button class="pill-btn" data-kategori="muzik" onclick="pillAc('muzik',this)"><div id="pill-check-muzik" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">🎵</span><span class="pill-label">Müzik</span><span class="pill-cevap" id="pill-cevap-muzik"></span></button>
+    <button class="pill-btn" data-kategori="kitap" onclick="pillAc('kitap',this)"><div id="pill-check-kitap" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">📚</span><span class="pill-label">Okumak / Yazmak</span><span class="pill-cevap" id="pill-cevap-kitap"></span></button>
+    <button class="pill-btn" data-kategori="kahve" onclick="pillAc('kahve',this)"><div id="pill-check-kahve" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">☕</span><span class="pill-label">Kahve & Çay</span><span class="pill-cevap" id="pill-cevap-kahve"></span></button>
+    <button class="pill-btn" data-kategori="teknoloji" onclick="pillAc('teknoloji',this)"><div id="pill-check-teknoloji" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">💻</span><span class="pill-label">Teknoloji</span><span class="pill-cevap" id="pill-cevap-teknoloji"></span></button>
+    <button class="pill-btn" data-kategori="yemek" onclick="pillAc('yemek',this)"><div id="pill-check-yemek" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">🍳</span><span class="pill-label">Yemek</span><span class="pill-cevap" id="pill-cevap-yemek"></span></button>
+    <button class="pill-btn" data-kategori="seyahat" onclick="pillAc('seyahat',this)"><div id="pill-check-seyahat" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">✈️</span><span class="pill-label">Seyahat</span><span class="pill-cevap" id="pill-cevap-seyahat"></span></button>
+    <button class="pill-btn" data-kategori="sanat" onclick="pillAc('sanat',this)"><div id="pill-check-sanat" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">🎨</span><span class="pill-label">Sanat</span><span class="pill-cevap" id="pill-cevap-sanat"></span></button>
+    <button class="pill-btn" data-kategori="oyun" onclick="pillAc('oyun',this)"><div id="pill-check-oyun" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">🎮</span><span class="pill-label">Oyun</span><span class="pill-cevap" id="pill-cevap-oyun"></span></button>
+    <button class="pill-btn" data-kategori="foto" onclick="pillAc('foto',this)"><div id="pill-check-foto" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">📷</span><span class="pill-label">Fotoğraf</span><span class="pill-cevap" id="pill-cevap-foto"></span></button>
+    <button class="pill-btn" data-kategori="bitki" onclick="pillAc('bitki',this)"><div id="pill-check-bitki" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">🌱</span><span class="pill-label">Bitki & Doğa</span><span class="pill-cevap" id="pill-cevap-bitki"></span></button>
+    <button class="pill-btn" data-kategori="makyaj" onclick="pillAc('makyaj',this)"><div id="pill-check-makyaj" style="position:absolute;top:5px;left:5px;width:16px;height:16px;border:2px solid #cbd5e1;border-radius:3px;background:white;display:flex;align-items:center;justify-content:center;font-size:9px;"></div><span class="pill-emoji">💄</span><span class="pill-label">Makyaj</span><span class="pill-cevap" id="pill-cevap-makyaj"></span></button>
     <button class="pill-btn butce-pill" data-kategori="butce" onclick="pillAc('butce',this)"><span class="pill-emoji">💰</span><span class="pill-label">Bütçeyi Değiştir</span><span class="pill-cevap" id="pill-cevap-butce"></span></button>
-    <button class="bilmiyorum-btn" id="bilmiyorum-btn" onclick="pillBilmiyorum()">🤷 Bilmiyorum / İstemiyorum</button>
   </div>
 </div>
 
@@ -497,8 +500,16 @@ function pillBilmiyorum() {
   document.querySelectorAll('.pill-btn').forEach(function(b){b.classList.remove('secildi');});
   document.querySelectorAll('[id^="pill-cevap-"]').forEach(function(el){el.textContent='';});
   var bilmEl = document.getElementById('bilmiyorum-btn');
-  if (bilmEl) bilmEl.classList.remove('secildi');
+  if (bilmEl) { bilmEl.classList.remove('secildi'); bilmEl.style.borderColor='#cbd5e1'; var bc=document.getElementById('bilmiyorum-check'); if(bc){bc.textContent='';bc.style.background='white';bc.style.borderColor='#cbd5e1';} }
+  // Tüm checkbox'ları temizle, seçileni işaretle
+  document.querySelectorAll('[id^="pill-check-"]').forEach(function(el){el.textContent='';el.style.background='white';el.style.borderColor='#cbd5e1';});
+  var chk = document.getElementById('pill-check-'+kategori);
+  if (chk) { chk.textContent='✔'; chk.style.background='#10b981'; chk.style.borderColor='#10b981'; chk.style.color='white'; }
   document.getElementById('bilmiyorum-btn').classList.add('secildi');
+  document.querySelectorAll('[id^="pill-check-"]').forEach(function(el){el.textContent='';el.style.background='white';el.style.borderColor='#cbd5e1';});
+  document.getElementById('bilmiyorum-btn').style.borderColor='#10b981';
+  var bchk = document.getElementById('bilmiyorum-check');
+  if (bchk) { bchk.textContent='✔'; bchk.style.background='#10b981'; bchk.style.borderColor='#10b981'; bchk.style.color='white'; }
   aktifPill = null;
   delete cevaplar.pill;
   delete cevaplar.pill_kategori;
