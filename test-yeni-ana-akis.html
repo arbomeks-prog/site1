@@ -123,6 +123,11 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .plt-n11 { background:#6f2da8;color:white; }
 
 /* YENİDEN BAŞLA */
+@keyframes pulseYeni {
+  0% { background:linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%); box-shadow:0 4px 20px rgba(30,64,175,0.5); }
+  50% { background:linear-gradient(135deg,#7c3aed 0%,#5b21b6 100%); box-shadow:0 6px 28px rgba(124,58,237,0.5); }
+  100% { background:linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%); box-shadow:0 4px 20px rgba(30,64,175,0.5); }
+}
 @keyframes pulseBtn {
   0%, 100% { background:#1e40af; box-shadow:0 4px 20px rgba(30,64,175,0.4); transform:scale(1); }
   50% { background:#2563eb; box-shadow:0 6px 28px rgba(37,99,235,0.6); transform:scale(1.02); }
@@ -891,6 +896,7 @@ async function hediyeBul() {
   turSayaciGuncelle();
 
   var btn = document.getElementById('hediye-bul-btn');
+  btn.style.animation = 'none';
   btn.textContent='⏳ Hazırlanıyor...';
   btn.disabled=true;
 
@@ -941,6 +947,12 @@ async function hediyeBul() {
     });
 
     document.getElementById('yeniden-btn').style.display='block';
+    // Hediye Bul butonunu "Yeni Hediyeler Bul" yap ve yanıp söndür
+    var hbBtn = document.getElementById('hediye-bul-btn');
+    if (hbBtn && turSayaci >= 1) {
+      hbBtn.innerHTML = '🎁 Yeni Hediyeler Bul <span style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:10px;font-size:12px;margin-left:6px;">'+(turSayaci+1)+'. Tur</span>';
+      hbBtn.style.animation = 'pulseYeni 2.5s ease-in-out infinite';
+    }
     grid.scrollIntoView({behavior:'smooth',block:'start'});
 
   } catch(err) {
@@ -949,6 +961,7 @@ async function hediyeBul() {
 
   btn.innerHTML='🎁 Hediye Bul';
   btn.disabled=false;
+  btn.style.animation='none';
 }
 
 function yenidenBasla() {
