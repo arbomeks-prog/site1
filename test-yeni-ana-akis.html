@@ -959,9 +959,12 @@ async function hediyeBul() {
     document.getElementById('yukleme-wrap').innerHTML='<div style="color:#ef4444;font-weight:700;text-align:center;padding:20px;">❌ Bir hata oluştu: '+err.message+'</div>';
   }
 
-  btn.innerHTML='🎁 Hediye Bul';
+  // Hata durumunda veya tur sayacı sıfırsa normal haline dön
+  if (turSayaci <= 1) {
+    btn.innerHTML='🎁 Hediye Bul';
+    btn.style.animation='none';
+  }
   btn.disabled=false;
-  btn.style.animation='none';
 }
 
 function yenidenBasla() {
