@@ -304,7 +304,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- HEDİYE BUL -->
 <div class="hediye-bul-wrap" id="hediye-bul-wrap">
-  <button class="hediye-bul-btn" onclick="hediyeBul()" id="hediye-bul-btn" disabled style="background:linear-gradient(135deg,#94a3b8 0%,#64748b 100%);box-shadow:none;cursor:not-allowed;opacity:0.7;">👆 Önce bir kategori seç</button>
+  <button class="hediye-bul-btn" onclick="hediyeBul()" id="hediye-bul-btn" disabled style="background:linear-gradient(135deg,#94a3b8 0%,#64748b 100%);box-shadow:none;cursor:not-allowed;opacity:0.7;">👆 Önce Seç</button>
   <div class="hediye-bul-alt" id="hediye-bul-alt">9 kişiye özel hediye önerisi</div>
   <div class="tur-sayac" id="tur-sayac" style="display:none;">
     <div class="tur-kutu aktif" id="tur-1">1</div>
@@ -709,7 +709,7 @@ function hediyeBulButonGuncelle() {
   } else {
     btn.disabled=true; btn.style.background='linear-gradient(135deg,#94a3b8 0%,#64748b 100%)';
     btn.style.boxShadow='none'; btn.style.cursor='not-allowed'; btn.style.opacity='0.7';
-    btn.innerHTML='👆 Önce bir kategori seç';
+    btn.innerHTML='👆 Önce Seç';
   }
 }
 
