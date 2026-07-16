@@ -394,6 +394,7 @@ var cevaplar = {};
 var aktifPill = null;
 var turSayaci = 0;
 var oncekiHediyeler = [];
+var turTamamlandi = false;
 
 var SORU_SIRASI = ['kime','cinsiyet','yas','butce','amac','burc'];
 var SORU_ETIKETLER = {kime:'Kime',cinsiyet:'Cinsiyet',yas:'Yaş',butce:'Bütçe',amac:'Amaç',burc:'Burç'};
@@ -721,8 +722,8 @@ function hediyeBulButonGuncelle() {
   var pillSecildi = cevaplar.pill && cevaplar.pill_kategori;
   if (pillSecildi || bilmiyorumSecildi) {
     btn.disabled=false; btn.style.cursor='pointer'; btn.style.opacity='1';
-    // Animasyon çalışıyorsa (tur sonrası) dokunma, yoksa normal hale getir
-    if (!btn.style.animation || btn.style.animation === 'none') {
+    // Tur tamamlandıysa animasyona dokunma
+    if (!turTamamlandi) {
       btn.style.background='linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%)';
       btn.style.boxShadow='0 4px 20px rgba(30,64,175,0.4)';
       btn.innerHTML='🎁 Hediye Bul';
@@ -900,6 +901,7 @@ async function hediyeBul() {
   turSayaciGuncelle();
 
   var btn = document.getElementById('hediye-bul-btn');
+  turTamamlandi = false;
   btn.style.animation = 'none';
   btn.textContent='⏳ Hazırlanıyor...';
   btn.disabled=true;
@@ -953,6 +955,7 @@ async function hediyeBul() {
     document.getElementById('yeniden-btn').style.display='block';
     // Hediye Bul butonunu "Yeni Hediyeler Bul" yap ve yanıp söndür
     var hbBtn = document.getElementById('hediye-bul-btn');
+    turTamamlandi = true;
     if (hbBtn) {
       var sonrakiTur = turSayaci + 1;
       hbBtn.innerHTML = '🎁 Yeni Hediyeler Bul <span style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:10px;font-size:12px;margin-left:6px;">'+sonrakiTur+'. Tur</span>';
