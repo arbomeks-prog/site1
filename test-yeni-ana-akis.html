@@ -722,16 +722,22 @@ function hediyeBulButonGuncelle() {
   var pillSecildi = cevaplar.pill && cevaplar.pill_kategori;
   if (pillSecildi || bilmiyorumSecildi) {
     btn.disabled=false; btn.style.cursor='pointer'; btn.style.opacity='1';
-    // Tur tamamlandıysa animasyona dokunma
+    // Tur tamamlandıysa hiçbir şeye dokunma
     if (!turTamamlandi) {
       btn.style.background='linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%)';
       btn.style.boxShadow='0 4px 20px rgba(30,64,175,0.4)';
+      btn.style.animation='none';
       btn.innerHTML='🎁 Hediye Bul';
     }
   } else {
-    btn.disabled=true; btn.style.background='linear-gradient(135deg,#94a3b8 0%,#64748b 100%)';
-    btn.style.boxShadow='none'; btn.style.cursor='not-allowed'; btn.style.opacity='0.7';
-    btn.innerHTML='👆 Önce Seç';
+    // Pasif yap - ama tur tamamlandıysa yazıya dokunma
+    btn.disabled=true; btn.style.cursor='not-allowed'; btn.style.opacity='0.7';
+    if (!turTamamlandi) {
+      btn.style.background='linear-gradient(135deg,#94a3b8 0%,#64748b 100%)';
+      btn.style.boxShadow='none';
+      btn.style.animation='none';
+      btn.innerHTML='👆 Önce Seç';
+    }
   }
 }
 
