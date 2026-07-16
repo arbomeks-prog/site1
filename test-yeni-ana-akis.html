@@ -430,6 +430,22 @@ function secimYap(soruId, deger, ikon, btn) {
 
 function soruTamamla(soruId) {
   var idx = SORU_SIRASI.indexOf(soruId);
+
+  // Anne seçilince cinsiyet = Kadın, Baba seçilince cinsiyet = Erkek otomatik doldur
+  if (soruId === 'kime') {
+    if (cevaplar.kime === 'Anne') {
+      cevaplar.cinsiyet = 'Kadın';
+      cevaplar.cinsiyet_ikon = '👩';
+    } else if (cevaplar.kime === 'Baba') {
+      cevaplar.cinsiyet = 'Erkek';
+      cevaplar.cinsiyet_ikon = '👨';
+    } else {
+      // Diğer seçimlerde cinsiyet sıfırlansın (önceden Anne/Baba seçilmiş olabilir)
+      delete cevaplar.cinsiyet;
+      delete cevaplar.cinsiyet_ikon;
+    }
+  }
+
   var soruKart = document.getElementById('soru-'+soruId);
   soruKart.innerHTML =
     '<div class="cevap-ozet">'+
@@ -447,8 +463,19 @@ function soruTamamla(soruId) {
   progressGuncelle();
   ozetSeritGuncelle();
   var sonrakiIdx = idx + 1;
+  // Anne/Baba seçilince cinsiyet sorusunu atla
   if (sonrakiIdx < SORU_SIRASI.length) {
     var sonrakiId = SORU_SIRASI[sonrakiIdx];
+    if (sonrakiId === 'cinsiyet' && (cevaplar.kime === 'Anne' || cevaplar.kime === 'Baba')) {
+      // Cinsiyet sorusunu gizle ve özet olarak göster
+      var cinsiyetKart = document.getElementById('soru-cinsiyet');
+      cinsiyetKart.innerHTML = '<div class="cevap-ozet"><div class="cevap-ozet-sol"><div class="cevap-ozet-ikon">'+cevaplar.cinsiyet_ikon+'</div><div><div class="cevap-ozet-label">Cinsiyet</div><div class="cevap-ozet-deger">'+cevaplar.cinsiyet+'</div></div></div></div>';
+      cinsiyetKart.classList.remove('aktif');
+      cinsiyetKart.classList.add('tamamlandi');
+      // Bir sonraki soruya geç (yaş)
+      sonrakiIdx = sonrakiIdx + 1;
+      sonrakiId = SORU_SIRASI[sonrakiIdx];
+    }
     document.getElementById('soru-'+sonrakiId).classList.add('aktif');
     setTimeout(function(){ document.getElementById('soru-'+sonrakiId).scrollIntoView({behavior:'smooth',block:'start'}); }, 80);
   } else {
