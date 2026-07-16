@@ -428,6 +428,11 @@ function secimYap(soruId, deger, ikon, btn) {
     turSayaciGuncelle();
   }
 
+  // Cinsiyet değişince pill'i güncelle
+  if (soruId === 'cinsiyet') {
+    cinsiyeteGorePillGuncelle();
+  }
+
   setTimeout(function(){ soruTamamla(soruId); }, 220);
 }
 
