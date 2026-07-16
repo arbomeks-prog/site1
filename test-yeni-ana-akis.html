@@ -691,7 +691,7 @@ function hediyeBulButonGuncelle() {
 function hediyeBulAltMetinGuncelle() {
   var el = document.getElementById('hediye-bul-alt');
   if (cevaplar.pill) {
-    el.textContent = '🎯 4 nokta atışı '+PILL_KATEGORI_ADI[cevaplar.pill_kategori].toLowerCase()+' hediyesi + 5 kişiye özel';
+    el.textContent = '🎯 4 nokta atışı '+getPillKategoriAdi(cevaplar.pill_kategori).toLowerCase()+' hediyesi + 5 kişiye özel';
   } else {
     el.textContent = '9 kişiye özel hediye önerisi';
   }
@@ -737,7 +737,7 @@ function buildPrompt() {
   var hediyeAlanlari = hafizaEk+'Her hediye için: name, emoji, description (2 cümle), reason (1 cümle kişiselleştirilmiş), price (rakam + " TL"), star, isBurc (sadece burç hediyesinde true), searchQuery (Türkçe 2-3 kelime jenerik ürün, sıfat YASAK, marka YASAK), searchQueryEn (İngilizce görsel araması), mevcutPlatformlar (trendyol/hepsiburada/amazon/ciceksepeti/n11 array).\nSafe choice yapma, yaratıcı ol. Sadece JSON array döndür.';
 
   if (cevaplar.pill && cevaplar.pill_kategori && cevaplar.pill_cevap) {
-    var pillAdi = PILL_KATEGORI_ADI[cevaplar.pill_kategori]||cevaplar.pill_kategori;
+    var pillAdi = getPillKategoriAdi(cevaplar.pill_kategori);
     return 'KİŞİ PROFİLİ:\n'+sabitText+'\n\n'+butceKural+'\n\n'+
       'GÖREV: Tam olarak '+toplamHediye+' hediye öner. Her hediye FARKLI kategoriden.\n\n'+
       'İLK 4 HEDİYE — NOKTA ATIŞI (star:true):\n'+
