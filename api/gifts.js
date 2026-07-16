@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
 GENEL KURALLAR:
 - searchQuery'de hediye doğası gereği cinsiyete özel bir ürünse aramanın başına erkek veya kadın kelimesini ekle. Unisex ürünlerde cinsiyet ekleme. searchQuery'de tarz veya tema varsa cinsiyet yerine tarzı ön plana çıkar. yetişkin kelimesini sadece roman, hikaye, edebiyat gibi kitap türlerinin searchQuery'sinde kullan. yetişkin, erkek, kadın gibi kelimeler asla name alanına yazılmaz.
-- Burç aramasında searchQuery'de doğrudan burcun adını kullan — burcu ekini kaldır, sadece burcun adı yeterli.
+- Burç hediyesinde (isBurc:true) iki seçenekten birini seç, ikisi arasında yarım yamalak bir şey yapma: SEÇENEK 1 — O burcun sembolü veya adı gerçekten ürünün üzerinde olan bir hediye öner; searchQuery'ye burcun adını ekle ve o aramayı yapıp gerçekten o sembolle ürün çıktığını doğrula, çıkmıyorsa bu seçeneği kullanma. SEÇENEK 2 — Burç sembolünden ve adından hiç bahsetme; o burcun kişilik özelliklerine uygun genel bir hediye öner, searchQuery'de burç adı geçmez. Ürünün adına "Aslan Temalı" yazıp searchQuery'ye "cam mumluk" yazmak kesinlikle yasak.
 - Önerdiğin hediyeyi searchQuery'de aynen ara. Sonuç vermezse sırasıyla: figürlü, desenli, resimli, işlemeli, sembollü dene. Renk ve boyut sıfatları ile marka adları yasak. Tarz ve tema kelimeleri yasak değil, searchQuery'de koru.
 - searchQuery'de niteleyici kelimeyi düşürme — hediyenin tam adını yaz.
 - Ürün isimlerinde doğal Türkçe kelime sıralaması kullan.
