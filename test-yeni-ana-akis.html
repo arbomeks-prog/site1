@@ -306,7 +306,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- HEDİYE BUL -->
 <div class="hediye-bul-wrap" id="hediye-bul-wrap">
-  <button class="hediye-bul-btn" onclick="hediyeBul()" id="hediye-bul-btn">🎁 Hediye Bul</button>
+  <button class="hediye-bul-btn" onclick="hediyeBul()" id="hediye-bul-btn" disabled style="background:linear-gradient(135deg,#94a3b8 0%,#64748b 100%);box-shadow:none;cursor:not-allowed;opacity:0.7;">🎁 Hediye Bul</button>
   <div class="hediye-bul-alt" id="hediye-bul-alt">9 kişiye özel hediye önerisi</div>
   <div class="tur-sayac" id="tur-sayac" style="display:none;">
     <div class="tur-kutu aktif" id="tur-1">1</div>
@@ -511,6 +511,7 @@ function pillBilmiyorum() {
   var bchk = document.getElementById('bilmiyorum-check');
   if (bchk) { bchk.textContent='✔'; bchk.style.background='#10b981'; bchk.style.borderColor='#10b981'; bchk.style.color='white'; }
   aktifPill = null;
+  hediyeBulButonGuncelle();
   delete cevaplar.pill;
   delete cevaplar.pill_kategori;
   delete cevaplar.pill_cevap;
@@ -561,6 +562,7 @@ function pillCevapSec(kategori, cevap, pillBtn) {
     document.getElementById('tur-popup').classList.remove('acik');
   }
   hediyeBulAltMetinGuncelle();
+  hediyeBulButonGuncelle();
   modalKapat();
 }
 
@@ -644,6 +646,20 @@ function popupAc() {
     grid.appendChild(btn);
   });
   document.getElementById('tur-popup').classList.add('acik');
+}
+
+function hediyeBulButonGuncelle() {
+  var btn = document.getElementById('hediye-bul-btn');
+  if (!btn) return;
+  var bilmiyorumSecildi = document.getElementById('bilmiyorum-btn') && document.getElementById('bilmiyorum-btn').classList.contains('secildi');
+  var pillSecildi = cevaplar.pill && cevaplar.pill_kategori;
+  if (pillSecildi || bilmiyorumSecildi) {
+    btn.disabled=false; btn.style.background='linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%)';
+    btn.style.boxShadow='0 4px 20px rgba(30,64,175,0.4)'; btn.style.cursor='pointer'; btn.style.opacity='1';
+  } else {
+    btn.disabled=true; btn.style.background='linear-gradient(135deg,#94a3b8 0%,#64748b 100%)';
+    btn.style.boxShadow='none'; btn.style.cursor='not-allowed'; btn.style.opacity='0.7';
+  }
 }
 
 function hediyeBulAltMetinGuncelle() {
