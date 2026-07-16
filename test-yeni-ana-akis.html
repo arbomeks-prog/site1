@@ -207,7 +207,6 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   <div class="secenekler">
     <button class="sec-btn" onclick="secimYap('cinsiyet','Kadın','👩',this)"><div class="sec-check"></div> 👩 Kadın</button>
     <button class="sec-btn" onclick="secimYap('cinsiyet','Erkek','👨',this)"><div class="sec-check"></div> 👨 Erkek</button>
-    <button class="sec-btn" onclick="secimYap('cinsiyet','Belirtmek istemiyorum','🤍',this)"><div class="sec-check"></div> 🤍 Belirtmek istemiyorum</button>
   </div>
 </div>
 
@@ -399,11 +398,15 @@ var PILL_SORULAR = {
 };
 
 var PILL_IKONLAR = {butce:'💰',spor:'🏃',muzik:'🎵',kitap:'📚',kahve:'☕',teknoloji:'💻',yemek:'🍳',seyahat:'✈️',sanat:'🎨',oyun:'🎮',foto:'📷',bitki:'🌱',makyaj:'💄'};
+function getPillKategoriAdi(k) {
+  if (k === 'makyaj' && cevaplar.cinsiyet === 'Erkek') return 'Kişisel Bakım';
+  return PILL_KATEGORI_ADI[k] || k;
+}
 var PILL_KATEGORI_ADI = {butce:'Bütçe',spor:'Spor / Hareket',muzik:'Müzik / Enstrüman',kitap:'Okumak / Yazmak',kahve:'Kahve & Çay',teknoloji:'Teknoloji / Dijital',yemek:'Yemek / Mutfak',seyahat:'Seyahat / Keşif',sanat:'Sanat / El işi',oyun:'Oyun / Eğlence',foto:'Fotoğraf / Video',bitki:'Doğa / Bahçe',makyaj:'Güzellik / Bakım'};
 
 var SORU_ICERIK = {
   kime:{baslik:'Hediye kime alınıyor?',secenekler:[['Sevgili','💑'],['Arkadaş','🤝'],['Anne','👩'],['Baba','👨'],['Kardeş','👫'],['İş arkadaşı','💼'],['Kendime','🪞']]},
-  cinsiyet:{baslik:'Cinsiyeti nedir?',secenekler:[['Kadın','👩'],['Erkek','👨'],['Belirtmek istemiyorum','🤍']]},
+  cinsiyet:{baslik:'Cinsiyeti nedir?',secenekler:[['Kadın','👩'],['Erkek','👨']]},
   yas:{baslik:'Yaş aralığı nedir?',secenekler:[['13–17','🧒'],['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']]},
   butce:{baslik:'Bütçen ne kadar?',secenekler:[['0-500 TL','💛'],['0-1000 TL','💚'],['0-2000 TL','💙'],['0-3000 TL','💜'],['0-5000 TL','🖤'],['5001-10000 TL','💎']]},
   amac:{baslik:'Hediyeyi ne için alıyorsun?',secenekler:[['Doğum Günü','🎂'],['Yıl Dönümü','💐'],['Sevgililer Günü','❤️'],['Özel Bir Başarı','🏆'],['Sadece Sürpriz','🎁'],['Yılbaşı / Bayram','🎊']]},
@@ -514,7 +517,22 @@ function ozetSeritGuncelle() {
   serit.innerHTML = dolu.map(function(id){ return '<div class="ozet-chip">'+cevaplar[id+'_ikon']+' <strong>'+cevaplar[id]+'</strong></div>'; }).join('');
 }
 
+function cinsiyeteGorePillGuncelle() {
+  var makyajBtn = document.querySelector('.pill-btn[data-kategori="makyaj"]');
+  if (!makyajBtn) return;
+  var label = makyajBtn.querySelector('.pill-label');
+  var emoji = makyajBtn.querySelector('.pill-emoji');
+  if (cevaplar.cinsiyet === 'Erkek') {
+    label.textContent = 'Kişisel Bakım';
+    emoji.textContent = '💆';
+  } else {
+    label.textContent = 'Makyaj';
+    emoji.textContent = '💄';
+  }
+}
+
 function pillGoster() {
+  cinsiyeteGorePillGuncelle();
   document.getElementById('pill-bolum').classList.add('gorune');
   document.getElementById('hediye-bul-wrap').classList.add('gorune');
   setTimeout(function(){ document.getElementById('pill-bolum').scrollIntoView({behavior:'smooth',block:'nearest'}); }, 120);
