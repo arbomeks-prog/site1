@@ -123,6 +123,18 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .plt-n11 { background:#6f2da8;color:white; }
 
 /* YENİDEN BAŞLA */
+@keyframes pulseBtn {
+  0%, 100% { background:#1e40af; box-shadow:0 4px 20px rgba(30,64,175,0.4); transform:scale(1); }
+  50% { background:#2563eb; box-shadow:0 6px 28px rgba(37,99,235,0.6); transform:scale(1.02); }
+}
+.yeniden-btn-aktif {
+  background:linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%) !important;
+  color:white !important;
+  border:none !important;
+  animation: pulseBtn 1.8s ease-in-out infinite;
+  font-weight:800 !important;
+  font-size:15px !important;
+}
 .yeniden-btn { width:100%;margin-top:20px;padding:14px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:700;color:#475569;cursor:pointer;-webkit-tap-highlight-color:transparent; }
 
 /* TUR SAYACI */
@@ -951,6 +963,22 @@ function yenidenBasla() {
 // ── BAŞLANGIÇ ──
 localStorage.removeItem('bb_yeni_akis_pill');
 progressGuncelle();
+
+// Yukarı Çık butonu görününce yanıp sönsün
+var _observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('yeniden-btn-aktif');
+      e.target.innerHTML = '⬆️ Yukarı Çık, Değiştir';
+    }
+  });
+}, { threshold: 0.5 });
+
+// Buton DOM'a eklenince observe et
+var _observeYeniden = setInterval(function() {
+  var btn = document.getElementById('yeniden-btn');
+  if (btn) { _observer.observe(btn); clearInterval(_observeYeniden); }
+}, 500);
 </script>
 </body>
 </html>
