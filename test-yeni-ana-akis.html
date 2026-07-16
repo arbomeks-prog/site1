@@ -57,7 +57,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .cevap-degistir { font-size:11px;color:#6366f1;font-weight:700;cursor:pointer;padding:4px 8px;border-radius:6px;border:1px solid #e0e7ff;background:#f0f0ff;-webkit-tap-highlight-color:transparent; }
 
 /* PİLL BÖLÜMÜ */
-.pill-bolum { display:none;background:#fff;padding:16px 20px 16px;border-bottom:2px dashed #e2e8f0; }
+.pill-bolum { display:none;background:#fff;padding:10px 20px 16px;border-bottom:2px dashed #e2e8f0; }
 .pill-bolum.gorune { display:block; }
 .pill-baslik { font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#e8a838;background:#fef3c7;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:10px; }
 .pill-aciklama { font-size:22px;font-weight:800;color:#1e293b;margin-bottom:12px;line-height:1.3;text-align:center; }
@@ -280,7 +280,6 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- PİLL -->
 <div class="pill-bolum" id="pill-bolum">
-  <div class="pill-baslik">Kişiye Özel Sorular</div>
   <div class="pill-aciklama">Bir kategori seç</div>
 
   <button class="bilmiyorum-btn" id="bilmiyorum-btn" onclick="pillBilmiyorum()" style="width:100%;margin-bottom:12px;padding:16px 20px;font-size:15px;font-weight:800;border-radius:12px;border:2px dashed #cbd5e1;border-bottom:4px solid #cbd5e1;background:#f8fafc;display:flex;align-items:center;gap:12px;cursor:pointer;-webkit-tap-highlight-color:transparent;">
@@ -491,7 +490,7 @@ function ozetSeritGuncelle() {
 function pillGoster() {
   document.getElementById('pill-bolum').classList.add('gorune');
   document.getElementById('hediye-bul-wrap').classList.add('gorune');
-  setTimeout(function(){ document.getElementById('pill-bolum').scrollIntoView({behavior:'smooth',block:'start'}); }, 120);
+  setTimeout(function(){ document.getElementById('pill-bolum').scrollIntoView({behavior:'smooth',block:'nearest'}); }, 120);
 }
 
 // ── PİLL ──
