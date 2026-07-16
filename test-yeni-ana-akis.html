@@ -949,8 +949,9 @@ async function hediyeBul() {
     document.getElementById('yeniden-btn').style.display='block';
     // Hediye Bul butonunu "Yeni Hediyeler Bul" yap ve yanıp söndür
     var hbBtn = document.getElementById('hediye-bul-btn');
-    if (hbBtn && turSayaci >= 1) {
-      hbBtn.innerHTML = '🎁 Yeni Hediyeler Bul <span style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:10px;font-size:12px;margin-left:6px;">'+(turSayaci+1)+'. Tur</span>';
+    if (hbBtn) {
+      var sonrakiTur = turSayaci + 1;
+      hbBtn.innerHTML = '🎁 Yeni Hediyeler Bul <span style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:10px;font-size:12px;margin-left:6px;">'+sonrakiTur+'. Tur</span>';
       hbBtn.style.animation = 'pulseYeni 2.5s ease-in-out infinite';
     }
     grid.scrollIntoView({behavior:'smooth',block:'start'});
@@ -959,11 +960,6 @@ async function hediyeBul() {
     document.getElementById('yukleme-wrap').innerHTML='<div style="color:#ef4444;font-weight:700;text-align:center;padding:20px;">❌ Bir hata oluştu: '+err.message+'</div>';
   }
 
-  // Hata durumunda veya tur sayacı sıfırsa normal haline dön
-  if (turSayaci <= 1) {
-    btn.innerHTML='🎁 Hediye Bul';
-    btn.style.animation='none';
-  }
   btn.disabled=false;
 }
 
