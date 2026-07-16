@@ -720,9 +720,13 @@ function hediyeBulButonGuncelle() {
   var bilmiyorumSecildi = document.getElementById('bilmiyorum-btn') && document.getElementById('bilmiyorum-btn').classList.contains('secildi');
   var pillSecildi = cevaplar.pill && cevaplar.pill_kategori;
   if (pillSecildi || bilmiyorumSecildi) {
-    btn.disabled=false; btn.style.background='linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%)';
-    btn.style.boxShadow='0 4px 20px rgba(30,64,175,0.4)'; btn.style.cursor='pointer'; btn.style.opacity='1';
-    btn.innerHTML='🎁 Hediye Bul';
+    btn.disabled=false; btn.style.cursor='pointer'; btn.style.opacity='1';
+    // Animasyon çalışıyorsa (tur sonrası) dokunma, yoksa normal hale getir
+    if (!btn.style.animation || btn.style.animation === 'none') {
+      btn.style.background='linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%)';
+      btn.style.boxShadow='0 4px 20px rgba(30,64,175,0.4)';
+      btn.innerHTML='🎁 Hediye Bul';
+    }
   } else {
     btn.disabled=true; btn.style.background='linear-gradient(135deg,#94a3b8 0%,#64748b 100%)';
     btn.style.boxShadow='none'; btn.style.cursor='not-allowed'; btn.style.opacity='0.7';
