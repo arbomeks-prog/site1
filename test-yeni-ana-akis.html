@@ -394,17 +394,6 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 </div><!-- /page -->
 
-<!-- PAYLAŞ BUTONU -->
-<button id="paylas-btn" onclick="hediyeKartiOlustur()" style="
-  display:none;position:fixed;bottom:80px;right:16px;z-index:9999;
-  background:linear-gradient(135deg,#e8a838,#f5c96a);
-  color:#1e293b;border:none;border-radius:50px;
-  padding:12px 20px;font-size:13px;font-weight:700;
-  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.2);
-  align-items:center;gap:6px;
-  font-family:-apple-system,sans-serif;
-">📸 Paylaş</button>
-
 <!-- PAYLAŞ OVERLAY -->
 <div id="paylas-overlay" onclick="if(event.target===this)this.style.display='none'" style="
   display:none;position:fixed;inset:0;
@@ -1082,6 +1071,7 @@ function kartOlustur(g, idx) {
   html += '<div style="display:flex;gap:6px;margin:8px 0 4px;">'+
     '<button onclick="puanAcKart(this)" style="display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:#f8fafc;color:#475569;">⭐ Puan Verin</button>'+
     '<button onclick="iletisimAc()" style="display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:#f8fafc;color:#475569;">✉️ Bize Yazın</button>'+
+    '<button onclick="hediyeKartiOlustur()" style="display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:#f8fafc;color:#475569;">📸 Paylaş</button>'+
   '</div>';
   html += '<div class="puan-panel-kart" style="display:none;margin-bottom:8px;">'+
     '<p style="font-size:11px;font-weight:700;color:#94a3b8;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.08em;">Bu öneri işine yaradı mı?</p>'+
@@ -1161,8 +1151,6 @@ async function hediyeBul() {
     grid.innerHTML='';
     grid.style.display='grid';
     kronoDur();
-    var paylasBtnEl = document.getElementById('paylas-btn');
-    if (paylasBtnEl) paylasBtnEl.style.display = 'flex';
 
     sugg.forEach(function(g,i){
       grid.insertAdjacentHTML('beforeend', kartOlustur(g,i));
@@ -1221,8 +1209,6 @@ async function hediyeBul() {
 }
 
 function yenidenBasla() {
-  var paylasBtnEl = document.getElementById('paylas-btn');
-  if (paylasBtnEl) paylasBtnEl.style.display = 'none';
   // Hediye bul butonunu tekrar aktif et
   var btn = document.getElementById('hediye-bul-btn');
   if (btn) { btn.disabled=false; }
