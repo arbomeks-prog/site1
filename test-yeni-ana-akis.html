@@ -662,6 +662,11 @@ function pillBilmiyorum() {
   turSayaciSifirla();
   hediyeBulButonGuncelle();
   hediyeBulAltMetinGuncelle();
+  // Hediye Bul butonuna scroll
+  setTimeout(function(){
+    var wrap = document.getElementById('hediye-bul-wrap');
+    if (wrap) wrap.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 200);
 }
 
 function pillAc(kategori, btn) {
@@ -714,6 +719,11 @@ function pillCevapSec(kategori, cevap, pillBtn) {
   hediyeBulAltMetinGuncelle();
   hediyeBulButonGuncelle();
   modalKapat();
+  // Hediye Bul butonuna scroll
+  setTimeout(function(){
+    var wrap = document.getElementById('hediye-bul-wrap');
+    if (wrap) wrap.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 200);
 }
 
 function turSayaciGuncelle() {
@@ -809,7 +819,7 @@ function hediyeBulButonGuncelle() {
     if (!turTamamlandi) {
       btn.style.background='linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%)';
       btn.style.boxShadow='0 4px 20px rgba(30,64,175,0.4)';
-      btn.style.animation='none';
+      btn.style.animation='pulseBtn 1.8s ease-in-out infinite';
       btn.innerHTML='🎁 Hediye Bul';
     }
   } else {
@@ -1004,7 +1014,7 @@ async function hediyeBul() {
   document.getElementById('yeniden-btn').style.display='none';
 
   setTimeout(function(){
-    hediyelerBolum.scrollIntoView({behavior:'smooth',block:'start'});
+    // hediyeler yüklenince scroll — aşağıdaki grid.scrollIntoView yapacak
   },200);
 
   try {
@@ -1053,7 +1063,15 @@ async function hediyeBul() {
       hbBtn.innerHTML = '🎁 Yeni Hediyeler Bul <span style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:10px;font-size:12px;margin-left:6px;">'+sonrakiTur+'. Tur</span>';
       hbBtn.style.animation = 'pulseYeni 2.5s ease-in-out infinite';
     }
-    grid.scrollIntoView({behavior:'smooth',block:'start'});
+    // İlk hediye kartının tepesi görünsün
+    setTimeout(function(){
+      var grid = document.getElementById('hediyeler-grid');
+      if (grid && grid.firstElementChild) {
+        grid.firstElementChild.scrollIntoView({behavior:'smooth', block:'start'});
+      } else if (grid) {
+        grid.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    }, 100);
 
   } catch(err) {
     document.getElementById('yukleme-wrap').innerHTML='<div style="color:#ef4444;font-weight:700;text-align:center;padding:20px;">❌ Bir hata oluştu: '+err.message+'</div>';
