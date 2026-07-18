@@ -403,32 +403,20 @@ function kronoBaslat() {
   kronoKararVerildi = false;
   kronoBaslangic = Date.now();
   var wrap = document.getElementById('krono-wrap');
-  var kutu = document.getElementById('krono-kutu');
-  if (wrap) wrap.style.display = 'block';
-  if (kutu) { kutu.className = 'krono-kutu'; }
-  document.getElementById('krono-label').textContent = 'karar süren';
+  if (wrap) wrap.style.display = 'none';
   if (kronoInterval) clearInterval(kronoInterval);
-  kronoInterval = setInterval(function() {
-    if (kronoKararVerildi) return;
-    var gecen = Math.floor((Date.now() - kronoBaslangic) / 1000);
-    var dk = Math.floor(gecen / 60);
-    var sn = gecen % 60;
-    document.getElementById('krono-sure').textContent = dk + ':' + (sn < 10 ? '0' : '') + sn;
-  }, 1000);
 }
 
-function kronoDur(hedef) {
-  if (kronoKararVerildi) return;
-  kronoKararVerildi = true;
-  if (kronoInterval) { clearInterval(kronoInterval); kronoInterval = null; }
-  var gecen = Math.floor((Date.now() - kronoBaslangic) / 1000);
-  var dk = Math.floor(gecen / 60);
-  var sn = gecen % 60;
-  var sureStr = dk + ':' + (sn < 10 ? '0' : '') + sn;
-  document.getElementById('krono-sure').textContent = sureStr;
+function kronoDur() {
+  if (!kronoBaslangic) return;
+  var gecen = ((Date.now() - kronoBaslangic) / 1000).toFixed(1);
+  document.getElementById('krono-sure').textContent = gecen + ' sn';
+  document.getElementById('krono-label').textContent = 'de hazırlandı';
+  var wrap = document.getElementById('krono-wrap');
   var kutu = document.getElementById('krono-kutu');
+  if (wrap) wrap.style.display = 'block';
   if (kutu) kutu.className = 'krono-karar';
-  document.getElementById('krono-label').textContent = ''de karar verdin ✓';
+  kronoBaslangic = null;
 }
 
 function kronoSifirla() {
@@ -916,7 +904,7 @@ function buildLinks(name, mevcutPlatformlar) {
     var plt = tumPlatformlar[p];
     var aktifMi = bulunan.includes(p);
     var style = aktifMi ? '' : ' style="opacity:0.3;pointer-events:none;" title="Bu platformda bulunamadı"';
-    html += '<a href="'+plt.url+'" target="_blank" class="plt-link '+plt.cls+'"'+style+' onclick="kronoDur(this)">'+plt.label+'</a>';
+    html += '<a href="'+plt.url+'" target="_blank" class="plt-link '+plt.cls+'"'+style+'>'+plt.label+'</a>';
   });
   html += '</div>';
   return html;
@@ -979,6 +967,7 @@ async function hediyeBul() {
   btn.style.animation = 'none';
   btn.textContent='⏳ Hazırlanıyor...';
   kronoSifirla();
+  kronoBaslat();
   btn.disabled=true;
 
   var hediyelerBolum = document.getElementById('hediyeler-bolum');
@@ -1005,7 +994,7 @@ async function hediyeBul() {
     var grid = document.getElementById('hediyeler-grid');
     grid.innerHTML='';
     grid.style.display='grid';
-    kronoBaslat();
+    kronoDur();
 
     sugg.forEach(function(g,i){
       grid.insertAdjacentHTML('beforeend', kartOlustur(g,i));
