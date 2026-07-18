@@ -1001,6 +1001,7 @@ function pillCevapSec(kategori, cevap, pillBtn) {
   // Bütçe pill mi?
   if (kategori === 'butce') {
     cevaplar.butce = cevap;
+    turTamamlandi = false;
     turSayaciSifirla();
     document.getElementById('tur-popup').classList.remove('acik');
   } else {
