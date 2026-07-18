@@ -255,5 +255,5 @@ Mevcut 30 sorulu iframe akışından vazgeçilmedi ama yanına yeni bir sistem i
 - Quiz CSS'ini makale sayfasına gömmek mümkün (tek dosya, bağımsız çalışıyor) — henüz yapılmadı
 
 ### GitHub token
-[TOKEN-GIZLI]
+[TOKEN-NOTLAR-MD-DE-SAKLANMAZ]
 
