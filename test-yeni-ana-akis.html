@@ -614,6 +614,11 @@ function pillCevapSec(kategori, cevap, pillBtn) {
   var eskiBütçe = cevaplar.butce;
   document.querySelectorAll('.pill-btn').forEach(function(b){b.classList.remove('secildi');});
   document.querySelectorAll('[id^="pill-cevap-"]').forEach(function(el){el.textContent='';});
+  // Bilmiyorum butonunu sıfırla
+  var bilmEl = document.getElementById('bilmiyorum-btn');
+  if (bilmEl) { bilmEl.classList.remove('secildi'); bilmEl.style.borderColor='#cbd5e1'; }
+  var bchk = document.getElementById('bilmiyorum-check');
+  if (bchk) { bchk.textContent=''; bchk.style.background='white'; bchk.style.borderColor='#cbd5e1'; bchk.style.color=''; }
   pillBtn.classList.add('secildi');
   var cevapEl = document.getElementById('pill-cevap-'+kategori);
   if (cevapEl) cevapEl.textContent='· '+cevap;
