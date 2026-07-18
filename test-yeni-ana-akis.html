@@ -394,6 +394,43 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 </div><!-- /page -->
 
+<!-- PAYLAŞ BUTONU -->
+<button id="paylas-btn" onclick="hediyeKartiOlustur()" style="
+  display:none;position:fixed;bottom:80px;right:16px;z-index:9999;
+  background:linear-gradient(135deg,#e8a838,#f5c96a);
+  color:#1e293b;border:none;border-radius:50px;
+  padding:12px 20px;font-size:13px;font-weight:700;
+  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  align-items:center;gap:6px;
+  font-family:-apple-system,sans-serif;
+">📸 Paylaş</button>
+
+<!-- PAYLAŞ OVERLAY -->
+<div id="paylas-overlay" onclick="if(event.target===this)this.style.display='none'" style="
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.75);z-index:10000;
+  align-items:center;justify-content:center;
+  flex-direction:column;gap:12px;
+">
+  <div style="background:white;border-radius:20px;padding:20px;width:88%;max-width:360px;text-align:center;max-height:80vh;overflow-y:auto;margin-bottom:env(safe-area-inset-bottom,0px);">
+    <div id="paylas-yukleniyor" style="color:#64748b;font-size:13px;padding:20px 0;">
+      ⏳ Görsel hazırlanıyor...
+    </div>
+    <canvas id="paylas-canvas" style="display:none;width:100%;border-radius:12px;"></canvas>
+    <div id="paylas-aksiyonlar" style="display:none;margin-top:14px;flex-direction:column;gap:8px;">
+      <a id="paylas-indir" download="budurbuldum-hediyelerim.png" style="
+        display:block;background:#1e293b;color:white;
+        padding:11px;border-radius:12px;text-decoration:none;
+        font-size:13px;font-weight:700;
+      ">⬇️ Galeriye Kaydet</a>
+      <button onclick="document.getElementById('paylas-overlay').style.display='none'" style="
+        background:#f1f5f9;border:none;padding:11px;
+        border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;
+      ">✕ Kapat</button>
+    </div>
+  </div>
+</div>
+
 <!-- İLETİŞİM OVERLAY -->
 <div id="iletisim-overlay" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.7);z-index:10001;align-items:flex-end;justify-content:center;">
   <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 40px;max-height:90vh;overflow-y:auto;">
@@ -1124,6 +1161,8 @@ async function hediyeBul() {
     grid.innerHTML='';
     grid.style.display='grid';
     kronoDur();
+    var paylasBtnEl = document.getElementById('paylas-btn');
+    if (paylasBtnEl) paylasBtnEl.style.display = 'flex';
 
     sugg.forEach(function(g,i){
       grid.insertAdjacentHTML('beforeend', kartOlustur(g,i));
@@ -1182,6 +1221,8 @@ async function hediyeBul() {
 }
 
 function yenidenBasla() {
+  var paylasBtnEl = document.getElementById('paylas-btn');
+  if (paylasBtnEl) paylasBtnEl.style.display = 'none';
   // Hediye bul butonunu tekrar aktif et
   var btn = document.getElementById('hediye-bul-btn');
   if (btn) { btn.disabled=false; }
@@ -1209,6 +1250,263 @@ var _observeYeniden = setInterval(function() {
   var btn = document.getElementById('yeniden-btn');
   if (btn) { _observer.observe(btn); clearInterval(_observeYeniden); }
 }, 500);
+function hediyeKartiOlustur() {
+  var overlay = document.getElementById('paylas-overlay');
+  var yukleniyor = document.getElementById('paylas-yukleniyor');
+  var canvasEl = document.getElementById('paylas-canvas');
+  var aksiyonlar = document.getElementById('paylas-aksiyonlar');
+  var indirBtn = document.getElementById('paylas-indir');
+
+  overlay.style.display = 'flex';
+  yukleniyor.style.display = 'block';
+  canvasEl.style.display = 'none';
+  aksiyonlar.style.display = 'none';
+
+  // Kartlardan veri topla
+  var kartlar = [];
+  document.querySelectorAll('.gift-card').forEach(function(kart) {
+    if (kart.style.display === 'none') return;
+    var ad = kart.querySelector('.gift-name');
+    var fiyat = kart.querySelector('.gift-price-num');
+    var img = kart.querySelector('.img-wrap img');
+    var reason = kart.querySelector('.gift-reason');
+    if (!ad || !ad.textContent.trim()) return;
+    var platforms = [];
+    kart.querySelectorAll('.plt-link').forEach(function(a) {
+      if (a.style.pointerEvents === 'none') return;
+      var cls = a.className;
+      if (cls.includes('plt-trendyol')) platforms.push({ad:'Trendyol', bg:'#f27a1a', fg:'white'});
+      else if (cls.includes('plt-hepsiburada')) platforms.push({ad:'Hepsiburada', bg:'#ff6000', fg:'white'});
+      else if (cls.includes('plt-amazon')) platforms.push({ad:'Amazon', bg:'#ff9900', fg:'#111'});
+      else if (cls.includes('plt-ciceksepeti')) platforms.push({ad:'Çiçeksepeti', bg:'#e91e8c', fg:'white'});
+      else if (cls.includes('plt-n11')) platforms.push({ad:'N11', bg:'#6f2da8', fg:'white'});
+    });
+    kartlar.push({
+      ad: ad.textContent.trim(),
+      fiyat: fiyat ? fiyat.textContent.trim() : '',
+      imgSrc: (img && img.src && !img.src.endsWith('/') && img.naturalWidth > 0) ? img.src : '',
+      sebep: reason ? reason.textContent.trim().replace(/["""]/g,'').replace(/^"+|"+$/g,'') : '',
+      platforms: platforms
+    });
+  });
+
+  if (kartlar.length === 0) {
+    yukleniyor.textContent = '⚠️ Hediyeler henüz yüklenmedi.';
+    return;
+  }
+
+  var W = 1080;
+  var COLS = 2;
+  var PADDING = 48;
+  var GAP = 32;
+  var KART_W = (W - PADDING * 2 - GAP) / COLS;
+  var IMG_H = KART_W * 0.65;
+  var BADGE_H = 34; var BADGE_PAD = 16;
+  var tmpCanvas = document.createElement('canvas');
+  var tmpCtx = tmpCanvas.getContext('2d');
+  tmpCtx.font = 'bold 19px Arial, sans-serif';
+
+  function hesaplaBadgeSatir(platforms) {
+    if (!platforms || platforms.length === 0) return 0;
+    var bx = 0; var satirSayisi = 1;
+    platforms.forEach(function(p) {
+      var bw = tmpCtx.measureText(p.ad).width + BADGE_PAD * 2;
+      if (bx + bw > KART_W - 44) { bx = 0; satirSayisi++; }
+      bx += bw + 10;
+    });
+    return satirSayisi;
+  }
+
+  var maxBadgeSatir = 0;
+  kartlar.forEach(function(k) {
+    var s = hesaplaBadgeSatir(k.platforms);
+    if (s > maxBadgeSatir) maxBadgeSatir = s;
+  });
+
+  var TEXT_H = 40 + 40 + 90 + (maxBadgeSatir > 0 ? 28 + maxBadgeSatir * (BADGE_H + 10) : 0) + 20;
+  var KART_H = IMG_H + TEXT_H;
+  var ROWS = Math.ceil(kartlar.length / COLS);
+  var H = 160 + ROWS * (KART_H + GAP) + 20 + 110;
+
+  var canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  var ctx = canvas.getContext('2d');
+
+  // Arka plan
+  ctx.fillStyle = '#F8F9FA';
+  ctx.fillRect(0, 0, W, H);
+
+  // Üst bar
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(0, 0, W, 140);
+
+  // Logo kutu
+  var grad = ctx.createLinearGradient(44, 38, 44, 102);
+  grad.addColorStop(0, '#e8a838');
+  grad.addColorStop(1, '#f5c96a');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.roundRect(44, 38, 64, 64, 14);
+  ctx.fill();
+  ctx.font = '36px serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('🎁', 53, 84);
+
+  ctx.font = 'bold 42px Georgia, serif';
+  ctx.fillStyle = 'white';
+  ctx.fillText('budur', 122, 82);
+  var bw = ctx.measureText('budur').width;
+  ctx.fillStyle = '#e8a838';
+  ctx.fillText('buldum', 122 + bw, 82);
+
+  ctx.font = '22px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.fillText('Kişiye özel hediye önerileri', 122, 114);
+
+  var imgObjleri = kartlar.map(function() { return null; });
+
+  function kartCiz(i) {
+    var kart = kartlar[i];
+    var col = i % COLS;
+    var row = Math.floor(i / COLS);
+    var x = PADDING + col * (KART_W + GAP);
+    var y = 160 + row * (KART_H + GAP);
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.10)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 6;
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.roundRect(x, y, KART_W, KART_H, 22);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.fillStyle = '#e8f0fe';
+    ctx.beginPath();
+    ctx.roundRect(x, y, KART_W, IMG_H, [22, 22, 0, 0]);
+    ctx.fill();
+
+    if (imgObjleri[i] && imgObjleri[i].complete && imgObjleri[i].naturalWidth > 0) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(x, y, KART_W, IMG_H, [22, 22, 0, 0]);
+      ctx.clip();
+      var img = imgObjleri[i];
+      var scale = Math.max(KART_W / img.naturalWidth, IMG_H / img.naturalHeight);
+      var dw = img.naturalWidth * scale;
+      var dh = img.naturalHeight * scale;
+      var dx = x + (KART_W - dw) / 2;
+      var dy = y + (IMG_H - dh) / 2;
+      ctx.drawImage(img, dx, dy, dw, dh);
+      ctx.restore();
+    }
+
+    var tx = x + 22;
+    var tw = KART_W - 44;
+    var ty = y + IMG_H + 28;
+
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillStyle = '#1e293b';
+    ctx.textAlign = 'left';
+    var adText = kart.ad;
+    while (ctx.measureText(adText).width > tw && adText.length > 4) { adText = adText.slice(0, -1); }
+    if (adText !== kart.ad) adText += '…';
+    ctx.fillText(adText, tx, ty);
+
+    if (kart.fiyat) {
+      ty += 40;
+      ctx.font = 'bold 30px Arial, sans-serif';
+      ctx.fillStyle = '#e8a838';
+      ctx.fillText(kart.fiyat, tx, ty);
+    }
+
+    if (kart.sebep) {
+      ty += 38;
+      ctx.font = '21px Arial, sans-serif';
+      ctx.fillStyle = '#64748b';
+      var kelimeler = kart.sebep.split(' ');
+      var satirlar = [], satir = '';
+      kelimeler.forEach(function(k) {
+        var test = satir ? satir + ' ' + k : k;
+        if (ctx.measureText(test).width <= tw) { satir = test; }
+        else { if (satir) satirlar.push(satir); satir = k; }
+      });
+      if (satir) satirlar.push(satir);
+      satirlar.slice(0, 3).forEach(function(s, si) { ctx.fillText(s, tx, ty + si * 30); });
+      ty += Math.min(satirlar.length, 3) * 30;
+    }
+
+    if (kart.platforms && kart.platforms.length > 0) {
+      ty += 28;
+      var pbx = tx;
+      ctx.font = 'bold 19px Arial, sans-serif';
+      kart.platforms.forEach(function(p) {
+        var pw = ctx.measureText(p.ad).width + BADGE_PAD * 2;
+        if (pbx + pw > tx + tw) { pbx = tx; ty += BADGE_H + 10; }
+        ctx.fillStyle = p.bg;
+        ctx.beginPath();
+        ctx.roundRect(pbx, ty - 24, pw, BADGE_H, 8);
+        ctx.fill();
+        ctx.fillStyle = p.fg;
+        ctx.textAlign = 'left';
+        ctx.fillText(p.ad, pbx + BADGE_PAD, ty - 2);
+        pbx += pw + 10;
+      });
+    }
+  }
+
+  function hepsiniCiz() {
+    kartlar.forEach(function(_, i) { kartCiz(i); });
+
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(0, H - 110, W, 110);
+    ctx.font = 'bold 34px Georgia, serif';
+    ctx.fillStyle = '#e8a838';
+    ctx.textAlign = 'center';
+    ctx.fillText('budurbuldum.com', W/2, H - 58);
+    ctx.font = '22px Arial, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('Hediyeni bul · budurbuldum.com', W/2, H - 22);
+
+    canvas.toBlob(function(blob) {
+      var url = URL.createObjectURL(blob);
+      canvasEl.width = W;
+      canvasEl.height = H;
+      var dCtx = canvasEl.getContext('2d');
+      dCtx.drawImage(canvas, 0, 0);
+      canvasEl.style.display = 'block';
+      yukleniyor.style.display = 'none';
+      aksiyonlar.style.display = 'flex';
+      indirBtn.onclick = function() {
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'budurbuldum-hediyelerim.png';
+        a.click();
+      };
+    }, 'image/png');
+  }
+
+  var toplamImg = kartlar.filter(function(k){ return k.imgSrc; }).length;
+  if (toplamImg === 0) { hepsiniCiz(); return; }
+
+  var yuklenen = 0;
+  kartlar.forEach(function(kart, i) {
+    if (!kart.imgSrc) {
+      yuklenen++;
+      if (yuklenen >= toplamImg) hepsiniCiz();
+      return;
+    }
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    imgObjleri[i] = img;
+    img.onload = function() { yuklenen++; if (yuklenen >= toplamImg) hepsiniCiz(); };
+    img.onerror = function() { yuklenen++; if (yuklenen >= toplamImg) hepsiniCiz(); };
+    img.src = kart.imgSrc;
+  });
+}
+
 function iletisimAc() {
   var o = document.getElementById('iletisim-overlay');
   o.style.display = 'flex';
