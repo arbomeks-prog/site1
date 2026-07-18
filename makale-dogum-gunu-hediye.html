@@ -417,21 +417,23 @@ article .highlight-box p, .article-body .highlight-box p{margin:0;color:#92400e;
   <div class="cta-box">
     <div class="cta-tag">✨ Ücretsiz · 1 Dakika</div>
     <h3>Doğum Gününe Özel Hediye Bul</h3>
-    <p class="cta-desc">Hediye kime alınıyor? Seç, seni doğru soruya götürelim.</p>
-    <div class="cta-quiz-opts">
-      <button class="cta-opt" onclick="ctaSec(this,'Sevgili')"><span class="cta-opt-check"></span>💑 Sevgili</button>
-      <button class="cta-opt" onclick="ctaSec(this,'Anne')"><span class="cta-opt-check"></span>👩 Anne</button>
-      <button class="cta-opt" onclick="ctaSec(this,'Baba')"><span class="cta-opt-check"></span>👨 Baba</button>
-      <button class="cta-opt" onclick="ctaSec(this,'Arkadaş')"><span class="cta-opt-check"></span>🤝 Arkadaş</button>
-      <button class="cta-opt" onclick="ctaSec(this,'Kardeş')"><span class="cta-opt-check"></span>👫 Kardeş</button>
-      <button class="cta-opt" onclick="ctaSec(this,'Çocuk 🧒')"><span class="cta-opt-check"></span>🧒 Çocuk</button>
-      <button class="cta-opt" onclick="ctaSec(this,'Kendime')"><span class="cta-opt-check"></span>🙋 Kendime</button>
-      <button class="cta-opt" onclick="ctaSec(this,'İş arkadaşı')"><span class="cta-opt-check"></span>💼 İş arkadaşı</button>
-      <button class="cta-opt" onclick="ctaSec(this,'Bebek ❤️')"><span class="cta-opt-check"></span>👶 Bebek</button>
-      <button class="cta-opt" onclick="ctaSec(this,'Pet ❤️')"><span class="cta-opt-check"></span>🐾 Pet</button>
+    <p class="cta-desc">Hediye kime alınıyor?</p>
+    <div class="bb-kime-wrap" style="text-align:left;">
+      <div class="secenekler secenekler-ikili" id="bb-kime-secenekler-2">
+        <button class="sec-btn" id="btn-bb2-sevgili" onclick="bbKimePopupAc2('sevgili',this)"><div class="sec-check"></div> <span id="bb2-sevgili-emoji">💏</span> <span id="bb2-sevgili-yazi">Sevgili</span></button>
+        <button class="sec-btn" id="btn-bb2-arkadas" onclick="bbKimePopupAc2('arkadas',this)"><div class="sec-check"></div> <span id="bb2-arkadas-emoji">🤝</span> <span id="bb2-arkadas-yazi">Arkadaş</span></button>
+        <button class="sec-btn" onclick="bbKimeSec2('Anne','👩',this)"><div class="sec-check"></div> 👩 Anne</button>
+        <button class="sec-btn" onclick="bbKimeSec2('Baba','👨',this)"><div class="sec-check"></div> 👨 Baba</button>
+        <button class="sec-btn" onclick="bbKimeSec2('Kardeş','👧🧒',this)"><div class="sec-check"></div> 👧🧒 Kardeş</button>
+        <button class="sec-btn" onclick="bbKimeSec2('Eşime','💑',this)"><div class="sec-check"></div> 💑 Eşime</button>
+        <button class="sec-btn" onclick="bbKimeSec2('Bebek','👶',this)"><div class="sec-check"></div> 👶 Bebek</button>
+        <button class="sec-btn" id="btn-bb2-cocuk" onclick="bbKimePopupAc2('cocuk',this)"><div class="sec-check"></div> <span id="bb2-cocuk-emoji">🧒</span> <span id="bb2-cocuk-yazi">Çocuk</span></button>
+        <button class="sec-btn" onclick="bbKimeSec2('Pet','🐾',this)"><div class="sec-check"></div> 🐾 Pet</button>
+        <button class="sec-btn" onclick="bbKimeSec2('Kendime','🪞',this)" style="grid-column:1/-1;"><div class="sec-check"></div> 🪞 Kendime</button>
+      </div>
+      <button class="bb-kime-basla" id="bb-basla-btn-2" onclick="bbBasla2()">🎁 Hediye Bul →</button>
     </div>
-    <button class="cta-devam-btn" id="ctaDevamBtn">🎯 Devam Et →</button>
-    <p class="cta-sub">Trendyol, Hepsiburada ve daha fazlasında karşılaştır</p>
+    <p class="cta-sub" style="margin-top:12px;">Trendyol, Hepsiburada, Amazon, N11 ve Çiçeksepeti</p>
   </div>
 
   <div class="related-section">
@@ -553,6 +555,51 @@ function bbKimePopupAc(tip, btn) {
   popup.style.display='flex';
 }
 
+function bbKimeSec2(deger, ikon, btn) {
+  document.querySelectorAll('#bb-kime-secenekler-2 .sec-btn').forEach(function(b){
+    b.classList.remove('secildi');
+    var chk = b.querySelector('.sec-check');
+    if(chk){chk.textContent='';chk.style.background='white';chk.style.borderColor='#cbd5e1';}
+  });
+  btn.classList.add('secildi');
+  var chk = btn.querySelector('.sec-check');
+  if(chk){chk.textContent='✔';chk.style.background='#10b981';chk.style.borderColor='#10b981';chk.style.color='white';}
+  window._bbKime2 = deger;
+  var basla = document.getElementById('bb-basla-btn-2');
+  if(basla) basla.classList.add('goster');
+}
+function bbKimePopupAc2(tip, btn) {
+  var popup = document.getElementById('bb-kime-popup');
+  var baslik = document.getElementById('bb-popup-baslik');
+  var secDiv = document.getElementById('bb-popup-secenekler');
+  secDiv.innerHTML = '';
+  var liste = tip==='sevgili' ? [['Sevgili','💏'],['Nişanlıma','💍']] :
+              tip==='arkadas' ? [['Arkadaş','🤝'],['İş arkadaşı','💼']] :
+                                [['Çocuğuma','👪'],['Çocuk','🧒']];
+  baslik.textContent = tip==='sevgili' ? 'İlişkiniz nasıl?' : tip==='arkadas' ? 'Kime alıyorsun?' : 'Kim için alıyorsun?';
+  liste.forEach(function(s){
+    var b = document.createElement('button');
+    b.className = 'sec-btn';
+    b.innerHTML = '<div class="sec-check"></div> '+s[1]+' '+s[0];
+    b.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;margin-bottom:8px;';
+    b.onclick = function(){
+      popup.style.display='none';
+      bbKimeSec2(s[0], s[1], btn);
+    };
+    secDiv.appendChild(b);
+  });
+  popup.style.display='flex';
+}
+function bbBasla2() {
+  if(!window._bbKime2) return;
+  try {
+    var m = JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}');
+    m.kime = window._bbKime2;
+    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(m));
+  } catch(e){}
+  if(typeof gtag==='function') gtag('event','makale_quiz_tiklama',{makale:'makale-dogum-gunu-hediye.html',kime:window._bbKime2,konum:'alt_cta'});
+  window.location.href='index.html';
+}
 function bbBasla() {
   if(!_bbKime) return;
   try {
