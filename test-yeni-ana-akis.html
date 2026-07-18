@@ -750,7 +750,7 @@ function yasKartiniSifirla() {
   var idx = SORU_SIRASI.indexOf('yas') + 1;
   var icerik_html = '<div class="soru-no-badge">'+idx+'. Soru</div><div class="soru-baslik">Yaş aralığı nedir?</div><div class="soru-alt">👇 Bir seçenek seç</div><div class="secenekler">';
   liste.forEach(function(s) {
-    icerik_html += '<button class="sec-btn" onclick="secimYap('yas',''+s[0]+'',''+s[1]+'',this)"><div class="sec-check"></div> '+s[1]+' '+s[0]+'</button>';
+    icerik_html += '<button class="sec-btn" onclick="secimYap(\'yas\',\''+s[0]+'\',\''+s[1]+'\',this)"><div class="sec-check"></div> '+s[1]+' '+s[0]+'</button>';
   });
   icerik_html += '</div>';
   var yasKart = document.getElementById('soru-yas');
