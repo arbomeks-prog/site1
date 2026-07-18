@@ -88,6 +88,14 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 /* HEDİYELER BÖLÜMÜ */
 .hediyeler-bolum { display:none;background:#F9F9F9;padding:24px 16px; }
+.krono-wrap { display:none;text-align:center;padding:10px 16px 4px;background:#F9F9F9; }
+.krono-kutu { display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #e2e8f0;border-radius:12px;padding:8px 16px; }
+.krono-ikon { font-size:18px; }
+.krono-sure { font-size:22px;font-weight:900;color:#1e40af;font-variant-numeric:tabular-nums;letter-spacing:0.05em; }
+.krono-label { font-size:11px;color:#94a3b8;font-weight:600; }
+.krono-karar { display:inline-flex;align-items:center;gap:8px;background:#d1fae5;border:2px solid #10b981;border-radius:12px;padding:8px 16px; }
+.krono-karar .krono-sure { color:#065f46; }
+.krono-karar .krono-label { color:#059669; }
 .hediyeler-bolum.gorune { display:block; }
 .hediyeler-baslik { font-size:20px;font-weight:900;color:#1e293b;text-align:center;margin-bottom:6px; }
 .hediyeler-alt { font-size:13px;color:#64748b;text-align:center;margin-bottom:20px; }
@@ -339,6 +347,13 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 <!-- HEDİYELER -->
 <div class="hediyeler-bolum" id="hediyeler-bolum">
   <div class="hediyeler-baslik">Kişiye Özel Hediyeler ✨</div>
+  <div class="krono-wrap" id="krono-wrap">
+    <div class="krono-kutu" id="krono-kutu">
+      <span class="krono-ikon">⏱️</span>
+      <span class="krono-sure" id="krono-sure">0:00</span>
+      <span class="krono-label" id="krono-label">karar süren</span>
+    </div>
+  </div>
   <div class="hediyeler-alt" id="hediyeler-alt"></div>
   <div id="yukleme-wrap" class="yukleme-wrap">
     <div class="yukleme-spinner"></div>
@@ -380,6 +395,53 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 </div>
 
 <script>
+var kronoInterval = null;
+var kronoBaslangic = null;
+var kronoKararVerildi = false;
+
+function kronoBaslat() {
+  kronoKararVerildi = false;
+  kronoBaslangic = Date.now();
+  var wrap = document.getElementById('krono-wrap');
+  var kutu = document.getElementById('krono-kutu');
+  if (wrap) wrap.style.display = 'block';
+  if (kutu) { kutu.className = 'krono-kutu'; }
+  document.getElementById('krono-label').textContent = 'karar süren';
+  if (kronoInterval) clearInterval(kronoInterval);
+  kronoInterval = setInterval(function() {
+    if (kronoKararVerildi) return;
+    var gecen = Math.floor((Date.now() - kronoBaslangic) / 1000);
+    var dk = Math.floor(gecen / 60);
+    var sn = gecen % 60;
+    document.getElementById('krono-sure').textContent = dk + ':' + (sn < 10 ? '0' : '') + sn;
+  }, 1000);
+}
+
+function kronoDur(hedef) {
+  if (kronoKararVerildi) return;
+  kronoKararVerildi = true;
+  if (kronoInterval) { clearInterval(kronoInterval); kronoInterval = null; }
+  var gecen = Math.floor((Date.now() - kronoBaslangic) / 1000);
+  var dk = Math.floor(gecen / 60);
+  var sn = gecen % 60;
+  var sureStr = dk + ':' + (sn < 10 ? '0' : '') + sn;
+  document.getElementById('krono-sure').textContent = sureStr;
+  var kutu = document.getElementById('krono-kutu');
+  if (kutu) kutu.className = 'krono-karar';
+  document.getElementById('krono-label').textContent = ''de karar verdin ✓';
+}
+
+function kronoSifirla() {
+  kronoKararVerildi = false;
+  if (kronoInterval) { clearInterval(kronoInterval); kronoInterval = null; }
+  var wrap = document.getElementById('krono-wrap');
+  if (wrap) wrap.style.display = 'none';
+  document.getElementById('krono-sure').textContent = '0:00';
+  var kutu = document.getElementById('krono-kutu');
+  if (kutu) kutu.className = 'krono-kutu';
+  document.getElementById('krono-label').textContent = 'karar süren';
+}
+
 var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
 var BURC_OZELLIK = {
   'Koç':'enerjik, cesur, lider ruhlu, maceraperest; spor, macera, liderlik, yenilik temalı hediyeler',
@@ -854,7 +916,7 @@ function buildLinks(name, mevcutPlatformlar) {
     var plt = tumPlatformlar[p];
     var aktifMi = bulunan.includes(p);
     var style = aktifMi ? '' : ' style="opacity:0.3;pointer-events:none;" title="Bu platformda bulunamadı"';
-    html += '<a href="'+plt.url+'" target="_blank" class="plt-link '+plt.cls+'"'+style+'>'+plt.label+'</a>';
+    html += '<a href="'+plt.url+'" target="_blank" class="plt-link '+plt.cls+'"'+style+' onclick="kronoDur(this)">'+plt.label+'</a>';
   });
   html += '</div>';
   return html;
@@ -916,6 +978,7 @@ async function hediyeBul() {
   turTamamlandi = false;
   btn.style.animation = 'none';
   btn.textContent='⏳ Hazırlanıyor...';
+  kronoSifirla();
   btn.disabled=true;
 
   var hediyelerBolum = document.getElementById('hediyeler-bolum');
@@ -942,6 +1005,7 @@ async function hediyeBul() {
     var grid = document.getElementById('hediyeler-grid');
     grid.innerHTML='';
     grid.style.display='grid';
+    kronoBaslat();
 
     sugg.forEach(function(g,i){
       grid.insertAdjacentHTML('beforeend', kartOlustur(g,i));
