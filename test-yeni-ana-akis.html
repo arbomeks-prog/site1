@@ -859,12 +859,13 @@ function soruTamamla(soruId) {
     document.getElementById('soru-'+sonrakiId).classList.add('aktif');
     setTimeout(function(){
       var el = document.getElementById('soru-'+sonrakiId);
-      var page = document.querySelector('.page');
-      if (el && page) {
-        var top = el.getBoundingClientRect().top + window.pageYOffset - 90;
-        var pageBottom = page.getBoundingClientRect().bottom + window.pageYOffset;
-        if (top > pageBottom) top = pageBottom - window.innerHeight + 90;
-        window.scrollTo({top: top, behavior: 'smooth'});
+      if (el) {
+        var elTop = el.getBoundingClientRect().top + window.pageYOffset - 90;
+        // Quiz bölümünün sonunu aşmasın
+        var pageEl = document.querySelector('.page');
+        var maxScroll = pageEl ? (pageEl.getBoundingClientRect().bottom + window.pageYOffset - window.innerHeight) : elTop;
+        var target = Math.min(elTop, maxScroll);
+        window.scrollTo({top: target, behavior: 'smooth'});
       }
     }, 80);
   } else {
@@ -1458,7 +1459,7 @@ function yenidenBasla() {
 // ── BAŞLANGIÇ ──
 localStorage.removeItem('bb_yeni_akis_pill');
 progressGuncelle();
-window.scrollTo(0, 0);
+window.addEventListener('load', function() { window.scrollTo(0, 0); });
 
 // Yukarı Çık butonu görününce yanıp sönsün
 var _observer = new IntersectionObserver(function(entries) {
