@@ -725,11 +725,16 @@ function soruGeriAl(soruId) {
 
 var YAS_SECENEKLER = {
   varsayilan: [['13–17','🧒'],['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']],
-  anne_baba:  [['36–45','🏡'],['46–60','🌿'],['61+','🍵']]
+  anne_baba:  [['36–45','🏡'],['46–60','🌿'],['61+','🍵']],
+  sevgili:    [['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']],
+  kardes:     [['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']]
 };
 
 function yasSeceneklerGuncelle(kime) {
-  var liste = (kime === 'Anne' || kime === 'Baba') ? YAS_SECENEKLER.anne_baba : YAS_SECENEKLER.varsayilan;
+  var liste = (kime === 'Anne' || kime === 'Baba') ? YAS_SECENEKLER.anne_baba :
+             (kime === 'Sevgili') ? YAS_SECENEKLER.sevgili :
+             (kime === 'Kardeş') ? YAS_SECENEKLER.kardes :
+             YAS_SECENEKLER.varsayilan;
   var yasKart = document.getElementById('soru-yas');
   if (!yasKart) return;
   var secDiv = yasKart.querySelector('.secenekler');
@@ -746,7 +751,10 @@ function yasSeceneklerGuncelle(kime) {
 
 function yasKartiniSifirla() {
   var kime = cevaplar.kime || '';
-  var liste = (kime === 'Anne' || kime === 'Baba') ? YAS_SECENEKLER.anne_baba : YAS_SECENEKLER.varsayilan;
+  var liste = (kime === 'Anne' || kime === 'Baba') ? YAS_SECENEKLER.anne_baba :
+             (kime === 'Sevgili') ? YAS_SECENEKLER.sevgili :
+             (kime === 'Kardeş') ? YAS_SECENEKLER.kardes :
+             YAS_SECENEKLER.varsayilan;
   var idx = SORU_SIRASI.indexOf('yas') + 1;
   var icerik_html = '<div class="soru-no-badge">'+idx+'. Soru</div><div class="soru-baslik">Yaş aralığı nedir?</div><div class="soru-alt">👇 Bir seçenek seç</div><div class="secenekler">';
   liste.forEach(function(s) {
