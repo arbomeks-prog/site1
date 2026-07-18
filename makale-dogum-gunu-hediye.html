@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Doğum Günü Hediyesi Ne Alınır? Kişiye Özel Öneriler | BudurBuldum</title>
-<meta name="description" content="Doğum günü hediyesi ne alınır? Kadına, erkeğe, sevgiliye, anneye, çocuğa — BudurBuldum kısa bir testle kişiye özel hediye önerileri sunuyor. Trendyol, Hepsiburada, Amazon, N11 ve Çiçeksepeti fiyatlarıyla, ücretsiz.">
+<meta name="description" content="6 tane soru cevapla ve sevdiğin kişi için TAM 100 TANE HEDİYE BUL. Trendyol, Hepsiburada, Amazon, N11 ve Çiçeksepeti hepsi tek bir sayfada.">
 <meta name="keywords" content="doğum günü hediyesi ne alınır, doğum günü hediye fikirleri, kadına doğum günü hediyesi, erkeğe doğum günü hediyesi, sevgiliye doğum günü hediyesi, anneme hediye ne alayım, kişiye özel hediye, doğum günü sürprizi, BudurBuldum hediye testi">
 <link rel="canonical" href="https://budurbuldum.com/makale-dogum-gunu-hediye.html">
 <meta property="og:type" content="article">
@@ -201,15 +201,43 @@ article .highlight-box p, .article-body .highlight-box p{margin:0;color:#92400e;
 
     <p>BudurBuldum'da kısa bir test çözersin — hediyeyi kime alacağını, o kişinin ilgi alanlarını, yaşını, bütçeni sorarız. Yemek zevkinden spor alışkanlığına, müzik tercihinden ev dekorasyonu zevkine kadar. Ve sana Trendyol, Hepsiburada, Amazon, N11 ve Çiçeksepeti'nden gerçek fiyatlı, kişiye özel 10 hediye önerisi sunarız. Dakikalar içinde.</p>
 
+<style>
+.bb-kime-wrap { margin:20px 0; }
+.bb-kime-wrap .sec-btn { display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;margin-bottom:8px;text-align:left; }
+.bb-kime-wrap .sec-btn .sec-check { width:18px;height:18px;border-radius:5px;border:2px solid #cbd5e1;background:white;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px; }
+.bb-kime-wrap .sec-btn.secildi { border-color:#10b981;background:#d1fae5; }
+.bb-kime-wrap .sec-btn.secildi .sec-check { background:#10b981;border-color:#10b981;color:white; }
+.bb-kime-wrap .secenekler-ikili { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+.bb-kime-wrap .secenekler-ikili .tam-genislik { grid-column:1/-1; }
+.bb-kime-basla { width:100%;background:linear-gradient(135deg,#1e40af,#1e3a8a);color:white;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;display:none; }
+.bb-kime-basla.goster { display:block; }
+</style>
     <div class="bb-quiz-block">
-      <div class="bb-q-label">🎂 BudurBuldum Hediye Testi</div>
-      <p class="bb-q-text">Doğum günü sahibiyle ilişkin nasıl?</p>
-      <div class="bb-quiz-opts">
-        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Çok yakın, en iyi arkadaş veya sevgili 💕</button>
-        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Aile — anne, baba, kardeş 👨‍👩‍👧</button>
-        <button class="bb-opt" onclick="bbSec(this)"><span class="bb-opt-check"></span>Tanıdık, arkadaş grubu ya da iş arkadaşı 🤝</button>
-      </div>
-      <button class="bb-devam-btn" id="bbDevamBtn" onclick="if(typeof gtag==='function')gtag('event','makale_quiz_tiklama',{makale:'makale-dogum-gunu-hediye.html'}); window.location.href='hediye-kime-alinacak-testi.html'">🎯 BudurBuldum Hediye Testine Başla →</button>
+      <div class="bb-q-label">🎁 Kişiye Özel Hediye Bul</div>
+      <p class="bb-q-text">Hediye kime alınıyor?</p>
+<div class="bb-kime-wrap">
+  <div class="secenekler secenekler-ikili" id="bb-kime-secenekler">
+    <button class="sec-btn" id="btn-bb-sevgili" onclick="bbKimePopupAc('sevgili',this)"><div class="sec-check"></div> <span id="bb-sevgili-emoji">💏</span> <span id="bb-sevgili-yazi">Sevgili</span></button>
+    <button class="sec-btn" id="btn-bb-arkadas" onclick="bbKimePopupAc('arkadas',this)"><div class="sec-check"></div> <span id="bb-arkadas-emoji">🤝</span> <span id="bb-arkadas-yazi">Arkadaş</span></button>
+    <button class="sec-btn" onclick="bbKimeSec('Anne','👩',this)"><div class="sec-check"></div> 👩 Anne</button>
+    <button class="sec-btn" onclick="bbKimeSec('Baba','👨',this)"><div class="sec-check"></div> 👨 Baba</button>
+    <button class="sec-btn" onclick="bbKimeSec('Kardeş','👧🧒',this)"><div class="sec-check"></div> 👧🧒 Kardeş</button>
+    <button class="sec-btn" onclick="bbKimeSec('Eşime','💑',this)"><div class="sec-check"></div> 💑 Eşime</button>
+    <button class="sec-btn" onclick="bbKimeSec('Bebek','👶',this)"><div class="sec-check"></div> 👶 Bebek</button>
+    <button class="sec-btn" id="btn-bb-cocuk" onclick="bbKimePopupAc('cocuk',this)"><div class="sec-check"></div> <span id="bb-cocuk-emoji">🧒</span> <span id="bb-cocuk-yazi">Çocuk</span></button>
+    <button class="sec-btn" onclick="bbKimeSec('Pet','🐾',this)"><div class="sec-check"></div> 🐾 Pet</button>
+    <button class="sec-btn" onclick="bbKimeSec('Kendime','🪞',this)" class="tam-genislik"><div class="sec-check"></div> 🪞 Kendime</button>
+  </div>
+  <button class="bb-kime-basla" id="bb-basla-btn" onclick="bbBasla()">🎁 Hediye Bul →</button>
+</div>
+
+<!-- BB KİME POPUP -->
+<div id="bb-kime-popup" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.7);z-index:10001;align-items:flex-end;justify-content:center;">
+  <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:20px;max-height:60vh;overflow-y:auto;">
+    <div style="font-size:16px;font-weight:900;color:#1e293b;margin-bottom:14px;" id="bb-popup-baslik"></div>
+    <div id="bb-popup-secenekler" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+</div>
     </div>
 
     <h2>Doğum Günü Hediye Olarak Ne Alınır?</h2>
@@ -462,5 +490,79 @@ function ctaSec(btn, val) {
 </script>
 
 <div class="makale-seo-footer">Son dakika doğum günü hediyesi bul. Doğum günü pastasıyla birlikte ne alayım söyle. Arkadaşıma unutamayacağı doğum günü sürprizi yapmak istiyorum öner.</div>
+<script>
+var _bbKime = null;
+var _bbSevgiliYazilar = ['Sevgili','Nişanlıma'];
+var _bbSevgiliEmojiler = ['💏','💍'];
+var _bbArkadasYazilar = ['Arkadaş','İş arkadaşı'];
+var _bbArkadasEmojiler = ['🤝','💼'];
+var _bbCocukYazilar = ['Çocuk','Çocuğuma'];
+var _bbCocukEmojiler = ['🧒','👪'];
+var _bbSevgiliIdx = 0, _bbArkadasIdx = 0, _bbCocukIdx = 0;
+
+setInterval(function(){
+  _bbSevgiliIdx = (_bbSevgiliIdx+1)%2;
+  var ey=document.getElementById('bb-sevgili-emoji'), wy=document.getElementById('bb-sevgili-yazi');
+  if(ey){ey.style.opacity='0';wy.style.opacity='0';setTimeout(function(){if(ey){ey.textContent=_bbSevgiliEmojiler[_bbSevgiliIdx];ey.style.opacity='1';}if(wy){wy.textContent=_bbSevgiliYazilar[_bbSevgiliIdx];wy.style.opacity='1';}},200);}
+}, 2000);
+setInterval(function(){
+  _bbArkadasIdx = (_bbArkadasIdx+1)%2;
+  var ey=document.getElementById('bb-arkadas-emoji'), wy=document.getElementById('bb-arkadas-yazi');
+  if(ey){ey.style.opacity='0';wy.style.opacity='0';setTimeout(function(){if(ey){ey.textContent=_bbArkadasEmojiler[_bbArkadasIdx];ey.style.opacity='1';}if(wy){wy.textContent=_bbArkadasYazilar[_bbArkadasIdx];wy.style.opacity='1';}},200);}
+}, 2500);
+setInterval(function(){
+  _bbCocukIdx = (_bbCocukIdx+1)%2;
+  var ey=document.getElementById('bb-cocuk-emoji'), wy=document.getElementById('bb-cocuk-yazi');
+  if(ey){ey.style.opacity='0';wy.style.opacity='0';setTimeout(function(){if(ey){ey.textContent=_bbCocukEmojiler[_bbCocukIdx];ey.style.opacity='1';}if(wy){wy.textContent=_bbCocukYazilar[_bbCocukIdx];wy.style.opacity='1';}},200);}
+}, 3000);
+
+function bbKimeSec(deger, ikon, btn) {
+  document.querySelectorAll('.bb-kime-wrap .sec-btn').forEach(function(b){
+    b.classList.remove('secildi');
+    var chk = b.querySelector('.sec-check');
+    if(chk){chk.textContent='';chk.style.background='white';chk.style.borderColor='#cbd5e1';}
+  });
+  btn.classList.add('secildi');
+  var chk = btn.querySelector('.sec-check');
+  if(chk){chk.textContent='✔';chk.style.background='#10b981';chk.style.borderColor='#10b981';chk.style.color='white';}
+  _bbKime = deger;
+  var basla = document.getElementById('bb-basla-btn');
+  if(basla) basla.classList.add('goster');
+}
+
+function bbKimePopupAc(tip, btn) {
+  var popup = document.getElementById('bb-kime-popup');
+  var baslik = document.getElementById('bb-popup-baslik');
+  var secDiv = document.getElementById('bb-popup-secenekler');
+  secDiv.innerHTML = '';
+  var liste = tip==='sevgili' ? [['Sevgili','💏'],['Nişanlıma','💍']] :
+              tip==='arkadas' ? [['Arkadaş','🤝'],['İş arkadaşı','💼']] :
+                                [['Çocuğuma','👪'],['Çocuk','🧒']];
+  baslik.textContent = tip==='sevgili' ? 'İlişkiniz nasıl?' : tip==='arkadas' ? 'Kime alıyorsun?' : 'Kim için alıyorsun?';
+  liste.forEach(function(s){
+    var b = document.createElement('button');
+    b.className = 'sec-btn';
+    b.innerHTML = '<div class="sec-check"></div> '+s[1]+' '+s[0];
+    b.style.cssText = 'display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;';
+    b.onclick = function(){
+      popup.style.display='none';
+      bbKimeSec(s[0], s[1], btn);
+    };
+    secDiv.appendChild(b);
+  });
+  popup.style.display='flex';
+}
+
+function bbBasla() {
+  if(!_bbKime) return;
+  try {
+    var m = JSON.parse(localStorage.getItem('budurBuldumCevaplar')||'{}');
+    m.kime = _bbKime;
+    localStorage.setItem('budurBuldumCevaplar', JSON.stringify(m));
+  } catch(e){}
+  if(typeof gtag==='function') gtag('event','makale_quiz_tiklama',{makale:'makale-dogum-gunu-hediye.html',kime:_bbKime});
+  window.location.href='index.html';
+}
+</script>
 </body>
 </html>
