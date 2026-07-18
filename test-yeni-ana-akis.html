@@ -41,6 +41,8 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 /* SEÇENEK BUTONLARI */
 .secenekler { display:flex;flex-direction:column;gap:8px; }
+.secenekler-ikili { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+.secenekler-ikili .tam-genislik { grid-column:1/-1; }
 .sec-btn { display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:2px solid #e2e8f0;border-bottom:4px solid #cbd5e1;background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%);font-size:14px;font-weight:500;color:#1e293b;cursor:pointer;text-align:left;transition:all 0.15s ease;-webkit-tap-highlight-color:transparent; }
 .sec-btn:active { transform:translateY(2px); }
 .sec-btn.secildi { background:linear-gradient(180deg,#d1fae5 0%,#a7f3d0 100%);border-color:#10b981;border-bottom-color:#059669;color:#065f46;font-weight:700; }
@@ -205,14 +207,17 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   <div class="soru-no-badge">1. Soru</div>
   <div class="soru-baslik">Hediye kime alınıyor?</div>
   <div class="soru-alt">👇 Bir seçenek seç</div>
-  <div class="secenekler">
+  <div class="secenekler secenekler-ikili">
     <button class="sec-btn" onclick="secimYap('kime','Sevgili','💑',this)"><div class="sec-check"></div> 💑 Sevgili</button>
     <button class="sec-btn" onclick="secimYap('kime','Arkadaş','🤝',this)"><div class="sec-check"></div> 🤝 Arkadaş</button>
     <button class="sec-btn" onclick="secimYap('kime','Anne','👩',this)"><div class="sec-check"></div> 👩 Anne</button>
     <button class="sec-btn" onclick="secimYap('kime','Baba','👨',this)"><div class="sec-check"></div> 👨 Baba</button>
     <button class="sec-btn" onclick="secimYap('kime','Kardeş','👫',this)"><div class="sec-check"></div> 👫 Kardeş</button>
     <button class="sec-btn" onclick="secimYap('kime','İş arkadaşı','💼',this)"><div class="sec-check"></div> 💼 İş arkadaşı</button>
-    <button class="sec-btn" onclick="secimYap('kime','Kendime','🪞',this)"><div class="sec-check"></div> 🪞 Kendime</button>
+    <button class="sec-btn" onclick="secimYap('kime','Bebek','👶',this)"><div class="sec-check"></div> 👶 Bebek</button>
+    <button class="sec-btn" onclick="secimYap('kime','Çocuk','🧒',this)"><div class="sec-check"></div> 🧒 Çocuk</button>
+    <button class="sec-btn" onclick="secimYap('kime','Pet','🐾',this)"><div class="sec-check"></div> 🐾 Pet</button>
+    <button class="sec-btn tam-genislik" onclick="secimYap('kime','Kendime','🪞',this)"><div class="sec-check"></div> 🪞 Kendime</button>
   </div>
 </div>
 
@@ -423,7 +428,7 @@ function getPillKategoriAdi(k) {
 var PILL_KATEGORI_ADI = {butce:'Bütçe',spor:'Spor / Hareket',muzik:'Müzik / Enstrüman',kitap:'Okumak / Yazmak',kahve:'Kahve & Çay',teknoloji:'Teknoloji / Dijital',yemek:'Yemek / Mutfak',seyahat:'Seyahat / Keşif',sanat:'Sanat / El işi',oyun:'Oyun / Eğlence',foto:'Fotoğraf / Video',bitki:'Doğa / Bahçe',makyaj:'Güzellik / Bakım'};
 
 var SORU_ICERIK = {
-  kime:{baslik:'Hediye kime alınıyor?',secenekler:[['Sevgili','💑'],['Arkadaş','🤝'],['Anne','👩'],['Baba','👨'],['Kardeş','👫'],['İş arkadaşı','💼'],['Kendime','🪞']]},
+  kime:{baslik:'Hediye kime alınıyor?',secenekler:[['Sevgili','💑'],['Arkadaş','🤝'],['Anne','👩'],['Baba','👨'],['Kardeş','👫'],['İş arkadaşı','💼'],['Bebek','👶'],['Çocuk','🧒'],['Pet','🐾'],['Kendime','🪞']]},
   cinsiyet:{baslik:'Cinsiyeti nedir?',secenekler:[['Kadın','👩'],['Erkek','👨']]},
   yas:{baslik:'Yaş aralığı nedir?',secenekler:[['13–17','🧒'],['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']]},
   butce:{baslik:'Bütçen ne kadar?',secenekler:[['0-500 TL','💛'],['0-1000 TL','💚'],['0-2000 TL','💙'],['0-3000 TL','💜'],['0-5000 TL','🖤'],['5001-10000 TL','💎']]},
