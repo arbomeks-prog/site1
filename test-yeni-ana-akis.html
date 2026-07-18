@@ -1013,9 +1013,10 @@ async function hediyeBul() {
   document.getElementById('hediyeler-grid').style.display='none';
   document.getElementById('yeniden-btn').style.display='none';
 
+  // Yükleme ekranına (kronometre) scroll et
   setTimeout(function(){
-    // hediyeler yüklenince scroll — aşağıdaki grid.scrollIntoView yapacak
-  },200);
+    document.getElementById('yukleme-wrap').scrollIntoView({behavior:'smooth', block:'center'});
+  }, 150);
 
   try {
     var prompt = buildPrompt();
