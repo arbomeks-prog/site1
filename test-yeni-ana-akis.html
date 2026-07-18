@@ -857,7 +857,13 @@ function soruTamamla(soruId) {
       sonrakiId = SORU_SIRASI[sonrakiIdx];
     }
     document.getElementById('soru-'+sonrakiId).classList.add('aktif');
-    setTimeout(function(){ document.getElementById('soru-'+sonrakiId).scrollIntoView({behavior:'smooth',block:'start'}); }, 80);
+    setTimeout(function(){
+      var el = document.getElementById('soru-'+sonrakiId);
+      if (el) {
+        var top = el.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({top: top, behavior: 'smooth'});
+      }
+    }, 80);
   } else {
     pillGoster();
   }
@@ -877,7 +883,10 @@ function soruGeriAl(soruId) {
   soruKart.innerHTML = html;
   soruKart.classList.remove('tamamlandi');
   soruKart.classList.add('aktif');
-  setTimeout(function(){ soruKart.scrollIntoView({behavior:'smooth',block:'start'}); }, 80);
+  setTimeout(function(){
+    var top = soruKart.getBoundingClientRect().top + window.pageYOffset - 90;
+    window.scrollTo({top: top, behavior: 'smooth'});
+  }, 80);
 }
 
 var YAS_SECENEKLER = {
