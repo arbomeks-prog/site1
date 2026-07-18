@@ -211,3 +211,49 @@ Mevcut 30 sorulu iframe akışından vazgeçilmedi ama yanına yeni bir sistem i
 - [ ] Quiz embed sistemi — makale içine gömme, URL parametreleri
 - [ ] Rate limiting — IP başına günlük max istek (bot koruması)
 - [ ] Affiliate linkleri gerçek hale getirilecek
+
+---
+
+## 📅 19 Temmuz 2026 — Yeni Index Canlıya Alındı
+
+### Yapılanlar
+
+**test-yeni-ana-akis.html → index.html:**
+- Eski index.html → eski-index.html olarak yedeklendi
+- test-yeni-ana-akis.html → index.html olarak canlıya alındı
+- Demo banner kaldırıldı, "Özel bir kategori seç" yazısı güncellendi
+
+**Yeni index özellikleri:**
+- Navbar (Mail + budurbuldum logo + Biz Kimiz?)
+- 3 dönen hediye kartı seti (3sn rotasyon, Pexels görselli)
+- "Yüzlerce hediye için..." + "sadece 6 soru cevapla ↓" başlıkları
+- 6 sorulu quiz (kime, cinsiyet, yaş, bütçe, amaç, burç)
+- Geri sayımlı kronometre (35sn), shimmer efekti (5sn'de bir)
+- Ortalama fiyat etiketi, Puan Verin, Bize Yazın, İndir & Paylaş butonları
+- Makaleler bölümü gizli — "🧿 📚 Makaleler & Hakkımızda ↓" butonuyla açılıyor
+- GA4, config.js, Font Awesome eklendi
+
+**Kime sorusu değişiklikleri:**
+- Sevgili 💏↔💍 Nişanlıma (popup)
+- Arkadaş 🤝↔💼 İş arkadaşı (popup)
+- Çocuk 🧒↔👪 Çocuğuma (popup) — quiz'de devam ediyor, yönlendirme yok
+- Kardeş 👧🧒, Eşime 💑, Bebek 👶, Pet 🐾 sabit
+- Bebek/Pet/Kardeş → ilgili dallanma sayfalarına yönlendiriyor
+- Anne/Baba seçilince yaş 36-45'ten başlıyor, Sevgili/Kardeş 18-25'ten
+
+**makale-dogum-gunu-hediye.html:**
+- İki eski sahte widget kaldırıldı, yerine gerçek kime sorusu widget'ı eklendi (makale içi + alt CTA)
+- Kime seçilince localStorage'a yazılıyor, index.html açılınca okuyor, 2. sorudan devam ediyor
+- Meta description güncellendi: "6 tane soru cevapla ve sevdiğin kişi için TAM 100 TANE HEDİYE BUL..."
+- Tüm makale paragraflarına strong/u format uygulandı (yıl dönümü makalesi referans alındı)
+
+### Kritik kurallar (bu oturumda netleşti)
+- "yap" komutu gelmeden HİÇBİR ŞEY push edilmez
+- Öneri sun, onay bekle — sonra yap
+- Test etmeden "çalışır" deme
+- Her JS değişikliğinden sonra node --check ile syntax kontrolü yap
+- Quiz CSS'ini makale sayfasına gömmek mümkün (tek dosya, bağımsız çalışıyor) — henüz yapılmadı
+
+### GitHub token
+[TOKEN-GIZLI]
+
