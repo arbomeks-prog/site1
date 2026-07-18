@@ -394,6 +394,47 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 </div><!-- /page -->
 
+<!-- İLETİŞİM OVERLAY -->
+<div id="iletisim-overlay" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.7);z-index:10001;align-items:flex-end;justify-content:center;">
+  <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 40px;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <div style="font-size:17px;font-weight:900;color:#1e293b;">✉️ Bize Yazın</div>
+      <button onclick="document.getElementById('iletisim-overlay').style.display='none'" style="background:none;border:none;font-size:22px;color:#94a3b8;cursor:pointer;line-height:1;">✕</button>
+    </div>
+    <div id="iletisim-tesekkur" style="display:none;text-align:center;padding:24px 0;">
+      <div style="font-size:36px;margin-bottom:12px;">🎉</div>
+      <div style="font-size:18px;font-weight:900;color:#1e293b;margin-bottom:8px;">Mesajınız iletildi!</div>
+      <div style="font-size:14px;color:#64748b;">En kısa sürede dönüş yapacağız.</div>
+      <button onclick="document.getElementById('iletisim-overlay').style.display='none'" style="margin-top:20px;background:#e8a838;border:none;border-radius:12px;padding:12px 28px;font-size:14px;font-weight:700;color:#412402;cursor:pointer;">Kapat</button>
+    </div>
+    <form id="iletisim-form" onsubmit="iletisimGonder(event)">
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Adınız</label>
+        <input type="text" name="isim" placeholder="Adınız Soyadınız" required style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;box-sizing:border-box;color:#1e293b;">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">E-posta</label>
+        <input type="email" name="email" placeholder="ornek@email.com" required style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;box-sizing:border-box;color:#1e293b;">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Konu</label>
+        <select name="konu" style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;box-sizing:border-box;color:#1e293b;background:#fff;">
+          <option>Genel Soru</option>
+          <option>Öneri / Geri Bildirim</option>
+          <option>İş Birliği</option>
+          <option>Sorun Bildirimi</option>
+          <option>Diğer</option>
+        </select>
+      </div>
+      <div style="margin-bottom:18px;">
+        <label style="display:block;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Mesajınız</label>
+        <textarea name="mesaj" placeholder="Mesajınızı buraya yazın..." required rows="4" style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;box-sizing:border-box;color:#1e293b;resize:vertical;"></textarea>
+      </div>
+      <button type="submit" id="iletisim-gonder-btn" style="width:100%;background:linear-gradient(135deg,#e8a838,#f5c96a);border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:800;color:#0f172a;cursor:pointer;">Gönder →</button>
+    </form>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="modalKapat(event)">
   <div class="modal-kutu">
@@ -456,6 +497,33 @@ function kronoDur() {
   kronoBaslangic = null;
 }
 
+function puanAcKart(btn) {
+  var flexRow = btn.parentNode;
+  var p = flexRow.nextElementSibling;
+  if (!p || !p.classList.contains('puan-panel-kart')) return;
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
+}
+function puanSecKart(btn, n) {
+  var panel = btn.closest('.puan-panel-kart');
+  if (!panel) return;
+  panel.querySelectorAll('button').forEach(function(b) {
+    b.style.background='#f8fafc'; b.style.color='#475569'; b.style.borderColor='#e2e8f0';
+  });
+  btn.style.background='#e8a838'; btn.style.color='#412402'; btn.style.borderColor='#e8a838';
+  try {
+    var _sid = 'yeni-akis-'+Date.now();
+    fetch('/api/log-quiz', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:_sid,puan:n})}).catch(function(){});
+  } catch(e) {}
+  setTimeout(function() {
+    var t = panel.querySelector('.puan-tesekkur');
+    if (t) {
+      panel.querySelector('p').style.display='none';
+      panel.querySelector('div').style.display='none';
+      t.style.display='block';
+      t.textContent = n>=7 ? '🎉 '+n+'/10 — teşekkürler!' : n>=4 ? '🙏 '+n+'/10 — daha iyi olacağız.' : '💬 '+n+'/10 — bize yazar mısın?';
+    }
+  }, 400);
+}
 function kronoSifirla() {
   if (kronoInterval) { clearInterval(kronoInterval); kronoInterval = null; }
   kronoBaslangic = null;
@@ -973,7 +1041,18 @@ function kartOlustur(g, idx) {
   html += '<div class="img-wrap"><div class="img-spinner" id="spin-'+idx+'"></div><img id="img-'+idx+'" src="" alt="'+g.name+'"></div>';
   html += '<div class="kart-icerik">';
   html += '<div class="gift-name">'+g.emoji+' '+g.name+'</div>';
-  html += '<div><span class="gift-price-num">'+g.price+'</span></div>';
+  html += '<div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;"><span class="gift-price-num">'+g.price+'</span><span style="font-size:11px;color:#94a3b8;font-weight:700;">ORTALAMA FİYAT</span></div>';
+  html += '<div style="display:flex;gap:6px;margin:8px 0 4px;">'+
+    '<button onclick="puanAcKart(this)" style="display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:#f8fafc;color:#475569;">⭐ Puan Verin</button>'+
+    '<button onclick="iletisimAc()" style="display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:#f8fafc;color:#475569;">✉️ Bize Yazın</button>'+
+  '</div>';
+  html += '<div class="puan-panel-kart" style="display:none;margin-bottom:8px;">'+
+    '<p style="font-size:11px;font-weight:700;color:#94a3b8;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.08em;">Bu öneri işine yaradı mı?</p>'+
+    '<div style="display:flex;gap:4px;flex-wrap:wrap;">';
+  for (var _p=0;_p<=10;_p++) {
+    html += '<button onclick="puanSecKart(this,'+_p+')" style="width:28px;height:28px;border-radius:6px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:11px;font-weight:700;color:#475569;cursor:pointer;">'+_p+'</button>';
+  }
+  html += '</div><div class="puan-tesekkur" style="display:none;font-size:13px;font-weight:700;color:#e8a838;margin-top:8px;"></div></div>';
   if (g.reason) html += '<div class="gift-reason">"'+g.reason+'"</div>';
   if (g.description) html += '<div class="gift-desc">'+g.description+'</div>';
   html += buildLinks(g.searchQuery||g.name, g.mevcutPlatformlar);
@@ -1130,6 +1209,28 @@ var _observeYeniden = setInterval(function() {
   var btn = document.getElementById('yeniden-btn');
   if (btn) { _observer.observe(btn); clearInterval(_observeYeniden); }
 }, 500);
+function iletisimAc() {
+  var o = document.getElementById('iletisim-overlay');
+  o.style.display = 'flex';
+}
+async function iletisimGonder(e) {
+  e.preventDefault();
+  var btn = document.getElementById('iletisim-gonder-btn');
+  btn.textContent = 'Gönderiliyor...'; btn.disabled = true;
+  var form = document.getElementById('iletisim-form');
+  var data = new FormData();
+  data.append('İsim', form.isim.value);
+  data.append('Email', form.email.value);
+  data.append('Konu', form.konu.value);
+  data.append('Mesaj', form.mesaj.value);
+  data.append('_subject', 'BudurBuldum - Yeni Mesaj');
+  data.append('_captcha', 'false');
+  try {
+    await fetch('https://formsubmit.co/budurbuldum@gmail.com', {method:'POST',body:data,mode:'no-cors'});
+  } catch(e) {}
+  form.style.display = 'none';
+  document.getElementById('iletisim-tesekkur').style.display = 'block';
+}
 </script>
 </body>
 </html>
