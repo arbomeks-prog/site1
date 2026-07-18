@@ -262,7 +262,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
     <button class="sec-btn" id="btn-arkadas" onclick="kimePopupAc('arkadas',this)"><div class="sec-check"></div> <span id="arkadas-emoji">🤝</span> <span id="arkadas-yazi">Arkadaş</span></button>
     <button class="sec-btn" onclick="secimYap('kime','Anne','👩',this)"><div class="sec-check"></div> 👩 Anne</button>
     <button class="sec-btn" onclick="secimYap('kime','Baba','👨',this)"><div class="sec-check"></div> 👨 Baba</button>
-    <button class="sec-btn" onclick="secimYap('kime','Kardeş','👫',this)"><div class="sec-check"></div> 👫 Kardeş</button>
+    <button class="sec-btn" onclick="secimYap('kime','Kardeş','👥',this)"><div class="sec-check"></div> 👥 Kardeş</button>
     <button class="sec-btn" onclick="secimYap('kime','Eşime','👫',this)"><div class="sec-check"></div> 👫 Eşime</button>
     <button class="sec-btn" onclick="secimYap('kime','Bebek','👶',this)"><div class="sec-check"></div> 👶 Bebek</button>
     <button class="sec-btn" id="btn-cocuk" onclick="kimePopupAc('cocuk',this)"><div class="sec-check"></div> <span id="cocuk-emoji">🧒</span> <span id="cocuk-yazi">Çocuk</span></button>
@@ -723,7 +723,7 @@ function getPillKategoriAdi(k) {
 var PILL_KATEGORI_ADI = {butce:'Bütçe',spor:'Spor / Hareket',muzik:'Müzik / Enstrüman',kitap:'Okumak / Yazmak',kahve:'Kahve & Çay',teknoloji:'Teknoloji / Dijital',yemek:'Yemek / Mutfak',seyahat:'Seyahat / Keşif',sanat:'Sanat / El işi',oyun:'Oyun / Eğlence',foto:'Fotoğraf / Video',bitki:'Doğa / Bahçe',makyaj:'Güzellik / Bakım'};
 
 var SORU_ICERIK = {
-  kime:{baslik:'Hediye kime alınıyor?',secenekler:[['Sevgili','💑'],['Arkadaş','🤝'],['Anne','👩'],['Baba','👨'],['Kardeş','👫'],['Eşime','💍'],['Bebek','👶'],['Çocuğuma','🧒'],['Pet','🐾'],['Kendime','🪞']]},
+  kime:{baslik:'Hediye kime alınıyor?',secenekler:[['Sevgili','💑'],['Arkadaş','🤝'],['Anne','👩'],['Baba','👨'],['Kardeş','👥'],['Eşime','💍'],['Bebek','👶'],['Çocuğuma','🧒'],['Pet','🐾'],['Kendime','🪞']]},
   cinsiyet:{baslik:'Cinsiyeti nedir?',secenekler:[['Kadın','👩'],['Erkek','👨']]},
   yas:{baslik:'Yaş aralığı nedir?',secenekler:(cevaplar&&(cevaplar.kime==='Anne'||cevaplar.kime==='Baba')?[['36–45','🏡'],['46–60','🌿'],['61+','🍵']]:[['13–17','🧒'],['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']])},
   butce:{baslik:'Bütçen ne kadar?',secenekler:[['0-500 TL','💛'],['0-1000 TL','💚'],['0-2000 TL','💙'],['0-3000 TL','💜'],['0-5000 TL','🖤'],['5001-10000 TL','💎']]},
