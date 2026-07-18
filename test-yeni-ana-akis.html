@@ -140,7 +140,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.55) 50%, transparent 60%);
   background-size: 200% 100%;
-  animation: shimmer 1.6s ease forwards;
+  animation: shimmer 2.4s ease forwards;
 }
 .plt-trendyol { background:#f27a1a;color:white; }
 .plt-hepsiburada { background:#ff6000;color:white; }
@@ -1084,9 +1084,9 @@ async function hediyeBul() {
     setInterval(function(){
       document.querySelectorAll('.plt-link:not([style*="pointer-events:none"])').forEach(function(btn){
         btn.classList.add('shimmer-aktif');
-        setTimeout(function(){ btn.classList.remove('shimmer-aktif'); }, 1800);
+        setTimeout(function(){ btn.classList.remove('shimmer-aktif'); }, 2500);
       });
-    }, 3000);
+    }, 4500);
     // Kronometre ekranın üstünde, ilk kart hemen altında görünsün
     setTimeout(function(){
       var kronoWrap = document.getElementById('krono-wrap');
