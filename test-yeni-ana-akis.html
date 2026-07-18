@@ -37,13 +37,9 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .hero-sub { font-size:14px;color:#94a3b8;line-height:1.5; }
 
 /* PROGRESS */
-.progress-bar { background:#1e293b;padding:12px 20px;display:flex;align-items:center;gap:8px; }
-.progress-track { flex:1;height:4px;background:#334155;border-radius:2px;overflow:hidden; }
-.progress-fill { height:100%;background:#e8a838;border-radius:2px;transition:width 0.4s ease;width:0%; }
-.progress-text { font-size:11px;font-weight:700;color:#64748b;white-space:nowrap; }
 
 /* SORU KARTI */
-.soru-kart { background:#fff;padding:24px 20px 20px;border-bottom:2px dashed #e2e8f0;display:none; }
+.soru-kart { background:#fff;padding:12px 16px 16px;border-bottom:2px dashed #e2e8f0;display:none; }
 .soru-kart.aktif { display:block; }
 .soru-kart.tamamlandi { display:block; }
 .soru-no-badge { display:inline-block;font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#e8a838;background:#fef3c7;padding:3px 8px;border-radius:20px;margin-bottom:10px; }
@@ -217,7 +213,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 <div class="demo-banner">🧪 DEMO — Test Aşaması</div>
 
 <div class="hero" style="padding:16px 16px 0;">
-  <p style="font-size:15px;font-weight:700;color:#f1f5f9;margin-bottom:12px;">Yüzlerce kişiye özel hediye bulmak için...</p>
+  <p style="font-size:22px;font-weight:900;color:#f1f5f9;line-height:1.3;margin-bottom:14px;">Yüzlerce <span style="color:#e8a838;">kişiye özel</span><br>hediye bulmak için...</p>
   <div class="cards-section">
     <!-- SET 1 -->
     <div class="card-set active" id="set-0">
@@ -238,7 +234,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
       <div class="gift-card-mini"><img class="mini-img" src="https://images.pexels.com/photos/3755760/pexels-photo-3755760.jpeg?auto=compress&w=300"><div class="mini-body"><div class="mini-name">Cilt Bakım Seti</div><div class="mini-price">₺920</div><div class="mini-platforms"><span class="mini-plt plt-t">Trendyol</span><span class="mini-plt plt-h">Hepsi</span></div></div></div>
     </div>
   </div>
-  <p style="font-size:17px;font-weight:900;color:#e8a838;text-align:center;padding:14px 0 4px;">sadece 6 soru cevapla ↓</p>
+  <p style="font-size:20px;font-weight:900;color:#e8a838;text-align:center;padding:16px 0 6px;letter-spacing:-0.3px;">sadece 6 soru cevapla ↓</p>
 </div>
 <script>
 (function() {
@@ -254,17 +250,11 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 })();
 </script>
 
-<div class="progress-bar">
-  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-  <div class="progress-text" id="progress-text">0 / 6</div>
-</div>
-
 <div class="ozet-serit" id="ozet-serit"></div>
 
 <!-- SORU 1: KİME -->
 <div class="soru-kart aktif" id="soru-kime">
-  <div class="soru-no-badge">1. Soru</div>
-  <div class="soru-baslik">Hediye kime alınıyor?</div>
+  <div class="soru-baslik"><span style="color:#e8a838;font-size:14px;font-weight:900;margin-right:6px;">1.</span>Hediye kime alınıyor?</div>
   <div class="soru-alt">👇 Bir seçenek seç</div>
   <div class="secenekler secenekler-ikili">
     <button class="sec-btn" onclick="secimYap('kime','Sevgili','💑',this)"><div class="sec-check"></div> 💑 Sevgili</button>
@@ -282,8 +272,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- SORU 2: CİNSİYET -->
 <div class="soru-kart" id="soru-cinsiyet">
-  <div class="soru-no-badge">2. Soru</div>
-  <div class="soru-baslik">Cinsiyeti nedir?</div>
+  <div class="soru-baslik"><span style="color:#e8a838;font-size:14px;font-weight:900;margin-right:6px;">2.</span>Cinsiyeti nedir?</div>
   <div class="soru-alt">👇 Bir seçenek seç</div>
   <div class="secenekler">
     <button class="sec-btn" onclick="secimYap('cinsiyet','Kadın','👩',this)"><div class="sec-check"></div> 👩 Kadın</button>
@@ -293,8 +282,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- SORU 3: YAŞ -->
 <div class="soru-kart" id="soru-yas">
-  <div class="soru-no-badge">3. Soru</div>
-  <div class="soru-baslik">Yaş aralığı nedir?</div>
+  <div class="soru-baslik"><span style="color:#e8a838;font-size:14px;font-weight:900;margin-right:6px;">3.</span>Yaş aralığı nedir?</div>
   <div class="soru-alt">👇 Bir seçenek seç</div>
   <div class="secenekler">
     <button class="sec-btn" onclick="secimYap('yas','13–17','🧒',this)"><div class="sec-check"></div> 🧒 13–17</button>
@@ -308,8 +296,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- SORU 4: BÜTÇE -->
 <div class="soru-kart" id="soru-butce">
-  <div class="soru-no-badge">4. Soru</div>
-  <div class="soru-baslik">Bütçen ne kadar?</div>
+  <div class="soru-baslik"><span style="color:#e8a838;font-size:14px;font-weight:900;margin-right:6px;">4.</span>Bütçen ne kadar?</div>
   <div class="soru-alt">👇 Bir seçenek seç</div>
   <div class="secenekler">
     <button class="sec-btn" onclick="secimYap('butce','0-500 TL','💛',this)"><div class="sec-check"></div> 💛 0–500 TL</button>
@@ -323,8 +310,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- SORU 5: AMAÇ -->
 <div class="soru-kart" id="soru-amac">
-  <div class="soru-no-badge">5. Soru</div>
-  <div class="soru-baslik">Hediyeyi ne için alıyorsun?</div>
+  <div class="soru-baslik"><span style="color:#e8a838;font-size:14px;font-weight:900;margin-right:6px;">5.</span>Hediyeyi ne için alıyorsun?</div>
   <div class="soru-alt">👇 Bir seçenek seç</div>
   <div class="secenekler">
     <button class="sec-btn" onclick="secimYap('amac','Doğum Günü','🎂',this)"><div class="sec-check"></div> 🎂 Doğum Günü</button>
@@ -338,8 +324,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 
 <!-- SORU 6: BURÇ -->
 <div class="soru-kart" id="soru-burc">
-  <div class="soru-no-badge">6. Soru</div>
-  <div class="soru-baslik">Burcunu biliyor musun?</div>
+  <div class="soru-baslik"><span style="color:#e8a838;font-size:14px;font-weight:900;margin-right:6px;">6.</span>Burcunu biliyor musun?</div>
   <div class="soru-alt">👇 Bir seçenek seç</div>
   <div class="secenekler" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
     <button class="sec-btn" onclick="secimYap('burc','♈ Koç','♈',this)"><div class="sec-check"></div> ♈ Koç</button>
@@ -827,11 +812,7 @@ function yasKartiniSifirla() {
   }
 }
 
-function progressGuncelle() {
-  var dolu = SORU_SIRASI.filter(function(id){return cevaplar[id];}).length;
-  document.getElementById('progress-fill').style.width = Math.min((dolu/6)*100,100)+'%';
-  document.getElementById('progress-text').textContent = dolu+' / 6';
-}
+function progressGuncelle() {}
 
 function ozetSeritGuncelle() {
   var serit = document.getElementById('ozet-serit');
