@@ -126,14 +126,6 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .plt-link { font-size:10px;font-weight:600;padding:4px 8px;border-radius:8px;text-decoration:none;transition:all 0.15s ease;display:inline-flex;flex-direction:column;align-items:center;border-bottom:3px solid rgba(0,0,0,0.2);cursor:pointer;line-height:1; }
 .plt-link::after { content:"tıkla";font-size:8px;font-weight:400;opacity:0.8;margin-top:2px; }
 .plt-link:active { transform:translateY(1px); }
-@keyframes pltBounce {
-  0%   { transform:translateY(0); }
-  30%  { transform:translateY(-5px); }
-  60%  { transform:translateY(-2px); }
-  80%  { transform:translateY(-4px); }
-  100% { transform:translateY(0); }
-}
-.plt-link.bounce { animation: pltBounce 0.5s ease forwards; }
 .plt-trendyol { background:#f27a1a;color:white; }
 .plt-hepsiburada { background:#ff6000;color:white; }
 .plt-amazon { background:#ff9900;color:#111; }
@@ -1044,20 +1036,6 @@ async function hediyeBul() {
 
     sugg.forEach(function(g,i){
       grid.insertAdjacentHTML('beforeend', kartOlustur(g,i));
-      // Platform butonlarına sıralı bounce
-      (function(kartIdx){
-        setTimeout(function(){
-          var kart = document.getElementById('kart-'+kartIdx);
-          if (!kart) return;
-          var btns = kart.querySelectorAll('.plt-link:not([style*="pointer-events:none"])');
-          btns.forEach(function(btn, bi){
-            setTimeout(function(){
-              btn.classList.add('bounce');
-              btn.addEventListener('animationend', function(){ btn.classList.remove('bounce'); }, {once:true});
-            }, bi * 80);
-          });
-        }, 600 + kartIdx * 150);
-      })(i);
       (function(idx,hediye){
         getGiftImage(hediye.searchQueryEn||hediye.searchQuery||hediye.name).then(function(url){
           var img=document.getElementById('img-'+idx);
