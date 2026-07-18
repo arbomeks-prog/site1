@@ -358,6 +358,15 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   <div id="yukleme-wrap" class="yukleme-wrap">
     <div class="yukleme-spinner"></div>
     <div class="yukleme-metin" id="yukleme-metin">Hediyeler hazırlanıyor...</div>
+    <div style="margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <div id="geri-sayim-daire" style="width:56px;height:56px;border-radius:50%;background:#1e40af;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(30,64,175,0.4);flex-shrink:0;">
+        <span id="geri-sayim-sayi" style="font-size:22px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;">30</span>
+      </div>
+      <div style="text-align:left;">
+        <div style="font-size:13px;font-weight:700;color:#1e293b;">saniyede hediyeni buluyoruz</div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Grok senin için araştırıyor...</div>
+      </div>
+    </div>
   </div>
   <div class="hediyeler-grid" id="hediyeler-grid" style="display:none;"></div>
   <div id="sinir-mesaj" style="display:none;text-align:center;padding:40px 20px;">
@@ -400,11 +409,23 @@ var kronoBaslangic = null;
 var kronoKararVerildi = false;
 
 function kronoBaslat() {
-  kronoKararVerildi = false;
   kronoBaslangic = Date.now();
   var wrap = document.getElementById('krono-wrap');
   if (wrap) wrap.style.display = 'none';
   if (kronoInterval) clearInterval(kronoInterval);
+  // Geri sayım dairesi
+  var geriSayi = document.getElementById('geri-sayim-sayi');
+  var geriDaire = document.getElementById('geri-sayim-daire');
+  var kalan = 30;
+  if (geriSayi) geriSayi.textContent = kalan;
+  kronoInterval = setInterval(function() {
+    kalan--;
+    if (kalan < 0) kalan = 0;
+    if (geriSayi) geriSayi.textContent = kalan;
+    // Renk: 30→20 mavi, 20→10 turuncu, 10→0 kırmızı
+    var renk = kalan > 20 ? '#1e40af' : kalan > 10 ? '#d97706' : '#dc2626';
+    if (geriDaire) geriDaire.style.background = renk;
+  }, 1000);
 }
 
 function kronoDur() {
@@ -420,14 +441,16 @@ function kronoDur() {
 }
 
 function kronoSifirla() {
-  kronoKararVerildi = false;
   if (kronoInterval) { clearInterval(kronoInterval); kronoInterval = null; }
+  kronoBaslangic = null;
   var wrap = document.getElementById('krono-wrap');
   if (wrap) wrap.style.display = 'none';
-  document.getElementById('krono-sure').textContent = '0:00';
+  var geriSayi = document.getElementById('geri-sayim-sayi');
+  var geriDaire = document.getElementById('geri-sayim-daire');
+  if (geriSayi) geriSayi.textContent = '30';
+  if (geriDaire) geriDaire.style.background = '#1e40af';
   var kutu = document.getElementById('krono-kutu');
   if (kutu) kutu.className = 'krono-kutu';
-  document.getElementById('krono-label').textContent = 'karar süren';
 }
 
 var PEXELS_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
