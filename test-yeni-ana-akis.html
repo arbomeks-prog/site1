@@ -45,6 +45,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .soru-no-badge { display:inline-block;font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#e8a838;background:#fef3c7;padding:3px 8px;border-radius:20px;margin-bottom:10px; }
 .soru-baslik { font-size:18px;font-weight:800;color:#1e293b;margin-bottom:4px;line-height:1.3; }
 .soru-alt { font-size:12px;color:#94a3b8;margin-bottom:14px; }
+#arkadas-yazi, #cocuk-yazi { transition: opacity 0.2s ease; display:inline; }
 
 /* SEÇENEK BUTONLARI */
 .secenekler { display:flex;flex-direction:column;gap:8px; }
@@ -258,13 +259,13 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   <div class="soru-alt">👇 Bir seçenek seç</div>
   <div class="secenekler secenekler-ikili">
     <button class="sec-btn" onclick="secimYap('kime','Sevgili','💑',this)"><div class="sec-check"></div> 💑 Sevgili</button>
-    <button class="sec-btn" onclick="secimYap('kime','Arkadaş','🤝',this)"><div class="sec-check"></div> 🤝 Arkadaş</button>
+    <button class="sec-btn" id="btn-arkadas" onclick="kimePopupAc('arkadas',this)"><div class="sec-check"></div> 🤝 <span id="arkadas-yazi">Arkadaş</span></button>
     <button class="sec-btn" onclick="secimYap('kime','Anne','👩',this)"><div class="sec-check"></div> 👩 Anne</button>
     <button class="sec-btn" onclick="secimYap('kime','Baba','👨',this)"><div class="sec-check"></div> 👨 Baba</button>
     <button class="sec-btn" onclick="secimYap('kime','Kardeş','👫',this)"><div class="sec-check"></div> 👫 Kardeş</button>
     <button class="sec-btn" onclick="secimYap('kime','Eşime','💍',this)"><div class="sec-check"></div> 💍 Eşime</button>
     <button class="sec-btn" onclick="secimYap('kime','Bebek','👶',this)"><div class="sec-check"></div> 👶 Bebek</button>
-    <button class="sec-btn" onclick="secimYap('kime','Çocuğuma','🧒',this)"><div class="sec-check"></div> 🧒 Çocuğuma</button>
+    <button class="sec-btn" id="btn-cocuk" onclick="kimePopupAc('cocuk',this)"><div class="sec-check"></div> 🧒 <span id="cocuk-yazi">Çocuk</span></button>
     <button class="sec-btn" onclick="secimYap('kime','Pet','🐾',this)"><div class="sec-check"></div> 🐾 Pet</button>
     <button class="sec-btn tam-genislik" onclick="secimYap('kime','Kendime','🪞',this)"><div class="sec-check"></div> 🪞 Kendime</button>
   </div>
@@ -444,6 +445,15 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   </div>
 </div>
 
+<!-- KİME ALT SEÇİM POPUP -->
+<div id="kime-altpopup" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('acik')">
+  <div class="modal-kutu">
+    <div class="modal-tuts"></div>
+    <div class="modal-baslik" id="kime-altpopup-baslik"></div>
+    <div class="modal-secenekler" id="kime-altpopup-secenekler"></div>
+  </div>
+</div>
+
 <!-- İLETİŞİM OVERLAY -->
 <div id="iletisim-overlay" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.7);z-index:10001;align-items:flex-end;justify-content:center;">
   <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 40px;max-height:90vh;overflow-y:auto;">
@@ -545,6 +555,60 @@ function kronoDur() {
   if (wrap) wrap.style.display = 'block';
   if (kutu) kutu.className = 'krono-karar';
   kronoBaslangic = null;
+}
+
+// Arkadaş / Çocuk dönen yazı sistemi
+var _arkadasYazilar = ['Arkadaş', 'İş arkadaşı'];
+var _cocukYazilar = ['Çocuk', 'Çocuğuma'];
+var _arkadasIdx = 0;
+var _cocukIdx = 0;
+
+setInterval(function() {
+  _arkadasIdx = (_arkadasIdx + 1) % _arkadasYazilar.length;
+  var el = document.getElementById('arkadas-yazi');
+  if (el) {
+    el.style.opacity = '0';
+    setTimeout(function() {
+      if (el) { el.textContent = _arkadasYazilar[_arkadasIdx]; el.style.opacity = '1'; }
+    }, 200);
+  }
+}, 2000);
+
+setInterval(function() {
+  _cocukIdx = (_cocukIdx + 1) % _cocukYazilar.length;
+  var el = document.getElementById('cocuk-yazi');
+  if (el) {
+    el.style.opacity = '0';
+    setTimeout(function() {
+      if (el) { el.textContent = _cocukYazilar[_cocukIdx]; el.style.opacity = '1'; }
+    }, 200);
+  }
+}, 2500);
+
+function kimePopupAc(tip, btn) {
+  var popup = document.getElementById('kime-altpopup');
+  var baslik = document.getElementById('kime-altpopup-baslik');
+  var secenekler = document.getElementById('kime-altpopup-secenekler');
+  secenekler.innerHTML = '';
+
+  var liste = tip === 'arkadas'
+    ? [['Arkadaş', '🤝'], ['İş arkadaşı', '💼']]
+    : [['Çocuğuma', '🧒'], ['Çocuk', '🧒']];
+
+  baslik.textContent = tip === 'arkadas' ? 'Kime alıyorsun?' : 'Kim için alıyorsun?';
+
+  liste.forEach(function(s) {
+    var b = document.createElement('button');
+    b.className = 'sec-btn';
+    b.innerHTML = '<div class="sec-check"></div> ' + s[1] + ' ' + s[0];
+    b.onclick = function() {
+      popup.classList.remove('acik');
+      secimYap('kime', s[0], s[1], btn);
+    };
+    secenekler.appendChild(b);
+  });
+
+  popup.classList.add('acik');
 }
 
 function puanAcKart(btn) {
@@ -649,7 +713,7 @@ function secimYap(soruId, deger, ikon, btn) {
   if (soruId === 'kime') {
     var hedef = null;
     if (deger === 'Bebek')   hedef = 'bebek-kiz-mi-erkek-mi-hediye-testi.html';
-    if (deger === 'Çocuğuma')   hedef = 'cocuk-kiz-mi-erkek-mi-hediye-testi.html';
+    // Çocuğuma akışta devam eder
     if (deger === 'Pet')     hedef = 'evcil-hayvan-icin-hediye-testi.html';
     if (deger === 'Kardeş')  hedef = 'kadin-erkek-hediye-secimi-testi.html';
     if (hedef) {
