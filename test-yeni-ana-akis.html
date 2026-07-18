@@ -621,6 +621,25 @@ var SORU_ICERIK = {
 
 // ── SORU AKIŞI ──
 function secimYap(soruId, deger, ikon, btn) {
+  // Bebek/Çocuk/Pet/Kardeş seçilince ilgili akışa yönlendir
+  if (soruId === 'kime') {
+    var hedef = null;
+    if (deger === 'Bebek')   hedef = 'bebek-kiz-mi-erkek-mi-hediye-testi.html';
+    if (deger === 'Çocuk')   hedef = 'cocuk-kiz-mi-erkek-mi-hediye-testi.html';
+    if (deger === 'Pet')     hedef = 'evcil-hayvan-icin-hediye-testi.html';
+    if (deger === 'Kardeş')  hedef = 'kadin-erkek-hediye-secimi-testi.html';
+    if (hedef) {
+      try {
+        var mevcut = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+        mevcut.kime = deger;
+        localStorage.setItem('budurBuldumCevaplar', JSON.stringify(mevcut));
+        localStorage.setItem('budurBuldumAktifSet', deger === 'Bebek' ? 'bebekler' : deger === 'Çocuk' ? 'cocuklar' : deger === 'Pet' ? 'petler' : 'normal');
+      } catch(e) {}
+      window.location.href = hedef;
+      return;
+    }
+  }
+
   var eskiDeger = cevaplar[soruId];
   var parent = btn.closest('.secenekler');
   parent.querySelectorAll('.sec-btn').forEach(function(b){b.classList.remove('secildi');});
