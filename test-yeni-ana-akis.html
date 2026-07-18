@@ -613,7 +613,7 @@ var PILL_KATEGORI_ADI = {butce:'Bütçe',spor:'Spor / Hareket',muzik:'Müzik / E
 var SORU_ICERIK = {
   kime:{baslik:'Hediye kime alınıyor?',secenekler:[['Sevgili','💑'],['Arkadaş','🤝'],['Anne','👩'],['Baba','👨'],['Kardeş','👫'],['İş arkadaşı','💼'],['Bebek','👶'],['Çocuk','🧒'],['Pet','🐾'],['Kendime','🪞']]},
   cinsiyet:{baslik:'Cinsiyeti nedir?',secenekler:[['Kadın','👩'],['Erkek','👨']]},
-  yas:{baslik:'Yaş aralığı nedir?',secenekler:[['13–17','🧒'],['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']]},
+  yas:{baslik:'Yaş aralığı nedir?',secenekler:(cevaplar&&(cevaplar.kime==='Anne'||cevaplar.kime==='Baba')?[['36–45','🏡'],['46–60','🌿'],['61+','🍵']]:[['13–17','🧒'],['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']])},
   butce:{baslik:'Bütçen ne kadar?',secenekler:[['0-500 TL','💛'],['0-1000 TL','💚'],['0-2000 TL','💙'],['0-3000 TL','💜'],['0-5000 TL','🖤'],['5001-10000 TL','💎']]},
   amac:{baslik:'Hediyeyi ne için alıyorsun?',secenekler:[['Doğum Günü','🎂'],['Yıl Dönümü','💐'],['Sevgililer Günü','❤️'],['Özel Bir Başarı','🏆'],['Sadece Sürpriz','🎁'],['Yılbaşı / Bayram','🎊']]},
   burc:{baslik:'Burcunu biliyor musun?',secenekler:[['♈ Koç','♈'],['♉ Boğa','♉'],['♊ İkizler','♊'],['♋ Yengeç','♋'],['♌ Aslan','♌'],['♍ Başak','♍'],['♎ Terazi','♎'],['♏ Akrep','♏'],['♐ Yay','♐'],['♑ Oğlak','♑'],['♒ Kova','♒'],['♓ Balık','♓'],['Bilmiyorum','🤷']]}
@@ -657,6 +657,15 @@ function soruTamamla(soruId) {
       // Diğer seçimlerde cinsiyet sıfırlansın (önceden Anne/Baba seçilmiş olabilir)
       delete cevaplar.cinsiyet;
       delete cevaplar.cinsiyet_ikon;
+    }
+    // Yaş seçeneklerini kime'ye göre güncelle
+    yasSeceneklerGuncelle(cevaplar.kime);
+    // Önceki yaş cevabını sıfırla (geçersiz kalabilir)
+    delete cevaplar.yas;
+    delete cevaplar.yas_ikon;
+    var yasKart = document.getElementById('soru-yas');
+    if (yasKart && yasKart.classList.contains('tamamlandi')) {
+      yasKartiniSifirla();
     }
   }
 
@@ -712,6 +721,44 @@ function soruGeriAl(soruId) {
   soruKart.classList.remove('tamamlandi');
   soruKart.classList.add('aktif');
   setTimeout(function(){ soruKart.scrollIntoView({behavior:'smooth',block:'start'}); }, 80);
+}
+
+var YAS_SECENEKLER = {
+  varsayilan: [['13–17','🧒'],['18–25','🎓'],['26–35','☕'],['36–45','🏡'],['46–60','🌿'],['61+','🍵']],
+  anne_baba:  [['36–45','🏡'],['46–60','🌿'],['61+','🍵']]
+};
+
+function yasSeceneklerGuncelle(kime) {
+  var liste = (kime === 'Anne' || kime === 'Baba') ? YAS_SECENEKLER.anne_baba : YAS_SECENEKLER.varsayilan;
+  var yasKart = document.getElementById('soru-yas');
+  if (!yasKart) return;
+  var secDiv = yasKart.querySelector('.secenekler');
+  if (!secDiv) return;
+  secDiv.innerHTML = '';
+  liste.forEach(function(s) {
+    var btn = document.createElement('button');
+    btn.className = 'sec-btn';
+    btn.innerHTML = '<div class="sec-check"></div> ' + s[1] + ' ' + s[0];
+    btn.onclick = function() { secimYap('yas', s[0], s[1], btn); };
+    secDiv.appendChild(btn);
+  });
+}
+
+function yasKartiniSifirla() {
+  var kime = cevaplar.kime || '';
+  var liste = (kime === 'Anne' || kime === 'Baba') ? YAS_SECENEKLER.anne_baba : YAS_SECENEKLER.varsayilan;
+  var idx = SORU_SIRASI.indexOf('yas') + 1;
+  var icerik_html = '<div class="soru-no-badge">'+idx+'. Soru</div><div class="soru-baslik">Yaş aralığı nedir?</div><div class="soru-alt">👇 Bir seçenek seç</div><div class="secenekler">';
+  liste.forEach(function(s) {
+    icerik_html += '<button class="sec-btn" onclick="secimYap('yas',''+s[0]+'',''+s[1]+'',this)"><div class="sec-check"></div> '+s[1]+' '+s[0]+'</button>';
+  });
+  icerik_html += '</div>';
+  var yasKart = document.getElementById('soru-yas');
+  if (yasKart) {
+    yasKart.innerHTML = icerik_html;
+    yasKart.classList.remove('tamamlandi');
+    yasKart.classList.remove('aktif');
+  }
 }
 
 function progressGuncelle() {
