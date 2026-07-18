@@ -1064,13 +1064,12 @@ async function hediyeBul() {
       hbBtn.innerHTML = '🎁 Yeni Hediyeler Bul <span style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:10px;font-size:12px;margin-left:6px;">'+sonrakiTur+'. Tur</span>';
       hbBtn.style.animation = 'pulseYeni 2.5s ease-in-out infinite';
     }
-    // İlk hediye kartının tepesi görünsün
+    // Kronometre ekranın üstünde, ilk kart hemen altında görünsün
     setTimeout(function(){
-      var grid = document.getElementById('hediyeler-grid');
-      if (grid && grid.firstElementChild) {
-        grid.firstElementChild.scrollIntoView({behavior:'smooth', block:'start'});
-      } else if (grid) {
-        grid.scrollIntoView({behavior:'smooth', block:'start'});
+      var kronoWrap = document.getElementById('krono-wrap');
+      if (kronoWrap) {
+        var top = kronoWrap.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({top: top, behavior: 'smooth'});
       }
     }, 100);
 
