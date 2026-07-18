@@ -1004,6 +1004,17 @@ function pillCevapSec(kategori, cevap, pillBtn) {
     turTamamlandi = false;
     turSayaciSifirla();
     document.getElementById('tur-popup').classList.remove('acik');
+    // Bütçe değişince butonu direkt aktif et
+    var _btn = document.getElementById('hediye-bul-btn');
+    if (_btn) {
+      _btn.disabled = false;
+      _btn.style.cursor = 'pointer';
+      _btn.style.opacity = '1';
+      _btn.style.background = 'linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%)';
+      _btn.style.boxShadow = '0 4px 20px rgba(30,64,175,0.4)';
+      _btn.style.animation = 'pulseBtn 1.8s ease-in-out infinite';
+      _btn.innerHTML = '🎁 Hediye Bul';
+    }
   } else {
     cevaplar.pill=true; cevaplar.pill_kategori=kategori; cevaplar.pill_cevap=cevap;
     aktifPill=kategori;
@@ -1111,7 +1122,9 @@ function hediyeBulButonGuncelle() {
   if (!btn) return;
   var bilmiyorumSecildi = document.getElementById('bilmiyorum-btn') && document.getElementById('bilmiyorum-btn').classList.contains('secildi');
   var pillSecildi = cevaplar.pill && cevaplar.pill_kategori;
-  if (pillSecildi || bilmiyorumSecildi) {
+  // Bütçe değişince de aktif: eğer pill seçiliyse veya bilmiyorum seçiliyse bütçe değişimi yeterli
+  var aktifPillVarMi = pillSecildi || bilmiyorumSecildi;
+  if (aktifPillVarMi) {
     btn.disabled=false; btn.style.cursor='pointer'; btn.style.opacity='1';
     // Tur tamamlandıysa hiçbir şeye dokunma
     if (!turTamamlandi) {
