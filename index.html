@@ -1458,7 +1458,30 @@ function yenidenBasla() {
 // ── BAŞLANGIÇ ──
 localStorage.removeItem('bb_yeni_akis_pill');
 progressGuncelle();
-window.addEventListener('load', function() { window.scrollTo(0, 0); });
+window.addEventListener('load', function() {
+  window.scrollTo(0, 0);
+  // Makale sayfasından gelen kime cevabını yükle
+  try {
+    var gelenVeri = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+    if (gelenVeri.kime) {
+      localStorage.removeItem('budurBuldumCevaplar');
+      // Popup açan butonlar için direkt secimYap çağır
+      var popuplar = ['Sevgili','Nişanlıma','Arkadaş','İş arkadaşı','Çocuk','Çocuğuma'];
+      var ikonlar = {'Sevgili':'💏','Nişanlıma':'💍','Arkadaş':'🤝','İş arkadaşı':'💼',
+                     'Anne':'👩','Baba':'👨','Kardeş':'👧🧒','Eşime':'💑',
+                     'Bebek':'👶','Çocuk':'🧒','Çocuğuma':'👪','Pet':'🐾','Kendime':'🪞'};
+      var ikon = ikonlar[gelenVeri.kime] || '🎁';
+      // Sahte bir buton oluştur
+      var fakeBtn = document.createElement('button');
+      fakeBtn.className = 'sec-btn';
+      fakeBtn.innerHTML = '<div class="sec-check"></div>';
+      var kimeSorasi = document.querySelector('#soru-kime .secenekler');
+      if (kimeSorasi) kimeSorasi.appendChild(fakeBtn);
+      secimYap('kime', gelenVeri.kime, ikon, fakeBtn);
+      if (kimeSorasi) kimeSorasi.removeChild(fakeBtn);
+    }
+  } catch(e) {}
+});
 
 // Yukarı Çık butonu görününce yanıp sönsün
 var _observer = new IntersectionObserver(function(entries) {
