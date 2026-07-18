@@ -254,6 +254,3 @@ Mevcut 30 sorulu iframe akışından vazgeçilmedi ama yanına yeni bir sistem i
 - Her JS değişikliğinden sonra node --check ile syntax kontrolü yap
 - Quiz CSS'ini makale sayfasına gömmek mümkün (tek dosya, bağımsız çalışıyor) — henüz yapılmadı
 
-### GitHub token
-[TOKEN-NOTLAR-MD-DE-SAKLANMAZ]
-
