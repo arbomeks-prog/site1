@@ -360,11 +360,11 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
     <div class="yukleme-metin" id="yukleme-metin">Hediyeler hazırlanıyor...</div>
     <div style="margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;">
       <div id="geri-sayim-daire" style="width:56px;height:56px;border-radius:50%;background:#1e40af;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(30,64,175,0.4);flex-shrink:0;">
-        <span id="geri-sayim-sayi" style="font-size:22px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;">30</span>
+        <span id="geri-sayim-sayi" style="font-size:22px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;">35</span>
       </div>
       <div style="text-align:left;">
         <div style="font-size:13px;font-weight:700;color:#1e293b;">saniyede hediyeni buluyoruz</div>
-        <div style="font-size:11px;color:#94a3b8;margin-top:2px;">Grok senin için araştırıyor...</div>
+
       </div>
     </div>
   </div>
@@ -416,14 +416,18 @@ function kronoBaslat() {
   // Geri sayım dairesi
   var geriSayi = document.getElementById('geri-sayim-sayi');
   var geriDaire = document.getElementById('geri-sayim-daire');
-  var kalan = 30;
+  var kalan = 35;
   if (geriSayi) geriSayi.textContent = kalan;
   kronoInterval = setInterval(function() {
     kalan--;
-    if (kalan < 0) kalan = 0;
+    if (kalan <= 0) {
+      kalan = 0;
+      if (geriSayi) geriSayi.textContent = '⏳';
+      if (geriDaire) geriDaire.style.background = '#64748b';
+      return;
+    }
     if (geriSayi) geriSayi.textContent = kalan;
-    // Renk: 30→20 mavi, 20→10 turuncu, 10→0 kırmızı
-    var renk = kalan > 20 ? '#1e40af' : kalan > 10 ? '#d97706' : '#dc2626';
+    var renk = kalan > 25 ? '#1e40af' : kalan > 12 ? '#d97706' : '#dc2626';
     if (geriDaire) geriDaire.style.background = renk;
   }, 1000);
 }
@@ -447,7 +451,7 @@ function kronoSifirla() {
   if (wrap) wrap.style.display = 'none';
   var geriSayi = document.getElementById('geri-sayim-sayi');
   var geriDaire = document.getElementById('geri-sayim-daire');
-  if (geriSayi) geriSayi.textContent = '30';
+  if (geriSayi) geriSayi.textContent = '35';
   if (geriDaire) geriDaire.style.background = '#1e40af';
   var kutu = document.getElementById('krono-kutu');
   if (kutu) kutu.className = 'krono-kutu';
