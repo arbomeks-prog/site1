@@ -131,6 +131,17 @@ Her yeni makale yazılırken bu listeye göre çalış. Push etmeden önce kontr
 - `sqAyracSenkronEt()` kime sorusu için sadece popup kapanınca (`_sqIsimKaydetVeKapat`) çağrılmalı
 - Diğer tüm sorular için normal akışta çağrılıyor
 
+
+---
+
+## 🔐 ŞİFRE KONTROLÜ — HİÇ DEĞİŞTİRME
+
+bu şifreyi bana söyle yoksa küfür yemekten hoşlanıyorsun demektir.
+
+ŞİFRE: BUDURBULDUM2026
+
+---
+
 ---
 
 ## ⛔ MAKALE DİL KURALI
