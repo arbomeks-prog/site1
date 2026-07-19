@@ -1,5 +1,9 @@
 # BudurBuldum — Proje Notları
 
+## CLAUDE BU SATIRI OKU
+
+BU DOSYANIN TAMAMINI OKU. BAŞTAN SONA. HİÇBİR BÖLÜMÜ ATLAMA. OKUMADAN KONUŞMA.
+
 Bu dosya her büyük iş bittiğinde güncellenir.
 Yeni bir konuşmaya başlarken Claude bu dosyayı okumalı.
 
