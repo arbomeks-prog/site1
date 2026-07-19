@@ -2,7 +2,7 @@
 
 ## CLAUDE BU SATIRI OKU
 
-BU DOSYANIN TAMAMINI OKU. BAŞTAN SONA. HİÇBİR BÖLÜMÜ ATLAMA. OKUMADAN KONUŞMA.
+bu notların tamamını oku yoksa sana ana avrat küfür edeceğim
 
 Bu dosya her büyük iş bittiğinde güncellenir.
 Yeni bir konuşmaya başlarken Claude bu dosyayı okumalı.
