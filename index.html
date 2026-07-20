@@ -1305,7 +1305,7 @@ function buildLinks(name, mevcutPlatformlar) {
     var plt = tumPlatformlar[p];
     var aktifMi = bulunan.includes(p);
     var style = aktifMi ? '' : ' style="opacity:0.3;pointer-events:none;" title="Bu platformda bulunamadı"';
-    var onclickAttr = aktifMi ? ' onclick="if(typeof gtag===\'function\')gtag(\'event\',\'affiliate_click\',{platform:\''+p+'\',urun_adi:\''+((g&&g.name)||'')+'\',tur_no:'+turSayaci+'});"' : '';
+    var onclickAttr = aktifMi ? ' onclick="if(typeof gtag===\'function\')gtag(\'event\',\'affiliate_click\',{platform:\''+p+'\',urun_adi:\''+encodeURIComponent(name)+'\',tur_no:'+turSayaci+'});"' : '';
     html += '<a href="'+plt.url+'" target="_blank" class="plt-link '+plt.cls+'"'+style+onclickAttr+'>'+plt.label+'</a>';
   });
   html += '</div>';
