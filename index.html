@@ -677,6 +677,10 @@ function puanSecKart(btn, n) {
     var _sid = 'yeni-akis-'+Date.now();
     fetch('/api/log-quiz', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:_sid,puan:n})}).catch(function(){});
   } catch(e) {}
+  // GA4: puan verildi
+  if (typeof gtag === 'function') {
+    gtag('event', 'puan_verildi', { puan: n });
+  }
   setTimeout(function() {
     var t = panel.querySelector('.puan-tesekkur');
     if (t) {
@@ -795,6 +799,15 @@ function secimYap(soruId, deger, ikon, btn) {
     cinsiyeteGorePillGuncelle();
   }
 
+  // GA4: quiz adım takibi
+  if (typeof gtag === 'function') {
+    var _adimNo = SORU_SIRASI.indexOf(soruId) + 1;
+    gtag('event', 'quiz_adim', {
+      soru_id: soruId,
+      adim_no: _adimNo > 0 ? _adimNo : null,
+      deger: deger
+    });
+  }
   setTimeout(function(){ soruTamamla(soruId); }, 220);
 }
 
@@ -1056,6 +1069,13 @@ function pillCevapSec(kategori, cevap, pillBtn) {
   }
   hediyeBulAltMetinGuncelle();
   hediyeBulButonGuncelle();
+  // GA4: pill/kategori seçildi
+  if (typeof gtag === 'function') {
+    gtag('event', 'pill_secildi', {
+      kategori: kategori,
+      cevap: cevap
+    });
+  }
   modalKapat();
   // Hediye Bul butonuna scroll
   setTimeout(function(){
@@ -1285,7 +1305,8 @@ function buildLinks(name, mevcutPlatformlar) {
     var plt = tumPlatformlar[p];
     var aktifMi = bulunan.includes(p);
     var style = aktifMi ? '' : ' style="opacity:0.3;pointer-events:none;" title="Bu platformda bulunamadı"';
-    html += '<a href="'+plt.url+'" target="_blank" class="plt-link '+plt.cls+'"'+style+'>'+plt.label+'</a>';
+    var onclickAttr = aktifMi ? ' onclick="if(typeof gtag===\'function\')gtag(\'event\',\'affiliate_click\',{platform:\''+p+'\',urun_adi:\''+((g&&g.name)||'')+'\',tur_no:'+turSayaci+'});"' : '';
+    html += '<a href="'+plt.url+'" target="_blank" class="plt-link '+plt.cls+'"'+style+onclickAttr+'>'+plt.label+'</a>';
   });
   html += '</div>';
   return html;
@@ -1412,6 +1433,20 @@ async function hediyeBul() {
     });
 
     document.getElementById('yeniden-btn').style.display='block';
+    // GA4: hediyeler gösterildi
+    if (typeof gtag === 'function') {
+      gtag('event', 'hediyeler_goruntulendi', {
+        tur_no: turSayaci,
+        hediye_sayisi: sugg.length,
+        star_sayisi: starCount,
+        pill_kategori: cevaplar.pill_kategori || null
+      });
+      gtag('event', 'tur_tamamlandi', {
+        tur_no: turSayaci,
+        kime: cevaplar.kime || null,
+        butce: cevaplar.butce || null
+      });
+    }
     // Hediye Bul butonunu "Yeni Hediyeler Bul" yap ve yanıp söndür
     var hbBtn = document.getElementById('hediye-bul-btn');
     turTamamlandi = true;
