@@ -1495,6 +1495,8 @@ localStorage.removeItem('bb_yeni_akis_pill');
 progressGuncelle();
 window.addEventListener('load', function() {
   window.scrollTo(0, 0);
+  // Index açılınca aktif set sıfırlansın - bebek/çocuk/pet akışına kalınan yerden devam etmesin
+  localStorage.removeItem('budurBuldumAktifSet');
   // Makale sayfasından gelen kime cevabını yükle
   try {
     var gelenVeri = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
