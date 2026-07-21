@@ -292,3 +292,23 @@ index.html `window.load` event'inde `localStorage.removeItem('budurBuldumCevapla
 
 ### KRİTİK KURAL
 Bu back_forward kontrolünü asla kaldırma. index.html load event'indeki localStorage temizleme mantığı buna bağlı.
+
+---
+
+## 📅 22 Temmuz 2026 — Reklam Stratejisi & Görsel Çalışması
+
+### Strateji kararları
+- Hediye duygusal değil pratik bir yük — birincil tetikleyici BÜTÇE
+- Core mesaj: "500 TL'ye 100 hediye"
+- Görsel strateji: güzel insan (güzel kadın/yakışıklı erkek) + güzel ortam — izleyen kendini özdeşleştirir
+- Organik önce, para sonra — neyin işe yaradığını bul, o içeriğe para ver
+- Görsel scroll durdurur, yazı algoritmayı tetikler, ikisi birlikte çalışır
+
+### Reklam görseli sayfası
+- Dosya: `budurbuldum-reklam.html` (repoda, canlıda)
+- URL: budurbuldum.com/budurbuldum-reklam.html
+- Pexels API client-side — API key: `A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB`
+- "Yeni görsel" butonu ile farklı fotoğraflar geliyor
+- Pexels sorguları: brunette/mediterranean/dark hair woman — sarışın Avrupalı değil Türk kullanıcıya yakın
+- Mobile tam ekran layout, yazılar görselin üstünde overlay olarak duruyor
+- Beğenilen görsele uzun bas → Resmi kaydet → Instagram'a at
