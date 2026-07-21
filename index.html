@@ -920,6 +920,29 @@ function soruGeriAl(soruId) {
   var mevcutCevap = cevaplar[soruId];
   var idx = SORU_SIRASI.indexOf(soruId) + 1;
   var icerik = SORU_ICERIK[soruId];
+
+  // Kardeş seçiliyken kime değiştirilince popup aç
+  if (soruId === 'kime') {
+    var html = '<div class="soru-no-badge">'+idx+'. Soru</div><div class="soru-baslik">'+icerik.baslik+'</div><div class="soru-alt">👇 Bir seçenek seç</div><div class="secenekler">';
+    icerik.secenekler.forEach(function(s){
+      var sec = s[0]===mevcutCevap?' secildi':'';
+      var isKardes = s[0] === 'Kardeş';
+      var onclick = isKardes
+        ? 'kimePopupAc(\'kardes\',this)'
+        : 'secimYap(\''+soruId+'\',\''+s[0].replace(/\'/g,"\\'")+'\',' +'\''+s[1]+'\',this)';
+      html += '<button class="sec-btn'+sec+'" onclick="'+onclick+'"><div class="sec-check">'+(sec?'✔':'')+'</div> '+s[1]+' '+s[0]+'</button>';
+    });
+    html += '</div>';
+    soruKart.innerHTML = html;
+    soruKart.classList.remove('tamamlandi');
+    soruKart.classList.add('aktif');
+    setTimeout(function(){
+      var top = soruKart.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: top, behavior: 'smooth'});
+    }, 80);
+    return;
+  }
+
   var html = '<div class="soru-no-badge">'+idx+'. Soru</div><div class="soru-baslik">'+icerik.baslik+'</div><div class="soru-alt">👇 Bir seçenek seç</div><div class="secenekler">';
   icerik.secenekler.forEach(function(s){
     var sec = s[0]===mevcutCevap?' secildi':'';
