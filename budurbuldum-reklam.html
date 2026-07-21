@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BudurBuldum Reklam Görseli</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; gap: 16px; }
+.kare { width: 540px; height: 540px; position: relative; overflow: hidden; border-radius: 4px; }
+.kare img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.85) 100%); }
+.ust { position: absolute; top: 24px; left: 24px; }
+.ust-badge { background: #e8a838; color: #0a0a0a; font-size: 12px; font-weight: 900; padding: 6px 14px; border-radius: 50px; letter-spacing: 0.05em; }
+.alt { position: absolute; bottom: 24px; left: 24px; right: 24px; }
+.baslik { font-size: 32px; font-weight: 900; color: #ffffff; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+.baslik span { color: #e8a838; }
+.alt-row { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+.logo { font-size: 18px; font-weight: 900; color: #ffffff; font-family: Georgia, serif; }
+.logo span { color: #e8a838; }
+.cta { background: #e8a838; color: #0a0a0a; font-size: 13px; font-weight: 900; padding: 10px 20px; border-radius: 50px; }
+.pilllar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.pill { background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.25); border-radius: 50px; padding: 5px 12px; font-size: 11px; color: #fff; font-weight: 600; }
+.yukle { color: #666; font-size: 13px; text-align: center; }
+.butonlar { display: flex; gap: 10px; }
+.btn { background: #1e293b; color: #f1f5f9; border: none; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.btn:hover { background: #334155; }
+</style>
+</head>
+<body>
+
+<div class="kare" id="kare">
+  <img id="foto" src="" alt="reklam görseli">
+  <div class="overlay"></div>
+  <div class="ust">
+    <div class="ust-badge">500 TL bütçe</div>
+  </div>
+  <div class="alt">
+    <div class="pilllar">
+      <div class="pill">100 seçenek</div>
+      <div class="pill">6 soru</div>
+      <div class="pill">Ücretsiz</div>
+    </div>
+    <div class="baslik">Doğru hediyeyi<br>bul. <span>Hemen.</span></div>
+    <div class="alt-row">
+      <div class="logo">budur<span>buldum</span>.com</div>
+      <div class="cta">Dene →</div>
+    </div>
+  </div>
+</div>
+
+<div class="yukle" id="durum">Görsel yükleniyor...</div>
+
+<div class="butonlar">
+  <button class="btn" onclick="yeniGorsel()">Yeni görsel</button>
+  <button class="btn" onclick="kaydal()">Kareyi kaydet</button>
+</div>
+
+<script>
+var API_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
+var sorgular = [
+  'woman birthday gift happy celebration',
+  'beautiful woman gift surprise happy',
+  'couple gift birthday celebration',
+  'young woman happy gift party',
+  'woman opening gift excited happy'
+];
+var sayac = 0;
+
+function gorselCek() {
+  var sorgu = sorgular[sayac % sorgular.length];
+  sayac++;
+  document.getElementById('durum').textContent = 'Yükleniyor...';
+  fetch('https://api.pexels.com/v1/search?query=' + encodeURIComponent(sorgu) + '&per_page=15&orientation=square', {
+    headers: { Authorization: API_KEY }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.photos && d.photos.length > 0) {
+      var rastgele = d.photos[Math.floor(Math.random() * d.photos.length)];
+      document.getElementById('foto').src = rastgele.src.large;
+      document.getElementById('durum').textContent = 'Fotograf: ' + rastgele.photographer + ' (Pexels)';
+    } else {
+      document.getElementById('durum').textContent = 'Gorsel bulunamadi';
+    }
+  })
+  .catch(function(e) {
+    document.getElementById('durum').textContent = 'Hata: ' + e.message;
+  });
+}
+
+function yeniGorsel() { gorselCek(); }
+
+function kaydal() {
+  document.getElementById('durum').textContent = 'Kaydetmek icin: sag tikla → Gorsel olarak kaydet';
+}
+
+gorselCek();
+</script>
+</body>
+</html>
