@@ -1566,10 +1566,18 @@ window.addEventListener('load', function() {
   // Geri dönüş mü yoksa temiz açılış mı?
   var _navType = (performance.getEntriesByType('navigation')[0] || {}).type;
   if (_navType === 'back_forward') {
-    // Geri dönüş — cevapları koru, butonu güncelle
+    // Geri dönüş — cevapları koru, butonu zorla aktif et
     setTimeout(function() {
-      hediyeBulButonGuncelle();
-      hediyeBulAltMetinGuncelle();
+      var _btn = document.getElementById('hediye-bul-btn');
+      if (_btn) {
+        _btn.disabled = false;
+        _btn.style.cursor = 'pointer';
+        _btn.style.opacity = '1';
+        _btn.style.background = 'linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%)';
+        _btn.style.boxShadow = '0 4px 20px rgba(30,64,175,0.4)';
+        _btn.style.animation = 'pulseBtn 1.8s ease-in-out infinite';
+        _btn.innerHTML = '🎁 Hediye Bul';
+      }
     }, 100);
   } else {
     // Temiz açılış — sıfırla
