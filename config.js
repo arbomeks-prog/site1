@@ -508,8 +508,8 @@ const QuizHelper = {
             }
         }
 
-        // Son soru — özet sayfasına git
-        return 'ozet.html';
+        // Son soru — doğrudan hediyeler sayfasına git (özet bypass)
+        return 'hediyeler.html';
     },
 
     // Önceki geçerli soruyu bul

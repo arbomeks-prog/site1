@@ -102,7 +102,23 @@ if (new URLSearchParams(window.location.search).get('embed') === '1') {
 <div class="min-h-screen bg-[#F9F9F9] py-12 px-4">
 <div class="max-w-6xl mx-auto">
 <div id="hediye-ust-bar" class="flex justify-between items-center mb-8">
-<a href="ozet.html" style="text-decoration:none;" class="text-gray-600 font-medium">← Özet'e Dön</a>
+<a id="son-soruya-don-btn" href="#" style="text-decoration:none;" class="text-gray-600 font-medium">← Geri Dön</a>
+<script>
+(function(){
+  var setMap = {
+    bebekler: 'butceye-gore-bebek-hediyesi-testi.html',
+    cocuklar: 'butceye-gore-cocuk-hediyesi-testi.html',
+    kedi:     'butceye-gore-kedi-hediyesi-testi.html',
+    kopek:    'butceye-gore-kopek-hediyesi-testi.html',
+    kus:      'butceye-gore-kus-hediyesi-testi.html',
+    balik:    'butceye-gore-balik-hediyesi-testi.html',
+    kucukpet: 'butceye-gore-kucuk-evcil-hayvan-hediyesi-testi.html'
+  };
+  var aktifSet = localStorage.getItem('budurBuldumAktifSet') || '';
+  var hedef = setMap[aktifSet] || 'ozet.html';
+  document.getElementById('son-soruya-don-btn').href = hedef;
+})();
+</script>
 <a href="index.html" style="display:flex;align-items:center;gap:7px;text-decoration:none;">
 <div style="width:28px;height:28px;background:linear-gradient(135deg,#e8a838,#f5c96a);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;">🎁</div>
 <span style="font-family:Georgia,serif;font-size:16px;font-weight:900;color:#1e293b;">budur<span style="color:#e8a838;">buldum</span></span>
