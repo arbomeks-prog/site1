@@ -335,3 +335,15 @@ Demirci onayladı: bu sistem bundan sonra tüm reklam görsellerinde kullanılac
 - "Dene →" CTA butonu
 - Overlay karartma efekti
 - Mobile tam ekran layout
+
+### Reklam görseli sayfaları — URL listesi
+- Tek kadın: budurbuldum.com/budurbuldum-reklam.html
+- Çift: budurbuldum.com/budurbuldum-reklam-cift.html
+
+### Onaylanan görseller (22 Temmuz)
+- Tek kadın: doğum günü taçlı esmer kız, cupcake tutuyor — çok beğenildi
+- Çift: birbirine yaslanmış çift, aralarında çiçek — çok beğenildi
+
+### Caption formatı (onaylandı)
+"500 TL bütçenle annene, sevgiliye, arkadaşına 100 farklı hediye seçeneği. 6 soru, 2 dakika, ücretsiz.
+👉 budurbuldum.com"
