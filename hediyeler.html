@@ -91,6 +91,23 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-HWPN7VD4VX');
 </script>
+
+<style>
+#dal-tur-wrap { background:#fff; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:16px 20px; margin-bottom:24px; text-align:center; }
+#dal-hediye-bul-btn { width:100%; padding:16px; border-radius:14px; border:none; background:linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%); color:#fff; font-size:16px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 20px rgba(30,64,175,0.4); transition:transform 0.2s ease; margin-bottom:10px; }
+#dal-hediye-bul-btn:active { transform:scale(0.98); }
+.dal-tur-sayac { display:flex; align-items:center; gap:8px; justify-content:center; }
+.dal-tur-kutu { width:28px; height:28px; border-radius:8px; border:2px solid #e2e8f0; background:#f8fafc; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:#94a3b8; transition:all 0.3s ease; }
+.dal-tur-kutu.dolu { background:#10b981; border-color:#059669; color:white; }
+.dal-tur-kutu.aktif { border-color:#1e40af; background:#eff6ff; color:#1e40af; }
+.dal-tur-label { font-size:11px; color:#94a3b8; font-weight:600; }
+#dal-tur-popup { display:none; position:fixed; inset:0; background:rgba(15,23,42,0.85); backdrop-filter:blur(4px); z-index:999; align-items:flex-end; justify-content:center; }
+#dal-tur-popup.acik { display:flex; }
+#dal-tur-popup-kutu { background:#fff; border-radius:24px 24px 0 0; width:100%; max-width:480px; padding:32px 24px 48px; text-align:center; }
+#dal-tur-popup-kutu .dal-popup-baslik { font-size:22px; font-weight:900; color:#1e293b; margin:12px 0 8px; }
+#dal-tur-popup-kutu .dal-popup-alt { font-size:14px; color:#64748b; margin-bottom:28px; }
+#dal-geri-btn { width:100%; padding:18px; border-radius:16px; border:none; background:linear-gradient(135deg,#e8a838 0%,#f5c96a 100%); color:#1e293b; font-size:18px; font-weight:900; cursor:pointer; box-shadow:0 4px 20px rgba(232,168,56,0.4); }
+</style>
 </head>
 <body>
 <script>
@@ -124,6 +141,26 @@ if (new URLSearchParams(window.location.search).get('embed') === '1') {
 <span style="font-family:Georgia,serif;font-size:16px;font-weight:900;color:#1e293b;">budur<span style="color:#e8a838;">buldum</span></span>
 </a>
 <a href="index.html" style="text-decoration:none;" class="text-gray-600 font-medium">Ana Sayfa</a>
+</div>
+
+<div id="dal-tur-wrap">
+  <button id="dal-hediye-bul-btn" onclick="dalHediyeBul()">🎁 Yeni Hediye Bul</button>
+  <div class="dal-tur-sayac">
+    <div class="dal-tur-kutu aktif" id="dal-tur-1">1</div>
+    <div class="dal-tur-kutu" id="dal-tur-2">2</div>
+    <div class="dal-tur-kutu" id="dal-tur-3">3</div>
+    <span class="dal-tur-label">tur hakkı</span>
+  </div>
+</div>
+
+<div id="dal-tur-popup">
+  <div id="dal-tur-popup-kutu">
+    <div style="width:40px;height:4px;background:#e2e8f0;border-radius:2px;margin:0 auto 20px;"></div>
+    <div style="font-size:40px;">🎯</div>
+    <div class="dal-popup-baslik">3 tur tamamlandı!</div>
+    <div class="dal-popup-alt">Farklı sonuçlar için soruları baştan geçin ve cevaplarınızı değiştirin.</div>
+    <button id="dal-geri-btn" onclick="dalSorularaGeri()">← Soruları Değiştir</button>
+  </div>
 </div>
 <h1 id="hediye-buyuk-baslik" class="text-4xl font-bold text-center mb-3">Kişiye Özel Hediye Önerileri ✨</h1>
 <div id="gifts-subtitle-wrap" class="text-center mb-10">
@@ -515,6 +552,90 @@ function trackAffiliate(platform, urun) {
     });
   }
 }
+
+
+// ===== DALLANMA TUR SİSTEMİ =====
+var dalTurSayaci = 0;
+
+var DAL_ILK_SAYFA = (function(){
+  var setMap = {
+    bebekler: 'bebek-kiz-mi-erkek-mi-hediye-testi.html',
+    cocuklar: 'cocuk-kiz-mi-erkek-mi-hediye-testi.html',
+    kedi:     'evcil-hayvan-icin-hediye-testi.html',
+    kopek:    'evcil-hayvan-icin-hediye-testi.html',
+    kus:      'evcil-hayvan-icin-hediye-testi.html',
+    balik:    'evcil-hayvan-icin-hediye-testi.html',
+    kucukpet: 'evcil-hayvan-icin-hediye-testi.html'
+  };
+  var aktifSet = localStorage.getItem('budurBuldumAktifSet') || '';
+  return setMap[aktifSet] || null;
+})();
+
+function dalTurSayaciGuncelle() {
+  for (var i = 1; i <= 3; i++) {
+    var el = document.getElementById('dal-tur-' + i);
+    if (!el) continue;
+    if (i < dalTurSayaci) { el.className = 'dal-tur-kutu dolu'; el.textContent = '✔'; }
+    else if (i === dalTurSayaci) { el.className = 'dal-tur-kutu aktif'; el.textContent = i; }
+    else { el.className = 'dal-tur-kutu'; el.textContent = i; }
+  }
+}
+
+function dalHediyeBul() {
+  // Embed modda parent'a bildir
+  var embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
+  if (embedMod && window.parent !== window) {
+    window.parent.postMessage({ type: 'kriterlere_don' }, '*');
+    return;
+  }
+
+  // Normal mod: standalone dallanma sayfası
+  if (!DAL_ILK_SAYFA) return; // dallanma değil, çık
+
+  dalTurSayaci++;
+  if (dalTurSayaci > 3) {
+    dalTurSayaci = 3;
+    document.getElementById('dal-tur-popup').classList.add('acik');
+    return;
+  }
+  dalTurSayaciGuncelle();
+
+  // sessionStorage'daki tekrar önleme temizle ki farklı öneriler gelsin
+  try { sessionStorage.removeItem('bb_onceki_hediyeler'); } catch(e) {}
+  try { sessionStorage.removeItem('bb_onceki_kombinasyonlar'); } catch(e) {}
+
+  // Sayfanın en üstüne scroll et ve yeni istek tetikle
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(function() {
+    if (typeof baslatHediyeArama === 'function') baslatHediyeArama();
+    else window.location.reload();
+  }, 300);
+}
+
+function dalSorularaGeri() {
+  document.getElementById('dal-tur-popup').classList.remove('acik');
+  if (DAL_ILK_SAYFA) window.location.href = DAL_ILK_SAYFA;
+}
+
+// Popup dışına tıklayınca kapat
+document.addEventListener('click', function(e) {
+  var popup = document.getElementById('dal-tur-popup');
+  if (popup && e.target === popup) popup.classList.remove('acik');
+});
+
+// Sayfa ilk yüklenince sayacı göster
+window.addEventListener('DOMContentLoaded', function() {
+  if (DAL_ILK_SAYFA) {
+    dalTurSayaci = 1;
+    dalTurSayaciGuncelle();
+    var wrap = document.getElementById('dal-tur-wrap');
+    if (wrap) wrap.style.display = 'block';
+  } else {
+    var wrap = document.getElementById('dal-tur-wrap');
+    if (wrap) wrap.style.display = 'none';
+  }
+});
+// ===== /DALLANMA TUR SİSTEMİ =====
 
 function yeniHediyeKriterineDon() {
 const embedMod = new URLSearchParams(window.location.search).get('embed') === '1';
