@@ -224,6 +224,10 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
 .ozet-serit.gorune { display:flex; }
 .ozet-chip { display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.08);border-radius:20px;padding:4px 10px;font-size:11px;color:#94a3b8; }
 .ozet-chip strong { color:#f1f5f9;font-weight:700; }
+
+#yeni-kisi-btn { position:fixed; right:max(0px,calc((100vw - 620px) / 2)); top:50%; transform:translateY(-50%); z-index:100; background:#e8a838; color:#1e293b; border:none; border-radius:16px 0 0 16px; padding:16px 10px; box-shadow:-4px 0 20px rgba(232,168,56,0.4); cursor:pointer; font-size:12px; font-weight:900; letter-spacing:0.08em; writing-mode:vertical-rl; text-orientation:mixed; min-height:130px; transition:background 0.2s; display:none; align-items:center; justify-content:center; }
+#yeni-kisi-btn.gorune { display:flex; }
+#yeni-kisi-btn:active { background:#d4941f; }
 </style>
 </head>
 <body>
@@ -1459,7 +1463,7 @@ async function hediyeBul() {
   var hediyelerBolum = document.getElementById('hediyeler-bolum');
   hediyelerBolum.classList.add('gorune');
   var ykBtn = document.getElementById('yeni-kisi-btn');
-  if (ykBtn) ykBtn.style.display = 'flex';
+  if (ykBtn) ykBtn.classList.add('gorune');
   document.getElementById('yukleme-wrap').style.display='block';
   document.getElementById('hediyeler-grid').style.display='none';
   document.getElementById('yeniden-btn').style.display='none';
