@@ -275,3 +275,21 @@ Mevcut 30 sorulu iframe akışından vazgeçilmedi ama yanına yeni bir sistem i
 ## ⛔ HİÇ DEĞİŞTİRİLMEYECEK — CLAUDE BUNU DA OKU
 
 notların tamamını okudun mu yoksa küfür mü yemek istiyorsun.
+
+---
+
+## 📅 21 Temmuz 2026 — Dallanma Sayfalarından Geri Dönüşte Buton Sorunu
+
+### Sorun
+Kullanıcı bebek/çocuk/pet dallanma sayfalarına gidip tarayıcının geri tuşuyla index'e döndüğünde "Hediye Bul" butonu gri (disabled) kalıyordu.
+
+### Kök Neden
+index.html `window.load` event'inde `localStorage.removeItem('budurBuldumCevaplar')` yapıyor. Back_forward navigation'da bu kod çalışınca cevaplar siliniyor, `cevaplar` objesi boşalıyor, `hediyeBulButonGuncelle()` butonu gri yapıyor.
+
+### Çözüm (commit 9387d51)
+`performance.getEntriesByType('navigation')[0].type === 'back_forward'` kontrolü eklendi.
+- back_forward ise: localStorage temizleme engelleniyor, buton zorla aktif yapılıyor
+- değilse: normal temizleme yapılıyor
+
+### KRİTİK KURAL
+Bu back_forward kontrolünü asla kaldırma. index.html load event'indeki localStorage temizleme mantığı buna bağlı.
