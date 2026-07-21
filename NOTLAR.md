@@ -52,7 +52,6 @@ Her yeni makale yazılırken bu listeye göre çalış. Push etmeden önce kontr
 - BudurBuldum'u rakiplerden ayıran fark en az bir H2 ile anlatılmalı ("BudurBuldum ile Diğer Sitelerin Farkı Ne?" gibi)
 - Trendyol, Hepsiburada, Amazon, N11 ve Çiçeksepeti platform olarak geçmeli
 - Bütçe filtresi, ücretsizlik, üyeliksizlik mutlaka belirtilmeli
-- Slogan bir yere girmeli: **"Ne alacağını bil, sonra git al."**
 
 ### Makale akış yapısı (sırasıyla)
 1. Giriş paragrafı: sorunu tanımla, BudurBuldum'u tanıt
