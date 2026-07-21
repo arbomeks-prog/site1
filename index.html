@@ -1554,18 +1554,20 @@ localStorage.removeItem('bb_yeni_akis_pill');
 progressGuncelle();
 window.addEventListener('load', function() {
   window.scrollTo(0, 0);
-  // Geri dönüşte (bebek/çocuk akışından) temizleme yapma
-  var navType = performance.getEntriesByType('navigation')[0];
-  var isBackForward = navType && navType.type === 'back_forward';
-  if (!isBackForward) {
-    localStorage.removeItem('budurBuldumAktifSet');
-    localStorage.removeItem('budurBuldumCevaplar');
-  } else {
-    // Geri dönüşte cevapları yükle ve butonu güncelle
+  // Bebek/çocuk/pet akışından geri dönüşse temizleme yapma
+  var _navType = (performance.getEntriesByType('navigation')[0] || {}).type;
+  var _referrer = document.referrer;
+  var _geldigiYer = ['bebek-','cocuk-','evcil-','anne-baba-','kadin-erkek-'].some(function(p){ return _referrer.indexOf(p) > -1; });
+  if (_navType === 'back_forward' || _geldigiYer) {
+    // Geri dönüş — cevapları koru, butonu güncelle
     setTimeout(function() {
       hediyeBulButonGuncelle();
       hediyeBulAltMetinGuncelle();
-    }, 100);
+    }, 150);
+  } else {
+    // Temiz açılış — sıfırla
+    localStorage.removeItem('budurBuldumAktifSet');
+    localStorage.removeItem('budurBuldumCevaplar');
   }
   // Makale sayfasından gelen kime cevabını yükle
   try {
