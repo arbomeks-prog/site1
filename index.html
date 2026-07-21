@@ -749,7 +749,16 @@ var BURC_OZELLIK = {
   'Kova':'yenilikçi, özgün, teknoloji sever; teknoloji, sürdürülebilir, yaratıcı, sosyal proje',
   'Balık':'hayalci, sanatçı ruhlu, empatik; sanat, müzik, meditasyon, yaratıcı & romantik'
 };
-var cevaplar = {};
+var cevaplar = (function() {
+  try {
+    var _nav = (performance.getEntriesByType('navigation')[0] || {}).type;
+    if (_nav === 'back_forward') {
+      var _saved = localStorage.getItem('budurBuldumCevaplar');
+      if (_saved) return JSON.parse(_saved);
+    }
+  } catch(e) {}
+  return {};
+})();
 var aktifPill = null;
 var turSayaci = 0;
 var oncekiHediyeler = [];
@@ -1554,9 +1563,19 @@ localStorage.removeItem('bb_yeni_akis_pill');
 progressGuncelle();
 window.addEventListener('load', function() {
   window.scrollTo(0, 0);
-  // Index açılınca aktif set ve önceki cevaplar sıfırlansın
-  localStorage.removeItem('budurBuldumAktifSet');
-  localStorage.removeItem('budurBuldumCevaplar');
+  // Geri dönüş mü yoksa temiz açılış mı?
+  var _navType = (performance.getEntriesByType('navigation')[0] || {}).type;
+  if (_navType === 'back_forward') {
+    // Geri dönüş — cevapları koru, butonu güncelle
+    setTimeout(function() {
+      hediyeBulButonGuncelle();
+      hediyeBulAltMetinGuncelle();
+    }, 100);
+  } else {
+    // Temiz açılış — sıfırla
+    localStorage.removeItem('budurBuldumAktifSet');
+    localStorage.removeItem('budurBuldumCevaplar');
+  }
   // Makale sayfasından gelen kime cevabını yükle
   try {
     var gelenVeri = {};
