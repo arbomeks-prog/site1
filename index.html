@@ -1580,6 +1580,14 @@ window.addEventListener('load', function() {
   } catch(e) {}
 });
 
+// Başka sayfadan geri dönünce (çocuk/bebek akışı) butonu güncelle
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted || performance.getEntriesByType('navigation')[0]?.type === 'back_forward') {
+    hediyeBulButonGuncelle();
+    hediyeBulAltMetinGuncelle();
+  }
+});
+
 // Yukarı Çık butonu görününce yanıp sönsün
 var _observer = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) {
