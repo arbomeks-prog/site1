@@ -656,22 +656,29 @@ function kimePopupAc(tip, btn) {
       popup.classList.remove('acik');
       // Kardeş popup'ında: Kız/Erkek Çocuğu → çocuk akışına, Kadın/Erkek → normal akışa
       if (tip === 'kardes') {
-        // kime = Kardeş olarak kaydet
-        try {
-          var mevcut = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
-          mevcut.kime = 'Kardeş';
-          mevcut.cinsiyet = s[0];
-          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(mevcut));
-        } catch(e) {}
         if (s[0] === 'Kız Çocuğu' || s[0] === 'Erkek Çocuğu') {
-          localStorage.setItem('budurBuldumAktifSet', 'cocuklar');
-          window.location.href = 'cocuk-kiz-mi-erkek-mi-hediye-testi.html';
+          // Çocuk akışına git
+          try {
+            var mevcut = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+            mevcut.kime = 'Çocuk';
+            mevcut.cocuk_cinsiyet = s[0] === 'Kız Çocuğu' ? 'Kız' : 'Erkek';
+            localStorage.setItem('budurBuldumCevaplar', JSON.stringify(mevcut));
+            localStorage.setItem('budurBuldumAktifSet', 'cocuklar');
+          } catch(e) {}
+          window.location.href = 'cocugun-yasina-gore-hediye-testi.html';
         } else {
-          // Kadın/Erkek — index'te normal akışta devam et
+          // Kadın/Erkek — kime=Kardeş ve cinsiyet kaydet, sonraki soruya geç
           cevaplar['kime'] = 'Kardeş';
+          cevaplar['kime_ikon'] = '👧🧒';
           cevaplar['cinsiyet'] = s[0];
+          cevaplar['cinsiyet_ikon'] = s[1];
           btn.classList.add('secildi');
-          soruTamamla('kime');
+          // GA4
+          if (typeof gtag === 'function') {
+            gtag('event', 'quiz_adim', { soru_id: 'kime', adim_no: 1, deger: 'Kardeş' });
+            gtag('event', 'quiz_adim', { soru_id: 'cinsiyet', adim_no: 2, deger: s[0] });
+          }
+          soruTamamla('cinsiyet');
         }
         return;
       }
