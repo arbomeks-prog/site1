@@ -347,3 +347,18 @@ Demirci onayladı: bu sistem bundan sonra tüm reklam görsellerinde kullanılac
 ### Caption formatı (onaylandı)
 "500 TL bütçenle annene, sevgiliye, arkadaşına 100 farklı hediye seçeneği. 6 soru, 2 dakika, ücretsiz.
 👉 budurbuldum.com"
+
+### ⭐ Instagram Caption Standardı (22 Temmuz 2026 — netleşti)
+
+Google, Temmuz 2025'ten itibaren public Business/Creator Instagram hesaplarını endeksliyor.
+Caption'lar, hashtagler, alt text, görseldeki yazılar Google tarafından çekiliyor.
+7 Temmuz 2026'dan itibaren Instagram Search Console'a eklendi — trafik takibi mümkün.
+
+**Caption formatı bundan sonra şöyle olacak:**
+- İlk 125 karakter çarpıcı — feed'de "daha fazla" öncesi görünen kısım
+- Sonrası keyword dolu, uzun, bilgilendirici — Google için SEO
+- Hashtagler en sonda
+- Kısa caption yazmak YANLIŞ — uzun yaz, Google okusun
+
+**Örnek anahtar kelimeler caption'a girmeli:**
+hediye, kişiye özel hediye, 500 TL hediye, anneler günü hediyesi, doğum günü hediyesi, trendyol hediye, hepsiburada hediye, budurbuldum
