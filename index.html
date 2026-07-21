@@ -408,6 +408,8 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
   </div>
 </div>
 
+<button id="yeni-kisi-btn" onclick="if(typeof QuizHelper!=='undefined'&&QuizHelper.temizle)QuizHelper.temizle();window.location.reload();">👤 YENİ KİŞİ</button>
+
 <!-- HEDİYELER -->
 <div class="hediyeler-bolum" id="hediyeler-bolum">
   <div class="hediyeler-baslik">Kişiye Özel Hediyeler ✨</div>
@@ -1456,6 +1458,8 @@ async function hediyeBul() {
 
   var hediyelerBolum = document.getElementById('hediyeler-bolum');
   hediyelerBolum.classList.add('gorune');
+  var ykBtn = document.getElementById('yeni-kisi-btn');
+  if (ykBtn) ykBtn.style.display = 'flex';
   document.getElementById('yukleme-wrap').style.display='block';
   document.getElementById('hediyeler-grid').style.display='none';
   document.getElementById('yeniden-btn').style.display='none';
