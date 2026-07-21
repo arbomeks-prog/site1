@@ -312,3 +312,26 @@ Bu back_forward kontrolünü asla kaldırma. index.html load event'indeki localS
 - Pexels sorguları: brunette/mediterranean/dark hair woman — sarışın Avrupalı değil Türk kullanıcıya yakın
 - Mobile tam ekran layout, yazılar görselin üstünde overlay olarak duruyor
 - Beğenilen görsele uzun bas → Resmi kaydet → Instagram'a at
+
+### ⭐ SİSTEM ONAYI — Bu çalışma yöntemi standart oldu
+
+Demirci onayladı: bu sistem bundan sonra tüm reklam görsellerinde kullanılacak.
+
+**Sistem nasıl çalışıyor:**
+1. `budurbuldum-reklam.html` tarayıcıda açılır
+2. Pexels API otomatik görsel çeker
+3. "Yeni görsel" butonuyla farklı fotoğraflar gelir
+4. Beğenilen görsele uzun bas → kaydet → Instagram/TikTok'a at
+5. Üstündeki yazılar ve logo sabit kalır
+
+**Değiştirilebilir şeyler:**
+- Pexels sorguları (farklı insan tipleri, ortamlar)
+- Üstteki badge yazısı (500 TL, 1000 TL, doğum günü, anneler günü vb.)
+- Alt başlık metni (kampanyaya göre değişir)
+- Pill etiketleri (100 seçenek, 6 soru, Ücretsiz)
+
+**Sabit kalan şeyler:**
+- budurbuldum.com logo sağ altta
+- "Dene →" CTA butonu
+- Overlay karartma efekti
+- Mobile tam ekran layout
