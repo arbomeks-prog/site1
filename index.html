@@ -287,7 +287,7 @@ body { background: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Seg
     <button class="sec-btn" id="btn-arkadas" onclick="kimePopupAc('arkadas',this)"><div class="sec-check"></div> <span id="arkadas-emoji">🤝</span> <span id="arkadas-yazi">Arkadaş</span></button>
     <button class="sec-btn" onclick="secimYap('kime','Anne','👩',this)"><div class="sec-check"></div> 👩 Anne</button>
     <button class="sec-btn" onclick="secimYap('kime','Baba','👨',this)"><div class="sec-check"></div> 👨 Baba</button>
-    <button class="sec-btn" onclick="secimYap('kime','Kardeş','👧🧒',this)"><div class="sec-check"></div> 👧🧒 Kardeş</button>
+    <button class="sec-btn" id="btn-kardes" onclick="kimePopupAc('kardes',this)"><div class="sec-check"></div> 👧🧒 Kardeş</button>
     <button class="sec-btn" onclick="secimYap('kime','Eşime','👫‍❤️',this)"><div class="sec-check"></div> 👫‍❤️ Eşime</button>
     <button class="sec-btn" onclick="secimYap('kime','Bebek','👶',this)"><div class="sec-check"></div> 👶 Bebek</button>
     <button class="sec-btn" id="btn-cocuk" onclick="kimePopupAc('cocuk',this)"><div class="sec-check"></div> <span id="cocuk-emoji">🧒</span> <span id="cocuk-yazi">Çocuk</span></button>
@@ -642,9 +642,11 @@ function kimePopupAc(tip, btn) {
     ? [['Sevgili', '💑'], ['Nişanlıma', '💍']]
     : tip === 'arkadas'
     ? [['Arkadaş', '🤝'], ['İş arkadaşı', '💼']]
+    : tip === 'kardes'
+    ? [['Kadın', '👩'], ['Erkek', '👨'], ['Kız Çocuğu', '👧'], ['Erkek Çocuğu', '👦']]
     : [['Çocuğuma', '🧒'], ['Çocuk', '🧒']];
 
-  baslik.textContent = tip === 'sevgili' ? 'İlişkiniz nasıl?' : tip === 'arkadas' ? 'Kime alıyorsun?' : 'Kim için alıyorsun?';
+  baslik.textContent = tip === 'sevgili' ? 'İlişkiniz nasıl?' : tip === 'arkadas' ? 'Kime alıyorsun?' : tip === 'kardes' ? 'Kardeş kaç yaşında?' : 'Kim için alıyorsun?';
 
   liste.forEach(function(s) {
     var b = document.createElement('button');
@@ -652,6 +654,27 @@ function kimePopupAc(tip, btn) {
     b.innerHTML = '<div class="sec-check"></div> ' + s[1] + ' ' + s[0];
     b.onclick = function() {
       popup.classList.remove('acik');
+      // Kardeş popup'ında: Kız/Erkek Çocuğu → çocuk akışına, Kadın/Erkek → normal akışa
+      if (tip === 'kardes') {
+        // kime = Kardeş olarak kaydet
+        try {
+          var mevcut = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
+          mevcut.kime = 'Kardeş';
+          mevcut.cinsiyet = s[0];
+          localStorage.setItem('budurBuldumCevaplar', JSON.stringify(mevcut));
+        } catch(e) {}
+        if (s[0] === 'Kız Çocuğu' || s[0] === 'Erkek Çocuğu') {
+          localStorage.setItem('budurBuldumAktifSet', 'cocuklar');
+          window.location.href = 'cocuk-kiz-mi-erkek-mi-hediye-testi.html';
+        } else {
+          // Kadın/Erkek — index'te normal akışta devam et
+          cevaplar['kime'] = 'Kardeş';
+          cevaplar['cinsiyet'] = s[0];
+          btn.classList.add('secildi');
+          soruTamamla('kime');
+        }
+        return;
+      }
       secimYap('kime', s[0], s[1], btn);
     };
     secenekler.appendChild(b);
@@ -769,7 +792,6 @@ function secimYap(soruId, deger, ikon, btn) {
     if (deger === 'Çocuk')   hedef = 'cocuk-kiz-mi-erkek-mi-hediye-testi.html';
     if (deger === 'Çocuğuma') hedef = 'cocuk-kiz-mi-erkek-mi-hediye-testi.html';
     if (deger === 'Pet')     hedef = 'evcil-hayvan-icin-hediye-testi.html';
-    if (deger === 'Kardeş')  hedef = 'kadin-erkek-hediye-secimi-testi.html';
     if (hedef) {
       try {
         var mevcut = JSON.parse(localStorage.getItem('budurBuldumCevaplar') || '{}');
