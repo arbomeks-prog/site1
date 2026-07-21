@@ -927,8 +927,14 @@ function soruGeriAl(soruId) {
     icerik.secenekler.forEach(function(s){
       var sec = s[0]===mevcutCevap?' secildi':'';
       var isKardes = s[0] === 'Kardeş';
+      var isSevgili = s[0] === 'Sevgili' || s[0] === 'Nişanlıma';
+      var isArkadas = s[0] === 'Arkadaş' || s[0] === 'İş arkadaşı';
       var onclick = isKardes
         ? 'kimePopupAc(\'kardes\',this)'
+        : (s[0] === 'Sevgili')
+        ? 'kimePopupAc(\'sevgili\',this)'
+        : (s[0] === 'Arkadaş')
+        ? 'kimePopupAc(\'arkadas\',this)'
         : 'secimYap(\''+soruId+'\',\''+s[0].replace(/\'/g,"\\'")+'\',' +'\''+s[1]+'\',this)';
       html += '<button class="sec-btn'+sec+'" onclick="'+onclick+'"><div class="sec-check">'+(sec?'✔':'')+'</div> '+s[1]+' '+s[0]+'</button>';
     });
