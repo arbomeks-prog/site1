@@ -6,31 +6,31 @@
 <title>BudurBuldum Reklam Görseli</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; gap: 16px; }
-.kare { width: 540px; height: 540px; position: relative; overflow: hidden; border-radius: 4px; }
-.kare img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.85) 100%); }
-.ust { position: absolute; top: 24px; left: 24px; }
-.ust-badge { background: #e8a838; color: #0a0a0a; font-size: 12px; font-weight: 900; padding: 6px 14px; border-radius: 50px; letter-spacing: 0.05em; }
-.alt { position: absolute; bottom: 24px; left: 24px; right: 24px; }
-.baslik { font-size: 32px; font-weight: 900; color: #ffffff; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+body { background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; gap: 12px; padding: 16px; }
+.kare { width: 100%; max-width: 480px; aspect-ratio: 1/1; position: relative; overflow: hidden; border-radius: 4px; }
+.kare img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+.overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.82) 100%); }
+.ust { position: absolute; top: 16px; left: 16px; }
+.ust-badge { background: #e8a838; color: #0a0a0a; font-size: 13px; font-weight: 900; padding: 6px 14px; border-radius: 50px; }
+.alt { position: absolute; bottom: 16px; left: 16px; right: 16px; }
+.pilllar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.pill { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 50px; padding: 4px 11px; font-size: 11px; color: #fff; font-weight: 700; }
+.baslik { font-size: 28px; font-weight: 900; color: #ffffff; line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 14px; text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
 .baslik span { color: #e8a838; }
-.alt-row { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
-.logo { font-size: 18px; font-weight: 900; color: #ffffff; font-family: Georgia, serif; }
+.alt-row { display: flex; align-items: center; justify-content: space-between; }
+.logo { font-size: 17px; font-weight: 900; color: #ffffff; font-family: Georgia, serif; }
 .logo span { color: #e8a838; }
-.cta { background: #e8a838; color: #0a0a0a; font-size: 13px; font-weight: 900; padding: 10px 20px; border-radius: 50px; }
-.pilllar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-.pill { background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.25); border-radius: 50px; padding: 5px 12px; font-size: 11px; color: #fff; font-weight: 600; }
-.yukle { color: #666; font-size: 13px; text-align: center; }
-.butonlar { display: flex; gap: 10px; }
-.btn { background: #1e293b; color: #f1f5f9; border: none; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
-.btn:hover { background: #334155; }
+.cta { background: #e8a838; color: #0a0a0a; font-size: 13px; font-weight: 900; padding: 10px 18px; border-radius: 50px; white-space: nowrap; }
+.fotograf { color: #555; font-size: 11px; text-align: center; }
+.butonlar { display: flex; gap: 8px; width: 100%; max-width: 480px; }
+.btn { flex: 1; background: #1e293b; color: #f1f5f9; border: none; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.btn:active { background: #334155; }
 </style>
 </head>
 <body>
 
 <div class="kare" id="kare">
-  <img id="foto" src="" alt="reklam görseli">
+  <img id="foto" src="" alt="">
   <div class="overlay"></div>
   <div class="ust">
     <div class="ust-badge">500 TL bütçe</div>
@@ -49,21 +49,23 @@ body { background: #111; display: flex; flex-direction: column; align-items: cen
   </div>
 </div>
 
-<div class="yukle" id="durum">Görsel yükleniyor...</div>
+<div class="fotograf" id="durum">Yükleniyor...</div>
 
 <div class="butonlar">
   <button class="btn" onclick="yeniGorsel()">Yeni görsel</button>
-  <button class="btn" onclick="kaydal()">Kareyi kaydet</button>
+  <button class="btn" onclick="kaydal()">Kaydet</button>
 </div>
 
 <script>
 var API_KEY = 'A9apBPB9nWNWqYz5kevuQshKmKzFIwWHXBnj8nO1zot6LKpm3sq7j7mB';
 var sorgular = [
-  'beautiful young woman smiling elegant',
-  'handsome man giving flowers beautiful woman',
-  'attractive couple celebration happy',
-  'gorgeous woman party celebration',
-  'beautiful woman happy surprise flowers'
+  'brunette woman smiling happy elegant',
+  'mediterranean woman celebration happy',
+  'dark hair beautiful woman party',
+  'young brunette woman gift flowers happy',
+  'attractive woman birthday celebration dark hair',
+  'handsome man giving gift woman smiling',
+  'couple birthday celebration flowers happy'
 ];
 var sayac = 0;
 
@@ -77,22 +79,20 @@ function gorselCek() {
   .then(function(r) { return r.json(); })
   .then(function(d) {
     if (d.photos && d.photos.length > 0) {
-      var rastgele = d.photos[Math.floor(Math.random() * d.photos.length)];
-      document.getElementById('foto').src = rastgele.src.large;
-      document.getElementById('durum').textContent = 'Fotograf: ' + rastgele.photographer + ' (Pexels)';
+      var i = Math.floor(Math.random() * d.photos.length);
+      document.getElementById('foto').src = d.photos[i].src.large;
+      document.getElementById('durum').textContent = 'Fotograf: ' + d.photos[i].photographer + ' (Pexels)';
     } else {
-      document.getElementById('durum').textContent = 'Gorsel bulunamadi';
+      document.getElementById('durum').textContent = 'Gorsel bulunamadi, tekrar dene';
     }
   })
-  .catch(function(e) {
-    document.getElementById('durum').textContent = 'Hata: ' + e.message;
-  });
+  .catch(function(e) { document.getElementById('durum').textContent = 'Hata: ' + e.message; });
 }
 
 function yeniGorsel() { gorselCek(); }
 
 function kaydal() {
-  document.getElementById('durum').textContent = 'Kaydetmek icin: sag tikla → Gorsel olarak kaydet';
+  document.getElementById('durum').textContent = 'Gorsele uzun bas → Resmi kaydet';
 }
 
 gorselCek();
