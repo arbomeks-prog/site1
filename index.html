@@ -766,7 +766,8 @@ function secimYap(soruId, deger, ikon, btn) {
   if (soruId === 'kime') {
     var hedef = null;
     if (deger === 'Bebek')   hedef = 'bebek-kiz-mi-erkek-mi-hediye-testi.html';
-    // Çocuğuma akışta devam eder
+    if (deger === 'Çocuk')   hedef = 'cocuk-kiz-mi-erkek-mi-hediye-testi.html';
+    if (deger === 'Çocuğuma') hedef = 'cocuk-kiz-mi-erkek-mi-hediye-testi.html';
     if (deger === 'Pet')     hedef = 'evcil-hayvan-icin-hediye-testi.html';
     if (deger === 'Kardeş')  hedef = 'kadin-erkek-hediye-secimi-testi.html';
     if (hedef) {
