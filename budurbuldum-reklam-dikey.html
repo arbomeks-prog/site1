@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BudurBuldum — Dikey Reklam</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; gap: 12px; padding: 16px; }
@@ -52,7 +51,7 @@ body { background: #000; display: flex; flex-direction: column; align-items: cen
 
 <div class="kontrol">
   <button class="btn" onclick="yeniGorsel()">🔄 Yeni görsel</button>
-  <button class="btn altin" onclick="pngIndir()">⬇️ PNG İndir</button>
+  <button class="btn altin" onclick="kaydal()">💾 Kaydet</button>
 </div>
 
 <script>
@@ -94,22 +93,8 @@ function gorselCek() {
 
 function yeniGorsel() { gorselCek(); }
 
-function pngIndir() {
-  document.getElementById('durum').textContent = 'PNG hazırlanıyor...';
-  html2canvas(document.getElementById('kare'), {
-    useCORS: true,
-    allowTaint: false,
-    scale: 2,
-    backgroundColor: null
-  }).then(function(canvas) {
-    var link = document.createElement('a');
-    link.download = 'budurbuldum-reklam.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    document.getElementById('durum').textContent = 'PNG indirildi!';
-  }).catch(function(e) {
-    document.getElementById('durum').textContent = 'CORS hatası — görsele uzun bas → kaydet';
-  });
+function kaydal() {
+  document.getElementById('durum').textContent = 'Görsele uzun bas → Resmi kaydet';
 }
 
 gorselCek();
