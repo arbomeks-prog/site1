@@ -22,10 +22,10 @@ body { background: #000; display: flex; flex-direction: column; align-items: cen
 .logo { font-size: 19px; font-weight: 900; color: #ffffff; font-family: Georgia, serif; }
 .logo span { color: #e8a838; }
 .cta { background: #e8a838; color: #0a0a0a; font-size: 14px; font-weight: 900; padding: 12px 22px; border-radius: 50px; }
-.durum { color: #555; font-size: 11px; text-align: center; }
-.butonlar { display: flex; gap: 8px; width: 100%; max-width: 390px; }
+.kontrol { display: flex; gap: 8px; width: 100%; max-width: 390px; }
 .btn { flex: 1; background: #1e293b; color: #f1f5f9; border: none; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
 .btn.altin { background: #e8a838; color: #0a0a0a; }
+.durum { color: #555; font-size: 11px; text-align: center; }
 </style>
 </head>
 <body>
@@ -50,7 +50,7 @@ body { background: #000; display: flex; flex-direction: column; align-items: cen
 
 <div class="durum" id="durum">Yükleniyor...</div>
 
-<div class="butonlar">
+<div class="kontrol">
   <button class="btn" onclick="yeniGorsel()">🔄 Yeni görsel</button>
   <button class="btn altin" onclick="pngIndir()">⬇️ PNG İndir</button>
 </div>
@@ -69,6 +69,7 @@ var sorgular = [
   'young brunette woman gift flowers happy'
 ];
 var sayac = 0;
+var mevcutFoto = null;
 
 function gorselCek() {
   var sorgu = sorgular[sayac % sorgular.length];
@@ -81,8 +82,9 @@ function gorselCek() {
   .then(function(d) {
     if (d.photos && d.photos.length > 0) {
       var i = Math.floor(Math.random() * d.photos.length);
-      document.getElementById('foto').src = d.photos[i].src.large2x;
-      document.getElementById('durum').textContent = 'Fotograf: ' + d.photos[i].photographer + ' (Pexels)';
+      mevcutFoto = d.photos[i];
+      document.getElementById('foto').src = mevcutFoto.src.large2x;
+      document.getElementById('durum').textContent = 'Fotograf: ' + mevcutFoto.photographer + ' (Pexels)';
     } else {
       document.getElementById('durum').textContent = 'Gorsel bulunamadi, tekrar dene';
     }
@@ -93,10 +95,10 @@ function gorselCek() {
 function yeniGorsel() { gorselCek(); }
 
 function pngIndir() {
-  document.getElementById('durum').textContent = 'Hazirlaniyor...';
+  document.getElementById('durum').textContent = 'PNG hazırlanıyor...';
   html2canvas(document.getElementById('kare'), {
     useCORS: true,
-    allowTaint: true,
+    allowTaint: false,
     scale: 2,
     backgroundColor: null
   }).then(function(canvas) {
@@ -106,7 +108,7 @@ function pngIndir() {
     link.click();
     document.getElementById('durum').textContent = 'PNG indirildi!';
   }).catch(function(e) {
-    document.getElementById('durum').textContent = 'Hata: ' + e.message;
+    document.getElementById('durum').textContent = 'CORS hatası — görsele uzun bas → kaydet';
   });
 }
 
