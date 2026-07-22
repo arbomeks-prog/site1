@@ -362,3 +362,15 @@ Caption'lar, hashtagler, alt text, görseldeki yazılar Google tarafından çeki
 
 **Örnek anahtar kelimeler caption'a girmeli:**
 hediye, kişiye özel hediye, 500 TL hediye, anneler günü hediyesi, doğum günü hediyesi, trendyol hediye, hepsiburada hediye, budurbuldum
+
+### ⭐ ANA REKLAM FORMATI — DOKUNMA (22 Temmuz 2026)
+
+**budurbuldum.com/budurbuldum-reklam-dikey.html**
+Git commit: 78fff67 (b748869 olarak restore edildi)
+
+- 9:16 dikey format, portrait Pexels görseli
+- "⬇️ PNG İndir" butonu çalışıyor — html2canvas ile direkt PNG iniyor
+- "🔄 Yeni görsel" ile farklı fotoğraflar geliyor
+- Bu sayfaya DOKUNMA, silme, değiştirme
+
+Yeni kampanyalar için bu sayfayı kopyala, farklı isimle yeni sayfa yap.
