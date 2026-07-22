@@ -1427,6 +1427,26 @@ async function hediyeBul() {
     return;
   }
 
+  // Admin kontrolü — admin işaretliyse log-quiz'e veri gönderme
+  var _isAdmin = localStorage.getItem('bb_admin') === '1';
+
+  // Quiz başlatma logu
+  if (!_isAdmin) {
+    var _sid = 'yeni-' + Date.now() + '-' + Math.random().toString(36).substr(2,6);
+    localStorage.setItem('bb_session_id', _sid);
+    fetch('/api/log-quiz', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        session_id: _sid,
+        event: 'quiz_basladi',
+        kime: cevaplar.kime || null,
+        butce: cevaplar.butce || null,
+        tur_no: turSayaci + 1
+      })
+    }).catch(function(){});
+  }
+
   // 100 hediye sınırı kontrolü
   if (oncekiHediyeler.length >= 100) {
     var sinirEl = document.getElementById('hediyeler-bolum');
@@ -1521,6 +1541,22 @@ async function hediyeBul() {
         kime: cevaplar.kime || null,
         butce: cevaplar.butce || null
       });
+    }
+    // Panel logu — admin değilse gönder
+    if (localStorage.getItem('bb_admin') !== '1') {
+      var _sid2 = localStorage.getItem('bb_session_id') || ('yeni-' + Date.now());
+      fetch('/api/log-quiz', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          session_id: _sid2,
+          event: 'tur_tamamlandi',
+          kime: cevaplar.kime || null,
+          butce: cevaplar.butce || null,
+          tur_no: turSayaci,
+          hediye_sayisi: sugg.length
+        })
+      }).catch(function(){});
     }
     // Hediye Bul butonunu "Yeni Hediyeler Bul" yap ve yanıp söndür
     var hbBtn = document.getElementById('hediye-bul-btn');
