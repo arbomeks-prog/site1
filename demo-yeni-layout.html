@@ -23,14 +23,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .bb-tagline{font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;}
 
 /* SOL PİLL'LER — görselin üstünde */
-.bb-left{position:fixed;left:0;top:52px;bottom:120px;z-index:10;padding:10px 8px 0 8px;display:flex;flex-direction:column;gap:5px;width:90px;overflow-y:auto;}
-.pill-btn{display:flex;align-items:center;justify-content:flex-start;gap:0;padding:10px 10px;border-radius:10px;border:2px solid rgba(255,255,255,0.15);border-bottom:4px solid rgba(0,0,0,0.25);background:linear-gradient(180deg,rgba(255,255,255,0.18) 0%,rgba(255,255,255,0.08) 100%);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s;width:100%;backdrop-filter:blur(8px);}
+.bb-left{position:fixed;left:0;top:52px;bottom:110px;z-index:10;padding:0 8px;display:flex;flex-direction:column;justify-content:space-evenly;width:100px;}
+.pill-btn{display:flex;align-items:center;justify-content:center;padding:11px 8px;border-radius:10px;border:2px solid rgba(255,255,255,0.2);border-bottom:4px solid rgba(0,0,0,0.3);background:linear-gradient(180deg,rgba(30,30,30,0.55) 0%,rgba(10,10,10,0.45) 100%);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.2s;width:100%;backdrop-filter:blur(12px);position:relative;overflow:hidden;}
 .pill-btn:active{transform:translateY(2px);border-bottom-width:2px;}
-.pill-btn.done{border-color:rgba(16,185,129,0.6);border-bottom-color:rgba(5,150,105,0.8);background:linear-gradient(180deg,rgba(16,185,129,0.25) 0%,rgba(16,185,129,0.12) 100%);}
+.pill-btn.done{border-color:rgba(16,185,129,0.7);border-bottom-color:rgba(5,150,105,0.9);background:linear-gradient(180deg,rgba(16,185,129,0.3) 0%,rgba(5,150,105,0.2) 100%);}
+.pill-btn.bekliyor{animation:cerceveParlama 1.6s ease-in-out infinite;}
+@keyframes cerceveParlama{
+  0%,100%{border-color:rgba(255,255,255,0.2);box-shadow:none;}
+  50%{border-color:rgba(232,168,56,0.9);box-shadow:0 0 0 2px rgba(232,168,56,0.3),0 0 12px rgba(232,168,56,0.4);}
+}
 .pill-icon{display:none;}
-.pill-label{font-size:12px;color:rgba(255,255,255,0.7);font-weight:700;text-align:left;letter-spacing:0.02em;text-shadow:0 1px 4px rgba(0,0,0,0.5);}
-.pill-btn.done .pill-label{color:#fff;}
-.pill-btn.zorunlu:not(.done) .pill-label{color:rgba(255,255,255,0.5);}
+.pill-label{font-size:13px;color:#fff;font-weight:800;text-align:center;letter-spacing:0.04em;text-shadow:0 2px 6px rgba(0,0,0,0.8);line-height:1;}
+.pill-btn.done .pill-label{color:#6ee7b7;}
+.pill-btn.zorunlu:not(.done) .pill-label{color:rgba(255,255,255,0.85);}
 
 /* ALT KISIM — buton ve tur */
 .alt-kisim{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:10;padding:0 16px 36px;}
@@ -308,9 +313,24 @@ function openPopup(key){
   document.getElementById('popupOverlay').classList.add('open');
 }
 
+var SIRALAMA=['kime','yas','cinsiyet','amac','butce','hobi','burc'];
+
+function bekleyenGuncelle(){
+  // Tüm bekliyor sınıfını kaldır
+  SIRALAMA.forEach(function(k){
+    document.getElementById('pill-'+k).classList.remove('bekliyor');
+  });
+  // Seçilmemiş ilk zorunluya bekliyor ver
+  var zorunlu=['kime','yas','cinsiyet','amac','butce'];
+  var ilk=zorunlu.filter(function(k){return !state[k];})[0];
+  if(ilk) document.getElementById('pill-'+ilk).classList.add('bekliyor');
+}
+
 function selectOpt(val){
   state[activeKey]=val;
-  document.getElementById('pill-'+activeKey).classList.add('done');
+  var pill=document.getElementById('pill-'+activeKey);
+  pill.classList.add('done');
+  pill.classList.remove('bekliyor');
   var found=DATA[activeKey].opts.filter(function(o){return o.l===val;})[0];
   if(found) document.getElementById('icon-'+activeKey).textContent=found.e;
   if(activeKey==='kime') sliderBaslat(GORSELLER[val]||GORSELLER.genel);
@@ -318,6 +338,7 @@ function selectOpt(val){
   event.currentTarget.classList.add('selected');
   setTimeout(closePopup,280);
   checkReady();
+  bekleyenGuncelle();
 }
 
 function checkReady(){
@@ -339,6 +360,8 @@ function checkReady(){
 
 function overlayClick(e){if(e.target===document.getElementById('popupOverlay'))closePopup();}
 function closePopup(){document.getElementById('popupOverlay').classList.remove('open');}
+// Başlangıçta ilk butona animasyon
+document.getElementById('pill-kime').classList.add('bekliyor');
 </script>
 </body>
 </html>
