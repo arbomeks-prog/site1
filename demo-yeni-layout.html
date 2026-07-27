@@ -43,10 +43,7 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
 .vitrin-img.aktif{opacity:1;}
 .vitrin-nokta{position:absolute;bottom:8px;left:0;right:0;display:flex;gap:5px;justify-content:center;z-index:5;}
 
-/* KART ALT */
-.vitrin-alt{padding:12px 12px 12px;}
-.vitrin-kime-tag{font-size:10px;font-weight:800;color:#e8a838;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
-.vitrin-mesaj{font-size:12px;color:#64748b;line-height:1.4;margin-bottom:10px;}
+/* KART ALT — gerçek kart yapısı */
 
 /* HEDİYE BUL */
 .hediye-bul-btn{width:100%;padding:14px;border-radius:14px;border:none;background:rgba(148,163,184,0.4);color:rgba(255,255,255,0.5);font-size:15px;font-weight:800;cursor:default;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.4s;backdrop-filter:blur(4px);}
@@ -168,10 +165,23 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
           <div class="vitrin-nokta" id="noktaSayac"></div>
         </div>
 
-        <!-- KART ALT KISIM — sabit -->
-        <div class="vitrin-alt">
-          <div class="vitrin-kime-tag" id="ambiyansKime">Kime alıyorsun?</div>
-          <div class="vitrin-mesaj" id="ambiyansMesaj">Soldan seç, hediyeler burada belirir</div>
+        <!-- KART ALT KISIM — gerçek hediye kartı -->
+        <div class="kart-icerik">
+          <div class="gift-name" id="vitrinAd">🎁 Kime alıyorsunuz?</div>
+          <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+            <span class="gift-price-num" id="vitrinFiyat">—</span>
+            <span style="font-size:9px;color:#94a3b8;font-weight:700;">ORTALAMA FİYAT</span>
+          </div>
+          <div class="gift-reason" id="vitrinReason">Soldan kişiyi seç, hediye önerileri burada belirir</div>
+          <div class="platform-links" id="vitrinPlatforms">
+            <span class="plt-link plt-trendyol">Trendyol</span>
+            <span class="plt-link plt-hepsiburada">Hepsiburada</span>
+            <span class="plt-link plt-amazon">Amazon</span>
+            <span class="plt-link plt-ciceksepeti">Çiçeksepeti</span>
+            <span class="plt-link plt-n11">N11</span>
+          </div>
+        </div>
+        <div style="padding:0 12px 12px;">
           <button class="hediye-bul-btn" id="hediyeBulBtn" onclick="hediyeBul()">
             <i class="fa-solid fa-gift"></i> Hediye Bul
           </button>
@@ -330,12 +340,35 @@ function noktaGuncelle() {
   }
 }
 
+// Kime'ye göre vitrin kart içeriği
+var VITRIN_KART = {
+  Anne:    {ad:'🌸 Çiçek Aranjmanı', fiyat:'320 TL', reason:'"Annenizi mutlu edecek en güzel seçimlerden biri"', platforms:['trendyol','ciceksepeti']},
+  Baba:    {ad:'⌚ Kol Saati',         fiyat:'750 TL', reason:'"Babanıza yakışacak şık bir hediye"', platforms:['trendyol','amazon']},
+  Sevgili: {ad:'💌 Sürpriz Kutu',      fiyat:'550 TL', reason:'"Sevgilinizi unutulmaz bir anla şaşırtın"', platforms:['trendyol','ciceksepeti']},
+  Arkadaş: {ad:'🎧 Kablosuz Kulaklık', fiyat:'650 TL', reason:'"Arkadaşınızın her an yanında olacak"', platforms:['amazon','trendyol']},
+  Eşim:    {ad:'💐 Çiçek Buketi',      fiyat:'320 TL', reason:'"Eşinize sıradan bir günü özel kılın"', platforms:['ciceksepeti']},
+  Kardeş:  {ad:'👟 Spor Ayakkabı',     fiyat:'650 TL', reason:'"Kardeşinizin tarzına uygun hediye"', platforms:['trendyol','hepsiburada']},
+  Çocuk:   {ad:'🧸 Oyuncak Seti',      fiyat:'150 TL', reason:'"Çocuğunuzun gözleri parıldayacak"', platforms:['trendyol','hepsiburada']},
+  Pet:     {ad:'🦴 Oyuncak & Yatak',   fiyat:'250 TL', reason:'"Dostunuzu şımartın"', platforms:['trendyol','amazon']},
+  Kendime: {ad:'✨ Kişisel Bakım Seti', fiyat:'380 TL', reason:'"Kendinize iyi bakmayı hak ettiniz"', platforms:['trendyol','hepsiburada']}
+};
+
+var PLT_CSS2={trendyol:'plt-trendyol',hepsiburada:'plt-hepsiburada',amazon:'plt-amazon',ciceksepeti:'plt-ciceksepeti',n11:'plt-n11'};
+var PLT_LABEL2={trendyol:'Trendyol',hepsiburada:'Hepsiburada',amazon:'Amazon',ciceksepeti:'Çiçeksepeti',n11:'N11'};
+
 function kimeGuncelle(kime) {
-  var d = KIME_DATA[kime];
   var liste = PEXELS_URLS[kime] || PEXELS_URLS.genel;
   sliderBaslat(liste);
-  document.getElementById('ambiyansKime').textContent = kime + ' için hediyeler ✨';
-  document.getElementById('ambiyansMesaj').textContent = d ? d.mesaj : '';
+  var k = VITRIN_KART[kime];
+  if(k) {
+    document.getElementById('vitrinAd').textContent = k.ad;
+    document.getElementById('vitrinFiyat').textContent = k.fiyat;
+    document.getElementById('vitrinReason').textContent = k.reason;
+    var plt = document.getElementById('vitrinPlatforms');
+    plt.innerHTML = k.platforms.map(function(p){
+      return '<span class="plt-link '+PLT_CSS2[p]+'">'+PLT_LABEL2[p]+'</span>';
+    }).join('');
+  }
 }
 
 // POPUP DATA
