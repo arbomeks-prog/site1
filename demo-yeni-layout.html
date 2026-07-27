@@ -107,17 +107,17 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
 
   <div class="bb-main">
     <div class="bb-left">
-      <div class="pill-btn done zorunlu" id="pill-kime" onclick="openPopup('kime')">
+      <div class="pill-btn zorunlu" id="pill-kime" onclick="openPopup('kime')">
         <div class="pill-check"><i class="fa-solid fa-check" style="font-size:7px;"></i></div>
         <div class="pill-icon" id="icon-kime">👩</div>
         <div class="pill-label">Kime</div>
       </div>
-      <div class="pill-btn done zorunlu" id="pill-yas" onclick="openPopup('yas')">
+      <div class="pill-btn zorunlu" id="pill-yas" onclick="openPopup('yas')">
         <div class="pill-check"><i class="fa-solid fa-check" style="font-size:7px;"></i></div>
         <div class="pill-icon" id="icon-yas">🎂</div>
         <div class="pill-label">Yaşı</div>
       </div>
-      <div class="pill-btn done zorunlu" id="pill-cinsiyet" onclick="openPopup('cinsiyet')">
+      <div class="pill-btn zorunlu" id="pill-cinsiyet" onclick="openPopup('cinsiyet')">
         <div class="pill-check"><i class="fa-solid fa-check" style="font-size:7px;"></i></div>
         <div class="pill-icon" id="icon-cinsiyet">♀️</div>
         <div class="pill-label">Cinsiyet</div>
@@ -177,7 +177,7 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
 </div>
 
 <script>
-var state = {kime:'Anne', yas:'36–45', cinsiyet:'Erkek', amac:null, butce:null, hobi:null, burc:null};
+var state = {kime:null, yas:null, cinsiyet:null, amac:null, butce:null, hobi:null, burc:null};
 var activeKey = null;
 
 // Her kime için vitrin kartları — Pexels statik URL + gerçek kart yapısı
@@ -255,6 +255,14 @@ function kartHTML(c, idx) {
   });
   h += '</div></div></div>';
   return h;
+}
+
+
+function updateVitrinBos() {
+  var grid = document.getElementById('vitrinCards');
+  grid.innerHTML = '<div style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px;gap:8px;"><div style="font-size:36px;">🎁</div><div style="font-size:12px;font-weight:700;color:#94a3b8;text-align:center;line-height:1.5;">Soldan sorulara tıkla,<br>hediye önerileri burada belirir</div></div>';
+  document.getElementById('vitrinCount').textContent = '500+ hediye';
+  document.getElementById('vitrinSub').innerHTML = 'Kime aldığını seç, hediyeler belirsin';
 }
 
 function updateVitrin(kime) {
@@ -382,7 +390,7 @@ function hediyeBul(){ alert('Demo modunda! Gerçek entegrasyon sonra 🎁'); }
 function overlayClick(e){if(e.target===document.getElementById('popupOverlay'))closePopup();}
 function closePopup(){document.getElementById('popupOverlay').classList.remove('open');}
 
-updateVitrin('Anne');
+updateVitrinBos();
 checkReady();
 </script>
 </body>
