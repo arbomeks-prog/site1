@@ -84,13 +84,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .plt-n11{background:#6f2da8;color:#fff;}
 
 /* POPUP — koyu, VIP */
-.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:none;align-items:flex-end;z-index:200;backdrop-filter:blur(6px);}
+.popup-overlay{position:fixed;inset:0;background:transparent;display:none;align-items:flex-end;z-index:200;}
 .popup-overlay.open{display:flex;}
-.popup-box{background:linear-gradient(180deg,#1a1a2e 0%,#0f0f1a 100%);width:100%;max-width:430px;margin:0 auto;padding:24px 16px 48px;max-height:88vh;overflow-y:auto;border-top:1px solid rgba(255,255,255,0.08);}
-.popup-drag{width:32px;height:3px;background:rgba(255,255,255,0.15);margin:0 auto 20px;border-radius:2px;}
-.popup-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-.popup-title{font-size:16px;font-weight:800;color:#fff;letter-spacing:0.02em;}
-.popup-close{width:28px;height:28px;border:none;background:transparent;cursor:pointer;font-size:16px;color:rgba(255,255,255,0.4);}
+.popup-box{background:transparent;width:100%;max-width:430px;margin:0 auto;padding:16px 16px 48px;max-height:88vh;overflow-y:auto;}
+.popup-drag{display:none;}
+.popup-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;}
+.popup-title{display:flex;align-items:center;justify-content:center;flex:1;padding:14px 12px;border:2px solid rgba(255,255,255,0.22);border-bottom:4px solid rgba(0,0,0,0.3);background:linear-gradient(180deg,rgba(255,255,255,0.18) 0%,rgba(255,255,255,0.08) 100%);font-size:14px;font-weight:800;color:#fff;border-radius:10px;backdrop-filter:blur(10px);letter-spacing:0.02em;}
+.popup-close{display:flex;align-items:center;justify-content:center;width:52px;flex-shrink:0;padding:14px 8px;border:2px solid rgba(255,255,255,0.22);border-bottom:4px solid rgba(0,0,0,0.3);background:linear-gradient(180deg,rgba(255,255,255,0.18) 0%,rgba(255,255,255,0.08) 100%);font-size:16px;font-weight:800;color:#fff;border-radius:10px;backdrop-filter:blur(10px);cursor:pointer;}
 .popup-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .popup-opts.tek{grid-template-columns:1fr;}
 .popup-opts.uc{grid-template-columns:1fr 1fr 1fr;}
