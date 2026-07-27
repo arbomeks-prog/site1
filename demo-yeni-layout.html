@@ -39,10 +39,11 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
 /* HEDİYE KARTI — sol sütunla aynı yükseklik */
 .vitrin-kart{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.1);border:1px solid #e2e8f0;display:flex;flex-direction:column;}
 
-/* GÖRSEL KISIM */
-.vitrin-img-wrap{position:relative;width:100%;height:175px;background:#0f172a;overflow:hidden;flex-shrink:0;}
-.vitrin-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease;}
-.vitrin-img.aktif{opacity:1;}
+/* GÖRSEL KISIM — index.html ile birebir */
+.img-wrap{height:175px;width:100%;background:#0f172a;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-shrink:0;}
+.img-wrap img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;}
+.img-spinner{width:28px;height:28px;border:3px solid rgba(255,255,255,0.2);border-top-color:#e8a838;border-radius:50%;animation:spin 0.8s linear infinite;position:relative;z-index:2;}
+@keyframes spin{to{transform:rotate(360deg)}}
 .nokta-wrap{position:absolute;bottom:8px;left:0;right:0;display:flex;gap:5px;justify-content:center;z-index:5;}
 .nokta{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4);transition:all 0.4s;cursor:pointer;}
 .nokta.aktif{background:#e8a838;width:18px;border-radius:3px;}
@@ -71,6 +72,7 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
 .mesaj-text{flex:1;}
 .mesaj-text b{color:#1e40af;}
 
+.gift-desc{font-size:11px;color:#64748b;margin-bottom:10px;line-height:1.5;}
 /* HEDİYE BUL */
 .hediye-bul-wrap{padding:8px 12px 12px;}
 .hediye-bul-btn{width:100%;padding:14px;border-radius:13px;border:none;background:#cbd5e1;color:#fff;font-size:15px;font-weight:800;cursor:default;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.35s;-webkit-tap-highlight-color:transparent;}
@@ -171,52 +173,45 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
     <div class="bb-right">
 
       <div class="vitrin-kart" id="vitrinKart">
-        <!-- GÖRSEL -->
-        <div class="vitrin-img-wrap">
-          <img class="vitrin-img aktif" id="img0" src="https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-          <img class="vitrin-img" id="img1" src="https://images.pexels.com/photos/1024975/pexels-photo-1024975.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-          <img class="vitrin-img" id="img2" src="https://images.pexels.com/photos/796607/pexels-photo-796607.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+        <!-- GÖRSEL — slider -->
+        <div class="img-wrap" id="imgWrap">
+          <div class="img-spinner" id="vitrinSpinner"></div>
+          <img id="img0" src="" alt="" style="opacity:1;">
+          <img id="img1" src="" alt="" style="opacity:0;transition:opacity 1.2s ease;">
+          <img id="img2" src="" alt="" style="opacity:0;transition:opacity 1.2s ease;">
           <div class="nokta-wrap" id="noktaWrap"></div>
         </div>
 
-        <!-- ÜRÜN BİLGİSİ -->
+        <!-- KART İÇERİK — birebir index.html -->
         <div class="kart-icerik">
-          <div class="gift-name" id="vitrinAd">Kime alıyorsunuz?</div>
-          <div class="fiyat-row">
+          <div class="gift-name" id="vitrinAd">🎁 Kime alıyorsunuz?</div>
+          <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
             <span class="gift-price-num" id="vitrinFiyat">— TL</span>
-            <span class="fiyat-label">ORTALAMA FİYAT</span>
+            <span style="font-size:11px;color:#94a3b8;font-weight:700;">ORTALAMA FİYAT</span>
           </div>
+          <div style="display:flex;gap:6px;margin:8px 0 4px;">
+            <button style="display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:#f8fafc;color:#475569;">⭐ Puan Verin</button>
+            <button style="display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:#f8fafc;color:#475569;">✉️ Bize Yazın</button>
+            <button style="display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,#f5c96a,#ffe066);color:#1e293b;"><span style="font-size:16px;line-height:1;">📸</span> İndir & Paylaş</button>
+          </div>
+          <div class="gift-reason" id="vitrinReason">"Soldan kişiyi seç, hediyeler kişiye özel hazırlansın"</div>
+          <div class="gift-desc" id="vitrinDesc">Her seçimde hediyeler sana daha yakın hale gelir. Kime, yaş, bütçe — hepsini bilince tam isabet öneri gelir.</div>
           <div class="platform-links" id="vitrinPlatforms">
-            <span class="plt-link plt-trendyol">Trendyol</span>
-            <span class="plt-link plt-hepsiburada">Hepsiburada</span>
-            <span class="plt-link plt-amazon">Amazon</span>
-            <span class="plt-link plt-ciceksepeti">Çiçeksepeti</span>
-            <span class="plt-link plt-n11">N11</span>
+            <a class="plt-link plt-trendyol">Trendyol</a>
+            <a class="plt-link plt-hepsiburada">Hepsiburada</a>
+            <a class="plt-link plt-amazon">Amazon</a>
+            <a class="plt-link plt-ciceksepeti">Çiçeksepeti</a>
+            <a class="plt-link plt-n11">N11</a>
           </div>
         </div>
 
-        <!-- İNTERAKTİF MESAJ ALANI -->
+        <!-- İNTERAKTİF ALAN -->
         <div class="interaktif-alan" id="interaktifAlan">
-          <div class="mesaj-satir" id="msg-kime">
-            <span class="mesaj-ikon">👤</span>
-            <span class="mesaj-text">Soldan kişiyi seç, hediyeler kişiye özel hazırlansın</span>
-          </div>
-          <div class="mesaj-satir" id="msg-yas">
-            <span class="mesaj-ikon">🎂</span>
-            <span class="mesaj-text">Yaş grubuna göre en çok tercih edilen hediyeler filtrelenir</span>
-          </div>
-          <div class="mesaj-satir" id="msg-cinsiyet">
-            <span class="mesaj-ikon">👤</span>
-            <span class="mesaj-text">Cinsiyete özel kategoriler devreye girer</span>
-          </div>
-          <div class="mesaj-satir" id="msg-amac">
-            <span class="mesaj-ikon">🎀</span>
-            <span class="mesaj-text">Hangi özel gün için aldığını bilmek hediyeyi mükemmelleştirir</span>
-          </div>
-          <div class="mesaj-satir" id="msg-butce">
-            <span class="mesaj-ikon">💰</span>
-            <span class="mesaj-text">Bütçeni belirle, o aralıkta en iyi seçenekler gelsin</span>
-          </div>
+          <div class="mesaj-satir" id="msg-kime"><span class="mesaj-ikon">👤</span><span class="mesaj-text">Soldan kişiyi seç, hediyeler kişiye özel hazırlansın</span></div>
+          <div class="mesaj-satir" id="msg-yas"><span class="mesaj-ikon">🎂</span><span class="mesaj-text">Yaş grubuna göre en çok tercih edilenler filtrelenir</span></div>
+          <div class="mesaj-satir" id="msg-cinsiyet"><span class="mesaj-ikon">👤</span><span class="mesaj-text">Cinsiyete özel kategoriler devreye girer</span></div>
+          <div class="mesaj-satir" id="msg-amac"><span class="mesaj-ikon">🎀</span><span class="mesaj-text">Hangi özel gün için aldığını bilmek hediyeyi mükemmelleştirir</span></div>
+          <div class="mesaj-satir" id="msg-butce"><span class="mesaj-ikon">💰</span><span class="mesaj-text">Bütçeni belirle, o aralıkta en iyi seçenekler gelsin</span></div>
         </div>
 
         <!-- HEDİYE BUL -->
@@ -275,15 +270,15 @@ var GORSELLER = {
 
 // Vitrin kart içeriği — kime'ye göre
 var VITRIN_KART = {
-  Anne:    {ad:'🌸 Çiçek Aranjmanı',      fiyat:'320 TL', platforms:['trendyol','ciceksepeti']},
-  Baba:    {ad:'⌚ Kol Saati',             fiyat:'750 TL', platforms:['trendyol','amazon']},
-  Sevgili: {ad:'💌 Sürpriz Kutu',          fiyat:'550 TL', platforms:['trendyol','ciceksepeti']},
-  Arkadaş: {ad:'🎧 Kablosuz Kulaklık',     fiyat:'650 TL', platforms:['amazon','trendyol']},
-  Eşim:    {ad:'💐 Çiçek Buketi',          fiyat:'320 TL', platforms:['ciceksepeti']},
-  Kardeş:  {ad:'👟 Spor Ayakkabı',         fiyat:'650 TL', platforms:['trendyol','hepsiburada']},
-  Çocuk:   {ad:'🧸 Oyuncak Seti',          fiyat:'150 TL', platforms:['trendyol','hepsiburada']},
-  Pet:     {ad:'🦴 Oyuncak & Yatak Seti',  fiyat:'250 TL', platforms:['trendyol','amazon']},
-  Kendime: {ad:'✨ Kişisel Bakım Seti',    fiyat:'380 TL', platforms:['trendyol','hepsiburada']}
+  Anne:    {ad:'🌸 Çiçek Aranjmanı',      fiyat:'320 TL', reason:'Annenizi mutlu edecek en güzel seçimlerden biri',       desc:'Taze mevsim çiçeklerinden hazırlanan özel aranjman. Aynı gün teslimat mevcut.',              platforms:['trendyol','ciceksepeti']},
+  Baba:    {ad:'⌚ Kol Saati',             fiyat:'750 TL', reason:'Babanıza yakışacak şık ve kalıcı bir hediye',            desc:'Günlük kullanıma uygun, şık tasarımlı kol saati. Farklı marka ve fiyat seçenekleri mevcut.',  platforms:['trendyol','amazon']},
+  Sevgili: {ad:'💌 Sürpriz Kutu',          fiyat:'550 TL', reason:'Sevgilinizi unutulmaz bir anla şaşırtın',               desc:'Özenle seçilmiş romantik ürünlerden oluşan sürpriz kutu. Kişiselleştirilebilir.',              platforms:['trendyol','ciceksepeti']},
+  Arkadaş: {ad:'🎧 Kablosuz Kulaklık',     fiyat:'650 TL', reason:'Arkadaşınızın her an yanında olacak pratik bir hediye', desc:'Yüksek ses kalitesi, uzun pil ömrü. Hem sporda hem günlük kullanımda ideal.',                 platforms:['amazon','trendyol']},
+  Eşim:    {ad:'💐 Çiçek Buketi',          fiyat:'320 TL', reason:'Eşinize sıradan bir günü özel kılın',                   desc:'El yapımı butik çiçek aranjmanı. Özel mesaj kartı eklenebilir. Aynı gün teslimat.',           platforms:['ciceksepeti','trendyol']},
+  Kardeş:  {ad:'👟 Spor Ayakkabı',         fiyat:'650 TL', reason:'Kardeşinizin tarzına uygun şık bir hediye',             desc:'Günlük kullanım ve hafif spor aktiviteleri için ideal. Farklı renk seçenekleri mevcut.',      platforms:['trendyol','hepsiburada']},
+  Çocuk:   {ad:'🧸 Oyuncak Seti',          fiyat:'150 TL', reason:'Çocuğunuzun gözleri parıldayacak',                     desc:'Yaşa uygun, güvenli malzemelerden üretilmiş eğitici ve eğlenceli oyuncak seti.',              platforms:['trendyol','hepsiburada']},
+  Pet:     {ad:'🦴 Oyuncak & Yatak Seti',  fiyat:'250 TL', reason:'Dostunuzu şımartın, o da hak ediyor',                  desc:'Dayanıklı oyuncaklar ve rahat yatak bir arada. Kedi ve köpek için uygun seçenekler.',          platforms:['trendyol','amazon']},
+  Kendime: {ad:'✨ Kişisel Bakım Seti',    fiyat:'380 TL', reason:'Kendinize iyi bakmayı hak ettiniz',                    desc:'Premium markalardan özenle seçilmiş bakım ürünleri. Cilt tiplerine göre filtre edilebilir.',   platforms:['trendyol','hepsiburada']}
 };
 
 // İnteraktif mesajlar — her key için seçim yapılınca ne gösterilecek
@@ -333,18 +328,24 @@ var PLT_CSS={trendyol:'plt-trendyol',hepsiburada:'plt-hepsiburada',amazon:'plt-a
 var PLT_LABEL={trendyol:'Trendyol',hepsiburada:'Hepsiburada',amazon:'Amazon',ciceksepeti:'Çiçeksepeti',n11:'N11'};
 
 function sliderBaslat(liste) {
+  var spinner = document.getElementById('vitrinSpinner');
+  if(spinner) spinner.style.display='block';
   for(var i=0;i<3;i++){
-    document.getElementById('img'+i).src = liste[i]||liste[0];
-    document.getElementById('img'+i).classList.remove('aktif');
+    var el = document.getElementById('img'+i);
+    el.src = liste[i]||liste[0];
+    el.style.opacity='0';
+    el.style.transition='opacity 1.2s ease';
   }
   aktifIdx=0;
-  document.getElementById('img0').classList.add('aktif');
-  noktaGuncelle();
   if(sliderTimer) clearInterval(sliderTimer);
+  var img0 = document.getElementById('img0');
+  img0.onload = function(){ img0.style.opacity='1'; if(spinner) spinner.style.display='none'; };
+  if(img0.complete && img0.src) { img0.style.opacity='1'; if(spinner) spinner.style.display='none'; }
+  noktaGuncelle();
   sliderTimer = setInterval(function(){
-    document.getElementById('img'+aktifIdx).classList.remove('aktif');
+    document.getElementById('img'+aktifIdx).style.opacity='0';
     aktifIdx=(aktifIdx+1)%3;
-    document.getElementById('img'+aktifIdx).classList.add('aktif');
+    document.getElementById('img'+aktifIdx).style.opacity='1';
     noktaGuncelle();
   },3500);
 }
@@ -380,8 +381,10 @@ function vitrinKartGuncelle(kime){
   if(!k) return;
   document.getElementById('vitrinAd').textContent = k.ad;
   document.getElementById('vitrinFiyat').textContent = k.fiyat;
+  if(k.reason) document.getElementById('vitrinReason').textContent = '"'+k.reason+'"';
+  if(k.desc) document.getElementById('vitrinDesc').textContent = k.desc;
   document.getElementById('vitrinPlatforms').innerHTML = k.platforms.map(function(p){
-    return '<span class="plt-link '+PLT_CSS[p]+'">'+PLT_LABEL[p]+'</span>';
+    return '<a class="plt-link '+PLT_CSS[p]+'">'+PLT_LABEL[p]+'</a>';
   }).join('');
   sliderBaslat(GORSELLER[kime]||GORSELLER.genel);
 }
