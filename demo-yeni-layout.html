@@ -83,23 +83,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .plt-ciceksepeti{background:#e91e8c;color:#fff;}
 .plt-n11{background:#6f2da8;color:#fff;}
 
-/* POPUP */
-.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:flex-end;z-index:200;}
+/* POPUP — koyu, VIP */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:none;align-items:flex-end;z-index:200;backdrop-filter:blur(6px);}
 .popup-overlay.open{display:flex;}
-.popup-box{background:#fff;width:100%;max-width:430px;margin:0 auto;padding:24px 16px 44px;max-height:88vh;overflow-y:auto;}
-.popup-drag{width:32px;height:3px;background:#e2e8f0;margin:0 auto 20px;}
-.popup-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.popup-title{font-size:15px;font-weight:700;color:#0f172a;}
-.popup-close{width:28px;height:28px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#94a3b8;}
+.popup-box{background:linear-gradient(180deg,#1a1a2e 0%,#0f0f1a 100%);width:100%;max-width:430px;margin:0 auto;padding:24px 16px 48px;max-height:88vh;overflow-y:auto;border-top:1px solid rgba(255,255,255,0.08);}
+.popup-drag{width:32px;height:3px;background:rgba(255,255,255,0.15);margin:0 auto 20px;border-radius:2px;}
+.popup-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.popup-title{font-size:16px;font-weight:800;color:#fff;letter-spacing:0.02em;}
+.popup-close{width:28px;height:28px;border:none;background:transparent;cursor:pointer;font-size:16px;color:rgba(255,255,255,0.4);}
 .popup-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .popup-opts.tek{grid-template-columns:1fr;}
 .popup-opts.uc{grid-template-columns:1fr 1fr 1fr;}
-.opt-btn{padding:12px 10px;border:1px solid #f1f5f9;background:#fafafa;font-size:13px;color:#0f172a;cursor:pointer;display:flex;align-items:center;gap:8px;-webkit-tap-highlight-color:transparent;transition:all 0.12s;}
-.opt-btn:active{background:#f1f5f9;}
-.opt-btn.selected{border-color:#0f172a;background:#0f172a;color:#fff;}
-.opt-emoji{font-size:17px;flex-shrink:0;}
-.popup-opts.uc .opt-btn{padding:10px 4px;font-size:10px;flex-direction:column;gap:3px;justify-content:center;text-align:center;}
-.popup-opts.uc .opt-emoji{font-size:18px;}
+.opt-btn{padding:14px 12px;border:2px solid rgba(255,255,255,0.12);border-bottom:4px solid rgba(0,0,0,0.4);background:linear-gradient(180deg,rgba(255,255,255,0.08) 0%,rgba(255,255,255,0.03) 100%);font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);cursor:pointer;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent;transition:all 0.15s;border-radius:10px;backdrop-filter:blur(4px);}
+.opt-btn:active{transform:translateY(2px);border-bottom-width:2px;}
+.opt-btn.selected{border-color:rgba(232,168,56,0.8);border-bottom-color:rgba(180,120,20,0.9);background:linear-gradient(180deg,rgba(232,168,56,0.25) 0%,rgba(232,168,56,0.12) 100%);color:#e8a838;}
+.opt-emoji{font-size:18px;flex-shrink:0;}
+.popup-opts.uc .opt-btn{padding:12px 4px;font-size:11px;flex-direction:column;gap:4px;justify-content:center;text-align:center;}
+.popup-opts.uc .opt-emoji{font-size:20px;}
 </style>
 </head>
 <body>
