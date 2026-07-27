@@ -7,123 +7,90 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#000;min-height:100vh;display:flex;justify-content:center;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#000;display:flex;justify-content:center;min-height:100vh;}
 .page{width:100%;max-width:430px;min-height:100vh;position:relative;overflow:hidden;}
 
-/* ─── GİRİŞ EKRANI ─── */
-.giris{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;justify-content:flex-end;max-width:430px;left:50%;transform:translateX(-50%);}
-.giris-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.55);}
-.giris-overlay{position:absolute;inset:0;background:linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.85) 100%);}
-.giris-icerik{position:relative;z-index:2;padding:0 24px 52px;}
-.giris-logo{font-family:Georgia,serif;font-size:14px;color:rgba(255,255,255,0.5);letter-spacing:0.05em;margin-bottom:24px;}
-.giris-logo span{color:#e8a838;}
-.giris-baslik{font-size:28px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:8px;letter-spacing:-0.5px;}
-.giris-alt{font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:32px;line-height:1.5;}
-.giris-btn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0f172a;font-size:14px;font-weight:700;padding:14px 24px;cursor:pointer;border:none;letter-spacing:0.01em;}
-.giris-btn:active{opacity:0.85;}
-.giris-kucuk{display:block;margin-top:12px;font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.05em;}
-.giris.gizli{display:none;}
-
-/* ─── ANA İÇERİK ─── */
-.ana{display:none;min-height:100vh;background:#fff;}
-.ana.goster{display:flex;flex-direction:column;}
+/* TAM EKRAN GÖRSEL */
+.bg-img{position:fixed;inset:0;width:100%;max-width:430px;left:50%;transform:translateX(-50%);height:100%;object-fit:cover;transition:opacity 1.4s ease;z-index:0;}
+.bg-img.gecis{opacity:0;}
+.overlay{position:fixed;inset:0;max-width:430px;left:50%;transform:translateX(-50%);z-index:1;background:linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.35) 100%);}
+.overlay-alt{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:430px;width:100%;height:220px;background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);z-index:1;}
 
 /* HEADER */
-.bb-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px;border-bottom:1px solid #f1f5f9;}
-.bb-logo{font-family:Georgia,serif;font-size:17px;font-weight:900;color:#0f172a;letter-spacing:-0.5px;}
+.bb-header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;}
+.bb-logo{font-family:Georgia,serif;font-size:17px;font-weight:900;color:#fff;letter-spacing:-0.5px;text-shadow:0 1px 4px rgba(0,0,0,0.4);}
 .bb-logo span{color:#e8a838;}
-.bb-tagline{font-size:10px;color:#cbd5e1;letter-spacing:0.05em;}
+.bb-tagline{font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;}
 
-/* ANA LAYOUT */
-.bb-main{display:flex;flex:1;align-items:flex-start;}
+/* SOL PİLL'LER — görselin üstünde */
+.bb-left{position:fixed;left:50%;transform:translateX(-50%);max-width:430px;width:100%;top:56px;z-index:10;padding:8px 0 0 10px;display:flex;flex-direction:column;gap:2px;width:70px;}
+.pill-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 8px;border:none;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s;position:relative;width:64px;}
+.pill-btn:active{opacity:0.6;}
+.pill-icon{font-size:18px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5));}
+.pill-label{font-size:9px;color:rgba(255,255,255,0.5);font-weight:500;text-align:center;letter-spacing:0.03em;text-shadow:0 1px 3px rgba(0,0,0,0.6);}
+.pill-btn.done .pill-label{color:#fff;font-weight:700;}
+.pill-btn.done::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:2px;height:20px;background:#e8a838;border-radius:0 1px 1px 0;}
+.pill-btn.zorunlu:not(.done) .pill-label{color:rgba(255,255,255,0.4);}
+.pill-btn.zorunlu:not(.done) .pill-icon{opacity:0.6;}
 
-/* SOL — PİLL LİSTESİ */
-.bb-left{width:64px;flex-shrink:0;padding:12px 0 12px 8px;display:flex;flex-direction:column;gap:0;border-right:1px solid #f1f5f9;}
-.pill-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:none;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity 0.15s;width:100%;}
-.pill-btn:active{opacity:0.5;}
-.pill-icon{font-size:17px;line-height:1;}
-.pill-label{font-size:9px;color:#cbd5e1;font-weight:500;text-align:center;letter-spacing:0.03em;}
-.pill-btn.done .pill-label{color:#0f172a;font-weight:600;}
-.pill-btn.done .pill-icon{position:relative;}
-.pill-btn.done .pill-icon::after{content:'';position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:16px;height:2px;background:#e8a838;}
-.pill-btn.zorunlu:not(.done) .pill-label{color:#94a3b8;}
+/* ALT KISIM — buton ve tur */
+.alt-kisim{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:10;padding:0 16px 36px;}
+.tur-gosterge{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
+.tur-no{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;font-weight:600;}
+.tur-cerceve{display:flex;gap:5px;}
+.tur-kutu{width:22px;height:3px;background:rgba(255,255,255,0.2);border-radius:1px;}
+.tur-kutu.aktif{background:#e8a838;}
+.hediye-bul-btn{width:100%;padding:16px;border:none;background:#fff;color:#0f172a;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:0.02em;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.3s;-webkit-tap-highlight-color:transparent;}
+.hediye-bul-btn.pasif{background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.35);cursor:default;backdrop-filter:blur(4px);}
+.hediye-bul-btn.hazir{background:#fff;color:#0f172a;}
+.hediye-bul-hint{text-align:center;font-size:10px;color:rgba(255,255,255,0.35);margin-top:8px;letter-spacing:0.05em;}
+.hediye-bul-hint.hazir{color:rgba(255,255,255,0.7);}
 
-/* SAĞ — KART */
-.bb-right{flex:1;display:flex;flex-direction:column;}
+/* KARTLAR EKRANI */
+.kartlar-ekran{position:fixed;inset:0;max-width:430px;left:50%;transform:translateX(-50%);background:#fff;z-index:50;display:none;flex-direction:column;overflow-y:auto;}
+.kartlar-ekran.acik{display:flex;}
+.kartlar-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:5;}
+.kartlar-logo{font-family:Georgia,serif;font-size:16px;font-weight:900;color:#0f172a;}
+.kartlar-logo span{color:#e8a838;}
+.kartlar-geri{font-size:11px;color:#94a3b8;cursor:pointer;display:flex;align-items:center;gap:5px;letter-spacing:0.03em;}
+.kartlar-icerik{padding:16px;}
+.kartlar-baslik{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:4px;}
+.kartlar-alt{font-size:11px;color:#94a3b8;margin-bottom:16px;}
+.kartlar-grid{display:flex;flex-direction:column;gap:24px;}
 
-/* GÖRSEL */
-.kart-img{position:relative;width:100%;background:#0f172a;overflow:hidden;}
-.kart-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 1.4s ease;}
-.kart-img-nokta{position:absolute;bottom:10px;left:0;right:0;display:flex;gap:4px;justify-content:center;z-index:3;}
-.nokta{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.35);transition:all 0.4s;cursor:pointer;}
-.nokta.aktif{background:#e8a838;width:14px;border-radius:2px;}
-
-/* KART İÇERİK */
-.kart-icerik{padding:14px 14px 8px;}
-.kart-ad{font-size:15px;font-weight:700;color:#0f172a;margin-bottom:3px;line-height:1.3;}
-.kart-fiyat{font-size:17px;font-weight:800;color:#d97706;display:inline;}
-.kart-fiyat-etiket{font-size:9px;color:#94a3b8;font-weight:600;margin-left:6px;letter-spacing:0.05em;}
-.kart-linkler{display:flex;gap:3px;margin-top:8px;flex-wrap:wrap;}
-.kart-alt-btn{display:flex;gap:12px;margin:8px 0 4px;}
-.kart-alt-btn span{font-size:10px;color:#cbd5e1;cursor:pointer;text-underline-offset:3px;}
-.kart-alt-btn span:hover{color:#64748b;}
-.kart-reason{font-size:11px;color:#3b82f6;font-style:italic;margin:6px 0 4px;line-height:1.4;}
-.kart-desc{font-size:11px;color:#94a3b8;line-height:1.5;margin-bottom:4px;}
-
-/* PLATFORM LİNKLERİ */
-.plt-link{font-size:9px;font-weight:700;padding:5px 8px;text-decoration:none;cursor:pointer;letter-spacing:0.02em;}
+/* HEDIYE KART */
+.gift-card{background:#fff;}
+.star-badge{display:inline-block;background:#f59e0b;color:#fff;font-size:9px;font-weight:700;padding:3px 8px;margin-bottom:8px;letter-spacing:0.06em;}
+.gift-card-img{width:100%;height:190px;object-fit:cover;display:block;opacity:0;transition:opacity 0.5s;}
+.gift-card-img.loaded{opacity:1;}
+.gift-card-body{padding:10px 0 0;}
+.gift-card-ad{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:3px;}
+.gift-card-fiyat{font-size:16px;font-weight:800;color:#d97706;}
+.gift-card-fiyat-label{font-size:9px;color:#94a3b8;font-weight:600;margin-left:5px;letter-spacing:0.05em;}
+.gift-card-alt{display:flex;gap:14px;margin:6px 0;}
+.gift-card-alt span{font-size:10px;color:#cbd5e1;cursor:pointer;}
+.gift-card-reason{font-size:11px;color:#3b82f6;font-style:italic;margin:4px 0;line-height:1.4;}
+.gift-card-desc{font-size:11px;color:#64748b;margin-bottom:8px;line-height:1.5;}
+.gift-card-platforms{display:flex;gap:3px;flex-wrap:wrap;}
+.plt-link{font-size:9px;font-weight:700;padding:5px 8px;cursor:pointer;letter-spacing:0.02em;}
 .plt-trendyol{background:#f27a1a;color:#fff;}
 .plt-hepsiburada{background:#ff6000;color:#fff;}
 .plt-amazon{background:#ff9900;color:#0f172a;}
 .plt-ciceksepeti{background:#e91e8c;color:#fff;}
 .plt-n11{background:#6f2da8;color:#fff;}
 
-/* İNTERAKTİF ALAN */
-.mesaj-alan{border-top:1px solid #f8fafc;padding:10px 14px;display:flex;flex-direction:column;gap:8px;}
-.mesaj-satir{font-size:11px;color:#e2e8f0;line-height:1.4;transition:color 0.3s;}
-.mesaj-satir.aktif{color:#0f172a;}
-.mesaj-satir.aktif b{color:#1e40af;}
-
-/* HEDİYE BUL */
-.hediye-bul-wrap{padding:10px 14px 14px;}
-.hediye-bul-btn{width:100%;padding:15px;border:none;background:#e2e8f0;color:#94a3b8;font-size:14px;font-weight:700;cursor:default;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.4s;letter-spacing:0.02em;}
-.hediye-bul-btn.hazir{background:#0f172a;color:#fff;cursor:pointer;}
-.hediye-bul-hint{text-align:center;font-size:10px;color:#cbd5e1;margin-top:6px;letter-spacing:0.03em;}
-.hediye-bul-hint.hazir{color:#10b981;}
-
-/* AÇILAN KARTLAR */
-.kartlar-bolum{display:none;padding:0 14px 20px;}
-.kartlar-bolum.acik{display:block;}
-.kartlar-geri{font-size:11px;color:#94a3b8;cursor:pointer;display:flex;align-items:center;gap:6px;padding:12px 0 16px;letter-spacing:0.03em;}
-.kartlar-grid{display:flex;flex-direction:column;gap:24px;}
-
-.gift-card{background:#fff;position:relative;}
-.gift-card.star{}
-.star-badge{display:inline-block;background:#f59e0b;color:#fff;font-size:9px;font-weight:700;padding:3px 8px;margin-bottom:8px;letter-spacing:0.05em;}
-.gift-card-img{width:100%;height:180px;object-fit:cover;display:block;opacity:0;transition:opacity 0.5s;}
-.gift-card-img.loaded{opacity:1;}
-.gift-card-body{padding:10px 0 0;}
-.gift-card-ad{font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px;}
-.gift-card-fiyat{font-size:16px;font-weight:800;color:#d97706;}
-.gift-card-fiyat-etiket{font-size:9px;color:#94a3b8;font-weight:600;margin-left:6px;}
-.gift-card-reason{font-size:11px;color:#3b82f6;font-style:italic;margin:5px 0;line-height:1.4;}
-.gift-card-desc{font-size:11px;color:#64748b;margin-bottom:8px;line-height:1.5;}
-.gift-card-platforms{display:flex;gap:3px;flex-wrap:wrap;}
-.gift-card-alt{display:flex;gap:14px;margin:6px 0 8px;}
-.gift-card-alt span{font-size:10px;color:#cbd5e1;cursor:pointer;}
-
 /* POPUP */
-.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:flex-end;z-index:200;}
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:flex-end;z-index:200;}
 .popup-overlay.open{display:flex;}
-.popup-box{background:#fff;width:100%;max-width:430px;margin:0 auto;padding:24px 16px 40px;max-height:88vh;overflow-y:auto;}
+.popup-box{background:#fff;width:100%;max-width:430px;margin:0 auto;padding:24px 16px 44px;max-height:88vh;overflow-y:auto;}
 .popup-drag{width:32px;height:3px;background:#e2e8f0;margin:0 auto 20px;}
 .popup-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.popup-title{font-size:15px;font-weight:700;color:#0f172a;letter-spacing:-0.2px;}
-.popup-close{width:28px;height:28px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#94a3b8;display:flex;align-items:center;justify-content:center;}
+.popup-title{font-size:15px;font-weight:700;color:#0f172a;}
+.popup-close{width:28px;height:28px;border:none;background:transparent;cursor:pointer;font-size:16px;color:#94a3b8;}
 .popup-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .popup-opts.tek{grid-template-columns:1fr;}
 .popup-opts.uc{grid-template-columns:1fr 1fr 1fr;}
-.opt-btn{padding:12px 10px;border:1px solid #f1f5f9;background:#fafafa;font-size:13px;color:#0f172a;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all 0.15s;-webkit-tap-highlight-color:transparent;text-align:left;}
+.opt-btn{padding:12px 10px;border:1px solid #f1f5f9;background:#fafafa;font-size:13px;color:#0f172a;cursor:pointer;display:flex;align-items:center;gap:8px;-webkit-tap-highlight-color:transparent;transition:all 0.12s;}
 .opt-btn:active{background:#f1f5f9;}
 .opt-btn.selected{border-color:#0f172a;background:#0f172a;color:#fff;}
 .opt-emoji{font-size:17px;flex-shrink:0;}
@@ -134,116 +101,79 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <body>
 <div class="page">
 
-  <!-- GİRİŞ EKRANI -->
-  <div class="giris" id="giris">
-    <img class="giris-img" id="girisImg" src="https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&cs=tinysrgb&w=800" alt="">
-    <div class="giris-overlay"></div>
-    <div class="giris-icerik">
-      <div class="giris-logo">budur<span>buldum</span></div>
-      <div class="giris-baslik">500 TL'ye annen için<br>100 hediye fikri.</div>
-      <div class="giris-alt">6 soru. 2 dakika. Ücretsiz.<br>Trendyol, Hepsiburada, Amazon ve daha fazlası.</div>
-      <button class="giris-btn" onclick="girisGec()">
-        Hediye bulmaya başla <i class="fa-solid fa-arrow-right" style="font-size:12px;"></i>
-      </button>
-      <span class="giris-kucuk">ÜCRETSİZ · ÜYELİKSİZ · REKLAMSIZ</span>
+  <!-- ARKA PLAN GÖRSELLERİ -->
+  <img class="bg-img" id="bgImg0" src="https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&cs=tinysrgb&w=800" alt="">
+  <img class="bg-img gecis" id="bgImg1" src="" alt="">
+  <div class="overlay"></div>
+  <div class="overlay-alt"></div>
+
+  <!-- HEADER -->
+  <div class="bb-header">
+    <div class="bb-logo">budur<span>buldum</span></div>
+    <div class="bb-tagline">ÜCRETSİZ · ÜYELİKSİZ</div>
+  </div>
+
+  <!-- SOL PİLL'LER -->
+  <div class="bb-left">
+    <div class="pill-btn zorunlu" id="pill-kime" onclick="openPopup('kime')">
+      <div class="pill-icon" id="icon-kime">🎁</div>
+      <div class="pill-label">kime</div>
+    </div>
+    <div class="pill-btn zorunlu" id="pill-yas" onclick="openPopup('yas')">
+      <div class="pill-icon" id="icon-yas">🎂</div>
+      <div class="pill-label">yaşı</div>
+    </div>
+    <div class="pill-btn zorunlu" id="pill-cinsiyet" onclick="openPopup('cinsiyet')">
+      <div class="pill-icon" id="icon-cinsiyet">👤</div>
+      <div class="pill-label">cinsiyet</div>
+    </div>
+    <div class="pill-btn zorunlu" id="pill-amac" onclick="openPopup('amac')">
+      <div class="pill-icon" id="icon-amac">🎀</div>
+      <div class="pill-label">neden</div>
+    </div>
+    <div class="pill-btn zorunlu" id="pill-butce" onclick="openPopup('butce')">
+      <div class="pill-icon" id="icon-butce">💰</div>
+      <div class="pill-label">bütçe</div>
+    </div>
+    <div class="pill-btn" id="pill-hobi" onclick="openPopup('hobi')">
+      <div class="pill-icon" id="icon-hobi">🏃</div>
+      <div class="pill-label">hobi</div>
+    </div>
+    <div class="pill-btn" id="pill-burc" onclick="openPopup('burc')">
+      <div class="pill-icon" id="icon-burc">⭐</div>
+      <div class="pill-label">burcu</div>
     </div>
   </div>
 
-  <!-- ANA İÇERİK -->
-  <div class="ana" id="ana">
-    <div class="bb-header">
-      <div class="bb-logo">budur<span>buldum</span></div>
-      <div class="bb-tagline">ÜCRETSİZ · ÜYELİKSİZ</div>
+  <!-- ALT BUTON + TUR -->
+  <div class="alt-kisim">
+    <div class="tur-gosterge">
+      <span class="tur-no">TUR</span>
+      <div class="tur-cerceve">
+        <div class="tur-kutu aktif" id="tur1"></div>
+        <div class="tur-kutu" id="tur2"></div>
+        <div class="tur-kutu" id="tur3"></div>
+      </div>
     </div>
+    <button class="hediye-bul-btn pasif" id="hediyeBulBtn" onclick="hediyeBul()">
+      hediye bul
+    </button>
+    <div class="hediye-bul-hint" id="hediyeBulHint">kime · yaş · cinsiyet · neden · bütçe</div>
+  </div>
 
-    <div class="bb-main">
-      <!-- SOL -->
-      <div class="bb-left">
-        <div class="pill-btn zorunlu" id="pill-kime" onclick="openPopup('kime')">
-          <div class="pill-icon" id="icon-kime">🎁</div>
-          <div class="pill-label">kime</div>
-        </div>
-        <div class="pill-btn zorunlu" id="pill-yas" onclick="openPopup('yas')">
-          <div class="pill-icon" id="icon-yas">🎂</div>
-          <div class="pill-label">yaşı</div>
-        </div>
-        <div class="pill-btn zorunlu" id="pill-cinsiyet" onclick="openPopup('cinsiyet')">
-          <div class="pill-icon" id="icon-cinsiyet">👤</div>
-          <div class="pill-label">cinsiyet</div>
-        </div>
-        <div class="pill-btn zorunlu" id="pill-amac" onclick="openPopup('amac')">
-          <div class="pill-icon" id="icon-amac">🎀</div>
-          <div class="pill-label">neden</div>
-        </div>
-        <div class="pill-btn zorunlu" id="pill-butce" onclick="openPopup('butce')">
-          <div class="pill-icon" id="icon-butce">💰</div>
-          <div class="pill-label">bütçe</div>
-        </div>
-        <div class="pill-btn" id="pill-hobi" onclick="openPopup('hobi')">
-          <div class="pill-icon" id="icon-hobi">🏃</div>
-          <div class="pill-label">hobi</div>
-        </div>
-        <div class="pill-btn" id="pill-burc" onclick="openPopup('burc')">
-          <div class="pill-icon" id="icon-burc">⭐</div>
-          <div class="pill-label">burcu</div>
-        </div>
-      </div>
-
-      <!-- SAĞ -->
-      <div class="bb-right">
-        <div class="kart-img" id="kartImg">
-          <img id="img0" src="" alt="" style="opacity:1;">
-          <img id="img1" src="" alt="" style="opacity:0;">
-          <img id="img2" src="" alt="" style="opacity:0;">
-          <div class="kart-img-nokta" id="noktaWrap"></div>
-        </div>
-
-        <div class="kart-icerik">
-          <div class="kart-ad" id="kartAd">kime alıyorsunuz?</div>
-          <div>
-            <span class="kart-fiyat" id="kartFiyat">—</span>
-            <span class="kart-fiyat-etiket">ORTALAMA FİYAT</span>
-          </div>
-          <div class="kart-alt-btn">
-            <span>⭐ puan ver</span>
-            <span>✉️ bize yaz</span>
-            <span>📸 indir</span>
-          </div>
-          <div class="kart-reason" id="kartReason"></div>
-          <div class="kart-desc" id="kartDesc">soldan kişiyi seç, hediyeler kişiye özel hazırlansın.</div>
-          <div class="kart-linkler" id="kartLinkler">
-            <span class="plt-link plt-trendyol">Trendyol</span>
-            <span class="plt-link plt-hepsiburada">Hepsiburada</span>
-            <span class="plt-link plt-amazon">Amazon</span>
-            <span class="plt-link plt-ciceksepeti">Çiçeksepeti</span>
-            <span class="plt-link plt-n11">N11</span>
-          </div>
-        </div>
-
-        <div class="mesaj-alan" id="mesajAlan">
-          <div class="mesaj-satir" id="msg-kime">👤 kime alıyorsunuz?</div>
-          <div class="mesaj-satir" id="msg-yas">🎂 kaç yaşında?</div>
-          <div class="mesaj-satir" id="msg-cinsiyet">— cinsiyeti?</div>
-          <div class="mesaj-satir" id="msg-amac">🎀 ne için?</div>
-          <div class="mesaj-satir" id="msg-butce">💰 bütçeniz?</div>
-        </div>
-
-        <div class="hediye-bul-wrap">
-          <button class="hediye-bul-btn" id="hediyeBulBtn" onclick="hediyeBul()">
-            hediye bul
-          </button>
-          <div class="hediye-bul-hint" id="hediyeBulHint">kime · yaş · cinsiyet · neden · bütçe</div>
-        </div>
-
-        <div class="kartlar-bolum" id="kartlarBolum">
-          <div class="kartlar-geri" onclick="geriDon()">
-            ← geri dön, değiştir
-          </div>
-          <div class="kartlar-grid" id="kartlarGrid"></div>
-        </div>
-      </div>
+  <!-- KARTLAR EKRANI -->
+  <div class="kartlar-ekran" id="kartlarEkran">
+    <div class="kartlar-header">
+      <div class="kartlar-logo">budur<span>buldum</span></div>
+      <div class="kartlar-geri" onclick="geriDon()">← geri dön</div>
+    </div>
+    <div class="kartlar-icerik">
+      <div class="kartlar-baslik" id="kartlarBaslik">kişiye özel hediyeler</div>
+      <div class="kartlar-alt" id="kartlarAlt">1. tur · 4 nokta atışı + 5 kişiye özel</div>
+      <div class="kartlar-grid" id="kartlarGrid"></div>
     </div>
   </div>
+
 </div>
 
 <!-- POPUP -->
@@ -261,114 +191,98 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <script>
 var state={kime:null,yas:null,cinsiyet:null,amac:null,butce:null,hobi:null,burc:null};
 var activeKey=null;
+var turNo=1;
 var sliderTimer=null;
-var aktifIdx=0;
-
-// Giriş geçişi
-function girisGec(){
-  document.getElementById('giris').classList.add('gizli');
-  var ana=document.getElementById('ana');
-  ana.classList.add('goster');
-  sliderBaslat(GORSELLER.genel);
-  kartYukseklikAyarla();
-}
-
-// Görsel yüksekliğini sol sütuna eşitle
-function kartYukseklikAyarla(){
-  var sol=document.querySelector('.bb-left');
-  var kartImg=document.getElementById('kartImg');
-  if(sol&&kartImg) kartImg.style.height=sol.offsetHeight+'px';
-}
-
-// Giriş ekranı görsel geçişi
-var girisGorseller=[
-  'https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1024975/pexels-photo-1024975.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/6479601/pexels-photo-6479601.jpeg?auto=compress&cs=tinysrgb&w=800'
-];
-var girisIdx=0;
-setInterval(function(){
-  girisIdx=(girisIdx+1)%girisGorseller.length;
-  document.getElementById('girisImg').src=girisGorseller[girisIdx];
-},4000);
+var aktifBg=0;
 
 var GORSELLER={
-  genel:['https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/6479601/pexels-photo-6479601.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/5490276/pexels-photo-5490276.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Anne:['https://images.pexels.com/photos/4260325/pexels-photo-4260325.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/5490278/pexels-photo-5490278.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Baba:['https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Sevgili:['https://images.pexels.com/photos/3585798/pexels-photo-3585798.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/1024975/pexels-photo-1024975.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/6479617/pexels-photo-6479617.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Arkadaş:['https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/1756615/pexels-photo-1756615.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/6479583/pexels-photo-6479583.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Eşim:['https://images.pexels.com/photos/3585798/pexels-photo-3585798.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/5490276/pexels-photo-5490276.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/1024975/pexels-photo-1024975.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Kardeş:['https://images.pexels.com/photos/1756615/pexels-photo-1756615.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/6479601/pexels-photo-6479601.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Çocuk:['https://images.pexels.com/photos/3662667/pexels-photo-3662667.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/1648387/pexels-photo-1648387.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Pet:['https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg?auto=compress&cs=tinysrgb&w=600'],
-  Kendime:['https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/4260325/pexels-photo-4260325.jpeg?auto=compress&cs=tinysrgb&w=600','https://images.pexels.com/photos/3997993/pexels-photo-3997993.jpeg?auto=compress&cs=tinysrgb&w=600']
+  genel:['https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/6479601/pexels-photo-6479601.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/5490276/pexels-photo-5490276.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Anne:['https://images.pexels.com/photos/4260325/pexels-photo-4260325.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/3807571/pexels-photo-3807571.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/5490278/pexels-photo-5490278.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Baba:['https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Sevgili:['https://images.pexels.com/photos/3585798/pexels-photo-3585798.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/1024975/pexels-photo-1024975.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/6479617/pexels-photo-6479617.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Arkadaş:['https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/1756615/pexels-photo-1756615.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/6479583/pexels-photo-6479583.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Eşim:['https://images.pexels.com/photos/3585798/pexels-photo-3585798.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/5490276/pexels-photo-5490276.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/1024975/pexels-photo-1024975.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Kardeş:['https://images.pexels.com/photos/1756615/pexels-photo-1756615.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/6479601/pexels-photo-6479601.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Çocuk:['https://images.pexels.com/photos/3662667/pexels-photo-3662667.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/1648387/pexels-photo-1648387.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Pet:['https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg?auto=compress&cs=tinysrgb&w=800'],
+  Kendime:['https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/4260325/pexels-photo-4260325.jpeg?auto=compress&cs=tinysrgb&w=800','https://images.pexels.com/photos/3997993/pexels-photo-3997993.jpeg?auto=compress&cs=tinysrgb&w=800']
 };
 
-var VITRIN={
-  Anne:    {ad:'🌸 Çiçek Aranjmanı',    fiyat:'320 TL',reason:'annenizi mutlu edecek en güzel seçimlerden biri.',        desc:'taze mevsim çiçeklerinden hazırlanan özel aranjman. aynı gün teslimat mevcut.',platforms:['trendyol','ciceksepeti']},
-  Baba:    {ad:'⌚ Kol Saati',           fiyat:'750 TL',reason:'babanıza yakışacak şık ve kalıcı bir hediye.',            desc:'günlük kullanıma uygun, farklı marka ve fiyat seçenekleri mevcut.',platforms:['trendyol','amazon']},
-  Sevgili: {ad:'💌 Sürpriz Kutu',        fiyat:'550 TL',reason:'sevgilinizi unutulmaz bir anla şaşırtın.',               desc:'özenle seçilmiş romantik ürünlerden oluşan sürpriz kutu. kişiselleştirilebilir.',platforms:['trendyol','ciceksepeti']},
-  Arkadaş: {ad:'🎧 Kablosuz Kulaklık',   fiyat:'650 TL',reason:'arkadaşınızın her an yanında olacak pratik bir hediye.', desc:'yüksek ses kalitesi, uzun pil ömrü. hem sporda hem günlük kullanımda ideal.',platforms:['amazon','trendyol']},
-  Eşim:    {ad:'💐 Çiçek Buketi',        fiyat:'320 TL',reason:'eşinize sıradan bir günü özel kılın.',                   desc:'el yapımı butik çiçek aranjmanı. özel mesaj kartı eklenebilir.',platforms:['ciceksepeti','trendyol']},
-  Kardeş:  {ad:'👟 Spor Ayakkabı',       fiyat:'650 TL',reason:'kardeşinizin tarzına uygun şık bir hediye.',             desc:'günlük kullanım ve hafif spor için ideal. farklı renk seçenekleri mevcut.',platforms:['trendyol','hepsiburada']},
-  Çocuk:   {ad:'🧸 Oyuncak Seti',        fiyat:'150 TL',reason:'çocuğunuzun gözleri parıldayacak.',                     desc:'yaşa uygun, güvenli malzemelerden üretilmiş eğitici oyuncak seti.',platforms:['trendyol','hepsiburada']},
-  Pet:     {ad:'🦴 Oyuncak & Yatak',     fiyat:'250 TL',reason:'dostunuzu şımartın, o da hak ediyor.',                  desc:'dayanıklı oyuncaklar ve rahat yatak. kedi ve köpek için uygun seçenekler.',platforms:['trendyol','amazon']},
-  Kendime: {ad:'✨ Kişisel Bakım Seti',  fiyat:'380 TL',reason:'kendinize iyi bakmayı hak ettiniz.',                    desc:'premium markalardan özenle seçilmiş bakım ürünleri.',platforms:['trendyol','hepsiburada']}
-};
+var mevcutListe=GORSELLER.genel;
+var mevcutIdx=0;
 
-var MESAJLAR={
-  kime:{Anne:{t:'<b>anne</b> için hazırlanıyor — çiçekten bakıma, kitaptan takıya'},Baba:{t:'<b>baba</b> için hazırlanıyor — saatler, aksesuar, teknoloji'},Sevgili:{t:'<b>sevgiliye</b> özel — romantik, sürpriz, kalıcı hediyeler geliyor'},Arkadaş:{t:'<b>arkadaş</b> için — eğlenceli, kullanışlı seçenekler'},Eşim:{t:'<b>eşiniz</b> için — birlikte yaşanan anları güzelleştirecek hediyeler'},Kardeş:{t:'<b>kardeş</b> için — genç, enerjik, tam isabet seçenekler'},Çocuk:{t:'<b>çocuk</b> için — yaşa uygun, eğlenceli ve eğitici hediyeler'},Pet:{t:'<b>pet</b> için — oyuncaktan mamaya özel seçimler'},Kendime:{t:'<b>kendinize</b> bir hediye — bunu hak ettiniz'}},
-  yas:{'13–17':{t:'<b>13–17 yaş</b> için en çok tercih edilenler filtreleniyor'},'18–25':{t:'<b>18–25 yaş</b> arası için trend ve kullanışlı seçenekler geliyor'},'26–35':{t:'<b>26–35 yaş</b> grubunda kalite ve şıklık ön planda'},'36–45':{t:'<b>36–45 yaş</b> için özenle seçilmiş öneriler'},'46–60':{t:'<b>46–60 yaş</b> için zarif ve değerli hediyeler hazırlanıyor'},'61+':{t:'<b>61 yaş üstü</b> için sıcak, anlamlı seçenekler'}},
-  cinsiyet:{Kadın:{t:'<b>kadın</b> zevkine uygun kategoriler devreye giriyor'},Erkek:{t:'<b>erkek</b> zevkine uygun kategoriler devreye giriyor'}},
-  amac:{'Doğum Günü':{t:'<b>doğum günü</b> için — kutlama enerjisine uygun hediyeler'},'Yıl Dönümü':{t:'<b>yıl dönümü</b> için — romantik ve anlamlı seçenekler'},'Sevgililer Günü':{t:'<b>sevgililer günü</b> için — unutulmaz bir an yaratın'},'Özel Başarı':{t:'<b>başarı hediyesi</b> — gurur duydukları bilinsin'},'Sadece Sürpriz':{t:'<b>sürpriz</b> için — beklenmedik anda gelecek özel hediyeler'},'Yılbaşı / Bayram':{t:'<b>yılbaşı / bayram</b> için — özel gün heyecanına uygun'}},
-  butce:{'0–500 TL':{t:'<b>500 TL altında</b> — bütçe dostu ama kaliteli seçenekler'},'0–1.000 TL':{t:'<b>1.000 TL altında</b> — orta segment, geniş yelpaze'},'0–2.000 TL':{t:'<b>2.000 TL altında</b> — premium hissettiren hediyeler'},'0–3.000 TL':{t:'<b>3.000 TL altında</b> — özel ve kalıcı seçimler'},'0–5.000 TL':{t:'<b>5.000 TL altında</b> — lüks segment hediyeler'},'5.000+ TL':{t:'<b>5.000 TL üzeri</b> — en özel, en kalıcı seçimler'}}
-};
+function gorselGec(url){
+  var aktif=document.getElementById('bgImg'+aktifBg);
+  var diger=document.getElementById('bgImg'+(aktifBg===0?1:0));
+  diger.src=url;
+  diger.classList.remove('gecis');
+  aktif.classList.add('gecis');
+  aktifBg=aktifBg===0?1:0;
+}
+
+function sliderBaslat(liste){
+  mevcutListe=liste;
+  mevcutIdx=0;
+  gorselGec(liste[0]);
+  if(sliderTimer) clearInterval(sliderTimer);
+  sliderTimer=setInterval(function(){
+    mevcutIdx=(mevcutIdx+1)%mevcutListe.length;
+    gorselGec(mevcutListe[mevcutIdx]);
+  },3800);
+}
+
+sliderBaslat(GORSELLER.genel);
 
 var PLT_CSS={trendyol:'plt-trendyol',hepsiburada:'plt-hepsiburada',amazon:'plt-amazon',ciceksepeti:'plt-ciceksepeti',n11:'plt-n11'};
 var PLT_LABEL={trendyol:'Trendyol',hepsiburada:'Hepsiburada',amazon:'Amazon',ciceksepeti:'Çiçeksepeti',n11:'N11'};
 
-function sliderBaslat(liste){
-  for(var i=0;i<3;i++){
-    var el=document.getElementById('img'+i);
-    el.src=liste[i]||liste[0];
-    el.style.opacity=i===0?'1':'0';
-  }
-  aktifIdx=0;
+var DEMO_KARTLAR=[
+  {star:true,ad:'🌸 Çiçek Aranjmanı',fiyat:'320 TL',reason:'"annenizi mutlu edecek en güzel seçimlerden biri"',desc:'taze mevsim çiçeklerinden hazırlanan özel aranjman. aynı gün teslimat mevcut.',img:'https://images.pexels.com/photos/931177/pexels-photo-931177.jpeg?auto=compress&cs=tinysrgb&w=600',platforms:['trendyol','ciceksepeti']},
+  {star:true,ad:'🧴 Cilt Bakım Seti',fiyat:'450 TL',reason:'"anneye özel bir şımarma seti"',desc:'premium markalardan oluşan bakım seti. nemlendirici, serum ve yüz maskesi içerir.',img:'https://images.pexels.com/photos/3762875/pexels-photo-3762875.jpeg?auto=compress&cs=tinysrgb&w=600',platforms:['trendyol','hepsiburada']},
+  {star:false,ad:'📚 Kitap Seti',fiyat:'280 TL',reason:'"saatlerce keyif verecek seçimler"',desc:'yazar seçimine göre kişiselleştirilebilir 3 kitaplık set.',img:'https://images.pexels.com/photos/1130980/pexels-photo-1130980.jpeg?auto=compress&cs=tinysrgb&w=600',platforms:['amazon','n11']},
+  {star:false,ad:'☕ Kahve & Çay Seti',fiyat:'390 TL',reason:'"her sabah sizi hatırlasın"',desc:'özel harman kahveler ve çaylardan oluşan premium ikram seti.',img:'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600',platforms:['trendyol','hepsiburada']}
+];
+
+function hediyeBul(){
+  if(!document.getElementById('hediyeBulBtn').classList.contains('hazir')) return;
   if(sliderTimer) clearInterval(sliderTimer);
-  noktaGuncelle();
-  sliderTimer=setInterval(function(){
-    document.getElementById('img'+aktifIdx).style.opacity='0';
-    aktifIdx=(aktifIdx+1)%3;
-    document.getElementById('img'+aktifIdx).style.opacity='1';
-    noktaGuncelle();
-  },3500);
+  var grid=document.getElementById('kartlarGrid');
+  grid.innerHTML=DEMO_KARTLAR.map(function(c,i){
+    var h='<div class="gift-card">';
+    if(c.star) h+='<div class="star-badge">🎯 NOKTA ATIŞI</div>';
+    h+='<img class="gift-card-img" id="gci'+i+'" src="" alt="">';
+    h+='<div class="gift-card-body">';
+    h+='<div class="gift-card-ad">'+c.ad+'</div>';
+    h+='<div><span class="gift-card-fiyat">'+c.fiyat+'</span><span class="gift-card-fiyat-label">ORTALAMA FİYAT</span></div>';
+    h+='<div class="gift-card-alt"><span>⭐ puan ver</span><span>✉️ bize yaz</span><span>📸 indir</span></div>';
+    h+='<div class="gift-card-reason">'+c.reason+'</div>';
+    h+='<div class="gift-card-desc">'+c.desc+'</div>';
+    h+='<div class="gift-card-platforms">'+c.platforms.map(function(p){return '<span class="plt-link '+PLT_CSS[p]+'">'+PLT_LABEL[p]+'</span>';}).join('')+'</div>';
+    h+='</div></div>';
+    return h;
+  }).join('');
+  DEMO_KARTLAR.forEach(function(c,i){
+    var img=document.getElementById('gci'+i);
+    if(img){img.onload=function(){img.classList.add('loaded');};img.src=c.img;}
+  });
+  turGuncelle();
+  document.getElementById('kartlarEkran').classList.add('acik');
 }
 
-function noktaGuncelle(){
-  var w=document.getElementById('noktaWrap');w.innerHTML='';
-  for(var i=0;i<3;i++){
-    var d=document.createElement('div');
-    d.className='nokta'+(i===aktifIdx?' aktif':'');
-    (function(ii){d.onclick=function(){document.getElementById('img'+aktifIdx).style.opacity='0';aktifIdx=ii;document.getElementById('img'+aktifIdx).style.opacity='1';noktaGuncelle();};})(i);
-    w.appendChild(d);
-  }
+function turGuncelle(){
+  [1,2,3].forEach(function(n){
+    var el=document.getElementById('tur'+n);
+    if(el) el.classList.toggle('aktif',n<=turNo);
+  });
 }
 
-function vitrinGuncelle(kime){
-  var v=VITRIN[kime];if(!v) return;
-  document.getElementById('kartAd').textContent=v.ad;
-  document.getElementById('kartFiyat').textContent=v.fiyat;
-  document.getElementById('kartReason').textContent='"'+v.reason+'"';
-  document.getElementById('kartDesc').textContent=v.desc;
-  document.getElementById('kartLinkler').innerHTML=v.platforms.map(function(p){return '<span class="plt-link '+PLT_CSS[p]+'">'+PLT_LABEL[p]+'</span>';}).join('');
-  sliderBaslat(GORSELLER[kime]||GORSELLER.genel);
-}
-
-function mesajGuncelle(key,val){
-  var el=document.getElementById('msg-'+key);if(!el) return;
-  var m=MESAJLAR[key]&&MESAJLAR[key][val];
-  if(m){el.classList.add('aktif');el.innerHTML=(key==='kime'?'👤 ':key==='yas'?'🎂 ':key==='cinsiyet'?'— ':key==='amac'?'🎀 ':'💰 ')+m.t;}
+function geriDon(){
+  document.getElementById('kartlarEkran').classList.remove('acik');
+  sliderBaslat(GORSELLER[state.kime]||GORSELLER.genel);
+  turNo=Math.min(turNo+1,3);
+  turGuncelle();
+  var btn=document.getElementById('hediyeBulBtn');
+  btn.textContent=turNo+'. tur — yeni hediyeler bul';
 }
 
 var DATA={
@@ -380,49 +294,6 @@ var DATA={
   hobi:{title:'hobisi var mı?',grid:'iki',opts:[{e:'🏃',l:'Spor'},{e:'🎵',l:'Müzik'},{e:'📚',l:'Kitap'},{e:'☕',l:'Kahve & Çay'},{e:'💻',l:'Teknoloji'},{e:'🍳',l:'Yemek'},{e:'✈️',l:'Seyahat'},{e:'🎨',l:'Sanat'}]},
   burc:{title:'burcu nedir?',grid:'uc',opts:[{e:'♈',l:'Koç'},{e:'♉',l:'Boğa'},{e:'♊',l:'İkizler'},{e:'♋',l:'Yengeç'},{e:'♌',l:'Aslan'},{e:'♍',l:'Başak'},{e:'♎',l:'Terazi'},{e:'♏',l:'Akrep'},{e:'♐',l:'Yay'},{e:'♑',l:'Oğlak'},{e:'♒',l:'Kova'},{e:'♓',l:'Balık'},{e:'🤷',l:'Bilmiyorum',full:true}]}
 };
-
-var DEMO_KARTLAR=[
-  {star:true,ad:'🌸 Çiçek Aranjmanı',fiyat:'320 TL',reason:'"annenizi mutlu edecek en güzel seçimlerden biri"',desc:'taze mevsim çiçeklerinden hazırlanan özel aranjman. aynı gün teslimat mevcut.',img:'https://images.pexels.com/photos/931177/pexels-photo-931177.jpeg?auto=compress&cs=tinysrgb&w=600',platforms:['trendyol','ciceksepeti']},
-  {star:true,ad:'🧴 Cilt Bakım Seti',fiyat:'450 TL',reason:'"anneye özel bir şımarma seti"',desc:'premium markalardan oluşan bakım seti. nemlendirici, serum ve yüz maskesi içerir.',img:'https://images.pexels.com/photos/3762875/pexels-photo-3762875.jpeg?auto=compress&cs=tinysrgb&w=600',platforms:['trendyol','hepsiburada']},
-  {star:false,ad:'📚 Kitap Seti',fiyat:'280 TL',reason:'"saatlerce keyif verecek seçimler"',desc:'yazar seçimine göre kişiselleştirilebilir 3 kitaplık set.',img:'https://images.pexels.com/photos/1130980/pexels-photo-1130980.jpeg?auto=compress&cs=tinysrgb&w=600',platforms:['amazon','n11']},
-  {star:false,ad:'☕ Kahve & Çay Seti',fiyat:'390 TL',reason:'"her sabah sizi hatırlasın"',desc:'özel harman kahveler ve çaylardan oluşan premium ikram seti.',img:'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600',platforms:['trendyol','hepsiburada']}
-];
-
-function hediyeBul(){
-  if(!document.getElementById('hediyeBulBtn').classList.contains('hazir')) return;
-  var grid=document.getElementById('kartlarGrid');
-  grid.innerHTML=DEMO_KARTLAR.map(function(c,i){
-    var h='<div class="gift-card'+(c.star?' star':'')+'">';
-    if(c.star) h+='<div class="star-badge">🎯 NOKTA ATIŞI</div>';
-    h+='<img class="gift-card-img" id="gci'+i+'" src="" alt="">';
-    h+='<div class="gift-card-body">';
-    h+='<div class="gift-card-ad">'+c.ad+'</div>';
-    h+='<div><span class="gift-card-fiyat">'+c.fiyat+'</span><span class="gift-card-fiyat-etiket">ORTALAMA FİYAT</span></div>';
-    h+='<div class="gift-card-alt"><span>⭐ puan ver</span><span>✉️ bize yaz</span><span>📸 indir</span></div>';
-    h+='<div class="gift-card-reason">'+c.reason+'</div>';
-    h+='<div class="gift-card-desc">'+c.desc+'</div>';
-    h+='<div class="gift-card-platforms">'+c.platforms.map(function(p){return '<span class="plt-link '+PLT_CSS[p]+'">'+PLT_LABEL[p]+'</span>';}).join('')+'</div>';
-    h+='</div></div>';
-    return h;
-  }).join('');
-  DEMO_KARTLAR.forEach(function(c,i){
-    var img=document.getElementById('gci'+i);
-    if(!img) return;
-    img.onload=function(){img.classList.add('loaded');};
-    img.src=c.img;
-  });
-  if(sliderTimer) clearInterval(sliderTimer);
-  document.querySelector('.bb-right').style.display='none';
-  document.getElementById('kartlarBolum').classList.add('acik');
-  document.getElementById('kartlarBolum').style.display='block';
-}
-
-function geriDon(){
-  document.querySelector('.bb-right').style.display='';
-  document.getElementById('kartlarBolum').classList.remove('acik');
-  document.getElementById('kartlarBolum').style.display='none';
-  sliderBaslat(GORSELLER[state.kime]||GORSELLER.genel);
-}
 
 function openPopup(key){
   activeKey=key;
@@ -443,8 +314,7 @@ function selectOpt(val){
   document.getElementById('pill-'+activeKey).classList.add('done');
   var found=DATA[activeKey].opts.filter(function(o){return o.l===val;})[0];
   if(found) document.getElementById('icon-'+activeKey).textContent=found.e;
-  if(activeKey==='kime') vitrinGuncelle(val);
-  mesajGuncelle(activeKey,val);
+  if(activeKey==='kime') sliderBaslat(GORSELLER[val]||GORSELLER.genel);
   document.querySelectorAll('.opt-btn').forEach(function(b){b.classList.remove('selected');});
   event.currentTarget.classList.add('selected');
   setTimeout(closePopup,280);
@@ -457,11 +327,11 @@ function checkReady(){
   var btn=document.getElementById('hediyeBulBtn');
   var hint=document.getElementById('hediyeBulHint');
   if(eksik.length===0){
-    btn.classList.add('hazir');
-    hint.textContent='hazır — hediyeler geliyor';
+    btn.classList.remove('pasif');btn.classList.add('hazir');
+    hint.textContent='hazır — hediyeleri görmek için bas';
     hint.classList.add('hazir');
   } else {
-    btn.classList.remove('hazir');
+    btn.classList.add('pasif');btn.classList.remove('hazir');
     var isim={kime:'kime',yas:'yaş',cinsiyet:'cinsiyet',amac:'neden',butce:'bütçe'};
     hint.textContent=eksik.map(function(k){return isim[k];}).join(' · ');
     hint.classList.remove('hazir');
@@ -470,7 +340,6 @@ function checkReady(){
 
 function overlayClick(e){if(e.target===document.getElementById('popupOverlay'))closePopup();}
 function closePopup(){document.getElementById('popupOverlay').classList.remove('open');}
-window.addEventListener('resize',kartYukseklikAyarla);
 </script>
 </body>
 </html>
