@@ -32,31 +32,32 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
 .zorunlu-not{font-size:9px;color:#94a3b8;text-align:center;padding-bottom:4px;}
 
 /* SAĞ — AMBİYANS */
-.bb-right{flex:1;position:relative;overflow:hidden;background:#0f172a;}
+.bb-right{flex:1;display:flex;flex-direction:column;padding:8px 8px 8px 8px;background:#f8fafc;overflow:hidden;}
 
-/* GÖRSEL SLIDER */
-.ambiyans-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease;}
-.ambiyans-img.aktif{opacity:1;}
-.ambiyans-img.cikiyor{opacity:0;}
+/* VİTRİN KART */
+.vitrin-kart{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.1);border:1px solid #e2e8f0;display:flex;flex-direction:column;}
 
-/* KARANLIK OVERLAY */
-.ambiyans-overlay{position:absolute;inset:0;background:linear-gradient(to bottom, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.5) 60%, rgba(15,23,42,0.85) 100%);z-index:2;}
+/* GÖRSEL KISIM */
+.vitrin-img-wrap{position:relative;width:100%;height:180px;background:#0f172a;overflow:hidden;flex-shrink:0;}
+.vitrin-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease;}
+.vitrin-img.aktif{opacity:1;}
+.vitrin-nokta{position:absolute;bottom:8px;left:0;right:0;display:flex;gap:5px;justify-content:center;z-index:5;}
 
-/* ALT BİLGİ */
-.ambiyans-alt{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:16px 12px 12px;}
-.ambiyans-kime{font-size:11px;font-weight:700;color:#e8a838;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;min-height:16px;transition:all 0.4s;}
-.ambiyans-mesaj{font-size:13px;font-weight:600;color:rgba(255,255,255,0.9);line-height:1.4;margin-bottom:12px;min-height:36px;transition:all 0.4s;}
+/* KART ALT */
+.vitrin-alt{padding:12px 12px 12px;}
+.vitrin-kime-tag{font-size:10px;font-weight:800;color:#e8a838;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
+.vitrin-mesaj{font-size:12px;color:#64748b;line-height:1.4;margin-bottom:10px;}
 
 /* HEDİYE BUL */
 .hediye-bul-btn{width:100%;padding:14px;border-radius:14px;border:none;background:rgba(148,163,184,0.4);color:rgba(255,255,255,0.5);font-size:15px;font-weight:800;cursor:default;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.4s;backdrop-filter:blur(4px);}
 .hediye-bul-btn.hazir{background:linear-gradient(135deg,#1e40af,#1e3a8a);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(30,64,175,0.5);animation:pulseBtn 2s ease-in-out infinite;}
 @keyframes pulseBtn{0%,100%{box-shadow:0 4px 20px rgba(30,64,175,0.4);}50%{box-shadow:0 4px 28px rgba(30,64,175,0.7);}}
-.hediye-bul-hint{text-align:center;font-size:10px;color:rgba(255,255,255,0.45);margin-top:6px;font-weight:600;transition:all 0.3s;}
-.hediye-bul-hint.hazir{color:rgba(255,255,255,0.75);}
+.hediye-bul-hint{text-align:center;font-size:10px;color:#94a3b8;margin-top:6px;font-weight:600;transition:all 0.3s;}
+.hediye-bul-hint.hazir{color:#10b981;}
 
 /* NOKTA SAYAÇ */
 .nokta-sayac{display:flex;gap:5px;justify-content:center;margin-bottom:10px;}
-.nokta{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.4s;cursor:pointer;}
+.nokta{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.35);transition:all 0.4s;cursor:pointer;}
 .nokta.aktif{background:#e8a838;width:18px;border-radius:3px;}
 
 /* HEDIYE KARTLARI — gerçek kart yapısı */
@@ -153,22 +154,29 @@ body{background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',
       <div class="zorunlu-not">* zorunlu</div>
     </div>
 
-    <!-- SAĞ AMBİYANS -->
+    <!-- SAĞ — KART -->
     <div class="bb-right" id="bbRight">
-      <img class="ambiyans-img aktif" id="img0" src="" alt="">
-      <img class="ambiyans-img" id="img1" src="" alt="">
-      <img class="ambiyans-img" id="img2" src="" alt="">
 
-      <div class="ambiyans-overlay"></div>
+      <!-- TEK HEDİYE KARTI — sol sütun yüksekliği kadar -->
+      <div class="vitrin-kart" id="vitrinKart">
 
-      <div class="ambiyans-alt">
-        <div class="ambiyans-kime" id="ambiyansKime">hediye bulmaya başla →</div>
-        <div class="ambiyans-mesaj" id="ambiyansMesaj">Soldan kişiyi seç,<br>sana özel hediyeler hazırlayalım</div>
-        <div class="nokta-sayac" id="noktaSayac"></div>
-        <button class="hediye-bul-btn" id="hediyeBulBtn" onclick="hediyeBul()">
-          <i class="fa-solid fa-gift"></i> Hediye Bul
-        </button>
-        <div class="hediye-bul-hint" id="hediyeBulHint">Kime, Yaş, Cinsiyet, Neden, Bütçe seçince hazır</div>
+        <!-- GÖRSEL KISMI — görseller burada dönüyor -->
+        <div class="vitrin-img-wrap">
+          <img class="vitrin-img aktif" id="img0" src="" alt="">
+          <img class="vitrin-img" id="img1" src="" alt="">
+          <img class="vitrin-img" id="img2" src="" alt="">
+          <div class="vitrin-nokta" id="noktaSayac"></div>
+        </div>
+
+        <!-- KART ALT KISIM — sabit -->
+        <div class="vitrin-alt">
+          <div class="vitrin-kime-tag" id="ambiyansKime">Kime alıyorsun?</div>
+          <div class="vitrin-mesaj" id="ambiyansMesaj">Soldan seç, hediyeler burada belirir</div>
+          <button class="hediye-bul-btn" id="hediyeBulBtn" onclick="hediyeBul()">
+            <i class="fa-solid fa-gift"></i> Hediye Bul
+          </button>
+          <div class="hediye-bul-hint" id="hediyeBulHint">Kime, Yaş, Cinsiyet, Neden, Bütçe seçince hazır</div>
+        </div>
       </div>
 
       <!-- GERÇEK KARTLAR — üstten iner -->
